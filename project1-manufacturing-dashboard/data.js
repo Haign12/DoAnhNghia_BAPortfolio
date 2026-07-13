@@ -1,46 +1,46 @@
 // ============================================================
 // Manufacturing KPI Dashboard - Simulated Production Data
-// Dữ liệu mô phỏng từ dây chuyền sản xuất linh kiện ô tô
+// Simulated data for automotive component production lines
 // ============================================================
 
 const PRODUCTION_LINES = [
-  { id: 'PL-01', name: 'Dây chuyền Cảm biến ABS', product: 'ABS Sensor Module', capacity: 1200 },
-  { id: 'PL-02', name: 'Dây chuyền ECU Động cơ', product: 'Engine Control Unit', capacity: 800 },
-  { id: 'PL-03', name: 'Dây chuyền Hệ thống Phanh', product: 'Brake Booster Assembly', capacity: 600 },
-  { id: 'PL-04', name: 'Dây chuyền Cảm biến Áp suất', product: 'Pressure Sensor', capacity: 1500 },
+  { id: 'PL-01', name: 'ABS Sensor Line', product: 'ABS Sensor Module', capacity: 1200 },
+  { id: 'PL-02', name: 'Engine ECU Line', product: 'Engine Control Unit', capacity: 800 },
+  { id: 'PL-03', name: 'Brake System Line', product: 'Brake Booster Assembly', capacity: 600 },
+  { id: 'PL-04', name: 'Pressure Sensor Line', product: 'Pressure Sensor', capacity: 1500 },
 ];
 
 const SHIFTS = [
-  { id: 'S1', name: 'Ca Sáng', start: '06:00', end: '14:00' },
-  { id: 'S2', name: 'Ca Chiều', start: '14:00', end: '22:00' },
-  { id: 'S3', name: 'Ca Đêm', start: '22:00', end: '06:00' },
+  { id: 'S1', name: 'Morning Shift', start: '06:00', end: '14:00' },
+  { id: 'S2', name: 'Afternoon Shift', start: '14:00', end: '22:00' },
+  { id: 'S3', name: 'Night Shift', start: '22:00', end: '06:00' },
 ];
 
 const DEFECT_TYPES = [
-  'Lỗi hàn',
-  'Lỗi linh kiện',
-  'Lỗi lắp ráp',
-  'Lỗi kiểm tra',
-  'Lỗi vật liệu',
-  'Lỗi hiệu chuẩn',
+  'Soldering Defect',
+  'Component Defect',
+  'Assembly Defect',
+  'Inspection Defect',
+  'Material Defect',
+  'Calibration Defect',
 ];
 
 const DOWNTIME_REASONS = [
-  'Bảo trì định kỳ',
-  'Hỏng máy đột xuất',
-  'Thiếu nguyên vật liệu',
-  'Chuyển đổi sản phẩm',
-  'Lỗi phần mềm PLC',
-  'Kiểm tra chất lượng',
+  'Scheduled Maintenance',
+  'Unexpected Breakdown',
+  'Material Shortage',
+  'Product Changeover',
+  'PLC Software Fault',
+  'Quality Inspection',
 ];
 
-// Seed random cho dữ liệu nhất quán
+// Seeded random for consistent data
 function seededRandom(seed) {
   let x = Math.sin(seed) * 10000;
   return x - Math.floor(x);
 }
 
-// Tạo dữ liệu sản xuất cho 30 ngày gần nhất
+// Generate production data for the last 30 days
 function generateProductionData() {
   const data = [];
   const today = new Date();
@@ -55,16 +55,16 @@ function generateProductionData() {
         const seed = dayOffset * 100 + lineIdx * 10 + shiftIdx;
         const rand = () => seededRandom(seed + data.length);
 
-        // Tính các chỉ số OEE
+        // OEE components
         const availability = 0.80 + rand() * 0.18; // 80% - 98%
         const performance = 0.75 + rand() * 0.22;  // 75% - 97%
         const quality = 0.90 + rand() * 0.09;       // 90% - 99%
 
-        const plannedTime = 480; // 8 giờ = 480 phút
+        const plannedTime = 480; // 8 hours = 480 minutes
         const actualRunTime = Math.round(plannedTime * availability);
         const downtimeMinutes = plannedTime - actualRunTime;
 
-        const maxOutput = Math.round(line.capacity / 3); // Chia cho 3 ca
+        const maxOutput = Math.round(line.capacity / 3); // Divided by 3 shifts
         const actualOutput = Math.round(maxOutput * performance);
         const goodOutput = Math.round(actualOutput * quality);
         const defectCount = actualOutput - goodOutput;
@@ -72,12 +72,12 @@ function generateProductionData() {
         // OEE = Availability × Performance × Quality
         const oee = availability * performance * quality;
 
-        // Chọn lý do dừng máy ngẫu nhiên
+        // Pick random downtime reason
         const downtimeReason = downtimeMinutes > 30
           ? DOWNTIME_REASONS[Math.floor(seededRandom(seed + 777) * DOWNTIME_REASONS.length)]
           : null;
 
-        // Chọn loại lỗi
+        // Pick defect type
         const defectType = defectCount > 0
           ? DEFECT_TYPES[Math.floor(seededRandom(seed + 333) * DEFECT_TYPES.length)]
           : null;
@@ -110,7 +110,7 @@ function generateProductionData() {
   return data;
 }
 
-// Tính toán tổng hợp KPI
+// Calculate aggregate KPI summary
 function calculateKPISummary(data) {
   const totalRecords = data.length;
   const avgOEE = data.reduce((s, d) => s + d.oee, 0) / totalRecords;
@@ -136,7 +136,7 @@ function calculateKPISummary(data) {
   };
 }
 
-// Tính KPI theo từng dây chuyền
+// Calculate KPI by production line
 function calculateKPIByLine(data) {
   const byLine = {};
   data.forEach(d => {
@@ -152,7 +152,7 @@ function calculateKPIByLine(data) {
   });
 }
 
-// Tính OEE theo ngày (cho biểu đồ trend)
+// Calculate OEE by date (for trend chart)
 function calculateOEEByDate(data) {
   const byDate = {};
   data.forEach(d => {
@@ -166,7 +166,7 @@ function calculateOEEByDate(data) {
   }).sort((a, b) => a.date.localeCompare(b.date));
 }
 
-// Phân tích nguyên nhân dừng máy
+// Analyze downtime reasons
 function analyzeDowntime(data) {
   const reasons = {};
   data.forEach(d => {
@@ -180,7 +180,7 @@ function analyzeDowntime(data) {
     .sort((a, b) => b.minutes - a.minutes);
 }
 
-// Phân tích lỗi theo loại
+// Analyze defects by type
 function analyzeDefects(data) {
   const types = {};
   data.forEach(d => {
@@ -194,7 +194,7 @@ function analyzeDefects(data) {
     .sort((a, b) => b.count - a.count);
 }
 
-// Tính OEE theo từng dây chuyền theo ngày (cho multi-line chart)
+// Calculate OEE by line and date (for multi-line chart)
 function calculateOEEByLineByDate(data) {
   const result = {};
   PRODUCTION_LINES.forEach(line => {

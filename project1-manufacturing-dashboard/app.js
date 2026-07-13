@@ -87,11 +87,11 @@ function setupNavigation() {
 
       // Update title
       const titles = {
-        'overview': ['Tổng quan Sản xuất', 'Dây chuyền linh kiện ô tô — Dữ liệu 30 ngày gần nhất'],
-        'oee-analysis': ['Phân tích OEE', 'Overall Equipment Effectiveness — Breakdown & Trends'],
-        'defect-analysis': ['Phân tích Lỗi', 'Defect Analysis — Pareto & Root Cause'],
-        'downtime': ['Phân tích Downtime', 'Equipment Downtime — Reasons & Impact'],
-        'line-comparison': ['So sánh Dây chuyền', 'Production Line Benchmarking'],
+        'overview': ['Production Overview', 'Automotive Component Lines — Last 30 Days'],
+        'oee-analysis': ['OEE Analysis', 'Overall Equipment Effectiveness — Breakdown & Trends'],
+        'defect-analysis': ['Defect Analysis', 'Defect Analysis — Pareto & Root Cause'],
+        'downtime': ['Downtime Analysis', 'Equipment Downtime — Reasons & Impact'],
+        'line-comparison': ['Line Comparison', 'Production Line Benchmarking'],
       };
       document.getElementById('pageTitle').textContent = titles[section][0];
       document.getElementById('pageSubtitle').textContent = titles[section][1];
@@ -211,7 +211,7 @@ function renderOEETrendChart() {
         pointHoverRadius: 6,
         pointBackgroundColor: CHART_COLORS.blue,
       }, {
-        label: 'Mục tiêu (85%)',
+        label: 'Target (85%)',
         data: oeeByDate.map(() => 85),
         borderColor: CHART_COLORS.red,
         borderWidth: 1.5,
@@ -308,7 +308,7 @@ function renderOEEComponentsChart() {
   charts.oeeComponents = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: byLine.map(l => l.lineName.replace('Dây chuyền ', '')),
+      labels: byLine.map(l => l.lineName),
       datasets: [
         {
           label: 'Availability',
@@ -367,7 +367,7 @@ function renderDefectParetoChart() {
       labels: defects.map(d => d.type),
       datasets: [
         {
-          label: 'Số lỗi',
+          label: 'Defect Count',
           data: defects.map(d => d.count),
           backgroundColor: CHART_COLORS.blueAlpha,
           borderColor: CHART_COLORS.blue,
@@ -376,7 +376,7 @@ function renderDefectParetoChart() {
           yAxisID: 'y',
         },
         {
-          label: 'Tích lũy (%)',
+          label: 'Cumulative (%)',
           data: cumulativeData,
           type: 'line',
           borderColor: CHART_COLORS.red,
@@ -410,9 +410,9 @@ function renderDefectByLineChart() {
   charts.defectByLine = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: byLine.map(l => l.lineName.replace('Dây chuyền ', '')),
+      labels: byLine.map(l => l.lineName),
       datasets: [{
-        label: 'Tỉ lệ lỗi (%)',
+        label: 'Defect Rate (%)',
         data: byLine.map(l => l.defectRate),
         backgroundColor: [
           CHART_COLORS.blueAlpha, CHART_COLORS.greenAlpha,
@@ -455,7 +455,7 @@ function renderDowntimeReasonsChart() {
     data: {
       labels: reasons.map(r => r.reason),
       datasets: [{
-        label: 'Thời gian (giờ)',
+        label: 'Time (hours)',
         data: reasons.map(r => r.hours),
         backgroundColor: bgColors.map(c => c + '33'),
         borderColor: bgColors,
@@ -534,10 +534,10 @@ function getOEEColor(oee) {
 }
 
 function getStatusBadge(oee) {
-  if (oee >= 85) return '<span class="status-badge excellent">🟢 Xuất sắc</span>';
-  if (oee >= 75) return '<span class="status-badge good">🔵 Tốt</span>';
-  if (oee >= 60) return '<span class="status-badge warning">🟡 Trung bình</span>';
-  return '<span class="status-badge critical">🔴 Cần cải thiện</span>';
+  if (oee >= 85) return '<span class="status-badge excellent">🟢 Excellent</span>';
+  if (oee >= 75) return '<span class="status-badge good">🔵 Good</span>';
+  if (oee >= 60) return '<span class="status-badge warning">🟡 Average</span>';
+  return '<span class="status-badge critical">🔴 Needs Improvement</span>';
 }
 
 // ============================================================
@@ -550,7 +550,7 @@ function renderRadarChart() {
   const ctx = document.getElementById('radarChart').getContext('2d');
 
   const datasets = byLine.map((line, i) => ({
-    label: line.lineName.replace('Dây chuyền ', ''),
+    label: line.lineName,
     data: [line.avgOEE, line.avgAvailability, line.avgPerformance, line.avgQuality, line.yieldRate],
     borderColor: colors[i],
     backgroundColor: colors[i] + '15',
