@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Process Analyzer | BA Portfolio</title>
-  <meta name="description" content="BPMN-style Business Process Analyzer with As-Is vs To-Be comparison, bottleneck detection, and cycle time calculation.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description"
+    content="BPMN-style Business Process Analyzer with As-Is vs To-Be comparison, bottleneck detection, and cycle time calculation.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <aside class="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v4l3 3" />
         </svg>
       </div>
       <div>
@@ -22,24 +27,37 @@
       </div>
     </div>
     <nav class="sidebar-nav">
-      <a href="https://haign12.github.io/DoAnhNghia_BAPortfolio/index.html" class="nav-item" style="background: rgba(255,255,255,0.05); margin-bottom: 16px; border: 1px solid var(--border-color); color: var(--text-primary);">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <a href="../index.html" class="nav-item"
+        style="background: rgba(255,255,255,0.05); margin-bottom: 16px; border: 1px solid var(--border-color); color: var(--text-primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
         <span>Back to Portfolio</span>
       </a>
       <a href="#" class="nav-item active" data-tab="comparison">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M8 3H3v5M3 16v5h5M21 16v5h-5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 3h5v5M8 3H3v5M3 16v5h5M21 16v5h-5" />
+        </svg>
         <span>As-Is vs To-Be</span>
       </a>
       <a href="#" class="nav-item" data-tab="metrics">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 20V10M12 20V4M6 20v-6" />
+        </svg>
         <span>Process Metrics</span>
       </a>
       <a href="#" class="nav-item" data-tab="bottleneck">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+        </svg>
         <span>Bottleneck Analysis</span>
       </a>
       <a href="#" class="nav-item" data-tab="recommendations">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
         <span>Recommendations</span>
       </a>
     </nav>
@@ -52,7 +70,11 @@
     <header class="main-header">
       <div class="header-left">
         <button class="menu-toggle" id="menuToggle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
         </button>
         <div>
           <h1 class="page-title" id="pageTitle">As-Is vs To-Be Comparison</h1>
@@ -100,10 +122,14 @@
     <!-- Tab: Process Metrics -->
     <section class="tab-content" id="tab-metrics">
       <div class="metrics-grid">
-        <div class="metric-card"><span class="metric-label">Cycle Time (As-Is)</span><span class="metric-value metric-red" id="metricCycleAsIs">—</span></div>
-        <div class="metric-card"><span class="metric-label">Cycle Time (To-Be)</span><span class="metric-value metric-green" id="metricCycleToBe">—</span></div>
-        <div class="metric-card"><span class="metric-label">Cost Savings</span><span class="metric-value metric-blue" id="metricCostSaving">—</span></div>
-        <div class="metric-card"><span class="metric-label">Efficiency Gain</span><span class="metric-value metric-purple" id="metricEfficiency">—</span></div>
+        <div class="metric-card"><span class="metric-label">Cycle Time (As-Is)</span><span
+            class="metric-value metric-red" id="metricCycleAsIs">—</span></div>
+        <div class="metric-card"><span class="metric-label">Cycle Time (To-Be)</span><span
+            class="metric-value metric-green" id="metricCycleToBe">—</span></div>
+        <div class="metric-card"><span class="metric-label">Cost Savings</span><span class="metric-value metric-blue"
+            id="metricCostSaving">—</span></div>
+        <div class="metric-card"><span class="metric-label">Efficiency Gain</span><span
+            class="metric-value metric-purple" id="metricEfficiency">—</span></div>
       </div>
       <div class="charts-row">
         <div class="chart-panel">
@@ -121,7 +147,8 @@
     <section class="tab-content" id="tab-bottleneck">
       <div class="bottleneck-info">
         <h3>🔍 Phân tích Bottleneck (Điểm nghẽn)</h3>
-        <p>Xác định các bước trong quy trình gây ra delay lớn nhất, chiếm nhiều nguồn lực nhất, hoặc có tỉ lệ lỗi cao nhất.</p>
+        <p>Xác định các bước trong quy trình gây ra delay lớn nhất, chiếm nhiều nguồn lực nhất, hoặc có tỉ lệ lỗi cao
+          nhất.</p>
       </div>
       <div class="bottleneck-list" id="bottleneckList"></div>
     </section>
@@ -136,4 +163,5 @@
   <script src="process-data.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>
