@@ -195,11 +195,12 @@
       top: 5px;
       z-index: 100;
       display: flex;
-      justify-content: center;
-      gap: 32px;
-      padding: 12px 32px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
       margin: 16px auto 0;
-      max-width: fit-content;
+      max-width: 900px;
+      width: calc(100% - 32px);
       background: rgba(26, 26, 26, 0.85);
       border: 1px solid var(--border);
       border-radius: 50px;
@@ -211,6 +212,18 @@
       background: rgba(255, 255, 255, 0.85);
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
     }
+    .nav-brand {
+      color: var(--text);
+      font-weight: 800 !important;
+      font-size: 15px !important;
+      letter-spacing: -0.5px !important;
+      text-transform: none !important;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
     .sticky-nav a {
       color: var(--text2);
       text-decoration: none;
@@ -218,22 +231,37 @@
       font-weight: 600;
       letter-spacing: 1px;
       text-transform: uppercase;
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
     }
     .sticky-nav a:hover {
       color: var(--text);
     }
-    @media (max-width: 600px) {
-      .sticky-nav { gap: 16px; padding: 12px 24px; }
+    .nav-resume {
+      background: var(--text);
+      color: var(--bg) !important;
+      padding: 8px 16px;
+      border-radius: 30px;
+    }
+    .nav-resume:hover {
+      opacity: 0.9;
+    }
+    @media (max-width: 768px) {
+      .nav-links { gap: 16px; }
       .sticky-nav a { font-size: 11px; }
+      .nav-resume { padding: 6px 12px; }
+      .nav-brand { display: none; } /* Hide brand on very small screens to fit links */
     }
   </style>
 </head>
 <body>
   <nav class="sticky-nav">
-    <a href="#ba-projects">BA</a>
-    <a href="#uiux-projects">UI/UX</a>
-    <a href="#resume">Resume</a>
+    <a href="#" class="nav-brand">Do Anh Nghia.</a>
+    <div class="nav-links">
+      <a href="#ba-projects">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#" target="_blank" class="nav-resume">Resume ↗</a>
+    </div>
   </nav>
 
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
@@ -256,7 +284,7 @@
     </div>
   </section>
 
-  <section class="about-me">
+  <section class="about-me" id="about">
     <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">ABOUT ME</h2>
     <p>I analyze business systems. Over the past period, I’ve dedicated my time to independently studying enterprise workflows and breaking down complex requirements into manageable user stories.</p>
     <p>My goal is simple: build logic that works.</p>
@@ -459,7 +487,7 @@
     </div>
   </section>
 
-  <footer>
+  <footer id="contact">
     <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">LET'S BUILD SOMETHING LOGICAL.</h2>
     <p style="margin-bottom: 24px; color: var(--text2); font-size: 14px;">Looking for a Business Analyst with systems thinking and a deep understanding of user experience? Let's connect.</p>
     <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
