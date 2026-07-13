@@ -1,0 +1,205 @@
+// ============================================================
+// Manufacturing KPI Dashboard - Simulated Production Data
+// Dữ liệu mô phỏng từ dây chuyền sản xuất linh kiện ô tô
+// ============================================================
+
+const PRODUCTION_LINES = [
+  { id: 'PL-01', name: 'Dây chuyền Cảm biến ABS', product: 'ABS Sensor Module', capacity: 1200 },
+  { id: 'PL-02', name: 'Dây chuyền ECU Động cơ', product: 'Engine Control Unit', capacity: 800 },
+  { id: 'PL-03', name: 'Dây chuyền Hệ thống Phanh', product: 'Brake Booster Assembly', capacity: 600 },
+  { id: 'PL-04', name: 'Dây chuyền Cảm biến Áp suất', product: 'Pressure Sensor', capacity: 1500 },
+];
+
+const SHIFTS = [
+  { id: 'S1', name: 'Ca Sáng', start: '06:00', end: '14:00' },
+  { id: 'S2', name: 'Ca Chiều', start: '14:00', end: '22:00' },
+  { id: 'S3', name: 'Ca Đêm', start: '22:00', end: '06:00' },
+];
+
+const DEFECT_TYPES = [
+  'Lỗi hàn',
+  'Lỗi linh kiện',
+  'Lỗi lắp ráp',
+  'Lỗi kiểm tra',
+  'Lỗi vật liệu',
+  'Lỗi hiệu chuẩn',
+];
+
+const DOWNTIME_REASONS = [
+  'Bảo trì định kỳ',
+  'Hỏng máy đột xuất',
+  'Thiếu nguyên vật liệu',
+  'Chuyển đổi sản phẩm',
+  'Lỗi phần mềm PLC',
+  'Kiểm tra chất lượng',
+];
+
+// Seed random cho dữ liệu nhất quán
+function seededRandom(seed) {
+  let x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+// Tạo dữ liệu sản xuất cho 30 ngày gần nhất
+function generateProductionData() {
+  const data = [];
+  const today = new Date();
+
+  for (let dayOffset = 29; dayOffset >= 0; dayOffset--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - dayOffset);
+    const dateStr = date.toISOString().split('T')[0];
+
+    PRODUCTION_LINES.forEach((line, lineIdx) => {
+      SHIFTS.forEach((shift, shiftIdx) => {
+        const seed = dayOffset * 100 + lineIdx * 10 + shiftIdx;
+        const rand = () => seededRandom(seed + data.length);
+
+        // Tính các chỉ số OEE
+        const availability = 0.80 + rand() * 0.18; // 80% - 98%
+        const performance = 0.75 + rand() * 0.22;  // 75% - 97%
+        const quality = 0.90 + rand() * 0.09;       // 90% - 99%
+
+        const plannedTime = 480; // 8 giờ = 480 phút
+        const actualRunTime = Math.round(plannedTime * availability);
+        const downtimeMinutes = plannedTime - actualRunTime;
+
+        const maxOutput = Math.round(line.capacity / 3); // Chia cho 3 ca
+        const actualOutput = Math.round(maxOutput * performance);
+        const goodOutput = Math.round(actualOutput * quality);
+        const defectCount = actualOutput - goodOutput;
+
+        // OEE = Availability × Performance × Quality
+        const oee = availability * performance * quality;
+
+        // Chọn lý do dừng máy ngẫu nhiên
+        const downtimeReason = downtimeMinutes > 30
+          ? DOWNTIME_REASONS[Math.floor(seededRandom(seed + 777) * DOWNTIME_REASONS.length)]
+          : null;
+
+        // Chọn loại lỗi
+        const defectType = defectCount > 0
+          ? DEFECT_TYPES[Math.floor(seededRandom(seed + 333) * DEFECT_TYPES.length)]
+          : null;
+
+        data.push({
+          date: dateStr,
+          lineId: line.id,
+          lineName: line.name,
+          product: line.product,
+          shiftId: shift.id,
+          shiftName: shift.name,
+          plannedTime,
+          actualRunTime,
+          downtimeMinutes,
+          downtimeReason,
+          maxOutput,
+          actualOutput,
+          goodOutput,
+          defectCount,
+          defectType,
+          availability: Math.round(availability * 10000) / 100,
+          performance: Math.round(performance * 10000) / 100,
+          quality: Math.round(quality * 10000) / 100,
+          oee: Math.round(oee * 10000) / 100,
+        });
+      });
+    });
+  }
+
+  return data;
+}
+
+// Tính toán tổng hợp KPI
+function calculateKPISummary(data) {
+  const totalRecords = data.length;
+  const avgOEE = data.reduce((s, d) => s + d.oee, 0) / totalRecords;
+  const avgAvailability = data.reduce((s, d) => s + d.availability, 0) / totalRecords;
+  const avgPerformance = data.reduce((s, d) => s + d.performance, 0) / totalRecords;
+  const avgQuality = data.reduce((s, d) => s + d.quality, 0) / totalRecords;
+  const totalOutput = data.reduce((s, d) => s + d.actualOutput, 0);
+  const totalGoodOutput = data.reduce((s, d) => s + d.goodOutput, 0);
+  const totalDefects = data.reduce((s, d) => s + d.defectCount, 0);
+  const totalDowntime = data.reduce((s, d) => s + d.downtimeMinutes, 0);
+
+  return {
+    avgOEE: Math.round(avgOEE * 100) / 100,
+    avgAvailability: Math.round(avgAvailability * 100) / 100,
+    avgPerformance: Math.round(avgPerformance * 100) / 100,
+    avgQuality: Math.round(avgQuality * 100) / 100,
+    totalOutput,
+    totalGoodOutput,
+    totalDefects,
+    totalDowntime,
+    defectRate: Math.round((totalDefects / totalOutput) * 10000) / 100,
+    yieldRate: Math.round((totalGoodOutput / totalOutput) * 10000) / 100,
+  };
+}
+
+// Tính KPI theo từng dây chuyền
+function calculateKPIByLine(data) {
+  const byLine = {};
+  data.forEach(d => {
+    if (!byLine[d.lineId]) {
+      byLine[d.lineId] = { lineName: d.lineName, product: d.product, records: [] };
+    }
+    byLine[d.lineId].records.push(d);
+  });
+
+  return Object.entries(byLine).map(([lineId, info]) => {
+    const summary = calculateKPISummary(info.records);
+    return { lineId, lineName: info.lineName, product: info.product, ...summary };
+  });
+}
+
+// Tính OEE theo ngày (cho biểu đồ trend)
+function calculateOEEByDate(data) {
+  const byDate = {};
+  data.forEach(d => {
+    if (!byDate[d.date]) byDate[d.date] = [];
+    byDate[d.date].push(d);
+  });
+
+  return Object.entries(byDate).map(([date, records]) => {
+    const avgOEE = records.reduce((s, r) => s + r.oee, 0) / records.length;
+    return { date, oee: Math.round(avgOEE * 100) / 100 };
+  }).sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// Phân tích nguyên nhân dừng máy
+function analyzeDowntime(data) {
+  const reasons = {};
+  data.forEach(d => {
+    if (d.downtimeReason) {
+      if (!reasons[d.downtimeReason]) reasons[d.downtimeReason] = 0;
+      reasons[d.downtimeReason] += d.downtimeMinutes;
+    }
+  });
+  return Object.entries(reasons)
+    .map(([reason, minutes]) => ({ reason, minutes, hours: Math.round(minutes / 60 * 10) / 10 }))
+    .sort((a, b) => b.minutes - a.minutes);
+}
+
+// Phân tích lỗi theo loại
+function analyzeDefects(data) {
+  const types = {};
+  data.forEach(d => {
+    if (d.defectType) {
+      if (!types[d.defectType]) types[d.defectType] = 0;
+      types[d.defectType] += d.defectCount;
+    }
+  });
+  return Object.entries(types)
+    .map(([type, count]) => ({ type, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+// Tính OEE theo từng dây chuyền theo ngày (cho multi-line chart)
+function calculateOEEByLineByDate(data) {
+  const result = {};
+  PRODUCTION_LINES.forEach(line => {
+    const lineData = data.filter(d => d.lineId === line.id);
+    result[line.id] = calculateOEEByDate(lineData);
+  });
+  return result;
+}

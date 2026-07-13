@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Inline Context Translator",
+  "version": "1.0",
+  "description": "Dịch văn bản tiếng Anh/Pháp sang tiếng Việt theo ngữ cảnh sử dụng AI (Gemini).",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.mymemory.translated.net/*",
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Cấu hình AI Translator"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["content.css"],
+      "js": ["content.js"]
+    }
+  ]
+}

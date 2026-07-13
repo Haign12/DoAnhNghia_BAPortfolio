@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Cấu hình AI Translator</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h2>Trợ lý Dịch Ngữ Cảnh</h2>
+    <p class="subtitle">Dịch văn bản sát nghĩa bằng AI trực tiếp trên web.</p>
+    
+    <div class="form-group">
+      <label for="apiKey">Gemini API Key <span style="color:#94a3b8;font-weight:400">(Tuỳ chọn)</span>:</label>
+      <input type="password" id="apiKey" placeholder="Để trống nếu muốn dùng bản dịch miễn phí">
+      <div class="help-text">
+        Có API Key → dịch bằng AI (tốt nhất) · Không có → dùng MyMemory miễn phí<br>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank">Lấy API Key miễn phí tại đây</a>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="toggle-container">
+        <span class="toggle-label">Kích hoạt dịch khi bôi đen</span>
+        <input type="checkbox" id="enableTranslation" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button id="saveBtn" class="btn primary-btn">Lưu Cài Đặt</button>
+    <div id="statusMessage" class="status hidden"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

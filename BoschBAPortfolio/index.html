@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Analyst Portfolio | Bosch Application</title>
+  <meta name="description" content="Professional Business Analyst portfolio showcasing Manufacturing KPI Dashboard, Requirements Management Tool, and Business Process Analyzer.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0b10; --bg-card: #13151f; --border: rgba(255,255,255,0.06);
+      --text: #e8eaf0; --text2: #8b8fa3; --text3: #5a5e73;
+      --blue: #60a5fa; --green: #34d399; --purple: #a78bfa; --yellow: #fbbf24; --red: #f87171;
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 40px 20px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(96,165,250,0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 50%, rgba(167,139,250,0.06) 0%, transparent 50%);
+      animation: aurora 15s ease-in-out infinite alternate;
+    }
+    @keyframes aurora { 0%{transform:translate(0,0)} 100%{transform:translate(-5%,3%)} }
+
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
+      background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2);
+      border-radius: 24px; font-size: 13px; color: var(--blue); font-weight: 500; margin-bottom: 24px;
+    }
+    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 50%, var(--green) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1.2rem; color: var(--text2); max-width: 600px; margin: 0 auto 40px; }
+
+    .hero-skills {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px;
+    }
+    .skill-tag {
+      padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text2);
+      transition: all 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white;
+      border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(96,165,250,0.3);
+    }
+    .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(96,165,250,0.4); }
+
+    /* Projects Section */
+    .projects { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
+    .section-title {
+      font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 12px;
+    }
+    .section-sub { text-align: center; color: var(--text2); margin-bottom: 48px; font-size: 1rem; }
+
+    .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .project-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; transition: all 0.3s; position: relative;
+    }
+    .project-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.12);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+    .card-gradient {
+      height: 6px; width: 100%;
+    }
+    .card-gradient.blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .card-gradient.purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+    .card-gradient.green { background: linear-gradient(90deg, #10b981, #34d399); }
+
+    .card-body { padding: 28px; }
+    .card-number { font-size: 12px; color: var(--text3); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .card-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; }
+    .card-desc { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 20px; }
+
+    .card-features { list-style: none; margin-bottom: 24px; }
+    .card-features li {
+      font-size: 13px; color: var(--text2); padding: 6px 0;
+      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
+    }
+    .card-features li:last-child { border-bottom: none; }
+    .card-features .feat-icon { font-size: 14px; }
+
+    .card-skills {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px;
+    }
+    .card-skill {
+      font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 600;
+    }
+
+    .card-link {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px; background: rgba(255,255,255,0.04); border-radius: 10px;
+      color: var(--text); text-decoration: none; font-weight: 600; font-size: 14px;
+      transition: all 0.2s;
+    }
+    .card-link:hover { background: rgba(96,165,250,0.1); color: var(--blue); }
+
+    /* Footer */
+    footer {
+      text-align: center; padding: 40px 20px; border-top: 1px solid var(--border);
+      color: var(--text3); font-size: 13px;
+    }
+    footer strong { color: var(--text2); }
+
+    @media (max-width: 900px) {
+      .project-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+      h1 { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> Open to Opportunities</div>
+      <h1>Business Analyst Portfolio</h1>
+      <p class="hero-sub">
+        Ba dự án cá nhân chứng minh năng lực phân tích nghiệp vụ, thiết kế quy trình, và tư duy dữ liệu
+        trong lĩnh vực sản xuất ô tô & IoT — phù hợp với vị trí BA tại Bosch.
+      </p>
+      <div class="hero-skills">
+        <span class="skill-tag">Data Analysis</span>
+        <span class="skill-tag">BPMN Modeling</span>
+        <span class="skill-tag">Agile / Scrum</span>
+        <span class="skill-tag">Requirements Engineering</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">KPI Design</span>
+        <span class="skill-tag">Process Improvement</span>
+        <span class="skill-tag">Stakeholder Management</span>
+        <span class="skill-tag">Industry 4.0</span>
+        <span class="skill-tag">IoT</span>
+      </div>
+      <a href="#projects" class="hero-cta">Xem các dự án ↓</a>
+    </div>
+  </section>
+
+  <section class="projects" id="projects">
+    <h2 class="section-title">Dự án Portfolio</h2>
+    <p class="section-sub">Mỗi dự án nhắm vào một nhóm kỹ năng BA cốt lõi mà Bosch yêu cầu</p>
+
+    <div class="project-grid">
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="card-gradient blue"></div>
+        <div class="card-body">
+          <div class="card-number">Project 01</div>
+          <h3 class="card-title">Manufacturing KPI Dashboard</h3>
+          <p class="card-desc">Dashboard phân tích OEE, tỉ lệ lỗi, và năng suất dây chuyền sản xuất linh kiện ô tô với dữ liệu mô phỏng 30 ngày.</p>
+          <ul class="card-features">
+            <li><span class="feat-icon">📊</span> OEE Analysis (Availability × Performance × Quality)</li>
+            <li><span class="feat-icon">📉</span> Trend Analysis & Pareto Chart</li>
+            <li><span class="feat-icon">🏭</span> So sánh hiệu suất giữa 4 dây chuyền</li>
+            <li><span class="feat-icon">🔍</span> Filter theo ca làm việc và dây chuyền</li>
+            <li><span class="feat-icon">📈</span> Radar Chart đa chiều</li>
+          </ul>
+          <div class="card-skills">
+            <span class="card-skill" style="background:rgba(96,165,250,0.1);color:var(--blue)">Data Analysis</span>
+            <span class="card-skill" style="background:rgba(52,211,153,0.1);color:var(--green)">KPI Design</span>
+            <span class="card-skill" style="background:rgba(251,191,36,0.1);color:var(--yellow)">Manufacturing</span>
+          </div>
+          <a href="project1-manufacturing-dashboard/index.html" class="card-link">Mở Dashboard →</a>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="card-gradient purple"></div>
+        <div class="card-body">
+          <div class="card-number">Project 02</div>
+          <h3 class="card-title">Requirements Management Tool</h3>
+          <p class="card-desc">Công cụ quản lý User Stories, Kanban Board, Traceability Matrix, và Sprint Metrics cho dự án Smart Factory IoT.</p>
+          <ul class="card-features">
+            <li><span class="feat-icon">📋</span> Product Backlog với Epics & User Stories</li>
+            <li><span class="feat-icon">🗂️</span> Kanban Board (Click to cycle status)</li>
+            <li><span class="feat-icon">🔗</span> Requirements Traceability Matrix (RTM)</li>
+            <li><span class="feat-icon">📈</span> Burndown & Velocity Charts</li>
+            <li><span class="feat-icon">➕</span> Thêm User Story mới</li>
+          </ul>
+          <div class="card-skills">
+            <span class="card-skill" style="background:rgba(167,139,250,0.1);color:var(--purple)">Agile/Scrum</span>
+            <span class="card-skill" style="background:rgba(96,165,250,0.1);color:var(--blue)">Requirements</span>
+            <span class="card-skill" style="background:rgba(52,211,153,0.1);color:var(--green)">Traceability</span>
+          </div>
+          <a href="project2-requirements-tool/index.html" class="card-link">Mở Tool →</a>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card">
+        <div class="card-gradient green"></div>
+        <div class="card-body">
+          <div class="card-number">Project 03</div>
+          <h3 class="card-title">Business Process Analyzer</h3>
+          <p class="card-desc">Phân tích và so sánh quy trình nghiệp vụ As-Is vs To-Be với BPMN visualization, bottleneck detection và improvement recommendations.</p>
+          <ul class="card-features">
+            <li><span class="feat-icon">🔄</span> As-Is vs To-Be Process Comparison</li>
+            <li><span class="feat-icon">⏱️</span> Cycle Time & Cost Analysis</li>
+            <li><span class="feat-icon">🔍</span> Bottleneck Detection & Ranking</li>
+            <li><span class="feat-icon">💡</span> Improvement Recommendations with ROI</li>
+            <li><span class="feat-icon">🔀</span> 2 quy trình mẫu (QC + Maintenance)</li>
+          </ul>
+          <div class="card-skills">
+            <span class="card-skill" style="background:rgba(52,211,153,0.1);color:var(--green)">BPMN</span>
+            <span class="card-skill" style="background:rgba(251,191,36,0.1);color:var(--yellow)">Process Improvement</span>
+            <span class="card-skill" style="background:rgba(248,113,113,0.1);color:var(--red)">Lean</span>
+          </div>
+          <a href="project3-process-analyzer/index.html" class="card-link">Mở Analyzer →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built with ❤️ for <strong>Bosch Business Analyst Application</strong></p>
+    <p style="margin-top:6px">Technologies: HTML, CSS, JavaScript, Chart.js</p>
+  </footer>
+
+</body>
+</html>
