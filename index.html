@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Analyst Portfolio | Bosch Application</title>
-  <meta name="description" content="Professional Business Analyst portfolio showcasing Manufacturing KPI Dashboard, Requirements Management Tool, and Business Process Analyzer.">
+  <meta name="description" content="Professional Business Analyst portfolio showcasing Manufacturing KPI Dashboard, Requirements Management Tool, Business Process Analyzer, and UI/UX case study work.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #0a0b10; --bg-card: #13151f; --border: rgba(255,255,255,0.06);
       --text: #e8eaf0; --text2: #8b8fa3; --text3: #5a5e73;
-      --blue: #60a5fa; --green: #34d399; --purple: #a78bfa; --yellow: #fbbf24; --red: #f87171;
+      --blue: #60a5fa; --green: #34d399; --purple: #a78bfa; --yellow: #fbbf24; --red: #f87171; --cyan: #22d3ee;
     }
     html { font-size: 16px; scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
@@ -63,13 +63,13 @@
     .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(96,165,250,0.4); }
 
     /* Projects Section */
-    .projects { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
+    .projects, .uiux-project { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
     .section-title {
       font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 12px;
     }
     .section-sub { text-align: center; color: var(--text2); margin-bottom: 48px; font-size: 1rem; }
 
-    .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
 
     .project-card {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
@@ -84,6 +84,7 @@
     .card-gradient.blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
     .card-gradient.purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
     .card-gradient.green { background: linear-gradient(90deg, #10b981, #34d399); }
+    .card-gradient.cyan { background: linear-gradient(90deg, #0891b2, #22d3ee); }
 
     .card-body { padding: 28px; }
     .card-number { font-size: 12px; color: var(--text3); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
@@ -113,6 +114,39 @@
     }
     .card-link:hover { background: rgba(96,165,250,0.1); color: var(--blue); }
 
+
+
+    /* UI/UX Case Study */
+    .uiux-project { padding-top: 20px; }
+    .uiux-case {
+      border: 1px solid var(--border); border-radius: 20px; background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      overflow: hidden;
+    }
+    .case-hero {
+      display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 32px; align-items: center; padding: 34px;
+      border-bottom: 1px solid var(--border);
+    }
+    .case-kicker { font-size: 12px; color: var(--cyan); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .case-title { font-size: 2rem; font-weight: 850; line-height: 1.15; margin-bottom: 14px; }
+    .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
+    .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
+    .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.03); }
+    .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
+    .metric-label { display: block; color: var(--text3); font-size: 12px; margin-top: 2px; }
+    .case-visual { min-height: 330px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: #0f1117; }
+    .case-visual img { width: 100%; height: 100%; min-height: 330px; display: block; object-fit: cover; filter: saturate(0.8) contrast(1.05); opacity: 0.82; }
+    .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
+    .case-section:last-child { border-bottom: none; }
+    .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .process-step, .deliverable-card {
+      border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: rgba(255,255,255,0.025);
+    }
+    .step-number { display: block; color: var(--cyan); font-size: 12px; font-weight: 800; margin-bottom: 10px; }
+    .step-title, .deliverable-title { display: block; color: var(--text); font-weight: 750; margin-bottom: 8px; }
+    .step-desc, .deliverable-desc { color: var(--text2); font-size: 13px; line-height: 1.55; }
+    .deliverables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
     /* Footer */
     footer {
       text-align: center; padding: 40px 20px; border-top: 1px solid var(--border);
@@ -123,6 +157,11 @@
     @media (max-width: 900px) {
       .project-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
       h1 { font-size: 2.5rem; }
+      .case-hero { grid-template-columns: 1fr; padding: 24px; }
+      .case-title { font-size: 1.55rem; }
+      .case-metrics, .process-grid, .deliverables-grid { grid-template-columns: 1fr; }
+      .case-section { padding: 24px; }
+      .case-visual, .case-visual img { min-height: 240px; }
     }
   </style>
 </head>
@@ -132,9 +171,9 @@
     <div class="hero-content">
       <div class="hero-badge"><span class="dot"></span> Open to Opportunities</div>
       <h1>Business Analyst Portfolio</h1>
-      <p class="hero-sub">
-        Ba dự án cá nhân chứng minh năng lực phân tích nghiệp vụ, thiết kế quy trình, và tư duy dữ liệu
-        trong lĩnh vực sản xuất ô tô & IoT — phù hợp với vị trí BA tại Bosch.
+      <p class='hero-sub'>
+        B&#7889;n d&#7921; &#225;n c&#225; nh&#226;n ch&#7913;ng minh n&#259;ng l&#7921;c ph&#226;n t&#237;ch nghi&#7879;p v&#7909;, thi&#7871;t k&#7871; quy tr&#236;nh, t&#432; duy d&#7919; li&#7879;u,
+        v&#224; kh&#7843; n&#259;ng chuy&#7875;n insight ng&#432;&#7901;i d&#249;ng th&#224;nh tr&#7843;i nghi&#7879;m s&#7843;n ph&#7849;m ph&#249; h&#7907;p v&#7899;i v&#7883; tr&#237; BA t&#7841;i Bosch.
       </p>
       <div class="hero-skills">
         <span class="skill-tag">Data Analysis</span>
@@ -147,6 +186,9 @@
         <span class="skill-tag">Stakeholder Management</span>
         <span class="skill-tag">Industry 4.0</span>
         <span class="skill-tag">IoT</span>
+        <span class='skill-tag'>UX Research</span>
+        <span class='skill-tag'>Wireframing</span>
+        <span class='skill-tag'>Figma</span>
       </div>
       <a href="#projects" class="hero-cta">Xem các dự án ↓</a>
     </div>
@@ -225,9 +267,123 @@
           <a href="project3-process-analyzer/index.html" class="card-link">Mở Analyzer →</a>
         </div>
       </div>
+
+
+      <!-- Project 4 -->
+      <div class='project-card'>
+        <div class='card-gradient cyan'></div>
+        <div class='card-body'>
+          <div class='card-number'>Project 04</div>
+          <h3 class='card-title'>UI/UX Case Study</h3>
+          <p class='card-desc'>Thi&#7871;t k&#7871; tr&#7843;i nghi&#7879;m cho &#7913;ng d&#7909;ng Smart Factory Operator App, t&#7853;p trung v&#224;o user journey, wireframe, prototype, v&#224; usability testing.</p>
+          <ul class='card-features'>
+            <li><span class='feat-icon'>UX</span> User persona & journey mapping</li>
+            <li><span class='feat-icon'>IA</span> Information architecture cho operator flow</li>
+            <li><span class='feat-icon'>WF</span> Low-fi wireframe &#273;&#7871;n hi-fi prototype</li>
+            <li><span class='feat-icon'>UT</span> Usability test plan & findings</li>
+            <li><span class='feat-icon'>DS</span> Design system mini kit cho production UI</li>
+          </ul>
+          <div class='card-skills'>
+            <span class='card-skill' style='background:rgba(34,211,238,0.1);color:var(--cyan)'>UX Research</span>
+            <span class='card-skill' style='background:rgba(96,165,250,0.1);color:var(--blue)'>Wireframe</span>
+            <span class='card-skill' style='background:rgba(167,139,250,0.1);color:var(--purple)'>Prototype</span>
+          </div>
+          <a href='#uiux-project' class='card-link'>Xem Case Study</a>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class='project-card'>
+        <div class='card-gradient purple'></div>
+        <div class='card-body'>
+          <div class='card-number'>Project 05</div>
+          <h3 class='card-title'>LuxRoom UI/UX Design</h3>
+          <p class='card-desc'>Thiết kế giao diện và trải nghiệm người dùng cho dự án LuxRoom.</p>
+          <ul class='card-features'>
+            <li><span class='feat-icon'>🎨</span> Visual Design & UI Layout</li>
+            <li><span class='feat-icon'>📱</span> Responsive Design / Mobile-first</li>
+            <li><span class='feat-icon'>💻</span> Front-end Implementation</li>
+          </ul>
+          <div class='card-skills'>
+            <span class='card-skill' style='background:rgba(34,211,238,0.1);color:var(--cyan)'>UI/UX</span>
+            <span class='card-skill' style='background:rgba(96,165,250,0.1);color:var(--blue)'>Figma</span>
+            <span class='card-skill' style='background:rgba(52,211,153,0.1);color:var(--green)'>GitHub</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <a href='https://github.com/Ngh1aa/LuxRoom' target="_blank" class='card-link' style="flex:1;">Mã nguồn GitHub</a>
+            <a href='#' target="_blank" class='card-link' style="flex:1;" title="Bạn thay bằng link Figma nhé">Bản thiết kế Figma</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <section class='uiux-project' id='uiux-project'>
+    <h2 class="section-title">UI/UX Project: Smart Factory Operator App</h2>
+    <p class="section-sub">Một case study thể hiện cách BA kết nối nhu cầu người dùng, quy trình vận hành, và thiết kế sản phẩm số.</p>
+
+    <div class="uiux-case">
+      <div class="case-hero">
+        <div>
+          <div class="case-kicker">UI/UX Case Study</div>
+          <h3 class="case-title">Giảm ma sát cho operator khi ghi nhận sự cố trên dây chuyền</h3>
+          <p class="case-copy">Bài toán mô phỏng: operator cần báo lỗi máy, gửi ảnh hiện trường, theo dõi trạng thái xử lý, và nhận hướng dẫn nhanh mà không rời khỏi khu vực sản xuất.</p>
+          <div class="case-metrics">
+            <div class="metric-chip"><span class="metric-value">5</span><span class="metric-label">core screens</span></div>
+            <div class="metric-chip"><span class="metric-value">3</span><span class="metric-label">user roles</span></div>
+            <div class="metric-chip"><span class="metric-value">2</span><span class="metric-label">test rounds</span></div>
+          </div>
+        </div>
+        <figure class="case-visual">
+          <img src="https://picsum.photos/seed/smart-factory-operator-ux/900/620" alt="Industrial workspace reference for Smart Factory UI UX case study">
+        </figure>
+      </div>
+
+      <div class="case-section">
+        <h3>UX process</h3>
+        <div class="process-grid">
+          <div class="process-step">
+            <span class="step-number">01</span>
+            <span class="step-title">Research</span>
+            <p class="step-desc">Xác định persona operator, maintenance lead, và production supervisor qua pain point trong quy trình báo lỗi.</p>
+          </div>
+          <div class="process-step">
+            <span class="step-number">02</span>
+            <span class="step-title">Flow mapping</span>
+            <p class="step-desc">Vẽ user flow từ lúc phát hiện lỗi đến khi work order được xác nhận và cập nhật trạng thái.</p>
+          </div>
+          <div class="process-step">
+            <span class="step-number">03</span>
+            <span class="step-title">Prototype</span>
+            <p class="step-desc">Thiết kế wireframe, screen state, component states, và prototype cho luồng báo lỗi khẩn cấp.</p>
+          </div>
+          <div class="process-step">
+            <span class="step-number">04</span>
+            <span class="step-title">Validate</span>
+            <p class="step-desc">Chuẩn bị usability test script, ghi nhận friction, và ưu tiên cải tiến theo impact với effort.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h3>Key deliverables</h3>
+        <div class="deliverables-grid">
+          <div class="deliverable-card">
+            <span class="deliverable-title">User journey map</span>
+            <p class="deliverable-desc">Thể hiện touchpoint, cảm xúc, rủi ro nhập liệu, và cơ hội tự động hóa trong ca sản xuất.</p>
+          </div>
+          <div class="deliverable-card">
+            <span class="deliverable-title">Wireframe package</span>
+            <p class="deliverable-desc">Bao gồm dashboard ca làm, form báo lỗi, chi tiết work order, notification, và lịch sử xử lý.</p>
+          </div>
+          <div class="deliverable-card">
+            <span class="deliverable-title">Usability findings</span>
+            <p class="deliverable-desc">Tổng hợp vấn đề theo mức độ nghiêm trọng và đề xuất chỉnh sửa trước khi bàn giao UI hi-fi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <footer>
     <p>Built with ❤️ for <strong>Bosch Business Analyst Application</strong></p>
     <p style="margin-top:6px">Technologies: HTML, CSS, JavaScript, Chart.js</p>
