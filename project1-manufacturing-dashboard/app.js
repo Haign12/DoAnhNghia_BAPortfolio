@@ -74,6 +74,7 @@ function setupNavigation() {
   const navItems = document.querySelectorAll('.nav-item');
   navItems.forEach(item => {
     item.addEventListener('click', (e) => {
+      if (!item.hasAttribute('data-section')) return;
       e.preventDefault();
       const section = item.dataset.section;
 

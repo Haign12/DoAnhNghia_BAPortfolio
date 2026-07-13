@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupNavigation() {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', e => {
+      if (!item.hasAttribute('data-tab')) return;
       e.preventDefault();
       const tab = item.dataset.tab;
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
