@@ -8,39 +8,62 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    /* Default: Dark Theme */
     :root {
-      --bg: #0a0b10; --bg-card: #13151f; --border: rgba(255,255,255,0.06);
-      --text: #e8eaf0; --text2: #8b8fa3; --text3: #5a5e73;
-      --blue: #60a5fa; --green: #34d399; --purple: #a78bfa; --yellow: #fbbf24; --red: #f87171; --cyan: #22d3ee;
+      --bg: #111111; 
+      --bg-card: #1a1a1a; 
+      --border: #333333;
+      --text: #ffffff; 
+      --text2: #cccccc; 
+      --text3: #999999;
+      --accent: #ffffff;
+      --badge-bg: rgba(255, 255, 255, 0.1);
+      --badge-border: rgba(255, 255, 255, 0.2);
     }
+
+    /* Light Theme */
+    [data-theme="light"] {
+      --bg: #ffffff; 
+      --bg-card: #f9f9f9; 
+      --border: #e0e0e0;
+      --text: #111111; 
+      --text2: #555555; 
+      --text3: #888888;
+      --accent: #111111;
+      --badge-bg: rgba(0, 0, 0, 0.05);
+      --badge-border: rgba(0, 0, 0, 0.1);
+    }
+
     html { font-size: 16px; scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed; top: 20px; right: 20px; z-index: 100;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); padding: 10px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; width: 44px; height: 44px;
+    }
+    .theme-toggle:hover { border-color: var(--text); }
+    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
 
     /* Hero */
     .hero {
       min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; padding: 40px 20px; position: relative; overflow: hidden;
     }
-    .hero::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(ellipse at 30% 50%, rgba(96,165,250,0.08) 0%, transparent 50%),
-                  radial-gradient(ellipse at 70% 50%, rgba(167,139,250,0.06) 0%, transparent 50%);
-      animation: aurora 15s ease-in-out infinite alternate;
-    }
-    @keyframes aurora { 0%{transform:translate(0,0)} 100%{transform:translate(-5%,3%)} }
 
     .hero-content { position: relative; z-index: 1; max-width: 800px; }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
-      background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2);
-      border-radius: 24px; font-size: 13px; color: var(--blue); font-weight: 500; margin-bottom: 24px;
+      background: var(--badge-bg); border: 1px solid var(--badge-border);
+      border-radius: 24px; font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 24px;
     }
-    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text); }
 
-    h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 16px;
-      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 50%, var(--green) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 16px; color: var(--text); }
     .hero-sub { font-size: 1.2rem; color: var(--text2); max-width: 600px; margin: 0 auto 40px; }
 
     .hero-skills {
@@ -48,25 +71,22 @@
     }
     .skill-tag {
       padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
-      border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text2);
+      border: 1px solid var(--border); background: var(--bg-card); color: var(--text2);
       transition: all 0.2s;
     }
-    .skill-tag:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+    .skill-tag:hover { border-color: var(--text); color: var(--text); transform: translateY(-2px); }
 
     .hero-cta {
       display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white;
-      border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
+      background: var(--accent); color: var(--bg);
+      border: 1px solid var(--accent); border-radius: 12px; font-size: 16px; font-weight: 700;
       cursor: pointer; text-decoration: none; transition: all 0.3s;
-      box-shadow: 0 4px 20px rgba(96,165,250,0.3);
     }
-    .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(96,165,250,0.4); }
+    .hero-cta:hover { background: var(--bg); color: var(--accent); }
 
     /* Projects Section */
     .projects, .uiux-project { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
-    .section-title {
-      font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 12px;
-    }
+    .section-title { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 12px; }
     .section-sub { text-align: center; color: var(--text2); margin-bottom: 48px; font-size: 1rem; }
 
     .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
@@ -75,16 +95,9 @@
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
       overflow: hidden; transition: all 0.3s; position: relative;
     }
-    .project-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.12);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    .project-card:hover { transform: translateY(-4px); border-color: var(--text3); }
 
-    .card-gradient {
-      height: 6px; width: 100%;
-    }
-    .card-gradient.blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-    .card-gradient.purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
-    .card-gradient.green { background: linear-gradient(90deg, #10b981, #34d399); }
-    .card-gradient.cyan { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+    .card-gradient { height: 4px; width: 100%; background: var(--text); opacity: 0.1; }
 
     .card-body { padding: 28px; }
     .card-number { font-size: 12px; color: var(--text3); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
@@ -97,61 +110,53 @@
       border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
     }
     .card-features li:last-child { border-bottom: none; }
-    .card-features .feat-icon { font-size: 14px; }
 
-    .card-skills {
-      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px;
-    }
+    .card-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
     .card-skill {
       font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 600;
+      border: 1px solid var(--border); color: var(--text2); background: transparent !important;
     }
 
     .card-link {
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 12px; background: rgba(255,255,255,0.04); border-radius: 10px;
+      padding: 12px; border: 1px solid var(--border); border-radius: 10px;
       color: var(--text); text-decoration: none; font-weight: 600; font-size: 14px;
       transition: all 0.2s;
     }
-    .card-link:hover { background: rgba(96,165,250,0.1); color: var(--blue); }
-
-
+    .card-link:hover { background: var(--text); color: var(--bg); }
 
     /* UI/UX Case Study */
     .uiux-project { padding-top: 20px; }
     .uiux-case {
-      border: 1px solid var(--border); border-radius: 20px; background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      overflow: hidden;
+      border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); overflow: hidden;
     }
     .case-hero {
       display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 32px; align-items: center; padding: 34px;
       border-bottom: 1px solid var(--border);
     }
-    .case-kicker { font-size: 12px; color: var(--cyan); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .case-kicker { font-size: 12px; color: var(--text3); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
     .case-title { font-size: 2rem; font-weight: 850; line-height: 1.15; margin-bottom: 14px; }
     .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
     .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
-    .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.03); }
+    .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
     .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
     .metric-label { display: block; color: var(--text3); font-size: 12px; margin-top: 2px; }
-    .case-visual { min-height: 330px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: #0f1117; }
-    .case-visual img { width: 100%; height: 100%; min-height: 330px; display: block; object-fit: cover; filter: saturate(0.8) contrast(1.05); opacity: 0.82; }
+    .case-visual { min-height: 330px; border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); }
+    .case-visual img { width: 100%; height: 100%; min-height: 330px; display: block; object-fit: cover; filter: grayscale(20%); opacity: 0.9; }
     .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
     .case-section:last-child { border-bottom: none; }
     .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
     .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .process-step, .deliverable-card {
-      border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: var(--bg);
     }
-    .step-number { display: block; color: var(--cyan); font-size: 12px; font-weight: 800; margin-bottom: 10px; }
+    .step-number { display: block; color: var(--text3); font-size: 12px; font-weight: 800; margin-bottom: 10px; }
     .step-title, .deliverable-title { display: block; color: var(--text); font-weight: 750; margin-bottom: 8px; }
     .step-desc, .deliverable-desc { color: var(--text2); font-size: 13px; line-height: 1.55; }
     .deliverables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
     /* Footer */
-    footer {
-      text-align: center; padding: 40px 20px; border-top: 1px solid var(--border);
-      color: var(--text3); font-size: 13px;
-    }
+    footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; }
     footer strong { color: var(--text2); }
 
     @media (max-width: 900px) {
@@ -166,6 +171,10 @@
   </style>
 </head>
 <body>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+    <svg id="theme-icon-dark" style="display: block;" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg id="theme-icon-light" style="display: none;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
 
   <section class="hero">
     <div class="hero-content">
@@ -395,5 +404,34 @@
     <p style="margin-top:6px">Technologies: HTML, CSS, JavaScript, Chart.js</p>
   </footer>
 
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconDark = document.getElementById('theme-icon-dark');
+    const iconLight = document.getElementById('theme-icon-light');
+    
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+    if (currentTheme) {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      updateIcons(currentTheme);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      let theme = document.documentElement.getAttribute('data-theme');
+      let targetTheme = theme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      localStorage.setItem('theme', targetTheme);
+      updateIcons(targetTheme);
+    });
+
+    function updateIcons(theme) {
+      if (theme === 'light') {
+        iconDark.style.display = 'none';
+        iconLight.style.display = 'block';
+      } else {
+        iconDark.style.display = 'block';
+        iconLight.style.display = 'none';
+      }
+    }
+  </script>
 </body>
 </html>
