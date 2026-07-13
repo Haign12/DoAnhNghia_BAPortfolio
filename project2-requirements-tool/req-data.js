@@ -1,22 +1,22 @@
 // ============================================================
 // Requirements Management Tool — Sample Data
-// Dữ liệu mô phỏng cho dự án Smart Factory IoT Platform
+// Simulated data for Smart Factory IoT Platform project
 // ============================================================
 
 const EPICS = [
-  { id: 'EP-01', name: 'Sensor Data Ingestion', color: '#60a5fa', description: 'Thu thập và xử lý dữ liệu từ cảm biến IoT trên dây chuyền sản xuất' },
-  { id: 'EP-02', name: 'Real-time Monitoring', color: '#34d399', description: 'Dashboard giám sát thời gian thực các chỉ số sản xuất' },
-  { id: 'EP-03', name: 'Predictive Maintenance', color: '#fbbf24', description: 'Dự đoán hỏng hóc máy móc dựa trên phân tích dữ liệu cảm biến' },
-  { id: 'EP-04', name: 'Quality Control', color: '#a78bfa', description: 'Kiểm soát chất lượng tự động bằng AI visual inspection' },
+  { id: 'EP-01', name: 'Sensor Data Ingestion', color: '#60a5fa', description: 'Collect and process data from IoT sensors on the production line' },
+  { id: 'EP-02', name: 'Real-time Monitoring', color: '#34d399', description: 'Real-time monitoring dashboard for production metrics' },
+  { id: 'EP-03', name: 'Predictive Maintenance', color: '#fbbf24', description: 'Predict machine breakdowns based on sensor data analysis' },
+  { id: 'EP-04', name: 'Quality Control', color: '#a78bfa', description: 'Automated quality control using AI visual inspection' },
 ];
 
 const BUSINESS_REQUIREMENTS = [
-  { id: 'BR-01', text: 'Hệ thống phải thu thập dữ liệu cảm biến từ tối thiểu 200 thiết bị IoT đồng thời', epicId: 'EP-01' },
-  { id: 'BR-02', text: 'Dashboard phải hiển thị dữ liệu với độ trễ không quá 5 giây', epicId: 'EP-02' },
-  { id: 'BR-03', text: 'Hệ thống phải cảnh báo sớm ít nhất 24h trước khi thiết bị gặp sự cố', epicId: 'EP-03' },
-  { id: 'BR-04', text: 'Tỉ lệ phát hiện lỗi sản phẩm phải đạt ≥ 99.5% với tỉ lệ dương tính giả < 1%', epicId: 'EP-04' },
-  { id: 'BR-05', text: 'Hệ thống phải tuân thủ tiêu chuẩn bảo mật IEC 62443 cho môi trường công nghiệp', epicId: 'EP-01' },
-  { id: 'BR-06', text: 'Người dùng phải có khả năng tuỳ chỉnh ngưỡng cảnh báo cho từng loại cảm biến', epicId: 'EP-02' },
+  { id: 'BR-01', text: 'The system must collect sensor data from at least 200 IoT devices simultaneously', epicId: 'EP-01' },
+  { id: 'BR-02', text: 'The dashboard must display data with a latency of no more than 5 seconds', epicId: 'EP-02' },
+  { id: 'BR-03', text: 'The system must provide early warnings at least 24h before a device fails', epicId: 'EP-03' },
+  { id: 'BR-04', text: 'The product defect detection rate must be ≥ 99.5% with a false positive rate < 1%', epicId: 'EP-04' },
+  { id: 'BR-05', text: 'The system must comply with IEC 62443 security standards for industrial environments', epicId: 'EP-01' },
+  { id: 'BR-06', text: 'Users must be able to customize warning thresholds for each type of sensor', epicId: 'EP-02' },
 ];
 
 let userStories = [

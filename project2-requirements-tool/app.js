@@ -34,7 +34,7 @@ function setupNavigation() {
 
       const titles = {
         backlog: ['Product Backlog', 'Smart Factory IoT Platform — Sprint 5'],
-        kanban: ['Kanban Board', 'Sprint hiện tại — Kéo thả để cập nhật trạng thái'],
+        kanban: ['Kanban Board', 'Current Sprint — Drag and drop to update status'],
         traceability: ['Traceability Matrix', 'Business Requirements → User Stories → Test Cases'],
         stats: ['Sprint Metrics', 'Velocity & Burndown Analysis'],
       };
@@ -98,7 +98,7 @@ function renderBacklog() {
   if (search) filtered = filtered.filter(s => s.title.toLowerCase().includes(search) || s.id.toLowerCase().includes(search));
 
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:40px">Không tìm thấy user story nào</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:40px">No user story found</td></tr>`;
     return;
   }
 
@@ -323,7 +323,7 @@ function setupModal() {
 
   document.getElementById('addStoryBtn').addEventListener('click', () => {
     modal.classList.add('open');
-    document.getElementById('modalTitle').textContent = 'Thêm User Story';
+    document.getElementById('modalTitle').textContent = 'Add User Story';
     form.reset();
   });
 
