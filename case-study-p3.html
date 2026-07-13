@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Order Optimizer | BA Portfolio</title>
+  <link rel="icon" type="image/png" href="logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #121212; --bg-card: #1e1e1e; --border: #333333;
+      --text: #ededed; --text2: #a0a0a0; --text3: #777777; --accent: #e0e0e0;
+    }
+    [data-theme="light"] {
+      --bg: #ffffff; --bg-card: #f9f9f9; --border: #eaeaea;
+      --text: #171717; --text2: #737373; --text3: #888888; --accent: #111111;
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .theme-toggle {
+      position: fixed; top: 20px; right: 20px; z-index: 100;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); padding: 10px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
+    }
+    .sticky-nav {
+      position: sticky; top: 5px; z-index: 100; display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 24px; margin: 16px auto 0; max-width: 900px; width: calc(100% - 32px);
+      background: rgba(26, 26, 26, 0.85); border: 1px solid var(--border); border-radius: 50px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    }
+    [data-theme="light"] .sticky-nav { background: rgba(255, 255, 255, 0.85); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05); }
+    .nav-brand { color: var(--text); font-weight: 800; font-size: 15px; text-decoration: none; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .sticky-nav a { color: var(--text2); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .sticky-nav a:hover { color: var(--text); }
+    .nav-resume { background: var(--text); color: var(--bg) !important; padding: 8px 16px; border-radius: 30px; }
+    
+    .uiux-project { max-width: 900px; margin: 40px auto; padding: 24px; }
+    .uiux-case { border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); overflow: hidden; }
+    .case-hero { padding: 34px; border-bottom: 1px solid var(--border); }
+    .case-kicker { font-size: 12px; color: var(--text3); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .case-title { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
+    .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
+    .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+    .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
+    .metric-label { display: block; color: var(--text3); font-size: 12px; margin-top: 2px; }
+    .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
+    .case-section:last-child { border-bottom: none; }
+    .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
+    .case-section p { color: var(--text2); margin-bottom: 16px; line-height: 1.7; }
+    
+    .case-visual { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 300px; padding: 24px; }
+    
+    footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
+    
+    /* Mockup specific CSS */
+    .mock-chart { width: 100%; display: flex; align-items: flex-end; gap: 8px; height: 200px; margin-top: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px;}
+    .mock-bar { background: var(--text2); width: 100%; border-radius: 4px 4px 0 0; opacity: 0.8; transition: opacity 0.2s;}
+    .mock-bar:hover { opacity: 1; background: var(--text); }
+    
+    .mock-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+    .mock-table th, .mock-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .mock-table th { color: var(--text3); font-weight: 600; text-transform: uppercase; }
+    
+    .mock-kanban { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .mock-k-col { background: var(--bg); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; }
+    .mock-card { background: var(--bg-card); border: 1px solid var(--border); padding: 12px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; }
+    
+    .mock-bpmn { display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 20px 0; }
+    .mock-node { border: 1px solid var(--border); padding: 12px 16px; border-radius: 8px; background: var(--bg); font-size: 13px; white-space: nowrap; }
+    .mock-node.red { border-color: #ef4444; box-shadow: 0 0 0 1px #ef4444; }
+    .mock-node.green { border-color: #22c55e; }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="theme-toggle">
+    <svg id="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg id="theme-icon-light" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
+
+  <nav class="sticky-nav">
+    <a href="index.html" class="nav-brand">Do Anh Nghia.</a>
+    <div class="nav-links">
+      <a href="index.html#ba-projects">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="Do_Anh_Nghia_CV.pdf" target="_blank" class="nav-resume">Resume ↗</a>
+    </div>
+  </nav>
+
+  <section class="uiux-project">
+    <div class="uiux-case">
+      <div class="case-hero">
+        <a href="index.html#ba-projects" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
+        <div class="case-kicker">Project 03</div>
+        <h1 class="case-title">Office Group Order Optimization</h1>
+        <p class="case-copy">Modeling the As-Is vs To-Be process of office group ordering to eliminate payment bottlenecks.</p>
+        <div class="case-metrics">
+          <div class="metric-chip"><span class="metric-value">Process Analyst</span><span class="metric-label">Role</span></div>
+          <div class="metric-chip"><span class="metric-value">1 Week</span><span class="metric-label">Timeline</span></div>
+          <div class="metric-chip"><span class="metric-value">Draw.io, BPMN 2.0</span><span class="metric-label">Tools</span></div>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h3>1. The Problem</h3>
+        <p>At the office, the daily process of ordering group lunches or milk tea is a logistical nightmare. The process flows through a group chat where people constantly change their minds, forget to pay, and force the Admin to manually reconcile orders and shipping fees.</p>
+        <p>This manual coordination results in a high "Payment Deficit" (Admin losing money) and a severe waste of productive work hours.</p>
+      </div>
+      <div class="case-section">
+        <h3>2. Constraints & Trade-offs</h3>
+        <p><strong>The Constraint:</strong> Third-party food delivery apps (like ShopeeFood or Grab) have group order features, but they often lack flexible payment splitting and don't allow the Admin to collect funds before placing the order.</p>
+        <p><strong>The Trade-off:</strong> Instead of relying on rigid third-party apps, I modeled a custom To-Be process using a simple internal form linked to a QR payment gateway. The trade-off was a slight learning curve for staff, but absolute financial security for the Admin.</p>
+      </div>
+      <div class="case-section">
+        <h3>3. Approach & BA Artifacts</h3>
+        <p><strong>A. Process Modeling (As-Is)</strong><br>I mapped the current state using BPMN 2.0. The diagram clearly highlighted the "Payment Collection" node as the critical bottleneck. Admin was advancing cash and acting as a debt collector post-delivery.</p>
+        <p><strong>B. Bottleneck Detection</strong><br>By timing the process, I found the Admin spent an average of 45 minutes per order just tracing chat messages to match drinks with faces, and calculating the divided shipping fee.</p>
+        <p><strong>C. Process Optimization (To-Be)</strong><br>I engineered a new flow: System calculates exact split -> Staff pays via QR -> System verifies 100% funds -> Order placed. No cash advanced, zero risk.</p>
+      </div>
+      <div class="case-section">
+        <h3>4. The Solution & UI Design</h3>
+        <p>I utilized process visualization to pitch the new workflow to the team, demonstrating the exact elimination of the bottleneck.</p>
+        <div class="case-visual" style="flex-direction: column; align-items: stretch; overflow: hidden;">
+          <h4 style="color: var(--text); margin-bottom: 16px;">BPMN Process Flow Comparison</h4>
+          <span style="font-size: 12px; color: var(--text3);">As-Is Flow (Manual)</span>
+          <div class="mock-bpmn">
+            <div class="mock-node">Chat Order</div> <span style="color: var(--text3);">→</span>
+            <div class="mock-node red">Admin Pays Upfront</div> <span style="color: var(--text3);">→</span>
+            <div class="mock-node red">Calculate Split</div> <span style="color: var(--text3);">→</span>
+            <div class="mock-node">Collect Cash</div>
+          </div>
+          <span style="font-size: 12px; color: var(--text3); margin-top: 16px; display: block;">To-Be Flow (Automated)</span>
+          <div class="mock-bpmn">
+            <div class="mock-node">App Order</div> <span style="color: var(--text3);">→</span>
+            <div class="mock-node green">Auto Split Fee</div> <span style="color: var(--text3);">→</span>
+            <div class="mock-node green">QR Payment Upfront</div> <span style="color: var(--text3);">→</span>
+            <div class="mock-node">Vendor Receives Order</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-section">
+        <h3>5. Business Impact & Results</h3>
+        <p>Modeling and optimizing this micro-process yielded immediate, measurable ROI for the team.</p>
+        <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
+            <li style="margin-bottom: 8px;">Reduced Admin coordination time from 45 minutes to 5 minutes (80% efficiency gain).</li>
+            <li>Eliminated payment deficits entirely (0% loss rate).</li>
+        </ul>
+        <p><strong>Key Takeaway:</strong> Business Process Modeling Notation (BPMN) isn't just for factory floors. Applying it to everyday office logistics proves that a strong BA can detect inefficiencies and architect logical solutions anywhere.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer id="contact">
+    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">LET'S BUILD SOMETHING LOGICAL.</h2>
+    <p style="margin-bottom: 24px; color: var(--text2); font-size: 14px;">Looking for a Business Analyst with systems thinking and a deep understanding of user experience? Let's connect.</p>
+    <div style="display: flex; justify-content: center; gap: 24px;">
+      <a href="mailto:anhnghia9a633@gmail.com" style="color: var(--text); font-weight: 600;">Email</a>
+      <a href="https://linkedin.com/" target="_blank" style="color: var(--text); font-weight: 600;">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconDark = document.getElementById('theme-icon-dark');
+    const iconLight = document.getElementById('theme-icon-light');
+    
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+    if (currentTheme) {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      updateIcons(currentTheme);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      let theme = document.documentElement.getAttribute('data-theme');
+      let targetTheme = theme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      localStorage.setItem('theme', targetTheme);
+      updateIcons(targetTheme);
+    });
+
+    function updateIcons(theme) {
+      if (theme === 'light') {
+        iconDark.style.display = 'none';
+        iconLight.style.display = 'block';
+      } else {
+        iconDark.style.display = 'block';
+        iconLight.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

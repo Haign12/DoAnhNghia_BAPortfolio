@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Co-living Manager | BA Portfolio</title>
+  <link rel="icon" type="image/png" href="logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #121212; --bg-card: #1e1e1e; --border: #333333;
+      --text: #ededed; --text2: #a0a0a0; --text3: #777777; --accent: #e0e0e0;
+    }
+    [data-theme="light"] {
+      --bg: #ffffff; --bg-card: #f9f9f9; --border: #eaeaea;
+      --text: #171717; --text2: #737373; --text3: #888888; --accent: #111111;
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .theme-toggle {
+      position: fixed; top: 20px; right: 20px; z-index: 100;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); padding: 10px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
+    }
+    .sticky-nav {
+      position: sticky; top: 5px; z-index: 100; display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 24px; margin: 16px auto 0; max-width: 900px; width: calc(100% - 32px);
+      background: rgba(26, 26, 26, 0.85); border: 1px solid var(--border); border-radius: 50px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    }
+    [data-theme="light"] .sticky-nav { background: rgba(255, 255, 255, 0.85); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05); }
+    .nav-brand { color: var(--text); font-weight: 800; font-size: 15px; text-decoration: none; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .sticky-nav a { color: var(--text2); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .sticky-nav a:hover { color: var(--text); }
+    .nav-resume { background: var(--text); color: var(--bg) !important; padding: 8px 16px; border-radius: 30px; }
+    
+    .uiux-project { max-width: 900px; margin: 40px auto; padding: 24px; }
+    .uiux-case { border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); overflow: hidden; }
+    .case-hero { padding: 34px; border-bottom: 1px solid var(--border); }
+    .case-kicker { font-size: 12px; color: var(--text3); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .case-title { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
+    .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
+    .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+    .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
+    .metric-label { display: block; color: var(--text3); font-size: 12px; margin-top: 2px; }
+    .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
+    .case-section:last-child { border-bottom: none; }
+    .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
+    .case-section p { color: var(--text2); margin-bottom: 16px; line-height: 1.7; }
+    
+    .case-visual { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 300px; padding: 24px; }
+    
+    footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
+    
+    /* Mockup specific CSS */
+    .mock-chart { width: 100%; display: flex; align-items: flex-end; gap: 8px; height: 200px; margin-top: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px;}
+    .mock-bar { background: var(--text2); width: 100%; border-radius: 4px 4px 0 0; opacity: 0.8; transition: opacity 0.2s;}
+    .mock-bar:hover { opacity: 1; background: var(--text); }
+    
+    .mock-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+    .mock-table th, .mock-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .mock-table th { color: var(--text3); font-weight: 600; text-transform: uppercase; }
+    
+    .mock-kanban { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .mock-k-col { background: var(--bg); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; }
+    .mock-card { background: var(--bg-card); border: 1px solid var(--border); padding: 12px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; }
+    
+    .mock-bpmn { display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 20px 0; }
+    .mock-node { border: 1px solid var(--border); padding: 12px 16px; border-radius: 8px; background: var(--bg); font-size: 13px; white-space: nowrap; }
+    .mock-node.red { border-color: #ef4444; box-shadow: 0 0 0 1px #ef4444; }
+    .mock-node.green { border-color: #22c55e; }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="theme-toggle">
+    <svg id="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg id="theme-icon-light" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
+
+  <nav class="sticky-nav">
+    <a href="index.html" class="nav-brand">Do Anh Nghia.</a>
+    <div class="nav-links">
+      <a href="index.html#ba-projects">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="Do_Anh_Nghia_CV.pdf" target="_blank" class="nav-resume">Resume ↗</a>
+    </div>
+  </nav>
+
+  <section class="uiux-project">
+    <div class="uiux-case">
+      <div class="case-hero">
+        <a href="index.html#ba-projects" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
+        <div class="case-kicker">Project 02</div>
+        <h1 class="case-title">Co-living Task & Split Bill Manager</h1>
+        <p class="case-copy">Designing a co-living management app to resolve roommate conflicts through automated chore scheduling and transparent bill splitting.</p>
+        <div class="case-metrics">
+          <div class="metric-chip"><span class="metric-value">Business Analyst</span><span class="metric-label">Role</span></div>
+          <div class="metric-chip"><span class="metric-value">3 Weeks</span><span class="metric-label">Timeline</span></div>
+          <div class="metric-chip"><span class="metric-value">Figma, Jira, Trello</span><span class="metric-label">Tools</span></div>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h3>1. The Problem</h3>
+        <p>Living with roommates often leads to friction over two common enterprise-scale issues: resource allocation (chores) and financial reconciliation (split bills). Typically, a whiteboard or a messy Zalo group chat is used, which lacks accountability and traceability.</p>
+        <p>Without a transparent system, roommates end up arguing over "Who cleaned last?" and "Who paid for the shared groceries?"</p>
+      </div>
+      <div class="case-section">
+        <h3>2. Constraints & Trade-offs</h3>
+        <p><strong>The Constraint:</strong> Developing a full-stack mobile application with real-time push notifications required significant backend infrastructure (Firebase/AWS) which was overkill for a 3-person apartment.</p>
+        <p><strong>The Trade-off:</strong> Instead of building a complex notification engine, I designed a frontend-only MVP that generates a weekly "Chore & Ledger Summary" as an image. This image is automatically shared to our existing Zalo group chat via a simple bot webhook.</p>
+        <p><strong>Why it works:</strong> It leverages the existing habit of checking Zalo, rather than forcing users to download and check a new app daily.</p>
+      </div>
+      <div class="case-section">
+        <h3>3. Approach & BA Artifacts</h3>
+        <p><strong>A. Requirements Elicitation</strong><br>I interviewed my roommates to gather requirements, identifying two distinct personas: The "Clean Freak" (wants strict schedules) and the "Forgetful Payer" (needs auto-calculated debts).</p>
+        <p><strong>B. User Stories</strong><br>I mapped out Epics and User Stories. Example: "As a user, I want to add a shared grocery receipt so that the cost is automatically split 3-ways and added to the monthly ledger."</p>
+        <p><strong>C. UI/UX Prototyping</strong><br>I designed wireframes in Figma focusing on a dual-panel layout: a Kanban board for chores, and a Ledger table for transparent bill tracking.</p>
+      </div>
+      <div class="case-section">
+        <h3>4. The Solution & UI Design</h3>
+        <p>The solution is a clean, single-page web app tailored for mobile views but scalable to desktop.</p>
+        <div class="case-visual" style="flex-direction: column; align-items: stretch;">
+          <h4 style="color: var(--text); margin-bottom: 16px;">Coliving Manager Mockup</h4>
+          <div class="mock-kanban">
+            <div class="mock-k-col">
+              <span style="color: var(--text3); font-size: 12px; font-weight: 700;">TO DO</span>
+              <div class="mock-card">Clean Bathroom <br><span style="color: var(--text3);">Assignee: Nghia</span></div>
+              <div class="mock-card">Take out Trash <br><span style="color: var(--text3);">Assignee: John</span></div>
+            </div>
+            <div class="mock-k-col">
+              <span style="color: var(--text3); font-size: 12px; font-weight: 700;">SPLIT LEDGER</span>
+              <div class="mock-card" style="border-color: #ef4444;">John owes Nghia: <strong>$15.00</strong></div>
+              <div class="mock-card" style="border-color: #22c55e;">Nghia receives: <strong>$15.00</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="case-section">
+        <h3>5. Business Impact & Results</h3>
+        <p>By treating a co-living space like a micro-enterprise, we resolved internal conflicts through logic and transparency.</p>
+        <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
+            <li style="margin-bottom: 8px;">Eliminated 100% of disputes regarding unpaid shared expenses.</li>
+            <li>Improved chore completion rate by gamifying the "Done" column on the Kanban board.</li>
+        </ul>
+        <p><strong>Key Takeaway:</strong> Excellent Requirement Elicitation involves understanding the true bottleneck (user habits). A perfectly coded app fails if users don't want to open it; integrating with their existing Zalo habit was the real win.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer id="contact">
+    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">LET'S BUILD SOMETHING LOGICAL.</h2>
+    <p style="margin-bottom: 24px; color: var(--text2); font-size: 14px;">Looking for a Business Analyst with systems thinking and a deep understanding of user experience? Let's connect.</p>
+    <div style="display: flex; justify-content: center; gap: 24px;">
+      <a href="mailto:anhnghia9a633@gmail.com" style="color: var(--text); font-weight: 600;">Email</a>
+      <a href="https://linkedin.com/" target="_blank" style="color: var(--text); font-weight: 600;">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconDark = document.getElementById('theme-icon-dark');
+    const iconLight = document.getElementById('theme-icon-light');
+    
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+    if (currentTheme) {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      updateIcons(currentTheme);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      let theme = document.documentElement.getAttribute('data-theme');
+      let targetTheme = theme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      localStorage.setItem('theme', targetTheme);
+      updateIcons(targetTheme);
+    });
+
+    function updateIcons(theme) {
+      if (theme === 'light') {
+        iconDark.style.display = 'none';
+        iconLight.style.display = 'block';
+      } else {
+        iconDark.style.display = 'block';
+        iconLight.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
