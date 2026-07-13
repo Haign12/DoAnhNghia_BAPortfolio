@@ -157,8 +157,24 @@
     .step-desc, .deliverable-desc { color: var(--text2); font-size: 13px; line-height: 1.55; }
     .deliverables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
+    /* About & Resume */
+    .about-me { max-width: 800px; margin: 60px auto; padding: 0 24px; text-align: left; }
+    .about-me p { font-size: 15px; color: var(--text2); margin-bottom: 16px; line-height: 1.8; }
+    .about-me .core-comp { font-weight: 700; color: var(--text); }
+
+    .resume { max-width: 800px; margin: 60px auto 80px; padding: 0 24px; text-align: left; }
+    .resume-section { margin-bottom: 40px; }
+    .resume-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    .resume-item { margin-bottom: 32px; }
+    .resume-item-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .resume-role { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .resume-meta { font-size: 13px; color: var(--text3); font-weight: 600; }
+    .resume-desc { list-style: none; }
+    .resume-desc li { font-size: 14px; color: var(--text2); margin-bottom: 8px; position: relative; padding-left: 16px; line-height: 1.6; }
+    .resume-desc li::before { content: "•"; position: absolute; left: 0; color: var(--text3); }
+
     /* Footer */
-    footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; }
+    footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
     footer strong { color: var(--text2); }
 
     @media (max-width: 900px) {
@@ -180,186 +196,35 @@
 
   <section class="hero">
     <div class="hero-content">
-      <img src="logo.png" alt="DoAnhNghia Logo" class="site-logo">
-      <div class="hero-badge"><span class="dot"></span> Open to Opportunities</div>
-      <h1>DoAnhNghia_Portfollio</h1>
-      <p class='hero-sub'>
-        B&#7889;n d&#7921; &#225;n c&#225; nh&#226;n ch&#7913;ng minh n&#259;ng l&#7921;c ph&#226;n t&#237;ch nghi&#7879;p v&#7909;, thi&#7871;t k&#7871; quy tr&#236;nh, t&#432; duy d&#7919; li&#7879;u,
-        v&#224; kh&#7843; n&#259;ng chuy&#7875;n insight ng&#432;&#7901;i d&#249;ng th&#224;nh tr&#7843;i nghi&#7879;m s&#7843;n ph&#7849;m ph&#249; h&#7907;p v&#7899;i v&#7883; tr&#237; BA t&#7841;i Bosch.
+      <img src="logo.png" alt="Do Anh Nghia Logo" class="site-logo">
+      <h1>DO ANH NGHIA</h1>
+      <h2 style="font-size: 1.25rem; margin-bottom: 16px; color: var(--text);">IT Business Analyst & UI/UX Designer</h2>
+      <p class='hero-sub' style="margin-bottom: 32px;">
+        Translating complex business requirements into structured logic and intuitive digital solutions.
       </p>
-      <div class="hero-skills">
-        <span class="skill-tag">Data Analysis</span>
-        <span class="skill-tag">BPMN Modeling</span>
-        <span class="skill-tag">Agile / Scrum</span>
-        <span class="skill-tag">Requirements Engineering</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">KPI Design</span>
-        <span class="skill-tag">Process Improvement</span>
-        <span class="skill-tag">Stakeholder Management</span>
-        <span class="skill-tag">Industry 4.0</span>
-        <span class="skill-tag">IoT</span>
-        <span class='skill-tag'>UX Research</span>
-        <span class='skill-tag'>Wireframing</span>
-        <span class='skill-tag'>Figma</span>
-      </div>
-      <a href="#ba-projects" class="hero-cta">Xem các dự án ↓</a>
-    </div>
-  </section>
-
-  <section class="projects" id="ba-projects">
-    <h2 class="section-title">Business Analysis Projects</h2>
-    <p class="section-sub">Mỗi dự án nhắm vào một nhóm kỹ năng BA cốt lõi mà Bosch yêu cầu</p>
-
-    <div class="project-grid">
-      <!-- Project 1 -->
-      <div class="project-card">
-        <div class="card-gradient blue"></div>
-        <div class="card-body">
-          <div class="card-number">Project 01</div>
-          <h3 class="card-title">Manufacturing KPI Dashboard</h3>
-          <p class="card-desc">Dashboard phân tích OEE, tỉ lệ lỗi, và năng suất dây chuyền sản xuất linh kiện ô tô với dữ liệu mô phỏng 30 ngày.</p>
-          <ul class="card-features">
-            <li><span class="feat-icon">📊</span> OEE Analysis (Availability × Performance × Quality)</li>
-            <li><span class="feat-icon">📉</span> Trend Analysis & Pareto Chart</li>
-            <li><span class="feat-icon">🏭</span> So sánh hiệu suất giữa 4 dây chuyền</li>
-            <li><span class="feat-icon">🔍</span> Filter theo ca làm việc và dây chuyền</li>
-            <li><span class="feat-icon">📈</span> Radar Chart đa chiều</li>
-          </ul>
-          <div class="card-skills">
-            <span class="card-skill" style="background:rgba(96,165,250,0.1);color:var(--blue)">Data Analysis</span>
-            <span class="card-skill" style="background:rgba(52,211,153,0.1);color:var(--green)">KPI Design</span>
-            <span class="card-skill" style="background:rgba(251,191,36,0.1);color:var(--yellow)">Manufacturing</span>
-          </div>
-          <a href="project1-manufacturing-dashboard/index.html" class="card-link">Mở Dashboard →</a>
-        </div>
-      </div>
-
-      <!-- Project 2 -->
-      <div class="project-card">
-        <div class="card-gradient purple"></div>
-        <div class="card-body">
-          <div class="card-number">Project 02</div>
-          <h3 class="card-title">Requirements Management Tool</h3>
-          <p class="card-desc">Công cụ quản lý User Stories, Kanban Board, Traceability Matrix, và Sprint Metrics cho dự án Smart Factory IoT.</p>
-          <ul class="card-features">
-            <li><span class="feat-icon">📋</span> Product Backlog với Epics & User Stories</li>
-            <li><span class="feat-icon">🗂️</span> Kanban Board (Click to cycle status)</li>
-            <li><span class="feat-icon">🔗</span> Requirements Traceability Matrix (RTM)</li>
-            <li><span class="feat-icon">📈</span> Burndown & Velocity Charts</li>
-            <li><span class="feat-icon">➕</span> Thêm User Story mới</li>
-          </ul>
-          <div class="card-skills">
-            <span class="card-skill" style="background:rgba(167,139,250,0.1);color:var(--purple)">Agile/Scrum</span>
-            <span class="card-skill" style="background:rgba(96,165,250,0.1);color:var(--blue)">Requirements</span>
-            <span class="card-skill" style="background:rgba(52,211,153,0.1);color:var(--green)">Traceability</span>
-          </div>
-          <a href="project2-requirements-tool/index.html" class="card-link">Mở Tool →</a>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="project-card">
-        <div class="card-gradient green"></div>
-        <div class="card-body">
-          <div class="card-number">Project 03</div>
-          <h3 class="card-title">Business Process Analyzer</h3>
-          <p class="card-desc">Phân tích và so sánh quy trình nghiệp vụ As-Is vs To-Be với BPMN visualization, bottleneck detection và improvement recommendations.</p>
-          <ul class="card-features">
-            <li><span class="feat-icon">🔄</span> As-Is vs To-Be Process Comparison</li>
-            <li><span class="feat-icon">⏱️</span> Cycle Time & Cost Analysis</li>
-            <li><span class="feat-icon">🔍</span> Bottleneck Detection & Ranking</li>
-            <li><span class="feat-icon">💡</span> Improvement Recommendations with ROI</li>
-            <li><span class="feat-icon">🔀</span> 2 quy trình mẫu (QC + Maintenance)</li>
-          </ul>
-          <div class="card-skills">
-            <span class="card-skill" style="background:rgba(52,211,153,0.1);color:var(--green)">BPMN</span>
-            <span class="card-skill" style="background:rgba(251,191,36,0.1);color:var(--yellow)">Process Improvement</span>
-            <span class="card-skill" style="background:rgba(248,113,113,0.1);color:var(--red)">Lean</span>
-          </div>
-          <a href="project3-process-analyzer/index.html" class="card-link">Mở Analyzer →</a>
-        </div>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="#projects" class="hero-cta">View Projects</a>
+        <a href="#" class="hero-cta" style="background: transparent; border: 1px solid var(--text); color: var(--text);">Download Resume</a>
       </div>
     </div>
   </section>
 
-  <section class="projects" id="uiux-projects" style="padding-top: 40px;">
-    <h2 class="section-title">UI/UX Design Projects</h2>
-    <p class="section-sub">Các dự án tập trung vào thiết kế giao diện và tối ưu trải nghiệm người dùng</p>
+  <section class="about-me">
+    <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">ABOUT ME</h2>
+    <p>I am an IT Business Analyst and UI/UX Designer with a strong passion for minimalism and systems thinking. Over the past period, I have dedicated myself to mastering enterprise-level business flows and user-centric design through independent projects and rigorous study.</p>
+    <p>My core strength lies in bridging the gap between stakeholders and development teams—ensuring that business goals are perfectly aligned with user flows, system logic, and interface design.</p>
+    <p style="margin-top: 24px;"><span class="core-comp">Core Competencies:</span> Requirement Gathering, Process Modeling, User Stories, High-fidelity Prototyping, Minimalism UI.</p>
+  </section>
+
+  <section class="projects" id="projects">
+    <h2 class="section-title">CASE STUDIES</h2>
+    <p class="section-sub">Các dự án trọng điểm được sắp xếp theo mức độ ưu tiên nghiệp vụ</p>
     <div class="project-grid">
-
-      <!-- Project 4 -->
-      <div class='project-card'>
-        <div class='card-gradient cyan'></div>
-        <div class='card-body'>
-          <div class='card-number'>Project 04</div>
-          <h3 class='card-title'>Atelier / Clother UI/UX</h3>
-          <p class='card-desc'>Thiết kế giao diện và trải nghiệm người dùng cho dự án thời trang Atelier / Clother.</p>
-          <ul class='card-features'>
-            <li><span class='feat-icon'>🎨</span> Visual Design & UI Layout</li>
-            <li><span class='feat-icon'>📱</span> Mobile-first Design</li>
-            <li><span class='feat-icon'>💻</span> Front-end Implementation</li>
-          </ul>
-          <div class='card-skills'>
-            <span class='card-skill'>UI/UX</span>
-            <span class='card-skill'>Figma</span>
-            <span class='card-skill'>GitHub</span>
-          </div>
-          <div style="display: flex; gap: 8px; margin-top: 16px;">
-            <a href='https://github.com/Ngh1aa/Atelier' target="_blank" class='card-link' style="flex:1; padding: 12px 4px; text-align: center;">Mã nguồn</a>
-            <a href='https://www.figma.com/design/E07BqE4X8apHhziPardmDG/Clother?node-id=0-1&t=7By6wJNx35IMxW9A-1' target="_blank" class='card-link' style="flex:1; padding: 12px 4px; text-align: center;">Bản thiết kế</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 5 -->
-      <div class='project-card'>
-        <div class='card-gradient purple'></div>
-        <div class='card-body'>
-          <div class='card-number'>Project 05</div>
-          <h3 class='card-title'>LuxRoom UI/UX Design</h3>
-          <p class='card-desc'>Thiết kế giao diện và trải nghiệm người dùng cho dự án LuxRoom.</p>
-          <ul class='card-features'>
-            <li><span class='feat-icon'>🎨</span> Visual Design & UI Layout</li>
-            <li><span class='feat-icon'>📱</span> Responsive Design / Mobile-first</li>
-            <li><span class='feat-icon'>💻</span> Front-end Implementation</li>
-          </ul>
-          <div class='card-skills'>
-            <span class='card-skill' style='background:rgba(34,211,238,0.1);color:var(--cyan)'>UI/UX</span>
-            <span class='card-skill' style='background:rgba(96,165,250,0.1);color:var(--blue)'>Figma</span>
-            <span class='card-skill' style='background:rgba(52,211,153,0.1);color:var(--green)'>GitHub</span>
-          </div>
-          <div style="display: flex; gap: 8px; margin-top: 16px;">
-            <a href='https://github.com/Ngh1aa/LuxRoom' target="_blank" class='card-link' style="flex:1;">Mã nguồn GitHub</a>
-            <a href='https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/Funiture?node-id=0-1&t=EV1RdWTZ9jTMQXzK-0' target="_blank" class='card-link' style="flex:1;">Bản thiết kế Figma</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 6 -->
-      <div class='project-card'>
-        <div class='card-gradient cyan'></div>
-        <div class='card-body'>
-          <div class='card-number'>Project 06</div>
-          <h3 class='card-title'>Portfolio 2026</h3>
-          <p class='card-desc'>Thiết kế UI/UX cho Portfolio cá nhân phiên bản năm 2026, được trưng bày trên Behance.</p>
-          <ul class='card-features'>
-            <li><span class='feat-icon'>🎨</span> Visual Design & Layout</li>
-            <li><span class='feat-icon'>✨</span> Typography & Color Scheme</li>
-            <li><span class='feat-icon'>💡</span> Personal Branding</li>
-          </ul>
-          <div class='card-skills'>
-            <span class='card-skill'>UI/UX</span>
-            <span class='card-skill'>Web Design</span>
-          </div>
-          <a href='https://www.behance.net/gallery/245516287/Portfolio-2026' target="_blank" class='card-link'>Xem trên Behance</a>
-        </div>
-      </div>
-
-      <!-- Project 7 -->
+      <!-- Project 01: FlowCRM -->
       <div class='project-card'>
         <div class='card-gradient green'></div>
         <div class='card-body'>
-          <div class='card-number'>Project 07</div>
+          <div class='card-number'>Project 01</div>
           <h3 class='card-title'>FlowCRM UI/UX</h3>
           <p class='card-desc'>Thiết kế giao diện và hệ thống quản trị khách hàng (CRM) cho dự án FlowCRM.</p>
           <ul class='card-features'>
@@ -378,78 +243,197 @@
           </div>
         </div>
       </div>
+
+      <!-- Project 02: KPI Dashboard -->
+      <div class="project-card">
+        <div class="card-gradient blue"></div>
+        <div class="card-body">
+          <div class="card-number">Project 02</div>
+          <h3 class="card-title">Manufacturing KPI Dashboard</h3>
+          <p class="card-desc">Dashboard phân tích OEE, tỉ lệ lỗi, và năng suất dây chuyền sản xuất linh kiện ô tô với dữ liệu mô phỏng 30 ngày.</p>
+          <ul class="card-features">
+            <li><span class="feat-icon">📊</span> OEE Analysis</li>
+            <li><span class="feat-icon">📉</span> Trend Analysis & Pareto Chart</li>
+            <li><span class="feat-icon">🏭</span> So sánh hiệu suất dây chuyền</li>
+            <li><span class="feat-icon">🔍</span> Filter theo ca làm việc</li>
+            <li><span class="feat-icon">📈</span> Radar Chart đa chiều</li>
+          </ul>
+          <div class="card-skills">
+            <span class="card-skill">Data Analysis</span>
+            <span class="card-skill">KPI Design</span>
+          </div>
+          <a href="project1-manufacturing-dashboard/index.html" class="card-link" style="margin-top: 16px;">Mở Dashboard →</a>
+        </div>
+      </div>
+
+      <!-- Project 03: Requirements Management Tool -->
+      <div class="project-card">
+        <div class="card-gradient purple"></div>
+        <div class="card-body">
+          <div class="card-number">Project 03</div>
+          <h3 class="card-title">Requirements Management Tool</h3>
+          <p class="card-desc">Công cụ quản lý User Stories, Kanban Board, Traceability Matrix, và Sprint Metrics cho dự án Smart Factory IoT.</p>
+          <ul class="card-features">
+            <li><span class="feat-icon">📋</span> Product Backlog & Epics</li>
+            <li><span class="feat-icon">🗂️</span> Kanban Board</li>
+            <li><span class="feat-icon">🔗</span> Traceability Matrix (RTM)</li>
+            <li><span class="feat-icon">📈</span> Burndown & Velocity Charts</li>
+          </ul>
+          <div class="card-skills">
+            <span class="card-skill">Agile/Scrum</span>
+            <span class="card-skill">Requirements</span>
+          </div>
+          <a href="project2-requirements-tool/index.html" class="card-link" style="margin-top: 16px;">Mở Tool →</a>
+        </div>
+      </div>
+
+      <!-- Project 04: Process Analyzer -->
+      <div class="project-card">
+        <div class="card-gradient green"></div>
+        <div class="card-body">
+          <div class="card-number">Project 04</div>
+          <h3 class="card-title">Business Process Analyzer</h3>
+          <p class="card-desc">Phân tích quy trình nghiệp vụ As-Is vs To-Be với BPMN visualization, bottleneck detection và improvement recommendations.</p>
+          <ul class="card-features">
+            <li><span class="feat-icon">🔄</span> As-Is vs To-Be Process Comparison</li>
+            <li><span class="feat-icon">⏱️</span> Cycle Time & Cost Analysis</li>
+            <li><span class="feat-icon">🔍</span> Bottleneck Detection</li>
+            <li><span class="feat-icon">💡</span> Improvement Recommendations</li>
+          </ul>
+          <div class="card-skills">
+            <span class="card-skill">BPMN</span>
+            <span class="card-skill">Process Improvement</span>
+          </div>
+          <a href="project3-process-analyzer/index.html" class="card-link" style="margin-top: 16px;">Mở Analyzer →</a>
+        </div>
+      </div>
+
+      <!-- Project 05: Atelier -->
+      <div class='project-card'>
+        <div class='card-gradient cyan'></div>
+        <div class='card-body'>
+          <div class='card-number'>Project 05</div>
+          <h3 class='card-title'>Atelier / Clother UI/UX</h3>
+          <p class='card-desc'>Thiết kế giao diện và trải nghiệm người dùng cho dự án thời trang Atelier / Clother.</p>
+          <ul class='card-features'>
+            <li><span class='feat-icon'>🎨</span> Visual Design & UI Layout</li>
+            <li><span class='feat-icon'>📱</span> Mobile-first Design</li>
+            <li><span class='feat-icon'>💻</span> Front-end Implementation</li>
+          </ul>
+          <div class='card-skills'>
+            <span class='card-skill'>UI/UX</span>
+            <span class='card-skill'>Figma</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <a href='https://github.com/Ngh1aa/Atelier' target="_blank" class='card-link' style="flex:1; padding: 12px 4px; text-align: center;">Mã nguồn</a>
+            <a href='https://www.figma.com/design/E07BqE4X8apHhziPardmDG/Clother?node-id=0-1&t=7By6wJNx35IMxW9A-1' target="_blank" class='card-link' style="flex:1; padding: 12px 4px; text-align: center;">Bản thiết kế</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 06: LuxRoom -->
+      <div class='project-card'>
+        <div class='card-gradient purple'></div>
+        <div class='card-body'>
+          <div class='card-number'>Project 06</div>
+          <h3 class='card-title'>LuxRoom UI/UX Design</h3>
+          <p class='card-desc'>Thiết kế giao diện và trải nghiệm người dùng cho dự án LuxRoom.</p>
+          <ul class='card-features'>
+            <li><span class='feat-icon'>🎨</span> Visual Design & UI Layout</li>
+            <li><span class='feat-icon'>📱</span> Responsive Design / Mobile-first</li>
+            <li><span class='feat-icon'>💻</span> Front-end Implementation</li>
+          </ul>
+          <div class='card-skills'>
+            <span class='card-skill'>UI/UX</span>
+            <span class='card-skill'>Figma</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <a href='https://github.com/Ngh1aa/LuxRoom' target="_blank" class='card-link' style="flex:1; padding: 12px 4px; text-align: center;">Mã nguồn</a>
+            <a href='https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/Funiture?node-id=0-1&t=EV1RdWTZ9jTMQXzK-0' target="_blank" class='card-link' style="flex:1; padding: 12px 4px; text-align: center;">Bản thiết kế</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 07: Portfolio 2026 -->
+      <div class='project-card'>
+        <div class='card-gradient cyan'></div>
+        <div class='card-body'>
+          <div class='card-number'>Project 07</div>
+          <h3 class='card-title'>Portfolio 2026</h3>
+          <p class='card-desc'>Thiết kế UI/UX cho Portfolio cá nhân phiên bản năm 2026, được trưng bày trên Behance.</p>
+          <ul class='card-features'>
+            <li><span class='feat-icon'>🎨</span> Visual Design & Layout</li>
+            <li><span class='feat-icon'>✨</span> Typography & Color Scheme</li>
+            <li><span class='feat-icon'>💡</span> Personal Branding</li>
+          </ul>
+          <div class='card-skills'>
+            <span class='card-skill'>UI/UX</span>
+            <span class='card-skill'>Web Design</span>
+          </div>
+          <a href='https://www.behance.net/gallery/245516287/Portfolio-2026' target="_blank" class='card-link' style="margin-top: 16px;">Xem trên Behance</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class='uiux-project' id='uiux-project'>
-    <h2 class="section-title">UI/UX Project: Smart Factory Operator App</h2>
-    <p class="section-sub">Một case study thể hiện cách BA kết nối nhu cầu người dùng, quy trình vận hành, và thiết kế sản phẩm số.</p>
-
-    <div class="uiux-case">
-      <div class="case-hero">
-        <div>
-          <div class="case-kicker">UI/UX Case Study</div>
-          <h3 class="case-title">Giảm ma sát cho operator khi ghi nhận sự cố trên dây chuyền</h3>
-          <p class="case-copy">Bài toán mô phỏng: operator cần báo lỗi máy, gửi ảnh hiện trường, theo dõi trạng thái xử lý, và nhận hướng dẫn nhanh mà không rời khỏi khu vực sản xuất.</p>
-          <div class="case-metrics">
-            <div class="metric-chip"><span class="metric-value">5</span><span class="metric-label">core screens</span></div>
-            <div class="metric-chip"><span class="metric-value">3</span><span class="metric-label">user roles</span></div>
-            <div class="metric-chip"><span class="metric-value">2</span><span class="metric-label">test rounds</span></div>
-          </div>
+  <section class="resume" id="resume">
+    <div class="resume-section">
+      <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">EXPERIENCE</h2>
+      
+      <div class="resume-item">
+        <div class="resume-item-head">
+          <div class="resume-role">IT Business Analyst</div>
+          <div class="resume-meta">TIKERA Technology and Brand Development • Ho Chi Minh City</div>
         </div>
-        <figure class="case-visual">
-          <img src="https://picsum.photos/seed/smart-factory-operator-ux/900/620" alt="Industrial workspace reference for Smart Factory UI UX case study">
-        </figure>
+        <ul class="resume-desc">
+          <li>Gathered stakeholder requirements to define logic, APIs, and feature scopes.</li>
+          <li>Wrote comprehensive User Stories, Acceptance Criteria, and functional specifications.</li>
+          <li>Integrated UX principles into requirement documentation (screen flows & logic maps).</li>
+        </ul>
       </div>
 
-      <div class="case-section">
-        <h3>UX process</h3>
-        <div class="process-grid">
-          <div class="process-step">
-            <span class="step-number">01</span>
-            <span class="step-title">Research</span>
-            <p class="step-desc">Xác định persona operator, maintenance lead, và production supervisor qua pain point trong quy trình báo lỗi.</p>
-          </div>
-          <div class="process-step">
-            <span class="step-number">02</span>
-            <span class="step-title">Flow mapping</span>
-            <p class="step-desc">Vẽ user flow từ lúc phát hiện lỗi đến khi work order được xác nhận và cập nhật trạng thái.</p>
-          </div>
-          <div class="process-step">
-            <span class="step-number">03</span>
-            <span class="step-title">Prototype</span>
-            <p class="step-desc">Thiết kế wireframe, screen state, component states, và prototype cho luồng báo lỗi khẩn cấp.</p>
-          </div>
-          <div class="process-step">
-            <span class="step-number">04</span>
-            <span class="step-title">Validate</span>
-            <p class="step-desc">Chuẩn bị usability test script, ghi nhận friction, và ưu tiên cải tiến theo impact với effort.</p>
-          </div>
+      <div class="resume-item">
+        <div class="resume-item-head">
+          <div class="resume-role">Intern IT BA & UI/UX Designer</div>
+          <div class="resume-meta">Trésor Solution Company • Remote</div>
+        </div>
+        <ul class="resume-desc">
+          <li>Aligned BA documentation with UI/UX design to ensure consistency with interface logic.</li>
+          <li>Collaborated directly with developers to clarify edge cases and screen behaviors.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="resume-section">
+      <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">EDUCATION</h2>
+      <div class="resume-item" style="margin-bottom: 16px;">
+        <div class="resume-item-head">
+          <div class="resume-role">University of Science - HCMUS</div>
+          <div class="resume-meta">Information Technology</div>
         </div>
       </div>
-
-      <div class="case-section">
-        <h3>Key deliverables</h3>
-        <div class="deliverables-grid">
-          <div class="deliverable-card">
-            <span class="deliverable-title">User journey map</span>
-            <p class="deliverable-desc">Thể hiện touchpoint, cảm xúc, rủi ro nhập liệu, và cơ hội tự động hóa trong ca sản xuất.</p>
-          </div>
-          <div class="deliverable-card">
-            <span class="deliverable-title">Wireframe package</span>
-            <p class="deliverable-desc">Bao gồm dashboard ca làm, form báo lỗi, chi tiết work order, notification, và lịch sử xử lý.</p>
-          </div>
-          <div class="deliverable-card">
-            <span class="deliverable-title">Usability findings</span>
-            <p class="deliverable-desc">Tổng hợp vấn đề theo mức độ nghiêm trọng và đề xuất chỉnh sửa trước khi bàn giao UI hi-fi.</p>
-          </div>
+      <div class="resume-item" style="margin-bottom: 16px;">
+        <div class="resume-item-head">
+          <div class="resume-role">Claude Bernard University Lyon 1</div>
+          <div class="resume-meta">Information Technology</div>
+        </div>
+      </div>
+      <div class="resume-item">
+        <div class="resume-item-head">
+          <div class="resume-role">Google</div>
+          <div class="resume-meta">Foundations of UX Design</div>
         </div>
       </div>
     </div>
   </section>
+
   <footer>
-    <p>Built with ❤️ for <strong>Bosch Business Analyst Application</strong></p>
-    <p style="margin-top:6px">Technologies: HTML, CSS, JavaScript, Chart.js</p>
+    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">LET'S BUILD SOMETHING LOGICAL.</h2>
+    <p style="margin-bottom: 24px; color: var(--text2); font-size: 14px;">Bạn đang tìm kiếm một BA có tư duy hệ thống và thấu hiểu trải nghiệm người dùng? Hãy kết nối với tôi.</p>
+    <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
+      <a href="mailto:anhnghia9a633@gmail.com" style="color: var(--text); text-decoration: none; font-weight: 600;">Email: anhnghia9a633@gmail.com</a>
+      <a href="tel:+84798876074" style="color: var(--text); text-decoration: none; font-weight: 600;">Phone: +84 7988 760 74</a>
+    </div>
   </footer>
 
   <script>
