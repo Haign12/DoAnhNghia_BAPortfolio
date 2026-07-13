@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Co-living Manager | BA Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">CoLivingSync</div>
+      <div class="brand-subtitle">Task & Split Bill App</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-item" style="background: rgba(255,255,255,0.05); margin-bottom: 16px; border: 1px solid var(--border-color); color: var(--text-primary);">
+        <span>Back to Portfolio</span>
+      </a>
+      <a href="#" class="nav-item active">Chore Scheduler</a>
+      <a href="#" class="nav-item">Split Bill Ledger</a>
+      <a href="#" class="nav-item">House Rules</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="header">
+      <h1 class="page-title">Roommate Chore Scheduler & Ledger</h1>
+      <p class="page-subtitle">Resolving roommate conflicts through automated scheduling and transparent bill splitting.</p>
+    </header>
+
+    <div class="app-container">
+      <!-- Tab: Chores -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>This Week's Chores</h2>
+          <button class="btn">Auto-Assign</button>
+        </div>
+        <div class="kanban">
+          <div class="kanban-col">
+            <h3>To Do</h3>
+            <div id="todoList" class="task-list"></div>
+          </div>
+          <div class="kanban-col">
+            <h3>Done (Awaiting Approval)</h3>
+            <div id="doneList" class="task-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Ledger -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Split Bill Ledger (Current Month)</h2>
+          <button class="btn btn-outline">Add Expense</button>
+        </div>
+        <div class="ledger">
+          <div class="balance-cards" id="balanceCards"></div>
+          <table class="data-table" style="margin-top: 24px;">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Expense</th>
+                <th>Paid By</th>
+                <th>Amount</th>
+                <th>Split Info</th>
+              </tr>
+            </thead>
+            <tbody id="expenseTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

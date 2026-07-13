@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Order Optimizer | BA Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">OrderFlow</div>
+      <div class="brand-subtitle">Process Optimization</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-item" style="background: rgba(255,255,255,0.05); margin-bottom: 16px; border: 1px solid var(--border-color); color: var(--text-primary);">
+        <span>Back to Portfolio</span>
+      </a>
+      <a href="#" class="nav-item active">Process Models</a>
+      <a href="#" class="nav-item">Bottleneck Analysis</a>
+      <a href="#" class="nav-item">ROI Calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="header">
+      <h1 class="page-title">Office Group Order Optimization</h1>
+      <p class="page-subtitle">Modeling As-Is vs To-Be processes to eliminate payment bottlenecks.</p>
+    </header>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-title">Admin Coordination Time</div>
+        <div class="metric-value">5 mins <span class="old-value">was 50 mins</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Payment Loss (Deficit)</div>
+        <div class="metric-value">0% <span class="old-value">was 12%</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Process Efficiency</div>
+        <div class="metric-value" style="color: #22c55e;">+80%</div>
+      </div>
+    </div>
+
+    <!-- As-Is Process -->
+    <div class="process-panel">
+      <div class="panel-header">
+        <h2>As-Is Process (Manual Zalo/Slack Group)</h2>
+      </div>
+      <div class="bpmn-container" id="asisProcess">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- To-Be Process -->
+    <div class="process-panel">
+      <div class="panel-header">
+        <h2>To-Be Process (Mini-App Automated Flow)</h2>
+      </div>
+      <div class="bpmn-container" id="tobeProcess">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </main>
+  
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
