@@ -186,9 +186,54 @@
       .case-section { padding: 24px; }
       .case-visual, .case-visual img { min-height: 240px; }
     }
+
+    /* Sticky Navbar */
+    .sticky-nav {
+      position: sticky;
+      top: 5px;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      padding: 12px 32px;
+      margin: 16px auto 0;
+      max-width: fit-content;
+      background: rgba(26, 26, 26, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    }
+    [data-theme="light"] .sticky-nav {
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    }
+    .sticky-nav a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+    }
+    .sticky-nav a:hover {
+      color: var(--text);
+    }
+    @media (max-width: 600px) {
+      .sticky-nav { gap: 16px; padding: 12px 24px; }
+      .sticky-nav a { font-size: 11px; }
+    }
   </style>
 </head>
 <body>
+  <nav class="sticky-nav">
+    <a href="#ba-projects">BA</a>
+    <a href="#uiux-projects">UI/UX</a>
+    <a href="#resume">Resume</a>
+  </nav>
+
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
     <svg id="theme-icon-dark" style="display: block;" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     <svg id="theme-icon-light" style="display: none;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
