@@ -23,32 +23,32 @@
   --text-secondary: #8b8fa3;
   --text-muted: #5a5e73;
 
-  --accent-blue: #60a5fa;
-  --accent-green: #34d399;
-  --accent-yellow: #fbbf24;
+  --accent-blue: #3b82f6;
+  --accent-green: #00e676; /* Vibrant Signal Green */
+  --accent-yellow: #ffea00; /* Vibrant Signal Yellow */
   --accent-purple: #a78bfa;
-  --accent-red: #f87171;
+  --accent-red: #ff1744; /* Vibrant Signal Red */
   --accent-cyan: #22d3ee;
 
-  --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-  --gradient-green: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-  --gradient-yellow: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  --gradient-blue: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  --gradient-green: linear-gradient(135deg, #00c853 0%, #00e676 100%);
+  --gradient-yellow: linear-gradient(135deg, #ffb300 0%, #ffea00 100%);
   --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-glow-blue: 0 0 20px rgba(96, 165, 250, 0.15);
-  --shadow-glow-green: 0 0 20px rgba(52, 211, 153, 0.15);
+  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.25);
+  --shadow-glow-green: 0 0 20px rgba(0, 230, 118, 0.25);
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
 
   --sidebar-width: 260px;
   --header-height: 72px;
 
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family: 'Roboto Mono', 'Inter', -apple-system, BlinkMacSystemFont, monospace;
 }
 
 html {

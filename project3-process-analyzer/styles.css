@@ -2,8 +2,8 @@
    Business Process Analyzer — Styles
    ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg-primary:#0f1117;--bg-secondary:#161822;--bg-card:#1c1f2e;--bg-sidebar:#12141e;--border-color:rgba(255,255,255,0.06);--border-hover:rgba(255,255,255,0.12);--text-primary:#e8eaf0;--text-secondary:#8b8fa3;--text-muted:#5a5e73;--accent-blue:#60a5fa;--accent-green:#34d399;--accent-yellow:#fbbf24;--accent-purple:#a78bfa;--accent-red:#f87171;--accent-cyan:#22d3ee;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--sidebar-width:250px;--header-height:68px;--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}
-html{font-size:14px}body{font-family:var(--font);background:var(--bg-primary);color:var(--text-primary);display:flex;min-height:100vh;overflow-x:hidden}
+:root{--bg-primary: #f1f5f9;--bg-secondary: #e2e8f0;--bg-card: #ffffff;--bg-sidebar: #ffffff;--border-color: #cbd5e1;--border-hover: #94a3b8;--text-primary: #0f172a;--text-secondary: #334155;--text-muted: #64748b;--accent-blue:#60a5fa;--accent-green:#34d399;--accent-yellow:#fbbf24;--accent-purple:#a78bfa;--accent-red:#f87171;--accent-cyan:#22d3ee;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--sidebar-width:250px;--header-height:68px;--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}
+html{font-size:14px}body{font-family:var(--font);background:var(--bg-primary);background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px); background-size: 20px 20px;color:var(--text-primary);display:flex;min-height:100vh;overflow-x:hidden}
 
 .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--bg-sidebar);border-right:1px solid var(--border-color);display:flex;flex-direction:column;z-index:100}
 .sidebar-brand{padding:18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border-color)}
@@ -19,7 +19,7 @@ html{font-size:14px}body{font-family:var(--font);background:var(--bg-primary);co
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
 .main-content{margin-left:var(--sidebar-width);flex:1;min-height:100vh}
-.main-header{position:sticky;top:0;z-index:50;height:var(--header-height);background:rgba(15,17,23,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.main-header{position:sticky;top:0;z-index:50;height:var(--header-height);background:rgba(241,245,249,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
 .header-left{display:flex;align-items:center;gap:14px}
 .menu-toggle{display:none;background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:6px;border-radius:var(--radius-sm)}
 .page-title{font-size:18px;font-weight:700}.page-subtitle{font-size:12px;color:var(--text-muted);margin-top:2px}
@@ -46,7 +46,7 @@ html{font-size:14px}body{font-family:var(--font);background:var(--bg-primary);co
 .process-flow{display:flex;flex-direction:column;gap:8px}
 .flow-step{display:flex;align-items:stretch;gap:12px;position:relative;padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-color);transition:all 0.2s;cursor:pointer}
 .flow-step:hover{border-color:var(--border-hover);background:rgba(255,255,255,0.02)}
-.flow-step.bottleneck{border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.04)}
+.flow-step.bottleneck{border-color:#ef4444;background:rgba(239,68,68,0.1); border-width: 2px;}
 .flow-step.improved{border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.04)}
 
 .step-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
