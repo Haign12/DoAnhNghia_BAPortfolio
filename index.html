@@ -88,6 +88,20 @@
     }
     .hero-cta:hover { background: var(--bg); color: var(--accent); }
 
+    .profile-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        filter: grayscale(100%);
+        margin-bottom: 24px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: filter 0.3s ease;
+    }
+    .profile-image:hover {
+        filter: grayscale(0%);
+    }
+
     /* Projects Section */
     .projects, .uiux-project { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
     .section-title { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 12px; }
@@ -271,7 +285,7 @@
 
   <section class="hero">
     <div class="hero-content">
-      <img src="avatar.png" alt="Do Anh Nghia Portrait" class="site-logo" style="border-radius: 50%; filter: grayscale(100%); object-fit: cover; width: 120px; height: 120px; margin-bottom: 16px;">
+      <img src="avatar.png" alt="Do Anh Nghia Portrait" class="profile-image">
       <h1>DO ANH NGHIA</h1>
       <h2 style="font-size: 1.25rem; margin-bottom: 16px; color: var(--text);">IT Business Analyst & UI/UX Designer</h2>
       <p class='hero-sub' style="margin-bottom: 32px; font-weight: 500;">
