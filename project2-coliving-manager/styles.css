@@ -354,20 +354,24 @@ body {
    ============================================================ */
 
 .status-badge {
-  display: inline-block;
-  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
   border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.status-badge.new { color: var(--badge-new); }
-.status-badge.confirmed { color: var(--badge-confirmed); }
-.status-badge.checked-in { color: var(--badge-checked-in); }
-.status-badge.checked-out { color: var(--badge-checked-out); }
-.status-badge.cancelled { color: var(--badge-cancelled); }
-.status-badge.paid { color: var(--badge-paid); }
-.status-badge.overdue { color: var(--badge-overdue); }
-.status-badge.draft { color: var(--badge-draft); }
+.status-badge.new { background: #e0e7ff; color: #4338ca; }
+.status-badge.confirmed { background: #dbeafe; color: #1d4ed8; }
+.status-badge.checked-in { background: #d1fae5; color: #059669; }
+.status-badge.checked-out { background: #f3f4f6; color: #4b5563; }
+.status-badge.cancelled { background: #fee2e2; color: #dc2626; }
+.status-badge.paid { background: #dcfce7; color: #16a34a; }
+.status-badge.overdue { background: #ffedd5; color: #ea580c; }
+.status-badge.draft { background: #fef9c3; color: #ca8a04; }
 
 /* ============================================================
    CHART PLACEHOLDER
@@ -735,4 +739,106 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(2, 18, 47, 0.15);
   margin-bottom: 32px;
+}
+
+/* ============================================================
+   PAGINATION & CHECKBOXES
+   ============================================================ */
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.page-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.page-controls button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  color: var(--text-main);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-controls button:hover {
+  background: var(--bg);
+}
+
+.page-controls button.active {
+  background: var(--winter-3);
+  color: #fff;
+  border-color: var(--winter-3);
+}
+
+.page-controls span {
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
+/* Custom Checkbox */
+.custom-checkbox {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark {
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.custom-checkbox:hover input ~ .checkmark {
+  border-color: var(--winter-4);
+}
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: var(--winter-3);
+  border-color: var(--winter-3);
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+.custom-checkbox .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.sort-icon {
+  margin-left: 6px;
+  color: var(--text-light);
+  cursor: pointer;
 }
