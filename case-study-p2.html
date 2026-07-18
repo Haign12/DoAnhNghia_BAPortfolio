@@ -114,7 +114,7 @@
       <div class="case-section">
         <h3>2. Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> Developing a full-stack mobile application with real-time push notifications required significant backend infrastructure (Firebase/AWS) which was overkill for a 3-person apartment.</p>
-        <p><strong>The Trade-off:</strong> Instead of building a complex notification engine, I designed a frontend-only MVP that generates a weekly "Chore & Ledger Summary" as an image. This image is automatically shared to our existing Zalo group chat via a simple bot webhook.</p>
+        <p><strong>The Trade-off:</strong> Instead of building a complex notification engine, I designed a frontend-only MVP where any user can trigger a "Generate Weekly Summary" button, which captures the DOM as an image and posts it to our Zalo group chat via Webhook.</p>
         <p><strong>Why it works:</strong> It leverages the existing habit of checking Zalo, rather than forcing users to download and check a new app daily.</p>
       </div>
       <div class="case-section">
@@ -137,7 +137,7 @@
         <h4 style="color: var(--text); margin-top: 24px; margin-bottom: 8px;">Real-world UI/UX Benchmark</h4>
         <p style="margin-bottom: 16px;">A co-living app must manage complex, disparate data streams (chores, ledgers, schedules). To maximize scanability, I adopted the <strong>Bento Grid 2.0</strong> layout, inspired by top-tier tech companies:</p>
         <ul style="color: var(--text2); margin-left: 20px; font-size: 14px; margin-bottom: 24px;">
-            <li style="margin-bottom: 8px;"><strong>Ramp & Apple (iOS 26):</strong> Influenced the strict modular grid with exaggerated corner radii and uniform gutters. The bento blocks dynamically stack and scale based on data importance and screen size.</li>
+            <li style="margin-bottom: 8px;"><strong>Ramp & Apple (iOS 17):</strong> Influenced the clear modular grid and bento block layout, making data easy to scan.</li>
             <li style="margin-bottom: 8px;"><strong>WhatsApp (by Koto Studio):</strong> Inspired the compartmentalization of features into distinct, flexible modules, making dense roommate data visually harmonious.</li>
         </ul>
 
@@ -175,7 +175,7 @@
           </ul>
         </div>
 
-        <h4 style="color: var(--text); margin: 32px 0 8px;">C. Requirements Traceability Matrix (RTM)</h4>
+        <h4 style="color: var(--text); margin: 32px 0 8px;">B. Requirements Traceability Matrix (RTM)</h4>
         <p>To ensure no requirement was missed during development and testing, I mapped the business needs directly to test scenarios.</p>
         <div style="overflow-x: auto; margin-bottom: 24px;">
           <table class="mock-table" style="margin-top: 12px; margin-bottom: 0;">
@@ -200,7 +200,7 @@
           </table>
         </div>
 
-        <h4 style="color: var(--text); margin: 16px 0 8px;">D. Test Case Design (Split Bill Ledger)</h4>
+        <h4 style="color: var(--text); margin: 16px 0 8px;">C. Test Case Design (Split Bill Ledger)</h4>
         <p>To demonstrate Requirement-Based Testing, I designed edge-case scenarios for the bill splitting algorithm to prevent logic failures.</p>
         <div style="overflow-x: auto;">
           <table class="mock-table" style="margin-top: 12px; margin-bottom: 0;">
