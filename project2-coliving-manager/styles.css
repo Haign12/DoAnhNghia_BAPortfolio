@@ -103,7 +103,7 @@ body {
 }
 .nav-link {
   padding: 8px 18px;
-  color: rgba(139, 163, 197, 0.7); /* winter-4 at 70% opacity */
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   border-radius: 20px;
   font-size: 0.95rem;
@@ -111,12 +111,12 @@ body {
   transition: all 0.2s ease;
 }
 .nav-link:hover {
-  color: var(--winter-5);
+  color: #fff;
   background: rgba(255, 255, 255, 0.05);
 }
 .nav-link.active {
-  color: var(--winter-5);
-  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
   font-weight: 600;
 }
 
@@ -128,14 +128,14 @@ body {
 .nav-icon-btn {
   width: 36px; height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(139, 163, 197, 0.3); /* subtle border */
+  border: none;
   background: transparent;
-  color: rgba(139, 163, 197, 0.7); /* winter-4 at 70% opacity */
+  color: rgba(255, 255, 255, 0.6);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
 }
-.nav-icon-btn:hover { border-color: var(--winter-5); color: var(--winter-5); }
+.nav-icon-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
 
 .nav-avatar {
   width: 36px; height: 36px;
@@ -180,12 +180,12 @@ body {
 
 .btn-primary {
   padding: 10px 20px;
-  background: var(--winter-3);
-  color: #fff;
+  background: #ffffff;
+  color: var(--nav-bg);
   border: none;
   border-radius: 10px;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -682,40 +682,31 @@ body {
 /* ============================================================
    SYSTEM FLOATING BACK BUTTON
    ============================================================ */
+
 .portfolio-fab {
-  position: fixed;
-  top: 24px;
-  left: 24px;
-  z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 10px 20px 10px 16px;
-  border-radius: 40px;
-  color: #171717;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.95rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space: nowrap;
+  transition: all 0.2s ease;
+  padding: 8px 12px 8px 0;
+  margin-right: 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding-right: 24px;
 }
 
 .portfolio-fab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  color: #fff;
 }
 
 .portfolio-fab-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
 }
 
 .unified-header {
