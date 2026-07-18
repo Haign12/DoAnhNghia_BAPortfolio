@@ -3,122 +3,166 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tenants | Property Invoicing</title>
+  <title>Guests | Co-living Manager</title>
   <link rel="icon" type="image/png" href="../logo.png?v=3">
-  <!-- Import Inter font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Mobile sidebar overlay -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-title">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20Z" fill="currentColor"/>
-          <circle cx="12" cy="12" r="4" fill="currentColor"/>
-        </svg>
-        Midday
+  <!-- Top Navigation (Dark) -->
+  <nav class="top-nav">
+    <div class="nav-brand">
+      <div class="nav-brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </div>
+      <span class="nav-brand-name">Inntegrate</span>
+    </div>
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="tenants.html" class="nav-link active">Guests</a>
+      <a href="index.html" class="nav-link">Reservations</a>
+      <a href="rooms.html" class="nav-link">Rooms</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+      <button class="nav-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></button>
+      <button class="nav-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></button>
+      <div class="nav-avatar">DN</div>
+    </div>
+  </nav>
+
+  <div class="page-container">
+    <div class="page-header">
+      <div>
+        <div class="page-greeting">Guests</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="btn-primary">
+          <span>+</span> Add Guest
+        </button>
       </div>
     </div>
-    
-    <nav class="sidebar-nav">
-      <a href="../index.html#ba-projects" class="nav-item back-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <span>Portfolio</span>
-      </a>
-      <div class="nav-group">Menu</div>
-      <a href="dashboard.html" class="nav-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-        <span>Dashboard</span>
-      </a>
-      <a href="rooms.html" class="nav-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-        <span>Rooms</span>
-      </a>
-      <a href="tenants.html" class="nav-item active">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-        <span>Tenants</span>
-      </a>
-      <a href="index.html" class="nav-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        <span>Invoices</span>
-      </a>
-    </nav>
-  </aside>
 
-  <!-- Main Content -->
-  <main class="main-content">
-    <header class="header">
-      <div class="header-left">
-        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
-        <div class="search-bar">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" placeholder="Search tenants...">
+    <!-- Guest Table -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Guest Directory</div>
+          <div class="card-subtitle">All registered guests and their booking history</div>
         </div>
       </div>
-      <div class="header-right">
-         <div class="avatar"><span>DN</span></div>
-      </div>
-    </header>
-
-    <div class="app-container">
-      <div class="table-section">
-         <div class="table-header">
-            <div class="table-search">
-               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-               <input type="text" placeholder="Search tenants...">
-            </div>
-            <button class="btn-primary" style="border-radius: 4px;">+ Add Tenant</button>
-         </div>
-         
-         <div class="table-responsive">
-           <table class="data-table">
-             <thead>
-               <tr>
-                 <th>Name</th>
-                 <th>Room</th>
-                 <th>Phone</th>
-                 <th>Email</th>
-                 <th>Lease End</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr>
-                 <td><strong>Alex Smith</strong></td>
-                 <td style="color: var(--text-muted);">A101</td>
-                 <td style="color: var(--text-muted);">+16502137379</td>
-                 <td style="color: var(--text-muted);">alexsmith.mobbln+3@gmail.com</td>
-                 <td>Dec 31, 2026</td>
-               </tr>
-               <tr>
-                 <td><strong>Sarah Jenkins</strong></td>
-                 <td style="color: var(--text-muted);">B202</td>
-                 <td style="color: var(--text-muted);">+16505550198</td>
-                 <td style="color: var(--text-muted);">sarah.j@example.com</td>
-                 <td>Nov 15, 2026</td>
-               </tr>
-               <tr>
-                 <td><strong>David Chen</strong></td>
-                 <td style="color: var(--text-muted);">C305</td>
-                 <td style="color: var(--text-muted);">+16505550777</td>
-                 <td style="color: var(--text-muted);">d.chen99@example.com</td>
-                 <td><span class="status-badge draft">Expired</span> (May 31)</td>
-               </tr>
-             </tbody>
-           </table>
-         </div>
-      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Guest</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Total Stays</th>
+            <th>Last Booking</th>
+            <th>Total Spent</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="tenant-cell">
+                <div class="tenant-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">AT</div>
+                <div>
+                  <div style="font-weight: 600;">Alex Trie</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Member since Jan 2024</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-muted);">Alex08@gmail.com</td>
+            <td style="color: var(--text-muted);">+1 650 213 7379</td>
+            <td style="font-weight: 600;">5</td>
+            <td>Jan 21, 2025</td>
+            <td style="font-weight: 600;">$1,240.00</td>
+            <td><span class="status-badge confirmed">Active</span></td>
+            <td><button class="row-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="tenant-cell">
+                <div class="tenant-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">AB</div>
+                <div>
+                  <div style="font-weight: 600;">Annette Black</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Member since Mar 2024</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-muted);">Ann23@gmail.com</td>
+            <td style="color: var(--text-muted);">+1 650 555 0198</td>
+            <td style="font-weight: 600;">3</td>
+            <td>Jan 8, 2025</td>
+            <td style="font-weight: 600;">$890.00</td>
+            <td><span class="status-badge checked-in">Checked In</span></td>
+            <td><button class="row-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="tenant-cell">
+                <div class="tenant-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);">JB</div>
+                <div>
+                  <div style="font-weight: 600;">Jerome Bell</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Member since Jun 2024</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-muted);">JB002@gmail.com</td>
+            <td style="color: var(--text-muted);">+1 650 555 0234</td>
+            <td style="font-weight: 600;">2</td>
+            <td>Jan 13, 2025</td>
+            <td style="font-weight: 600;">$620.00</td>
+            <td><span class="status-badge confirmed">Active</span></td>
+            <td><button class="row-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="tenant-cell">
+                <div class="tenant-avatar" style="background: linear-gradient(135deg, #ec4899, #f472b6);">JW</div>
+                <div>
+                  <div style="font-weight: 600;">Jenny Wilson</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Member since Aug 2024</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-muted);">WilSoN77@gmail.com</td>
+            <td style="color: var(--text-muted);">+1 650 555 0777</td>
+            <td style="font-weight: 600;">4</td>
+            <td>Jan 27, 2025</td>
+            <td style="font-weight: 600;">$1,560.00</td>
+            <td><span class="status-badge checked-out">Checked Out</span></td>
+            <td><button class="row-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="tenant-cell">
+                <div class="tenant-avatar" style="background: linear-gradient(135deg, #6366f1, #818cf8);">KW</div>
+                <div>
+                  <div style="font-weight: 600;">Kristin Watson</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Member since Oct 2024</div>
+                </div>
+              </div>
+            </td>
+            <td style="color: var(--text-muted);">Kris09@gmail.com</td>
+            <td style="color: var(--text-muted);">+1 650 555 0999</td>
+            <td style="font-weight: 600;">1</td>
+            <td>Jan 7, 2025</td>
+            <td style="font-weight: 600;">$320.00</td>
+            <td><span class="status-badge cancelled">Cancelled</span></td>
+            <td><button class="row-action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </main>
+  </div>
 
-  <script src="app.js"></script>
+  <div style="text-align: center; padding: 24px; color: var(--text-light); font-size: 0.85rem;">
+    <a href="../index.html#ba-projects" style="color: var(--accent-primary); text-decoration: none; font-weight: 500;">← Back to Portfolio</a>
+  </div>
+
 </body>
 </html>
