@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Expense Tracker | BA Portfolio</title>
+  <meta name="description" content="Personal Subscription & Expense Analytics Dashboard – Neon Fintech design showcasing data-driven financial insights.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">ExpenseTracker</div>
+      <div class="brand-subtitle">Personal Finance</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="../index.html#ba-projects" class="nav-item back-link">
+        <span class="icon">←</span> Back to Portfolio
+      </a>
+      <a href="#" class="nav-item active">
+        <span>📊</span><span>Overview</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span>🔄</span><span>Subscriptions</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span>👻</span><span>Ghost Detection</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div class="header-left">
+        <h1 class="page-title">Monthly Burn Rate Overview</h1>
+        <p class="page-subtitle">Real-time tracking of personal subscriptions and daily expenses.</p>
+      </div>
+      <div class="header-right" style="display: flex; gap: 8px;">
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle menu">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Theme toggle (demo)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card fade-in">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-title">Total Monthly Spend</div>
+        <div class="kpi-value" data-count="1240.50">$0</div>
+        <div class="kpi-trend trend-down">
+          <span class="pulse-dot"></span>
+          <span>↓ 5.2% vs last month</span>
+        </div>
+      </div>
+      <div class="kpi-card fade-in">
+        <div class="kpi-icon">🔄</div>
+        <div class="kpi-title">Active Subscriptions</div>
+        <div class="kpi-value" data-count="12" data-prefix="">0</div>
+        <div class="kpi-trend trend-up">
+          <span>↑ 2 new this month</span>
+        </div>
+      </div>
+      <div class="kpi-card warning-card fade-in">
+        <div class="kpi-icon">👻</div>
+        <div class="kpi-title">Ghost Subscriptions</div>
+        <div class="kpi-value" data-count="3" data-prefix="">0</div>
+        <div class="kpi-trend">
+          <span>Unused for 30+ days</span>
+        </div>
+      </div>
+      <div class="kpi-card fade-in">
+        <div class="kpi-icon">💡</div>
+        <div class="kpi-title">Potential Savings</div>
+        <div class="kpi-value" data-count="45.00">$0</div>
+        <div class="kpi-trend trend-down">
+          <span class="pulse-dot"></span>
+          <span>If ghosts are cancelled</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+      <div class="chart-card fade-in" style="animation-delay: 0.25s;">
+        <h3 class="chart-title">Monthly Burn Rate (Past 6 Months)</h3>
+        <div class="chart-container">
+          <canvas id="burnRateChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card fade-in" style="animation-delay: 0.3s;">
+        <h3 class="chart-title">Subscription Utilization</h3>
+        <div class="chart-container">
+          <canvas id="utilizationChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscription Table -->
+    <div class="table-card fade-in" style="animation-delay: 0.35s;">
+      <div class="table-header">
+        <h3 class="chart-title" style="margin-bottom: 0;">Subscription Details</h3>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Category</th>
+            <th>Monthly Cost</th>
+            <th>Last Used</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="subscriptionTable"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

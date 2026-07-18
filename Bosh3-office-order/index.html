@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Order Optimizer | BA Portfolio</title>
+  <meta name="description" content="Office Group Order Optimization – Clean enterprise modeling for As-Is vs To-Be processes.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">OrderFlow</div>
+      <div class="brand-subtitle">Process Optimization</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="../index.html#ba-projects" class="nav-item back-link">
+        <span>← Back to Portfolio</span>
+      </a>
+      <a href="#" class="nav-item active">
+        <span>🔄</span><span>Process Models</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span>🔍</span><span>Bottleneck Analysis</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span>📊</span><span>ROI Calculation</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div class="header-left">
+        <h1 class="page-title">Office Group Order Optimization</h1>
+        <p class="page-subtitle">Modeling As-Is vs To-Be processes to eliminate payment bottlenecks.</p>
+      </div>
+      <div class="header-right" style="display: flex; gap: 8px;">
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="metrics-grid">
+      <div class="metric-card fade-in">
+        <div class="metric-icon">⏱️</div>
+        <div class="metric-title">Admin Coordination Time</div>
+        <div class="metric-value">5 mins <span class="old-value">was 50 mins</span></div>
+      </div>
+      <div class="metric-card fade-in" style="animation-delay: 0.1s;">
+        <div class="metric-icon">💸</div>
+        <div class="metric-title">Payment Loss (Deficit)</div>
+        <div class="metric-value">0% <span class="old-value">was 12%</span></div>
+      </div>
+      <div class="metric-card success-card fade-in" style="animation-delay: 0.15s;">
+        <div class="metric-icon">🚀</div>
+        <div class="metric-title">Process Efficiency</div>
+        <div class="metric-value">+80%</div>
+      </div>
+    </div>
+
+    <div class="stepper-section fade-in" style="animation-delay: 0.2s;">
+      <div class="stepper-title">🎯 To-Be Order Flow (Live Demo)</div>
+      <div class="stepper" id="stepper">
+        <div class="stepper-line"></div>
+        <div class="stepper-progress" id="stepperProgress"></div>
+      </div>
+    </div>
+
+    <div class="process-panel fade-in" style="animation-delay: 0.25s;">
+      <div class="panel-header">
+        <h2>⚠️ As-Is Process (Manual) <span class="panel-tag danger-tag">Inefficient</span></h2>
+      </div>
+      <div class="bpmn-container" id="asisProcess"></div>
+    </div>
+
+    <div class="process-panel fade-in" style="animation-delay: 0.3s;">
+      <div class="panel-header">
+        <h2>✅ To-Be Process (Automated) <span class="panel-tag success-tag">Optimized</span></h2>
+      </div>
+      <div class="bpmn-container" id="tobeProcess"></div>
+    </div>
+
+    <div class="demo-section fade-in" style="animation-delay: 0.35s;">
+      <div class="stepper-title">🛒 Order Split Calculator (Demo)</div>
+      <div class="demo-grid">
+        <div>
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody">
+            </tbody>
+          </table>
+        </div>
+        <div class="qr-section">
+          <div class="qr-label">Scan to Pay Your Split</div>
+          <div class="qr-mockup" id="qrMockup">
+            <div class="qr-grid" id="qrGrid"></div>
+            <div class="qr-scan-line"></div>
+          </div>
+          <div class="qr-amount" id="splitAmount">$0.00</div>
+          <div class="qr-sublabel">Per person (÷ <span id="personCount">5</span> people)</div>
+          <button class="place-order-btn" id="placeOrderBtn">✓ Confirm & Place Order</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
