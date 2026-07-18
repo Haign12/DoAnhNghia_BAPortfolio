@@ -17,12 +17,12 @@
 
   /* Dark Nav */
   --nav-bg: var(--winter-1);
-  --nav-text: var(--winter-5);
+  --nav-text: #ffffff;
   --nav-muted: var(--winter-4);
-  --nav-active-bg: rgba(240, 236, 221, 0.15); /* moonlight with opacity */
+  --nav-active-bg: rgba(255, 255, 255, 0.1);
 
   /* Light Body */
-  --bg: #F8F9FA;
+  --bg: var(--winter-5); /* Moonlight #F0ECDD */
   --surface: #ffffff;
   --border: #E2E8F0;
 
