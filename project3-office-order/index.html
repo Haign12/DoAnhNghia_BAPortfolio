@@ -4,125 +4,241 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Office Order Optimizer | BA Portfolio</title>
-  <meta name="description" content="Office Group Order Optimization – Clean enterprise modeling for As-Is vs To-Be processes.">
+  <meta name="description" content="Office Group Order Optimization – Wallet-style Fintech Dashboard.">
   <link rel="icon" type="image/png" href="../logo.png?v=3">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-title">OrderFlow</div>
-      <div class="brand-subtitle">Process Optimization</div>
+  <!-- ============================================================
+       TOP BAR
+       ============================================================ -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <a href="../index.html#ba-projects" class="topbar-back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Back</span>
+      </a>
+      <div class="topbar-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+      </div>
+      <div class="topbar-title">OrderFlow</div>
     </div>
-    <nav class="sidebar-nav">
-      <a href="../index.html#ba-projects" class="nav-item back-link">
-        <span>← Back to Portfolio</span>
-      </a>
-      <a href="#" class="nav-item active">
-        <span>🔄</span><span>Process Models</span>
-      </a>
-      <a href="#" class="nav-item">
-        <span>🔍</span><span>Bottleneck Analysis</span>
-      </a>
-      <a href="#" class="nav-item">
-        <span>📊</span><span>ROI Calculation</span>
-      </a>
-    </nav>
-  </aside>
+    <div class="topbar-center">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" placeholder="Search orders, colleagues...">
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      </div>
+      <div class="topbar-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </div>
+      <div class="topbar-avatar">DN</div>
+    </div>
+  </header>
 
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
   <main class="main-content">
-
-    <header class="header">
-      <div class="header-left">
-        <h1 class="page-title">Office Group Order Optimization</h1>
-        <p class="page-subtitle">Modeling As-Is vs To-Be processes to eliminate payment bottlenecks.</p>
-      </div>
-      <div class="header-right" style="display: flex; gap: 8px;">
-        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle menu">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        </button>
-      </div>
-    </header>
-
-    <div class="metrics-grid">
-      <div class="metric-card fade-in">
-        <div class="metric-icon">⏱️</div>
-        <div class="metric-title">Admin Coordination Time</div>
-        <div class="metric-value">5 mins <span class="old-value">was 50 mins</span></div>
-      </div>
-      <div class="metric-card fade-in" style="animation-delay: 0.1s;">
-        <div class="metric-icon">💸</div>
-        <div class="metric-title">Payment Loss (Deficit)</div>
-        <div class="metric-value">0% <span class="old-value">was 12%</span></div>
-      </div>
-      <div class="metric-card success-card fade-in" style="animation-delay: 0.15s;">
-        <div class="metric-icon">🚀</div>
-        <div class="metric-title">Process Efficiency</div>
-        <div class="metric-value">+80%</div>
-      </div>
+    
+    <div class="page-header fade-in">
+      <h1 class="page-title">My Orders Dashboard</h1>
+      <div class="page-subtitle">Group ordering automation and payment deficit prevention</div>
     </div>
 
-    <div class="stepper-section fade-in" style="animation-delay: 0.2s;">
-      <div class="stepper-title">🎯 To-Be Order Flow (Live Demo)</div>
-      <div class="stepper" id="stepper">
-        <div class="stepper-line"></div>
-        <div class="stepper-progress" id="stepperProgress"></div>
-      </div>
-    </div>
+    <!-- ── Dashboard Grid ── -->
+    <div class="dashboard-grid fade-in" style="animation-delay: 0.1s;">
+      
+      <!-- Left: KPI Cards -->
+      <div class="kpi-col">
+        <div class="kpi-row">
+          
+          <!-- Card 1: Time Savings -->
+          <div class="kpi-card">
+            <div class="kpi-card-label">Coordination Time</div>
+            <div class="kpi-card-rate">was <strong>50 mins</strong></div>
+            <svg class="kpi-sparkline-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+              <polyline points="0,40 20,35 40,45 60,10 80,25 100,5"></polyline>
+              <circle class="spark-dot" cx="100" cy="5" r="3"></circle>
+            </svg>
+            <div class="kpi-spark-label">-90%</div>
+            <div class="kpi-card-section-label">Current Time</div>
+            <div class="kpi-card-value-box">
+              <div class="val" style="color: #00d4aa;">5 mins</div>
+              <div class="kpi-card-coin-icon" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa;">⏱️</div>
+            </div>
+          </div>
 
-    <div class="process-panel fade-in" style="animation-delay: 0.25s;">
-      <div class="panel-header">
-        <h2>⚠️ As-Is Process (Manual) <span class="panel-tag danger-tag">Inefficient</span></h2>
-      </div>
-      <div class="bpmn-container" id="asisProcess"></div>
-    </div>
+          <!-- Card 2: Deficit Rate -->
+          <div class="kpi-card">
+            <div class="kpi-card-label">Payment Deficit</div>
+            <div class="kpi-card-rate">was <strong>12% Loss</strong></div>
+            <svg class="kpi-sparkline-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+              <polyline points="0,10 20,20 40,5 60,30 80,15 100,45"></polyline>
+              <circle class="spark-dot" cx="100" cy="45" r="3"></circle>
+            </svg>
+            <div class="kpi-spark-label">0% Risk</div>
+            <div class="kpi-card-section-label">Current Deficit</div>
+            <div class="kpi-card-value-box">
+              <div class="val" style="color: #00d4aa;">0.00%</div>
+              <div class="kpi-card-coin-icon" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa;">🛡️</div>
+            </div>
+          </div>
 
-    <div class="process-panel fade-in" style="animation-delay: 0.3s;">
-      <div class="panel-header">
-        <h2>✅ To-Be Process (Automated) <span class="panel-tag success-tag">Optimized</span></h2>
-      </div>
-      <div class="bpmn-container" id="tobeProcess"></div>
-    </div>
-
-    <div class="demo-section fade-in" style="animation-delay: 0.35s;">
-      <div class="stepper-title">🛒 Order Split Calculator (Demo)</div>
-      <div class="demo-grid">
-        <div>
-          <table class="order-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody id="orderTableBody">
-            </tbody>
-          </table>
+          <!-- Card 3: Process Efficiency -->
+          <div class="kpi-card">
+            <div class="kpi-card-label">Process Efficiency</div>
+            <div class="kpi-card-rate">vs <strong>Manual Flow</strong></div>
+            <svg class="kpi-sparkline-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+              <polyline points="0,45 20,35 40,40 60,15 80,20 100,5"></polyline>
+              <circle class="spark-dot" cx="100" cy="5" r="3"></circle>
+            </svg>
+            <div class="kpi-spark-label">Max</div>
+            <div class="kpi-card-section-label">Efficiency Gain</div>
+            <div class="kpi-card-value-box">
+              <div class="val" style="color: #00d4aa;">+80%</div>
+              <div class="kpi-card-coin-icon" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa;">🚀</div>
+            </div>
+          </div>
         </div>
+
+        <div class="kpi-actions">
+          <button class="kpi-action-btn" id="placeOrderBtn">Confirm Group Order</button>
+          <button class="kpi-action-btn">Export Report</button>
+          <div style="flex: 1;"></div>
+          <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">Total Group Split</div>
+          <div class="total-balance-card" id="splitAmount">$0.00</div>
+        </div>
+      </div>
+
+      <!-- Right: Quick Split Panel -->
+      <div class="right-panel">
+        <div class="panel-card">
+          <div class="panel-tabs">
+            <button class="panel-tab active">Quick Split</button>
+            <button class="panel-tab">History</button>
+          </div>
+          
+          <div class="panel-label">Total Amount (VND)</div>
+          <input type="text" class="panel-input" value="160,000" readonly>
+          
+          <div class="panel-label">Number of People</div>
+          <div class="panel-input" style="display: flex; justify-content: space-between; align-items: center; cursor: not-allowed; background: var(--bg-main);">
+            <span id="personCount">5</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+
+          <div class="panel-label">Payment Method</div>
+          <div class="panel-input" style="display: flex; justify-content: space-between; align-items: center; cursor: not-allowed; background: var(--bg-main);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="display: inline-block; width: 24px; height: 24px; background: #000; color: #fff; border-radius: 50%; font-size: 0.7rem; text-align: center; line-height: 24px; font-weight: bold;">QR</span> 
+              <span>Momo / VNPay</span>
+            </div>
+          </div>
+
+          <button class="panel-btn">Auto-Calculate Shares</button>
+          
+          <div style="font-size: 0.7rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
+            QR codes will be generated instantly.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Process Panels ── -->
+    <div class="content-grid" style="margin-top: 32px;">
+      
+      <!-- To-Be Process -->
+      <div class="process-panel fade-in" style="animation-delay: 0.2s;">
+        <div class="panel-header">
+          <h2>To-Be Process (Automated) <span class="panel-tag success-tag">Optimized</span></h2>
+        </div>
+        <div class="bpmn-container" id="tobeProcess"></div>
+      </div>
+
+      <!-- As-Is Process -->
+      <div class="process-panel fade-in" style="animation-delay: 0.25s;">
+        <div class="panel-header">
+          <h2>As-Is Process (Manual) <span class="panel-tag danger-tag">Inefficient</span></h2>
+        </div>
+        <div class="bpmn-container" id="asisProcess"></div>
+      </div>
+      
+    </div>
+
+    <!-- ── Bottom Grid: Latest Orders + Stepper ── -->
+    <div class="bottom-grid" style="margin-top: 32px;">
+      
+      <!-- Latest Orders Table -->
+      <div class="bottom-card fade-in" style="animation-delay: 0.3s;">
+        <div class="bottom-card-header">
+          <div class="bottom-card-title">Latest Orders Draft</div>
+          <button class="view-all-btn">View all</button>
+        </div>
+        
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="orderTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Stepper / QR Section -->
+      <div class="stepper-panel fade-in" style="animation-delay: 0.35s;">
+        <div class="stepper-panel-title">
+          Order Status
+          <span style="font-size: 0.8rem; font-weight: 500; color: var(--teal); background: var(--teal-light); padding: 4px 8px; border-radius: 8px;">Live</span>
+        </div>
+        
         <div class="qr-section">
           <div class="qr-label">Scan to Pay Your Split</div>
           <div class="qr-mockup" id="qrMockup">
             <div class="qr-grid" id="qrGrid"></div>
             <div class="qr-scan-line"></div>
           </div>
-          <div class="qr-amount" id="splitAmount">$0.00</div>
-          <div class="qr-sublabel">Per person (÷ <span id="personCount">5</span> people)</div>
-          <button class="place-order-btn" id="placeOrderBtn">✓ Confirm & Place Order</button>
+          <div style="font-size: 0.75rem; color: var(--text-secondary); text-align: center; margin-top: 8px;">
+            Automatically detects payment and updates status.
+          </div>
         </div>
+
+        <!-- Horizontal stepper for compatibility with existing JS -->
+        <div class="stepper-section" style="margin-top: 24px; padding: 16px; border: none; box-shadow: none; background: transparent;">
+          <div class="stepper" id="stepper">
+            <div class="stepper-line"></div>
+            <div class="stepper-progress" id="stepperProgress"></div>
+          </div>
+        </div>
+
       </div>
+
     </div>
 
   </main>
 
   <div class="toast-container" id="toastContainer"></div>
 
+  <!-- Hidden elements to keep app.js happy -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar"></aside>
+  <button class="mobile-nav-toggle" id="mobileNavToggle"></button>
+
   <script src="data.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
