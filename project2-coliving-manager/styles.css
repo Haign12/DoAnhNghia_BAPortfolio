@@ -8,36 +8,44 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+  /* Salmverse Palette */
+  --salm-1: #250e2c;
+  --salm-2: #837ab6;
+  --salm-3: #9d85b6;
+  --salm-4: #cc8db3;
+  --salm-5: #f6a5c0;
+  --salm-6: #f7c2ca;
+
   /* Dark Nav */
-  --nav-bg: #1a1a2e;
+  --nav-bg: var(--salm-1);
   --nav-text: #ffffff;
-  --nav-muted: #8b8ba3;
-  --nav-active-bg: rgba(255, 255, 255, 0.12);
+  --nav-muted: var(--salm-3);
+  --nav-active-bg: rgba(247, 194, 202, 0.15); /* salm-6 with opacity */
 
   /* Light Body */
-  --bg: #f5f5f7;
+  --bg: #fdfafb; /* very subtle warm tint */
   --surface: #ffffff;
-  --border: #e5e7eb;
+  --border: #f0e6ea;
 
   /* Text */
-  --text-main: #111827;
-  --text-muted: #6b7280;
-  --text-light: #9ca3af;
+  --text-main: #250e2c; /* using salm-1 for dark text */
+  --text-muted: #756a82;
+  --text-light: #a399af;
 
-  /* Status Badges */
-  --badge-new: #818cf8;
-  --badge-confirmed: #34d399;
-  --badge-checked-in: #fb923c;
-  --badge-checked-out: #60a5fa;
-  --badge-cancelled: #f87171;
-  --badge-paid: #34d399;
-  --badge-overdue: #f87171;
-  --badge-draft: #a78bfa;
+  /* Status Badges - Adapted to Palette */
+  --badge-new: var(--salm-2);
+  --badge-confirmed: var(--salm-3);
+  --badge-checked-in: var(--salm-4);
+  --badge-checked-out: var(--salm-5);
+  --badge-cancelled: var(--salm-1);
+  --badge-paid: var(--salm-3);
+  --badge-overdue: var(--salm-4);
+  --badge-draft: var(--salm-6);
 
   /* Accent */
-  --accent-primary: #7c3aed;
-  --accent-green: #10b981;
-  --accent-pink: #ec4899;
+  --accent-primary: var(--salm-2);
+  --accent-green: var(--salm-4); /* mapped to pink/mauve */
+  --accent-pink: var(--salm-5);
 
   --header-height: 72px;
 }
