@@ -28,13 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Purple gradient fill
     const gradient = ctx.createLinearGradient(0, 0, 0, 280);
-    gradient.addColorStop(0, 'rgba(124, 58, 237, 0.25)');
-    gradient.addColorStop(1, 'rgba(124, 58, 237, 0.0)');
+    gradient.addColorStop(0, 'rgba(87, 46, 84, 0.25)');
+    gradient.addColorStop(1, 'rgba(87, 46, 84, 0.0)');
 
     // Secondary line (subtle)
     const gradient2 = ctx.createLinearGradient(0, 0, 0, 280);
-    gradient2.addColorStop(0, 'rgba(244, 114, 182, 0.1)');
-    gradient2.addColorStop(1, 'rgba(244, 114, 182, 0.0)');
+    gradient2.addColorStop(0, 'rgba(206, 178, 189, 0.1)');
+    gradient2.addColorStop(1, 'rgba(206, 178, 189, 0.0)');
 
     new Chart(ctx, {
       type: 'line',
@@ -44,12 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Expenses ($)',
             data: burnRateData.datasets[0].data,
-            borderColor: '#7c3aed',
+            borderColor: '#572E54',
             borderWidth: 2.5,
             backgroundColor: gradient,
             fill: true,
             pointBackgroundColor: '#ffffff',
-            pointBorderColor: '#7c3aed',
+            pointBorderColor: '#572E54',
             pointBorderWidth: 2,
             pointRadius: 4,
             pointHoverRadius: 7,
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Last Year ($)',
             data: [950, 1000, 1080, 1050, 1100, 1060],
-            borderColor: 'rgba(167, 139, 250, 0.4)',
+            borderColor: 'rgba(142, 118, 146, 0.4)',
             borderWidth: 1.5,
             backgroundColor: gradient2,
             fill: true,
@@ -78,10 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#1a1a2e',
+            backgroundColor: '#482A41',
             titleColor: '#fff',
             bodyColor: 'rgba(255,255,255,0.7)',
-            borderColor: 'rgba(124, 58, 237, 0.3)',
+            borderColor: 'rgba(87, 46, 84, 0.3)',
             borderWidth: 1,
             padding: 14,
             cornerRadius: 12,
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#1a1a2e',
+            backgroundColor: '#482A41',
             titleColor: '#fff',
             bodyColor: 'rgba(255,255,255,0.7)',
             padding: 12,

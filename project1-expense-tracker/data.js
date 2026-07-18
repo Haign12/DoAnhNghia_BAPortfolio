@@ -29,10 +29,10 @@ const categoryData = {
   datasets: [{
     label: 'Monthly Spend',
     data: [30.94, 72.99, 30.00, 2.99, 49.00],
-    backgroundColor: 'rgba(124, 58, 237, 0.15)',
-    borderColor: 'rgba(124, 58, 237, 0.6)',
+    backgroundColor: 'rgba(87, 46, 84, 0.15)',
+    borderColor: 'rgba(87, 46, 84, 0.6)',
     borderWidth: 2,
-    pointBackgroundColor: '#7c3aed',
+    pointBackgroundColor: '#572E54',
     pointBorderColor: '#fff',
     pointBorderWidth: 2,
     pointRadius: 5,

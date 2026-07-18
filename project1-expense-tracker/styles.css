@@ -9,26 +9,26 @@
 
 :root {
   /* ── Dark Sidebar ── */
-  --sidebar-bg: #1a1a2e;
+  --sidebar-bg: #482A41;
   --sidebar-width: 72px;
-  --sidebar-icon: rgba(255, 255, 255, 0.45);
-  --sidebar-icon-active: #7c3aed;
+  --sidebar-icon: rgba(226, 210, 200, 0.6);
+  --sidebar-icon-active: #572E54;
 
   /* ── Main Area ── */
-  --bg-main: #f5f5f7;
+  --bg-main: #E2D2C8;
   --bg-card: #ffffff;
-  --border-card: rgba(0, 0, 0, 0.06);
+  --border-card: rgba(87, 46, 84, 0.1);
 
   /* ── Text ── */
   --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
+  --text-secondary: #482A41;
+  --text-muted: #8E7692;
 
-  /* ── Accent: Purple Gradient ── */
-  --purple-500: #7c3aed;
-  --purple-400: #a78bfa;
-  --purple-300: #c4b5fd;
-  --purple-100: #ede9fe;
+  /* ── Accent: Earthy Purple Palette ── */
+  --purple-500: #572E54;
+  --purple-400: #8E7692;
+  --purple-300: #CEB2BD;
+  --purple-100: rgba(206, 178, 189, 0.3);
   --pink-400: #f472b6;
   --green-500: #22c55e;
   --orange-500: #f59e0b;
@@ -70,7 +70,7 @@ body {
 
 .sidebar-logo {
   width: 40px; height: 40px;
-  background: linear-gradient(135deg, var(--purple-500), var(--pink-400));
+  background: linear-gradient(135deg, var(--purple-500), var(--purple-300));
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -270,7 +270,7 @@ body {
 .topbar-avatar {
   width: 40px; height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--purple-500), var(--pink-400));
+  background: linear-gradient(135deg, var(--purple-500), var(--purple-300));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -279,7 +279,7 @@ body {
   font-size: 0.85rem;
   cursor: pointer;
   border: 2px solid var(--bg-card);
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 2px 8px rgba(87, 46, 84, 0.3);
 }
 
 /* ============================================================
@@ -351,12 +351,12 @@ body {
 }
 .kpi-sparkline .spark-bar {
   flex: 1;
-  background: rgba(124, 58, 237, 0.4);
+  background: var(--purple-300);
   border-radius: 3px;
   transition: var(--transition);
 }
 .kpi-sparkline .spark-bar.highlight {
-  background: var(--purple-400);
+  background: var(--purple-500);
 }
 
 .kpi-card-mini-chart {
@@ -584,9 +584,9 @@ body {
   transition: var(--transition);
 }
 .spending-card:hover {
-  border-color: var(--purple-300);
+  border-color: var(--purple-400);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.1);
+  box-shadow: 0 4px 16px rgba(87, 46, 84, 0.1);
 }
 
 .spending-card-icon {
