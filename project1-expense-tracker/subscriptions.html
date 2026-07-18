@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscriptions | Expense Tracker</title>
+  <meta name="description" content="Manage all subscriptions, detect Ghost services, track billing cycles.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="ph ph-hexagon" style="font-size: 22px;"></i>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
+        <i class="ph ph-squares-four" style="font-size: 20px;"></i>
+        <span class="tooltip">Overview</span>
+      </a>
+      <a href="transactions.html" class="sidebar-nav-item" data-tooltip="Transactions">
+        <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
+        <span class="tooltip">Transactions</span>
+      </a>
+      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
+        <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
+        <span class="tooltip">Analytics</span>
+      </a>
+      <a href="subscriptions.html" class="sidebar-nav-item active" data-tooltip="Subscriptions">
+        <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
+        <span class="tooltip">Subscriptions</span>
+      </a>
+      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow">
+        <i class="ph ph-trend-up" style="font-size: 20px;"></i>
+        <span class="tooltip">Cashflow</span>
+      </a>
+      <a href="settings.html" class="sidebar-nav-item" data-tooltip="Settings">
+        <i class="ph ph-gear" style="font-size: 20px;"></i>
+        <span class="tooltip">Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html#ba-projects" class="sidebar-back" data-tooltip="Portfolio">
+        <i class="ph ph-arrow-left" style="font-size: 20px;"></i>
+        <span class="tooltip">Back to Portfolio</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Subscriptions</h1>
+        <p class="page-subtitle">Manage all recurring services and detect Ghost subscriptions.</p>
+      </div>
+      <button class="btn btn-primary">
+        <i class="ph ph-plus"></i>
+        Add Subscription
+      </button>
+    </div>
+
+    <!-- Tabs + summary -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+      <div class="tabs">
+        <button class="tab active">All · 8</button>
+        <button class="tab">Active · 5</button>
+        <button class="tab">Ghost · 3</button>
+        <button class="tab">Cancelled · 0</button>
+      </div>
+      <div style="display: flex; gap: 16px; font-size: 0.85rem;">
+        <span><strong style="color: var(--text-primary);">$194.91</strong> <span style="color: var(--text-muted);">/ month total</span></span>
+        <span><strong style="color: var(--green-500);">$93.95</strong> <span style="color: var(--text-muted);">saveable</span></span>
+      </div>
+    </div>
+
+    <!-- Subscription cards grid -->
+    <div class="sub-grid">
+
+      <div class="sub-card">
+        <div class="sub-card-head">
+          <div class="sub-icon">🎨</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">Adobe Creative Cloud</div>
+        <div class="sub-category">Productivity · Monthly</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$52.99</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">5d ago</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;"><span class="badge badge-active">● Active</span></div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-card-head">
+          <div class="sub-icon">🎓</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">Coursera Plus</div>
+        <div class="sub-category">Education · Annual</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$49.00</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">35d ago</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;"><span class="badge badge-ghost">● Ghost</span></div>
+      </div>
+
+      <div class="sub-card ghost">
+        <div class="sub-card-head">
+          <div class="sub-icon">🏋️</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">Gym Membership</div>
+        <div class="sub-category">Health · Monthly</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$30.00</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">45d ago</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <span class="badge badge-ghost">● Ghost</span>
+          <button class="btn btn-danger" style="padding: 4px 10px; font-size: 0.7rem;">Cancel</button>
+        </div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-card-head">
+          <div class="sub-icon">🎬</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">Netflix</div>
+        <div class="sub-category">Entertainment · Monthly</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$15.99</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">2d ago</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;"><span class="badge badge-active">● Active</span></div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-card-head">
+          <div class="sub-icon">🎵</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">Spotify</div>
+        <div class="sub-category">Music · Monthly</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$9.99</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">Today</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;"><span class="badge badge-active">● Active</span></div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-card-head">
+          <div class="sub-icon">🤖</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">ChatGPT Plus</div>
+        <div class="sub-category">Productivity · Monthly</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$20.00</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">Today</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;"><span class="badge badge-active">● Active</span></div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-card-head">
+          <div class="sub-icon">☁️</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">iCloud+</div>
+        <div class="sub-category">Storage · Monthly</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$2.99</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">Background</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;"><span class="badge badge-active">● Active</span></div>
+      </div>
+
+      <div class="sub-card ghost">
+        <div class="sub-card-head">
+          <div class="sub-icon">📚</div>
+          <div class="sub-actions">
+            <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+          </div>
+        </div>
+        <div class="sub-name">Audible</div>
+        <div class="sub-category">Entertainment · Monthly</div>
+        <div class="sub-stats">
+          <div>
+            <div class="sub-stat-label">Cost</div>
+            <div class="sub-stat-value">$14.95</div>
+          </div>
+          <div>
+            <div class="sub-stat-label">Last used</div>
+            <div class="sub-stat-value">60d ago</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <span class="badge badge-ghost">● Ghost</span>
+          <button class="btn btn-danger" style="padding: 4px 10px; font-size: 0.7rem;">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

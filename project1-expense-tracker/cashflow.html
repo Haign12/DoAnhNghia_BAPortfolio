@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cash Flow | Expense Tracker</title>
+  <meta name="description" content="Track income vs expenses and forecast your monthly cash flow.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="ph ph-hexagon" style="font-size: 22px;"></i>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
+        <i class="ph ph-squares-four" style="font-size: 20px;"></i>
+        <span class="tooltip">Overview</span>
+      </a>
+      <a href="transactions.html" class="sidebar-nav-item" data-tooltip="Transactions">
+        <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
+        <span class="tooltip">Transactions</span>
+      </a>
+      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
+        <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
+        <span class="tooltip">Analytics</span>
+      </a>
+      <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions">
+        <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
+        <span class="tooltip">Subscriptions</span>
+      </a>
+      <a href="cashflow.html" class="sidebar-nav-item active" data-tooltip="Cashflow">
+        <i class="ph ph-trend-up" style="font-size: 20px;"></i>
+        <span class="tooltip">Cashflow</span>
+      </a>
+      <a href="settings.html" class="sidebar-nav-item" data-tooltip="Settings">
+        <i class="ph ph-gear" style="font-size: 20px;"></i>
+        <span class="tooltip">Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html#ba-projects" class="sidebar-back" data-tooltip="Portfolio">
+        <i class="ph ph-arrow-left" style="font-size: 20px;"></i>
+        <span class="tooltip">Back to Portfolio</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Cash Flow</h1>
+        <p class="page-subtitle">Track income, expenses, and forecast your monthly net flow.</p>
+      </div>
+      <select class="filter-select">
+        <option>Last 6 months</option>
+        <option>This Year</option>
+        <option>Last 12 months</option>
+      </select>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="summary-grid">
+      <div class="summary-card income">
+        <div class="summary-label">Income</div>
+        <div class="summary-value">$3,200</div>
+        <div class="summary-trend up">↑ 5% vs last month</div>
+      </div>
+      <div class="summary-card expense">
+        <div class="summary-label">Expenses</div>
+        <div class="summary-value">$1,240</div>
+        <div class="summary-trend down">↓ 2% vs last month</div>
+      </div>
+      <div class="summary-card net">
+        <div class="summary-label">Net Savings</div>
+        <div class="summary-value">$1,960</div>
+        <div class="summary-trend up">↑ 8% vs last month</div>
+      </div>
+      <div class="summary-card savings">
+        <div class="summary-label">Savings Rate</div>
+        <div class="summary-value">61.2%</div>
+        <div class="summary-trend up">↑ 4.1 pts</div>
+      </div>
+    </div>
+
+    <!-- Main chart: Income vs Expenses -->
+    <div class="chart-card" style="margin-bottom: 20px;">
+      <div class="chart-card-header">
+        <div>
+          <span class="chart-card-title">Income vs Expenses</span>
+          <div class="spending-subtitle">Monthly comparison with net flow line.</div>
+        </div>
+        <div class="chart-card-actions">
+          <div class="tabs" style="padding: 3px;">
+            <button class="tab" style="padding: 5px 12px; font-size: 0.78rem;">6M</button>
+            <button class="tab active" style="padding: 5px 12px; font-size: 0.78rem;">1Y</button>
+            <button class="tab" style="padding: 5px 12px; font-size: 0.78rem;">ALL</button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-container" style="height: 320px;">
+        <canvas id="cashflowChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Bottom row: forecast + transactions -->
+    <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px;">
+      <!-- Forecast -->
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <div>
+            <span class="panel-card-title">Next 3 Months Forecast</span>
+            <div class="spending-subtitle">Projected based on current trend</div>
+          </div>
+          <span class="badge badge-info">Beta</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; border: 1px solid var(--border-card); border-radius: var(--radius-sm);">
+            <div>
+              <div style="font-weight: 700;">August 2026</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Projected net</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.2rem; font-weight: 800; color: var(--green-500);">+$1,890</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">±$120</div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; border: 1px solid var(--border-card); border-radius: var(--radius-sm);">
+            <div>
+              <div style="font-weight: 700;">September 2026</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Projected net</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.2rem; font-weight: 800; color: var(--green-500);">+$1,940</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">±$160</div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; border: 1px solid var(--border-card); border-radius: var(--radius-sm);">
+            <div>
+              <div style="font-weight: 700;">October 2026</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Projected net</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.2rem; font-weight: 800; color: var(--orange-500);">+$1,720</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">±$200</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent flow -->
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <span class="panel-card-title">Recent Activity</span>
+          <a href="transactions.html" style="font-size: 0.78rem; color: var(--purple-500); text-decoration: none; font-weight: 600;">View all →</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-card);">
+            <div class="table-service">
+              <div class="table-icon">💰</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Salary</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Jul 15</div>
+              </div>
+            </div>
+            <span class="table-amount income" style="font-size: 0.9rem;">+$3,200</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-card);">
+            <div class="table-service">
+              <div class="table-icon">🎨</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Adobe CC</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Jul 12</div>
+              </div>
+            </div>
+            <span class="table-amount expense" style="font-size: 0.9rem;">−$52.99</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-card);">
+            <div class="table-service">
+              <div class="table-icon">🎓</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Coursera Plus</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Jul 10</div>
+              </div>
+            </div>
+            <span class="table-amount expense" style="font-size: 0.9rem;">−$49.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-card);">
+            <div class="table-service">
+              <div class="table-icon">🎬</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Netflix</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Jul 08</div>
+              </div>
+            </div>
+            <span class="table-amount expense" style="font-size: 0.9rem;">−$15.99</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+            <div class="table-service">
+              <div class="table-icon">🏋️</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Gym</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Jul 05</div>
+              </div>
+            </div>
+            <span class="table-amount expense" style="font-size: 0.9rem;">−$30.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    Chart.defaults.color = '#9ca3af';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.font.size = 11;
+
+    const ctx = document.getElementById('cashflowChart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          datasets: [
+            {
+              type: 'bar',
+              label: 'Income',
+              data: [3000, 3000, 3200, 3100, 3100, 3200, 3200],
+              backgroundColor: '#22c55e',
+              borderRadius: 6,
+              barThickness: 18
+            },
+            {
+              type: 'bar',
+              label: 'Expenses',
+              data: [1100, 1150, 1300, 1250, 1280, 1240, 1240],
+              backgroundColor: '#8E75C8',
+              borderRadius: 6,
+              barThickness: 18
+            },
+            {
+              type: 'line',
+              label: 'Net Savings',
+              data: [1900, 1850, 1900, 1850, 1820, 1960, 1960],
+              borderColor: '#693B69',
+              borderWidth: 3,
+              tension: 0.4,
+              pointRadius: 5,
+              pointBackgroundColor: '#fff',
+              pointBorderColor: '#693B69',
+              pointBorderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              align: 'end',
+              labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'circle' }
+            },
+            tooltip: {
+              backgroundColor: '#2D2838',
+              titleColor: '#fff',
+              bodyColor: 'rgba(255,255,255,0.8)',
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                label: (ctx) => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString()
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: 'rgba(0,0,0,0.04)' },
+              border: { display: false },
+              ticks: { callback: (v) => '$' + v }
+            },
+            x: {
+              grid: { display: false },
+              border: { display: false }
+            }
+          }
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

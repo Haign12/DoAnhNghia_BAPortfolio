@@ -19,10 +19,10 @@ const toBeProcess = [
 ];
 
 const stepperSteps = [
-  { icon: '📝', label: 'Place Order' },
-  { icon: '⚡', label: 'Auto Split' },
-  { icon: '📱', label: 'QR Payment' },
-  { icon: '✅', label: 'Confirmed' }
+  { icon: '<i class="ph ph-note-pencil"></i>', label: 'Place Order' },
+  { icon: '<i class="ph ph-lightning"></i>', label: 'Auto Split' },
+  { icon: '<i class="ph ph-qr-code"></i>', label: 'QR Payment' },
+  { icon: '<i class="ph ph-check-circle"></i>', label: 'Confirmed' }
 ];
 
 const orderItems = [

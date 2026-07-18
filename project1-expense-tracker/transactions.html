@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions | Expense Tracker</title>
+  <meta name="description" content="Full transaction history with filters and category breakdown.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="ph ph-hexagon" style="font-size: 22px;"></i>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
+        <i class="ph ph-squares-four" style="font-size: 20px;"></i>
+        <span class="tooltip">Overview</span>
+      </a>
+      <a href="transactions.html" class="sidebar-nav-item active" data-tooltip="Transactions">
+        <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
+        <span class="tooltip">Transactions</span>
+      </a>
+      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
+        <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
+        <span class="tooltip">Analytics</span>
+      </a>
+      <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions">
+        <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
+        <span class="tooltip">Subscriptions</span>
+      </a>
+      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow">
+        <i class="ph ph-trend-up" style="font-size: 20px;"></i>
+        <span class="tooltip">Cashflow</span>
+      </a>
+      <a href="settings.html" class="sidebar-nav-item" data-tooltip="Settings">
+        <i class="ph ph-gear" style="font-size: 20px;"></i>
+        <span class="tooltip">Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html#ba-projects" class="sidebar-back" data-tooltip="Portfolio">
+        <i class="ph ph-arrow-left" style="font-size: 20px;"></i>
+        <span class="tooltip">Back to Portfolio</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Transactions</h1>
+        <p class="page-subtitle">Full history of all your recorded expenses and subscriptions.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-secondary">
+          <i class="ph ph-download-simple"></i>
+          Export CSV
+        </button>
+        <button class="btn btn-primary">
+          <i class="ph ph-plus"></i>
+          Add Transaction
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick stats -->
+    <div class="kpi-row" style="margin-bottom: 20px;">
+      <div class="kpi-card">
+        <div class="kpi-card-label">Total Transactions</div>
+        <div class="kpi-card-value">128</div>
+        <div class="kpi-card-trend up">↑ 8 this week</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-label">This Month</div>
+        <div class="kpi-card-value">$1,240</div>
+        <div class="kpi-card-trend up">↑ 12% vs last</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-label">Avg. Transaction</div>
+        <div class="kpi-card-value">$9.69</div>
+        <div class="kpi-card-trend down">↓ 3% vs last</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-label">Largest</div>
+        <div class="kpi-card-value">$52.99</div>
+        <div class="kpi-card-trend" style="color: var(--text-muted);">Adobe CC</div>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <div class="filter-search">
+        <i class="ph ph-magnifying-glass" style="font-size: 16px;"></i>
+        <input type="text" placeholder="Search by service or note...">
+      </div>
+      <select class="filter-select">
+        <option>All Categories</option>
+        <option>Entertainment</option>
+        <option>Productivity</option>
+        <option>Music</option>
+        <option>Health</option>
+        <option>Education</option>
+        <option>Storage</option>
+      </select>
+      <select class="filter-select">
+        <option>This Month</option>
+        <option>Last Month</option>
+        <option>Last 3 Months</option>
+        <option>This Year</option>
+        <option>Custom Range</option>
+      </select>
+      <select class="filter-select">
+        <option>All Status</option>
+        <option>Active</option>
+        <option>Ghost</option>
+        <option>One-time</option>
+      </select>
+    </div>
+
+    <!-- Transactions table -->
+    <div class="data-card">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th style="text-align: right;">Amount</th>
+            <th style="text-align: right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">🎨</div>
+                <div>
+                  <div style="font-weight: 600;">Adobe Creative Cloud</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Monthly plan</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Productivity</span></td>
+            <td>Jul 12, 2026</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$52.99</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">🎓</div>
+                <div>
+                  <div style="font-weight: 600;">Coursera Plus</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Annual subscription</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Education</span></td>
+            <td>Jul 10, 2026</td>
+            <td><span class="badge badge-ghost">Ghost</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$49.00</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">🎬</div>
+                <div>
+                  <div style="font-weight: 600;">Netflix</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Premium plan</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Entertainment</span></td>
+            <td>Jul 08, 2026</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$15.99</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">🏋️</div>
+                <div>
+                  <div style="font-weight: 600;">Gym Membership</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Monthly auto-renew</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Health</span></td>
+            <td>Jul 05, 2026</td>
+            <td><span class="badge badge-ghost">Ghost · 45d</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$30.00</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">🤖</div>
+                <div>
+                  <div style="font-weight: 600;">ChatGPT Plus</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Monthly plan</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Productivity</span></td>
+            <td>Jul 02, 2026</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$20.00</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">🎵</div>
+                <div>
+                  <div style="font-weight: 600;">Spotify</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Premium individual</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Music</span></td>
+            <td>Jun 28, 2026</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$9.99</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">☁️</div>
+                <div>
+                  <div style="font-weight: 600;">iCloud+</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">200GB plan</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Storage</span></td>
+            <td>Jun 25, 2026</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$2.99</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="table-service">
+                <div class="table-icon">📚</div>
+                <div>
+                  <div style="font-weight: 600;">Audible</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Premium membership</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-info">Entertainment</span></td>
+            <td>Jun 20, 2026</td>
+            <td><span class="badge badge-ghost">Ghost · 60d</span></td>
+            <td class="table-amount expense" style="text-align: right;">−$14.95</td>
+            <td style="text-align: right;">
+              <button class="icon-btn"><i class="ph ph-trash" style="font-size: 14px;"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
+      <span>Showing 1–8 of 128 transactions</span>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem;">← Previous</button>
+        <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem;">Next →</button>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
