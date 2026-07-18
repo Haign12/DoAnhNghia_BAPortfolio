@@ -32,9 +32,24 @@ document.addEventListener('DOMContentLoaded', () => {
   overdueTitle.textContent = `$${totalOverdue.toFixed(2)}`;
   overdueTitle.nextElementSibling.nextElementSibling.textContent = overdueCount > 0 ? `${overdueCount} invoices` : 'No invoices';
 
-  const paidTitle = document.getElementById('kpi-paid-title');
-  paidTitle.textContent = `$${totalPaid.toFixed(2)}`;
-  paidTitle.nextElementSibling.nextElementSibling.textContent = paidCount > 0 ? `${paidCount} invoices` : 'No invoices';
+  const occupancyTitle = document.getElementById('kpi-occupancy-title');
+  if(occupancyTitle) {
+      occupancyTitle.textContent = kpiData.occupancy;
+  }
+
+  let totalMaintenance = 0;
+  invoices.forEach(inv => {
+    inv.breakdown.forEach(item => {
+      if (item.description.toLowerCase().includes('maintenance')) {
+        totalMaintenance += item.total;
+      }
+    });
+  });
+  const maintenanceTitle = document.getElementById('kpi-maintenance-title');
+  if(maintenanceTitle) {
+      maintenanceTitle.textContent = `$${totalMaintenance.toFixed(2)}`;
+      maintenanceTitle.nextElementSibling.nextElementSibling.textContent = 'Current month';
+  }
 
   // --- Table Rendering ---
   const tbody = document.getElementById('invoiceTableBody');
