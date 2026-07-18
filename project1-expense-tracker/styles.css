@@ -8,27 +8,27 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* ── Dark Sidebar ── */
-  --sidebar-bg: #511F52;
+  /* ── Sidebar ── */
+  --sidebar-bg: #FFFFFF;
   --sidebar-width: 72px;
-  --sidebar-icon: rgba(236, 212, 234, 0.6);
-  --sidebar-icon-active: #693B69;
+  --sidebar-icon: #C3B5E0;
+  --sidebar-icon-active: #8E75C8;
 
   /* ── Main Area ── */
-  --bg-main: #ECD4EA;
+  --bg-main: #F5F3F7;
   --bg-card: #FFFFFF;
-  --border-card: rgba(81, 31, 82, 0.1);
+  --border-card: rgba(142, 117, 200, 0.15);
 
   /* ── Text ── */
-  --text-primary: #111827;
-  --text-secondary: #693B69;
-  --text-muted: #A987A8;
+  --text-primary: #2D2838;
+  --text-secondary: #6B6378;
+  --text-muted: #9E96AA;
 
-  /* ── Accent: Lavender Plum Palette ── */
-  --purple-500: #511F52;
-  --purple-400: #693B69;
-  --purple-300: #A987A8;
-  --purple-100: rgba(169, 135, 168, 0.25);
+  /* ── Accent: Pastel Purple Palette ── */
+  --purple-500: #8E75C8;
+  --purple-400: #B5A3DF;
+  --purple-300: #D6CDEB;
+  --purple-100: #F2EEF9;
   --pink-400: #f472b6;
   --green-500: #22c55e;
   --orange-500: #f59e0b;
@@ -104,14 +104,14 @@ body {
 }
 
 .sidebar-nav-item:hover {
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--purple-500);
+  background: var(--purple-100);
 }
 
 .sidebar-nav-item.active {
-  background: var(--bg-main);
+  background: var(--purple-100);
   color: var(--sidebar-icon-active);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 /* Curved bite effect on active item */
@@ -127,12 +127,12 @@ body {
 .sidebar-nav-item.active::before {
   top: -20px;
   border-radius: 0 0 var(--radius-sm) 0;
-  box-shadow: 8px 8px 0 8px var(--bg-main);
+  box-shadow: 8px 8px 0 8px var(--purple-100);
 }
 .sidebar-nav-item.active::after {
   bottom: -20px;
   border-radius: 0 var(--radius-sm) 0 0;
-  box-shadow: 8px -8px 0 8px var(--bg-main);
+  box-shadow: 8px -8px 0 8px var(--purple-100);
 }
 
 .sidebar-bottom {
@@ -155,8 +155,8 @@ body {
   cursor: pointer;
 }
 .sidebar-back:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--purple-500);
+  background: var(--purple-100);
 }
 
 /* Tooltip for sidebar icons */

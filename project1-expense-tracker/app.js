@@ -44,15 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Expenses ($)',
             data: burnRateData.datasets[0].data,
-            borderColor: '#511F52',
-            borderWidth: 2.5,
+            borderColor: '#8E75C8',
+            borderWidth: 3,
             backgroundColor: gradient,
             fill: true,
             pointBackgroundColor: '#ffffff',
-            pointBorderColor: '#511F52',
+            pointBorderColor: '#8E75C8',
             pointBorderWidth: 2,
             pointRadius: 4,
-            pointHoverRadius: 7,
+            pointHoverRadius: 6,
             tension: 0.4
           },
           {
@@ -78,10 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#511F52',
+            backgroundColor: '#2D2838',
             titleColor: '#fff',
             bodyColor: 'rgba(255,255,255,0.7)',
-            borderColor: 'rgba(81, 31, 82, 0.3)',
+            borderColor: 'rgba(142, 117, 200, 0.3)',
             borderWidth: 1,
             padding: 14,
             cornerRadius: 12,
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#511F52',
+            backgroundColor: '#2D2838',
             titleColor: '#fff',
             bodyColor: 'rgba(255,255,255,0.7)',
             padding: 12,
