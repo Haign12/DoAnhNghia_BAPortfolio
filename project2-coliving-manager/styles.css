@@ -168,10 +168,10 @@ body {
 .page-greeting {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--text-main);
+  color: #ffffff;
 }
 .page-date {
-  color: var(--text-muted);
+  color: var(--winter-4);
   font-size: 0.95rem;
   display: flex;
   align-items: center;
@@ -180,7 +180,7 @@ body {
 
 .btn-primary {
   padding: 10px 20px;
-  background: var(--accent-pink);
+  background: var(--winter-3);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -731,8 +731,8 @@ body {
 .unified-header {
   border-radius: 20px;
   overflow: hidden;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  background: var(--nav-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(2, 18, 47, 0.15);
   margin-bottom: 32px;
 }
