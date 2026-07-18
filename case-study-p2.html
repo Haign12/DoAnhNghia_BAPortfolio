@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Co-living Manager | BA Portfolio</title>
   <link rel="icon" type="image/png" href="logo.png?v=3">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -18,6 +18,9 @@
     }
     html { font-size: 16px; scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    h1, h2, h3, h4, h5, h6, .nav-brand {
+      font-family: 'Lora', serif;
+    }
     .theme-toggle {
       position: fixed; top: 20px; right: 20px; z-index: 100;
       background: var(--bg-card); border: 1px solid var(--border);
@@ -56,6 +59,17 @@
     .case-visual { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 300px; padding: 24px; }
     
     footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
+    footer strong { color: var(--text2); }
+    .footer-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s, text-decoration 0.2s;
+    }
+    .footer-link:hover {
+      opacity: 0.7;
+      text-decoration: underline;
+    }
     
     /* Mockup specific CSS */
     .mock-chart { width: 100%; display: flex; align-items: flex-end; gap: 8px; height: 200px; margin-top: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px;}
@@ -241,12 +255,19 @@
     </div>
   </section>
 
-    <footer id="contact">
-    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">LET'S BUILD SOMETHING LOGICAL.</h2>
-    <p style="margin-bottom: 24px; color: var(--text2); font-size: 14px;">Looking for a Business Analyst with systems thinking and a deep understanding of user experience? Let's connect.</p>
-    <div style="display: flex; justify-content: center; gap: 24px;">
-      <a href="mailto:anhnghia9a633@gmail.com" style="color: var(--text); font-weight: 600;">Email</a>
-      <a href="https://linkedin.com/" target="_blank" style="color: var(--text); font-weight: 600;">LinkedIn</a>
+  <footer id="contact">
+    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">LET'S BUILD SOMETHING
+      LOGICAL.</h2>
+    <p style="margin-bottom: 24px; color: var(--text2); font-size: 14px;">Looking for a Business Analyst with systems
+      thinking and a deep understanding of user experience? Let's connect.</p>
+    <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 40px;">
+      <a href="mailto:anhnghia9a633@gmail.com" class="footer-link">Email</a>
+      <a href="tel:+84798876074" class="footer-link">+84 798 876 074</a>
+      <a href="https://github.com/Ngh1aa" target="_blank" class="footer-link">GitHub</a>
+      <a href="https://www.linkedin.com/in/ginan12/" target="_blank" class="footer-link">LinkedIn</a>
+    </div>
+    <div style="font-size: 12px; color: var(--text3); opacity: 0.8;">
+      &copy; 2026 Do Anh Nghia. Designed & Coded from scratch.
     </div>
   </footer>
 

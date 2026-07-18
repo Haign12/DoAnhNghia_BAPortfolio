@@ -4,138 +4,250 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personal Expense Tracker | BA Portfolio</title>
-  <meta name="description" content="Personal Subscription & Expense Analytics Dashboard – High-end Fintech Design.">
+  <meta name="description" content="Personal Subscription & Expense Analytics Dashboard – Premium Fintech Design.">
   <link rel="icon" type="image/png" href="../logo.png?v=3">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-  <!-- System Floating Back Button -->
-  <a href="../index.html#ba-projects" class="portfolio-fab" aria-label="Back to Portfolio">
-    <div class="portfolio-fab-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+  <!-- ============================================================
+       SIDEBAR – Dark floating panel with icon navigation
+       ============================================================ -->
+  <aside class="sidebar">
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
     </div>
-    <span class="portfolio-fab-text">Back to Portfolio</span>
-  </a>
-    
+
+    <!-- Navigation Icons -->
     <nav class="sidebar-nav">
-      
-      
-      <div style="margin-top: 16px; margin-bottom: 8px; font-size: 11px; text-transform: uppercase; color: var(--text-light); letter-spacing: 1px;">Accounts</div>
-      
-      <a href="#" class="nav-item active">
-        <span>Overview</span>
+      <a href="#" class="sidebar-nav-item active" data-tooltip="Overview">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span class="tooltip">Overview</span>
       </a>
-      <a href="#" class="nav-item">
-        <span>Transactions</span>
+      <a href="#" class="sidebar-nav-item" data-tooltip="Transactions">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <span class="tooltip">Transactions</span>
       </a>
-      <a href="#" class="nav-item">
-        <span>Flow</span>
+      <a href="#" class="sidebar-nav-item" data-tooltip="Analytics">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span class="tooltip">Analytics</span>
+      </a>
+      <a href="#" class="sidebar-nav-item" data-tooltip="Subscriptions">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span class="tooltip">Settings</span>
+      </a>
+      <a href="#" class="sidebar-nav-item" data-tooltip="Flow">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        <span class="tooltip">Cashflow</span>
       </a>
     </nav>
+
+    <!-- Bottom: Back to Portfolio -->
+    <div class="sidebar-bottom">
+      <a href="../index.html#ba-projects" class="sidebar-back" data-tooltip="Portfolio">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span class="tooltip">Back to Portfolio</span>
+      </a>
+    </div>
   </aside>
 
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
   <main class="main-content">
 
-    <header class="header">
-      <div class="header-left">
-        <h1 class="page-title serif-text">Expense Equity</h1>
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" placeholder="Search expenses...">
       </div>
-    </header>
-
-    <!-- Top Summary Layout -->
-    <div class="summary-grid">
-      <!-- Left KPI Block -->
-      <div class="kpi-block card">
-         <div class="kpi-mini">
-            <span class="kpi-label">Monthly Burn Rate</span>
-            <span class="kpi-value" id="kpi-burn-rate">$1,240.50</span>
-         </div>
-         <div class="kpi-mini">
-            <span class="kpi-label">Active Subscriptions</span>
-            <span class="kpi-value">12</span>
-         </div>
-         <div class="kpi-mini">
-            <span class="kpi-label">Variable Expenses</span>
-            <span class="kpi-value">$850.00</span>
-         </div>
-         <div class="kpi-mini">
-            <span class="kpi-label">Ghost Subscriptions</span>
-            <span class="kpi-value" style="color: var(--accent-orange-text);">3</span>
-         </div>
-      </div>
-      
-      <!-- Right Chart Block -->
-      <div class="chart-card card">
-         <div class="chart-header">
-            <span class="kpi-label">Burn Rate Timeline</span>
-         </div>
-         <div class="chart-container">
-            <canvas id="burnRateChart"></canvas>
-         </div>
+      <div class="topbar-right">
+        <div class="topbar-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="notif-dot"></span>
+        </div>
+        <div class="topbar-avatar">DN</div>
       </div>
     </div>
 
-    <!-- Insights Section -->
-    <h2 class="section-title">Insights</h2>
-    <div class="insights-grid">
-      <div class="insight-card">
-         <div class="insight-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            Ghost Subscription Detected
-         </div>
-         <div class="insight-value">Netflix Premium</div>
-         <div class="insight-desc">You haven't used this service in 45 days. Cancel now to save $19.99/mo without impacting your lifestyle.</div>
-      </div>
-      <div class="insight-card">
-         <div class="insight-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            Potential Savings
-         </div>
-         <div class="insight-value">$540 / year</div>
-         <div class="insight-desc">You can potentially save this amount annually by eliminating identified ghost subscriptions.</div>
-      </div>
-      <div class="insight-card">
-         <div class="insight-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            Expense Trend
-         </div>
-         <div class="insight-value">Down 5.2%</div>
-         <div class="insight-desc">Your monthly burn rate is trending downwards compared to last month. Keep it up.</div>
-      </div>
-    </div>
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
 
-    <!-- Holdings / Subscriptions Table -->
-    <h2 class="section-title">Subscriptions</h2>
-    <div class="card">
-       <div class="data-table-wrapper">
-         <table class="data-table">
-           <thead>
-             <tr>
-               <th>Service Name</th>
-               <th>Category</th>
-               <th>Billing Cycle</th>
-               <th>Monthly Cost</th>
-               <th>Status</th>
-             </tr>
-           </thead>
-           <tbody id="subscriptionTable">
-             <!-- JS will inject here, but let's add a placeholder structure -->
-           </tbody>
-         </table>
-       </div>
-    </div>
+      <!-- ── KPI Row (4 cards) ── -->
+      <div class="kpi-row">
+        <!-- Card 1: Featured (Dark) -->
+        <div class="kpi-card featured">
+          <div class="kpi-card-label">Total Expenses</div>
+          <div class="kpi-card-value">$1,240</div>
+          <div class="kpi-card-trend">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+            ↑ 12%
+          </div>
+          <div class="kpi-sparkline" id="sparkline1"></div>
+        </div>
 
+        <!-- Card 2 -->
+        <div class="kpi-card">
+          <div class="kpi-card-label">Active Subscriptions</div>
+          <div class="kpi-card-value">5</div>
+          <div class="kpi-card-trend down">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline></svg>
+            ↓ 17%
+          </div>
+          <div class="kpi-card-mini-chart">
+            <svg width="60" height="28" viewBox="0 0 60 28"><polyline points="0,20 10,18 20,22 30,14 40,16 50,8 60,12" fill="none" stroke="var(--purple-400)" stroke-width="2"/></svg>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="kpi-card">
+          <div class="kpi-card-label">Avg. per Sub</div>
+          <div class="kpi-card-value">$25.82</div>
+          <div class="kpi-card-trend up">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+            ↑ 24%
+          </div>
+          <div class="kpi-card-mini-chart">
+            <svg width="60" height="28" viewBox="0 0 60 28"><polyline points="0,22 10,20 20,18 30,22 40,16 50,14 60,10" fill="none" stroke="var(--orange-500)" stroke-width="2"/></svg>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="kpi-card">
+          <div class="kpi-card-label">Ghost Subscriptions</div>
+          <div class="kpi-card-value" style="color: var(--red-500);">3</div>
+          <div class="kpi-card-trend up">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+            ↑ 10%
+          </div>
+          <div class="kpi-card-mini-chart">
+            <svg width="60" height="28" viewBox="0 0 60 28"><polyline points="0,14 10,16 20,12 30,18 40,20 50,16 60,22" fill="none" stroke="var(--red-500)" stroke-width="2"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Right Panel ── -->
+      <div class="right-panel">
+
+        <!-- Radar Chart: Spending by Category -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <span class="panel-card-title">Spending by Category</span>
+            <span class="panel-card-more">•••</span>
+          </div>
+          <div class="radar-container">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <span class="panel-card-title">Statistics</span>
+            <span class="panel-card-more">•••</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Stat 1: Active Rate -->
+            <div class="stat-item">
+              <div class="stat-left">
+                <span class="stat-label">Active Rate</span>
+                <span class="stat-sublabel">5 of 8 subs</span>
+              </div>
+              <div class="stat-right">
+                <div class="circular-progress" id="progress1" style="background: conic-gradient(var(--purple-500) 0% 62%, #eee 62% 100%);">
+                  <span>62%</span>
+                </div>
+                <span class="stat-value">62%</span>
+              </div>
+            </div>
+
+            <!-- Stat 2: Usage Health -->
+            <div class="stat-item">
+              <div class="stat-left">
+                <span class="stat-label">Usage Health</span>
+                <span class="stat-sublabel">Avg usage score</span>
+              </div>
+              <div class="stat-right">
+                <div class="circular-progress" style="background: conic-gradient(var(--green-500) 0% 85%, #eee 85% 100%);">
+                  <span>85%</span>
+                </div>
+                <span class="stat-value">85%</span>
+              </div>
+            </div>
+
+            <!-- Stat 3: Potential Savings -->
+            <div class="stat-item">
+              <div class="stat-left">
+                <span class="stat-label">Potential Savings</span>
+                <span class="stat-sublabel" style="color: var(--green-500);">+21%</span>
+              </div>
+              <div class="stat-right">
+                <span class="stat-value">$540</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Expense Overview Chart ── -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">Expense Overview</span>
+          <div class="chart-card-actions">
+            <div class="chart-dropdown">
+              Last 6 months
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <button class="chart-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download CSV
+            </button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="expenseChart"></canvas>
+        </div>
+      </div>
+
+      <!-- ── Top Spending Sources ── -->
+      <div class="spending-row">
+        <div class="spending-header">
+          <div>
+            <div class="spending-title">Top Spending</div>
+            <div class="spending-subtitle">Your biggest expenses this month.</div>
+          </div>
+        </div>
+        <div class="spending-cards">
+          <div class="spending-card">
+            <div class="spending-card-icon" style="background: var(--purple-100);">🎨</div>
+            <div class="spending-card-name">Adobe CC</div>
+            <div class="spending-card-label">Top Subscription</div>
+            <div class="spending-card-amount">$52.99 <span>/ month</span></div>
+          </div>
+          <div class="spending-card">
+            <div class="spending-card-icon" style="background: #fef3c7;">🎓</div>
+            <div class="spending-card-name">Coursera Plus</div>
+            <div class="spending-card-label">Top Education</div>
+            <div class="spending-card-amount">$49.00 <span>/ month</span></div>
+          </div>
+          <div class="spending-card">
+            <div class="spending-card-icon" style="background: #fce7f3;">🏋️</div>
+            <div class="spending-card-name">Gym Membership</div>
+            <div class="spending-card-label">Ghost! Unused 45d</div>
+            <div class="spending-card-amount">$30.00 <span>/ month</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
-
-
 
 </body>
 </html>

@@ -1,72 +1,72 @@
 /* ============================================================
-   PROJECT 1 – EXPENSE TRACKER | "FINTECH PREMIUM" Logic
+   PROJECT 1 – EXPENSE TRACKER | "PREMIUM ANALYTICS" Logic
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- Render Subscription Table ------------------------------
-  const tbody = document.getElementById('subscriptionTable');
-  
-  if (tbody) {
-    subscriptions.forEach(sub => {
-      const tr = document.createElement('tr');
-      const isGhost = sub.status === 'Ghost';
-      const badgeClass = isGhost ? 'badge ghost' : 'badge active';
-      const statusText = isGhost ? 'Ghost' : 'Active';
-  
-      tr.innerHTML = `
-        <td>
-          <div style="font-weight: 500; display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 1.2rem;">${sub.icon}</span> 
-            ${sub.service}
-          </div>
-        </td>
-        <td>${sub.category}</td>
-        <td>
-           <div class="progress-bar-container">
-             <div class="progress-bar-fill" style="width: ${Math.random() * 60 + 20}%"></div>
-           </div>
-           <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 8px;">${sub.cycle}</span>
-        </td>
-        <td style="font-weight: 500;">$${sub.cost.toFixed(2)}</td>
-        <td><span class="${badgeClass}">${statusText}</span></td>
-      `;
-      tbody.appendChild(tr);
+  // ── Render Sparkline Bars ──
+  const sparkContainer = document.getElementById('sparkline1');
+  if (sparkContainer && typeof sparklineData !== 'undefined') {
+    sparklineData.forEach((val, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'spark-bar';
+      bar.style.height = val + '%';
+      if (i === sparklineData.length - 2) bar.classList.add('highlight');
+      sparkContainer.appendChild(bar);
     });
   }
-  
-  // --- Chart.js – Compound UI Line Chart ------------------------
+
+  // ── Chart.js Defaults ──
   Chart.defaults.color = '#9ca3af';
   Chart.defaults.font.family = "'Inter', sans-serif";
   Chart.defaults.font.size = 11;
-  
-  const burnCtx = document.getElementById('burnRateChart');
-  if (burnCtx) {
-    const ctx = burnCtx.getContext('2d');
-    
-    // Create a subtle blue gradient for the line chart fill
-    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, 'rgba(147, 197, 253, 0.5)'); // pastel blue
-    gradient.addColorStop(1, 'rgba(147, 197, 253, 0.0)');
-  
+
+  // ── Expense Overview Line Chart (Purple Gradient) ──
+  const expenseCtx = document.getElementById('expenseChart');
+  if (expenseCtx) {
+    const ctx = expenseCtx.getContext('2d');
+
+    // Purple gradient fill
+    const gradient = ctx.createLinearGradient(0, 0, 0, 280);
+    gradient.addColorStop(0, 'rgba(124, 58, 237, 0.25)');
+    gradient.addColorStop(1, 'rgba(124, 58, 237, 0.0)');
+
+    // Secondary line (subtle)
+    const gradient2 = ctx.createLinearGradient(0, 0, 0, 280);
+    gradient2.addColorStop(0, 'rgba(244, 114, 182, 0.1)');
+    gradient2.addColorStop(1, 'rgba(244, 114, 182, 0.0)');
+
     new Chart(ctx, {
       type: 'line',
       data: {
         labels: burnRateData.labels,
-        datasets: [{
-          label: 'Burn Rate ($)',
-          data: burnRateData.datasets[0].data,
-          borderColor: '#3b82f6', // stronger blue for the line
-          borderWidth: 2,
-          backgroundColor: gradient,
-          fill: true,
-          pointBackgroundColor: '#ffffff',
-          pointBorderColor: '#3b82f6',
-          pointBorderWidth: 2,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.3 // smooth curve
-        }]
+        datasets: [
+          {
+            label: 'Expenses ($)',
+            data: burnRateData.datasets[0].data,
+            borderColor: '#7c3aed',
+            borderWidth: 2.5,
+            backgroundColor: gradient,
+            fill: true,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: '#7c3aed',
+            pointBorderWidth: 2,
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            tension: 0.4
+          },
+          {
+            label: 'Last Year ($)',
+            data: [950, 1000, 1080, 1050, 1100, 1060],
+            borderColor: 'rgba(167, 139, 250, 0.4)',
+            borderWidth: 1.5,
+            backgroundColor: gradient2,
+            fill: true,
+            pointRadius: 0,
+            tension: 0.4,
+            borderDash: [5, 5]
+          }
+        ]
       },
       options: {
         responsive: true,
@@ -78,26 +78,31 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#ffffff',
-            titleColor: '#111827',
-            bodyColor: '#6b7280',
-            borderColor: '#eaeaea',
+            backgroundColor: '#1a1a2e',
+            titleColor: '#fff',
+            bodyColor: 'rgba(255,255,255,0.7)',
+            borderColor: 'rgba(124, 58, 237, 0.3)',
             borderWidth: 1,
-            padding: 12,
-            cornerRadius: 8,
-            displayColors: false,
+            padding: 14,
+            cornerRadius: 12,
+            displayColors: true,
+            usePointStyle: true,
             callbacks: {
-              label: (ctx) => 'Spent: $' + ctx.parsed.y.toLocaleString()
+              label: (ctx) => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString()
             }
           }
         },
         scales: {
           y: {
-            grid: { color: '#f3f4f6' },
+            grid: { 
+              color: 'rgba(0,0,0,0.04)',
+              drawBorder: false
+            },
             border: { display: false },
-            ticks: { 
+            ticks: {
               padding: 12,
-              callback: function(value) { return '$' + value; }
+              callback: (value) => '$' + value,
+              maxTicksLimit: 5
             },
             beginAtZero: false
           },
@@ -110,4 +115,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ── Radar Chart (Spending by Category) ──
+  const radarCtx = document.getElementById('radarChart');
+  if (radarCtx && typeof categoryData !== 'undefined') {
+    new Chart(radarCtx, {
+      type: 'radar',
+      data: categoryData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1a1a2e',
+            titleColor: '#fff',
+            bodyColor: 'rgba(255,255,255,0.7)',
+            padding: 12,
+            cornerRadius: 10,
+            callbacks: {
+              label: (ctx) => '$' + ctx.parsed.r.toFixed(2)
+            }
+          }
+        },
+        scales: {
+          r: {
+            grid: { color: 'rgba(0,0,0,0.06)' },
+            angleLines: { color: 'rgba(0,0,0,0.06)' },
+            ticks: { display: false },
+            pointLabels: {
+              font: { size: 10, weight: '500' },
+              color: '#6b7280'
+            },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
 });

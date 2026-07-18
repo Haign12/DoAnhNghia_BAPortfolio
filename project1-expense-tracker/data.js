@@ -23,12 +23,22 @@ const burnRateData = {
   }]
 };
 
-const utilData = {
-  labels: ['High Usage', 'Moderate', 'Ghost (Unused)'],
+/* ── Radar Chart Data (Spending by Category) ── */
+const categoryData = {
+  labels: ['Entertainment', 'Productivity', 'Health', 'Storage', 'Education'],
   datasets: [{
-    data: [60, 25, 15],
-    backgroundColor: ['#10b981', '#f59e0b', '#f43f5e'],
-    borderWidth: 0,
-    hoverOffset: 6
+    label: 'Monthly Spend',
+    data: [30.94, 72.99, 30.00, 2.99, 49.00],
+    backgroundColor: 'rgba(124, 58, 237, 0.15)',
+    borderColor: 'rgba(124, 58, 237, 0.6)',
+    borderWidth: 2,
+    pointBackgroundColor: '#7c3aed',
+    pointBorderColor: '#fff',
+    pointBorderWidth: 2,
+    pointRadius: 5,
+    pointHoverRadius: 7
   }]
 };
+
+/* ── Sparkline data for featured KPI ── */
+const sparklineData = [65, 45, 75, 55, 85, 60, 90, 50, 70, 80];
