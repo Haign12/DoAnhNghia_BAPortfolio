@@ -71,9 +71,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  
 }
 
 .nav-brand {
@@ -164,7 +162,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  padding: 24px 32px;
+  margin-bottom: 0;
 }
 .page-greeting {
   font-size: 1.8rem;
@@ -727,4 +726,13 @@ body {
 .portfolio-fab:hover .portfolio-fab-text {
   opacity: 1;
   transform: translateX(0);
+}
+
+.unified-header {
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  margin-bottom: 32px;
 }
