@@ -285,33 +285,30 @@ body {
    SYSTEM FLOATING BACK BUTTON
    ============================================================ */
 .portfolio-fab {
-  
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 1000;
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 10px 20px 10px 16px;
   border-radius: 40px;
   color: #171717;
   text-decoration: none;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 0.9rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  width: 48px;
-  height: 48px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
 }
 
 .portfolio-fab:hover {
-  width: 190px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .portfolio-fab-icon {
@@ -323,13 +320,3 @@ body {
   height: 24px;
 }
 
-.portfolio-fab-text {
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.3s ease;
-}
-
-.portfolio-fab:hover .portfolio-fab-text {
-  opacity: 1;
-  transform: translateX(0);
-}
