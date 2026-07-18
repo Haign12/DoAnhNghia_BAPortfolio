@@ -22,7 +22,7 @@
   --nav-active-bg: rgba(255, 255, 255, 0.1);
 
   /* Light Body */
-  --bg: var(--winter-5); /* Moonlight #F0ECDD */
+  --bg: #F8F9FA; /* Trả về nền trắng sáng */
   --surface: #ffffff;
   --border: #E2E8F0;
 
