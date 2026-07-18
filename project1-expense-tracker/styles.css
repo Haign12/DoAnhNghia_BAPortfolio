@@ -9,26 +9,26 @@
 
 :root {
   /* ── Dark Sidebar ── */
-  --sidebar-bg: #482A41;
+  --sidebar-bg: #511F52;
   --sidebar-width: 72px;
-  --sidebar-icon: rgba(226, 210, 200, 0.6);
-  --sidebar-icon-active: #572E54;
+  --sidebar-icon: rgba(236, 212, 234, 0.6);
+  --sidebar-icon-active: #693B69;
 
   /* ── Main Area ── */
-  --bg-main: #E2D2C8;
-  --bg-card: #ffffff;
-  --border-card: rgba(87, 46, 84, 0.1);
+  --bg-main: #ECD4EA;
+  --bg-card: #FFFFFF;
+  --border-card: rgba(81, 31, 82, 0.1);
 
   /* ── Text ── */
   --text-primary: #111827;
-  --text-secondary: #482A41;
-  --text-muted: #8E7692;
+  --text-secondary: #693B69;
+  --text-muted: #A987A8;
 
-  /* ── Accent: Earthy Purple Palette ── */
-  --purple-500: #572E54;
-  --purple-400: #8E7692;
-  --purple-300: #CEB2BD;
-  --purple-100: rgba(206, 178, 189, 0.3);
+  /* ── Accent: Lavender Plum Palette ── */
+  --purple-500: #511F52;
+  --purple-400: #693B69;
+  --purple-300: #A987A8;
+  --purple-100: rgba(169, 135, 168, 0.25);
   --pink-400: #f472b6;
   --green-500: #22c55e;
   --orange-500: #f59e0b;
@@ -279,7 +279,7 @@ body {
   font-size: 0.85rem;
   cursor: pointer;
   border: 2px solid var(--bg-card);
-  box-shadow: 0 2px 8px rgba(87, 46, 84, 0.3);
+  box-shadow: 0 2px 8px rgba(81, 31, 82, 0.3);
 }
 
 /* ============================================================
@@ -586,7 +586,7 @@ body {
 .spending-card:hover {
   border-color: var(--purple-400);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(87, 46, 84, 0.1);
+  box-shadow: 0 4px 16px rgba(81, 31, 82, 0.1);
 }
 
 .spending-card-icon {

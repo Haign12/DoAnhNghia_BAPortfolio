@@ -210,7 +210,24 @@
       </div>
 
       <div class="case-section">
-        <h3>6. Business Impact & Results</h3>
+        <h3>6. Handling Edge Cases & Exception Flows</h3>
+        <p>A "Happy Path" is never enough for a robust enterprise tool. To ensure the system handles real-world friction, I designed logic for the following edge cases:</p>
+        
+        <h4 style="color: var(--text); margin: 16px 0 8px;">A. The "Unpaid Participant" Scenario (Countdown Timer)</h4>
+        <p><strong>The Problem:</strong> What happens if the group orders, but 1 person forgets to pay via QR before the 2:30 PM deadline?</p>
+        <p><strong>The Solution (Business Rule):</strong> I introduced a <strong>Countdown Timer</strong>. If the deadline expires and a participant is marked <code>Unpaid</code>, the system triggers an auto-cancellation of their specific items. It then instantly recalculates the shipping split for the remaining <code>Paid</code> members. A Push Notification / Slack ping is automatically sent via the <strong>Participant List</strong> reminder feature.</p>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">B. The "Out of Stock" Scenario (Internal Wallet Refund)</h4>
+        <p><strong>The Problem:</strong> The system collected 100% of the funds and placed the order. 5 minutes later, the vendor calls to cancel one item (e.g., "Out of Matcha"). Processing a direct bank refund via VNPay/Momo for 45,000đ is technically complex and incurs transaction fees.</p>
+        <p><strong>The Solution (System Design):</strong> I proposed an <strong>Internal Wallet</strong> system. Instead of refunding to the bank, the 45,000đ is credited to the user's OrderFlow Wallet balance. The next time they join a group order, this balance is automatically deducted. This guarantees a seamless UX and eliminates banking transaction overhead.</p>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">C. Session Creation (Data Sourcing)</h4>
+        <p><strong>The Problem:</strong> Manually typing out menu items is tedious for the Admin.</p>
+        <p><strong>The Solution (UX Flow):</strong> The <i>Create Session</i> screen features a URL scraper. The Admin simply pastes a ShopeeFood or GrabFood link, and the system automatically crawls the menu, prices, and options. Staff members receive a clean interface to "Add to Cart" with specific notes (e.g., "Less ice").</p>
+      </div>
+
+      <div class="case-section">
+        <h3>7. Business Impact & Results</h3>
         <p>Modeling and optimizing this micro-process yielded immediate, measurable ROI for the team.</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
             <li style="margin-bottom: 8px;">Reduced Admin coordination time from 45 minutes to 5 minutes (80% efficiency gain).</li>

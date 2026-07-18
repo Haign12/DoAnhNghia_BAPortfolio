@@ -126,7 +126,7 @@
           </div>
           
           <div class="panel-label">Total Amount (VND)</div>
-          <input type="text" class="panel-input" value="160,000" readonly>
+          <input type="text" class="panel-input" id="quickSplitTotal" value="0" readonly>
           
           <div class="panel-label">Number of People</div>
           <div class="panel-input" style="display: flex; justify-content: space-between; align-items: center; cursor: not-allowed; background: var(--bg-main);">
@@ -142,7 +142,7 @@
             </div>
           </div>
 
-          <button class="panel-btn">Auto-Calculate Shares</button>
+          <button class="panel-btn" id="calcSplitBtn">Auto-Calculate Shares</button>
           
           <div style="font-size: 0.7rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
             QR codes will be generated instantly.
@@ -177,35 +177,77 @@
     <div class="bottom-grid" style="margin-top: 32px;">
       
       <!-- Latest Orders Table -->
-      <div class="bottom-card fade-in" style="animation-delay: 0.3s;">
-        <div class="bottom-card-header">
-          <div class="bottom-card-title">Latest Orders Draft</div>
-          <button class="view-all-btn">View all</button>
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div class="bottom-card fade-in" style="animation-delay: 0.3s;">
+          <div class="bottom-card-header">
+            <div class="bottom-card-title">
+              Latest Orders Draft
+              <span style="font-size: 0.7rem; font-weight: 600; color: #f5a623; background: rgba(245, 166, 35, 0.1); padding: 4px 8px; border-radius: 8px; margin-left: 8px; border: 1px solid rgba(245, 166, 35, 0.3);">Waiting for members</span>
+            </div>
+            <button class="view-all-btn">View all</button>
+          </div>
+          
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
         </div>
-        
-        <table class="order-table">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Qty</th>
-              <th>Unit Price</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody id="orderTableBody">
-            <!-- Rendered by JS -->
-          </tbody>
-        </table>
+
+        <!-- Participant List (BA Addition) -->
+        <div class="bottom-card fade-in" style="animation-delay: 0.35s;">
+          <div class="bottom-card-header">
+            <div class="bottom-card-title">Participant List</div>
+          </div>
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 600;">Anh Nghĩa (Host)</td>
+                <td><span class="panel-tag success-tag">Paid</span></td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600;">Minh Tuấn</td>
+                <td><span class="panel-tag danger-tag" style="background: rgba(245, 166, 35, 0.1); color: #f5a623;">Unpaid</span></td>
+                <td><button class="view-all-btn" style="color: #4a90d9; border-color: #4a90d9;" onclick="showToast('Reminder sent via Slack', '🔔')">🔔 Remind</button></td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600;">Hương Giang</td>
+                <td><span class="panel-tag danger-tag" style="background: rgba(245, 166, 35, 0.1); color: #f5a623;">Unpaid</span></td>
+                <td><button class="view-all-btn" style="color: #4a90d9; border-color: #4a90d9;" onclick="showToast('Reminder sent via Slack', '🔔')">🔔 Remind</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Stepper / QR Section -->
-      <div class="stepper-panel fade-in" style="animation-delay: 0.35s;">
+      <div class="stepper-panel fade-in" style="animation-delay: 0.4s;">
         <div class="stepper-panel-title">
           Order Status
-          <span style="font-size: 0.8rem; font-weight: 500; color: var(--teal); background: var(--teal-light); padding: 4px 8px; border-radius: 8px;">Live</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.8rem; font-weight: 500; color: #e74c3c; background: rgba(231, 76, 60, 0.1); padding: 4px 8px; border-radius: 8px; display: flex; align-items: center; gap: 4px;">
+              ⏱️ Closes in 14:59
+            </span>
+          </div>
         </div>
         
-        <div class="qr-section">
+        <div class="qr-section" id="qrSection" style="display: none;">
           <div class="qr-label">Scan to Pay Your Split</div>
           <div class="qr-mockup" id="qrMockup">
             <div class="qr-grid" id="qrGrid"></div>

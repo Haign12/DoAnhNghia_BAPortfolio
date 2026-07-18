@@ -33,7 +33,8 @@ function showToast(message, icon = 'ℹ️') {
 
 // --- Format VND currency ------------------------------------
 function formatVND(amount) {
-  return amount.toLocaleString('vi-VN') + 'đ';
+  // Ensure dot notation for thousands (160.000đ)
+  return amount.toLocaleString('vi-VN').replace(/,/g, '.') + 'đ';
 }
 
 // --- Render Process Flows -----------------------------------
@@ -131,6 +132,8 @@ renderStepper();
 const orderTableBody = document.getElementById('orderTableBody');
 const splitAmountEl = document.getElementById('splitAmount');
 const personCountEl = document.getElementById('personCount');
+const quickSplitTotal = document.getElementById('quickSplitTotal');
+const qrSection = document.getElementById('qrSection');
 
 let grandTotal = 0;
 
@@ -159,6 +162,9 @@ orderTableBody.appendChild(totalTr);
 const perPerson = Math.ceil(grandTotal / totalPeople);
 splitAmountEl.textContent = formatVND(perPerson);
 personCountEl.textContent = totalPeople;
+if (quickSplitTotal) {
+  quickSplitTotal.value = formatVND(grandTotal);
+}
 
 // --- QR Code Mockup -----------------------------------------
 const qrGrid = document.getElementById('qrGrid');
@@ -178,35 +184,58 @@ qrPattern.forEach(val => {
   qrGrid.appendChild(cell);
 });
 
-// --- Place Order Button -------------------------------------
+// --- Place Order & Calculate Buttons ------------------------
 const placeOrderBtn = document.getElementById('placeOrderBtn');
+const calcSplitBtn = document.getElementById('calcSplitBtn');
 
-placeOrderBtn.addEventListener('click', () => {
-  placeOrderBtn.disabled = true;
-  placeOrderBtn.textContent = 'Processing...';
-
-  let step = 0;
-  const interval = setInterval(() => {
-    currentStep = step;
+if (calcSplitBtn) {
+  calcSplitBtn.addEventListener('click', () => {
+    calcSplitBtn.textContent = 'Calculated ✓';
+    calcSplitBtn.style.background = 'var(--teal)';
+    calcSplitBtn.style.color = '#fff';
+    calcSplitBtn.style.borderColor = 'var(--teal)';
+    
+    // Advance stepper to QR Payment step (Index 2)
+    currentStep = 2;
     updateStepper();
+    showToast(`System split: ${formatVND(perPerson)} per person`, '⚡');
+    
+    // Show QR
+    if (qrSection) qrSection.style.display = 'flex';
+  });
+}
 
-    if (step === 0) showToast('Order received from 5 staff members', '📝');
-    if (step === 1) showToast(`System split: ${formatVND(perPerson)} per person`, '⚡');
-    if (step === 2) showToast('Verifying QR payments from all members', '📱');
-    if (step === 3) {
+if (placeOrderBtn) {
+  placeOrderBtn.addEventListener('click', () => {
+    placeOrderBtn.disabled = true;
+    placeOrderBtn.textContent = 'Processing...';
+
+    // Simulate flow
+    currentStep = 3;
+    updateStepper();
+    showToast('Verifying QR payments from all members', '📱');
+    
+    setTimeout(() => {
       showToast('Order confirmed and sent to vendor.', '✅');
       placeOrderBtn.textContent = '✓ Order Placed';
       placeOrderBtn.style.background = '#059669'; // success green
-      clearInterval(interval);
-
+      placeOrderBtn.style.color = '#fff';
+      
       setTimeout(() => {
         currentStep = 0;
         updateStepper();
+        if (qrSection) qrSection.style.display = 'none';
         placeOrderBtn.disabled = false;
-        placeOrderBtn.textContent = '✓ Confirm & Place Order';
+        placeOrderBtn.textContent = 'Confirm Group Order';
         placeOrderBtn.style.background = '';
-      }, 4000);
-    }
-    step++;
-  }, 1000);
-});
+        placeOrderBtn.style.color = '';
+        if (calcSplitBtn) {
+          calcSplitBtn.textContent = 'Auto-Calculate Shares';
+          calcSplitBtn.style.background = '';
+          calcSplitBtn.style.color = '';
+          calcSplitBtn.style.borderColor = '';
+        }
+      }, 5000);
+    }, 2000);
+  });
+}
