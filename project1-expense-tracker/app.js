@@ -1,194 +1,113 @@
 /* ============================================================
-   PROJECT 1 – EXPENSE TRACKER | Neon Fintech App Logic
+   PROJECT 1 – EXPENSE TRACKER | "FINTECH PREMIUM" Logic
    ============================================================ */
 
-// --- Mobile Sidebar Toggle ----------------------------------
-const sidebar = document.getElementById('sidebar');
-const mobileNavToggle = document.getElementById('mobileNavToggle');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
+document.addEventListener('DOMContentLoaded', () => {
 
-mobileNavToggle.addEventListener('click', () => {
-  sidebar.classList.toggle('open');
-  sidebarOverlay.classList.toggle('active');
-});
-
-sidebarOverlay.addEventListener('click', () => {
-  sidebar.classList.remove('open');
-  sidebarOverlay.classList.remove('active');
-});
-
-// --- Toast Notification System (Neon styled) ----------------
-const toastContainer = document.getElementById('toastContainer');
-
-function showToast(message, icon = '⚡') {
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${message}</span>`;
-  toastContainer.appendChild(toast);
-  setTimeout(() => {
-    toast.classList.add('toast-out');
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
-
-// --- Animated KPI Counters ----------------------------------
-function animateCounters() {
-  const counters = document.querySelectorAll('.kpi-value[data-count]');
-  counters.forEach(counter => {
-    const target = parseFloat(counter.dataset.count);
-    const isDecimal = target % 1 !== 0;
-    const prefix = counter.textContent.includes('$') ? '$' : (counter.dataset.prefix || '');
-    const duration = 1200;
-    const start = performance.now();
-
-    function update(currentTime) {
-      const elapsed = currentTime - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = target * eased;
-
-      counter.textContent = isDecimal
-        ? prefix + current.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        : prefix + Math.round(current);
-
-      if (progress < 1) requestAnimationFrame(update);
-      else counter.textContent = isDecimal
-        ? prefix + target.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        : prefix + target;
-    }
-    requestAnimationFrame(update);
-  });
-}
-
-setTimeout(animateCounters, 400);
-
-// --- Render Subscription Table ------------------------------
-const tbody = document.getElementById('subscriptionTable');
-
-subscriptions.forEach(sub => {
-  const tr = document.createElement('tr');
-  const statusClass = sub.status === 'Ghost' ? 'status-ghost' : 'status-active';
-  const statusDot = sub.status === 'Ghost' ? '⚠' : '✓';
-
-  tr.innerHTML = `
-    <td>
-      <div class="service-name">
-        <div class="service-icon">${sub.icon}</div>
-        <div class="service-info">
-          <strong>${sub.service}</strong>
-          <small>${sub.cycle}</small>
-        </div>
-      </div>
-    </td>
-    <td>${sub.category}</td>
-    <td class="cost-cell">$${sub.cost.toFixed(2)}</td>
-    <td class="last-used-cell">${sub.lastUsed}</td>
-    <td><span class="status-badge ${statusClass}">${statusDot} ${sub.status}</span></td>
-  `;
-
-  tr.addEventListener('click', () => {
-    if (sub.status === 'Ghost') {
-      showToast(`"${sub.service}" is a ghost! Save $${sub.cost.toFixed(2)}/mo by cancelling.`, '👻');
-    } else {
-      showToast(`"${sub.service}" — $${sub.cost.toFixed(2)}/mo, last used ${sub.lastUsed}.`, '📋');
-    }
-  });
-
-  tbody.appendChild(tr);
-});
-
-// --- Chart.js – Neon Fintech Palette ------------------------
-Chart.defaults.color = '#475569';
-Chart.defaults.font.family = "'Inter', sans-serif";
-Chart.defaults.font.weight = 500;
-
-// Burn Rate Chart – Neon Cyan Gradient
-const burnCtx = document.getElementById('burnRateChart').getContext('2d');
-
-const barGradient = burnCtx.createLinearGradient(0, 0, 0, 270);
-barGradient.addColorStop(0, '#06d6a0');
-barGradient.addColorStop(0.6, 'rgba(6, 214, 160, 0.4)');
-barGradient.addColorStop(1, 'rgba(123, 97, 255, 0.1)');
-
-burnRateData.datasets[0].backgroundColor = barGradient;
-burnRateData.datasets[0].hoverBackgroundColor = '#06d6a0';
-
-new Chart(burnCtx, {
-  type: 'bar',
-  data: burnRateData,
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: { duration: 1200, easing: 'easeOutQuart' },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: '#0d1324',
-        titleColor: '#e2e8f0',
-        bodyColor: '#7b8ba6',
-        borderColor: 'rgba(6, 214, 160, 0.15)',
-        borderWidth: 1,
-        padding: 12,
-        cornerRadius: 8,
-        displayColors: false,
-        titleFont: { weight: 700, size: 13 },
-        callbacks: {
-          label: (ctx) => 'Spent: $' + ctx.parsed.y.toLocaleString()
-        }
-      }
-    },
-    scales: {
-      y: {
-        grid: { color: 'rgba(99, 179, 237, 0.04)', drawBorder: false },
-        border: { display: false },
-        ticks: { padding: 8, font: { size: 11 } },
-        beginAtZero: true
-      },
-      x: {
-        grid: { display: false },
-        border: { display: false },
-        ticks: { padding: 8, font: { size: 11, weight: 600 } }
-      }
-    }
+  // --- Render Subscription Table ------------------------------
+  const tbody = document.getElementById('subscriptionTable');
+  
+  if (tbody) {
+    subscriptions.forEach(sub => {
+      const tr = document.createElement('tr');
+      const isGhost = sub.status === 'Ghost';
+      const badgeClass = isGhost ? 'badge ghost' : 'badge active';
+      const statusText = isGhost ? 'Ghost' : 'Active';
+  
+      tr.innerHTML = `
+        <td>
+          <div style="font-weight: 500; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.2rem;">${sub.icon}</span> 
+            ${sub.service}
+          </div>
+        </td>
+        <td>${sub.category}</td>
+        <td>
+           <div class="progress-bar-container">
+             <div class="progress-bar-fill" style="width: ${Math.random() * 60 + 20}%"></div>
+           </div>
+           <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 8px;">${sub.cycle}</span>
+        </td>
+        <td style="font-weight: 500;">$${sub.cost.toFixed(2)}</td>
+        <td><span class="${badgeClass}">${statusText}</span></td>
+      `;
+      tbody.appendChild(tr);
+    });
   }
-});
-
-// Utilization Chart – Neon Palette
-const utilCtx = document.getElementById('utilizationChart').getContext('2d');
-
-utilData.datasets[0].backgroundColor = ['#06d6a0', '#ffbe0b', '#ff006e'];
-
-new Chart(utilCtx, {
-  type: 'doughnut',
-  data: utilData,
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '72%',
-    animation: { animateRotate: true, duration: 1400, easing: 'easeOutQuart' },
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          padding: 16,
-          usePointStyle: true,
-          pointStyle: 'circle',
-          font: { size: 11, weight: 500 },
-          color: '#7b8ba6'
-        }
+  
+  // --- Chart.js – Compound UI Line Chart ------------------------
+  Chart.defaults.color = '#9ca3af';
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.font.size = 11;
+  
+  const burnCtx = document.getElementById('burnRateChart');
+  if (burnCtx) {
+    const ctx = burnCtx.getContext('2d');
+    
+    // Create a subtle blue gradient for the line chart fill
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(147, 197, 253, 0.5)'); // pastel blue
+    gradient.addColorStop(1, 'rgba(147, 197, 253, 0.0)');
+  
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: burnRateData.labels,
+        datasets: [{
+          label: 'Burn Rate ($)',
+          data: burnRateData.datasets[0].data,
+          borderColor: '#3b82f6', // stronger blue for the line
+          borderWidth: 2,
+          backgroundColor: gradient,
+          fill: true,
+          pointBackgroundColor: '#ffffff',
+          pointBorderColor: '#3b82f6',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          tension: 0.3 // smooth curve
+        }]
       },
-      tooltip: {
-        backgroundColor: '#0d1324',
-        titleColor: '#e2e8f0',
-        bodyColor: '#7b8ba6',
-        borderColor: 'rgba(6, 214, 160, 0.15)',
-        borderWidth: 1,
-        padding: 12,
-        cornerRadius: 8,
-        callbacks: {
-          label: (ctx) => ctx.label + ': ' + ctx.parsed + '%'
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#ffffff',
+            titleColor: '#111827',
+            bodyColor: '#6b7280',
+            borderColor: '#eaeaea',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8,
+            displayColors: false,
+            callbacks: {
+              label: (ctx) => 'Spent: $' + ctx.parsed.y.toLocaleString()
+            }
+          }
+        },
+        scales: {
+          y: {
+            grid: { color: '#f3f4f6' },
+            border: { display: false },
+            ticks: { 
+              padding: 12,
+              callback: function(value) { return '$' + value; }
+            },
+            beginAtZero: false
+          },
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: { padding: 12 }
+          }
         }
       }
-    }
+    });
   }
 });
