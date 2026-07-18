@@ -3,14 +3,14 @@
    ============================================================ */
 
 const subscriptions = [
-  { service: 'Netflix', icon: '🎬', category: 'Entertainment', cost: 15.99, lastUsed: '2 days ago', status: 'Active', cycle: 'Monthly' },
-  { service: 'Spotify', icon: '🎵', category: 'Music', cost: 9.99, lastUsed: 'Today', status: 'Active', cycle: 'Monthly' },
-  { service: 'ChatGPT Plus', icon: '🤖', category: 'Productivity', cost: 20.00, lastUsed: 'Today', status: 'Active', cycle: 'Monthly' },
-  { service: 'Gym Membership', icon: '🏋️', category: 'Health', cost: 30.00, lastUsed: '45 days ago', status: 'Ghost', cycle: 'Monthly' },
-  { service: 'iCloud+', icon: '☁️', category: 'Storage', cost: 2.99, lastUsed: 'Background', status: 'Active', cycle: 'Monthly' },
-  { service: 'Adobe CC', icon: '🎨', category: 'Productivity', cost: 52.99, lastUsed: '5 days ago', status: 'Active', cycle: 'Monthly' },
-  { service: 'Audible', icon: '📚', category: 'Entertainment', cost: 14.95, lastUsed: '60 days ago', status: 'Ghost', cycle: 'Monthly' },
-  { service: 'Coursera Plus', icon: '🎓', category: 'Education', cost: 49.00, lastUsed: '35 days ago', status: 'Ghost', cycle: 'Monthly' }
+  { service: 'Netflix', icon: '<i class="ph ph-film-slate"></i>', category: 'Entertainment', cost: 15.99, lastUsed: '2 days ago', status: 'Active', cycle: 'Monthly' },
+  { service: 'Spotify', icon: '<i class="ph ph-music-notes"></i>', category: 'Music', cost: 9.99, lastUsed: 'Today', status: 'Active', cycle: 'Monthly' },
+  { service: 'ChatGPT Plus', icon: '<i class="ph ph-robot"></i>', category: 'Productivity', cost: 20.00, lastUsed: 'Today', status: 'Active', cycle: 'Monthly' },
+  { service: 'Gym Membership', icon: '<i class="ph ph-barbell"></i>', category: 'Health', cost: 30.00, lastUsed: '45 days ago', status: 'Ghost', cycle: 'Monthly' },
+  { service: 'iCloud+', icon: '<i class="ph ph-cloud"></i>', category: 'Storage', cost: 2.99, lastUsed: 'Background', status: 'Active', cycle: 'Monthly' },
+  { service: 'Adobe CC', icon: '<i class="ph ph-palette"></i>', category: 'Productivity', cost: 52.99, lastUsed: '5 days ago', status: 'Active', cycle: 'Monthly' },
+  { service: 'Audible', icon: '<i class="ph ph-books"></i>', category: 'Entertainment', cost: 14.95, lastUsed: '60 days ago', status: 'Ghost', cycle: 'Monthly' },
+  { service: 'Coursera Plus', icon: '<i class="ph ph-graduation-cap"></i>', category: 'Education', cost: 49.00, lastUsed: '35 days ago', status: 'Ghost', cycle: 'Monthly' }
 ];
 
 const burnRateData = {
