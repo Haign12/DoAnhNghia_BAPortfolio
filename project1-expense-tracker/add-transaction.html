@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Transaction | Expense Tracker</title>
+  <meta name="description" content="Add a new transaction or income record.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="ph ph-hexagon" style="font-size: 22px;"></i>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
+        <i class="ph ph-squares-four" style="font-size: 20px;"></i>
+        <span class="tooltip">Overview</span>
+      </a>
+      <a href="transactions.html" class="sidebar-nav-item active" data-tooltip="Transactions">
+        <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
+        <span class="tooltip">Transactions</span>
+      </a>
+      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
+        <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
+        <span class="tooltip">Analytics</span>
+      </a>
+      <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions">
+        <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
+        <span class="tooltip">Subscriptions</span>
+      </a>
+      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow">
+        <i class="ph ph-trend-up" style="font-size: 20px;"></i>
+        <span class="tooltip">Cashflow</span>
+      </a>
+      <a href="settings.html" class="sidebar-nav-item" data-tooltip="Settings">
+        <i class="ph ph-gear" style="font-size: 20px;"></i>
+        <span class="tooltip">Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html#ba-projects" class="sidebar-back" data-tooltip="Portfolio">
+        <i class="ph ph-arrow-left" style="font-size: 20px;"></i>
+        <span class="tooltip">Back to Portfolio</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Add Transaction</h1>
+        <p class="page-subtitle">Record a new expense or income.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <a href="transactions.html" class="btn btn-secondary">
+          Cancel
+        </a>
+      </div>
+    </div>
+
+    <div class="settings-layout" style="grid-template-columns: 1fr; max-width: 700px;">
+      <div class="settings-section">
+        
+        <div style="display: flex; gap: 16px; margin-bottom: 32px;">
+          <button class="btn btn-primary" style="flex: 1; justify-content: center;">Expense</button>
+          <button class="btn btn-secondary" style="flex: 1; justify-content: center;">Income</button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Amount</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1.5rem; color: var(--text-muted);">$</span>
+            <input type="number" class="form-input" placeholder="0.00" style="font-size: 1.5rem; padding-left: 40px; font-weight: 700;">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" value="2026-07-20">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-input">
+              <option>Food & Dining</option>
+              <option>Productivity</option>
+              <option>Entertainment</option>
+              <option>Transportation</option>
+              <option>Utilities</option>
+              <option>Shopping</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Merchant / Payee</label>
+          <input type="text" class="form-input" placeholder="e.g. Starbucks, Amazon, etc.">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Note (Optional)</label>
+          <textarea class="form-input" rows="3" placeholder="Additional details about this transaction..."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 32px;">
+          <a href="transactions.html" class="btn btn-primary" style="padding-left: 32px; padding-right: 32px;">
+            Save Transaction
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

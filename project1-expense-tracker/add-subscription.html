@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Subscription | Expense Tracker</title>
+  <meta name="description" content="Register a new recurring subscription.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="ph ph-hexagon" style="font-size: 22px;"></i>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
+        <i class="ph ph-squares-four" style="font-size: 20px;"></i>
+        <span class="tooltip">Overview</span>
+      </a>
+      <a href="transactions.html" class="sidebar-nav-item" data-tooltip="Transactions">
+        <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
+        <span class="tooltip">Transactions</span>
+      </a>
+      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
+        <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
+        <span class="tooltip">Analytics</span>
+      </a>
+      <a href="subscriptions.html" class="sidebar-nav-item active" data-tooltip="Subscriptions">
+        <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
+        <span class="tooltip">Subscriptions</span>
+      </a>
+      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow">
+        <i class="ph ph-trend-up" style="font-size: 20px;"></i>
+        <span class="tooltip">Cashflow</span>
+      </a>
+      <a href="settings.html" class="sidebar-nav-item" data-tooltip="Settings">
+        <i class="ph ph-gear" style="font-size: 20px;"></i>
+        <span class="tooltip">Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html#ba-projects" class="sidebar-back" data-tooltip="Portfolio">
+        <i class="ph ph-arrow-left" style="font-size: 20px;"></i>
+        <span class="tooltip">Back to Portfolio</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Add Subscription</h1>
+        <p class="page-subtitle">Track a new recurring service.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <a href="subscriptions.html" class="btn btn-secondary">
+          Cancel
+        </a>
+      </div>
+    </div>
+
+    <div class="settings-layout" style="grid-template-columns: 1fr; max-width: 700px;">
+      <div class="settings-section">
+        
+        <div class="form-group">
+          <label class="form-label">Service Name</label>
+          <input type="text" class="form-input" placeholder="e.g. Netflix, Adobe, Spotify" style="font-size: 1.2rem; font-weight: 600;">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Cost</label>
+            <div style="position: relative;">
+              <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--text-muted);">$</span>
+              <input type="number" class="form-input" placeholder="0.00" style="font-size: 1.2rem; padding-left: 36px; font-weight: 700;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Billing Cycle</label>
+            <select class="form-input">
+              <option>Monthly</option>
+              <option>Yearly</option>
+              <option>Weekly</option>
+              <option>Quarterly</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Billing Date</label>
+            <input type="date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-input">
+              <option>Entertainment</option>
+              <option>Productivity</option>
+              <option>Software</option>
+              <option>Utilities</option>
+              <option>Education</option>
+              <option>Health</option>
+              <option>Storage</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-card); border-radius: var(--radius-sm);">
+            <div>
+              <div style="font-weight: 600;">Renewal Reminder</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Get notified 3 days before you're charged.</div>
+            </div>
+            <label class="custom-checkbox">
+              <input type="checkbox" checked>
+              <span class="checkmark" style="border-radius: 4px;"></span>
+            </label>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 32px;">
+          <a href="subscriptions.html" class="btn btn-primary" style="padding-left: 32px; padding-right: 32px;">
+            Save Subscription
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>
