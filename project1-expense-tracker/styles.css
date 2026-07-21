@@ -204,6 +204,12 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  position: sticky;
+  top: 48px;
+  z-index: 90;
+  background: var(--bg-main);
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .search-box {

@@ -71,7 +71,9 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  
+  position: sticky;
+  top: 48px;
+  z-index: 90;
 }
 
 .nav-brand {
@@ -577,9 +579,9 @@ body {
 .drawer {
   position: fixed;
   right: -480px;
-  top: 0;
+  top: 48px;
   width: 480px;
-  height: 100vh;
+  height: calc(100vh - 48px);
   background: var(--surface);
   z-index: 201;
   box-shadow: -4px 0 24px rgba(0,0,0,0.08);
