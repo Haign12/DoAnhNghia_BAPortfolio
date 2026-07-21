@@ -69,6 +69,9 @@ body {
 }
 
 .sidebar-logo {
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
   width: 40px; height: 40px;
   background: linear-gradient(135deg, var(--purple-500), var(--purple-300));
   border-radius: 12px;
@@ -79,6 +82,11 @@ body {
   flex-shrink: 0;
 }
 .sidebar-logo svg { color: #fff; }
+.sidebar-logo:hover { opacity: 0.9; transform: translateY(-1px); transition: all 0.2s; }
+.sidebar-logo[data-tooltip]:hover .tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
 
 .sidebar-nav {
   display: flex;
