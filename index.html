@@ -693,6 +693,11 @@
       color: var(--text);
     }
 
+    .sticky-nav a.nav-active {
+      color: var(--text);
+      font-weight: 800;
+    }
+
     .nav-resume {
       background: var(--text);
       color: var(--bg) !important;
@@ -756,8 +761,8 @@
   <nav class="sticky-nav">
     <a href="#" class="nav-brand">Do Anh Nghia.</a>
     <div class="nav-links">
-      <a href="#ba-projects">Work</a>
       <a href="#about">About</a>
+      <a href="#ba-projects">Work</a>
       <a href="#contact">Contact</a>
       <a href="Do_Anh_Nghia_CV.pdf" target="_blank" class="nav-resume">Resume ↗</a>
     </div>
@@ -1103,6 +1108,37 @@
         iconLight.style.display = 'none';
       }
     }
+
+    // Scroll-spy: bold the navbar link matching the current section
+    (function () {
+      const navLinks = document.querySelectorAll('.sticky-nav .nav-links a[href^="#"]');
+      const sections = Array.from(navLinks)
+        .map(link => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+
+      function setActive() {
+        const offset = 120; // accounts for sticky nav height + a little lookahead
+        let currentId = sections[0] ? sections[0].id : '';
+
+        for (const section of sections) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top - offset <= 0) {
+            currentId = section.id;
+          } else {
+            break;
+          }
+        }
+
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          link.classList.toggle('nav-active', href === '#' + currentId);
+        });
+      }
+
+      window.addEventListener('scroll', setActive, { passive: true });
+      window.addEventListener('load', setActive);
+      setActive();
+    })();
   </script>
 </body>
 

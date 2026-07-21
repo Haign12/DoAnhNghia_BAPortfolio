@@ -114,26 +114,6 @@ body {
   box-shadow: none;
 }
 
-/* Curved bite effect on active item */
-.sidebar-nav-item.active::before,
-.sidebar-nav-item.active::after {
-  content: '';
-  position: absolute;
-  right: -1px;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-}
-.sidebar-nav-item.active::before {
-  top: -20px;
-  border-radius: 0 0 var(--radius-sm) 0;
-  box-shadow: 8px 8px 0 8px var(--purple-100);
-}
-.sidebar-nav-item.active::after {
-  bottom: -20px;
-  border-radius: 0 var(--radius-sm) 0 0;
-  box-shadow: 8px -8px 0 8px var(--purple-100);
-}
 
 .sidebar-bottom {
   display: flex;
