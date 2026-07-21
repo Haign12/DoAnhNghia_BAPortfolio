@@ -46,7 +46,7 @@
     .case-hero { padding: 34px; border-bottom: 1px solid var(--border); }
     .case-kicker { font-size: 12px; color: var(--text3); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
     .case-title { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
-    .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
+    .case-copy { color: var(--text); opacity: 0.95; font-size: 16px; max-width: 720px; line-height: 1.7; }
     .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
     .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
     .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
@@ -54,9 +54,73 @@
     .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
     .case-section:last-child { border-bottom: none; }
     .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
-    .case-section p { color: var(--text2); margin-bottom: 16px; line-height: 1.7; }
+    .case-section p { color: var(--text); opacity: 0.95; margin-bottom: 16px; line-height: 1.8; max-width: 720px; }
     
     .case-visual { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 300px; padding: 24px; }
+    
+    /* Back Link UX */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 16px 8px 0;
+      transition: color 0.2s ease;
+    }
+    .back-link span {
+      display: inline-block;
+      margin-right: 6px;
+      transition: transform 0.2s ease;
+    }
+    .back-link:hover {
+      color: var(--text);
+    }
+    .back-link:hover span {
+      transform: translateX(-4px);
+    }
+
+    /* Sticky TOC */
+    .toc-container {
+      position: absolute;
+      top: 0;
+      left: -240px;
+      width: 200px;
+      height: 100%;
+    }
+    @media (max-width: 1400px) {
+      .toc-container { display: none; }
+    }
+    .toc {
+      position: sticky;
+      top: 100px;
+      padding: 16px;
+      border-left: 2px solid var(--border);
+    }
+    .toc-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .toc a {
+      display: block;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+    .toc a:hover, .toc a.active {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .uiux-case { position: relative; border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); }
     
     footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
     footer strong { color: var(--text2); }
@@ -109,8 +173,22 @@
 
   <section class="uiux-project">
     <div class="uiux-case">
+      <!-- Sticky TOC (Desktop) -->
+      <div class="toc-container">
+        <div class="toc">
+          <div class="toc-title">Contents</div>
+          <a href="#problem">1. The Problem</a>
+          <a href="#constraints">2. Constraints</a>
+          <a href="#approach">3. BA Artifacts</a>
+          <a href="#ui-design">4. Core Functions & UI</a>
+          <a href="#deep-dive">5. Deep Dive</a>
+        </div>
+      </div>
+
       <div class="case-hero">
-        <a href="index.html#ba-projects" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
+        <a href="index.html#ba-projects" class="back-link">
+          <span>←</span> Back to Projects
+        </a>
         <div class="case-kicker">Project 01</div>
         <h1 class="case-title">Personal Subscription & Expense Analytics</h1>
         <p class="case-copy">Centralizing fragmented financial data to identify "ghost subscriptions" and optimize monthly burn rate.</p>
@@ -119,20 +197,25 @@
           <div class="metric-chip"><span class="metric-value">2 Weeks</span><span class="metric-label">Timeline</span></div>
           <div class="metric-chip"><span class="metric-value">Excel, Power BI, Figma</span><span class="metric-label">Tools</span></div>
         </div>
+        
+        <!-- Hero Image Hook: Show, Don't Tell -->
+        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="thumb-p1.png" alt="Expense Analytics Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
+        </div>
       </div>
 
-      <div class="case-section">
+      <div class="case-section" id="problem">
         <h3>1. The Problem</h3>
         <p>Managing personal finances today resembles managing a poorly optimized enterprise. Money flows out through multiple channels: credit cards, e-wallets, and bank transfers. The biggest silent drain is auto-renewing subscriptions (software, streaming, gym memberships) that are rarely used but forgotten.</p>
         <p>Without a centralized view, tracking the actual "Monthly Burn Rate" relies on memory rather than data, leading to budget overruns.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="constraints">
         <h3>2. Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> I initially wanted to build a system that auto-syncs transactions in real-time via Bank APIs. However, open banking APIs for personal use in Vietnam are highly restricted and costly.</p>
         <p><strong>The Trade-off:</strong> Instead of over-engineering, I opted for a Manual CSV Export MVP. I export bank statements weekly, run them through a standardized Power Query script to clean the data, and feed it into the dashboard.</p>
         <p><strong>Why it works:</strong> Personal finance requires behavioral reflection. A weekly manual update forces me to actually look at the numbers, satisfying the business goal better than a fully automated background process.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="approach">
         <h3>3. Approach & BA Artifacts</h3>
         <p><strong>A. Data Cleaning & Standardization</strong><br>Raw bank statements are messy. I built a mapping logic in Excel to categorize transactions. For example, any description containing "NETFLIX" or "SPOTIFY" is automatically tagged as Category: Entertainment and Type: Fixed Recurring.</p>
         <p><strong>B. Data Modeling (Star Schema)</strong><br>To ensure the dashboard loads quickly and can scale if I add years of data, I structured the dataset using a Star Schema:</p>
@@ -142,7 +225,7 @@
         </ul>
         <p><strong>C. Defining KPIs</strong><br>Before opening the visualization tool, I defined what metrics actually drive decisions: Subscription Utilization Rate, True Fixed Costs, and Variance to Budget.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="ui-design">
         <h3>4. Core System Functions & UI Design</h3>
         <p>Beyond the interface, I defined strict functional requirements for the MVP:</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
@@ -179,7 +262,7 @@
           </table>
         </div>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="deep-dive">
         <h3>5. BA Deliverables Deep Dive</h3>
         <p>To ensure technical feasibility, I prepared the following artifacts for the engineering team:</p>
         
@@ -317,6 +400,32 @@ erDiagram
         iconLight.style.display = 'none';
       }
     }
+
+    // TOC Scrollspy
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('.case-section');
+      const navLinks = document.querySelectorAll('.toc a');
+
+      function setActiveTOC() {
+        let currentId = '';
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 150) {
+            currentId = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentId}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', setActiveTOC, { passive: true });
+      setActiveTOC();
+    });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({startOnLoad:true, theme: 'base'});</script>
