@@ -709,16 +709,20 @@
       margin: 16px auto 0;
       max-width: 900px;
       width: calc(100% - 32px);
-      background: rgba(26, 26, 26, 0.85);
-      border: 1px solid var(--border);
+      background: transparent;
+      border: 1px solid transparent;
       border-radius: 50px;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .sticky-nav.scrolled {
+      background: rgba(26, 26, 26, 0.7);
+      border-color: var(--border);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
     }
-
-    [data-theme="light"] .sticky-nav {
-      background: rgba(255, 255, 255, 0.85);
+    [data-theme="light"] .sticky-nav.scrolled {
+      background: rgba(255, 255, 255, 0.7);
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
     }
 
@@ -832,8 +836,8 @@
     /* Scroll Reveal (Fade-in on Scroll) */
     .reveal {
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      transform: translateY(24px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
     }
     .reveal.active {
@@ -1299,6 +1303,17 @@
       window.addEventListener('load', setActive);
       setActive();
     })();
+
+    
+    // Dynamic Navbar Scroll Effect
+    const stickyNav = document.querySelector('.sticky-nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        stickyNav.classList.add('scrolled');
+      } else {
+        stickyNav.classList.remove('scrolled');
+      }
+    }, { passive: true });
 
     // Reading Progress Bar Logic
     window.addEventListener('scroll', () => {
