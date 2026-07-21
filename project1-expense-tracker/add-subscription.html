@@ -17,7 +17,7 @@
     <span class="live-dot"></span>
     <span class="demo-text">Interactive Prototype</span>
   </div>
-  <a href="https://haign12.github.io/DoAnhNghia_BAPortfolio/" class="back-portfolio-btn">
+  <a href="#" onclick="handleGoBack(event, 'project-01')" class="back-portfolio-btn">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="19" y1="12" x2="5" y2="12"></line>
       <polyline points="12 19 5 12 12 5"></polyline>
@@ -148,5 +148,20 @@
     </div>
 
   </main>
+
+<script>
+  function handleGoBack(event, projectId) {
+    event.preventDefault(); // Ngăn hành vi nhảy trang mặc định của thẻ <a>
+    
+    // Kiểm tra xem người dùng có đi từ trang Portfolio của bạn sang đây không
+    if (document.referrer.includes("haign12.github.io")) {
+      // Nếu đúng -> Dùng lịch sử trình duyệt để quay lại giữ nguyên vị trí cuộn mượt mà
+      window.history.back();
+    } else {
+      // EDGE CASE: Nếu họ mở link trực tiếp (hoặc gửi cho người khác) -> Điều hướng thẳng về trang chủ và neo vào đúng Project đó
+      window.location.href = "https://haign12.github.io/DoAnhNghia_BAPortfolio/#" + projectId;
+    }
+  }
+</script>
 </body>
 </html>
