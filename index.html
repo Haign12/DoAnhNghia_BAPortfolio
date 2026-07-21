@@ -44,6 +44,12 @@
       --accent: #e0e0e0;
       --badge-bg: rgba(255, 255, 255, 0.05);
       --badge-border: rgba(255, 255, 255, 0.1);
+      /* Dark mode depth: glow effect */
+      --card-hover-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
+      --card-hover-border: #555555;
+      --card-hover-bg: #252525;
+      --selection-bg: rgba(255, 255, 255, 0.15);
+      --selection-color: #ffffff;
     }
 
     /* Light Theme */
@@ -57,6 +63,22 @@
       --accent: #171717;
       --badge-bg: rgba(0, 0, 0, 0.05);
       --badge-border: rgba(0, 0, 0, 0.1);
+      /* Light mode depth: drop shadow */
+      --card-hover-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      --card-hover-border: #d0d0d0;
+      --card-hover-bg: #ffffff;
+      --selection-bg: rgba(0, 0, 0, 0.08);
+      --selection-color: #171717;
+    }
+
+    /* Custom Text Selection */
+    ::selection {
+      background: var(--selection-bg);
+      color: var(--selection-color);
+    }
+    ::-moz-selection {
+      background: var(--selection-bg);
+      color: var(--selection-color);
     }
 
     html {
@@ -72,7 +94,14 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      transition: background 0.3s, color 0.3s;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Anti-flashbang: smooth theme transition for all themed elements */
+    .project-card, .sticky-nav, .theme-toggle, footer,
+    .card-link, .card-skill, .hero-cta, .nav-resume,
+    .skill-tag, .uiux-case, .hero-badge {
+      transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
     }
 
     h1,
@@ -277,13 +306,34 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       overflow: hidden;
-      transition: all 0.3s;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.35s ease,
+                  background-color 0.4s ease;
       position: relative;
     }
 
     .project-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--text3);
+      transform: translateY(-6px);
+      border-color: var(--card-hover-border);
+      box-shadow: var(--card-hover-shadow);
+      background: var(--card-hover-bg);
+    }
+
+    /* Card Thumbnail */
+    .card-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--border);
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .project-card:hover .card-thumb {
+      transform: scale(1.03);
+    }
+    .card-thumb-wrapper {
+      overflow: hidden;
     }
 
     .card-gradient {
@@ -367,7 +417,14 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
+    }
+    .card-link .arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .card-link:hover .arrow {
+      transform: translateX(4px);
     }
 
     .card-link:hover {
@@ -860,42 +917,7 @@
       </div>
     </div>
 
-    <div class="resume-section">
-      <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">SELECTED PROJECTS</h2>
-
-      <div class="resume-item">
-        <div class="resume-item-head">
-          <div class="resume-role">Personal Expense & Subscription Tracker</div>
-          <div class="resume-meta">Business Analyst • Independent Project</div>
-        </div>
-        <ul class="resume-desc">
-          <li>Designed a robust Data Model (Star Schema) and utilized SQL queries to accurately detect ghost subscriptions.</li>
-          <li>Created high-fidelity UI wireframes focusing on data visualization and KPI tracking to optimize monthly burn rate.</li>
-        </ul>
-      </div>
-
-      <div class="resume-item">
-        <div class="resume-item-head">
-          <div class="resume-role">Co-living Property & Reservation Manager</div>
-          <div class="resume-meta">Business Analyst • Independent Project</div>
-        </div>
-        <ul class="resume-desc">
-          <li>Elicited requirements and modeled Reservation state machines to resolve double bookings and scattered tenant data.</li>
-          <li>Designed an intuitive Property Management System (PMS) dashboard to track real-time room occupancy and guest satisfaction.</li>
-        </ul>
-      </div>
-
-      <div class="resume-item">
-        <div class="resume-item-head">
-          <div class="resume-role">Office Group Order Optimization</div>
-          <div class="resume-meta">Business Analyst • Independent Project</div>
-        </div>
-        <ul class="resume-desc">
-          <li>Modeled BPMN 2.0 (As-Is vs To-Be) workflows and Sequence Diagrams for integrating a split-payment API.</li>
-          <li>Optimized the group ordering process, reducing coordination time by 80% and mitigating financial loss risks.</li>
-        </ul>
-      </div>
-    </div>
+    <!-- "Selected Projects" section removed: users now scroll directly from Experience to the visual Project Cards below -->
 
     <div class="resume-section">
       <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">EDUCATION</h2>
@@ -926,7 +948,9 @@
     <div class="project-list" style="display: flex; flex-direction: column; gap: 32px;">
       <!-- Project 01: KPI Dashboard -->
       <div class="project-card">
-        <div class="card-gradient blue"></div>
+        <div class="card-thumb-wrapper">
+          <img src="thumb-p1.png" alt="Expense Tracker Dashboard Preview" class="card-thumb" loading="lazy">
+        </div>
         <div class="card-body">
           <div class="card-number">Project 01</div>
           <h3 class="card-title">Personal Subscription & Expense Tracker</h3>
@@ -947,14 +971,16 @@
               App</a>
             <a href="case-study-p1.html" class="card-link"
               style="flex:0 0 auto; min-width: 150px; padding: 12px 16px; text-align: center; background: var(--text); color: var(--bg);">Read
-              Case Study ↗</a>
+              Case Study <span class="arrow">↗</span></a>
           </div>
         </div>
       </div>
 
       <!-- Project 02: Property Management System -->
       <div class="project-card">
-        <div class="card-gradient purple"></div>
+        <div class="card-thumb-wrapper">
+          <img src="thumb-p2.png" alt="Co-living Manager Dashboard Preview" class="card-thumb" loading="lazy">
+        </div>
         <div class="card-body">
           <div class="card-number">Project 02</div>
           <h3 class="card-title">Co-living Property & Reservation Manager</h3>
@@ -975,14 +1001,16 @@
               App</a>
             <a href="case-study-p2.html" class="card-link"
               style="flex:0 0 auto; min-width: 150px; padding: 12px 16px; text-align: center; background: var(--text); color: var(--bg);">Read
-              Case Study ↗</a>
+              Case Study <span class="arrow">↗</span></a>
           </div>
         </div>
       </div>
 
       <!-- Project 03: Process Analyzer -->
       <div class="project-card">
-        <div class="card-gradient green"></div>
+        <div class="card-thumb-wrapper">
+          <img src="thumb-p3.png" alt="BPMN Process Diagram Preview" class="card-thumb" loading="lazy">
+        </div>
         <div class="card-body">
           <div class="card-number">Project 03</div>
           <h3 class="card-title">Office Group Order Optimization</h3>
@@ -1003,7 +1031,7 @@
               App</a>
             <a href="case-study-p3.html" class="card-link"
               style="flex:0 0 auto; min-width: 150px; padding: 12px 16px; text-align: center; background: var(--text); color: var(--bg);">Read
-              Case Study ↗</a>
+              Case Study <span class="arrow">↗</span></a>
           </div>
         </div>
       </div>
@@ -1119,11 +1147,12 @@
     const iconDark = document.getElementById('theme-icon-dark');
     const iconLight = document.getElementById('theme-icon-light');
 
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-    if (currentTheme) {
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      updateIcons(currentTheme);
-    }
+    // Anticipatory Design: Respect user's system theme preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    updateIcons(initialTheme);
 
     themeToggle.addEventListener('click', () => {
       let theme = document.documentElement.getAttribute('data-theme');
