@@ -832,13 +832,88 @@
     /* Scroll Reveal (Fade-in on Scroll) */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
       will-change: opacity, transform;
     }
     .reveal.active {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Tooltip for Technical Terms */
+    .term-tooltip {
+      position: relative;
+      border-bottom: 1.5px dashed var(--text3);
+      cursor: help;
+      transition: border-color 0.2s ease;
+    }
+    .term-tooltip:hover {
+      border-color: var(--text);
+    }
+    .term-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--text);
+      color: var(--bg);
+      font-size: 11.5px;
+      font-weight: 500;
+      line-height: 1.4;
+      padding: 8px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 50;
+      letter-spacing: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    .term-tooltip:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    /* Small arrow under tooltip */
+    .term-tooltip::before {
+      content: '';
+      position: absolute;
+      bottom: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--text);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 50;
+    }
+    .term-tooltip:hover::before {
+      opacity: 1;
+    }
+
+    /* Keyboard Shortcut Hint */
+    .kbd-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text3);
+      opacity: 0.6;
+      margin-top: 16px;
+      letter-spacing: 0.3px;
+    }
+    .kbd-hint kbd {
+      display: inline-block;
+      padding: 2px 7px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: 'Inter', monospace;
+      font-size: 11px;
+      background: var(--bg-card);
+      color: var(--text2);
     }
 
   </style>
@@ -885,8 +960,8 @@
     <p>I analyze business systems. Over the past period, I’ve dedicated my time to independently studying enterprise
       workflows and breaking down complex requirements into manageable user stories.</p>
     <p>My goal is simple: build logic that works.</p>
-    <p style="margin-top: 24px;"><span class="core-comp">Core Competencies:</span> Requirements Elicitation, BPMN 2.0,
-      Agile/Scrum, User Stories, High-fidelity Wireframing, API Integration.</p>
+    <p style="margin-top: 24px;"><span class="core-comp">Core Competencies:</span> <span class="term-tooltip" data-tooltip="Gathering & documenting stakeholder needs">Requirements Elicitation</span>, <span class="term-tooltip" data-tooltip="Standard notation for modeling business processes">BPMN 2.0</span>,
+      <span class="term-tooltip" data-tooltip="Iterative development & sprint-based teamwork">Agile/Scrum</span>, <span class="term-tooltip" data-tooltip="Structured requirements from user's perspective">User Stories</span>, <span class="term-tooltip" data-tooltip="Pixel-perfect interactive design mockups">High-fidelity Wireframing</span>, <span class="term-tooltip" data-tooltip="Connecting systems via Application Programming Interfaces">API Integration</span>.</p>
   </section>
 
   <section class="resume" id="resume" style="margin-bottom: 60px;">
@@ -956,7 +1031,7 @@
           <h3 class="card-title">Personal Subscription & Expense Tracker</h3>
           <div class="card-desc" style="font-size: 13.5px;">
             <p><strong style="color: var(--text);">Context:</strong> Users lose control over fixed expenses and are unfairly charged for unused services.</p>
-            <p style="margin-top: 4px;"><strong style="color: var(--text);">My BA Role:</strong> Designed Data Model (Star Schema), executed SQL queries (Ghost Detection), and created UI Wireframes.</p>
+            <p style="margin-top: 4px;"><strong style="color: var(--text);">My BA Role:</strong> Designed <span class="term-tooltip" data-tooltip="A database schema optimized for analytics queries">Data Model (Star Schema)</span>, executed <span class="term-tooltip" data-tooltip="Structured Query Language for database analysis">SQL</span> queries (Ghost Detection), and created <span class="term-tooltip" data-tooltip="Visual layouts of the application interface">UI Wireframes</span>.</p>
             <p style="margin-top: 4px;"><strong style="color: var(--text);">Outcome:</strong> Detected junk subscriptions and optimized the monthly burn rate.</p>
           </div>
           <div class="card-skills">
@@ -1016,7 +1091,7 @@
           <h3 class="card-title">Office Group Order Optimization</h3>
           <div class="card-desc" style="font-size: 13.5px;">
             <p><strong style="color: var(--text);">Context:</strong> Manual office ordering processes cause bottlenecks and financial shortfall risks.</p>
-            <p style="margin-top: 4px;"><strong style="color: var(--text);">My BA Role:</strong> Modeled BPMN (As-Is vs To-Be) and Sequence Diagrams (UML) integrating a payment API.</p>
+            <p style="margin-top: 4px;"><strong style="color: var(--text);">My BA Role:</strong> Modeled <span class="term-tooltip" data-tooltip="Standard notation for modeling business processes">BPMN</span> (As-Is vs To-Be) and <span class="term-tooltip" data-tooltip="UML diagrams showing system interactions over time">Sequence Diagrams</span> (<span class="term-tooltip" data-tooltip="Unified Modeling Language – standard for system design">UML</span>) integrating a payment <span class="term-tooltip" data-tooltip="Application Programming Interface – connects systems">API</span>.</p>
             <p style="margin-top: 4px;"><strong style="color: var(--text);">Outcome:</strong> Reduced coordination time by 80% and completely eliminated the risk of financial loss (0% Payment Loss).</p>
           </div>
           <div class="card-skills">
@@ -1140,6 +1215,9 @@
     <div style="font-size: 12px; color: var(--text3); opacity: 0.8;">
       &copy; 2026 Do Anh Nghia. Designed & Coded from scratch.
     </div>
+    <div class="kbd-hint" style="margin-top: 12px; font-size: 12px; color: var(--text3);">
+      Press <kbd style="background: var(--border); padding: 2px 4px; border-radius: 4px;">T</kbd> to toggle theme
+    </div>
   </footer>
 
   <script>
@@ -1254,6 +1332,61 @@
 
       elementsToReveal.forEach(el => revealObserver.observe(el));
     });
+
+    // ===== POWER USER: Keyboard Shortcuts =====
+    document.addEventListener('keydown', (e) => {
+      // Ignore if user is typing in an input/textarea
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      // [T] Toggle theme
+      if (e.key === 't' || e.key === 'T') {
+        themeToggle.click();
+      }
+      // [ESC] Close any lightbox/modal (future-proof)
+      if (e.key === 'Escape') {
+        const lightbox = document.querySelector('.lightbox.active, .modal.active');
+        if (lightbox) lightbox.classList.remove('active');
+      }
+    });
+
+    // ===== DYNAMIC FAVICON: Swap based on theme =====
+    (function () {
+      // Generate a simple SVG favicon that adapts to theme
+      function setFavicon(theme) {
+        const fgColor = theme === 'light' ? '#171717' : '#ededed';
+        const bgColor = theme === 'light' ? '#f0f0f0' : '#1e1e1e';
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <rect width="32" height="32" rx="6" fill="${bgColor}"/>
+          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                font-family="serif" font-weight="700" font-size="18" fill="${fgColor}">N</text>
+        </svg>`;
+        const blob = new Blob([svg], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        let link = document.querySelector("link[rel~='icon']");
+        if (link) {
+          link.href = url;
+        }
+      }
+      // Set initial favicon
+      setFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
+      // Observe theme changes
+      const observer = new MutationObserver(() => {
+        setFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    })();
+
+    // ===== TAB ATTENTION: Dynamic title when user leaves =====
+    (function () {
+      const originalTitle = document.title;
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          document.title = 'Come back and hire me! 👀';
+        } else {
+          document.title = originalTitle;
+        }
+      });
+    })();
   </script>
 </body>
 
