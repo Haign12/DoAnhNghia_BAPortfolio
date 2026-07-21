@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#2D2838',
+            backgroundColor: '#1F2937',
             titleColor: '#fff',
             bodyColor: 'rgba(255,255,255,0.7)',
             borderColor: 'rgba(142, 117, 200, 0.3)',
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#2D2838',
+            backgroundColor: '#1F2937',
             titleColor: '#fff',
             bodyColor: 'rgba(255,255,255,0.7)',
             padding: 12,
