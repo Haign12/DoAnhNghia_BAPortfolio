@@ -1120,12 +1120,24 @@
         const offset = 120; // accounts for sticky nav height + a little lookahead
         let currentId = sections[0] ? sections[0].id : '';
 
-        for (const section of sections) {
-          const rect = section.getBoundingClientRect();
-          if (rect.top - offset <= 0) {
-            currentId = section.id;
-          } else {
-            break;
+        // If the viewport has reached (or is within 4px of) the bottom of the page,
+        // force the last section to be active — short footers would otherwise never
+        // cross the offset threshold and the active state would stick on the
+        // previous section.
+        const atBottom =
+          window.scrollY + window.innerHeight >=
+          document.documentElement.scrollHeight - 4;
+
+        if (atBottom) {
+          currentId = sections[sections.length - 1].id;
+        } else {
+          for (const section of sections) {
+            const rect = section.getBoundingClientRect();
+            if (rect.top - offset <= 0) {
+              currentId = section.id;
+            } else {
+              break;
+            }
           }
         }
 
@@ -1136,6 +1148,7 @@
       }
 
       window.addEventListener('scroll', setActive, { passive: true });
+      window.addEventListener('resize', setActive);
       window.addEventListener('load', setActive);
       setActive();
     })();
