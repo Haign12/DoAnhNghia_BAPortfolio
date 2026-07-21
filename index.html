@@ -755,9 +755,43 @@
       text-decoration: underline;
     }
 
+    /* Reading Progress Bar */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      z-index: 1000;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--text); 
+      width: 0%;
+      transition: width 0.1s ease-out;
+    }
+
+    /* Scroll Reveal (Fade-in on Scroll) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+      will-change: opacity, transform;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
   </style>
 </head>
 <body>
+  <!-- Reading Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="readingProgressBar"></div>
+  </div>
+
   <nav class="sticky-nav">
     <a href="#" class="nav-brand">Do Anh Nghia.</a>
     <div class="nav-links">
@@ -1120,6 +1154,12 @@
         const offset = 120; // accounts for sticky nav height + a little lookahead
         let currentId = sections[0] ? sections[0].id : '';
 
+        // Sắp xếp các section theo vị trí hiển thị trên trang để đảm bảo scroll spy
+        // hoạt động đúng bất kể thứ tự của các link trên thanh navbar.
+        const sortedSections = [...sections].sort((a, b) => {
+          return a.getBoundingClientRect().top - b.getBoundingClientRect().top;
+        });
+
         // If the viewport has reached (or is within 4px of) the bottom of the page,
         // force the last section to be active — short footers would otherwise never
         // cross the offset threshold and the active state would stick on the
@@ -1129,9 +1169,9 @@
           document.documentElement.scrollHeight - 4;
 
         if (atBottom) {
-          currentId = sections[sections.length - 1].id;
+          currentId = sortedSections[sortedSections.length - 1].id;
         } else {
-          for (const section of sections) {
+          for (const section of sortedSections) {
             const rect = section.getBoundingClientRect();
             if (rect.top - offset <= 0) {
               currentId = section.id;
@@ -1152,6 +1192,39 @@
       window.addEventListener('load', setActive);
       setActive();
     })();
+
+    // Reading Progress Bar Logic
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      const progressBar = document.getElementById("readingProgressBar");
+      if (progressBar) {
+        progressBar.style.width = scrolled + "%";
+      }
+    }, { passive: true });
+
+    // Scroll Reveal with Intersection Observer
+    document.addEventListener("DOMContentLoaded", () => {
+      // Lựa chọn các thành phần muốn tạo hiệu ứng hiện dần
+      const elementsToReveal = document.querySelectorAll('.project-card, .uiux-case, .about-me p, .section-title, .section-sub, .resume-title');
+      elementsToReveal.forEach(el => el.classList.add('reveal'));
+
+      const revealOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px"
+      };
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        });
+      }, revealOptions);
+
+      elementsToReveal.forEach(el => revealObserver.observe(el));
+    });
   </script>
 </body>
 
