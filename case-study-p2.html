@@ -45,8 +45,8 @@
     .uiux-case { border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); overflow: hidden; }
     .case-hero { padding: 34px; border-bottom: 1px solid var(--border); }
     .case-kicker { font-size: 12px; color: var(--text3); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-    .case-title { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
-    .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
+        .case-title { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    .case-copy { color: var(--text); opacity: 0.95; font-size: 16px; max-width: 720px; line-height: 1.7; }
     .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
     .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
     .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
@@ -54,9 +54,73 @@
     .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
     .case-section:last-child { border-bottom: none; }
     .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
-    .case-section p { color: var(--text2); margin-bottom: 16px; line-height: 1.7; }
+    .case-section p { color: var(--text); opacity: 0.95; margin-bottom: 16px; line-height: 1.8; max-width: 720px; }
     
     .case-visual { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 300px; padding: 24px; }
+    
+    /* Back Link UX */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 16px 8px 0;
+      transition: color 0.2s ease;
+    }
+    .back-link span {
+      display: inline-block;
+      margin-right: 6px;
+      transition: transform 0.2s ease;
+    }
+    .back-link:hover {
+      color: var(--text);
+    }
+    .back-link:hover span {
+      transform: translateX(-4px);
+    }
+
+    /* Sticky TOC */
+    .toc-container {
+      position: absolute;
+      top: 0;
+      left: -240px;
+      width: 200px;
+      height: 100%;
+    }
+    @media (max-width: 1400px) {
+      .toc-container { display: none; }
+    }
+    .toc {
+      position: sticky;
+      top: 100px;
+      padding: 16px;
+      border-left: 2px solid var(--border);
+    }
+    .toc-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .toc a {
+      display: block;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+    .toc a:hover, .toc a.active {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .uiux-case { position: relative; border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); }
     
     footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
     footer strong { color: var(--text2); }
@@ -109,8 +173,16 @@
 
   <section class="uiux-project">
     <div class="uiux-case">
+            <!-- Sticky TOC (Desktop) -->
+      <div class="toc-container">
+        <div class="toc">
+          <div class="toc-title">Contents</div>
+          <a href="#problem">1. The Problem</a><a href="#constraints">2. Constraints</a><a href="#approach">3. BA Artifacts</a><a href="#ui-design">4. Core Functions &amp; UI</a><a href="#deep-dive">5. Deep Dive</a><a href="#impact">6. Business Impact</a>
+        </div>
+      </div>
+
       <div class="case-hero">
-        <a href="index.html#ba-projects" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
+        <a href="index.html#ba-projects" class="back-link"><span>←</span> Back to Projects</a>
         <div class="case-kicker">Project 02</div>
         <h1 class="case-title">Co-living Task & Split Bill Manager</h1>
         <p class="case-copy">Designing a co-living management app to resolve roommate conflicts through automated chore scheduling and transparent bill splitting.</p>
@@ -118,27 +190,32 @@
           <div class="metric-chip"><span class="metric-value">Business Analyst</span><span class="metric-label">Role</span></div>
           <div class="metric-chip"><span class="metric-value">3 Weeks</span><span class="metric-label">Timeline</span></div>
           <div class="metric-chip"><span class="metric-value">Figma, Jira, Trello</span><span class="metric-label">Tools</span></div>
+                </div>
+        
+        <!-- Hero Image Hook: Show, Don't Tell -->
+        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="thumb-p2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
-      <div class="case-section">
+      <div class="case-section" id="problem">
         <h3>1. The Problem</h3>
         <p>Living with roommates often leads to friction over two common enterprise-scale issues: resource allocation (chores) and financial reconciliation (split bills). Typically, a whiteboard or a messy Zalo group chat is used, which lacks accountability and traceability.</p>
         <p>Without a transparent system, roommates end up arguing over "Who cleaned last?" and "Who paid for the shared groceries?"</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="constraints">
         <h3>2. Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> Developing a full-stack mobile application with real-time push notifications required significant backend infrastructure (Firebase/AWS) which was overkill for a 3-person apartment.</p>
         <p><strong>The Trade-off:</strong> Instead of building a complex notification engine, I designed a frontend-only MVP where any user can trigger a "Generate Weekly Summary" button, which captures the DOM as an image and posts it to our Zalo group chat via Webhook.</p>
         <p><strong>Why it works:</strong> It leverages the existing habit of checking Zalo, rather than forcing users to download and check a new app daily.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="approach">
         <h3>3. Approach & BA Artifacts</h3>
         <p><strong>A. Requirements Elicitation</strong><br>I interviewed my roommates to gather requirements, identifying two distinct personas: The "Clean Freak" (wants strict schedules) and the "Forgetful Payer" (needs auto-calculated debts).</p>
         <p><strong>B. User Stories</strong><br>I mapped out Epics and User Stories. Example: "As a user, I want to add a shared grocery receipt so that the cost is automatically split 3-ways and added to the monthly ledger."</p>
         <p><strong>C. UI/UX Prototyping</strong><br>I designed wireframes in Figma focusing on a dual-panel layout: a Kanban board for chores, and a Ledger table for transparent bill tracking.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="ui-design">
         <h3>4. Core System Functions & UI Design</h3>
         <p>Beyond the interface, I defined strict functional requirements for the MVP:</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
@@ -170,9 +247,15 @@
               <div class="mock-card" style="border-color: #22c55e;">Nghia receives: <strong>$15.00</strong></div>
             </div>
           </div>
+                </div>
+        
+        <!-- Hero Image Hook: Show, Don't Tell -->
+        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="thumb-p2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
-      <div class="case-section">
+
+      <div class="case-section" id="deep-dive">
         <h3>5. BA Deliverables Deep Dive</h3>
         
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. User Stories & Acceptance Criteria</h4>
@@ -240,10 +323,15 @@
               <td style="color: #22c55e;">System blocks action, prompts: "Please settle outstanding debts before leaving."</td>
             </tr>
           </table>
+                </div>
+        
+        <!-- Hero Image Hook: Show, Don't Tell -->
+        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="thumb-p2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
-      <div class="case-section">
+      <div class="case-section" id="impact">
         <h3>6. Business Impact & Results</h3>
         <p>By treating a co-living space like a micro-enterprise, we resolved internal conflicts through logic and transparency.</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
@@ -291,7 +379,7 @@
       updateIcons(targetTheme);
     });
 
-    function updateIcons(theme) {
+        function updateIcons(theme) {
       if (theme === 'light') {
         iconDark.style.display = 'none';
         iconLight.style.display = 'block';
@@ -300,6 +388,38 @@
         iconLight.style.display = 'none';
       }
     }
+
+    // TOC Scrollspy
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('.case-section');
+      const navLinks = document.querySelectorAll('.toc a');
+
+      function setActiveTOC() {
+        let currentId = '';
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 150) {
+            currentId = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentId}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', setActiveTOC, { passive: true });
+      setActiveTOC();
+    }); else {
+        iconDark.style.display = 'block';
+        iconLight.style.display = 'none';
+      }
+    }
   </script>
 </body>
 </html>
+
+

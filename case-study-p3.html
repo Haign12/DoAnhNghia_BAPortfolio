@@ -45,8 +45,8 @@
     .uiux-case { border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); overflow: hidden; }
     .case-hero { padding: 34px; border-bottom: 1px solid var(--border); }
     .case-kicker { font-size: 12px; color: var(--text3); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-    .case-title { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
-    .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
+        .case-title { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    .case-copy { color: var(--text); opacity: 0.95; font-size: 16px; max-width: 720px; line-height: 1.7; }
     .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
     .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
     .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
@@ -54,9 +54,73 @@
     .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
     .case-section:last-child { border-bottom: none; }
     .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
-    .case-section p { color: var(--text2); margin-bottom: 16px; line-height: 1.7; }
+    .case-section p { color: var(--text); opacity: 0.95; margin-bottom: 16px; line-height: 1.8; max-width: 720px; }
     
     .case-visual { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 300px; padding: 24px; }
+    
+    /* Back Link UX */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 16px 8px 0;
+      transition: color 0.2s ease;
+    }
+    .back-link span {
+      display: inline-block;
+      margin-right: 6px;
+      transition: transform 0.2s ease;
+    }
+    .back-link:hover {
+      color: var(--text);
+    }
+    .back-link:hover span {
+      transform: translateX(-4px);
+    }
+
+    /* Sticky TOC */
+    .toc-container {
+      position: absolute;
+      top: 0;
+      left: -240px;
+      width: 200px;
+      height: 100%;
+    }
+    @media (max-width: 1400px) {
+      .toc-container { display: none; }
+    }
+    .toc {
+      position: sticky;
+      top: 100px;
+      padding: 16px;
+      border-left: 2px solid var(--border);
+    }
+    .toc-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .toc a {
+      display: block;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+    .toc a:hover, .toc a.active {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .uiux-case { position: relative; border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); }
     
     footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
     footer strong { color: var(--text2); }
@@ -109,8 +173,16 @@
 
   <section class="uiux-project">
     <div class="uiux-case">
+            <!-- Sticky TOC (Desktop) -->
+      <div class="toc-container">
+        <div class="toc">
+          <div class="toc-title">Contents</div>
+          <a href="#problem">1. The Problem</a><a href="#constraints">2. Constraints</a><a href="#approach">3. BA Artifacts</a><a href="#ui-design">4. Core Functions &amp; UI</a><a href="#deep-dive">5. Deep Dive</a><a href="#edge-cases">6. Edge Cases</a><a href="#impact">7. Business Impact</a>
+        </div>
+      </div>
+
       <div class="case-hero">
-        <a href="index.html#ba-projects" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
+        <a href="index.html#ba-projects" class="back-link"><span>←</span> Back to Projects</a>
         <div class="case-kicker">Project 03</div>
         <h1 class="case-title">Office Group Order Optimization</h1>
         <p class="case-copy">Modeling the As-Is vs To-Be process of office group ordering to eliminate payment bottlenecks.</p>
@@ -118,26 +190,31 @@
           <div class="metric-chip"><span class="metric-value">Process Analyst</span><span class="metric-label">Role</span></div>
           <div class="metric-chip"><span class="metric-value">1 Week</span><span class="metric-label">Timeline</span></div>
           <div class="metric-chip"><span class="metric-value">Draw.io, BPMN 2.0</span><span class="metric-label">Tools</span></div>
+                </div>
+        
+        <!-- Hero Image Hook: Show, Don't Tell -->
+        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="thumb-p3.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
-      <div class="case-section">
+      <div class="case-section" id="problem">
         <h3>1. The Problem</h3>
         <p>At the office, the daily process of ordering group lunches or milk tea is a logistical nightmare. The process flows through a group chat where people constantly change their minds, forget to pay, and force the Admin to manually reconcile orders and shipping fees.</p>
         <p>This manual coordination results in a high "Payment Deficit" (Admin losing money) and a severe waste of productive work hours.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="constraints">
         <h3>2. Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> Third-party food delivery apps (like ShopeeFood or Grab) have group order features, but they often lack flexible payment splitting and don't allow the Admin to collect funds before placing the order.</p>
         <p><strong>The Trade-off:</strong> Instead of relying on rigid third-party apps, I modeled a custom To-Be process using a simple internal form linked to a QR payment gateway. The trade-off was a slight learning curve for staff, but absolute financial security for the Admin.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="approach">
         <h3>3. Approach & BA Artifacts</h3>
         <p><strong>A. Process Modeling (As-Is)</strong><br>I mapped the current state using BPMN 2.0. The diagram clearly highlighted the "Payment Collection" node as the critical bottleneck. Admin was advancing cash and acting as a debt collector post-delivery.</p>
         <p><strong>B. Bottleneck Detection</strong><br>By timing the process, I found the Admin spent an average of 45 minutes per order just tracing chat messages to match drinks with faces, and calculating the divided shipping fee.</p>
         <p><strong>C. Process Optimization (To-Be)</strong><br>I engineered a new flow: System calculates exact split -> Staff pays via QR -> System verifies 100% funds -> Order placed. No cash advanced, zero risk.</p>
       </div>
-      <div class="case-section">
+      <div class="case-section" id="ui-design">
         <h3>4. Core System Functions & UI Design</h3>
         <p>Beyond the interface, I defined strict functional requirements for the MVP:</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
@@ -171,9 +248,15 @@
             <div class="mock-node green">QR Payment Upfront</div> <span style="color: var(--text3);">→</span>
             <div class="mock-node">Vendor Receives Order</div>
           </div>
+                </div>
+        
+        <!-- Hero Image Hook: Show, Don't Tell -->
+        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="thumb-p3.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
-      <div class="case-section">
+
+      <div class="case-section" id="deep-dive">
         <h3>5. BA Deliverables Deep Dive</h3>
         
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. BPMN 2.0 Process Modeling</h4>
@@ -207,10 +290,15 @@
             <li style="margin-bottom: 12px;"><strong>BR-02 (Fee Distribution):</strong> The total shipping fee and external discounts SHALL be divided equally among all unique participating users, regardless of individual order volume.</li>
             <li><strong>BR-03 (Payment Verification):</strong> The Host SHALL NOT be allowed to trigger the "Place Order to Vendor" action until the system registers 100% of required funds transferred via the Dynamic QR gateway.</li>
           </ul>
+                </div>
+        
+        <!-- Hero Image Hook: Show, Don't Tell -->
+        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="thumb-p3.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
-      <div class="case-section">
+      <div class="case-section" id="edge-cases">
         <h3>6. Handling Edge Cases & Exception Flows</h3>
         <p>A "Happy Path" is never enough for a robust enterprise tool. To ensure the system handles real-world friction, I designed logic for the following edge cases:</p>
         
@@ -227,7 +315,7 @@
         <p><strong>The Solution (UX Flow):</strong> The <i>Create Session</i> screen features a URL scraper. The Admin simply pastes a ShopeeFood or GrabFood link, and the system automatically crawls the menu, prices, and options. Staff members receive a clean interface to "Add to Cart" with specific notes (e.g., "Less ice").</p>
       </div>
 
-      <div class="case-section">
+      <div class="case-section" id="impact">
         <h3>7. Business Impact & Results</h3>
         <p>Modeling and optimizing this micro-process yielded immediate, measurable ROI for the team.</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
@@ -275,7 +363,7 @@
       updateIcons(targetTheme);
     });
 
-    function updateIcons(theme) {
+        function updateIcons(theme) {
       if (theme === 'light') {
         iconDark.style.display = 'none';
         iconLight.style.display = 'block';
@@ -284,6 +372,38 @@
         iconLight.style.display = 'none';
       }
     }
+
+    // TOC Scrollspy
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('.case-section');
+      const navLinks = document.querySelectorAll('.toc a');
+
+      function setActiveTOC() {
+        let currentId = '';
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 150) {
+            currentId = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentId}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', setActiveTOC, { passive: true });
+      setActiveTOC();
+    }); else {
+        iconDark.style.display = 'block';
+        iconLight.style.display = 'none';
+      }
+    }
   </script>
 </body>
 </html>
+
+
