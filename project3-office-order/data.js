@@ -26,11 +26,19 @@ const stepperSteps = [
 ];
 
 const orderItems = [
-  { name: 'Trà Sữa Trân Châu', qty: 2, price: 35000 },
-  { name: 'Cà Phê Sữa Đá', qty: 3, price: 29000 },
-  { name: 'Matcha Latte', qty: 1, price: 45000 },
-  { name: 'Bạc Xỉu', qty: 2, price: 32000 },
-  { name: 'Phí Ship', qty: 1, price: 15000 }
+  { id: 1, name: 'Trà Sữa Trân Châu', qty: 2, price: 35000, category: 'Beverage' },
+  { id: 2, name: 'Cà Phê Sữa Đá', qty: 3, price: 29000, category: 'Coffee' },
+  { id: 3, name: 'Matcha Latte', qty: 1, price: 45000, category: 'Tea' },
+  { id: 4, name: 'Bạc Xỉu', qty: 2, price: 32000, category: 'Coffee' },
+  { id: 5, name: 'Phí Ship (Discount Shared)', qty: 1, price: 15000, category: 'Fee' }
+];
+
+const participants = [
+  { id: 1, name: 'Anh Nghĩa (Host)', item: 'Trà Sữa Trân Châu x1, Bạc Xỉu x1', amount: 69000, status: 'Paid', avatar: 'AN', method: 'Momo' },
+  { id: 2, name: 'Minh Tuấn', item: 'Cà Phê Sữa Đá x1', amount: 32000, status: 'Unpaid', avatar: 'MT', method: 'Pending' },
+  { id: 3, name: 'Hương Giang', item: 'Matcha Latte x1', amount: 48000, status: 'Unpaid', avatar: 'HG', method: 'Pending' },
+  { id: 4, name: 'Hoàng Nam', item: 'Cà Phê Sữa Đá x1', amount: 32000, status: 'Paid', avatar: 'HN', method: 'VNPay' },
+  { id: 5, name: 'Thu Trang', item: 'Trà Sữa Trân Châu x1, Cà Phê x1', amount: 67000, status: 'Unpaid', avatar: 'TT', method: 'Pending' }
 ];
 
 const totalPeople = 5;

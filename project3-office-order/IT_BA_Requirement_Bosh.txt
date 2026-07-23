@@ -1,0 +1,114 @@
+================================================================================
+BUSINESS REQUIREMENT SPECIFICATION & FUNCTIONAL SPECIFICATION (BRD / FRD)
+Project Name: OrderFlow - Office Group Order & Payment Optimization System
+Lead Business Analyst: Đỗ Anh Nghĩa
+Date: July 2026
+Version: 2.0 (Production Candidate)
+================================================================================
+
+1. EXECUTIVE SUMMARY
+--------------------------------------------------------------------------------
+In modern office environments, group food & beverage ordering is a daily operational 
+routine. However, manual coordination by group hosts leads to severe productivity 
+loss, cash flow bottlenecks, and frequent financial deficits due to forgotten 
+transfers or shipping fee miscalculations.
+
+OrderFlow is a specialized Enterprise Fintech solution engineered to automate the 
+entire group order lifecycle from item aggregation, cost sharing, dynamic QR payment 
+generation, to real-time status tracking and vendor dispatch.
+
+2. BUSINESS OBJECTIVES & KEY PERFORMANCE INDICATORS (KPIs)
+--------------------------------------------------------------------------------
+- Coordination Time Reduction: Reduce average host coordination time from 50 minutes 
+  to under 5 minutes per order (-90%).
+- Deficit Elimination: Reduce payment loss/deficit rate from 12% to 0.00% by enforcing 
+  upfront dynamic QR payment verification.
+- Process Efficiency Gain: Boost process efficiency by +80% compared to manual messaging 
+  threads (Slack/Zalo).
+- Member Satisfaction: Achieve >95% positive feedback on group payment experience.
+
+3. AS-IS VS TO-BE PROCESS GAP ANALYSIS
+--------------------------------------------------------------------------------
+[AS-IS PROCESS - MANUAL (HIGH RISK)]
+1. Host posts text query in group chat ("Who wants drinks?").
+2. Team members send individual text requests across unorganized threads.
+3. Host manually compiles item count on paper/Excel.
+4. Host places order with vendor and pays 100% out-of-pocket (Cash Flow Risk).
+5. Host manually calculates individual costs + shipping fee splits (45 min Time Sink).
+6. Host posts bank details and sends individual reminder messages.
+7. Team members transfer money later (often forgotten or miscalculated -> 12% Deficit).
+
+[TO-BE PROCESS - AUTOMATED (ZERO RISK)]
+1. Host initializes Order Session in OrderFlow; countdown timer starts (e.g., 15 mins).
+2. Team members open self-service link and select items into shared draft.
+3. System automatically calculates individual splits, taxes, and shipping discounts instantly.
+4. System generates dynamic VietQR/Momo QR codes tied to exact member amounts.
+5. Members scan and pay directly; system receives webhook confirmation in real-time.
+6. Once 100% funds are verified, system automatically dispatches order to vendor.
+
+4. FUNCTIONAL REQUIREMENTS MATRIX (FRD)
+--------------------------------------------------------------------------------
+FR-01: Order Session Management
+- Description: System shall allow Host to initiate, pause, extend, or close an order 
+  session with an active countdown timer.
+- Priority: High (Must Have)
+- Acceptance Criteria: Given a host starts a session, when timer reaches 00:00, order 
+  draft automatically locks for new item entries.
+
+FR-02: Self-Service Item Aggregation
+- Description: System shall render a real-time collaborative item list where participants 
+  can add, edit, or remove their selected items.
+- Priority: High (Must Have)
+- Acceptance Criteria: Item changes shall update grand total and per-person split 
+  dynamically without page refresh.
+
+FR-03: Dynamic Cost & Fee Split Engine
+- Description: System shall calculate individual shares including base item price, 
+  proportional VAT, and equal/proportional shipping fee allocation.
+- Priority: High (Must Have)
+- Acceptance Criteria: Sum of individual splits MUST equal 100% of vendor grand total.
+
+FR-04: Dynamic QR Payment Integration
+- Description: System shall generate dynamic VietQR / Momo / VNPay QR codes containing 
+  exact amount and payment reference code (e.g., "OF-1223-HN").
+- Priority: High (Must Have)
+- Acceptance Criteria: Scanning QR auto-populates exact amount and recipient account.
+
+FR-05: Real-Time Payment Webhook & Status Tracking
+- Description: System shall monitor payment status per participant (Paid / Unpaid) 
+  and display progress visually.
+- Priority: High (Must Have)
+- Acceptance Criteria: When payment webhook triggers, status updates to "Paid" within <1s.
+
+FR-06: Automated Slack/Teams Reminder Trigger
+- Description: System shall provide a 1-click or automated reminder action to notify 
+  unpaid participants via chat bot.
+- Priority: Medium (Should Have)
+- Acceptance Criteria: Clicking "Remind" sends targeted notification with payment link.
+
+FR-07: Executive Reporting & Export
+- Description: System shall generate exportable PDF/CSV reports detailing session 
+  history, total spend, time saved, and vendor breakdown.
+- Priority: Medium (Should Have)
+
+5. NON-FUNCTIONAL REQUIREMENTS (NFR)
+--------------------------------------------------------------------------------
+- Performance: Page load time < 1.2s; QR generation time < 300ms.
+- Reliability: 99.9% uptime for payment status webhooks.
+- Security: TLS 1.3 encryption; zero storage of sensitive banking credentials.
+- Usability: Responsive Mobile-First design adhering to WCAG 2.1 AA accessibility.
+
+6. ACCEPTANCE CRITERIA EXAMPLE (GHERKIN SCENARIO)
+--------------------------------------------------------------------------------
+Scenario: Automated Split Calculation with Shipping Fee
+  Given a group order with Grand Total = 248.000đ (including 15.000đ shipping fee)
+  And 5 active participants in the session
+  When the Host clicks "Auto-Calculate Shares"
+  Then the System calculates equal/proportional split per person
+  And displays individual split balance (e.g. 49.600đ)
+  And enables instant QR Code generation for each participant.
+
+================================================================================
+Document Approved by Lead BA: Đỗ Anh Nghĩa
+Status: Active Specification
+================================================================================
