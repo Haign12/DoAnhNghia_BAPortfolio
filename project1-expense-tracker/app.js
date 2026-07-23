@@ -173,10 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
     toast.className = 'toast';
     
     const icons = {
-      'info': '💡',
-      'success': '✅',
-      'warning': '⚠️',
-      'error': '❌'
+      'info': '<i class="ph ph-info" style="color: #8E75C8;"></i>',
+      'success': '<i class="ph ph-check-circle" style="color: #22c55e;"></i>',
+      'warning': '<i class="ph ph-warning" style="color: #f59e0b;"></i>',
+      'error': '<i class="ph ph-x-circle" style="color: #ef4444;"></i>'
     };
     
     toast.innerHTML = `

@@ -14,7 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const toast = document.createElement('div');
     toast.className = 'toast';
-    const icons = { 'info': '💡', 'success': '✅', 'warning': '⚠️', 'error': '❌' };
+    const icons = {
+      'info': '<i class="ph ph-info" style="color: #60A5FA;"></i>',
+      'success': '<i class="ph ph-check-circle" style="color: #10b981;"></i>',
+      'warning': '<i class="ph ph-warning" style="color: #f59e0b;"></i>',
+      'error': '<i class="ph ph-x-circle" style="color: #ef4444;"></i>'
+    };
     toast.innerHTML = `
       <span class="toast-icon">${icons[type] || icons.info}</span>
       <span>${message}</span>
