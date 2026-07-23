@@ -154,9 +154,14 @@
         <div class="budget-alert-icon" style="background: rgba(239, 68, 68, 0.15);">
           <i class="ph ph-warning-circle" style="font-size: 16px; color: #dc2626;"></i>
         </div>
-        <div>
-          <strong>Health</strong> budget exceeded — $30.00 spent vs $25.00 limit (+$5.00 over).
-          <span style="color: var(--text-muted); font-size: 0.78rem;"> Ghost subscription detected!</span>
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <div>
+            <strong>Health</strong> budget exceeded — $30.00 spent vs $25.00 limit (+$5.00 over).
+            <span style="color: var(--text-muted); font-size: 0.78rem;"> Ghost subscription detected!</span>
+          </div>
+          <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; flex-shrink: 0;" onclick="showToast('Gym Membership ($30.00/mo) paused — saved $30/mo!', 'success', 4000);">
+            <i class="ph ph-pause-circle" style="font-size: 14px; color: var(--purple-500);"></i> Pause Gym ($30)
+          </button>
         </div>
       </div>
       <div class="budget-alert alert-success">

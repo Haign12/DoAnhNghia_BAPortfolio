@@ -296,12 +296,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ══════════════════════════════════════════════════════════════
-  // TIMELINE BAR TOOLTIPS
+  // TIMELINE BAR & EMPTY SLOT HANDLERS
   // ══════════════════════════════════════════════════════════════
   document.querySelectorAll('.timeline-bar').forEach(bar => {
-    bar.addEventListener('click', () => {
+    bar.addEventListener('click', (e) => {
+      e.stopPropagation();
       const name = bar.textContent.trim();
       showToast(`Booking: ${name} — click to view details`, 'info', 3000);
+    });
+  });
+
+  document.querySelectorAll('.timeline-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (!e.target.closest('.timeline-bar')) {
+        showToast('Empty slot selected: Opening Quick Reservation form for this room', 'info', 3000);
+      }
     });
   });
 

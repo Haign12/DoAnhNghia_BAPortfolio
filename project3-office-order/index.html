@@ -176,8 +176,11 @@
       
       <!-- To-Be Process -->
       <div class="process-panel fade-in" style="animation-delay: 0.2s;">
-        <div class="panel-header">
+        <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
           <h2>To-Be Process (Automated) <span class="panel-tag success-tag">Optimized</span></h2>
+          <button class="view-all-btn" id="simulateProcessBtn" style="color: var(--teal); border-color: var(--teal); display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; font-size: 0.75rem;">
+            <i class="ph ph-play-circle" style="font-size: 14px;"></i> Simulate Flow
+          </button>
         </div>
         <div class="bpmn-container" id="tobeProcess"></div>
       </div>

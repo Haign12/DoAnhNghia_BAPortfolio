@@ -366,6 +366,43 @@ function renderParticipants() {
 
 renderParticipants();
 
+// --- Process Simulator ---------------------------------------
+const simulateProcessBtn = document.getElementById('simulateProcessBtn');
+if (simulateProcessBtn) {
+  simulateProcessBtn.addEventListener('click', () => {
+    simulateProcessBtn.disabled = true;
+    simulateProcessBtn.innerHTML = '<i class="ph ph-spinner spinner" style="font-size: 14px;"></i> Simulating...';
+    
+    const steps = document.querySelectorAll('#tobeProcess .process-step');
+    let delay = 0;
+    
+    steps.forEach((step, idx) => {
+      setTimeout(() => {
+        steps.forEach(s => s.style.border = '');
+        step.style.border = '2px solid var(--teal)';
+        step.style.borderRadius = '12px';
+        step.style.boxShadow = '0 0 12px rgba(0, 212, 170, 0.4)';
+        
+        const msg = toBeProcess[idx] ? `Step ${idx+1}: ${toBeProcess[idx].text}` : `Process Step ${idx+1}`;
+        showToast(msg, '<i class="ph ph-play-circle" style="color: var(--teal);"></i>');
+        
+        if (idx === steps.length - 1) {
+          setTimeout(() => {
+            steps.forEach(s => {
+              s.style.border = '';
+              s.style.boxShadow = '';
+            });
+            showToast('Simulation Complete: To-Be process saved 45 mins & eliminated payment deficit!', '<i class="ph ph-check-circle" style="color: var(--teal);"></i>', 4000);
+            simulateProcessBtn.disabled = false;
+            simulateProcessBtn.innerHTML = '<i class="ph ph-play-circle" style="font-size: 14px;"></i> Simulate Flow';
+          }, 1200);
+        }
+      }, delay);
+      delay += 1200;
+    });
+  });
+}
+
 // --- Search Filter Logic -------------------------------------
 const searchInput = document.querySelector('.search-box input');
 if (searchInput) {
@@ -377,3 +414,4 @@ if (searchInput) {
     });
   });
 }
+
