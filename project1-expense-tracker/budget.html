@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Budget | Expense Tracker</title>
+  <title>Budget Planner | Expense Tracker</title>
   <meta name="description" content="Set and track monthly budgets by category with smart alerts.">
   <link rel="icon" type="image/png" href="../logo.png?v=3">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -70,6 +70,21 @@
 
   <main class="main-content">
 
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="search-box">
+        <i class="ph ph-magnifying-glass" style="font-size: 16px;"></i>
+        <input type="text" placeholder="Search budgets & categories...">
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-icon">
+          <i class="ph ph-bell" style="font-size: 18px;"></i>
+          <span class="notif-dot"></span>
+        </div>
+        <div class="topbar-avatar">DN</div>
+      </div>
+    </div>
+
     <div class="page-header">
       <div>
         <h1 class="page-title">Budget Planner</h1>
@@ -82,7 +97,7 @@
           <option>May 2026</option>
         </select>
         <button class="btn btn-primary">
-          <i class="ph ph-plus"></i>
+          <i class="ph ph-plus" style="font-size: 16px;"></i>
           Set Budget
         </button>
       </div>
@@ -123,25 +138,31 @@
     <!-- Smart Alerts -->
     <div style="margin-bottom: 20px;">
       <div style="font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-        <i class="ph ph-bell-ringing" style="color: var(--orange-500);"></i>
+        <i class="ph ph-bell-ringing" style="color: var(--orange-500); font-size: 18px;"></i>
         Smart Budget Alerts
       </div>
       <div class="budget-alert alert-warning">
-        <div class="budget-alert-icon" style="background: rgba(245, 158, 11, 0.15);">⚠️</div>
+        <div class="budget-alert-icon" style="background: rgba(245, 158, 11, 0.15);">
+          <i class="ph ph-warning" style="font-size: 16px; color: #d97706;"></i>
+        </div>
         <div>
           <strong>Entertainment</strong> is at 86% — you have $4.07 left for 11 days.
           <span style="color: var(--text-muted); font-size: 0.78rem;"> Consider pausing Netflix or Audible.</span>
         </div>
       </div>
       <div class="budget-alert alert-danger">
-        <div class="budget-alert-icon" style="background: rgba(239, 68, 68, 0.15);">🚨</div>
+        <div class="budget-alert-icon" style="background: rgba(239, 68, 68, 0.15);">
+          <i class="ph ph-warning-circle" style="font-size: 16px; color: #dc2626;"></i>
+        </div>
         <div>
           <strong>Health</strong> budget exceeded — $30.00 spent vs $25.00 limit (+$5.00 over).
           <span style="color: var(--text-muted); font-size: 0.78rem;"> Ghost subscription detected!</span>
         </div>
       </div>
       <div class="budget-alert alert-success">
-        <div class="budget-alert-icon" style="background: rgba(34, 197, 94, 0.15);">✅</div>
+        <div class="budget-alert-icon" style="background: rgba(34, 197, 94, 0.15);">
+          <i class="ph ph-check-circle" style="font-size: 16px; color: #16a34a;"></i>
+        </div>
         <div>
           <strong>Storage</strong> is well under budget at 15% — excellent cost control!
         </div>
@@ -156,7 +177,7 @@
       <div class="budget-card">
         <div class="budget-category-header">
           <div class="budget-category-name">
-            <i class="ph ph-code" style="color: var(--purple-500);"></i>
+            <i class="ph ph-palette" style="color: var(--purple-500); font-size: 18px;"></i>
             Productivity
           </div>
           <div class="budget-category-amount">$72.99 / $100</div>
@@ -178,7 +199,7 @@
       <div class="budget-card">
         <div class="budget-category-header">
           <div class="budget-category-name">
-            <i class="ph ph-graduation-cap" style="color: var(--purple-500);"></i>
+            <i class="ph ph-graduation-cap" style="color: var(--purple-500); font-size: 18px;"></i>
             Education
           </div>
           <div class="budget-category-amount">$49.00 / $60</div>
@@ -199,7 +220,7 @@
       <div class="budget-card">
         <div class="budget-category-header">
           <div class="budget-category-name">
-            <i class="ph ph-film-slate" style="color: var(--purple-500);"></i>
+            <i class="ph ph-film-slate" style="color: var(--purple-500); font-size: 18px;"></i>
             Entertainment
           </div>
           <div class="budget-category-amount">$30.94 / $35</div>
@@ -221,10 +242,10 @@
       <div class="budget-card">
         <div class="budget-category-header">
           <div class="budget-category-name">
-            <i class="ph ph-heartbeat" style="color: var(--red-500);"></i>
+            <i class="ph ph-barbell" style="color: var(--red-500); font-size: 18px;"></i>
             Health
           </div>
-          <div class="budget-category-amount" style="color: var(--red-500);">$30.00 / $25 ⚠️</div>
+          <div class="budget-category-amount" style="color: var(--red-500);">$30.00 / $25 <i class="ph ph-warning" style="color: var(--red-500);"></i></div>
         </div>
         <div class="budget-progress-bar">
           <div class="budget-progress-fill danger" data-width="100%" style="width: 0%;"></div>
@@ -242,7 +263,7 @@
       <div class="budget-card">
         <div class="budget-category-header">
           <div class="budget-category-name">
-            <i class="ph ph-music-notes" style="color: var(--purple-500);"></i>
+            <i class="ph ph-music-notes" style="color: var(--purple-500); font-size: 18px;"></i>
             Music
           </div>
           <div class="budget-category-amount">$9.99 / $15</div>
@@ -263,7 +284,7 @@
       <div class="budget-card">
         <div class="budget-category-header">
           <div class="budget-category-name">
-            <i class="ph ph-cloud" style="color: var(--green-500);"></i>
+            <i class="ph ph-cloud" style="color: var(--green-500); font-size: 18px;"></i>
             Storage
           </div>
           <div class="budget-category-amount">$2.99 / $20</div>
