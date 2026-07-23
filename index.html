@@ -297,11 +297,11 @@
 
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
     }
 
-    .project-card {
+    .project-card, .ba-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 20px;
@@ -313,23 +313,46 @@
       position: relative;
     }
 
-    .project-card:hover {
+    .ba-card {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .project-card:hover, .ba-card:hover {
       transform: translateY(-6px);
       border-color: var(--card-hover-border);
       box-shadow: var(--card-hover-shadow);
       background: var(--card-hover-bg);
     }
 
+    .ba-card .card-thumb-wrapper {
+      flex: 0 0 50%;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .ba-card .card-body {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
     /* Card Thumbnail */
     .card-thumb {
       width: 100%;
+      height: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
       display: block;
-      border-bottom: 1px solid var(--border);
       transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .project-card:hover .card-thumb {
+    .project-card .card-thumb {
+      border-bottom: 1px solid var(--border);
+    }
+    .project-card:hover .card-thumb, .ba-card:hover .card-thumb {
       transform: scale(1.03);
     }
     .card-thumb-wrapper {
@@ -666,6 +689,19 @@
         grid-template-columns: 1fr;
         max-width: 500px;
         margin: 0 auto;
+      }
+      
+      .ba-card {
+        flex-direction: column;
+      }
+      
+      .ba-card .card-thumb-wrapper {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .ba-card .card-body {
+        padding: 28px;
       }
 
       h1 {
@@ -1026,7 +1062,7 @@
     <p class="section-sub">Each project targets a core BA competency expected by enterprise environments</p>
     <div class="project-list" style="display: flex; flex-direction: column; gap: 32px;">
       <!-- Project 01: KPI Dashboard -->
-      <div class="project-card" id="project-01">
+      <div class="ba-card" id="project-01">
         <div class="card-thumb-wrapper">
           <img src="thumb-p1.png" alt="Expense Tracker Dashboard Preview" class="card-thumb" loading="lazy">
         </div>
@@ -1056,7 +1092,7 @@
       </div>
 
       <!-- Project 02: Co-living Manager -->
-      <div class="project-card" id="project-02">
+      <div class="ba-card" id="project-02">
         <div class="card-thumb-wrapper">
           <img src="thumb-p2.png" alt="Co-living Manager Dashboard Preview" class="card-thumb" loading="lazy">
         </div>
@@ -1086,7 +1122,7 @@
       </div>
 
       <!-- Project 03: Process Analyzer -->
-      <div class="project-card" id="project-03">
+      <div class="ba-card" id="project-03">
         <div class="card-thumb-wrapper">
           <img src="thumb-p3.png" alt="BPMN Process Diagram Preview" class="card-thumb" loading="lazy">
         </div>
@@ -1125,22 +1161,18 @@
     <div class="project-grid">
       <!-- Project 04: FlowCRM -->
       <div class='project-card'>
-        <div class='card-gradient green'></div>
+        <div class="card-thumb-wrapper">
+          <img src="thumb-p4.png" alt="FlowCRM Preview" class="card-thumb" loading="lazy">
+        </div>
         <div class='card-body'>
           <div class='card-number'>Project 04</div>
           <h3 class='card-title'>FlowCRM UI/UX</h3>
-          <p class='card-desc'>B2B CRM system. Marketing pushed for fully automated reporting, but time was short. I
-            scoped a manual export MVP first to meet the tight deadline.</p>
-          <ul class='card-features'>
-            <li>Dashboard & Data Visualization</li>
-            <li>User & Customer Management</li>
-            <li>Front-end Implementation</li>
-          </ul>
-          <div class='card-skills'>
-            <span class='card-skill'>UI/UX</span>
-            <span class='card-skill'>Figma</span>
+          <p class='card-desc'>B2B CRM system focusing on automated reporting.</p>
+          <div class='card-skills' style="margin-bottom: 24px;">
+            <span class='card-skill'>Dashboard Design</span>
+            <span class='card-skill'>User Management</span>
           </div>
-          <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <div style="display: flex; gap: 8px;">
             <a href='https://github.com/Ngh1aa/FlowCRM.git' target="_blank" class='card-link'
               style="flex:1; padding: 12px 4px; text-align: center; background: transparent; border: 1px solid var(--border); color: var(--text);">Source</a>
             <a href='https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/FlowCRM?node-id=115-844&t=olixz40306OQsLOS-0'
@@ -1152,22 +1184,18 @@
 
       <!-- Project 05: Atelier -->
       <div class='project-card'>
-        <div class='card-gradient cyan'></div>
+        <div class="card-thumb-wrapper">
+          <img src="thumb-p5.png" alt="Atelier Preview" class="card-thumb" loading="lazy">
+        </div>
         <div class='card-body'>
           <div class='card-number'>Project 05</div>
           <h3 class='card-title'>Atelier / Clother UI/UX</h3>
-          <p class='card-desc'>Interface and user experience design for the Atelier / Clother fashion e-commerce
-            project.</p>
-          <ul class='card-features'>
-            <li>Visual Design & UI Layout</li>
-            <li>Mobile-first Design</li>
-            <li>Front-end Implementation</li>
-          </ul>
-          <div class='card-skills'>
-            <span class='card-skill'>UI/UX</span>
-            <span class='card-skill'>Figma</span>
+          <p class='card-desc'>E-commerce fashion mobile application focusing on visual elegance and seamless shopping.</p>
+          <div class='card-skills' style="margin-bottom: 24px;">
+            <span class='card-skill'>Mobile-first</span>
+            <span class='card-skill'>UI Layout</span>
           </div>
-          <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <div style="display: flex; gap: 8px;">
             <a href='https://github.com/Ngh1aa/Atelier' target="_blank" class='card-link'
               style="flex:1; padding: 12px 4px; text-align: center; background: transparent; border: 1px solid var(--border); color: var(--text);">Source</a>
             <a href='https://www.figma.com/design/E07BqE4X8apHhziPardmDG/Clother?node-id=0-1&t=7By6wJNx35IMxW9A-1'
@@ -1179,21 +1207,18 @@
 
       <!-- Project 06: LuxRoom -->
       <div class='project-card'>
-        <div class='card-gradient purple'></div>
+        <div class="card-thumb-wrapper">
+          <img src="thumb-p6.png" alt="LuxRoom Preview" class="card-thumb" loading="lazy">
+        </div>
         <div class='card-body'>
           <div class='card-number'>Project 06</div>
           <h3 class='card-title'>LuxRoom UI/UX Design</h3>
-          <p class='card-desc'>Interface and user experience design for the LuxRoom furniture project.</p>
-          <ul class='card-features'>
-            <li>Visual Design & UI Layout</li>
-            <li>Responsive Design / Mobile-first</li>
-            <li>Front-end Implementation</li>
-          </ul>
-          <div class='card-skills'>
-            <span class='card-skill'>UI/UX</span>
-            <span class='card-skill'>Figma</span>
+          <p class='card-desc'>Luxury furniture application focusing on modern earthy tones and elegant typography.</p>
+          <div class='card-skills' style="margin-bottom: 24px;">
+            <span class='card-skill'>Responsive Design</span>
+            <span class='card-skill'>Visual Hierarchy</span>
           </div>
-          <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <div style="display: flex; gap: 8px;">
             <a href='https://github.com/Ngh1aa/LuxRoom' target="_blank" class='card-link'
               style="flex:1; padding: 12px 4px; text-align: center; background: transparent; border: 1px solid var(--border); color: var(--text);">Source</a>
             <a href='https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/Funiture?node-id=0-1&t=EV1RdWTZ9jTMQXzK-0'
