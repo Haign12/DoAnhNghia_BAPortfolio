@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoices & Billing | Co-living Manager</title>
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+<!-- Portfolio Demo Bar -->
+<div class="portfolio-demo-bar">
+  <div class="demo-info">
+    <span class="live-dot"></span>
+    <span class="demo-text">Interactive Prototype</span>
+  </div>
+  <a href="../index.html#project-02" class="back-portfolio-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Portfolio
+  </a>
+</div>
+<!-- End: Portfolio Demo Bar -->
+
+  <div class="page-container">
+    <div class="unified-header">
+      <!-- Top Navigation (Dark) -->
+      <nav class="top-nav">
+        <div class="nav-brand">
+          <div class="nav-brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 10L12 3L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5 10V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 21V14H15V21" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="nav-brand-name">Co<span style="color: #60A5FA;">Space.</span></span>
+        </div>
+        <div class="nav-links">
+          <a href="dashboard.html" class="nav-link">Dashboard</a>
+          <a href="tenants.html" class="nav-link">Guests</a>
+          <a href="index.html" class="nav-link">Reservations</a>
+          <a href="rooms.html" class="nav-link">Rooms</a>
+          <a href="invoices.html" class="nav-link active">Invoices</a>
+        </div>
+        <div class="nav-right">
+          <button class="nav-icon-btn"><i class="ph ph-magnifying-glass" style="font-size: 16px;"></i></button>
+          <button class="nav-icon-btn"><i class="ph ph-envelope-simple" style="font-size: 16px;"></i></button>
+          <button class="nav-icon-btn"><i class="ph ph-bell" style="font-size: 16px;"></i></button>
+          <div class="nav-avatar">DN</div>
+        </div>
+      </nav>
+      <div class="page-header">
+        <div>
+          <div class="page-greeting">Invoices & Billing</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-primary">
+            <span>+</span> Create Invoice
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Monthly Revenue</div>
+        <div class="kpi-sublabel">Rent + Utilities billed</div>
+        <div style="margin-top: 12px;">
+          <span class="kpi-value">$24,850</span>
+          <span class="kpi-change up">+8.2%</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Paid Invoices</div>
+        <div class="kpi-sublabel">38 of 42 collected</div>
+        <div style="margin-top: 12px;">
+          <span class="kpi-value">$22,100</span>
+          <span class="kpi-change up">90.4%</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Pending / Overdue</div>
+        <div class="kpi-sublabel">4 tenant invoices remaining</div>
+        <div style="margin-top: 12px;">
+          <span class="kpi-value" style="color: #dc2626;">$2,750</span>
+          <span class="kpi-change down">4 Overdue</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg. Utility / Room</div>
+        <div class="kpi-sublabel">Water, Elec, Wifi breakdown</div>
+        <div style="margin-top: 12px;">
+          <span class="kpi-value">$142.50</span>
+          <span class="kpi-change down">-3.1%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab active">All</button>
+      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-paid);"></span> Paid</button>
+      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-draft);"></span> Draft</button>
+      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-overdue);"></span> Overdue</button>
+    </div>
+
+    <!-- Invoice Table -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">All Billing Statements</div>
+          <div class="card-subtitle">Monthly rent, utilities, and maintenance fee breakdown</div>
+        </div>
+        <span class="page-date" style="font-size: 0.85rem; cursor: pointer;">
+          July 2026 ▾
+        </span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 40px;">
+              <label class="custom-checkbox">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+            </th>
+            <th>Invoice ID</th>
+            <th>Tenant</th>
+            <th>Room</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <label class="custom-checkbox">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+            </td>
+            <td style="font-weight: 600;">#INV-0001</td>
+            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">AT</div> Alex Trie</div></td>
+            <td>S-01</td>
+            <td>Jun 1, 2026</td>
+            <td>Jun 15, 2026</td>
+            <td style="font-weight: 700;">$650.00</td>
+            <td><span class="status-badge paid">Paid</span></td>
+            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <label class="custom-checkbox">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+            </td>
+            <td style="font-weight: 600;">#INV-0002</td>
+            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">AB</div> Annette Black</div></td>
+            <td>S-22</td>
+            <td>Jun 1, 2026</td>
+            <td>Jun 15, 2026</td>
+            <td style="font-weight: 700;">$720.00</td>
+            <td><span class="status-badge paid">Paid</span></td>
+            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <label class="custom-checkbox">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+            </td>
+            <td style="font-weight: 600;">#INV-0003</td>
+            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);">JB</div> Jerome Bell</div></td>
+            <td>D-08</td>
+            <td>Jun 1, 2026</td>
+            <td>Jun 15, 2026</td>
+            <td style="font-weight: 700;">$980.00</td>
+            <td><span class="status-badge overdue">Overdue</span></td>
+            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <label class="custom-checkbox">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+            </td>
+            <td style="font-weight: 600;">#INV-0004</td>
+            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #ec4899, #f472b6);">JW</div> Jenny Wilson</div></td>
+            <td>D-05</td>
+            <td>Jul 1, 2026</td>
+            <td>Jul 15, 2026</td>
+            <td style="font-weight: 700;">$950.00</td>
+            <td><span class="status-badge draft">Draft</span></td>
+            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <span>Showing 1-4 of 42 invoices</span>
+        <div class="page-controls">
+          <button style="color: var(--text-light);">&lt;</button>
+          <button class="active">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>&gt;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <a href="dashboard.html" class="mobile-nav-item"><i class="ph ph-squares-four"></i>Dash</a>
+      <a href="tenants.html" class="mobile-nav-item"><i class="ph ph-users"></i>Guests</a>
+      <a href="index.html" class="mobile-nav-item"><i class="ph ph-calendar-check"></i>Bookings</a>
+      <a href="rooms.html" class="mobile-nav-item"><i class="ph ph-bed"></i>Rooms</a>
+      <a href="invoices.html" class="mobile-nav-item active"><i class="ph ph-receipt"></i>Bills</a>
+    </div>
+  </nav>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

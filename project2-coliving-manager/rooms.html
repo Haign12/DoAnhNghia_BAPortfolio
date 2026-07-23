@@ -47,6 +47,7 @@
       <a href="tenants.html" class="nav-link">Guests</a>
       <a href="index.html" class="nav-link">Reservations</a>
       <a href="rooms.html" class="nav-link active">Rooms</a>
+      <a href="invoices.html" class="nav-link">Invoices</a>
     </div>
     <div class="nav-right">
       <button class="nav-icon-btn"><i class="ph ph-magnifying-glass" style="font-size: 16px;"></i></button>
@@ -57,11 +58,11 @@
   </nav>
       <div class="page-header">
       <div>
-        <div class="page-greeting">Rooms</div>
+        <div class="page-greeting">Rooms Schedule</div>
       </div>
       <div style="display: flex; align-items: center; gap: 16px;">
         <button class="btn-primary">
-          <span>+</span> New reservation
+          <span>+</span> Add Room
         </button>
       </div>
     </div>
@@ -69,13 +70,10 @@
 
     <!-- Filter Tabs -->
     <div class="filter-tabs">
-      <button class="filter-tab active">All</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-new);"></span> New</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-confirmed);"></span> Confirmed</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-checked-in);"></span> Checked In</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-checked-out);"></span> Checked Out</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-paid);"></span> Completed</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-cancelled);"></span> Cancelled</button>
+      <button class="filter-tab active">All Types</button>
+      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-confirmed);"></span> Single Room</button>
+      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-checked-in);"></span> Double Room</button>
+      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-new);"></span> Deluxe Room</button>
     </div>
 
     <!-- Timeline / Gantt Card -->
@@ -175,12 +173,17 @@
     </div>
   </div>
 
-  
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <a href="dashboard.html" class="mobile-nav-item"><i class="ph ph-squares-four"></i>Dash</a>
+      <a href="tenants.html" class="mobile-nav-item"><i class="ph ph-users"></i>Guests</a>
+      <a href="index.html" class="mobile-nav-item"><i class="ph ph-calendar-check"></i>Bookings</a>
+      <a href="rooms.html" class="mobile-nav-item active"><i class="ph ph-bed"></i>Rooms</a>
+      <a href="invoices.html" class="mobile-nav-item"><i class="ph ph-receipt"></i>Bills</a>
+    </div>
+  </nav>
 
-
-
-
-
-
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
