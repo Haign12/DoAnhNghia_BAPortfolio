@@ -61,6 +61,10 @@
         <i class="ph ph-gear" style="font-size: 20px;"></i>
         <span class="tooltip">Settings</span>
       </a>
+      <a href="budget.html" class="sidebar-nav-item" data-tooltip="Budget">
+        <i class="ph ph-wallet" style="font-size: 20px;"></i>
+        <span class="tooltip">Budget</span>
+      </a>
     </nav>
   </aside>
 
@@ -116,7 +120,7 @@
         <div style="margin-top: 12px;"><span class="badge badge-active">● Active</span></div>
       </div>
 
-      <div class="sub-card">
+      <div class="sub-card ghost">
         <div class="sub-card-head">
           <div class="sub-icon"><i class="ph ph-graduation-cap"></i></div>
           <div class="sub-actions">
@@ -135,7 +139,10 @@
             <div class="sub-stat-value">35d ago</div>
           </div>
         </div>
-        <div style="margin-top: 12px;"><span class="badge badge-ghost">● Ghost</span></div>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <span class="badge badge-ghost">● Ghost</span>
+          <button class="btn btn-link text-red" style="padding: 4px 10px; font-size: 0.7rem;">Cancel</button>
+        </div>
       </div>
 
       <div class="sub-card ghost">
@@ -280,7 +287,20 @@
 
   </main>
 
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item"><i class="ph ph-squares-four"></i>Overview</a>
+    <a href="transactions.html" class="mobile-nav-item"><i class="ph ph-arrows-left-right"></i>Txns</a>
+    <a href="analytics.html" class="mobile-nav-item"><i class="ph ph-chart-bar"></i>Analytics</a>
+    <a href="subscriptions.html" class="mobile-nav-item active"><i class="ph ph-arrows-clockwise"></i>Subs</a>
+    <a href="cashflow.html" class="mobile-nav-item"><i class="ph ph-trend-up"></i>Cash</a>
+    <a href="budget.html" class="mobile-nav-item"><i class="ph ph-wallet"></i>Budget</a>
+  </div>
+</nav>
 
+<script src="data.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>

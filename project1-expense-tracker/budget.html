@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget | Expense Tracker</title>
+  <meta name="description" content="Set and track monthly budgets by category with smart alerts.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css?v=2">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+<!-- Portfolio Demo Bar -->
+<div class="portfolio-demo-bar">
+  <div class="demo-info">
+    <span class="live-dot"></span>
+    <span class="demo-text">Interactive Prototype</span>
+  </div>
+  <a href="../index.html#project-01" class="back-portfolio-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Portfolio
+  </a>
+</div>
+<!-- End: Portfolio Demo Bar -->
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white" fill-opacity="0.95"/>
+        <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.75"/>
+        <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.75"/>
+      </svg>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
+        <i class="ph ph-squares-four" style="font-size: 20px;"></i>
+        <span class="tooltip">Overview</span>
+      </a>
+      <a href="transactions.html" class="sidebar-nav-item" data-tooltip="Transactions">
+        <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
+        <span class="tooltip">Transactions</span>
+      </a>
+      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
+        <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
+        <span class="tooltip">Analytics</span>
+      </a>
+      <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions">
+        <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
+        <span class="tooltip">Subscriptions</span>
+      </a>
+      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow">
+        <i class="ph ph-trend-up" style="font-size: 20px;"></i>
+        <span class="tooltip">Cashflow</span>
+      </a>
+      <a href="settings.html" class="sidebar-nav-item" data-tooltip="Settings">
+        <i class="ph ph-gear" style="font-size: 20px;"></i>
+        <span class="tooltip">Settings</span>
+      </a>
+      <a href="budget.html" class="sidebar-nav-item active" data-tooltip="Budget">
+        <i class="ph ph-wallet" style="font-size: 20px;"></i>
+        <span class="tooltip">Budget</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Budget Planner</h1>
+        <p class="page-subtitle">Set spending limits by category and track your progress in real-time.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <select class="filter-select">
+          <option>July 2026</option>
+          <option>June 2026</option>
+          <option>May 2026</option>
+        </select>
+        <button class="btn btn-primary">
+          <i class="ph ph-plus"></i>
+          Set Budget
+        </button>
+      </div>
+    </div>
+
+    <!-- Budget Overview Summary -->
+    <div class="budget-overview">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;">
+        <div>
+          <div class="summary-label">Total Budget</div>
+          <div class="summary-value">$1,800</div>
+          <div class="summary-trend" style="color: var(--text-muted);">Monthly limit set</div>
+        </div>
+        <div>
+          <div class="summary-label">Spent So Far</div>
+          <div class="summary-value" style="color: var(--purple-500);">$1,240</div>
+          <div class="summary-trend up">68.9% of budget used</div>
+        </div>
+        <div>
+          <div class="summary-label">Remaining</div>
+          <div class="summary-value" style="color: var(--green-500);">$560</div>
+          <div class="summary-trend" style="color: var(--text-muted);">~11 days left this month</div>
+        </div>
+      </div>
+
+      <!-- Overall Progress -->
+      <div style="margin-top: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 0.85rem; font-weight: 600;">Overall Budget Usage</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--purple-500);">68.9%</span>
+        </div>
+        <div class="budget-progress-bar" style="height: 12px;">
+          <div class="budget-progress-fill" data-width="68.9%" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smart Alerts -->
+    <div style="margin-bottom: 20px;">
+      <div style="font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <i class="ph ph-bell-ringing" style="color: var(--orange-500);"></i>
+        Smart Budget Alerts
+      </div>
+      <div class="budget-alert alert-warning">
+        <div class="budget-alert-icon" style="background: rgba(245, 158, 11, 0.15);">⚠️</div>
+        <div>
+          <strong>Entertainment</strong> is at 86% — you have $4.07 left for 11 days.
+          <span style="color: var(--text-muted); font-size: 0.78rem;"> Consider pausing Netflix or Audible.</span>
+        </div>
+      </div>
+      <div class="budget-alert alert-danger">
+        <div class="budget-alert-icon" style="background: rgba(239, 68, 68, 0.15);">🚨</div>
+        <div>
+          <strong>Health</strong> budget exceeded — $30.00 spent vs $25.00 limit (+$5.00 over).
+          <span style="color: var(--text-muted); font-size: 0.78rem;"> Ghost subscription detected!</span>
+        </div>
+      </div>
+      <div class="budget-alert alert-success">
+        <div class="budget-alert-icon" style="background: rgba(34, 197, 94, 0.15);">✅</div>
+        <div>
+          <strong>Storage</strong> is well under budget at 15% — excellent cost control!
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget by Category -->
+    <div style="font-weight: 700; margin-bottom: 16px; font-size: 1.05rem;">Budget by Category</div>
+    <div class="budget-grid">
+
+      <!-- Productivity -->
+      <div class="budget-card">
+        <div class="budget-category-header">
+          <div class="budget-category-name">
+            <i class="ph ph-code" style="color: var(--purple-500);"></i>
+            Productivity
+          </div>
+          <div class="budget-category-amount">$72.99 / $100</div>
+        </div>
+        <div class="budget-progress-bar">
+          <div class="budget-progress-fill" data-width="73%" style="width: 0%;"></div>
+        </div>
+        <div class="budget-meta">
+          <span>73% used</span>
+          <span>$27.01 remaining</span>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <span class="badge badge-info">Adobe CC · $52.99</span>
+          <span class="badge badge-info">ChatGPT · $20.00</span>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="budget-card">
+        <div class="budget-category-header">
+          <div class="budget-category-name">
+            <i class="ph ph-graduation-cap" style="color: var(--purple-500);"></i>
+            Education
+          </div>
+          <div class="budget-category-amount">$49.00 / $60</div>
+        </div>
+        <div class="budget-progress-bar">
+          <div class="budget-progress-fill warning" data-width="82%" style="width: 0%;"></div>
+        </div>
+        <div class="budget-meta">
+          <span>82% used</span>
+          <span>$11.00 remaining</span>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <span class="badge badge-ghost">Coursera · $49.00 · Ghost</span>
+        </div>
+      </div>
+
+      <!-- Entertainment -->
+      <div class="budget-card">
+        <div class="budget-category-header">
+          <div class="budget-category-name">
+            <i class="ph ph-film-slate" style="color: var(--purple-500);"></i>
+            Entertainment
+          </div>
+          <div class="budget-category-amount">$30.94 / $35</div>
+        </div>
+        <div class="budget-progress-bar">
+          <div class="budget-progress-fill danger" data-width="88%" style="width: 0%;"></div>
+        </div>
+        <div class="budget-meta">
+          <span>88% used</span>
+          <span>$4.06 remaining</span>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <span class="badge badge-info">Netflix · $15.99</span>
+          <span class="badge badge-ghost">Audible · $14.95 · Ghost</span>
+        </div>
+      </div>
+
+      <!-- Health -->
+      <div class="budget-card">
+        <div class="budget-category-header">
+          <div class="budget-category-name">
+            <i class="ph ph-heartbeat" style="color: var(--red-500);"></i>
+            Health
+          </div>
+          <div class="budget-category-amount" style="color: var(--red-500);">$30.00 / $25 ⚠️</div>
+        </div>
+        <div class="budget-progress-bar">
+          <div class="budget-progress-fill danger" data-width="100%" style="width: 0%;"></div>
+        </div>
+        <div class="budget-meta">
+          <span style="color: var(--red-500); font-weight: 600;">120% — Over budget!</span>
+          <span style="color: var(--red-500);">-$5.00</span>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <span class="badge badge-ghost">Gym · $30.00 · Ghost 45d</span>
+        </div>
+      </div>
+
+      <!-- Music -->
+      <div class="budget-card">
+        <div class="budget-category-header">
+          <div class="budget-category-name">
+            <i class="ph ph-music-notes" style="color: var(--purple-500);"></i>
+            Music
+          </div>
+          <div class="budget-category-amount">$9.99 / $15</div>
+        </div>
+        <div class="budget-progress-bar">
+          <div class="budget-progress-fill success" data-width="67%" style="width: 0%;"></div>
+        </div>
+        <div class="budget-meta">
+          <span>67% used</span>
+          <span>$5.01 remaining</span>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <span class="badge badge-active">Spotify · $9.99</span>
+        </div>
+      </div>
+
+      <!-- Storage -->
+      <div class="budget-card">
+        <div class="budget-category-header">
+          <div class="budget-category-name">
+            <i class="ph ph-cloud" style="color: var(--green-500);"></i>
+            Storage
+          </div>
+          <div class="budget-category-amount">$2.99 / $20</div>
+        </div>
+        <div class="budget-progress-bar">
+          <div class="budget-progress-fill success" data-width="15%" style="width: 0%;"></div>
+        </div>
+        <div class="budget-meta">
+          <span>15% used</span>
+          <span>$17.01 remaining</span>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <span class="badge badge-active">iCloud+ · $2.99</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Budget vs Actual Chart -->
+    <div class="chart-card" style="margin-top: 0;">
+      <div class="chart-card-header">
+        <div>
+          <span class="chart-card-title">Budget vs Actual Spend</span>
+          <div class="spending-subtitle">Monthly comparison — how well are you sticking to your budgets?</div>
+        </div>
+        <span class="panel-card-more">•••</span>
+      </div>
+      <div class="chart-container" style="height: 280px;">
+        <canvas id="budgetVsActual"></canvas>
+      </div>
+    </div>
+
+  </main>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item"><i class="ph ph-squares-four"></i>Overview</a>
+    <a href="transactions.html" class="mobile-nav-item"><i class="ph ph-arrows-left-right"></i>Txns</a>
+    <a href="analytics.html" class="mobile-nav-item"><i class="ph ph-chart-bar"></i>Analytics</a>
+    <a href="subscriptions.html" class="mobile-nav-item"><i class="ph ph-arrows-clockwise"></i>Subs</a>
+    <a href="cashflow.html" class="mobile-nav-item"><i class="ph ph-trend-up"></i>Cash</a>
+    <a href="budget.html" class="mobile-nav-item active"><i class="ph ph-wallet"></i>Budget</a>
+  </div>
+</nav>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+  // Budget vs Actual Chart
+  Chart.defaults.color = '#9ca3af';
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.font.size = 11;
+
+  const budgetCtx = document.getElementById('budgetVsActual');
+  if (budgetCtx) {
+    new Chart(budgetCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Productivity', 'Education', 'Entertainment', 'Health', 'Music', 'Storage'],
+        datasets: [
+          {
+            label: 'Budget',
+            data: [100, 60, 35, 25, 15, 20],
+            backgroundColor: '#D6CDEB',
+            borderRadius: 6,
+            barThickness: 32
+          },
+          {
+            label: 'Actual',
+            data: [72.99, 49, 30.94, 30, 9.99, 2.99],
+            backgroundColor: (ctx) => {
+              const v = ctx.raw;
+              const b = [100, 60, 35, 25, 15, 20][ctx.dataIndex];
+              const pct = (v / b) * 100;
+              if (pct > 100) return '#ef4444';
+              if (pct > 80) return '#f59e0b';
+              return '#8E75C8';
+            },
+            borderRadius: 6,
+            barThickness: 32
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'circle' }
+          },
+          tooltip: {
+            backgroundColor: '#1F2937',
+            titleColor: '#fff',
+            bodyColor: 'rgba(255,255,255,0.8)',
+            padding: 12,
+            cornerRadius: 10,
+            callbacks: {
+              label: (ctx) => ctx.dataset.label + ': $' + ctx.parsed.y.toFixed(2)
+            }
+          }
+        },
+        scales: {
+          y: {
+            grid: { color: 'rgba(0,0,0,0.04)' },
+            border: { display: false },
+            ticks: { callback: (v) => '$' + v }
+          },
+          x: {
+            grid: { display: false },
+            border: { display: false }
+          }
+        }
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

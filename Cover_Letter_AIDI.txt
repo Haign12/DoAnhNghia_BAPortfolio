@@ -1,0 +1,28 @@
+Tiêu đề: Ứng tuyển vị trí Business Analyst Intern (ERP/AI ERP) - Đỗ Anh Nghĩa
+
+Kính gửi Bộ phận Tuyển dụng công ty AIDI,
+
+Em viết thư này để bày tỏ nguyện vọng được ứng tuyển vào vị trí Business Analyst Intern cho các dự án ERP/AI ERP tại công ty AIDI. Với định hướng nghề nghiệp rõ ràng theo mảng Triển khai phần mềm doanh nghiệp & ERP, kết hợp cùng tư duy phân tích quy trình và khả năng trực quan hóa tài liệu, em tin rằng mình có thể hỗ trợ hiệu quả cho Senior BA/PM cũng như mang lại giá trị thiết thực cho dự án của AIDI.
+
+Đọc qua Mô tả công việc (JD) của AIDI, em nhận thấy các kỹ năng và trải nghiệm cá nhân của mình hoàn toàn đáp ứng tốt các yêu cầu chính:
+
+1. Chuẩn hóa & Phân tích Quy trình Nghiệp vụ (Process Flow & BPMN): Em đã có kinh nghiệm phân tích bối cảnh nghiệp vụ, vẽ luồng quy trình As-Is / To-Be bằng BPMN 2.0 và Sequence Diagram (UML) cho hệ thống Đặt hàng văn phòng, giúp giảm 80% thời gian điều phối và tối ưu hóa vận hành.
+
+2. Hỗ trợ Kế hoạch Kiểm thử & UAT (UAT Script & Feedback Log): Em quen thuộc với việc viết User Story, Acceptance Criteria, lập Checklist kiểm thử, ghi nhận Issue/Feedback log cẩn thận và theo dõi trạng thái xử lý lỗi cùng team Dev/QA.
+
+3. Xây dựng Tài liệu & Hướng dẫn Người dùng (Documentation & User Guide): Nhờ kỹ năng thiết kế UI/UX và tư duy sắp xếp thông tin logic, em có khả năng biên soạn tài liệu hướng dẫn người dùng (User Guide), Slide Training và xây dựng tài liệu dự án trực quan, rõ ràng.
+
+4. Tư duy Nghiệp vụ Doanh nghiệp (ERP/CRM/Database): Qua các dự án cá nhân (Quản lý chi tiêu, Quản lý căn hộ co-living, Quản lý đơn hàng), em đã tự tay xây dựng mô hình dữ liệu (Star Schema), xử lý logic trạng thái (State Machines) và nắm vững luồng vận hành từ Kho, Đặt phòng đến Thanh toán.
+
+Là một người cẩn thận, ham học hỏi và có tính chủ động cao, em sẵn sàng tiếp thu nhanh các quy trình nghiệp vụ mới tại AIDI, lắng nghe phản hồi từ khách hàng và tuân thủ nghiêm ngặt quy trình quản lý tài liệu dự án.
+
+Em có đính kèm CV và kính mời Anh/Chị tham khảo các sản phẩm/dự án thực tế của em tại Portfolio: https://haign12.github.io/DoAnhNghia_BAPortfolio
+
+Rất mong có cơ hội được tham gia buổi phỏng vấn để lắng nghe chia sẻ từ Anh/Chị và trình bày chi tiết hơn về định hướng gắn bó lâu dài cùng AIDI.
+
+Em xin chân thành cảm ơn Anh/Chị!
+
+Trân trọng,
+
+Đỗ Anh Nghĩa
+[Số điện thoại] | [Email] | [Link LinkedIn]
