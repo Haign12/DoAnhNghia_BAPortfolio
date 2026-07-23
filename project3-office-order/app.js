@@ -236,6 +236,52 @@ if (placeOrderBtn) {
           calcSplitBtn.style.borderColor = '';
         }
       }, 5000);
-    }, 2000);
+// --- BA Requirements Modal Logic -----------------------------
+const baSpecBtn = document.getElementById('baSpecBtn');
+const baModalOverlay = document.getElementById('baModalOverlay');
+const closeBaModalBtn = document.getElementById('closeBaModalBtn');
+
+if (baSpecBtn && baModalOverlay) {
+  baSpecBtn.addEventListener('click', () => {
+    baModalOverlay.classList.add('active');
   });
 }
+if (closeBaModalBtn && baModalOverlay) {
+  closeBaModalBtn.addEventListener('click', () => {
+    baModalOverlay.classList.remove('active');
+  });
+  baModalOverlay.addEventListener('click', (e) => {
+    if (e.target === baModalOverlay) {
+      baModalOverlay.classList.remove('active');
+    }
+  });
+}
+
+// --- Export Report Button ------------------------------------
+const exportReportBtn = document.getElementById('exportReportBtn');
+if (exportReportBtn) {
+  exportReportBtn.addEventListener('click', () => {
+    showToast('Group order summary report exported (PDF/CSV)', '📊');
+  });
+}
+
+// --- Topbar Icon Interactions --------------------------------
+document.querySelectorAll('.topbar-icon').forEach((icon, i) => {
+  icon.addEventListener('click', () => {
+    const msgs = ['Notifications: 2 payment reminders sent', 'Settings: System defaults loaded'];
+    showToast(msgs[i] || 'System action triggered', '⚙️');
+  });
+});
+
+// --- Search Filter Logic -------------------------------------
+const searchInput = document.querySelector('.search-box input');
+if (searchInput) {
+  searchInput.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('.order-table tbody tr').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+}
+

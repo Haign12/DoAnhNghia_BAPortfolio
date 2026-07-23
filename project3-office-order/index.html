@@ -128,7 +128,8 @@
 
         <div class="kpi-actions">
           <button class="kpi-action-btn" id="placeOrderBtn">Confirm Group Order</button>
-          <button class="kpi-action-btn">Export Report</button>
+          <button class="kpi-action-btn" id="exportReportBtn">Export Report</button>
+          <button class="kpi-action-btn" id="baSpecBtn" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa; border: 1px solid var(--teal);"><i class="ph ph-file-text"></i> BA Spec (BRD/FRD)</button>
           <div style="flex: 1;"></div>
           <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">Total Group Split</div>
           <div class="total-balance-card" id="splitAmount">$0.00</div>
@@ -290,17 +291,94 @@
 
   </main>
 
-  <div class="toast-container" id="toastContainer"></div>
+  <!-- ── BA Requirements Modal ── -->
+  <div class="ba-modal-overlay" id="baModalOverlay">
+    <div class="ba-modal">
+      <div class="ba-modal-header">
+        <div>
+          <h2 style="font-size: 1.2rem; font-weight: 700; color: #fff;">📋 BA Requirement Specification (BRD/FRD)</h2>
+          <div style="font-size: 0.8rem; color: var(--teal); margin-top: 2px;">Author: Đỗ Anh Nghĩa — Lead Business Analyst</div>
+        </div>
+        <button class="ba-modal-close" id="closeBaModalBtn">&times;</button>
+      </div>
+      <div class="ba-modal-body">
+        <div class="ba-spec-grid">
+          <div class="ba-spec-card">
+            <h3>🎯 Problem Statement & Pain Points</h3>
+            <ul>
+              <li><strong>Time Loss:</strong> Hosts spend ~50 mins collecting individual orders, calculating splits, and manually chasing payments.</li>
+              <li><strong>Payment Deficit:</strong> 12% revenue deficit due to missing payments, forgotten fees, or miscalculated deliveries.</li>
+              <li><strong>Order Friction:</strong> High rate of cancelled orders due to late responses from team members.</li>
+            </ul>
+          </div>
+          <div class="ba-spec-card">
+            <h3>💡 Proposed Solution & Business Value</h3>
+            <ul>
+              <li><strong>Automated Split Engine:</strong> Real-time automated calculation per person with automated discount/fee distribution.</li>
+              <li><strong>Dynamic QR Payment:</strong> Instant Momo/VNPay QR code generation tied to exact split amounts per user.</li>
+              <li><strong>Auto-Remind & Lock Window:</strong> Automated Slack/Teams notifications + countdown timer to prevent order delays.</li>
+            </ul>
+          </div>
+        </div>
 
-  <!-- Hidden elements to keep app.js happy -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-  <aside class="sidebar" id="sidebar"></aside>
-  <button class="mobile-nav-toggle" id="mobileNavToggle"></button>
+        <div style="margin-top: 20px;">
+          <h3 style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 12px;">📌 Functional Requirements (FRD)</h3>
+          <table class="ba-frd-table">
+            <thead>
+              <tr>
+                <th>Req ID</th>
+                <th>Feature Module</th>
+                <th>User Story</th>
+                <th>Priority</th>
+                <th>Success Metric</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>FR-01</strong></td>
+                <td>Group Order Aggregator</td>
+                <td>As a Host, I want to create an order draft so members can join and add items.</td>
+                <td><span class="panel-tag success-tag">Must Have</span></td>
+                <td>100% item accuracy</td>
+              </tr>
+              <tr>
+                <td><strong>FR-02</strong></td>
+                <td>Dynamic Split Calculator</td>
+                <td>As a Member, I want my share (item + delivery fee) automatically calculated.</td>
+                <td><span class="panel-tag success-tag">Must Have</span></td>
+                <td>0% calculation error</td>
+              </tr>
+              <tr>
+                <td><strong>FR-03</strong></td>
+                <td>Automated QR Payment</td>
+                <td>As a Member, I want to scan a personalized QR to pay instantly.</td>
+                <td><span class="panel-tag success-tag">Must Have</span></td>
+                <td>-90% collection time</td>
+              </tr>
+              <tr>
+                <td><strong>FR-04</strong></td>
+                <td>Slack Auto-Reminder</td>
+                <td>As a Host, I want 1-click payment reminders sent to unpaid members.</td>
+                <td><span class="panel-tag warning-tag">Should Have</span></td>
+                <td>0% payment deficit</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <a href="#" class="mobile-nav-item active"><i class="ph ph-squares-four"></i>Dashboard</a>
+      <a href="#" class="mobile-nav-item" onclick="document.getElementById('baSpecBtn').click();"><i class="ph ph-file-text"></i>BA Spec</a>
+      <a href="#" class="mobile-nav-item" onclick="showToast('History view — prototype demo', '📜')"><i class="ph ph-clock-counter-clockwise"></i>History</a>
+    </div>
+  </nav>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
-
-
-
 </body>
 </html>
