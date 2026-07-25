@@ -368,9 +368,48 @@
     <div class="mobile-nav-inner">
       <a href="#" class="mobile-nav-item active"><i class="ph ph-squares-four"></i>Dashboard</a>
       <a href="#" class="mobile-nav-item" onclick="document.getElementById('baSpecBtn').click();"><i class="ph ph-file-text"></i>BA Spec</a>
-      <a href="#" class="mobile-nav-item" onclick="showToast('History view — prototype demo', '📜')"><i class="ph ph-clock-counter-clockwise"></i>History</a>
+      <a href="#" class="mobile-nav-item" onclick="document.getElementById('historyModalOverlay').classList.add('active');"><i class="ph ph-clock-counter-clockwise"></i>History</a>
     </div>
   </nav>
+
+  <!-- ── History Modal ── -->
+  <div class="ba-modal-overlay" id="historyModalOverlay">
+    <div class="ba-modal" style="max-width: 500px;">
+      <div class="ba-modal-header">
+        <div>
+          <h2 style="font-size: 1.2rem; font-weight: 700; color: #fff;">📜 Order History</h2>
+          <div style="font-size: 0.8rem; color: var(--teal); margin-top: 2px;">Past Group Orders</div>
+        </div>
+        <button class="ba-modal-close" onclick="document.getElementById('historyModalOverlay').classList.remove('active')">&times;</button>
+      </div>
+      <div class="ba-modal-body">
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+          <li style="background: var(--bg-main); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: bold; color: #fff;">KFC Lunch Order</span>
+              <span style="color: var(--text-muted); font-size: 0.85rem;">July 20, 2026</span>
+            </div>
+            <div style="color: var(--teal); font-weight: bold; margin-bottom: 8px;">Total: 520.000đ</div>
+            <div style="display: flex; gap: 8px;">
+              <span class="panel-tag success-tag">Completed</span>
+              <span class="panel-tag" style="background: var(--bg-dark-2); color: var(--text-muted);">8 Members</span>
+            </div>
+          </li>
+          <li style="background: var(--bg-main); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: bold; color: #fff;">Highlands Coffee</span>
+              <span style="color: var(--text-muted); font-size: 0.85rem;">July 18, 2026</span>
+            </div>
+            <div style="color: var(--teal); font-weight: bold; margin-bottom: 8px;">Total: 315.000đ</div>
+            <div style="display: flex; gap: 8px;">
+              <span class="panel-tag success-tag">Completed</span>
+              <span class="panel-tag" style="background: var(--bg-dark-2); color: var(--text-muted);">5 Members</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
