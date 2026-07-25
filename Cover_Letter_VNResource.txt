@@ -1,0 +1,25 @@
+Subject: Application for IT Business Analyst - Do Anh Nghia
+
+Dear Recruitment Department at VNResource,
+
+I am writing to express my strong interest in the IT Business Analyst position at VNResource. With a solid foundation in Information Technology from the University of Science (HCMUS) and Claude Bernard University Lyon 1, combined with a hybrid skill set in both Business Analysis and UI/UX Design, I am eager to contribute to VNResource's mission of delivering high-quality enterprise management software.
+
+Your job description highlights the need for a candidate who can gather business requirements, model processes, and collaborate closely with the UI/UX Design team to ensure logical and user-friendly product designs. This aligns perfectly with my professional experience and core strengths:
+
+- Bridging BA and UI/UX: In my previous roles at TIKERA and Trésor Solution, I successfully integrated UX principles into requirement documentation. I do not just write Use Cases and User Stories; I also deliver screen flows, wireframes, and logic maps. This dual perspective ensures that the technical solutions I propose are not only logically sound but also deliver an intuitive user experience.
+- Process Modeling & Documentation: I am highly proficient in analyzing complex operational workflows and translating them into clear, actionable requirements using BPMN 2.0, UML Sequence Diagrams, and Data Models (Star Schema/ERD).
+- Systems Thinking & Adaptability: Through developing comprehensive projects such as a Property Management System and a Process Optimization System, I have sharpened my ability to analyze system logic, define state machines, and resolve coordination bottlenecks. I am highly adaptable and fully prepared to quickly familiarize myself with VNResource's HRM software ecosystem and the .NET development environment.
+
+I am particularly drawn to VNResource's core value of “Your Trust, Our Success” and the opportunity to work in a dynamic, technology-driven environment. I am confident that my analytical mindset, dedication to product quality, and collaborative nature make me a strong fit for your team.
+
+I have attached my resume for your review and encourage you to explore my interactive portfolio at: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+
+I would welcome the opportunity to discuss how my background, skills, and enthusiasm can contribute to the continued success and growth of VNResource. Thank you for your time and consideration.
+
+Sincerely,
+
+Do Anh Nghia
+Phone: +84 798 876 074
+Email: anhnghia9a633@gmail.com
+Portfolio: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+LinkedIn: https://www.linkedin.com/in/ginan12/
