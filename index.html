@@ -297,7 +297,7 @@
 
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 32px;
     }
 
@@ -311,6 +311,17 @@
                   border-color 0.35s ease,
                   background-color 0.4s ease;
       position: relative;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .ba-card {
@@ -453,6 +464,40 @@
     .card-link:hover {
       background: var(--text);
       color: var(--bg);
+    }
+
+    /* UI/UX specific styling */
+    .uiux-thumb-wrapper {
+      position: relative;
+    }
+    .uiux-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .project-card:hover .uiux-overlay {
+      opacity: 1;
+    }
+    .view-project-btn {
+      background: #fff;
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 13px;
+      transform: translateY(15px);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .project-card:hover .view-project-btn {
+      transform: translateY(0);
     }
 
     /* UI/UX Case Study */
@@ -1161,69 +1206,90 @@
     <div class="project-grid">
       <!-- Project 04: FlowCRM -->
       <div class='project-card'>
-        <div class="card-thumb-wrapper">
+        <div class="card-thumb-wrapper uiux-thumb-wrapper">
           <img src="thumb-p4.png" alt="FlowCRM Preview" class="card-thumb" loading="lazy">
+          <div class="uiux-overlay">
+            <span class="view-project-btn">View Figma ↗</span>
+          </div>
         </div>
         <div class='card-body'>
           <div class='card-number'>Project 04</div>
           <h3 class='card-title'>FlowCRM UI/UX</h3>
           <p class='card-desc'>B2B CRM system focusing on automated reporting.</p>
-          <div class='card-skills' style="margin-bottom: 24px;">
+          <div class='card-skills' style="margin-bottom: 24px; flex-grow: 1;">
             <span class='card-skill'>Dashboard Design</span>
             <span class='card-skill'>User Management</span>
           </div>
-          <div style="display: flex; gap: 8px;">
+          <div style="display: flex; gap: 8px; margin-top: auto;">
             <a href='https://github.com/Ngh1aa/FlowCRM.git' target="_blank" class='card-link'
-              style="flex:1; padding: 12px 4px; text-align: center; background: transparent; border: 1px solid var(--border); color: var(--text);">Source</a>
+              style="flex:1; padding: 10px; text-align: center; background: var(--badge-bg); border: 1px solid var(--border); color: var(--text); font-size: 13px;">
+              <i class="ph ph-github-logo" style="font-size: 16px;"></i> Source
+            </a>
             <a href='https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/FlowCRM?node-id=115-844&t=olixz40306OQsLOS-0'
               target="_blank" class='card-link'
-              style="flex:1; padding: 12px 4px; text-align: center; background: var(--text); border: 1px solid var(--text); color: var(--bg);">Figma</a>
+              style="flex:1; padding: 10px; text-align: center; background: var(--text); border: 1px solid var(--text); color: var(--bg); font-size: 13px;">
+              <i class="ph ph-figma-logo" style="font-size: 16px;"></i> Figma
+            </a>
           </div>
         </div>
       </div>
 
       <!-- Project 05: Atelier -->
       <div class='project-card'>
-        <div class="card-thumb-wrapper">
+        <div class="card-thumb-wrapper uiux-thumb-wrapper">
           <img src="thumb-p5.png" alt="Atelier Preview" class="card-thumb" loading="lazy">
+          <div class="uiux-overlay">
+            <span class="view-project-btn">View Figma ↗</span>
+          </div>
         </div>
         <div class='card-body'>
           <div class='card-number'>Project 05</div>
           <h3 class='card-title'>Atelier / Clother UI/UX</h3>
           <p class='card-desc'>E-commerce fashion mobile application focusing on visual elegance and seamless shopping.</p>
-          <div class='card-skills' style="margin-bottom: 24px;">
+          <div class='card-skills' style="margin-bottom: 24px; flex-grow: 1;">
             <span class='card-skill'>Mobile-first</span>
             <span class='card-skill'>UI Layout</span>
           </div>
-          <div style="display: flex; gap: 8px;">
+          <div style="display: flex; gap: 8px; margin-top: auto;">
             <a href='https://github.com/Ngh1aa/Atelier' target="_blank" class='card-link'
-              style="flex:1; padding: 12px 4px; text-align: center; background: transparent; border: 1px solid var(--border); color: var(--text);">Source</a>
+              style="flex:1; padding: 10px; text-align: center; background: var(--badge-bg); border: 1px solid var(--border); color: var(--text); font-size: 13px;">
+              <i class="ph ph-github-logo" style="font-size: 16px;"></i> Source
+            </a>
             <a href='https://www.figma.com/design/E07BqE4X8apHhziPardmDG/Clother?node-id=0-1&t=7By6wJNx35IMxW9A-1'
               target="_blank" class='card-link'
-              style="flex:1; padding: 12px 4px; text-align: center; background: var(--text); border: 1px solid var(--text); color: var(--bg);">Figma</a>
+              style="flex:1; padding: 10px; text-align: center; background: var(--text); border: 1px solid var(--text); color: var(--bg); font-size: 13px;">
+              <i class="ph ph-figma-logo" style="font-size: 16px;"></i> Figma
+            </a>
           </div>
         </div>
       </div>
 
       <!-- Project 06: LuxRoom -->
       <div class='project-card'>
-        <div class="card-thumb-wrapper">
+        <div class="card-thumb-wrapper uiux-thumb-wrapper">
           <img src="thumb-p6.png" alt="LuxRoom Preview" class="card-thumb" loading="lazy">
+          <div class="uiux-overlay">
+            <span class="view-project-btn">View Figma ↗</span>
+          </div>
         </div>
         <div class='card-body'>
           <div class='card-number'>Project 06</div>
           <h3 class='card-title'>LuxRoom UI/UX Design</h3>
           <p class='card-desc'>Luxury furniture application focusing on modern earthy tones and elegant typography.</p>
-          <div class='card-skills' style="margin-bottom: 24px;">
+          <div class='card-skills' style="margin-bottom: 24px; flex-grow: 1;">
             <span class='card-skill'>Responsive Design</span>
             <span class='card-skill'>Visual Hierarchy</span>
           </div>
-          <div style="display: flex; gap: 8px;">
+          <div style="display: flex; gap: 8px; margin-top: auto;">
             <a href='https://github.com/Ngh1aa/LuxRoom' target="_blank" class='card-link'
-              style="flex:1; padding: 12px 4px; text-align: center; background: transparent; border: 1px solid var(--border); color: var(--text);">Source</a>
+              style="flex:1; padding: 10px; text-align: center; background: var(--badge-bg); border: 1px solid var(--border); color: var(--text); font-size: 13px;">
+              <i class="ph ph-github-logo" style="font-size: 16px;"></i> Source
+            </a>
             <a href='https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/Funiture?node-id=0-1&t=EV1RdWTZ9jTMQXzK-0'
               target="_blank" class='card-link'
-              style="flex:1; padding: 12px 4px; text-align: center; background: var(--text); border: 1px solid var(--text); color: var(--bg);">Figma</a>
+              style="flex:1; padding: 10px; text-align: center; background: var(--text); border: 1px solid var(--text); color: var(--bg); font-size: 13px;">
+              <i class="ph ph-figma-logo" style="font-size: 16px;"></i> Figma
+            </a>
           </div>
         </div>
       </div>
