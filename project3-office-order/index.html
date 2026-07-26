@@ -49,6 +49,11 @@
       </div>
     </div>
     <div class="topbar-right">
+      <div class="lang-switcher" style="display: flex; gap: 8px; margin-right: 12px; font-size: 0.9rem;">
+        <span id="lang-vi" style="cursor: pointer; opacity: 0.5;">VI</span>
+        <span style="opacity: 0.3;">|</span>
+        <span id="lang-en" style="cursor: pointer; font-weight: bold;">EN</span>
+      </div>
       <div class="topbar-icon">
         <i class="ph ph-bell" style="font-size: 18px;"></i>
         <span class="notif-dot"></span>
@@ -66,8 +71,8 @@
   <main class="main-content">
     
     <div class="page-header fade-in">
-      <h1 class="page-title">My Orders Dashboard</h1>
-      <div class="page-subtitle">Group ordering automation and payment deficit prevention</div>
+      <h1 class="page-title" data-i18n="p3.title">My Orders Dashboard</h1>
+      <div class="page-subtitle" data-i18n="p3.subtitle">Group ordering automation and payment deficit prevention</div>
     </div>
 
     <!-- ── Dashboard Grid ── -->
@@ -127,11 +132,11 @@
         </div>
 
         <div class="kpi-actions">
-          <button class="kpi-action-btn" id="placeOrderBtn">Confirm Group Order</button>
-          <button class="kpi-action-btn" id="exportReportBtn">Export Report</button>
+          <button class="kpi-action-btn" id="placeOrderBtn" data-i18n="p3.confirm">Confirm Group Order</button>
+          <button class="kpi-action-btn" id="exportReportBtn" data-i18n="p3.export">Export Report</button>
           <button class="kpi-action-btn" id="baSpecBtn" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa; border: 1px solid var(--teal);"><i class="ph ph-file-text"></i> BA Spec (BRD/FRD)</button>
           <div style="flex: 1;"></div>
-          <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">Total Group Split</div>
+          <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;" data-i18n="p3.total">Total Group Split</div>
           <div class="total-balance-card" id="splitAmount">$0.00</div>
         </div>
       </div>
@@ -140,8 +145,8 @@
       <div class="right-panel">
         <div class="panel-card">
           <div class="panel-tabs">
-            <button class="panel-tab active">Quick Split</button>
-            <button class="panel-tab">History</button>
+            <button class="panel-tab active" data-i18n="p3.quick">Quick Split</button>
+            <button class="panel-tab" data-i18n="p3.history">History</button>
           </div>
           
           <div class="panel-label">Total Amount (VND)</div>
@@ -161,7 +166,7 @@
             </div>
           </div>
 
-          <button class="panel-btn" id="calcSplitBtn">Auto-Calculate Shares</button>
+          <button class="panel-btn" id="calcSplitBtn" data-i18n="p3.calc">Auto-Calculate Shares</button>
           
           <div style="margin-top: 16px; padding: 12px; background: rgba(0, 212, 170, 0.08); border: 1px solid rgba(0, 212, 170, 0.2); border-radius: 10px; text-align: center;">
             <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px;">Order Window Closes In</div>

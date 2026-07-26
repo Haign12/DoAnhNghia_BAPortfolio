@@ -333,10 +333,11 @@
     }
 
     .project-card:hover, .ba-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-8px) scale(1.01);
       border-color: var(--card-hover-border);
-      box-shadow: var(--card-hover-shadow);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
       background: var(--card-hover-bg);
+      z-index: 2;
     }
 
     .ba-card .card-thumb-wrapper {
@@ -1096,15 +1097,23 @@
     </button>
     <div class="nav-overlay" id="navOverlay"></div>
     <div class="nav-links" id="navLinks">
-      <a href="#about">About</a>
-      <a href="#ba-projects">Work</a>
-      <a href="#contact">Contact</a>
-      <a href="Do_Anh_Nghia_CV.pdf" target="_blank" class="nav-resume">Resume ↗</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#ba-projects" data-i18n="nav.work">Work</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+      <a href="Do_Anh_Nghia_CV.pdf" target="_blank" class="nav-resume" data-i18n="nav.resume">Resume ↗</a>
     </div>
-  </nav>  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-    <i id="theme-icon-dark" class="ph ph-moon" style="display: block; font-size: 20px;"></i>
-    <i id="theme-icon-light" class="ph ph-sun" style="display: none; font-size: 20px;"></i>
-  </button>
+    <div style="display: flex; align-items: center; gap: 12px; margin-left: 16px;">
+      <div class="lang-switcher">
+        <span id="lang-vi" style="cursor: pointer; opacity: 0.5;">VI</span>
+        <span style="opacity: 0.3;">|</span>
+        <span id="lang-en" style="cursor: pointer; font-weight: bold;">EN</span>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <i id="theme-icon-dark" class="ph ph-moon" style="display: block; font-size: 20px;"></i>
+        <i id="theme-icon-light" class="ph ph-sun" style="display: none; font-size: 20px;"></i>
+      </button>
+    </div>
+  </nav>
 
   <section class="hero">
     <div class="hero-content">
@@ -1125,7 +1134,7 @@
 
 
   <section class="about-me" id="about" style="margin-bottom: 60px;">
-    <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">ABOUT ME</h2>
+    <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);" data-i18n="about.title">ABOUT ME</h2>
     <p>I analyze business systems. Over the past period, I’ve dedicated my time to independently studying enterprise
       workflows and breaking down complex requirements into manageable user stories.</p>
     <p>My goal is simple: build logic that works.</p>
@@ -1173,7 +1182,7 @@
 
   <section class="resume" id="resume" style="margin-bottom: 60px;">
     <div class="resume-section">
-      <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">EXPERIENCE</h2>
+      <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);" data-i18n="exp.title">EXPERIENCE</h2>
 
       <div class="resume-item">
         <div class="resume-item-head">
@@ -1202,7 +1211,7 @@
     <!-- "Selected Projects" section removed: users now scroll directly from Experience to the visual Project Cards below -->
 
     <div class="resume-section">
-      <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">EDUCATION</h2>
+      <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);" data-i18n="edu.title">EDUCATION</h2>
       <div class="resume-item" style="margin-bottom: 16px;">
         <div class="resume-item-head">
           <div class="resume-role">University of Science - HCMUS</div>
@@ -1484,6 +1493,44 @@
         iconLight.style.display = 'none';
       }
     }
+
+    // Language Switcher Logic
+    const translations = {
+      en: {
+        'nav.about': 'About', 'nav.work': 'Work', 'nav.contact': 'Contact', 'nav.resume': 'Resume ↗',
+        'about.title': 'ABOUT ME', 'exp.title': 'EXPERIENCE', 'edu.title': 'EDUCATION'
+      },
+      vi: {
+        'nav.about': 'Về tôi', 'nav.work': 'Dự án', 'nav.contact': 'Liên hệ', 'nav.resume': 'CV của tôi ↗',
+        'about.title': 'VỀ TÔI', 'exp.title': 'KINH NGHIỆM', 'edu.title': 'HỌC VẤN'
+      }
+    };
+
+    const langViBtn = document.getElementById('lang-vi');
+    const langEnBtn = document.getElementById('lang-en');
+
+    function setLanguage(lang) {
+      localStorage.setItem('lang', lang);
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      if (lang === 'vi') {
+        langViBtn.style.opacity = '1'; langViBtn.style.fontWeight = 'bold';
+        langEnBtn.style.opacity = '0.5'; langEnBtn.style.fontWeight = 'normal';
+      } else {
+        langEnBtn.style.opacity = '1'; langEnBtn.style.fontWeight = 'bold';
+        langViBtn.style.opacity = '0.5'; langViBtn.style.fontWeight = 'normal';
+      }
+    }
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    setLanguage(savedLang);
+
+    langViBtn.addEventListener('click', () => setLanguage('vi'));
+    langEnBtn.addEventListener('click', () => setLanguage('en'));
 
     // Scroll-spy: bold the navbar link matching the current section
     (function () {

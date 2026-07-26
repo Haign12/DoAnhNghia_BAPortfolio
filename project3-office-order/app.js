@@ -33,6 +33,76 @@
   setInterval(updateTimer, 1000);
 })();
 
+// --- Language Switcher ---------------------------------------
+(function() {
+  const translations = {
+    en: {
+      'p3.title': 'My Orders Dashboard',
+      'p3.subtitle': 'Group ordering automation and payment deficit prevention',
+      'p3.confirm': 'Confirm Group Order',
+      'p3.export': 'Export Report',
+      'p3.total': 'Total Group Split',
+      'p3.quick': 'Quick Split',
+      'p3.history': 'History',
+      'p3.calc': 'Auto-Calculate Shares'
+    },
+    vi: {
+      'p3.title': 'Bảng điều khiển Đơn hàng',
+      'p3.subtitle': 'Tự động hóa đặt hàng nhóm và ngăn ngừa thâm hụt thanh toán',
+      'p3.confirm': 'Xác nhận Đặt nhóm',
+      'p3.export': 'Xuất Báo cáo',
+      'p3.total': 'Tổng số tiền chia',
+      'p3.quick': 'Chia tiền nhanh',
+      'p3.history': 'Lịch sử',
+      'p3.calc': 'Tự động chia tiền'
+    }
+  };
+
+  const langViBtn = document.getElementById('lang-vi');
+  const langEnBtn = document.getElementById('lang-en');
+
+  function setLanguage(lang) {
+    localStorage.setItem('lang_p3', lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang][key]) el.innerText = translations[lang][key];
+    });
+    if (lang === 'vi') {
+      if (langViBtn) { langViBtn.style.opacity = '1'; langViBtn.style.fontWeight = 'bold'; }
+      if (langEnBtn) { langEnBtn.style.opacity = '0.5'; langEnBtn.style.fontWeight = 'normal'; }
+    } else {
+      if (langEnBtn) { langEnBtn.style.opacity = '1'; langEnBtn.style.fontWeight = 'bold'; }
+      if (langViBtn) { langViBtn.style.opacity = '0.5'; langViBtn.style.fontWeight = 'normal'; }
+    }
+  }
+
+  const savedLang = localStorage.getItem('lang_p3') || 'en';
+  setLanguage(savedLang);
+
+  if(langViBtn) langViBtn.addEventListener('click', () => setLanguage('vi'));
+  if(langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
+})();
+
+// --- Optimistic UI for Order Confirmation ---------------------
+const placeOrderBtn = document.getElementById('placeOrderBtn');
+if (placeOrderBtn) {
+  placeOrderBtn.addEventListener('click', function() {
+    // Save original state
+    const originalText = this.innerText;
+    const originalBg = this.style.background;
+    
+    // Optimistic update
+    this.innerHTML = '<i class="ph ph-check-circle"></i> Confirmed';
+    this.style.background = '#00d4aa';
+    this.style.color = '#fff';
+    
+    // Simulate server response success
+    setTimeout(() => {
+      showToast('Group order confirmed successfully!', '<i class="ph ph-check-circle" style="color: #00d4aa;"></i>');
+    }, 500);
+  });
+}
+
 // --- Mobile Sidebar Toggle ----------------------------------
 const sidebar = document.getElementById('sidebar');
 const mobileNavToggle = document.getElementById('mobileNavToggle');

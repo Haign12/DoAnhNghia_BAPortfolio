@@ -185,5 +185,40 @@
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.filter-tab');
+      const timelineContainer = document.querySelector('.timeline-container');
+      
+      const emptyStateHTML = `
+        <div class="empty-state">
+          <i class="ph ph-bed"></i>
+          <h3 style="margin-bottom: 8px;">No Deluxe rooms available</h3>
+          <p style="font-size: 0.9rem;">No Deluxe rooms match your dates right now. Try changing your dates or filters.</p>
+        </div>
+      `;
+      let originalTimelineHTML = '';
+
+      // Wait a moment for skeleton to finish if it's there
+      setTimeout(() => {
+        originalTimelineHTML = timelineContainer.innerHTML;
+      }, 1000);
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          if (tab.innerText.includes('Deluxe Room')) {
+            timelineContainer.innerHTML = emptyStateHTML;
+            timelineContainer.style.padding = '40px 0';
+          } else {
+            timelineContainer.innerHTML = originalTimelineHTML;
+            timelineContainer.style.padding = '0';
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

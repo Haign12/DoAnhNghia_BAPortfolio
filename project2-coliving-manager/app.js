@@ -6,6 +6,47 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ══════════════════════════════════════════════════════════════
+  // SKELETON LOADING UI
+  // ══════════════════════════════════════════════════════════════
+  const dataTables = document.querySelectorAll('.data-table tbody');
+  const timelineRows = document.querySelector('.timeline-rows');
+  
+  if (dataTables.length > 0 || timelineRows) {
+    // Hide real data initially, show skeletons
+    const skeletonHTML = `
+      <tr>
+        <td colspan="100%">
+          <div class="skeleton skeleton-bar"></div>
+          <div class="skeleton skeleton-bar" style="width: 90%;"></div>
+          <div class="skeleton skeleton-bar" style="width: 85%;"></div>
+        </td>
+      </tr>
+    `;
+    
+    dataTables.forEach(tbody => {
+      const originalHTML = tbody.innerHTML;
+      tbody.innerHTML = skeletonHTML;
+      setTimeout(() => {
+        tbody.innerHTML = originalHTML;
+        tbody.style.animation = 'fadeIn 0.5s ease';
+      }, 800);
+    });
+
+    if (timelineRows) {
+      const originalTimeline = timelineRows.innerHTML;
+      timelineRows.innerHTML = `
+        <div class="skeleton skeleton-bar" style="height: 40px;"></div>
+        <div class="skeleton skeleton-bar" style="height: 40px; width: 80%;"></div>
+        <div class="skeleton skeleton-bar" style="height: 40px; width: 60%;"></div>
+      `;
+      setTimeout(() => {
+        timelineRows.innerHTML = originalTimeline;
+        timelineRows.style.animation = 'fadeIn 0.5s ease';
+      }, 800);
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════
   // TOAST NOTIFICATION SYSTEM
   // ══════════════════════════════════════════════════════════════
   window.showToast = function(message, type = 'info', duration = 3000) {

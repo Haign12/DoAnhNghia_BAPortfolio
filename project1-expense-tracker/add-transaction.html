@@ -37,27 +37,27 @@
         </svg>
     </div>
     <nav class="sidebar-nav">
-      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
+      <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview" aria-label="Overview" title="Overview">
         <i class="ph ph-squares-four" style="font-size: 20px;"></i>
         <span class="sidebar-label">Overview</span>
       </a>
-      <a href="transactions.html" class="sidebar-nav-item active" data-tooltip="Transactions">
+      <a href="transactions.html" class="sidebar-nav-item active" data-tooltip="Transactions" aria-label="Transactions" title="Transactions">
         <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
         <span class="sidebar-label">Transactions</span>
       </a>
-      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
+      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics" aria-label="Analytics" title="Analytics">
         <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
         <span class="sidebar-label">Analytics</span>
       </a>
-      <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions">
+      <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions" aria-label="Subscriptions" title="Subscriptions">
         <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
         <span class="sidebar-label">Subscriptions</span>
       </a>
-      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow">
+      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow" aria-label="Cashflow" title="Cashflow">
         <i class="ph ph-trend-up" style="font-size: 20px;"></i>
         <span class="sidebar-label">Cashflow</span>
       </a>
-      <a href="budget.html" class="sidebar-nav-item" data-tooltip="Budget">
+      <a href="budget.html" class="sidebar-nav-item" data-tooltip="Budget" aria-label="Budget" title="Budget">
         <i class="ph ph-wallet" style="font-size: 20px;"></i>
         <span class="sidebar-label">Budget</span>
       </a>
@@ -78,7 +78,22 @@
       </div>
     </div>
 
-    <div class="settings-layout" style="grid-template-columns: 1fr; max-width: 700px;">
+    <div class="settings-layout slide-up-modal" style="grid-template-columns: 1fr; max-width: 700px; animation: slideUpModal 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;">
+      <style>
+        @keyframes slideUpModal {
+          from { opacity: 0; transform: translateY(40px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .context-icon {
+          color: var(--purple-500);
+          cursor: help;
+          margin-left: 6px;
+          font-size: 14px;
+          opacity: 0.8;
+          transition: 0.2s;
+        }
+        .context-icon:hover { opacity: 1; transform: scale(1.1); }
+      </style>
       <div class="settings-section">
         
         <div style="display: flex; gap: 16px; margin-bottom: 32px;">
@@ -100,7 +115,7 @@
             <input type="date" class="form-input" value="2026-07-20">
           </div>
           <div class="form-group">
-            <label class="form-label">Category</label>
+            <label class="form-label">Category <i class="ph ph-question context-icon" title="Select the main group for this expense. E.g. Starbucks goes to Food & Dining."></i></label>
             <select class="form-input">
               <option>Food & Dining</option>
               <option>Productivity</option>
@@ -114,7 +129,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">Merchant / Payee</label>
+          <label class="form-label">Merchant / Payee <i class="ph ph-question context-icon" title="The business or person you paid. Keep it short."></i></label>
           <input type="text" class="form-input" placeholder="e.g. Starbucks, Amazon, etc.">
         </div>
 
@@ -124,9 +139,9 @@
         </div>
 
         <div style="display: flex; justify-content: flex-end; margin-top: 32px;">
-          <a href="transactions.html" class="btn btn-primary" style="padding-left: 32px; padding-right: 32px;">
+          <button id="saveTxnBtn" class="btn btn-primary" style="padding-left: 32px; padding-right: 32px; transition: transform 0.2s;" onclick="this.style.transform='scale(0.95)'; setTimeout(() => { this.style.transform='scale(1)'; showToast('Transaction saved successfully!', 'success'); setTimeout(() => window.location.href='transactions.html', 1500); }, 150);">
             Save Transaction
-          </a>
+          </button>
         </div>
 
       </div>
@@ -147,6 +162,16 @@
 
 <script src="data.js"></script>
 <script src="app.js"></script>
-
+<script>
+  // Smart Defaults: Set date to yesterday automatically
+  document.addEventListener('DOMContentLoaded', () => {
+    const dateInput = document.querySelector('input[type="date"]');
+    if (dateInput) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      dateInput.value = yesterday.toISOString().split('T')[0];
+    }
+  });
+</script>
 </body>
 </html>
