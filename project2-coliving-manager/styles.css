@@ -134,7 +134,7 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
-.nav-icon-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+.nav-icon-btn:hover { background: rgba(255, 255, 255, 0.15); color: #fff; transform: scale(1.1); }
 
 .nav-avatar {
   width: 36px; height: 36px;
@@ -191,7 +191,7 @@ body {
   gap: 8px;
   transition: all 0.2s;
 }
-.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-primary:hover { opacity: 0.9; transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
 
 /* ============================================================
    KPI CARDS
@@ -226,6 +226,8 @@ body {
 }
 .kpi-card.action-card:hover {
   background: #6d28d9;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(109, 40, 217, 0.3);
 }
 .action-card-icon {
   width: 48px; height: 48px;
@@ -346,7 +348,7 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
-.row-action-btn:hover { background: var(--bg); color: var(--text-main); }
+.row-action-btn:hover { background: var(--bg); color: var(--text-main); transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
 /* ============================================================
    STATUS BADGES
@@ -607,7 +609,7 @@ body {
   cursor: pointer;
   padding: 4px;
 }
-.btn-icon:hover { color: var(--text-main); }
+.btn-icon:hover { color: var(--text-main); transform: scale(1.15) rotate(5deg); }
 
 .drawer-body {
   padding: 24px;
@@ -887,9 +889,10 @@ body {
 }
 
 .back-portfolio-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  transform: translateX(-2px);
+  transform: translateX(-4px) scale(1.02);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 /* ============================================================

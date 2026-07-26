@@ -590,7 +590,7 @@ body {
   cursor: pointer;
   transition: var(--transition);
 }
-.chart-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.chart-btn:hover { opacity: 0.85; transform: translateY(-2px) scale(1.05); }
 
 .trend-badge {
   display: inline-flex;
@@ -746,8 +746,8 @@ body {
 }
 .btn-primary:hover {
   background: var(--sidebar-icon-active);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(142, 117, 200, 0.35);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 16px rgba(142, 117, 200, 0.45);
 }
 .btn-secondary {
   background: var(--bg-card);
@@ -757,6 +757,8 @@ body {
 .btn-secondary:hover {
   border-color: var(--purple-400);
   color: var(--purple-500);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 .btn-ghost {
   background: transparent;
@@ -765,12 +767,13 @@ body {
 .btn-ghost:hover {
   background: var(--purple-100);
   color: var(--purple-500);
+  transform: scale(1.05);
 }
 .btn-danger {
   background: var(--red-500);
   color: #fff;
 }
-.btn-danger:hover { opacity: 0.85; }
+.btn-danger:hover { opacity: 0.85; transform: scale(1.02); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
 
 /* ============================================================
    FILTER BAR
@@ -1646,9 +1649,10 @@ body {
 }
 
 .back-portfolio-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  transform: translateX(-2px);
+  transform: translateX(-4px) scale(1.02);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 /* ============================================================
