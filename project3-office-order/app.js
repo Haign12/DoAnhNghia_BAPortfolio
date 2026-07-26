@@ -2,6 +2,37 @@
    PROJECT 3 – OFFICE GROUP ORDER | Clean Enterprise App Logic
    ============================================================ */
 
+// --- Countdown Timer (Real-time) -----------------------------
+(function() {
+  const timerEl = document.getElementById('countdownTimer');
+  if (!timerEl) return;
+  let totalSeconds = 15 * 60 - 1; // Start at 14:59
+
+  function updateTimer() {
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    timerEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    
+    // Urgency colors
+    if (totalSeconds <= 60) {
+      timerEl.style.color = '#e74c3c';
+      timerEl.style.animation = 'pulse 1s infinite';
+    } else if (totalSeconds <= 300) {
+      timerEl.style.color = '#f5a623';
+    }
+    
+    if (totalSeconds > 0) {
+      totalSeconds--;
+    } else {
+      timerEl.textContent = 'CLOSED';
+      timerEl.style.color = '#e74c3c';
+    }
+  }
+  
+  updateTimer();
+  setInterval(updateTimer, 1000);
+})();
+
 // --- Mobile Sidebar Toggle ----------------------------------
 const sidebar = document.getElementById('sidebar');
 const mobileNavToggle = document.getElementById('mobileNavToggle');

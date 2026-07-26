@@ -1162,3 +1162,19 @@ body {
   .ba-spec-grid { grid-template-columns: 1fr; }
 }
 
+/* Collapsible Process Panels */
+.process-panel .bpmn-container {
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+  max-height: 1000px;
+  opacity: 1;
+}
+.process-panel.collapsed .bpmn-container {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.process-panel.collapsed .ph-caret-down {
+  transform: rotate(-90deg);
+}

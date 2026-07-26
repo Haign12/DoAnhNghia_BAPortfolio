@@ -39,31 +39,27 @@
     <nav class="sidebar-nav">
       <a href="index.html" class="sidebar-nav-item" data-tooltip="Overview">
         <i class="ph ph-squares-four" style="font-size: 20px;"></i>
-        <span class="tooltip">Overview</span>
+        <span class="sidebar-label">Overview</span>
       </a>
       <a href="transactions.html" class="sidebar-nav-item" data-tooltip="Transactions">
         <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
-        <span class="tooltip">Transactions</span>
+        <span class="sidebar-label">Transactions</span>
       </a>
       <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics">
         <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
-        <span class="tooltip">Analytics</span>
+        <span class="sidebar-label">Analytics</span>
       </a>
       <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions">
         <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
-        <span class="tooltip">Subscriptions</span>
+        <span class="sidebar-label">Subscriptions</span>
       </a>
       <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow">
         <i class="ph ph-trend-up" style="font-size: 20px;"></i>
-        <span class="tooltip">Cashflow</span>
-      </a>
-      <a href="settings.html" class="sidebar-nav-item" data-tooltip="Settings">
-        <i class="ph ph-gear" style="font-size: 20px;"></i>
-        <span class="tooltip">Settings</span>
+        <span class="sidebar-label">Cashflow</span>
       </a>
       <a href="budget.html" class="sidebar-nav-item active" data-tooltip="Budget">
         <i class="ph ph-wallet" style="font-size: 20px;"></i>
-        <span class="tooltip">Budget</span>
+        <span class="sidebar-label">Budget</span>
       </a>
     </nav>
   </aside>
@@ -159,8 +155,8 @@
             <strong>Health</strong> budget exceeded — $30.00 spent vs $25.00 limit (+$5.00 over).
             <span style="color: var(--text-muted); font-size: 0.78rem;"> Ghost subscription detected!</span>
           </div>
-          <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; flex-shrink: 0;" onclick="showToast('Gym Membership ($30.00/mo) paused — saved $30/mo!', 'success', 4000);">
-            <i class="ph ph-pause-circle" style="font-size: 14px; color: var(--purple-500);"></i> Pause Gym ($30)
+          <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; flex-shrink: 0; transition: all 0.3s ease;" onclick="this.style.transform='scale(0.9)'; this.style.opacity='0.7'; setTimeout(() => { this.style.transform='scale(1)'; this.style.opacity='1'; showToast('Gym Membership ($30.00/mo) paused — saved $30/mo!', 'success', 4000); }, 200);">
+            <i class="ph ph-pause-circle" style="font-size: 14px; color: var(--purple-500);"></i> Pause Gym ($30.00)
           </button>
         </div>
       </div>
@@ -250,7 +246,7 @@
             <i class="ph ph-barbell" style="color: var(--red-500); font-size: 18px;"></i>
             Health
           </div>
-          <div class="budget-category-amount" style="color: var(--red-500);">$30.00 / $25 <i class="ph ph-warning" style="color: var(--red-500);"></i></div>
+          <div class="budget-category-amount" style="color: var(--red-500);">$30.00 / $25.00 <i class="ph ph-warning" style="color: var(--red-500);"></i></div>
         </div>
         <div class="budget-progress-bar">
           <div class="budget-progress-fill danger" data-width="100%" style="width: 0%;"></div>

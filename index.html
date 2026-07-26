@@ -150,13 +150,13 @@
 
     /* Hero */
     .hero {
-      min-height: 100vh;
+      min-height: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 40px 20px;
+      padding: 80px 20px 60px;
       position: relative;
       overflow: hidden;
     }
@@ -168,7 +168,7 @@
     }
 
     .site-logo {
-      max-width: 140px;
+      max-width: 180px;
       height: auto;
       margin-bottom: 24px;
       border-radius: 50%;
@@ -198,7 +198,7 @@
     }
 
     h1 {
-      font-size: 3.5rem;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
       font-weight: 900;
       line-height: 1.1;
       margin-bottom: 16px;
@@ -259,18 +259,20 @@
     }
 
     .profile-image {
-      width: 120px;
-      height: 120px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      filter: grayscale(100%);
+      filter: none;
       margin-bottom: 24px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      transition: filter 0.3s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 3px solid var(--border);
     }
 
     .profile-image:hover {
-      filter: grayscale(0%);
+      transform: scale(1.05);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
     }
 
     /* Projects Section */
@@ -282,7 +284,7 @@
     }
 
     .section-title {
-      font-size: 2rem;
+      font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 800;
       text-align: center;
       margin-bottom: 12px;
@@ -292,7 +294,7 @@
       text-align: center;
       color: var(--text2);
       margin-bottom: 48px;
-      font-size: 1rem;
+      font-size: clamp(0.875rem, 1.5vw, 1rem);
     }
 
     .project-grid {
@@ -536,7 +538,7 @@
     }
 
     .case-title {
-      font-size: 2rem;
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
       font-weight: 850;
       line-height: 1.15;
       margin-bottom: 14px;
@@ -682,7 +684,7 @@
     }
 
     .resume-title {
-      font-size: 1.5rem;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
       font-weight: 800;
       margin-bottom: 24px;
       border-bottom: 1px solid var(--border);
@@ -754,9 +756,6 @@
         padding: 28px;
       }
 
-      h1 {
-        font-size: 2.5rem;
-      }
 
       .case-hero {
         grid-template-columns: 1fr;
@@ -856,24 +855,100 @@
       opacity: 0.9;
     }
 
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--text);
+    }
+    .hamburger svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     @media (max-width: 768px) {
+      .hamburger { display: flex; }
       .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 260px;
+        height: 100vh;
+        background: var(--bg-card);
+        border-left: 1px solid var(--border);
+        flex-direction: column;
+        padding: 80px 32px 32px;
         gap: 16px;
+        z-index: 999;
+        transition: right 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: -4px 0 30px rgba(0,0,0,0.15);
       }
-
-      .sticky-nav a {
-        font-size: 11px;
+      .nav-links.open { right: 0; }
+      .nav-links a {
+        font-size: 15px !important;
+        letter-spacing: 0 !important;
+        text-transform: none !important;
       }
-
-      .nav-resume {
-        padding: 6px 12px;
-      }
-
-      .nav-brand {
+      .nav-overlay {
         display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 998;
+        backdrop-filter: blur(4px);
       }
+      .nav-overlay.open { display: block; }
+      .sticky-nav { padding: 10px 16px; }
+    }
 
-      /* Hide brand on very small screens to fit links */
+    /* Tech Stack Section */
+    .tech-stack {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .tech-icons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .tech-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition: all 0.25s ease;
+      min-width: 80px;
+    }
+    .tech-icon:hover {
+      border-color: var(--text);
+      transform: translateY(-3px);
+      box-shadow: var(--card-hover-shadow);
+    }
+    .tech-icon img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+    .tech-icon span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text2);
     }
   
     /* Footer */
@@ -1016,7 +1091,11 @@
 
   <nav class="sticky-nav">
     <a href="#" class="nav-brand">Do Anh Nghia.</a>
-    <div class="nav-links">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-overlay" id="navOverlay"></div>
+    <div class="nav-links" id="navLinks">
       <a href="#about">About</a>
       <a href="#ba-projects">Work</a>
       <a href="#contact">Contact</a>
@@ -1052,6 +1131,44 @@
     <p>My goal is simple: build logic that works.</p>
     <p style="margin-top: 24px;"><span class="core-comp">Core Competencies:</span> <span class="term-tooltip" data-tooltip="Gathering & documenting stakeholder needs">Requirements Elicitation</span>, <span class="term-tooltip" data-tooltip="Standard notation for modeling business processes">BPMN 2.0</span>,
       <span class="term-tooltip" data-tooltip="Iterative development & sprint-based teamwork">Agile/Scrum</span>, <span class="term-tooltip" data-tooltip="Structured requirements from user's perspective">User Stories</span>, <span class="term-tooltip" data-tooltip="Pixel-perfect interactive design mockups">High-fidelity Wireframing</span>, <span class="term-tooltip" data-tooltip="Connecting systems via Application Programming Interfaces">API Integration</span>.</p>
+  </section>
+
+  <section class="tech-stack" id="tools">
+    <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);">TECH STACK & TOOLS</h2>
+    <div class="tech-icons">
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/jira.svg" alt="Jira" style="filter: brightness(0) saturate(100%) invert(29%) sepia(97%) saturate(1815%) hue-rotate(209deg) brightness(97%) contrast(101%);">
+        <span>Jira</span>
+      </div>
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/figma.svg" alt="Figma" style="filter: brightness(0) saturate(100%) invert(32%) sepia(93%) saturate(2270%) hue-rotate(342deg) brightness(96%) contrast(95%);">
+        <span>Figma</span>
+      </div>
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/miro.svg" alt="Miro" style="filter: brightness(0) saturate(100%) invert(74%) sepia(73%) saturate(2138%) hue-rotate(345deg) brightness(102%) contrast(97%);">
+        <span>Miro</span>
+      </div>
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/mysql.svg" alt="SQL" style="filter: brightness(0) saturate(100%) invert(37%) sepia(77%) saturate(1003%) hue-rotate(173deg) brightness(92%) contrast(90%);">
+        <span>SQL</span>
+      </div>
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/diagramsdotnet.svg" alt="Draw.io" style="filter: brightness(0) saturate(100%) invert(47%) sepia(79%) saturate(5061%) hue-rotate(346deg) brightness(95%) contrast(93%);">
+        <span>Draw.io</span>
+      </div>
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/notion.svg" alt="Notion">
+        <span>Notion</span>
+      </div>
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/slack.svg" alt="Slack" style="filter: brightness(0) saturate(100%) invert(21%) sepia(89%) saturate(2783%) hue-rotate(286deg) brightness(89%) contrast(95%);">
+        <span>Slack</span>
+      </div>
+      <div class="tech-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/postman.svg" alt="Postman" style="filter: brightness(0) saturate(100%) invert(47%) sepia(95%) saturate(1721%) hue-rotate(346deg) brightness(93%) contrast(87%);">
+        <span>Postman</span>
+      </div>
+    </div>
   </section>
 
   <section class="resume" id="resume" style="margin-bottom: 60px;">
@@ -1321,6 +1438,24 @@
   </footer>
 
   <script>
+    // Hamburger Menu
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+    function toggleMenu() {
+      navLinks.classList.toggle('open');
+      navOverlay.classList.toggle('open');
+    }
+    hamburgerBtn.addEventListener('click', toggleMenu);
+    navOverlay.addEventListener('click', toggleMenu);
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navOverlay.classList.remove('open');
+      });
+    });
+
     const themeToggle = document.getElementById('theme-toggle');
     const iconDark = document.getElementById('theme-icon-dark');
     const iconLight = document.getElementById('theme-icon-light');

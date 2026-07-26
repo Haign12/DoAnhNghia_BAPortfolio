@@ -163,6 +163,11 @@
 
           <button class="panel-btn" id="calcSplitBtn">Auto-Calculate Shares</button>
           
+          <div style="margin-top: 16px; padding: 12px; background: rgba(0, 212, 170, 0.08); border: 1px solid rgba(0, 212, 170, 0.2); border-radius: 10px; text-align: center;">
+            <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px;">Order Window Closes In</div>
+            <div id="countdownTimer" style="font-size: 1.4rem; font-weight: 800; color: #00d4aa; font-variant-numeric: tabular-nums;">14:59</div>
+          </div>
+          
           <div style="font-size: 0.7rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
             QR codes will be generated instantly.
           </div>
@@ -171,24 +176,27 @@
 
     </div>
 
-    <!-- ── Process Panels ── -->
+    <!-- ── Process Panels (Collapsible) ── -->
     <div class="content-grid" style="margin-top: 32px;">
       
       <!-- To-Be Process -->
       <div class="process-panel fade-in" style="animation-delay: 0.2s;">
-        <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="this.parentElement.classList.toggle('collapsed')">
           <h2>To-Be Process (Automated) <span class="panel-tag success-tag">Optimized</span></h2>
-          <button class="view-all-btn" id="simulateProcessBtn" style="color: var(--teal); border-color: var(--teal); display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; font-size: 0.75rem;">
-            <i class="ph ph-play-circle" style="font-size: 14px;"></i> Simulate Flow
-          </button>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="view-all-btn" id="simulateProcessBtn" style="color: var(--teal); border-color: var(--teal); display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; font-size: 0.75rem;" onclick="event.stopPropagation()">
+              <i class="ph ph-play-circle" style="font-size: 14px;"></i> Simulate Flow
+            </button>
+            <i class="ph ph-caret-down" style="font-size: 16px; color: var(--text-muted); transition: transform 0.3s;"></i>
+          </div>
         </div>
         <div class="bpmn-container" id="tobeProcess"></div>
       </div>
 
       <!-- As-Is Process -->
-      <div class="process-panel fade-in" style="animation-delay: 0.25s;">
-        <div class="panel-header">
-          <h2>As-Is Process (Manual) <span class="panel-tag danger-tag">Inefficient</span></h2>
+      <div class="process-panel fade-in collapsed" style="animation-delay: 0.25s;">
+        <div class="panel-header" style="cursor: pointer;" onclick="this.parentElement.classList.toggle('collapsed')">
+          <h2 style="display: flex; justify-content: space-between; align-items: center; width: 100%;">As-Is Process (Manual) <span class="panel-tag danger-tag">Inefficient</span> <i class="ph ph-caret-down" style="font-size: 16px; color: var(--text-muted); transition: transform 0.3s;"></i></h2>
         </div>
         <div class="bpmn-container" id="asisProcess"></div>
       </div>

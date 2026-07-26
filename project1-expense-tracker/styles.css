@@ -10,7 +10,7 @@
 :root {
   /* ── Sidebar ── */
   --sidebar-bg: #FFFFFF;
-  --sidebar-width: 72px;
+  --sidebar-width: 160px;
   --sidebar-icon: #C3B5E0;
   --sidebar-icon-active: #8E75C8;
 
@@ -141,17 +141,19 @@ body {
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  align-items: stretch;
+  gap: 4px;
   flex: 1;
+  padding: 0 12px;
 }
 
 .sidebar-nav-item {
-  width: 44px; height: 44px;
-  border-radius: 14px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  padding: 0 12px;
   color: var(--sidebar-icon);
   text-decoration: none;
   transition: var(--transition);
@@ -159,6 +161,9 @@ body {
   cursor: pointer;
   border: none;
   background: transparent;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .sidebar-nav-item:hover {
@@ -219,22 +224,13 @@ body {
   opacity: 1;
   transform: translateX(0) translateY(-50%);
 }
-.tooltip {
-  position: absolute;
-  left: calc(100% + 12px);
-  top: 50%;
-  transform: translateX(-8px) translateY(-50%);
-  background: #1F2937;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
+/* Sidebar label text */
+.sidebar-nav-item .sidebar-label {
   font-size: 0.8rem;
   font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: var(--transition);
-  z-index: 200;
+}
+.tooltip {
+  display: none;
 }
 
 /* ============================================================
