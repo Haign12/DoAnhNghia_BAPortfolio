@@ -149,14 +149,11 @@
             <button class="panel-tab" data-i18n="p3.history">History</button>
           </div>
           
-          <div class="panel-label">Total Amount (VND)</div>
-          <input type="text" class="panel-input" id="quickSplitTotal" value="0" readonly>
+          <div class="panel-label" data-i18n="p3.totalAmount">Total Amount (VND)</div>
+          <input type="text" class="panel-input" id="quickSplitTotal" value="0">
           
-          <div class="panel-label">Number of People</div>
-          <div class="panel-input" style="display: flex; justify-content: space-between; align-items: center; cursor: not-allowed; background: var(--bg-main);">
-            <span id="personCount">5</span>
-            <i class="ph ph-caret-down" style="font-size: 14px;"></i>
-          </div>
+          <div class="panel-label" data-i18n="p3.numPeople">Number of People</div>
+          <input type="number" class="panel-input" id="personCount" value="5" min="1">
 
           <div class="panel-label">Payment Method</div>
           <div class="panel-input" style="display: flex; justify-content: space-between; align-items: center; cursor: not-allowed; background: var(--bg-main);">

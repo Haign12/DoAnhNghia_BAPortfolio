@@ -274,9 +274,20 @@ if (orderTableBody && typeof orderItems !== 'undefined') {
 
 const perPerson = Math.ceil(grandTotal / totalPeople);
 if (splitAmountEl) splitAmountEl.textContent = formatVND(perPerson);
-if (personCountEl) personCountEl.textContent = totalPeople;
+if (personCountEl) {
+  if (personCountEl.tagName === 'INPUT') personCountEl.value = totalPeople;
+  else personCountEl.textContent = totalPeople;
+}
 if (quickSplitTotal) {
   quickSplitTotal.value = formatVND(grandTotal);
+  quickSplitTotal.addEventListener('input', function(e) {
+    let val = this.value.replace(/[^0-9]/g, '');
+    if (val) {
+      this.value = parseInt(val).toLocaleString('vi-VN') + 'đ';
+    } else {
+      this.value = '';
+    }
+  });
 }
 
 // --- QR Code Mockup -----------------------------------------
@@ -305,6 +316,17 @@ const calcSplitBtn = document.getElementById('calcSplitBtn');
 
 if (calcSplitBtn) {
   calcSplitBtn.addEventListener('click', () => {
+    let total = 0;
+    if (quickSplitTotal && quickSplitTotal.value) {
+      total = parseInt(quickSplitTotal.value.replace(/[^0-9]/g, '')) || 0;
+    }
+    let people = 1;
+    if (personCountEl && personCountEl.value) {
+      people = parseInt(personCountEl.value) || 1;
+    }
+    const newPerPerson = Math.ceil(total / people);
+    if (splitAmountEl) splitAmountEl.textContent = formatVND(newPerPerson);
+
     calcSplitBtn.textContent = 'Calculated ✓';
     calcSplitBtn.style.background = 'var(--teal)';
     calcSplitBtn.style.color = '#fff';
@@ -313,7 +335,7 @@ if (calcSplitBtn) {
     // Advance stepper to QR Payment step (Index 2)
     currentStep = 2;
     updateStepper();
-    showToast(`System split: ${formatVND(perPerson)} per person`, '<i class="ph ph-lightning" style="color: var(--teal);"></i>');
+    showToast(`System split: ${formatVND(newPerPerson)} per person`, '<i class="ph ph-lightning" style="color: var(--teal);"></i>');
     
     // Show QR
     if (qrSection) qrSection.style.display = 'flex';
