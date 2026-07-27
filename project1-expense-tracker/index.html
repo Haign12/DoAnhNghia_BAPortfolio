@@ -3,284 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal Expense Tracker | BA Portfolio</title>
-  <meta name="description" content="Personal Subscription & Expense Analytics Dashboard – Premium Fintech Design.">
+  <title>FinTrack | Neumorphic Ghost Detection</title>
   <link rel="icon" type="image/png" href="../logo.png?v=3">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<!-- Portfolio Demo Bar -->
 <div class="portfolio-demo-bar">
-  <div class="demo-info">
-    <span class="live-dot"></span>
-    <span class="demo-text">Interactive Prototype</span>
-  </div>
+  <div class="demo-info"><span class="live-dot"></span><span class="demo-text">Interactive Prototype — Neumorphism UX</span></div>
   <a href="../index.html#project-01" class="back-portfolio-btn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="19" y1="12" x2="5" y2="12"></line>
-      <polyline points="12 19 5 12 12 5"></polyline>
-    </svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     Back to Portfolio
   </a>
 </div>
-<!-- End: Portfolio Demo Bar -->
 
+<div class="container">
+  <!-- Top Navigation -->
+  <header class="header">
+    <div class="logo">Fin<span>Track.</span></div>
+    <div class="profile-pic"><i class="ph ph-user"></i></div>
+  </header>
 
-  <!-- ============================================================
-       SIDEBAR – Dark floating panel with icon navigation
-       ============================================================ -->
-  <aside class="sidebar">
-    <!-- Logo -->
-        <div class="sidebar-logo">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white" fill-opacity="0.95"/>
-          <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.75"/>
-          <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.75"/>
-        </svg>
-    </div>
-
-    <!-- Navigation Icons -->
-    <nav class="sidebar-nav">
-      <a href="index.html" class="sidebar-nav-item active" data-tooltip="Overview" aria-label="Overview" title="Overview">
-        <i class="ph ph-squares-four" style="font-size: 20px;"></i>
-        <span class="sidebar-label">Overview</span>
-      </a>
-      <a href="transactions.html" class="sidebar-nav-item" data-tooltip="Transactions" aria-label="Transactions" title="Transactions">
-        <i class="ph ph-arrows-left-right" style="font-size: 20px;"></i>
-        <span class="sidebar-label">Transactions</span>
-      </a>
-      <a href="analytics.html" class="sidebar-nav-item" data-tooltip="Analytics" aria-label="Analytics" title="Analytics">
-        <i class="ph ph-chart-bar" style="font-size: 20px;"></i>
-        <span class="sidebar-label">Analytics</span>
-      </a>
-      <a href="subscriptions.html" class="sidebar-nav-item" data-tooltip="Subscriptions" aria-label="Subscriptions" title="Subscriptions">
-        <i class="ph ph-arrows-clockwise" style="font-size: 20px;"></i>
-        <span class="sidebar-label">Subscriptions</span>
-      </a>
-      <a href="cashflow.html" class="sidebar-nav-item" data-tooltip="Cashflow" aria-label="Cashflow" title="Cashflow">
-        <i class="ph ph-trend-up" style="font-size: 20px;"></i>
-        <span class="sidebar-label">Cashflow</span>
-      </a>
-      <a href="budget.html" class="sidebar-nav-item" data-tooltip="Budget" aria-label="Budget" title="Budget">
-        <i class="ph ph-wallet" style="font-size: 20px;"></i>
-        <span class="sidebar-label">Budget</span>
-      </a>
-    </nav>
-
-    <!-- Bottom: Back to Portfolio -->
-  </aside>
-
-  <!-- ============================================================
-       MAIN CONTENT
-       ============================================================ -->
-  <main class="main-content">
-
-    <!-- Top Bar -->
-    <div class="topbar">
-      <div class="search-box">
-        <i class="ph ph-magnifying-glass" style="font-size: 16px;"></i>
-        <input type="text" placeholder="Search expenses...">
-      </div>
-      <div class="topbar-right">
-        <div class="topbar-icon">
-          <i class="ph ph-bell" style="font-size: 18px;"></i>
-          <span class="notif-dot"></span>
+  <div class="dashboard-grid">
+    <!-- Main KPIs -->
+    <div class="kpi-panel">
+      <h2 class="section-title">Overview</h2>
+      <div class="kpi-cards">
+        <div class="neumorphic-card kpi-card">
+          <div class="kpi-title">Monthly Fixed Cost</div>
+          <div class="kpi-value" id="kpiTotalCost">0đ</div>
+          <div class="kpi-subtitle">Across <span id="kpiActiveCount">0</span> active subs</div>
         </div>
-        <div class="topbar-avatar">DN</div>
+        <div class="neumorphic-card kpi-card">
+          <div class="kpi-title">Utilization Rate</div>
+          <div class="kpi-value" id="kpiUtilization" style="color: var(--teal);">0%</div>
+          <div class="kpi-subtitle">Based on 30-day activity</div>
+        </div>
+      </div>
+
+      <!-- Subscription List -->
+      <div class="neumorphic-card sub-list-container" style="margin-top: 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <h2 class="section-title" style="margin: 0;">Active Subscriptions</h2>
+          <button class="neumorphic-btn-small" onclick="showToast('Add flow not implemented in demo', 'info')"><i class="ph ph-plus"></i></button>
+        </div>
+        <div class="sub-list" id="subscriptionList">
+          <!-- Rendered via JS -->
+        </div>
       </div>
     </div>
 
-    <!-- Dashboard Grid -->
-    <div class="dashboard-grid">
-
-      <!-- ── KPI Row (4 cards) ── -->
-      <div class="kpi-row">
-        <!-- Card 1: Featured (Dark) -->
-        <div class="kpi-card featured">
-          <div class="kpi-card-label">Total Expenses</div>
-          <div class="kpi-card-value">$1,240</div>
-          <div class="kpi-card-trend">
-            <i class="ph ph-trend-up"></i>
-            ↑ 12%
-          </div>
-          <div class="kpi-sparkline" id="sparkline1"></div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="kpi-card">
-          <div class="kpi-card-label">Active Subscriptions</div>
-          <div class="kpi-card-value">5</div>
-          <div class="kpi-card-trend down">
-            <i class="ph ph-trend-down"></i>
-            ↓ 17%
-          </div>
-          <div class="kpi-card-mini-chart">
-            <svg width="60" height="28" viewBox="0 0 60 28"><polyline points="0,20 10,18 20,22 30,14 40,16 50,8 60,12" fill="none" stroke="var(--purple-400)" stroke-width="2"/></svg>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="kpi-card">
-          <div class="kpi-card-label">Avg. per Sub</div>
-          <div class="kpi-card-value">$25.82</div>
-          <div class="kpi-card-trend up">
-            <i class="ph ph-trend-up"></i>
-            ↑ 24%
-          </div>
-          <div class="kpi-card-mini-chart">
-            <svg width="60" height="28" viewBox="0 0 60 28"><polyline points="0,22 10,20 20,18 30,22 40,16 50,14 60,10" fill="none" stroke="var(--orange-500)" stroke-width="2"/></svg>
-          </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="kpi-card">
-          <div class="kpi-card-label">Ghost Subscriptions</div>
-          <div class="kpi-card-value" style="color: var(--red-500);">3</div>
-          <div class="kpi-card-trend up">
-            <i class="ph ph-trend-up"></i>
-            ↑ 10%
-          </div>
-          <div class="kpi-card-mini-chart">
-            <svg width="60" height="28" viewBox="0 0 60 28"><polyline points="0,22 10,20 20,24 30,16 40,18 50,10 60,4" fill="none" stroke="var(--red-500)" stroke-width="2"/></svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Right Panel ── -->
-      <div class="right-panel">
-
-        <!-- Radar Chart: Spending by Category -->
-        <div class="panel-card">
-          <div class="panel-card-header">
-            <span class="panel-card-title">Spending by Category</span>
-            <span class="panel-card-more">•••</span>
-          </div>
-          <div class="radar-container">
-            <canvas id="radarChart"></canvas>
-          </div>
-        </div>
-
-        <!-- Statistics -->
-        <div class="panel-card">
-          <div class="panel-card-header">
-            <span class="panel-card-title">Statistics</span>
-            <span class="panel-card-more">•••</span>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 14px;">
-            <!-- Stat 1: Active Rate -->
-            <div class="stat-item">
-              <div class="stat-left">
-                <span class="stat-label">Active Rate</span>
-                <span class="stat-sublabel">5 of 8 subs</span>
-              </div>
-              <div class="stat-right">
-                <div class="circular-progress" id="progress1" style="background: conic-gradient(var(--purple-500) 0% 62%, #eee 62% 100%);">
-                  <span>62%</span>
-                </div>
-                <span class="stat-value">62%</span>
-              </div>
-            </div>
-
-            <!-- Stat 2: Usage Health -->
-            <div class="stat-item">
-              <div class="stat-left">
-                <span class="stat-label">Usage Health</span>
-                <span class="stat-sublabel">Avg usage score</span>
-              </div>
-              <div class="stat-right">
-                <div class="circular-progress" style="background: conic-gradient(var(--green-500) 0% 85%, #eee 85% 100%);">
-                  <span>85%</span>
-                </div>
-                <span class="stat-value">85%</span>
-              </div>
-            </div>
-
-            <!-- Stat 3: Potential Savings -->
-            <div class="stat-item">
-              <div class="stat-left">
-                <span class="stat-label">Potential Savings</span>
-                <span class="stat-sublabel" style="color: var(--green-500);">+21%</span>
-              </div>
-              <div class="stat-right">
-                <span class="stat-value">$540</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Expense Overview Chart ── -->
-      <div class="chart-card">
-        <div class="chart-card-header">
-          <span class="chart-card-title">Expense Overview</span>
-          <div class="chart-card-actions">
-            <div class="chart-dropdown">
-              Last 6 months
-              <i class="ph ph-caret-down"></i>
-            </div>
-            <button class="chart-btn">
-              <i class="ph ph-download-simple"></i>
-              Download CSV
-            </button>
-          </div>
-        </div>
-        <div class="chart-container">
-          <canvas id="expenseChart"></canvas>
-        </div>
-      </div>
-
-      <!-- ── Top Spending Sources ── -->
-      <div class="spending-row">
-        <div class="spending-header">
+    <!-- Right Sidebar: Ghost Detection -->
+    <div class="sidebar">
+      <div class="neumorphic-card inset-card ghost-panel">
+        <div class="ghost-header">
+          <div class="ghost-icon"><i class="ph ph-ghost"></i></div>
           <div>
-            <div class="spending-title">Top Spending</div>
-            <div class="spending-subtitle">Your biggest expenses this month.</div>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--red);">Ghost Subscriptions</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Detected via FR-03 rules</p>
           </div>
         </div>
-        <div class="spending-cards">
-          <div class="spending-card">
-            <div class="spending-card-icon" style="background: var(--purple-100);"><i class="ph ph-palette"></i></div>
-            <div class="spending-card-name">Adobe CC</div>
-            <div class="spending-card-label">Top Subscription</div>
-            <div class="spending-card-amount">$52.99 <span>/ month</span></div>
-          </div>
-          <div class="spending-card">
-            <div class="spending-card-icon" style="background: var(--purple-100);"><i class="ph ph-graduation-cap"></i></div>
-            <div class="spending-card-name">Coursera Plus</div>
-            <div class="spending-card-label">Top Education</div>
-            <div class="spending-card-amount">$49.00 <span>/ month</span></div>
-          </div>
-          <div class="spending-card">
-            <div class="spending-card-icon" style="background: var(--purple-300);"><i class="ph ph-barbell"></i></div>
-            <div class="spending-card-name">Gym Membership</div>
-            <div class="spending-card-label">Ghost! Unused 45d</div>
-            <div class="spending-card-amount">$30.00 <span>/ month</span></div>
-          </div>
+        
+        <div id="ghostList">
+          <!-- Rendered via JS -->
         </div>
       </div>
-
     </div>
-  </main>
-
-<!-- Mobile Bottom Navigation -->
-<nav class="mobile-nav">
-  <div class="mobile-nav-inner">
-    <a href="index.html" class="mobile-nav-item active"><i class="ph ph-squares-four"></i>Overview</a>
-    <a href="transactions.html" class="mobile-nav-item"><i class="ph ph-arrows-left-right"></i>Txns</a>
-    <a href="analytics.html" class="mobile-nav-item"><i class="ph ph-chart-bar"></i>Analytics</a>
-    <a href="subscriptions.html" class="mobile-nav-item"><i class="ph ph-arrows-clockwise"></i>Subs</a>
-    <a href="cashflow.html" class="mobile-nav-item"><i class="ph ph-trend-up"></i>Cash</a>
-    <a href="budget.html" class="mobile-nav-item"><i class="ph ph-wallet"></i>Budget</a>
   </div>
-</nav>
+</div>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
 
-
-
+<script src="data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

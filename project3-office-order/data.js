@@ -1,44 +1,141 @@
 /* ============================================================
-   PROJECT 3 – OFFICE GROUP ORDER | Mock Data
+   PROJECT 3 – ORDERFLOW | Mock Data & LocalStorage
    ============================================================ */
 
-const asIsProcess = [
-  { text: 'Staff sends order in group chat', type: 'normal' },
-  { text: 'Admin compiles list manually', type: 'normal' },
-  { text: 'Admin places order & pays upfront', type: 'bottleneck', label: 'Cash Flow Risk' },
-  { text: 'Admin calculates individual costs + shipping', type: 'bottleneck', label: 'Time Sink (45m)' },
-  { text: 'Staff transfers money (often forgotten)', type: 'bottleneck', label: 'Payment Loss' }
+const DEFAULT_USERS = [
+  { id: 'u1', name: 'Admin (Host)', role: 'admin', walletBalance: 45000 },
+  { id: 'u2', name: 'Minh Tuấn', role: 'staff', walletBalance: 0 },
+  { id: 'u3', name: 'Hương Giang', role: 'staff', walletBalance: 0 },
+  { id: 'u4', name: 'Hoàng Nam', role: 'staff', walletBalance: 15000 }
 ];
 
-const toBeProcess = [
-  { text: 'Staff opens App & selects items', type: 'automated', label: 'Self-service' },
-  { text: 'System calculates individual split + shipping', type: 'automated', label: 'Instant' },
-  { text: 'Staff pays directly via QR Code', type: 'normal' },
-  { text: 'System confirms 100% funds collected', type: 'automated', label: 'Zero Risk' },
-  { text: 'System triggers final order to vendor', type: 'automated', label: 'Auto' }
+const MOCK_MENU = [
+  { id: 'm1', name: 'Trà Sữa Trân Châu', price: 35000, category: 'Milk Tea' },
+  { id: 'm2', name: 'Cà Phê Sữa Đá', price: 29000, category: 'Coffee' },
+  { id: 'm3', name: 'Matcha Latte', price: 45000, category: 'Tea' },
+  { id: 'm4', name: 'Bạc Xỉu', price: 32000, category: 'Coffee' },
+  { id: 'm5', name: 'Bánh Mì Chả', price: 20000, category: 'Food' }
 ];
 
-const stepperSteps = [
-  { icon: '<i class="ph ph-note-pencil"></i>', label: 'Place Order' },
-  { icon: '<i class="ph ph-lightning"></i>', label: 'Auto Split' },
-  { icon: '<i class="ph ph-qr-code"></i>', label: 'QR Payment' },
-  { icon: '<i class="ph ph-check-circle"></i>', label: 'Confirmed' }
-];
+const DEFAULT_SESSION = {
+  id: 'session_1',
+  status: 'open', // open, locked, ordered, completed
+  cutoffTime: '14:30',
+  link: 'https://shopeefood.vn/hcm/the-coffee-house',
+  shippingFee: 30000,
+  discount: 10000,
+  orders: [
+    { id: 'o1', userId: 'u1', itemId: 'm1', qty: 1, note: 'Ít đá', status: 'paid' },
+    { id: 'o2', userId: 'u2', itemId: 'm2', qty: 1, note: '', status: 'unpaid' },
+    { id: 'o3', userId: 'u3', itemId: 'm3', qty: 1, note: 'Nhiều đá', status: 'paid' }
+  ]
+};
 
-const orderItems = [
-  { id: 1, name: 'Trà Sữa Trân Châu', qty: 2, price: 35000, category: 'Beverage' },
-  { id: 2, name: 'Cà Phê Sữa Đá', qty: 3, price: 29000, category: 'Coffee' },
-  { id: 3, name: 'Matcha Latte', qty: 1, price: 45000, category: 'Tea' },
-  { id: 4, name: 'Bạc Xỉu', qty: 2, price: 32000, category: 'Coffee' },
-  { id: 5, name: 'Phí Ship (Discount Shared)', qty: 1, price: 15000, category: 'Fee' }
-];
+// ── Storage ──
+function loadData(key, defaultVal) {
+  try {
+    const d = localStorage.getItem('orderflow_' + key);
+    return d ? JSON.parse(d) : defaultVal;
+  } catch { return defaultVal; }
+}
+function saveData(key, val) {
+  localStorage.setItem('orderflow_' + key, JSON.stringify(val));
+}
 
-const participants = [
-  { id: 1, name: 'Anh Nghĩa (Host)', item: 'Trà Sữa Trân Châu x1, Bạc Xỉu x1', amount: 69000, status: 'Paid', avatar: 'AN', method: 'Momo' },
-  { id: 2, name: 'Minh Tuấn', item: 'Cà Phê Sữa Đá x1', amount: 32000, status: 'Unpaid', avatar: 'MT', method: 'Pending' },
-  { id: 3, name: 'Hương Giang', item: 'Matcha Latte x1', amount: 48000, status: 'Unpaid', avatar: 'HG', method: 'Pending' },
-  { id: 4, name: 'Hoàng Nam', item: 'Cà Phê Sữa Đá x1', amount: 32000, status: 'Paid', avatar: 'HN', method: 'VNPay' },
-  { id: 5, name: 'Thu Trang', item: 'Trà Sữa Trân Châu x1, Cà Phê x1', amount: 67000, status: 'Unpaid', avatar: 'TT', method: 'Pending' }
-];
+let users = loadData('users', DEFAULT_USERS);
+let session = loadData('session', DEFAULT_SESSION);
+let currentUser = users[0]; // default to Admin
 
-const totalPeople = 5;
+function persist() {
+  saveData('users', users);
+  saveData('session', session);
+}
+
+// ── Helpers ──
+function uid() { return Date.now().toString(36); }
+function formatVND(amt) { return new Intl.NumberFormat('vi-VN').format(amt) + 'đ'; }
+function getUser(id) { return users.find(u => u.id === id); }
+
+// ── Core Logic ──
+// BR-02: Fee Distribution
+function calculateSplit() {
+  if (!session) return { userSplits: {}, totalOrder: 0, finalTotal: 0 };
+  
+  // Unique users who ordered
+  const userIds = [...new Set(session.orders.filter(o => o.status !== 'cancelled').map(o => o.userId))];
+  const userSplits = {};
+  userIds.forEach(id => userSplits[id] = { itemTotal: 0, sharedFee: 0, total: 0, status: 'unpaid', walletDeducted: 0 });
+
+  let totalItemCost = 0;
+  session.orders.filter(o => o.status !== 'cancelled').forEach(o => {
+    const menu = MOCK_MENU.find(m => m.id === o.itemId);
+    if (menu) {
+      const cost = menu.price * o.qty;
+      userSplits[o.userId].itemTotal += cost;
+      totalItemCost += cost;
+      // if any order of user is paid, mark user as paid
+      if (o.status === 'paid') userSplits[o.userId].status = 'paid';
+    }
+  });
+
+  const netFee = (session.shippingFee - session.discount) || 0;
+  const numUsers = userIds.length;
+  
+  if (numUsers > 0) {
+    const feePerPerson = Math.max(0, Math.floor(netFee / numUsers));
+    const remainder = netFee - (feePerPerson * numUsers);
+    
+    userIds.forEach((id, idx) => {
+      userSplits[id].sharedFee = feePerPerson + (idx === 0 ? Math.max(0, remainder) : 0);
+      userSplits[id].total = userSplits[id].itemTotal + userSplits[id].sharedFee;
+      
+      // Auto-deduct wallet if paid
+      if (userSplits[id].status === 'unpaid') {
+         const u = getUser(id);
+         if (u.walletBalance > 0) {
+            const deduct = Math.min(u.walletBalance, userSplits[id].total);
+            userSplits[id].walletDeducted = deduct;
+         }
+      }
+    });
+  }
+
+  return { 
+    userSplits, 
+    totalOrder: totalItemCost, 
+    finalTotal: totalItemCost + Math.max(0, netFee),
+    is100PercentPaid: userIds.every(id => userSplits[id].status === 'paid') || userIds.length === 0
+  };
+}
+
+// BR-01: Order Cutoff & BR-04: Auto-cancellation
+function triggerCutoff() {
+  session.status = 'locked';
+  
+  // Auto-cancel unpaid
+  let changed = false;
+  session.orders.forEach(o => {
+    if (o.status === 'unpaid') {
+      o.status = 'cancelled';
+      changed = true;
+    }
+  });
+  persist();
+  return changed;
+}
+
+// Case 4: Vendor Out of Stock -> Internal Wallet Refund
+function refundToWallet(orderId) {
+  const o = session.orders.find(x => x.id === orderId);
+  if (o && o.status === 'paid') {
+    const menu = MOCK_MENU.find(m => m.id === o.itemId);
+    if (menu) {
+      const u = getUser(o.userId);
+      u.walletBalance += (menu.price * o.qty);
+      o.status = 'cancelled';
+      persist();
+      return true;
+    }
+  }
+  return false;
+}
