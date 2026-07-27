@@ -196,13 +196,17 @@
         <div class="case-metrics">
           <div class="metric-chip"><span class="metric-value">Data Analyst / BA</span><span class="metric-label">Role</span></div>
           <div class="metric-chip"><span class="metric-value">2 Weeks</span><span class="metric-label">Timeline</span></div>
-          <div class="metric-chip"><span class="metric-value">Excel, Power BI, Figma</span><span class="metric-label">Tools</span></div>
+          <div class="metric-chip"><span class="metric-value">SQL Server, Power BI, Figma</span><span class="metric-label">Tools</span></div>
         </div>
         
         <!-- Hero Image Hook: Show, Don't Tell -->
         <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
           <img src="thumb-p1.png" alt="Expense Analytics Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
+        <strong style="color: var(--text);">Note:</strong> This is a personal initiative designed to simulate an enterprise-scale problem. All metrics and impact numbers are projected estimations based on simulated test scenarios, created to demonstrate the application of professional BA methodologies in real-world contexts.
       </div>
 
       <div class="case-section" id="problem">
@@ -213,7 +217,7 @@
       <div class="case-section" id="constraints">
         <h3>2. Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> I initially wanted to build a system that auto-syncs transactions in real-time via Bank APIs. However, open banking APIs for personal use in Vietnam are highly restricted and costly.</p>
-        <p><strong>The Trade-off:</strong> Instead of over-engineering, I opted for a Manual CSV Export MVP. I export bank statements weekly, run them through a standardized Power Query script to clean the data, and feed it into the dashboard.</p>
+        <p><strong>The Trade-off:</strong> Instead of over-engineering, I opted for a Manual CSV Export MVP. I export bank statements weekly as CSVs, load them into a local SQL Server database for data cleaning and querying, and feed the results into Power BI.</p>
         <p><strong>Why it works:</strong> Personal finance requires behavioral reflection. A weekly manual update forces me to actually look at the numbers, satisfying the business goal better than a fully automated background process.</p>
       </div>
       <div class="case-section" id="approach">
@@ -294,53 +298,14 @@
 
         <h4 style="color: var(--text); margin: 32px 0 8px;">C. 3-Tier Architecture Diagram</h4>
         <p>To communicate effectively with developers, I modeled the data flow using a standard 3-tier architecture, showing how the UI interacts with the Ghost Detection logic and the Database.</p>
-        <div style="background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; margin-bottom: 24px;">
-<pre class="mermaid">
-flowchart TD
-    subgraph Presentation Tier
-        UI[Neumorphic Dashboard UI]
-    end
-    subgraph Business Logic Tier
-        CRUD[Subscription Manager API]
-        GhostAlgo[Ghost Detection Algorithm]
-    end
-    subgraph Data Access Tier
-        DB[(Relational DB)]
-    end
-
-    UI --&gt;|Create/Update/Cancel| CRUD
-    UI --&gt;|Fetch Alerts| GhostAlgo
-    CRUD --&gt;|Write Data| DB
-    GhostAlgo --&gt;|LEFT JOIN &amp; DATEDIFF &gt; 30| DB
-</pre>
+        <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=Architecture+Diagram+(Please+upload+Draw.io+PNG)" alt="3-Tier Architecture Diagram" style="width: 100%; display: block;">
         </div>
 
         <h4 style="color: var(--text); margin: 16px 0 8px;">D. Entity Relationship Diagram (ERD)</h4>
         <p>A normalized data structure is required to ensure data integrity across users and transactions.</p>
-        <div style="background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto;">
-<pre class="mermaid">
-erDiagram
-    USERS ||--o{ SUBSCRIPTIONS : owns
-    SUBSCRIPTIONS ||--o{ TRANSACTIONS : generates
-    USERS {
-        int user_id PK
-        string email
-        string status
-    }
-    SUBSCRIPTIONS {
-        int sub_id PK
-        int user_id FK
-        string service_name
-        float monthly_cost
-        string billing_cycle
-    }
-    TRANSACTIONS {
-        int transaction_id PK
-        int sub_id FK
-        date transaction_date
-        float amount
-    }
-</pre>
+        <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=ERD+Diagram+(Please+upload+Draw.io+PNG)" alt="Entity Relationship Diagram" style="width: 100%; display: block;">
         </div>
       </div>
 
@@ -348,7 +313,7 @@ erDiagram
         <h3>6. Business Impact & Results</h3>
         <p>This system turned raw transaction rows into actionable financial logic.</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
-            <li style="margin-bottom: 8px;">Identified and canceled 4 redundant subscriptions, saving approximately 5% of monthly fixed costs.</li>
+            <li style="margin-bottom: 8px;">Identified and canceled 4 redundant subscriptions in simulated tests (estimated 5% savings of monthly fixed costs).</li>
             <li>Reduced time spent reviewing finances from 2 hours/month to just 15 minutes/week.</li>
         </ul>
         <p><strong>Key Takeaway:</strong> A beautiful dashboard is useless if the underlying data model is messy. Spending 80% of the project time on Power Query (data cleaning) ensured the UI was accurate and insightful.</p>

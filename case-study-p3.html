@@ -201,6 +201,10 @@
         </div>
       </div>
 
+      <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
+        <strong style="color: var(--text);">Note:</strong> This is a personal initiative designed to simulate an enterprise-scale problem. All metrics and impact numbers are projected estimations based on simulated test scenarios, created to demonstrate the application of professional BA methodologies in real-world contexts.
+      </div>
+
       <div class="case-section" id="problem">
         <h3>1. The Problem</h3>
         <p>At the office, the daily process of ordering group lunches or milk tea is a logistical nightmare. The process flows through a group chat where people constantly change their minds, forget to pay, and force the Admin to manually reconcile orders and shipping fees.</p>
@@ -238,18 +242,8 @@
         <div class="case-visual" style="flex-direction: column; align-items: stretch; overflow: hidden;">
           <h4 style="color: var(--text); margin-bottom: 16px;">BPMN Process Flow Comparison</h4>
           <span style="font-size: 12px; color: var(--text3);">As-Is Flow (Manual)</span>
-          <div class="mock-bpmn">
-            <div class="mock-node">Chat Order</div> <span style="color: var(--text3);">→</span>
-            <div class="mock-node red">Admin Pays Upfront</div> <span style="color: var(--text3);">→</span>
-            <div class="mock-node red">Calculate Split</div> <span style="color: var(--text3);">→</span>
-            <div class="mock-node">Collect Cash</div>
-          </div>
-          <span style="font-size: 12px; color: var(--text3); margin-top: 16px; display: block;">To-Be Flow (Automated)</span>
-          <div class="mock-bpmn">
-            <div class="mock-node">App Order</div> <span style="color: var(--text3);">→</span>
-            <div class="mock-node green">Auto Split Fee</div> <span style="color: var(--text3);">→</span>
-            <div class="mock-node green">QR Payment Upfront</div> <span style="color: var(--text3);">→</span>
-            <div class="mock-node">Vendor Receives Order</div>
+          <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
+            <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=BPMN+Diagram+(Please+upload+Draw.io+PNG)" alt="BPMN Process Flow Diagram" style="width: 100%; display: block;">
           </div>
                 </div>
         
@@ -263,25 +257,12 @@
         <h3>5. BA Deliverables Deep Dive</h3>
         
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. BPMN 2.0 Process Modeling</h4>
-        <p>Using professional tools like Camunda / Visual Paradigm, I rigorously mapped the "As-Is" and "To-Be" states. The analysis revealed that the manual process contained 3 unnecessary intermediate steps (Tracing chat &rarr; Calculating fee &rarr; Debt collection). The "To-Be" automated process cut these out, directly reducing the coordination time from 45 minutes to just 5 minutes.</p>
+        <p>Using professional tools like Draw.io, I rigorously mapped the "As-Is" and "To-Be" states. The analysis revealed that the manual process contained 3 unnecessary intermediate steps (Tracing chat &rarr; Calculating fee &rarr; Debt collection). The "To-Be" automated process cut these out, directly reducing the coordination time from 45 minutes to just 5 minutes.</p>
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">B. Sequence Diagram (UML) - Payment Integration</h4>
         <p>To demonstrate a deep understanding of 3-tier architecture and system integration, I modeled the payment flow logic:</p>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 13px; color: var(--text2); margin-top: 12px; margin-bottom: 24px; overflow-x: auto; line-height: 1.8;">
-          <div style="color: #61afef;">User (UI)</div>
-          <div style="margin-left: 20px;">├── 1. Click "Confirm & Pay"</div>
-          <div style="margin-left: 20px;">└── 2. Request sent to Backend</div>
-          <div style="color: #e5c07b; margin-top: 8px;">Backend (Logic)</div>
-          <div style="margin-left: 20px;">├── 3. Validate total split amount</div>
-          <div style="margin-left: 20px;">├── 4. Call E-Wallet API <i>(POST /v1/payment/qr)</i></div>
-          <div style="margin-left: 20px;">└── 5. Wait for API Response</div>
-          <div style="color: #98c379; margin-top: 8px;">Bank API (External)</div>
-          <div style="margin-left: 20px;">├── 6. Generate secure Transaction ID</div>
-          <div style="margin-left: 20px;">└── 7. Return Dynamic QR Code Data</div>
-          <div style="color: #e5c07b; margin-top: 8px;">Backend (Logic)</div>
-          <div style="margin-left: 20px;">└── 8. Parse QR Data & save to Database</div>
-          <div style="color: #61afef; margin-top: 8px;">User (UI)</div>
-          <div style="margin-left: 20px;">└── 9. Render Dynamic QR Code on screen</div>
+        <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=Sequence+Diagram+(Please+upload+Draw.io+PNG)" alt="Sequence Diagram" style="width: 100%; display: block;">
         </div>
 
         <h4 style="color: var(--text); margin: 32px 0 8px;">C. Software Requirements Specification (SRS) Excerpt</h4>
@@ -322,7 +303,7 @@
         <h3>7. Business Impact & Results</h3>
         <p>Modeling and optimizing this micro-process yielded immediate, measurable ROI for the team.</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
-            <li style="margin-bottom: 8px;">Reduced Admin coordination time from 45 minutes to 5 minutes (80% efficiency gain).</li>
+            <li style="margin-bottom: 8px;">Reduced estimated Admin coordination time from 45 minutes to 5 minutes based on process walk-through (80% theoretical efficiency gain).</li>
             <li>Eliminated payment deficits entirely (0% loss rate).</li>
         </ul>
         <p><strong>Key Takeaway:</strong> Business Process Modeling Notation (BPMN) isn't just for factory floors. Applying it to everyday office logistics proves that a strong BA can detect inefficiencies and architect logical solutions anywhere.</p>
