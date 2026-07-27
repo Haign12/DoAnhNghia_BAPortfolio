@@ -1,14 +1,21 @@
 :root {
-  --bg-main: #0F172A;
-  --bg-card: #1E293B;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --border: #334155;
-  --teal: #14B8A6;
-  --teal-hover: #0D9488;
-  --red: #EF4444;
-  --red-hover: #DC2626;
+  /* Wallet Clean Palette (Old Design) */
+  --bg-main: #f8f9fd;
+  --bg-card: #ffffff;
+  --text-primary: #1a2332;
+  --text-main: #1a2332;
+  --text-secondary: #5a6578;
+  --text2: #5a6578;
+  --border: rgba(0, 0, 0, 0.06);
+  --teal: #00d4aa;
+  --teal-hover: #00b38f;
+  --red: #e74c3c;
+  --red-hover: #c0392b;
   --green: #10B981;
+  --blue: #4a90d9;
+  
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
