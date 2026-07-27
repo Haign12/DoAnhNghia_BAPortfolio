@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../ux-showcase.css">
 </head>
 <body>
 <div class="portfolio-demo-bar">
@@ -46,7 +47,7 @@
     </div>
     <div style="display: flex; gap: 12px;">
       <button class="btn-secondary admin-only" id="triggerCutoffBtn">Lock & Auto-Cancel (BR-04)</button>
-      <button class="btn-primary admin-only" id="placeOrderBtn"><i class="ph ph-shopping-cart"></i> Place Order to Vendor</button>
+      <button class="btn-primary admin-only" id="placeOrderBtn"><i class="ph ph-shopping-cart"></i> Place Order to Vendor <span class="ba-hotspot" data-ba-note="Constraint (BR-03): The system strictly prevents placing the order to the vendor until 100% of participants have paid. This eliminates Host's cash flow risk."><i class="ph ph-question"></i></span></button>
     </div>
   </div>
 
@@ -144,6 +145,22 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script src="data.js"></script>
+<script src="../ux-showcase.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    initUXShowcase({
+      projectId: 'p3_orderflow',
+      role: 'Host (Admin)',
+      title: 'Welcome to OrderFlow Prototype',
+      desc: 'An automated food ordering system designed to eliminate cash flow risks for office managers.',
+      tasks: [
+        'Notice the "Place Order to Vendor" button is blocked until everyone pays.',
+        'Click "Lock Session" to prevent new orders.',
+        'Switch roles to a Staff member, order an item, and pay via QR code.'
+      ]
+    });
+  });
+</script>
 <script src="app.js"></script>
 </body>
 </html>

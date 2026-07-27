@@ -1,0 +1,124 @@
+/* ============================================================
+   UX/BA SHOWCASE - GLOBAL CSS
+   Provides BA Hotspots and Welcome Modal across all projects
+   ============================================================ */
+
+/* ── BA Hotspot ── */
+.ba-hotspot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #3B82F6;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: help;
+  margin-left: 8px;
+  vertical-align: middle;
+  box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  animation: pulse-blue 2s infinite;
+  z-index: 100;
+}
+
+@keyframes pulse-blue {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.ba-hotspot:hover::after {
+  content: attr(data-ba-note);
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 320px;
+  background: #1E293B;
+  color: #F8FAFC;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 1000;
+  pointer-events: none;
+}
+.ba-hotspot:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1E293B;
+  pointer-events: none;
+}
+
+/* ── Welcome Modal ── */
+.ux-modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100000;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.ux-modal-overlay.active {
+  opacity: 1; pointer-events: auto;
+}
+.ux-modal {
+  background: #ffffff;
+  width: 100%; max-width: 500px;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #0F172A;
+  font-family: 'Inter', sans-serif;
+}
+.ux-modal-overlay.active .ux-modal {
+  transform: translateY(0);
+}
+.ux-modal-badge {
+  display: inline-block;
+  background: #DBEAFE; color: #1D4ED8;
+  padding: 6px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.ux-modal-title {
+  font-size: 24px; font-weight: 800; margin-bottom: 12px; line-height: 1.2;
+}
+.ux-modal-desc {
+  font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 24px;
+}
+.ux-modal-tasks {
+  background: #F8FAFC; border: 1px solid #E2E8F0;
+  border-radius: 12px; padding: 16px; margin-bottom: 24px;
+}
+.ux-modal-tasks-title {
+  font-size: 13px; font-weight: 700; color: #64748B; margin-bottom: 12px; text-transform: uppercase;
+}
+.ux-modal-task {
+  display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
+}
+.ux-modal-task:last-child { margin-bottom: 0; }
+.ux-modal-task i { color: #3B82F6; font-size: 20px; margin-top: 2px; }
+.ux-modal-task-text { font-size: 14px; font-weight: 500; }
+.ux-modal-btn {
+  display: block; width: 100%; padding: 14px;
+  background: #0F172A; color: #fff; border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.ux-modal-btn:hover {
+  background: #1E293B; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

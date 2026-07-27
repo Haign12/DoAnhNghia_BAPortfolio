@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../ux-showcase.css">
 </head>
 <body>
 <!-- Portfolio Demo Bar -->
@@ -51,7 +52,7 @@
     </nav>
     <div class="page-header">
       <div>
-        <div class="page-greeting"><i class="ph ph-kanban" style="margin-right: 8px;"></i>Chore Kanban Board</div>
+        <div class="page-greeting"><i class="ph ph-kanban" style="margin-right: 8px;"></i>Chore Kanban Board <span class="ba-hotspot" data-ba-note="Logic (US-102): The Kanban Board gives a transparent overview of tasks. Completed tasks are calculated dynamically based on 'done' status."><i class="ph ph-question"></i></span></div>
         <div class="page-sub">Drag tasks or use buttons to update status. Auto-assign picks the person with fewest completions.</div>
       </div>
       <div style="display: flex; align-items: center; gap: 12px;">
@@ -148,8 +149,21 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script src="data.js"></script>
+<script src="../ux-showcase.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  initUXShowcase({
+    projectId: 'p2_cospace',
+    role: 'Roommate (Member)',
+    title: 'Welcome to CoSpace Prototype',
+    desc: 'Test out our Co-living Task & Split Bill Manager. See how tasks are distributed fairly and expenses are settled.',
+    tasks: [
+      'Click Auto-Assign on a Chore and see it assigned to the person with fewest completions.',
+      'Drag and Drop a Chore into the Done column.',
+      'Switch to the Split Ledger tab and add an expense.'
+    ]
+  });
+
   renderKanban();
   renderMemberStats();
 

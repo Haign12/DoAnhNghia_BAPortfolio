@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../ux-showcase.css">
 </head>
 <body>
 <div class="portfolio-demo-bar">
@@ -60,7 +61,7 @@
         <div class="ghost-header">
           <div class="ghost-icon"><i class="ph ph-ghost"></i></div>
           <div>
-            <h3 style="font-size: 18px; font-weight: 700; color: var(--red);">Ghost Subscriptions</h3>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--red);">Ghost Subscriptions <span class="ba-hotspot" data-ba-note="Business Rule (FR-03): Detects active subscriptions with 0 logins in 30 days. Showing this panel on the right creates urgency to act."><i class="ph ph-question"></i></span></h3>
             <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Detected via FR-03 rules</p>
           </div>
         </div>
@@ -78,5 +79,21 @@
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+<script src="../ux-showcase.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    initUXShowcase({
+      projectId: 'p1_fintrack',
+      role: 'User (End-consumer)',
+      title: 'Welcome to FinTrack Prototype',
+      desc: 'Experience a neumorphic UI designed to help users track subscriptions and avoid hidden costs.',
+      tasks: [
+        'Cancel a Ghost Subscription and watch the Utilization Rate increase.',
+        'Snooze a false-positive ghost alert (Machine Learning feedback loop).',
+        'Observe the Empty State after clearing all ghosts.'
+      ]
+    });
+  });
+</script>
 </body>
 </html>
