@@ -3,254 +3,124 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Co-living Manager</title>
+  <title>Dashboard | CoSpace</title>
   <link rel="icon" type="image/png" href="../logo.png?v=3">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<!-- Portfolio Demo Bar -->
 <div class="portfolio-demo-bar">
-  <div class="demo-info">
-    <span class="live-dot"></span>
-    <span class="demo-text">Interactive Prototype</span>
-  </div>
+  <div class="demo-info"><span class="live-dot"></span><span class="demo-text">Interactive Prototype</span></div>
   <a href="../index.html#project-02" class="back-portfolio-btn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="19" y1="12" x2="5" y2="12"></line>
-      <polyline points="12 19 5 12 12 5"></polyline>
-    </svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     Back to Portfolio
   </a>
 </div>
-<!-- End: Portfolio Demo Bar -->
-
-
-  
-
-  <div class="page-container">
-    <!-- Page Header -->
-    <div class="unified-header">
-      <!-- Top Navigation (Dark) -->
-  <nav class="top-nav">
-    <div class="nav-brand">
-      <div class="nav-brand-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 10L12 3L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M5 10V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M9 21V14H15V21" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+<div class="page-container">
+  <div class="unified-header">
+    <nav class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 10L12 3L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21V14H15V21" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="nav-brand-name">Co<span style="color: #60A5FA;">Space.</span></span>
       </div>
-      <span class="nav-brand-name">Co<span style="color: #60A5FA;">Space.</span></span>
-    </div>
-    <div class="nav-links">
-      <a href="dashboard.html" class="nav-link active">Dashboard</a>
-      <a href="tenants.html" class="nav-link">Guests</a>
-      <a href="index.html" class="nav-link">Reservations</a>
-      <a href="rooms.html" class="nav-link">Rooms</a>
-      <a href="invoices.html" class="nav-link">Invoices</a>
-    </div>
-    <div class="nav-right">
-      <button class="nav-icon-btn" title="Search guests & reservations"><i class="ph ph-magnifying-glass" style="font-size: 16px;"></i></button>
-      <button class="nav-icon-btn" title="Messages & emails"><i class="ph ph-envelope-simple" style="font-size: 16px;"></i></button>
-      <button class="nav-icon-btn" title="Notifications"><i class="ph ph-bell" style="font-size: 16px;"></i></button>
-      <div class="nav-avatar">DN</div>
-    </div>
-  </nav>
-      <div class="page-header">
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Kanban Board</a>
+        <a href="ledger.html" class="nav-link">Split Ledger</a>
+        <a href="history.html" class="nav-link">History</a>
+        <a href="dashboard.html" class="nav-link active">Dashboard</a>
+      </div>
+      <div class="nav-right">
+        <button class="nav-icon-btn" title="Notifications"><i class="ph ph-bell" style="font-size: 16px;"></i></button>
+        <div class="nav-avatar">DN</div>
+      </div>
+    </nav>
+    <div class="page-header">
       <div>
-        <div class="page-greeting">Good morning, Alex!</div>
+        <div class="page-greeting">📊 Overview Dashboard</div>
+        <div class="page-sub">A snapshot of your co-living operations — chores, expenses, and member activity.</div>
       </div>
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <span class="page-date">
-          <i class="ph ph-buildings" style="font-size: 16px;"></i>
-          January 9, 2026
-        </span>
-        <button class="btn-primary">
-          <span>+</span> New reservation
-        </button>
+      <button class="btn-secondary" id="resetDataBtn"><i class="ph ph-arrow-counter-clockwise"></i> Reset Demo Data</button>
+    </div>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="debt-summary">
+    <div class="debt-card positive">
+      <div class="debt-card-avatar" style="background: var(--accent);"><i class="ph ph-users" style="font-size: 18px;"></i></div>
+      <div class="debt-card-info">
+        <div class="debt-card-name">Members</div>
+        <div class="debt-card-amount green" id="kpi-members">3</div>
+        <div class="debt-card-label">Active roommates</div>
       </div>
     </div>
-    </div>
-
-    <!-- KPI Cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card action-card">
-        <div class="action-card-icon">
-          <i class="ph ph-users" style="font-size: 24px; color: #fff;"></i>
-        </div>
-        <div style="font-weight: 700;">Check in</div>
-        <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 4px;">3 guests arriving today</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Active bookings</div>
-        <div class="kpi-sublabel">Compared to 114 last month</div>
-        <div style="margin-top: 12px;">
-          <span class="kpi-value">120</span>
-          <span class="kpi-change up">+5%</span>
-        </div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Room occupancy</div>
-        <div class="kpi-sublabel">Compared to 75% last month</div>
-        <div style="margin-top: 12px;">
-          <span class="kpi-value">65%</span>
-          <span class="kpi-change down">-10%</span>
-        </div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Guest satisfaction</div>
-        <div class="kpi-sublabel">Compared to (4.37/5 last month)</div>
-        <div style="margin-top: 12px;">
-          <span class="kpi-value">4.7/5</span>
-          <span class="kpi-change up">+7%</span>
-        </div>
+    <div class="debt-card positive">
+      <div class="debt-card-avatar" style="background: var(--green);"><i class="ph ph-check-circle" style="font-size: 18px;"></i></div>
+      <div class="debt-card-info">
+        <div class="debt-card-name">Chores Done (4W)</div>
+        <div class="debt-card-amount green" id="kpi-chores">0</div>
+        <div class="debt-card-label">Completed tasks</div>
       </div>
     </div>
-
-    <!-- Content Grid -->
-    <div class="content-grid">
-      <!-- Booking Table -->
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">New booking</div>
-            <div class="card-subtitle">Recent guest reservations list</div>
-          </div>
-          <span class="page-date" style="font-size: 0.85rem; cursor: pointer;">Today ▾</span>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Booking ID</th>
-              <th>Guest name</th>
-              <th>Email</th>
-              <th>Room number</th>
-              <th>Room type</th>
-              <th>Checked In</th>
-              <th>Checked Out</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="font-weight: 600;">#1223</td>
-              <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">AT</div> Alex Trie</div></td>
-              <td style="color: var(--text-muted);">Alex08@gmail.com</td>
-              <td>S-01</td>
-              <td style="color: var(--text-muted);">Single</td>
-              <td>Jan 12, 2026</td>
-              <td>Jan 15, 2026</td>
-              <td><span class="status-badge confirmed">Confirmed</span></td>
-              <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">#1224</td>
-              <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">AB</div> Annette Black</div></td>
-              <td style="color: var(--text-muted);">Ann23@gmail.com</td>
-              <td>S-22</td>
-              <td style="color: var(--text-muted);">Single</td>
-              <td>Jan 8, 2026</td>
-              <td>Jan 20, 2026</td>
-              <td><span class="status-badge checked-in">Checked In</span></td>
-              <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">#1225</td>
-              <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);">JB</div> Jerome Bell</div></td>
-              <td style="color: var(--text-muted);">JB002@gmail.com</td>
-              <td>D-08</td>
-              <td style="color: var(--text-muted);">Double</td>
-              <td>Jan 2, 2026</td>
-              <td>Jan 7, 2026</td>
-              <td><span class="status-badge checked-out">Checked Out</span></td>
-              <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">#1226</td>
-              <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #ec4899, #f472b6);">JW</div> Jenny Wilson</div></td>
-              <td style="color: var(--text-muted);">WilSoN77@gmail.com</td>
-              <td>D-05</td>
-              <td style="color: var(--text-muted);">Double</td>
-              <td>Jan 25, 2026</td>
-              <td>Jan 30, 2026</td>
-              <td><span class="status-badge new">New</span></td>
-              <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">#1227</td>
-              <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #6366f1, #818cf8);">KW</div> Kristin Watson</div></td>
-              <td style="color: var(--text-muted);">Kris09@gmail.com</td>
-              <td>De-02</td>
-              <td style="color: var(--text-muted);">Deluxe</td>
-              <td>Dec 28, 2025</td>
-              <td>Jan 4, 2026</td>
-              <td><span class="status-badge cancelled">Cancelled</span></td>
-              <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">#1228</td>
-              <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #0ea5e9, #38bdf8);">WW</div> Wade Warren</div></td>
-              <td style="color: var(--text-muted);">Wade_W@gmail.com</td>
-              <td>S-12</td>
-              <td style="color: var(--text-muted);">Single</td>
-              <td>Jan 9, 2026</td>
-              <td>Jan 14, 2026</td>
-              <td><span class="status-badge checked-in">Checked In</span></td>
-              <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Right Sidebar Charts -->
-      <div style="display: flex; flex-direction: column; gap: 24px;">
-        <!-- Booking Chart -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Booking</div>
-            <span class="page-date" style="font-size: 0.85rem; cursor: pointer;">Quantity ▾</span>
-          </div>
-          <div class="card-subtitle" style="margin-bottom: 16px;">Monthly bookings and revenue</div>
-          <div class="stat-row">
-            <div><div class="stat-item-val">455</div><div class="stat-item-label">October</div></div>
-            <div><div class="stat-item-val">409</div><div class="stat-item-label">November</div></div>
-            <div><div class="stat-item-val">222</div><div class="stat-item-label">December</div></div>
-          </div>
-        </div>
-
-        <!-- Room Category -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Top category</div>
-            <span class="page-date" style="font-size: 0.85rem; cursor: pointer;">Weekly ▾</span>
-          </div>
-          <div class="card-subtitle" style="margin-bottom: 16px;">Most booked rooms overview</div>
-          <!-- Mock donut -->
-          <div style="display: flex; justify-content: center; margin: 16px 0;">
-            <div class="donut-chart" style="background: conic-gradient(var(--accent-primary) 0% 56%, var(--accent-pink) 56% 86%, var(--accent-green) 86% 100%);"></div>
-          </div>
-          <div class="stat-row">
-            <div><div class="stat-item-val">56%</div><div class="stat-item-label">Double room</div></div>
-            <div><div class="stat-item-val">30%</div><div class="stat-item-label">Single room</div></div>
-            <div><div class="stat-item-val">14%</div><div class="stat-item-label">Deluxe room</div></div>
-          </div>
-        </div>
+    <div class="debt-card">
+      <div class="debt-card-avatar" style="background: var(--yellow);"><i class="ph ph-receipt" style="font-size: 18px;"></i></div>
+      <div class="debt-card-info">
+        <div class="debt-card-name">Total Expenses</div>
+        <div class="debt-card-amount" style="color: var(--yellow);" id="kpi-expenses">0đ</div>
+        <div class="debt-card-label" id="kpi-unsettled">0 unsettled</div>
       </div>
     </div>
-  <!-- Mobile Bottom Navigation -->
-  <nav class="mobile-nav">
-    <div class="mobile-nav-inner">
-      <a href="dashboard.html" class="mobile-nav-item active"><i class="ph ph-squares-four"></i>Dash</a>
-      <a href="tenants.html" class="mobile-nav-item"><i class="ph ph-users"></i>Guests</a>
-      <a href="index.html" class="mobile-nav-item"><i class="ph ph-calendar-check"></i>Bookings</a>
-      <a href="rooms.html" class="mobile-nav-item"><i class="ph ph-bed"></i>Rooms</a>
-      <a href="invoices.html" class="mobile-nav-item"><i class="ph ph-receipt"></i>Bills</a>
-    </div>
-  </nav>
+  </div>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <!-- Activity Log -->
+  <div class="card" style="margin-top: 24px;">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Recent Activity</div>
+        <div class="card-subtitle">Latest chore completions and expense entries</div>
+      </div>
+    </div>
+    <div style="padding: 20px;" id="activityLog"></div>
+  </div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<script src="data.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('kpi-members').textContent = members.length;
+  document.getElementById('kpi-chores').textContent = getChoreHistory(4).length;
+  document.getElementById('kpi-expenses').textContent = new Intl.NumberFormat('vi-VN').format(getExpenseTotal()) + 'đ';
+  document.getElementById('kpi-unsettled').textContent = getUnsettledCount() + ' unsettled';
+
+  // Activity log
+  const activities = [];
+  chores.filter(c => c.status === 'done' && c.completedAt).forEach(c => {
+    activities.push({ type: 'chore', text: `${getMemberName(c.assignee)} completed "${c.title}"`, date: c.completedAt });
+  });
+  expenses.forEach(e => {
+    activities.push({ type: 'expense', text: `${getMemberName(e.paidBy)} paid ${new Intl.NumberFormat('vi-VN').format(e.amount)}đ for "${e.description}"`, date: e.date });
+  });
+  activities.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const log = document.getElementById('activityLog');
+  log.innerHTML = activities.slice(0, 15).map(a => `
+    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border);">
+      <div style="width: 8px; height: 8px; border-radius: 50%; background: ${a.type === 'chore' ? 'var(--green)' : 'var(--yellow)'}; flex-shrink: 0;"></div>
+      <div style="flex: 1; font-size: 13px; color: var(--text2);">${a.text}</div>
+      <div style="font-size: 11px; color: var(--text3); white-space: nowrap;">${a.date}</div>
+    </div>
+  `).join('');
+
+  // Reset
+  document.getElementById('resetDataBtn').addEventListener('click', () => {
+    localStorage.removeItem('cospace_members');
+    localStorage.removeItem('cospace_chores');
+    localStorage.removeItem('cospace_expenses');
+    location.reload();
+  });
+});
+</script>
 </body>
 </html>

@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reservations | Co-living Manager</title>
+  <title>CoSpace | Co-living Task & Split Bill Manager</title>
   <link rel="icon" type="image/png" href="../logo.png?v=3">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <!-- Portfolio Demo Bar -->
 <div class="portfolio-demo-bar">
   <div class="demo-info">
     <span class="live-dot"></span>
-    <span class="demo-text">Interactive Prototype</span>
+    <span class="demo-text">Interactive Prototype — Fully Functional</span>
   </div>
   <a href="../index.html#project-02" class="back-portfolio-btn">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -23,231 +24,262 @@
     Back to Portfolio
   </a>
 </div>
-<!-- End: Portfolio Demo Bar -->
 
-
-  
-
-  <div class="page-container">
-    <div class="unified-header">
-      <!-- Top Navigation (Dark) -->
-  <nav class="top-nav">
-    <div class="nav-brand">
-      <div class="nav-brand-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 10L12 3L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M5 10V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M9 21V14H15V21" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+<div class="page-container">
+  <div class="unified-header">
+    <nav class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 10L12 3L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 10V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 21V14H15V21" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="nav-brand-name">Co<span style="color: #60A5FA;">Space.</span></span>
       </div>
-      <span class="nav-brand-name">Co<span style="color: #60A5FA;">Space.</span></span>
-    </div>
-    <div class="nav-links">
-      <a href="dashboard.html" class="nav-link">Dashboard</a>
-      <a href="tenants.html" class="nav-link">Guests</a>
-      <a href="index.html" class="nav-link active">Reservations</a>
-      <a href="rooms.html" class="nav-link">Rooms</a>
-      <a href="invoices.html" class="nav-link">Invoices</a>
-    </div>
-    <div class="nav-right">
-      <button class="nav-icon-btn" title="Search guests &amp; reservations"><i class="ph ph-magnifying-glass" style="font-size: 16px;"></i></button>
-      <button class="nav-icon-btn" title="Messages &amp; emails"><i class="ph ph-envelope-simple" style="font-size: 16px;"></i></button>
-      <button class="nav-icon-btn" title="Notifications"><i class="ph ph-bell" style="font-size: 16px;"></i></button>
-      <div class="nav-avatar">DN</div>
-    </div>
-  </nav>
-      <div class="page-header">
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active">Kanban Board</a>
+        <a href="ledger.html" class="nav-link">Split Ledger</a>
+        <a href="history.html" class="nav-link">History</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      </div>
+      <div class="nav-right">
+        <button class="nav-icon-btn" title="Notifications"><i class="ph ph-bell" style="font-size: 16px;"></i></button>
+        <div class="nav-avatar">DN</div>
+      </div>
+    </nav>
+    <div class="page-header">
       <div>
-        <div class="page-greeting">Reservations</div>
+        <div class="page-greeting">🏠 Chore Kanban Board</div>
+        <div class="page-sub">Drag tasks or use buttons to update status. Auto-assign picks the person with fewest completions.</div>
       </div>
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <button class="btn-primary">
-          <span>+</span> New reservation
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="btn-secondary" id="autoAssignBtn">
+          <i class="ph ph-magic-wand"></i> Auto-Assign
+        </button>
+        <button class="btn-primary" id="addChoreBtn">
+          <span>+</span> New Chore
         </button>
       </div>
     </div>
-    </div>
+  </div>
 
-    <!-- Filter Tabs -->
-    <div class="filter-tabs">
-      <button class="filter-tab active">All</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-new);"></span> New</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-confirmed);"></span> Confirmed</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-checked-in);"></span> Checked In</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-checked-out);"></span> Checked Out</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-paid);"></span> Completed</button>
-      <button class="filter-tab"><span class="filter-dot" style="background: var(--badge-cancelled);"></span> Cancelled</button>
-    </div>
-
-    <!-- Reservation Table -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Reservation List</div>
-          <div class="card-subtitle">An overview of all reservations</div>
-        </div>
-        <span class="page-date" style="font-size: 0.85rem; cursor: pointer;">
-          ◀ January 9, 2026 ▶
-        </span>
+  <!-- Kanban Board -->
+  <div class="kanban-board">
+    <!-- Column: Not Assigned -->
+    <div class="kanban-col" data-status="not-assigned">
+      <div class="kanban-col-header">
+        <span class="kanban-col-dot" style="background: #888;"></span>
+        <span class="kanban-col-title">Not Assigned</span>
+        <span class="kanban-col-count" id="count-not-assigned">0</span>
       </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th style="width: 40px;">
-              <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </th>
-            <th>Booking ID <i class="ph ph-caret-up-down sort-icon" style="font-size: 14px;"></i></th>
-            <th>Guest name</th>
-            <th>Email</th>
-            <th>Room</th>
-            <th>Room type</th>
-            <th>Checked In <i class="ph ph-caret-up-down sort-icon" style="font-size: 14px;"></i></th>
-            <th>Checked Out</th>
-            <th>Guests</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </td>
-            <td style="font-weight: 600;">#1223</td>
-            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">AT</div> Alex Trie</div></td>
-            <td style="color: var(--text-muted);">Alex08@gmail.com</td>
-            <td>S-01</td>
-            <td style="color: var(--text-muted);">Single</td>
-            <td>Jan 12, 2026</td>
-            <td>Jan 15, 2026</td>
-            <td>1 Adult</td>
-            <td><span class="status-badge confirmed">Confirmed</span></td>
-            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-          </tr>
-          <tr>
-            <td>
-              <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </td>
-            <td style="font-weight: 600;">#1224</td>
-            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">AB</div> Annette Black</div></td>
-            <td style="color: var(--text-muted);">Ann23@gmail.com</td>
-            <td>S-22</td>
-            <td style="color: var(--text-muted);">Single</td>
-            <td>Jan 8, 2026</td>
-            <td>Jan 20, 2026</td>
-            <td>1 Adult</td>
-            <td><span class="status-badge checked-in">Checked In</span></td>
-            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-          </tr>
-          <tr>
-            <td>
-              <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </td>
-            <td style="font-weight: 600;">#1225</td>
-            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);">JB</div> Jerome Bell</div></td>
-            <td style="color: var(--text-muted);">JB002@gmail.com</td>
-            <td>D-08</td>
-            <td style="color: var(--text-muted);">Double</td>
-            <td>Jan 2, 2026</td>
-            <td>Jan 7, 2026</td>
-            <td>2 Adults</td>
-            <td><span class="status-badge checked-out">Checked Out</span></td>
-            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-          </tr>
-          <tr>
-            <td>
-              <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </td>
-            <td style="font-weight: 600;">#1226</td>
-            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #ec4899, #f472b6);">JW</div> Jenny Wilson</div></td>
-            <td style="color: var(--text-muted);">WilSoN77@gmail.com</td>
-            <td>D-05</td>
-            <td style="color: var(--text-muted);">Double</td>
-            <td>Jan 25, 2026</td>
-            <td>Jan 30, 2026</td>
-            <td>2 Adults</td>
-            <td><span class="status-badge new">New</span></td>
-            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-          </tr>
-          <tr>
-            <td>
-              <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </td>
-            <td style="font-weight: 600;">#1227</td>
-            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #6366f1, #818cf8);">KW</div> Kristin Watson</div></td>
-            <td style="color: var(--text-muted);">Kris09@gmail.com</td>
-            <td>De-02</td>
-            <td style="color: var(--text-muted);">Deluxe</td>
-            <td>Jan 6, 2026</td>
-            <td>Jan 11, 2026</td>
-            <td>2 Adults, 1 Child</td>
-            <td><span class="status-badge cancelled">Cancelled</span></td>
-            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-          </tr>
-          <tr>
-            <td>
-              <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </td>
-            <td style="font-weight: 600;">#1228</td>
-            <td><div class="tenant-cell"><div class="tenant-avatar" style="background: linear-gradient(135deg, #0ea5e9, #38bdf8);">WW</div> Wade Warren</div></td>
-            <td style="color: var(--text-muted);">Wade_W@gmail.com</td>
-            <td>S-12</td>
-            <td style="color: var(--text-muted);">Single</td>
-            <td>Jan 9, 2026</td>
-            <td>Jan 14, 2026</td>
-            <td>1 Adult</td>
-            <td><span class="status-badge checked-in">Checked In</span></td>
-            <td><button class="row-action-btn"><i class="ph ph-dots-three-vertical" style="font-size: 16px;"></i></button></td>
-          </tr>
-        </tbody>
-      </table>
-      
-      <!-- Pagination -->
-      <div class="pagination">
-        <span>Showing 1-6 of 120 entries</span>
-        <div class="page-controls">
-          <button style="color: var(--text-light);">&lt;</button>
-          <button class="active">1</button>
-          <button>2</button>
-          <button>3</button>
-          <span style="color: var(--text-light);">...</span>
-          <button>10</button>
-          <button>&gt;</button>
+      <div class="kanban-cards" id="col-not-assigned"></div>
+    </div>
+    <!-- Column: To Do -->
+    <div class="kanban-col" data-status="todo">
+      <div class="kanban-col-header">
+        <span class="kanban-col-dot" style="background: #60A5FA;"></span>
+        <span class="kanban-col-title">To Do</span>
+        <span class="kanban-col-count" id="count-todo">0</span>
+      </div>
+      <div class="kanban-cards" id="col-todo"></div>
+    </div>
+    <!-- Column: In Progress -->
+    <div class="kanban-col" data-status="in-progress">
+      <div class="kanban-col-header">
+        <span class="kanban-col-dot" style="background: #FBBF24;"></span>
+        <span class="kanban-col-title">In Progress</span>
+        <span class="kanban-col-count" id="count-in-progress">0</span>
+      </div>
+      <div class="kanban-cards" id="col-in-progress"></div>
+    </div>
+    <!-- Column: Done -->
+    <div class="kanban-col" data-status="done">
+      <div class="kanban-col-header">
+        <span class="kanban-col-dot" style="background: #34D399;"></span>
+        <span class="kanban-col-title">Done</span>
+        <span class="kanban-col-count" id="count-done">0</span>
+      </div>
+      <div class="kanban-cards" id="col-done"></div>
+    </div>
+  </div>
+
+  <!-- Member Stats -->
+  <div class="member-stats-section">
+    <h3 class="section-label">Member Completion (Last 4 Weeks)</h3>
+    <div class="member-stats" id="memberStats"></div>
+  </div>
+</div>
+
+<!-- Add Chore Modal -->
+<div class="modal-overlay" id="addChoreModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Add New Chore</h3>
+      <button class="modal-close" id="closeAddChore">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label>Chore Name</label>
+      <input type="text" id="choreNameInput" placeholder="e.g. Lau nhà vệ sinh" autofocus>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="cancelAddChore">Cancel</button>
+      <button class="btn-primary" id="confirmAddChore">Add Chore</button>
+    </div>
+  </div>
+</div>
+
+<!-- Leave Group Modal -->
+<div class="modal-overlay" id="leaveGroupModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Leave Group</h3>
+      <button class="modal-close" id="closeLeaveGroup">&times;</button>
+    </div>
+    <div class="modal-body" id="leaveGroupBody">
+    </div>
+    <div class="modal-footer" id="leaveGroupFooter">
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="data.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderKanban();
+  renderMemberStats();
+
+  // Add Chore
+  document.getElementById('addChoreBtn').addEventListener('click', () => {
+    document.getElementById('addChoreModal').classList.add('active');
+    document.getElementById('choreNameInput').value = '';
+    document.getElementById('choreNameInput').focus();
+  });
+  document.getElementById('closeAddChore').addEventListener('click', () => {
+    document.getElementById('addChoreModal').classList.remove('active');
+  });
+  document.getElementById('cancelAddChore').addEventListener('click', () => {
+    document.getElementById('addChoreModal').classList.remove('active');
+  });
+  document.getElementById('confirmAddChore').addEventListener('click', () => {
+    const name = document.getElementById('choreNameInput').value.trim();
+    if (!name) { showToast('Please enter a chore name', 'error'); return; }
+    addChore(name);
+    document.getElementById('addChoreModal').classList.remove('active');
+    renderKanban();
+    renderMemberStats();
+    showToast(`"${name}" added to Not Assigned`, 'success');
+  });
+  document.getElementById('choreNameInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('confirmAddChore').click();
+  });
+
+  // Auto-Assign all unassigned
+  document.getElementById('autoAssignBtn').addEventListener('click', () => {
+    const unassigned = chores.filter(c => c.status === 'not-assigned');
+    if (unassigned.length === 0) { showToast('No unassigned chores to auto-assign', 'info'); return; }
+    unassigned.forEach(c => {
+      const assignedTo = autoAssignChore(c.id);
+      showToast(`"${c.title}" assigned to ${getMemberName(assignedTo)}`, 'success');
+    });
+    renderKanban();
+    renderMemberStats();
+  });
+});
+
+function renderKanban() {
+  const currentWeek = getWeekNumber(new Date());
+  const recentChores = chores.filter(c => c.week >= currentWeek - 1);
+
+  ['not-assigned', 'todo', 'in-progress', 'done'].forEach(status => {
+    const col = document.getElementById('col-' + status);
+    const items = recentChores.filter(c => c.status === status);
+    document.getElementById('count-' + status).textContent = items.length;
+    col.innerHTML = items.map(c => `
+      <div class="kanban-card" data-id="${c.id}">
+        <div class="kanban-card-top">
+          <span class="kanban-card-title">${c.title}</span>
+          ${c.status === 'done' ? '<i class="ph ph-check-circle" style="color: #34D399; font-size: 18px;"></i>' : ''}
+        </div>
+        <div class="kanban-card-meta">
+          ${c.assignee ? `<div class="kanban-avatar" style="background: ${getMemberColor(c.assignee)}">${getMemberAvatar(c.assignee)}</div>` : '<span style="color: #888; font-size: 12px;">Unassigned</span>'}
+          <span class="kanban-card-date">${c.createdAt}</span>
+        </div>
+        <div class="kanban-card-actions">
+          ${getActionButtons(c)}
         </div>
       </div>
-  <!-- Mobile Bottom Navigation -->
-  <nav class="mobile-nav">
-    <div class="mobile-nav-inner">
-      <a href="dashboard.html" class="mobile-nav-item"><i class="ph ph-squares-four"></i>Dash</a>
-      <a href="tenants.html" class="mobile-nav-item"><i class="ph ph-users"></i>Guests</a>
-      <a href="index.html" class="mobile-nav-item active"><i class="ph ph-calendar-check"></i>Bookings</a>
-      <a href="rooms.html" class="mobile-nav-item"><i class="ph ph-bed"></i>Rooms</a>
-      <a href="invoices.html" class="mobile-nav-item"><i class="ph ph-receipt"></i>Bills</a>
-    </div>
-  </nav>
+    `).join('');
+  });
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  // Bind action buttons
+  document.querySelectorAll('.kanban-action-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.currentTarget.dataset.id;
+      const action = e.currentTarget.dataset.action;
+      if (action === 'assign') {
+        const assignedTo = autoAssignChore(id);
+        showToast(`Assigned to ${getMemberName(assignedTo)}`, 'success');
+      } else {
+        updateChoreStatus(id, action);
+        const c = chores.find(x => x.id === id);
+        showToast(`"${c.title}" moved to ${action.replace('-', ' ')}`, 'success');
+      }
+      renderKanban();
+      renderMemberStats();
+    });
+  });
+}
+
+function getActionButtons(chore) {
+  switch (chore.status) {
+    case 'not-assigned':
+      return `<button class="kanban-action-btn" data-id="${chore.id}" data-action="assign"><i class="ph ph-magic-wand"></i> Auto-Assign</button>`;
+    case 'todo':
+      return `<button class="kanban-action-btn" data-id="${chore.id}" data-action="in-progress"><i class="ph ph-play"></i> Start</button>`;
+    case 'in-progress':
+      return `<button class="kanban-action-btn green" data-id="${chore.id}" data-action="done"><i class="ph ph-check"></i> Complete</button>`;
+    case 'done':
+      return `<span style="font-size: 11px; color: #34D399;">Completed ${chore.completedAt || ''}</span>`;
+    default:
+      return '';
+  }
+}
+
+function renderMemberStats() {
+  const container = document.getElementById('memberStats');
+  container.innerHTML = members.map(m => {
+    const count = getChoreCompletionCount(m.id, 4);
+    const maxCount = Math.max(...members.map(x => getChoreCompletionCount(x.id, 4)), 1);
+    const pct = (count / maxCount) * 100;
+    return `
+      <div class="member-stat-card">
+        <div class="member-stat-avatar" style="background: ${m.color}">${m.avatar}</div>
+        <div class="member-stat-info">
+          <div class="member-stat-name">${m.name}</div>
+          <div class="member-stat-bar-wrap">
+            <div class="member-stat-bar" style="width: ${pct}%; background: ${m.color};"></div>
+          </div>
+        </div>
+        <div class="member-stat-count">${count} done</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `<span>${msg}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => toast.classList.add('show'), 10);
+  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+}
+</script>
 </body>
 </html>

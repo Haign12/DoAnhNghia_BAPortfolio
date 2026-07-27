@@ -229,6 +229,39 @@
             <li><strong>Dimension Tables:</strong> Dim_Category (Needs vs. Wants), Dim_Date (Month, Year, Quarter).</li>
         </ul>
         <p><strong>C. Defining KPIs</strong><br>Before opening the visualization tool, I defined what metrics actually drive decisions: Subscription Utilization Rate, True Fixed Costs, and Variance to Budget.</p>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">D. Functional Requirements (FRD)</h4>
+        <div style="overflow-x: auto; margin-bottom: 24px;">
+          <table class="mock-table">
+            <tr><th>FR ID</th><th>Description</th><th>Priority</th></tr>
+            <tr><td>FR-01</td><td>CRUD subscription (name, cost, cycle, start date)</td><td style="color: #22c55e;">Must</td></tr>
+            <tr><td>FR-02</td><td>Auto-categorize transactions by keyword</td><td style="color: #22c55e;">Must</td></tr>
+            <tr><td>FR-03</td><td>Ghost Detection: flag subscriptions with no transaction in ≥30 days</td><td style="color: #22c55e;">Must</td></tr>
+            <tr><td>FR-04</td><td>Alert modal with "Cancel Now" / "Snooze 7 days" CTA</td><td style="color: #22c55e;">Must</td></tr>
+            <tr><td>FR-05</td><td>Calculate savings if subscription is cancelled</td><td>Should</td></tr>
+            <tr><td>FR-06</td><td>Handle expired cards, failed recurring payments</td><td>Should</td></tr>
+            <tr><td>FR-07</td><td>Dashboard KPIs: Utilization Rate, Fixed Cost, Variance</td><td style="color: #22c55e;">Must</td></tr>
+            <tr><td>FR-08</td><td>Export monthly report as PDF/CSV</td><td>Could</td></tr>
+          </table>
+        </div>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">E. User Stories & Acceptance Criteria (BDD)</h4>
+        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--text); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 16px;">
+          <p style="color: var(--text); font-weight: 600;">US-02: Ghost Detection Alert</p>
+          <ul style="color: var(--text2); list-style: none; margin-top: 8px;">
+            <li><strong>Given</strong> a subscription is active with no transaction in 30 days,</li>
+            <li><strong>When</strong> the weekly Ghost Detection job runs,</li>
+            <li><strong>Then</strong> the subscription is flagged "Ghost" and an alert modal shows estimated savings.</li>
+          </ul>
+        </div>
+        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--text); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
+          <p style="color: var(--text); font-weight: 600;">US-03: Snooze False Positive</p>
+          <ul style="color: var(--text2); list-style: none; margin-top: 8px;">
+            <li><strong>Given</strong> a subscription flagged as "Ghost",</li>
+            <li><strong>When</strong> user clicks "Snooze 7 days",</li>
+            <li><strong>Then</strong> the alert disappears for 7 days and the subscription is excluded from Ghost list.</li>
+          </ul>
+        </div>
       </div>
       <div class="case-section" id="ui-design">
         <h3>4. Core System Functions & UI Design</h3>
@@ -311,12 +344,14 @@
 
       <div class="case-section">
         <h3>6. Business Impact & Results</h3>
-        <p>This system turned raw transaction rows into actionable financial logic.</p>
+        <p style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px;">
+          "Applied as a personal experiment on my own spending data for 2 months (May–Jun 2026). The tool detected 4 unused subscriptions (Gym, 1 duplicate streaming service, 2 forgotten trial apps), estimated to save ~5% of monthly fixed costs. This is based on personal data and has not been validated at multi-user scale."
+        </p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
-            <li style="margin-bottom: 8px;">Identified and canceled 4 redundant subscriptions in simulated tests (estimated 5% savings of monthly fixed costs).</li>
-            <li>Reduced time spent reviewing finances from 2 hours/month to just 15 minutes/week.</li>
+            <li style="margin-bottom: 8px;">Detected 4 ghost subscriptions from personal spending data over 2 months.</li>
+            <li>Reduced finance review time from 2 hours/month to 15 minutes/week.</li>
         </ul>
-        <p><strong>Key Takeaway:</strong> A beautiful dashboard is useless if the underlying data model is messy. Spending 80% of the project time on Power Query (data cleaning) ensured the UI was accurate and insightful.</p>
+        <p><strong>Key Takeaway:</strong> A beautiful dashboard is useless if the underlying data model is messy. Spending 80% of the project time on data cleaning (SQL Server queries + Power BI transforms) ensured the UI was accurate and insightful.</p>
       </div>
 
     </div>

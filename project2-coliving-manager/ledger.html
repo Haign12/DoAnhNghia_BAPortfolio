@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split Ledger | CoSpace</title>
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Portfolio Demo Bar -->
+<div class="portfolio-demo-bar">
+  <div class="demo-info">
+    <span class="live-dot"></span>
+    <span class="demo-text">Interactive Prototype — Fully Functional</span>
+  </div>
+  <a href="../index.html#project-02" class="back-portfolio-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Portfolio
+  </a>
+</div>
+
+<div class="page-container">
+  <div class="unified-header">
+    <nav class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 10L12 3L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 10V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 21V14H15V21" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="nav-brand-name">Co<span style="color: #60A5FA;">Space.</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Kanban Board</a>
+        <a href="ledger.html" class="nav-link active">Split Ledger</a>
+        <a href="history.html" class="nav-link">History</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      </div>
+      <div class="nav-right">
+        <button class="nav-icon-btn" title="Notifications"><i class="ph ph-bell" style="font-size: 16px;"></i></button>
+        <div class="nav-avatar">DN</div>
+      </div>
+    </nav>
+    <div class="page-header">
+      <div>
+        <div class="page-greeting">💰 Split Bill Ledger</div>
+        <div class="page-sub">Track shared expenses, auto-split costs, and see who owes whom in real-time.</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="btn-secondary" id="leaveGroupBtn">
+          <i class="ph ph-sign-out"></i> Leave Group
+        </button>
+        <button class="btn-primary" id="addExpenseBtn">
+          <span>+</span> Add Expense
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Debt Summary Cards -->
+  <div class="debt-summary" id="debtSummary"></div>
+
+  <!-- Expense Table -->
+  <div class="card" style="margin-top: 24px;">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Expense Records</div>
+        <div class="card-subtitle">All shared expenses with auto-split calculation</div>
+      </div>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Paid By</th>
+          <th>Split Among</th>
+          <th>Per Person</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="expenseTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add Expense Modal -->
+<div class="modal-overlay" id="addExpenseModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Add Shared Expense</h3>
+      <button class="modal-close" id="closeAddExpense">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label>Description</label>
+      <input type="text" id="expenseDescInput" placeholder="e.g. Tiền chợ tuần 31">
+      <label style="margin-top: 12px;">Amount (VND)</label>
+      <input type="number" id="expenseAmountInput" placeholder="e.g. 450000" min="1">
+      <label style="margin-top: 12px;">Paid By</label>
+      <select id="expensePaidByInput"></select>
+      <label style="margin-top: 12px;">Split Among</label>
+      <div id="splitAmongCheckboxes" style="display: flex; gap: 12px; flex-wrap: wrap;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="cancelAddExpense">Cancel</button>
+      <button class="btn-primary" id="confirmAddExpense">Add Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- Leave Group Modal -->
+<div class="modal-overlay" id="leaveGroupModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Leave Group</h3>
+      <button class="modal-close" id="closeLeaveGroup">&times;</button>
+    </div>
+    <div class="modal-body" id="leaveGroupBody"></div>
+    <div class="modal-footer" id="leaveGroupFooter"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="data.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderDebtSummary();
+  renderExpenseTable();
+  setupModals();
+});
+
+function renderDebtSummary() {
+  const debts = calculateDebts();
+  const container = document.getElementById('debtSummary');
+  container.innerHTML = members.map(m => {
+    const val = debts[m.id];
+    const isPositive = val >= 0;
+    return `
+      <div class="debt-card ${isPositive ? 'positive' : 'negative'}">
+        <div class="debt-card-avatar" style="background: ${m.color}">${m.avatar}</div>
+        <div class="debt-card-info">
+          <div class="debt-card-name">${m.name}</div>
+          <div class="debt-card-amount ${isPositive ? 'green' : 'red'}">
+            ${isPositive ? '+' : ''}${formatVND(val)}
+          </div>
+          <div class="debt-card-label">${isPositive ? 'is owed' : 'owes'}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderExpenseTable() {
+  const tbody = document.getElementById('expenseTableBody');
+  tbody.innerHTML = expenses.sort((a, b) => new Date(b.date) - new Date(a.date)).map(e => {
+    const perPerson = Math.floor(e.amount / e.splitAmong.length);
+    const leftover = e.amount - (perPerson * e.splitAmong.length);
+    return `
+      <tr>
+        <td><strong>${e.description}</strong></td>
+        <td>${formatVND(e.amount)}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div class="kanban-avatar small" style="background:${getMemberColor(e.paidBy)}">${getMemberAvatar(e.paidBy)}</div>
+            ${getMemberName(e.paidBy)}
+          </div>
+        </td>
+        <td>${e.splitAmong.map(id => getMemberName(id)).join(', ')}</td>
+        <td>${formatVND(perPerson)}${leftover > 0 ? ` <small style="color:#888">(+${leftover}đ to payer)</small>` : ''}</td>
+        <td>${e.date}</td>
+        <td><span class="badge ${e.settled ? 'badge-settled' : 'badge-unsettled'}">${e.settled ? 'Settled' : 'Unsettled'}</span></td>
+        <td>
+          ${!e.settled ? `<button class="btn-small mark-paid-btn" data-id="${e.id}"><i class="ph ph-check"></i> Mark Paid</button>` : '<span style="color:#34D399;">✓</span>'}
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  // Bind mark paid
+  document.querySelectorAll('.mark-paid-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      markExpensePaid(btn.dataset.id);
+      renderDebtSummary();
+      renderExpenseTable();
+      showToast('Expense marked as settled', 'success');
+    });
+  });
+}
+
+function setupModals() {
+  // Add Expense Modal
+  const paidBySelect = document.getElementById('expensePaidByInput');
+  paidBySelect.innerHTML = members.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+
+  const checkboxes = document.getElementById('splitAmongCheckboxes');
+  checkboxes.innerHTML = members.map(m => `
+    <label class="checkbox-label">
+      <input type="checkbox" value="${m.id}" checked> ${m.name}
+    </label>
+  `).join('');
+
+  document.getElementById('addExpenseBtn').addEventListener('click', () => {
+    document.getElementById('addExpenseModal').classList.add('active');
+    document.getElementById('expenseDescInput').value = '';
+    document.getElementById('expenseAmountInput').value = '';
+    document.getElementById('expenseDescInput').focus();
+  });
+  document.getElementById('closeAddExpense').addEventListener('click', () => {
+    document.getElementById('addExpenseModal').classList.remove('active');
+  });
+  document.getElementById('cancelAddExpense').addEventListener('click', () => {
+    document.getElementById('addExpenseModal').classList.remove('active');
+  });
+  document.getElementById('confirmAddExpense').addEventListener('click', () => {
+    const desc = document.getElementById('expenseDescInput').value.trim();
+    const amount = parseInt(document.getElementById('expenseAmountInput').value);
+    const paidBy = document.getElementById('expensePaidByInput').value;
+    const splitAmong = [...document.querySelectorAll('#splitAmongCheckboxes input:checked')].map(cb => cb.value);
+
+    if (!desc) { showToast('Please enter a description', 'error'); return; }
+    if (!amount || amount <= 0) { showToast('Amount must be greater than 0', 'error'); return; }
+    if (splitAmong.length === 0) { showToast('Select at least 1 member to split', 'error'); return; }
+
+    try {
+      addExpense(desc, amount, paidBy, splitAmong);
+      document.getElementById('addExpenseModal').classList.remove('active');
+      renderDebtSummary();
+      renderExpenseTable();
+      showToast(`Expense "${desc}" added — split among ${splitAmong.length} people`, 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  });
+
+  // Leave Group
+  document.getElementById('leaveGroupBtn').addEventListener('click', () => {
+    const myId = 'm1'; // current user
+    const allowed = canLeaveGroup(myId);
+    const debts = calculateDebts();
+    const body = document.getElementById('leaveGroupBody');
+    const footer = document.getElementById('leaveGroupFooter');
+
+    if (allowed) {
+      body.innerHTML = `<p style="color: #ccc;">You have no outstanding debts. You may leave the group.</p>`;
+      footer.innerHTML = `
+        <button class="btn-secondary" onclick="document.getElementById('leaveGroupModal').classList.remove('active')">Cancel</button>
+        <button class="btn-primary" onclick="showToast('Left group successfully (demo)', 'success'); document.getElementById('leaveGroupModal').classList.remove('active');">Confirm Leave</button>
+      `;
+    } else {
+      body.innerHTML = `
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 16px; border-radius: 8px; margin-bottom: 12px;">
+          <strong style="color: #EF4444;">⚠ Cannot Leave Group</strong>
+          <p style="color: #ccc; margin-top: 8px;">You currently owe <strong style="color: #EF4444;">${formatVND(Math.abs(debts[myId]))}</strong>. Please settle all debts before leaving.</p>
+        </div>
+      `;
+      footer.innerHTML = `
+        <button class="btn-secondary" onclick="document.getElementById('leaveGroupModal').classList.remove('active')">Close</button>
+        <button class="btn-primary" style="background: #EF4444;" onclick="showToast('Please settle debts first (US-109)', 'error'); document.getElementById('leaveGroupModal').classList.remove('active');">Pay Now</button>
+      `;
+    }
+    document.getElementById('leaveGroupModal').classList.add('active');
+  });
+  document.getElementById('closeLeaveGroup').addEventListener('click', () => {
+    document.getElementById('leaveGroupModal').classList.remove('active');
+  });
+}
+
+function formatVND(amount) {
+  return new Intl.NumberFormat('vi-VN').format(amount) + 'đ';
+}
+
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `<span>${msg}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => toast.classList.add('show'), 10);
+  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+}
+</script>
+</body>
+</html>
