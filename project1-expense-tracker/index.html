@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="../ux-showcase.css">
 </head>
 <body>
 <!-- Portfolio Demo Bar -->
@@ -100,8 +101,8 @@
       <div class="kpi-row">
         <!-- Card 1: Featured (Dark) -->
         <div class="kpi-card featured">
-          <div class="kpi-card-label">Total Expenses</div>
-          <div class="kpi-card-value">$1,240</div>
+          <div class="kpi-card-label">Total Fixed Cost</div>
+          <div class="kpi-card-value" id="kpiTotalCost">$0</div>
           <div class="kpi-card-trend">
             <i class="ph ph-trend-up"></i>
             ↑ 12%
@@ -112,7 +113,7 @@
         <!-- Card 2 -->
         <div class="kpi-card">
           <div class="kpi-card-label">Active Subscriptions</div>
-          <div class="kpi-card-value">5</div>
+          <div class="kpi-card-value" id="kpiActiveCount">0</div>
           <div class="kpi-card-trend down">
             <i class="ph ph-trend-down"></i>
             ↓ 17%
@@ -137,8 +138,8 @@
 
         <!-- Card 4 -->
         <div class="kpi-card">
-          <div class="kpi-card-label">Ghost Subscriptions</div>
-          <div class="kpi-card-value" style="color: var(--red-500);">3</div>
+          <div class="kpi-card-label">Utilization Rate</div>
+          <div class="kpi-card-value" id="kpiUtilization" style="color: var(--teal);">0%</div>
           <div class="kpi-card-trend up">
             <i class="ph ph-trend-up"></i>
             ↑ 10%
@@ -163,53 +164,19 @@
           </div>
         </div>
 
-        <!-- Statistics -->
-        <div class="panel-card">
-          <div class="panel-card-header">
-            <span class="panel-card-title">Statistics</span>
-            <span class="panel-card-more">•••</span>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 14px;">
-            <!-- Stat 1: Active Rate -->
-            <div class="stat-item">
-              <div class="stat-left">
-                <span class="stat-label">Active Rate</span>
-                <span class="stat-sublabel">5 of 8 subs</span>
-              </div>
-              <div class="stat-right">
-                <div class="circular-progress" id="progress1" style="background: conic-gradient(var(--purple-500) 0% 62%, #eee 62% 100%);">
-                  <span>62%</span>
-                </div>
-                <span class="stat-value">62%</span>
-              </div>
-            </div>
-
-            <!-- Stat 2: Usage Health -->
-            <div class="stat-item">
-              <div class="stat-left">
-                <span class="stat-label">Usage Health</span>
-                <span class="stat-sublabel">Avg usage score</span>
-              </div>
-              <div class="stat-right">
-                <div class="circular-progress" style="background: conic-gradient(var(--green-500) 0% 85%, #eee 85% 100%);">
-                  <span>85%</span>
-                </div>
-                <span class="stat-value">85%</span>
-              </div>
-            </div>
-
-            <!-- Stat 3: Potential Savings -->
-            <div class="stat-item">
-              <div class="stat-left">
-                <span class="stat-label">Potential Savings</span>
-                <span class="stat-sublabel" style="color: var(--green-500);">+21%</span>
-              </div>
-              <div class="stat-right">
-                <span class="stat-value">$540</span>
+        <!-- Ghost Subscriptions Panel -->
+        <div class="panel-card ghost-panel">
+          <div class="panel-card-header" style="margin-bottom: 24px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="ghost-icon" style="width: 32px; height: 32px; background: var(--red-light); color: var(--red-500); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="ph ph-ghost"></i></div>
+              <div>
+                <span class="panel-card-title" style="color: var(--red-500);">Ghost Subscriptions <span class="ba-hotspot" data-ba-note="Business Rule (FR-03): Detects active subscriptions with 0 logins in 30 days. Showing this panel on the right creates urgency to act."><i class="ph ph-question"></i></span></span>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Detected via FR-03 rules</div>
               </div>
             </div>
           </div>
-        </div>
+          <div id="ghostList"></div>
+        </div></div>
       </div>
 
       <!-- ── Expense Overview Chart ── -->
@@ -235,31 +202,15 @@
       <!-- ── Top Spending Sources ── -->
       <div class="spending-row">
         <div class="spending-header">
-          <div>
-            <div class="spending-title">Top Spending</div>
-            <div class="spending-subtitle">Your biggest expenses this month.</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div>
+              <div class="spending-title">Active Subscriptions</div>
+              <div class="spending-subtitle">Your monthly recurring costs.</div>
+            </div>
+            <button class="neumorphic-btn-small" onclick="showToast('Add flow not implemented in demo', 'info')" style="padding: 6px 12px; border-radius: 6px; background: var(--purple-100); color: var(--purple-600); border: none; cursor: pointer; font-weight: 600;"><i class="ph ph-plus"></i> Add Sub</button>
           </div>
         </div>
-        <div class="spending-cards">
-          <div class="spending-card">
-            <div class="spending-card-icon" style="background: var(--purple-100);"><i class="ph ph-palette"></i></div>
-            <div class="spending-card-name">Adobe CC</div>
-            <div class="spending-card-label">Top Subscription</div>
-            <div class="spending-card-amount">$52.99 <span>/ month</span></div>
-          </div>
-          <div class="spending-card">
-            <div class="spending-card-icon" style="background: var(--purple-100);"><i class="ph ph-graduation-cap"></i></div>
-            <div class="spending-card-name">Coursera Plus</div>
-            <div class="spending-card-label">Top Education</div>
-            <div class="spending-card-amount">$49.00 <span>/ month</span></div>
-          </div>
-          <div class="spending-card">
-            <div class="spending-card-icon" style="background: var(--purple-300);"><i class="ph ph-barbell"></i></div>
-            <div class="spending-card-name">Gym Membership</div>
-            <div class="spending-card-label">Ghost! Unused 45d</div>
-            <div class="spending-card-amount">$30.00 <span>/ month</span></div>
-          </div>
-        </div>
+        <div class="sub-list" id="subscriptionList" style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;"></div></div>
       </div>
 
     </div>
@@ -277,10 +228,29 @@
   </div>
 </nav>
 
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
   <script src="data.js"></script>
   <script src="app.js"></script>
 
 
 
+  <script src="../ux-showcase.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initUXShowcase({
+        projectId: 'p1_fintrack',
+        role: 'User (End-consumer)',
+        title: 'Welcome to FinTrack Prototype',
+        desc: 'Experience a Premium Analytics Dashboard designed to help users track subscriptions and avoid hidden costs.',
+        tasks: [
+          'Navigate through the Sidebar menus to explore the dashboard layout.',
+          'Review the Ghost Subscriptions logic in the UI.',
+          'Hover over BA hotspots for design rationale.'
+        ]
+      });
+    });
+  </script>
 </body>
 </html>

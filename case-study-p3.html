@@ -190,9 +190,9 @@
         <h1 class="case-title">Office Group Order Optimization</h1>
         <p class="case-copy">Modeling the As-Is vs To-Be process of office group ordering to eliminate payment bottlenecks.</p>
         <div class="case-metrics">
-          <div class="metric-chip"><span class="metric-value">Process Analyst</span><span class="metric-label">Role</span></div>
+          <div class="metric-chip"><span class="metric-value">Business Analyst</span><span class="metric-label">Role</span></div>
           <div class="metric-chip"><span class="metric-value">1 Week</span><span class="metric-label">Timeline</span></div>
-          <div class="metric-chip"><span class="metric-value">Draw.io, BPMN 2.0</span><span class="metric-label">Tools</span></div>
+          <div class="metric-chip"><span class="metric-value">Camunda, Draw.io, PlantUML, Figma</span><span class="metric-label">Tools</span></div>
                 </div>
         
         <!-- Hero Image Hook: Show, Don't Tell -->
@@ -202,7 +202,7 @@
       </div>
 
       <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
-        <strong style="color: var(--text);">Note:</strong> This is a personal initiative designed to simulate an enterprise-scale problem. All metrics and impact numbers are projected estimations based on simulated test scenarios, created to demonstrate the application of professional BA methodologies in real-world contexts.
+        <strong style="color: var(--text);">📌 Personal / Simulated Project:</strong> This is a personal initiative tested with 5 real group food orders at the office. Impact data is based on manual timing (phone stopwatch) across these 5 trials. Sample size is limited and results should be interpreted as directional, not statistically significant.
       </div>
 
       <div class="case-section" id="problem">
@@ -214,6 +214,23 @@
         <h3>2. Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> Third-party food delivery apps (like ShopeeFood or Grab) have group order features, but they often lack flexible payment splitting and don't allow the Admin to collect funds before placing the order.</p>
         <p><strong>The Trade-off:</strong> Instead of relying on rigid third-party apps, I modeled a custom To-Be process using a simple internal form linked to a QR payment gateway. The trade-off was a slight learning curve for staff, but absolute financial security for the Admin.</p>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">Constraints & Assumptions Log</h4>
+        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #ef4444; border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 16px;">
+          <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">⚠️ C-01: URL Scraper — Terms of Service Risk</p>
+          <p style="color: var(--text2); margin-bottom: 8px;">The "Paste ShopeeFood/GrabFood link" feature relies on web scraping to extract menu data. This approach may violate the Terms of Service (ToS) of these platforms, which typically prohibit automated data extraction.</p>
+          <p style="color: var(--text2);"><strong>Mitigation:</strong> For production deployment, this feature should be replaced by official Merchant API partnerships (GrabFood for Business API) or manual menu upload. The scraper is acceptable only for internal prototype/pilot purposes.</p>
+        </div>
+        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #eab308; border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 16px;">
+          <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">⚠️ C-02: Internal Wallet — Financial Compliance Risk</p>
+          <p style="color: var(--text2); margin-bottom: 8px;">The Internal Wallet feature holds user funds as credits rather than refunding to bank accounts. This raises critical compliance questions:</p>
+          <ul style="color: var(--text2); list-style: disc; margin-left: 16px; margin-bottom: 8px;">
+            <li>Who bears liability for wallet balances if the operating company ceases operations?</li>
+            <li>Is the wallet considered an e-money instrument requiring a license under Vietnamese law (Decree 101/2012)?</li>
+            <li>Audit trail requirements: all wallet transactions must be traceable and exportable.</li>
+          </ul>
+          <p style="color: var(--text2);"><strong>Mitigation:</strong> For enterprise deployment, engage legal counsel to determine if an e-money license is required. Implement mandatory wallet-to-bank withdrawal option. Add expiration policy for dormant credits (≥12 months).</p>
+        </div>
       </div>
       <div class="case-section" id="approach">
         <h3>3. Approach & BA Artifacts</h3>
@@ -327,13 +344,40 @@
       <div class="case-section" id="impact">
         <h3>7. Business Impact & Results</h3>
         <p style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px;">
-          "Applied the To-Be process in 5 real group food orders at the office (timed manually). Admin coordination time dropped from an average of 45 minutes to 5 minutes — an 80% reduction. Zero instances of admin being short-changed across all 5 trials."
+          "Applied the To-Be process in 5 real group food orders at the office. Timing was measured manually using a phone stopwatch. Admin coordination time dropped from an average of ~45 minutes to ~5 minutes per order. Zero instances of admin being short-changed across all 5 trials. Note: n=5 is insufficient for statistical significance but demonstrates a clear directional improvement."
         </p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
-            <li style="margin-bottom: 8px;">80% reduction in coordination time across 5 real office trials.</li>
-            <li>0% payment deficit (vs. frequent occurrences in the As-Is process).</li>
+            <li style="margin-bottom: 8px;">~80% reduction in coordination time across 5 real office trials (manually timed, n=5).</li>
+            <li style="margin-bottom: 8px;">0% payment deficit across all 5 trials (vs. frequent occurrences in the As-Is process).</li>
+            <li>Limitation: Small sample (n=5 orders, single office). Results are directional; enterprise-scale validation would require A/B testing across multiple departments.</li>
         </ul>
         <p><strong>Key Takeaway:</strong> Business Process Modeling Notation (BPMN) isn't just for factory floors. Applying it to everyday office logistics proves that a strong BA can detect inefficiencies and architect logical solutions anywhere.</p>
+      </div>
+
+      <div class="case-section" id="enterprise-scale">
+        <h3>8. Enterprise Scale Considerations</h3>
+        <p>A critical exercise for any BA: what changes if this system scales from 1 office (10 people) to an enterprise with 50 branches and 5,000 employees?</p>
+
+        <h4 style="color: var(--text); margin: 16px 0 8px;">A. Stakeholder Conflict Map</h4>
+        <div style="overflow-x: auto; margin-bottom: 24px;">
+          <table class="mock-table">
+            <tr><th>Stakeholder</th><th>Primary Goal</th><th>Potential Conflict</th></tr>
+            <tr><td style="color: var(--text); font-weight: 600;">Admin (Order Coordinator)</td><td>Speed — wants to finalize orders quickly</td><td>Opposes strict payment verification gates that slow down the process</td></tr>
+            <tr><td style="color: var(--text); font-weight: 600;">Staff (End User)</td><td>Convenience — wants minimal steps to order</td><td>Resists mandatory pre-payment; prefers "pay later" flexibility</td></tr>
+            <tr><td style="color: var(--text); font-weight: 600;">Finance Department</td><td>Control — wants audit trail & budget compliance</td><td>Demands corporate wallet integration, spending limits per employee, and monthly reports</td></tr>
+            <tr><td style="color: var(--text); font-weight: 600;">Vendor (Restaurant)</td><td>Accuracy — wants precise, confirmed orders</td><td>Requires API integration for order accuracy; rejects phone/chat-based orders at scale</td></tr>
+            <tr><td style="color: var(--text); font-weight: 600;">IT/Security</td><td>Compliance — data privacy, payment security</td><td>Blocks any scraping features; demands PCI-DSS for payment processing</td></tr>
+          </table>
+        </div>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">B. Architecture Changes at Scale</h4>
+        <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
+            <li style="margin-bottom: 8px;"><strong>Multi-tenant Architecture:</strong> Each branch operates as a separate tenant with isolated data, but corporate Finance has a cross-tenant dashboard for consolidated reporting.</li>
+            <li style="margin-bottom: 8px;"><strong>Role-Based Access Control (RBAC):</strong> Branch Admin can only manage their own sessions. Regional Manager sees aggregate data. Finance has read-only audit access.</li>
+            <li style="margin-bottom: 8px;"><strong>Vendor API Integration:</strong> Replace URL scraper with official GrabFood for Business / ShopeeFood Merchant APIs. Orders flow directly into vendor POS systems.</li>
+            <li style="margin-bottom: 8px;"><strong>Concurrency Handling:</strong> Redis-based session locking to prevent race conditions when 50+ employees submit orders simultaneously at cutoff time.</li>
+            <li><strong>Audit Trail & Compliance:</strong> Every transaction (order, payment, refund) logged with immutable audit trail. Monthly export to ERP system (SAP/Oracle) via scheduled ETL jobs.</li>
+        </ul>
       </div>
 
     </div>

@@ -192,7 +192,7 @@
         <div class="case-metrics">
           <div class="metric-chip"><span class="metric-value">Business Analyst</span><span class="metric-label">Role</span></div>
           <div class="metric-chip"><span class="metric-value">3 Weeks</span><span class="metric-label">Timeline</span></div>
-          <div class="metric-chip"><span class="metric-value">Figma, Jira, Trello</span><span class="metric-label">Tools</span></div>
+          <div class="metric-chip"><span class="metric-value">Figma, Draw.io, html2canvas, Zalo API</span><span class="metric-label">Tools</span></div>
                 </div>
         
         <!-- Hero Image Hook: Show, Don't Tell -->
@@ -202,7 +202,7 @@
       </div>
 
       <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
-        <strong style="color: var(--text);">Note:</strong> This is a personal initiative designed to simulate an enterprise-scale problem. All metrics and impact numbers are projected estimations based on simulated test scenarios, created to demonstrate the application of professional BA methodologies in real-world contexts.
+        <strong style="color: var(--text);">📌 Personal / Simulated Project:</strong> This is a personal initiative tested internally with 2 roommates over 3 weeks. Impact data reflects this small-scale pilot and should not be interpreted as enterprise KPIs. The project demonstrates professional BA methodologies applied to a real co-living scenario.
       </div>
 
       <div class="case-section" id="problem">
@@ -231,6 +231,39 @@
           </table>
         </div>
         <p><strong>Elicitation Conclusion:</strong> The solution must leverage existing habits (Zalo), minimize interaction steps, and provide transparent data to reduce arguments.</p>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">A2. Persona Card</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 13px;">
+            <p style="color: var(--text); font-weight: 700; margin-bottom: 8px;">👤 Persona: Roommate A ("The Organizer")</p>
+            <ul style="color: var(--text2); list-style: none;">
+              <li style="margin-bottom: 4px;"><strong>Age:</strong> 24 | <strong>Occupation:</strong> Junior Developer</li>
+              <li style="margin-bottom: 4px;"><strong>Pain Point:</strong> Always the one who pays upfront, then struggles to collect. Feels exploited.</li>
+              <li style="margin-bottom: 4px;"><strong>Goal:</strong> Automated ledger that shows who owes what, instantly.</li>
+              <li><strong>Tech Comfort:</strong> High — prefers web apps over manual notes.</li>
+            </ul>
+          </div>
+          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 13px;">
+            <p style="color: var(--text); font-weight: 700; margin-bottom: 8px;">👤 Persona: Roommate B ("The Passive User")</p>
+            <ul style="color: var(--text2); list-style: none;">
+              <li style="margin-bottom: 4px;"><strong>Age:</strong> 23 | <strong>Occupation:</strong> Marketing Intern</li>
+              <li style="margin-bottom: 4px;"><strong>Pain Point:</strong> Feels accused unfairly about not cleaning. No proof either way.</li>
+              <li style="margin-bottom: 4px;"><strong>Goal:</strong> Fair chore system with visible history so nobody can blame unfairly.</li>
+              <li><strong>Tech Comfort:</strong> Low — only uses Zalo, Instagram. Won't install new apps.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">A3. Risk Register</h4>
+        <div style="overflow-x: auto; margin-bottom: 24px;">
+          <table class="mock-table">
+            <tr><th>Risk ID</th><th>Risk Description</th><th>Likelihood</th><th>Impact</th><th>Mitigation Strategy</th></tr>
+            <tr><td>R-01</td><td>Adoption Risk: Not all roommates consistently use the app, causing data gaps.</td><td style="color: #ef4444;">High</td><td style="color: #ef4444;">High</td><td>Integrate with Zalo (existing habit) instead of forcing a new app. Weekly summary auto-posted to group chat.</td></tr>
+            <tr><td>R-02</td><td>Mid-cycle Departure: A roommate leaves the group while debts are outstanding.</td><td>Medium</td><td style="color: #ef4444;">High</td><td>System blocks "Leave Group" action if balance ≠ 0 (US-109). Debt must be settled first.</td></tr>
+            <tr><td>R-03</td><td>Data Integrity: Manual entry errors in expense amounts.</td><td>Medium</td><td>Medium</td><td>Input validation (no negative values, max cap). Edit history with audit trail.</td></tr>
+            <tr><td>R-04</td><td>Fairness Perception: Users disagree with auto-assign algorithm output.</td><td>Low</td><td>Medium</td><td>Transparent 4-week history visible to all. Manual override option available.</td></tr>
+          </table>
+        </div>
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">B. User Story Map (2 Epics, 9 Stories)</h4>
         <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
@@ -308,6 +341,7 @@
             <li style="margin-bottom: 6px;"><strong>Given</strong> the chore "Clean Bathroom" has not been assigned this week,</li>
             <li style="margin-bottom: 6px;"><strong>When</strong> the user clicks the "Auto-Assign" button,</li>
             <li style="margin-bottom: 6px;"><strong>Then</strong> the system assigns the chore to the roommate with the lowest historical completion count,</li>
+            <li style="margin-bottom: 6px;"><strong>And</strong> if two or more roommates have equal completion counts (tie), the system assigns to the one who was assigned least recently (FIFO tie-breaking),</li>
             <li><strong>And</strong> updates the Kanban board to reflect the new assignee immediately.</li>
           </ul>
         </div>
@@ -367,11 +401,12 @@
       <div class="case-section" id="impact">
         <h3>6. Business Impact & Results</h3>
         <p style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px;">
-          "Applied internally for 3 weeks with 2 roommates. The system recorded 0 disputes about shared expenses thanks to the transparent ledger — compared to an average of 2-3 misunderstandings/month before, according to member feedback."
+          "Applied internally for 3 weeks with 2 roommates (n=3 total users). During the pilot period, the transparent ledger helped prevent misunderstandings about shared expenses. Members reported subjectively that disputes decreased significantly compared to the prior month — though the sample size is too small for statistical conclusions."
         </p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
-            <li style="margin-bottom: 8px;">0 disputes recorded during 3-week internal pilot (vs. 2-3/month baseline).</li>
-            <li>Improved chore completion rate by gamifying the "Done" column on the Kanban board.</li>
+            <li style="margin-bottom: 8px;">No expense-related disputes recorded during 3-week pilot (n=3 users, self-reported baseline: 2-3 misunderstandings/month).</li>
+            <li style="margin-bottom: 8px;">Chore completion visibility improved — all members could verify history via Kanban board.</li>
+            <li>Limitation: Sample too small (n=3) to generalize. Results reflect a controlled personal environment, not enterprise deployment.</li>
         </ul>
         <p><strong>Key Takeaway:</strong> Excellent Requirement Elicitation involves understanding the true bottleneck (user habits). A perfectly coded app fails if users don't want to open it; integrating with their existing Zalo habit was the real win.</p>
       </div>

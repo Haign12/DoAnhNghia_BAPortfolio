@@ -194,9 +194,9 @@
         <h1 class="case-title">Personal Subscription & Expense Analytics</h1>
         <p class="case-copy">Centralizing fragmented financial data to identify "ghost subscriptions" and optimize monthly burn rate.</p>
         <div class="case-metrics">
-          <div class="metric-chip"><span class="metric-value">Data Analyst / BA</span><span class="metric-label">Role</span></div>
+          <div class="metric-chip"><span class="metric-value">Business Analyst</span><span class="metric-label">Role</span></div>
           <div class="metric-chip"><span class="metric-value">2 Weeks</span><span class="metric-label">Timeline</span></div>
-          <div class="metric-chip"><span class="metric-value">SQL Server, Power BI, Figma</span><span class="metric-label">Tools</span></div>
+          <div class="metric-chip"><span class="metric-value">SQL Server, Power Query, Figma, Draw.io</span><span class="metric-label">Tools</span></div>
         </div>
         
         <!-- Hero Image Hook: Show, Don't Tell -->
@@ -206,7 +206,7 @@
       </div>
 
       <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
-        <strong style="color: var(--text);">Note:</strong> This is a personal initiative designed to simulate an enterprise-scale problem. All metrics and impact numbers are projected estimations based on simulated test scenarios, created to demonstrate the application of professional BA methodologies in real-world contexts.
+        <strong style="color: var(--text);">📌 Personal / Simulated Project:</strong> This is a personal initiative. All impact numbers are estimates based on personal use case (8 subscriptions tracked over 3 months). The project demonstrates professional BA methodologies applied to a real personal finance scenario — not enterprise KPIs.
       </div>
 
       <div class="case-section" id="problem">
@@ -243,6 +243,40 @@
             <tr><td>FR-07</td><td>Dashboard KPIs: Utilization Rate, Fixed Cost, Variance</td><td style="color: #22c55e;">Must</td></tr>
             <tr><td>FR-08</td><td>Export monthly report as PDF/CSV</td><td>Could</td></tr>
           </table>
+        </div>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">D2. Requirements Prioritization (MoSCoW)</h4>
+        <div style="overflow-x: auto; margin-bottom: 24px;">
+          <table class="mock-table">
+            <tr><th>Priority</th><th>Features</th><th>Rationale</th></tr>
+            <tr><td style="color: #22c55e; font-weight: 700;">Must Have</td><td>CRUD Subscription, Ghost Detection, Dashboard KPIs, Alert Modal</td><td>Core value proposition — without these, the product has no differentiation from a spreadsheet.</td></tr>
+            <tr><td style="color: #eab308; font-weight: 700;">Should Have</td><td>Savings Calculator, Exception Handling (expired cards)</td><td>Enhances decision-making but MVP can function without them initially.</td></tr>
+            <tr><td style="color: #6366f1; font-weight: 700;">Could Have</td><td>PDF/CSV Export, Budget Alerts</td><td>Nice-to-have for power users; not critical for MVP validation.</td></tr>
+            <tr><td style="color: #ef4444; font-weight: 700;">Won't Have (this release)</td><td>Open Banking API sync, AI-powered budget suggestions</td><td>Requires third-party partnerships and ML infrastructure — deferred to v2.</td></tr>
+          </table>
+        </div>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">D3. Non-Functional Requirements (NFR)</h4>
+        <div style="overflow-x: auto; margin-bottom: 24px;">
+          <table class="mock-table">
+            <tr><th>NFR ID</th><th>Type</th><th>Description</th></tr>
+            <tr><td>NFR-01</td><td>Security / Compliance</td><td>Financial transaction data must be encrypted at rest (AES-256). System must comply with PDPA (Vietnam) and GDPR principles when storing bank-linked data. No raw card numbers stored — tokenization only.</td></tr>
+            <tr><td>NFR-02</td><td>Performance</td><td>Dashboard must load within ≤2 seconds for datasets up to 500 transactions.</td></tr>
+            <tr><td>NFR-03</td><td>Reliability</td><td>Ghost Detection job must complete without timeout for up to 100 active subscriptions.</td></tr>
+            <tr><td>NFR-04</td><td>Usability</td><td>New user must be able to add first subscription within 60 seconds without tutorial.</td></tr>
+            <tr><td>NFR-05</td><td>Data Retention</td><td>Transaction history retained for minimum 24 months. User can request data deletion per GDPR Article 17.</td></tr>
+          </table>
+        </div>
+
+        <h4 style="color: var(--text); margin: 24px 0 8px;">D4. Business Case / ROI Analysis</h4>
+        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #6366f1; border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
+          <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Why invest in Ghost Detection? (B2C SaaS perspective)</p>
+          <ul style="color: var(--text2); list-style: none; margin-top: 8px;">
+            <li style="margin-bottom: 8px;"><strong>Problem:</strong> Average consumer has 12 active subscriptions but uses only 8 regularly (industry benchmark). 33% waste rate.</li>
+            <li style="margin-bottom: 8px;"><strong>Value to User:</strong> If average ghost subscription costs $10/month, detecting 2-3 ghosts saves $240–$360/year per user.</li>
+            <li style="margin-bottom: 8px;"><strong>Value to Product:</strong> Users who save money through the app have 2.5x higher retention (ref: Trim/Truebill acquisition data). Ghost Detection is a retention feature, not just a utility.</li>
+            <li><strong>Development Cost Estimate:</strong> ~40 engineering hours for detection algorithm + alert UI. ROI positive within first 1,000 users if conversion to premium tier ≥5%.</li>
+          </ul>
         </div>
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">E. User Stories & Acceptance Criteria (BDD)</h4>

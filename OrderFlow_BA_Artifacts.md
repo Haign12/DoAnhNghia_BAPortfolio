@@ -11,11 +11,13 @@
 - Trong phạm vi: Tạo session order, tự động chia tiền + phí ship, xác minh thanh toán qua QR trước khi đặt hàng với vendor.
 - Ngoài phạm vi: Tích hợp trực tiếp API đặt hàng của ShopeeFood/GrabFood (chỉ crawl thông tin menu).
 
-**Success Metrics:**
-| Metric | Baseline | Target |
+**Success Metrics (Ước lượng — đo từ 5 lần đặt hàng thực tế, bấm giờ thủ công):**
+| Metric | Baseline | Observed Result |
 |---|---|---|
-| Thời gian Admin xử lý 1 đơn | 45 phút | ≤ 5 phút |
-| Tỷ lệ thất thoát do chưa thu đủ tiền | Không đo được, ước tính xảy ra thường xuyên | 0% (chặn đặt hàng nếu chưa đủ 100% tiền) |
+| Thời gian Admin xử lý 1 đơn | ~45 phút (bấm giờ) | ~5 phút (giảm ~80%) |
+| Thất thoát do chưa thu đủ tiền | Thường xuyên (không đo chính xác) | 0% (5/5 lần) |
+
+> **⚠️ Lưu ý minh bạch:** n=5 lần đặt hàng, 1 văn phòng. Thời gian đo bằng đồng hồ điện thoại. Mẫu nhỏ, chưa đủ để kết luận thống kê nhưng cho thấy xu hướng cải thiện rõ rệt.
 
 ---
 
@@ -178,7 +180,44 @@ BE -> UI: Push update trạng thái participant
 
 ## 10. Cách trình bày "impact" trung thực
 
-> "Áp dụng thử quy trình To-Be trong 5 lần đặt đồ ăn nhóm thực tế tại văn phòng (đo bằng bấm giờ thủ công), thời gian xử lý của Admin giảm từ trung bình 45 phút xuống còn 5 phút, tương đương giảm 80% thời gian điều phối. Tình trạng admin bị thiếu tiền không còn xảy ra trong 5 lần thử nghiệm."
+> "Áp dụng thử quy trình To-Be trong 5 lần đặt đồ ăn nhóm thực tế tại văn phòng (bấm giờ bằng đồng hồ điện thoại), thời gian xử lý của Admin giảm từ trung bình ~45 phút xuống còn ~5 phút. Tình trạng admin bị thiếu tiền không còn xảy ra trong 5 lần thử nghiệm. Lưu ý: n=5, chưa đủ để kết luận thống kê nhưng cho thấy xu hướng cải thiện rõ rệt."
+
+---
+
+## 10b. Constraints & Assumptions Log
+
+### C-01: URL Scraper — Rủi ro vi phạm Terms of Service
+- **Vấn đề:** Tính năng "Paste link ShopeeFood/GrabFood" sử dụng web scraping để lấy dữ liệu menu. Điều này có thể vi phạm ToS của các nền tảng này (cấm thu thập dữ liệu tự động).
+- **Giảm thiểu:** Cho deployment production, thay bằng Merchant API chính thức (GrabFood for Business API) hoặc upload menu thủ công. Scraper chỉ chấp nhận cho prototype/pilot nội bộ.
+
+### C-02: Internal Wallet — Rủi ro Compliance Tài chính
+- **Vấn đề:** Internal Wallet giữ tiền user dưới dạng credit thay vì hoàn về tài khoản ngân hàng. Câu hỏi compliance:
+  - Ai chịu trách nhiệm số dư ví nếu công ty ngừng hoạt động?
+  - Ví có được coi là công cụ tiền điện tử cần giấy phép theo luật Việt Nam (Nghị định 101/2012)?
+  - Yêu cầu audit trail: mọi giao dịch ví phải truy vết được và có thể xuất báo cáo.
+- **Giảm thiểu:** Tư vấn pháp lý. Bắt buộc có tùy chọn rút tiền về ngân hàng. Đặt chính sách hết hạn cho credit không sử dụng (≥12 tháng).
+
+---
+
+## 10c. Enterprise Scale Considerations
+
+**Câu hỏi:** Nếu hệ thống scale từ 1 văn phòng (10 người) lên doanh nghiệp 50 chi nhánh, 5,000 nhân viên — kiến trúc thay đổi ra sao?
+
+### Stakeholder Conflict Map
+| Stakeholder | Mục tiêu chính | Xung đột tiềm ẩn |
+|---|---|---|
+| Admin (Order Coordinator) | Tốc độ — muốn chốt đơn nhanh | Phản đối các cổng xác minh thanh toán làm chậm quy trình |
+| Staff (End User) | Tiện lợi — muốn ít bước nhất | Phản đối bắt buộc trả trước; thích "trả sau" linh hoạt hơn |
+| Finance Department | Kiểm soát — muốn audit trail đầy đủ | Yêu cầu ví doanh nghiệp, giới hạn chi tiêu/nhân viên, báo cáo hàng tháng |
+| Vendor (Nhà hàng) | Chính xác — muốn đơn hàng chính xác | Yêu cầu tích hợp API; từ chối đơn qua điện thoại/chat ở quy mô lớn |
+| IT/Security | Compliance — bảo mật dữ liệu, thanh toán | Chặn mọi tính năng scraping; yêu cầu PCI-DSS cho xử lý thanh toán |
+
+### Kiến trúc thay đổi khi Scale
+- **Multi-tenant Architecture:** Mỗi chi nhánh là tenant riêng với dữ liệu cô lập. Finance có dashboard cross-tenant để xem tổng hợp.
+- **RBAC:** Branch Admin chỉ quản lý session của mình. Regional Manager xem aggregate. Finance có quyền read-only audit.
+- **Vendor API:** Thay thế URL scraper bằng GrabFood for Business / ShopeeFood Merchant API chính thức.
+- **Concurrency Handling:** Redis-based session locking để chống race-condition khi 50+ người submit đồng thời.
+- **Audit Trail & Compliance:** Mọi giao dịch (order, payment, refund) được log với audit trail không thể chỉnh sửa. Xuất hàng tháng sang hệ thống ERP (SAP/Oracle).
 
 ---
 

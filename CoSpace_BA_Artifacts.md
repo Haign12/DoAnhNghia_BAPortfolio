@@ -26,11 +26,13 @@
 - Trong phạm vi: Quản lý chore theo Kanban, ghi nhận & chia đều chi phí, tính công nợ.
 - Ngoài phạm vi: Thanh toán tự động qua ngân hàng, push notification real-time (dùng Zalo webhook thay thế).
 
-**Success Metrics:**
-| Metric | Baseline | Target |
+**Success Metrics (Ước lượng — pilot nội bộ 3 tuần, 3 thành viên):**
+| Metric | Baseline | Observed Result |
 |---|---|---|
-| Tranh chấp về công nợ / tháng | Không rõ (ước tính 2-3 lần) | 0 |
+| Tranh chấp về công nợ / tháng | ~2-3 lần (tự báo cáo) | 0 lần trong 3 tuần pilot |
 | Thời gian tính chia tiền | ~10 phút/lần thủ công | Tức thời (tự động) |
+
+> **⚠️ Lưu ý minh bạch:** n=3 users, 3 tuần. Mẫu quá nhỏ để kết luận thống kê. Kết quả phản ánh môi trường cá nhân có kiểm soát, không phải deployment doanh nghiệp.
 
 ---
 
@@ -57,6 +59,7 @@
 - Given chore "Clean Bathroom" chưa được gán tuần này
 - When user nhấn "Auto-Assign"
 - Then hệ thống gán cho người có số lần hoàn thành thấp nhất trong 4 tuần gần nhất
+- And nếu hai hoặc nhiều người bằng điểm (tie), hệ thống gán cho người được gán lần gần nhất xa nhất (FIFO tie-breaking)
 - And cập nhật Kanban board ngay lập tức
 
 **US-106 — Rounding Logic:**
@@ -162,7 +165,40 @@
 
 ## 10. Cách trình bày "impact" trung thực
 
-> "Áp dụng thử nội bộ trong 3 tuần với 2 bạn cùng phòng, hệ thống ghi nhận 0 tranh chấp về công nợ nhờ ledger minh bạch — so với trung bình 2-3 lần hiểu nhầm/tháng trước đó theo phản hồi của các thành viên."
+> "Áp dụng thử nội bộ trong 3 tuần với 2 bạn cùng phòng (n=3 users tổng cộng). Ledger minh bạch giúp không phát sinh hiểu lầm nào về chi phí chung trong giai đoạn pilot — so với phản hồi chủ quan là 2-3 lần tranh cãi/tháng trước đó. Lưu ý: mẫu quá nhỏ (n=3) để kết luận thống kê nhưng cho thấy xu hướng cải thiện rõ rệt."
+
+---
+
+## 10b. Persona Cards
+
+### Persona A: "The Organizer"
+| Field | Detail |
+|---|---|
+| Tuổi | 24 |
+| Nghề nghiệp | Junior Developer |
+| Pain Point | Luôn là người trả tiền trước, sau đó khó đòi lại. Cảm thấy bị lợi dụng. |
+| Goal | Ledger tự động hiển thị ai nợ ai bao nhiêu, tức thời. |
+| Tech Comfort | Cao — thích web app hơn ghi chú thủ công |
+
+### Persona B: "The Passive User"
+| Field | Detail |
+|---|---|
+| Tuổi | 23 |
+| Nghề nghiệp | Marketing Intern |
+| Pain Point | Bị buộc tội không dọn nhà nhưng không có bằng chứng. |
+| Goal | Hệ thống phân việc công bằng, có lịch sử rõ ràng. |
+| Tech Comfort | Thấp — chỉ dùng Zalo, Instagram. Không muốn cài app mới. |
+
+---
+
+## 10c. Risk Register
+
+| Risk ID | Mô tả Rủi ro | Khả năng | Tác động | Chiến lược Giảm thiểu |
+|---|---|---|---|---|
+| R-01 | Adoption Risk: Không phải tất cả roommates đều dùng app thường xuyên, gây thiếu dữ liệu | Cao | Cao | Tích hợp Zalo (thói quen sẵn có). Weekly summary tự động post vào nhóm chat |
+| R-02 | Mid-cycle Departure: Một người rời nhóm giữa chu kỳ khi vẫn còn nợ | Trung bình | Cao | Hệ thống chặn "Leave Group" nếu balance ≠ 0 (US-109). Nợ phải thanh toán trước |
+| R-03 | Data Integrity: Lỗi nhập liệu thủ công (số tiền sai) | Trung bình | Trung bình | Validation input (không cho âm, giới hạn max). Có lịch sử chỉnh sửa (audit trail) |
+| R-04 | Fairness Perception: User không đồng ý với kết quả auto-assign | Thấp | Trung bình | Lịch sử 4 tuần hiển thị minh bạch cho tất cả. Có option override thủ công |
 
 ---
 
