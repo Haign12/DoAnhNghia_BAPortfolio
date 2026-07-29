@@ -1718,55 +1718,54 @@ body {
   .filter-search { min-width: 100%; }
   .tabs { width: 100%; overflow-x: auto; }
 }
-/ *   G h o s t   S u b s c r i p t i o n s   P a n e l   S t y l e s   * / 
- . g h o s t - c a r d   { 
-     p a d d i n g :   1 6 p x ; 
-     b a c k g r o u n d :   v a r ( - - b g - m a i n ) ; 
-     b o r d e r - r a d i u s :   1 2 p x ; 
-     m a r g i n - b o t t o m :   1 2 p x ; 
- } 
- . g h o s t - c a r d : l a s t - c h i l d   { 
-     m a r g i n - b o t t o m :   0 ; 
- } 
- . g h o s t - a l e r t - t e x t   { 
-     f o n t - s i z e :   0 . 8 5 r e m ; 
-     c o l o r :   v a r ( - - t e x t - s e c o n d a r y ) ; 
-     m a r g i n - t o p :   4 p x ; 
-     l i n e - h e i g h t :   1 . 4 ; 
- } 
- . g h o s t - s a v i n g s   { 
-     c o l o r :   v a r ( - - t e x t - p r i m a r y ) ; 
-     f o n t - w e i g h t :   6 0 0 ; 
- } 
- . g h o s t - a c t i o n s   { 
-     d i s p l a y :   f l e x ; 
-     g a p :   8 p x ; 
-     m a r g i n - t o p :   1 2 p x ; 
- } 
- . n e u m o r p h i c - b t n   { 
-     d i s p l a y :   f l e x ; 
-     a l i g n - i t e m s :   c e n t e r ; 
-     g a p :   6 p x ; 
-     p a d d i n g :   6 p x   1 2 p x ; 
-     b o r d e r :   n o n e ; 
-     b a c k g r o u n d :   v a r ( - - b g - c a r d ) ; 
-     b o x - s h a d o w :   2 p x   2 p x   5 p x   r g b a ( 0 , 0 , 0 , 0 . 0 5 ) ,   - 2 p x   - 2 p x   5 p x   # f f f f f f ; 
-     b o r d e r - r a d i u s :   8 p x ; 
-     f o n t - s i z e :   0 . 8 r e m ; 
-     f o n t - w e i g h t :   6 0 0 ; 
-     c o l o r :   v a r ( - - t e x t - p r i m a r y ) ; 
-     c u r s o r :   p o i n t e r ; 
-     t r a n s i t i o n :   a l l   0 . 2 s ; 
- } 
- . n e u m o r p h i c - b t n : h o v e r   { 
-     b o x - s h a d o w :   i n s e t   2 p x   2 p x   5 p x   r g b a ( 0 , 0 , 0 , 0 . 0 5 ) ,   i n s e t   - 2 p x   - 2 p x   5 p x   # f f f f f f ; 
- } 
- . n e u m o r p h i c - b t n . b t n - d a n g e r   { 
-     c o l o r :   v a r ( - - r e d - 5 0 0 ) ; 
- } 
- . n e u m o r p h i c - b t n . b t n - d a n g e r : h o v e r   { 
-     b a c k g r o u n d :   v a r ( - - r e d - 5 0 0 ) ; 
-     c o l o r :   # f f f ; 
- } 
-  
- 
+/* Ghost Subscriptions Panel Styles */
+.ghost-card {
+  padding: 16px;
+  background: var(--bg-main);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.ghost-card:last-child {
+  margin-bottom: 0;
+}
+.ghost-alert-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.ghost-savings {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.ghost-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.neumorphic-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: none;
+  background: var(--bg-card);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.05), -2px -2px 5px #ffffff;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.neumorphic-btn:hover {
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05), inset -2px -2px 5px #ffffff;
+}
+.neumorphic-btn.btn-danger {
+  color: var(--red-500);
+}
+.neumorphic-btn.btn-danger:hover {
+  background: var(--red-500);
+  color: #fff;
+}
+
