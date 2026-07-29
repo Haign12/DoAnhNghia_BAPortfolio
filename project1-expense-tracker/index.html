@@ -49,8 +49,8 @@
       <div class="logo-text">Fin<span class="text-gradient">Track</span></div>
     </div>
     
-    <nav class="sidebar-nav">
-      <a href="#" class="nav-item active" onclick="switchView('view-overview', this)"><i class="ph ph-squares-four"></i> Overview</a>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#" class="nav-item" onclick="switchView('view-overview', this)"><i class="ph ph-squares-four"></i> Overview</a>
       <a href="#" class="nav-item" onclick="switchView('view-transactions', this)"><i class="ph ph-list-dashes"></i> Transactions</a>
       <a href="#" class="nav-item" onclick="switchView('view-subscriptions', this)">
         <i class="ph ph-repeat"></i> Subscriptions
@@ -59,39 +59,51 @@
       <a href="#" class="nav-item" onclick="switchView('view-analytics', this)"><i class="ph ph-chart-pie-slice"></i> Analytics</a>
       <a href="#" class="nav-item" onclick="switchView('view-budget', this)"><i class="ph ph-target"></i> Budget Planner</a>
     </nav>
-    
-    <div class="sidebar-bottom">
-      <a href="#" class="nav-item" onclick="toggleEmptyState()"><i class="ph ph-flask"></i> Toggle Empty State</a>
-      <a href="#" class="nav-item"><i class="ph ph-gear"></i> Settings</a>
-      <div class="user-profile">
-        <div class="user-avatar">DN</div>
-        <div class="user-info">
-          <div class="user-name">Đỗ Anh Nghĩa</div>
-          <div class="user-email">Free Plan</div>
-        </div>
-      </div>
-    </div>
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
+
+    <!-- VIEW: ONBOARDING -->
+    <div id="view-onboarding" class="view-section active">
+      <div style="max-width: 500px; margin: 100px auto; background: var(--bg-card); padding: 40px; border-radius: 16px; border: 1px solid var(--border-light); text-align: center;">
+        <i class="ph ph-rocket-launch" style="font-size: 48px; color: var(--teal); margin-bottom: 20px;"></i>
+        <h2>Welcome to FinTrack</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 14px;">Set up your financial rules before we begin tracking ghosts.</p>
+        
+        <div style="text-align: left; margin-bottom: 20px;">
+          <label style="display:block; margin-bottom: 8px; font-size: 13px;">Primary Currency</label>
+          <select id="onboardCurrency" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
+            <option value="USD">USD ($)</option>
+            <option value="VND">VND (đ)</option>
+          </select>
+        </div>
+        
+        <div style="text-align: left; margin-bottom: 20px;">
+          <label style="display:block; margin-bottom: 8px; font-size: 13px;">Ghost Threshold (Days without transaction)</label>
+          <input type="number" id="onboardThreshold" value="30" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
+        </div>
+
+        <div style="text-align: left; margin-bottom: 30px; display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="onboardMock" checked>
+          <label for="onboardMock" style="font-size: 13px;">Import sample demo data</label>
+        </div>
+
+        <button class="btn-primary w-100" style="width:100%" onclick="completeOnboarding()">Complete Setup</button>
+      </div>
+    </div>
     
     <!-- VIEW: OVERVIEW -->
-    <div id="view-overview" class="view-section active">
+    <div id="view-overview" class="view-section">
       <header class="topbar">
-        <div class="search-box">
-          <i class="ph ph-magnifying-glass"></i>
-          <input type="text" placeholder="Search transactions, subs...">
-        </div>
+        <h1 class="page-title">Overview</h1>
         <div class="topbar-actions">
-          <button class="btn-icon"><i class="ph ph-bell"></i></button>
-          <button class="btn-primary" onclick="openAddTransactionModal()"><i class="ph ph-plus"></i> Add Transaction</button>
+          <button class="btn-secondary" onclick="openAddSubModal()"><i class="ph ph-plus"></i> Add Sub</button>
+          <button class="btn-primary" onclick="openAddTransactionModal()"><i class="ph ph-plus"></i> Add Tx</button>
         </div>
       </header>
 
-      <div class="page-content">
-        <div class="section-title">Financial Overview</div>
-        
+      <div class="page-content" id="overviewContent">
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-card-header">
@@ -99,16 +111,14 @@
               <div class="kpi-card-icon"><i class="ph ph-currency-dollar"></i></div>
             </div>
             <div class="kpi-card-value" id="kpiTotalCost">$0.00</div>
-            <div class="kpi-card-trend trend-down"><i class="ph ph-trend-down"></i> -2.4% vs last month</div>
           </div>
           
           <div class="kpi-card">
             <div class="kpi-card-header">
-              <div class="kpi-card-title tooltip">Utilization Rate<span class="tooltiptext">Active Subs / Total Subs (Excluding Ghosts)</span></div>
+              <div class="kpi-card-title tooltip">Utilization Rate<span class="tooltiptext">Active Subs / Total Subs</span></div>
               <div class="kpi-card-icon" style="background: rgba(0, 212, 170, 0.1); color: var(--teal);"><i class="ph ph-lightning"></i></div>
             </div>
             <div class="kpi-card-value" id="kpiUtilization" style="color: var(--teal);">0%</div>
-            <div class="kpi-card-trend trend-up" style="color: var(--text-secondary);"><i class="ph ph-info"></i> Based on 30-day activity</div>
           </div>
           
           <div class="kpi-card">
@@ -117,49 +127,19 @@
               <div class="kpi-card-icon" style="background: rgba(245, 166, 35, 0.1); color: var(--orange);"><i class="ph ph-repeat"></i></div>
             </div>
             <div class="kpi-card-value" id="kpiActiveCount">0</div>
-            <div class="kpi-card-trend trend-up"><i class="ph ph-trend-up"></i> +1 this month</div>
-          </div>
-        </div>
-
-        <div class="dashboard-grid">
-          <!-- Main Chart -->
-          <div class="card" style="grid-column: span 8;">
-            <div class="card-header">
-              <h3 class="card-title">Burn Rate (6 Months)</h3>
-              <select class="form-select" style="width: auto; padding: 4px 8px;"><option>2026</option></select>
-            </div>
-            <div class="chart-container" style="height: 250px;">
-              <canvas id="expenseChart"></canvas>
-            </div>
-          </div>
-          
-          <!-- Category Chart -->
-          <div class="card" style="grid-column: span 4;">
-            <div class="card-header">
-              <h3 class="card-title">Spending by Category</h3>
-            </div>
-            <div class="chart-container" style="height: 250px;">
-              <canvas id="categoryBarChart"></canvas>
-            </div>
           </div>
         </div>
 
         <div class="dashboard-grid mt-4">
-          <!-- Ghost Subs -->
           <div class="card ghost-alert-card" style="grid-column: span 6;">
             <div class="card-header">
-              <h3 class="card-title" style="color: #ff6b6b;"><i class="ph ph-ghost"></i> Ghost Subscriptions Detected</h3>
-              <a href="#" onclick="switchView('view-subscriptions', document.querySelectorAll('.nav-item')[2])" style="font-size: 13px; color: var(--text-secondary);">View All</a>
+              <h3 class="card-title" style="color: #ff6b6b;"><i class="ph ph-ghost"></i> Ghost Alerts</h3>
             </div>
-            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">These services haven't been used in over 30 days. Cancel them to save money.</p>
             <div class="sub-list" id="overviewGhostList" style="display: flex; flex-direction: column; gap: 12px;"></div>
           </div>
-
-          <!-- Recent Transactions -->
           <div class="card" style="grid-column: span 6;">
             <div class="card-header">
               <h3 class="card-title">Recent Transactions</h3>
-              <a href="#" onclick="switchView('view-transactions', document.querySelectorAll('.nav-item')[1])" style="font-size: 13px; color: var(--text-secondary);">View All</a>
             </div>
             <div class="table-responsive">
               <table class="data-table">
@@ -168,6 +148,13 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="page-content" id="overviewEmpty" style="display:none; text-align:center; padding: 60px;">
+        <i class="ph ph-ghost" style="font-size: 64px; color: var(--border-medium); margin-bottom: 20px;"></i>
+        <h2>No Financial Data</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 30px;">Your ledger is empty. Add a subscription and transactions to let the Ghost Detection algorithm work.</p>
+        <button class="btn-primary" onclick="openAddSubModal()"><i class="ph ph-plus"></i> Add First Subscription</button>
       </div>
     </div>
 
@@ -184,7 +171,7 @@
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Description</th>
+                  <th>Subscription</th>
                   <th>Category</th>
                   <th>Amount</th>
                   <th>Action</th>
@@ -195,9 +182,7 @@
           </div>
           <div id="emptyTxState" style="display:none; text-align:center; padding: 60px 20px;">
             <i class="ph ph-receipt" style="font-size: 48px; color: var(--border-medium); margin-bottom: 16px;"></i>
-            <h3>No Transactions Yet</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 24px;">Start by adding your first transaction or importing a CSV file.</p>
-            <button class="btn-primary" onclick="openAddTransactionModal()">Add Transaction</button>
+            <h3>No Transactions</h3>
           </div>
         </div>
       </div>
@@ -207,7 +192,7 @@
     <div id="view-subscriptions" class="view-section">
       <header class="topbar">
         <h1 class="page-title">Subscriptions</h1>
-        <button class="btn-primary"><i class="ph ph-plus"></i> Add Subscription</button>
+        <button class="btn-primary" onclick="openAddSubModal()"><i class="ph ph-plus"></i> Add Subscription</button>
       </header>
       <div class="page-content">
         <div class="card">
@@ -216,8 +201,8 @@
               <thead>
                 <tr>
                   <th>Service</th>
-                  <th>Category</th>
-                  <th>Billing Cycle</th>
+                  <th>Last Transaction</th>
+                  <th>Cycle</th>
                   <th>Cost</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -234,10 +219,8 @@
     <div id="view-analytics" class="view-section">
       <header class="topbar"><h1 class="page-title">Analytics</h1></header>
       <div class="page-content">
-        <div class="card">
-          <h3 class="card-title mb-3">Cashflow Forecast <span class="badge" style="background: var(--orange); color: white; margin-left: 8px;">BETA</span></h3>
-          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">Forecast based on 3-month moving average of fixed costs vs expected income.</p>
-          <div class="chart-container" style="height: 300px;"><canvas id="cashflowChart"></canvas></div>
+        <div class="card" style="text-align:center; padding:40px;">
+          <h3 style="color:var(--text-secondary);">Analytics charts will populate here</h3>
         </div>
       </div>
     </div>
@@ -247,7 +230,7 @@
       <header class="topbar"><h1 class="page-title">Budget Planner</h1></header>
       <div class="page-content">
         <div class="card">
-          <h3 class="card-title mb-4">Monthly Budget Limits</h3>
+          <h3 class="card-title mb-4">Monthly Limits</h3>
           <div id="budgetList"></div>
         </div>
       </div>
@@ -256,29 +239,46 @@
   </main>
 </div>
 
+<!-- MODAL: ADD SUBSCRIPTION -->
+<div class="modal-overlay" id="modal-add-sub">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal('modal-add-sub')"><i class="ph ph-x"></i></button>
+    <h2 style="margin-bottom: 20px;">Add Subscription</h2>
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; margin-bottom: 8px; font-size: 13px;">Service Name</label>
+      <input type="text" id="addSubName" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
+    </div>
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; margin-bottom: 8px; font-size: 13px;">Cost per cycle</label>
+      <input type="number" id="addSubCost" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
+    </div>
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; margin-bottom: 8px; font-size: 13px;">Category</label>
+      <select id="addSubCat" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
+        <option>Entertainment</option>
+        <option>Health</option>
+        <option>Education</option>
+      </select>
+    </div>
+    <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="submitSubscription()">Save Subscription</button>
+  </div>
+</div>
+
 <!-- MODAL: ADD TRANSACTION -->
 <div class="modal-overlay" id="modal-add-transaction">
   <div class="modal-card">
     <button class="modal-close" onclick="closeModal('modal-add-transaction')"><i class="ph ph-x"></i></button>
     <h2 style="margin-bottom: 20px;">Add Transaction</h2>
     <div class="form-group" style="margin-bottom: 16px;">
-      <label style="display:block; margin-bottom: 8px; font-size: 13px; color: var(--text-secondary);">Description</label>
-      <input type="text" id="addTxDesc" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;" placeholder="e.g. Netflix Monthly">
-    </div>
-    <div class="form-group" style="margin-bottom: 16px;">
-      <label style="display:block; margin-bottom: 8px; font-size: 13px; color: var(--text-secondary);">Amount (USD)</label>
-      <input type="number" id="addTxAmount" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;" placeholder="15.99">
-    </div>
-    <div class="form-group" style="margin-bottom: 16px;">
-      <label style="display:block; margin-bottom: 8px; font-size: 13px; color: var(--text-secondary);">Category</label>
-      <select id="addTxCat" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
-        <option>Entertainment</option>
-        <option>Health</option>
-        <option>Education</option>
-        <option>Productivity</option>
+      <label style="display:block; margin-bottom: 8px; font-size: 13px;">Link to Subscription</label>
+      <select id="addTxSubId" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
       </select>
     </div>
-    <button class="btn-primary w-100" style="width:100%; margin-top:10px;" onclick="submitTransaction()">Save Transaction</button>
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; margin-bottom: 8px; font-size: 13px;">Date</label>
+      <input type="date" id="addTxDate" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: white;">
+    </div>
+    <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="submitTransaction()">Record Transaction</button>
   </div>
 </div>
 
@@ -289,31 +289,35 @@
     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
       <div class="sub-icon" id="ghostModalIcon" style="font-size: 32px; background: rgba(255,107,107,0.1); border-radius: 12px; padding: 16px;"></div>
       <div>
-        <h2 id="ghostModalTitle" style="margin-bottom: 4px;">Service Name</h2>
+        <h2 id="ghostModalTitle" style="margin-bottom: 4px;">Service</h2>
         <div class="badge badge-ghost">Ghost Detected</div>
       </div>
     </div>
     
-    <div style="background: var(--bg-main); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+    <div style="background: var(--bg-main); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
       <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
         <span style="color: var(--text-secondary);">Days without usage:</span>
         <strong id="ghostModalDays" style="color: #ff6b6b;">0 days</strong>
       </div>
       <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
-        <span style="color: var(--text-secondary);">Last recorded transaction:</span>
-        <strong id="ghostModalLastTx">--</strong>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 13px;">
         <span style="color: var(--text-secondary);">Monthly bleed rate:</span>
         <strong id="ghostModalBleed">--</strong>
       </div>
+      <div style="display: flex; justify-content: space-between; font-size: 13px;">
+        <span style="color: var(--text-secondary);">Potential Yearly Save:</span>
+        <strong id="ghostModalSave" style="color: var(--teal);">--</strong>
+      </div>
     </div>
     
-    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">This subscription has been flagged by the algorithm because no matching transactions were found in the connected bank feed recently.</p>
+    <div style="margin-bottom: 24px;">
+      <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; font-weight: bold;">Transaction Timeline</div>
+      <div id="ghostModalTimeline"></div>
+    </div>
     
-    <div style="display: flex; gap: 12px;">
-      <button class="btn-primary" style="flex: 1; background: #ff6b6b;" onclick="confirmCancelGhost()">Cancel Subscription</button>
-      <button class="btn-secondary" style="flex: 1;" onclick="snoozeGhost()">Snooze 7 Days</button>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn-primary" style="flex: 1; background: #ff6b6b;" onclick="confirmCancelGhost()">Cancel Sub</button>
+      <button class="btn-secondary" style="flex: 1;" onclick="snoozeGhost()">Snooze 7D</button>
+      <button class="btn-secondary" style="flex: 1;" onclick="keepGhost()">Keep</button>
     </div>
   </div>
 </div>
