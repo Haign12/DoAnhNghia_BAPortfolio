@@ -61,22 +61,12 @@
       </div>
 
       <div class="section-title">Active Sessions</div>
-      <div class="card-list">
-        <div class="history-card" style="border-color: var(--teal); box-shadow: 0 4px 12px rgba(0,212,170,0.1);" onclick="switchView('view-host-dashboard')">
-          <div class="history-card-header">
-            <div class="history-shop">Highlands Coffee</div>
-            <div class="badge warning" style="font-size: 10px;">Collecting</div>
-          </div>
-          <div class="history-card-body">
-            <div class="history-detail"><i class="ph ph-clock"></i> Closes at 11:30 AM</div>
-            <div class="history-detail"><i class="ph ph-users"></i> 3 of 5 Paid</div>
-            <div class="history-total">235.000đ</div>
-          </div>
-        </div>
+      <div class="card-list" id="activeSessionsList">
+        <!-- Injected via JS -->
       </div>
 
       <div class="section-title mt-5">Recent Orders</div>
-      <div class="card-list">
+      <div class="card-list" id="recentOrdersList">
         <div class="history-card">
           <div class="history-card-header">
             <div class="history-shop">KFC Lunch</div>
@@ -101,32 +91,32 @@
       
       <div class="form-card">
         <div class="form-group">
-          <label>Shop / Restaurant Name</label>
-          <input type="text" class="form-input" id="shopName" placeholder="e.g. Highlands Coffee, Phuc Long...">
+          <label>Shop / Restaurant Name <span style="color:red">*</span></label>
+          <input type="text" class="form-input" id="createShopName" placeholder="e.g. Highlands Coffee, Phuc Long...">
         </div>
         <div class="form-group">
           <label>Menu Link (Optional)</label>
-          <input type="text" class="form-input" placeholder="Paste ShopeeFood / GrabFood link">
+          <input type="text" class="form-input" id="createMenuLink" placeholder="Paste ShopeeFood / GrabFood link">
         </div>
         <div class="form-row">
           <div class="form-group" style="flex: 1;">
-            <label>Cut-off Date</label>
-            <input type="date" class="form-input" value="2026-07-30">
+            <label>Cut-off Date <span style="color:red">*</span></label>
+            <input type="date" class="form-input" id="createCutoffDate">
           </div>
           <div class="form-group" style="flex: 1;">
-            <label>Cut-off Time</label>
-            <input type="time" class="form-input" value="11:30">
+            <label>Cut-off Time <span style="color:red">*</span></label>
+            <input type="time" class="form-input" id="createCutoffTime">
           </div>
         </div>
         <div class="form-group">
-          <label>Shipping Fee Split Method</label>
-          <select class="form-input">
+          <label>Shipping Fee Split Method <span style="color:red">*</span></label>
+          <select class="form-input" id="createSplitMethod">
             <option>Equal split among all members</option>
             <option>Proportional to order amount</option>
           </select>
         </div>
         <div class="form-actions mt-4">
-          <button class="btn-primary w-100" onclick="switchView('view-host-dashboard')">Create & Generate Invite Link</button>
+          <button class="btn-primary w-100" onclick="handleCreateOrder()">Create & Generate Invite Link</button>
         </div>
       </div>
     </div>
@@ -136,11 +126,11 @@
       <button class="back-link" onclick="switchView('view-home')"><i class="ph ph-arrow-left"></i> Home</button>
       <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
         <div>
-          <h1 class="page-title">Highlands Coffee</h1>
-          <div class="page-subtitle">Order Session • Closes Today at 11:30 AM</div>
+          <h1 class="page-title" id="hostDashShopName">Highlands Coffee</h1>
+          <div class="page-subtitle">Session <strong id="hostDashSessionCode">HC8273</strong> • Closes at <span id="hostDashCutoff">11:30 AM</span></div>
         </div>
         <div class="share-box">
-          <input type="text" value="https://orderflow.app/join/HC-8273" readonly class="share-input">
+          <input type="text" id="hostDashInviteLink" value="https://orderflow.app/join/HC8273" readonly class="share-input">
           <button class="btn-secondary" onclick="showToast('Invite link copied!', '<i class=\'ph ph-copy\'></i>')">Copy Link</button>
         </div>
       </div>
@@ -149,12 +139,12 @@
       <div class="stepper-section" style="padding: 24px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
           <div style="font-weight: 700; font-size: 1.1rem;">Funding Progress</div>
-          <div style="font-weight: 700; color: var(--teal); font-size: 1.1rem;">3 / 5 Paid</div>
+          <div style="font-weight: 700; color: var(--teal); font-size: 1.1rem;" id="fundingProgressText">0 / 0 Paid</div>
         </div>
         <div style="width: 100%; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
-          <div style="width: 60%; height: 100%; background: var(--teal); border-radius: 4px;"></div>
+          <div id="fundingProgressBar" style="width: 0%; height: 100%; background: var(--teal); border-radius: 4px; transition: width 0.3s ease;"></div>
         </div>
-        <div style="font-size: 0.85rem; color: var(--text-secondary);">Waiting for 2 members to complete payment before placing order.</div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);" id="fundingProgressDesc">Waiting for participants to join.</div>
       </div>
 
       <!-- Dashboard Grid -->
@@ -162,8 +152,9 @@
         <!-- Participant List -->
         <div class="dashboard-main">
           <div class="card">
-            <div class="card-header">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h3 class="card-title">Participant List</h3>
+              <button class="btn-secondary" style="padding: 4px 12px; font-size: 12px;" onclick="simulateCutoff()">Simulate Cut-off Trigger</button>
             </div>
             <table class="data-table">
               <thead>
@@ -188,37 +179,48 @@
             <h3 class="card-title mb-3">Order Summary</h3>
             <div class="summary-row">
               <span>Subtotal</span>
-              <span id="hostSubtotal">240.000đ</span>
+              <span id="hostSubtotal">0đ</span>
             </div>
             <div class="summary-row">
               <span>Shipping Fee</span>
-              <span>15.000đ</span>
+              <span id="hostShipping">0đ</span>
             </div>
             <div class="summary-row">
               <span>Discount</span>
-              <span style="color: var(--green);">-20.000đ</span>
+              <span style="color: var(--green);" id="hostDiscount">0đ</span>
             </div>
             <div class="summary-divider"></div>
             <div class="summary-total">
               <span>Grand Total</span>
-              <span class="total-amount" id="hostTotal">235.000đ</span>
+              <span class="total-amount" id="hostTotal">0đ</span>
             </div>
 
             <div class="mt-4">
-              <button class="btn-primary w-100 mb-2" onclick="switchView('view-vendor-summary')">Close Order & Send to Vendor</button>
-              <button class="btn-secondary w-100" onclick="resetParticipantCart(); switchView('view-participant');">Preview as Participant</button>
+              <button class="btn-primary w-100 mb-2" id="btnSendToVendor" onclick="switchView('view-vendor-summary')" disabled>Close Order & Send to Vendor</button>
+              <button class="btn-secondary w-100" onclick="handlePreviewParticipant()">Preview as Participant</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- VIEW: SESSION CLOSED -->
+    <div id="view-session-closed" class="view-section fade-in">
+      <button class="back-link" onclick="switchView('view-home')"><i class="ph ph-arrow-left"></i> Home</button>
+      <div class="payment-container text-center" style="padding: 80px 40px;">
+        <i class="ph ph-lock-key" style="font-size: 4rem; color: var(--border-medium); margin-bottom: 20px;"></i>
+        <h2 class="mb-2">Session Closed</h2>
+        <p class="text-muted mb-4">This order session has passed its cut-off time and is no longer accepting new items.</p>
+        <button class="btn-primary" onclick="switchView('view-home')">Go to My Orders</button>
+      </div>
+    </div>
+
     <!-- VIEW: PARTICIPANT (Menu/Cart) -->
     <div id="view-participant" class="view-section fade-in">
       <div class="page-header centered text-center">
-        <div class="host-avatar" style="width: 48px; height: 48px; border-radius: 50%; background: var(--bg-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 12px; font-size: 1.2rem;">AN</div>
-        <h1 class="page-title" style="font-size: 1.5rem;">Anh Nghĩa invited you to order from Highlands Coffee</h1>
-        <div class="page-subtitle" style="color: var(--orange); font-weight: 600;">Closing in 14:59 mins</div>
+        <div class="host-avatar" style="width: 48px; height: 48px; border-radius: 50%; background: var(--bg-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 12px; font-size: 1.2rem;">DN</div>
+        <h1 class="page-title" style="font-size: 1.5rem;">Join order from <span id="participantShopName">Shop Name</span></h1>
+        <div class="page-subtitle" style="color: var(--orange); font-weight: 600;">Closes at <span id="participantCutoff"></span></div>
       </div>
 
       <div class="menu-grid" style="max-width: 900px; margin: 0 auto;">
@@ -269,13 +271,13 @@
               </div>
               <div class="summary-row" style="font-size: 13px;">
                 <span>Shared Shipping/Discount</span>
-                <span>+ 5.000đ</span>
+                <span id="cartSharedFee">+ 0đ</span>
               </div>
               <div class="summary-total mt-2" style="font-size: 1.1rem;">
                 <span>Your Total</span>
                 <span id="cartTotal">0đ</span>
               </div>
-              <button class="btn-primary w-100 mt-3" id="checkoutBtn" onclick="proceedToPayment()">Confirm & Pay</button>
+              <button class="btn-primary w-100 mt-3" id="checkoutBtn" onclick="proceedToPayment()" disabled>Confirm & Pay</button>
             </div>
           </div>
         </div>
@@ -295,27 +297,30 @@
           </div>
           <div class="qr-amount-display" id="paymentAmountDisplay">0đ</div>
           <div class="qr-instruction" style="background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px; font-family: monospace;">
-            Message: <strong style="color: var(--text-primary);">HC8273-ThuTrang</strong>
+            Message: <strong style="color: var(--text-primary);" id="paymentTransferMessage">CODE-Name</strong>
           </div>
         </div>
 
-        <button class="btn-primary w-100 mt-4" onclick="switchView('view-payment-success')">I have transferred</button>
+        <button class="btn-primary w-100 mt-4" onclick="switchView('view-payment-pending')">I have transferred</button>
         <button class="btn-text w-100 mt-2" onclick="switchView('view-participant')">Back to Cart</button>
       </div>
     </div>
 
-    <!-- VIEW: PAYMENT SUCCESS -->
-    <div id="view-payment-success" class="view-section fade-in">
+    <!-- VIEW: PAYMENT PENDING CONFIRMATION -->
+    <div id="view-payment-pending" class="view-section fade-in">
       <div class="payment-container text-center" style="padding: 60px 40px;">
-        <i class="ph ph-check-circle" style="font-size: 4rem; color: var(--teal); margin-bottom: 20px;"></i>
-        <h2 class="mb-2">Payment Confirmed!</h2>
-        <p class="text-muted mb-4">You have successfully joined the group order. The Host will be notified.</p>
+        <i class="ph ph-hourglass-high" style="font-size: 4rem; color: var(--orange); margin-bottom: 20px;"></i>
+        <h2 class="mb-2">Awaiting Confirmation</h2>
+        <p class="text-muted mb-4">Your payment status is pending. Please wait for the Host or system webhook to verify the transfer.</p>
         <div style="background: var(--bg-main); padding: 16px; border-radius: 12px; text-align: left; margin-bottom: 24px;">
-          <div class="summary-row" style="font-size: 13px;"><span>Order:</span> <strong>Highlands Coffee</strong></div>
-          <div class="summary-row" style="font-size: 13px;"><span>Amount:</span> <strong id="successAmountDisplay">0đ</strong></div>
-          <div class="summary-row" style="font-size: 13px;"><span>Status:</span> <strong style="color: var(--teal);">PAID</strong></div>
+          <div class="summary-row" style="font-size: 13px;"><span>Order:</span> <strong id="pendingShopName">Shop Name</strong></div>
+          <div class="summary-row" style="font-size: 13px;"><span>Amount:</span> <strong id="pendingAmountDisplay">0đ</strong></div>
+          <div class="summary-row" style="font-size: 13px;"><span>Status:</span> <strong style="color: var(--orange);">PENDING CONFIRMATION</strong></div>
         </div>
         <button class="btn-primary w-100" onclick="switchView('view-home')">Go to Home</button>
+        <div style="margin-top: 16px; font-size: 12px; color: var(--text-secondary);">
+          Demo Note: In a real app, this screen auto-updates via WebSocket when the Host clicks 'Confirm' or bank webhook triggers.
+        </div>
       </div>
     </div>
 
@@ -326,7 +331,7 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px dashed var(--border-medium); padding-bottom: 24px; margin-bottom: 24px;">
           <div>
             <h2 class="mb-1">Vendor Order Sheet</h2>
-            <p class="text-muted">Highlands Coffee • 5 Items</p>
+            <p class="text-muted" id="vendorShopName">Shop Name</p>
           </div>
           <button class="btn-secondary" onclick="showToast('PDF Exported!')"><i class="ph ph-printer"></i> Print / Export</button>
         </div>
@@ -336,24 +341,22 @@
             <tr>
               <th>Qty</th>
               <th>Item Name</th>
-              <th style="text-align: right;">Notes</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td>2x</td><td style="font-weight: 600;">Trà Sữa Trân Châu</td><td style="text-align: right; color: var(--text-secondary);">50% sugar</td></tr>
-            <tr><td>2x</td><td style="font-weight: 600;">Cà Phê Sữa Đá</td><td style="text-align: right; color: var(--text-secondary);">-</td></tr>
-            <tr><td>1x</td><td style="font-weight: 600;">Matcha Latte</td><td style="text-align: right; color: var(--text-secondary);">-</td></tr>
+          <tbody id="vendorTableBody">
+            <!-- Injected via JS -->
           </tbody>
         </table>
 
         <div style="background: var(--bg-main); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2rem;">
           <span>Total to pay Vendor</span>
-          <span>240.000đ</span>
+          <span id="vendorTotal">0đ</span>
         </div>
         
         <div style="margin-top: 32px; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
           This document can be sent directly to the vendor via Zalo/Messenger to place the actual order.
         </div>
+        <button class="btn-primary w-100 mt-4" onclick="markOrderCompleted()">Mark as Vendor Received & Completed</button>
       </div>
     </div>
 

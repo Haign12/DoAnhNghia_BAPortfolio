@@ -2,15 +2,28 @@
    PROJECT 3 – OFFICE GROUP ORDER | MULTI-VIEW LOGIC
    ============================================================ */
 
-const participants = [
-  { name: 'Anh Nghĩa', item: 'Trà Sữa x1', amount: '40.000đ', status: 'Paid', method: 'Momo' },
-  { name: 'Minh Tuấn', item: 'Cà Phê Sữa x1', amount: '34.000đ', status: 'Unpaid', method: 'Pending' },
-  { name: 'Hương Giang', item: 'Matcha Latte x1', amount: '50.000đ', status: 'Paid', method: 'VNPay' },
-  { name: 'Hoàng Nam', item: '-', amount: '-', status: 'Waiting', method: '-' },
-  { name: 'Thu Trang', item: 'Trà Sữa x1', amount: '40.000đ', status: 'Unpaid', method: 'Pending' }
-];
-
+let currentSession = null;
+let participants = [];
 let cart = [];
+let previewParticipantName = 'GuestUser';
+
+// Initialize defaults
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  const dateInput = document.getElementById('createCutoffDate');
+  const timeInput = document.getElementById('createCutoffTime');
+  
+  if (dateInput) {
+    dateInput.value = now.toISOString().split('T')[0];
+  }
+  if (timeInput) {
+    now.setHours(now.getHours() + 1); // default cutoff +1 hour
+    timeInput.value = now.toTimeString().substring(0, 5);
+  }
+
+  // Pre-populate recent orders (static mockup)
+  renderHomeSessions();
+});
 
 function switchView(viewId) {
   document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
@@ -25,14 +38,79 @@ function showToast(message, icon = '<i class="ph ph-info" style="color: var(--te
   toast.className = 'toast';
   toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
   container.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+// --- GATE 1: CREATE ORDER ---
+function handleCreateOrder() {
+  const shopName = document.getElementById('createShopName').value.trim();
+  const dateStr = document.getElementById('createCutoffDate').value;
+  const timeStr = document.getElementById('createCutoffTime').value;
+
+  if (!shopName || !dateStr || !timeStr) {
+    showToast('Please fill all required fields.', '<i class="ph ph-warning-circle" style="color: var(--orange);"></i>');
+    return;
+  }
+
+  const cutoffDateTime = new Date(`${dateStr}T${timeStr}:00`);
+  const now = new Date();
+  
+  // Gate check: Cutoff must be at least 5 minutes in the future
+  if (cutoffDateTime.getTime() <= now.getTime() + 5 * 60000) {
+    showToast('Cut-off time must be at least 5 minutes from now.', '<i class="ph ph-x-circle" style="color: red;"></i>');
+    return;
+  }
+
+  // Generate Session Code
+  const sessionCode = 'HC' + Math.floor(1000 + Math.random() * 9000);
+
+  currentSession = {
+    code: sessionCode,
+    shopName: shopName,
+    cutoff: cutoffDateTime,
+    shippingFee: 15000,
+    discount: -20000
+  };
+
+  // Mock initial participants for demonstration
+  participants = [
+    { name: 'Anh Nghĩa', item: 'Trà Sữa x1', amount: 40000, status: 'Paid', method: 'Momo' },
+    { name: 'Minh Tuấn', item: 'Cà Phê Sữa x1', amount: 34000, status: 'Unpaid', method: 'Pending' },
+    { name: 'Hương Giang', item: 'Matcha Latte x1', amount: 50000, status: 'Pending', method: 'Pending' },
+    { name: 'Thu Trang', item: '-', amount: 0, status: 'Waiting', method: '-' }
+  ];
+
+  updateHostDashboard();
+  renderHomeSessions();
+  switchView('view-host-dashboard');
+}
+
+function updateHostDashboard() {
+  if (!currentSession) return;
+
+  document.getElementById('hostDashShopName').innerText = currentSession.shopName;
+  document.getElementById('hostDashSessionCode').innerText = currentSession.code;
+  document.getElementById('hostDashCutoff').innerText = currentSession.cutoff.toLocaleString();
+  document.getElementById('hostDashInviteLink').value = `https://orderflow.app/join/${currentSession.code}`;
+
+  renderParticipants();
+  checkHostGates();
 }
 
 function renderParticipants() {
   const tbody = document.getElementById('participantTableBody');
   if (!tbody) return;
   tbody.innerHTML = '';
+  
+  let totalParticipants = 0;
+  let paidCount = 0;
+  let subtotal = 0;
+
   participants.forEach((p) => {
+    // Ignore canceled
+    if (p.status === 'Canceled') return;
+
+    totalParticipants++;
     const tr = document.createElement('tr');
     
     let statusHtml = '';
@@ -40,9 +118,16 @@ function renderParticipants() {
     
     if (p.status === 'Paid') {
       statusHtml = `<span class="badge success">Paid (${p.method})</span>`;
+      paidCount++;
+      subtotal += p.amount;
+    } else if (p.status === 'Pending') {
+      statusHtml = `<span class="badge" style="background: var(--orange); color: white;">Pending</span>`;
+      actionHtml = `<button class="btn-primary" style="padding: 2px 8px; font-size: 11px;" onclick="confirmPayment('${p.name}')">Verify</button>`;
+      subtotal += p.amount;
     } else if (p.status === 'Unpaid') {
       statusHtml = `<span class="badge warning">Unpaid</span>`;
       actionHtml = `<span class="action-link" onclick="remindUser('${p.name}')">Remind</span>`;
+      subtotal += p.amount;
     } else {
       statusHtml = `<span class="badge" style="background: var(--border-light); color: var(--text-secondary);">Waiting</span>`;
     }
@@ -50,24 +135,108 @@ function renderParticipants() {
     tr.innerHTML = `
       <td style="font-weight: 600;">${p.name}</td>
       <td style="color: var(--text-secondary);">${p.item}</td>
-      <td style="font-weight: 700;">${p.amount}</td>
+      <td style="font-weight: 700;">${p.amount > 0 ? p.amount.toLocaleString('vi-VN') + 'đ' : '-'}</td>
       <td>${statusHtml}</td>
       <td>${actionHtml}</td>
     `;
     tbody.appendChild(tr);
   });
+
+  // Update Funding Progress
+  const pct = totalParticipants === 0 ? 0 : Math.round((paidCount / totalParticipants) * 100);
+  document.getElementById('fundingProgressText').innerText = `${paidCount} / ${totalParticipants} Paid`;
+  document.getElementById('fundingProgressBar').style.width = `${pct}%`;
+
+  if (paidCount === totalParticipants && totalParticipants > 0) {
+    document.getElementById('fundingProgressDesc').innerHTML = '<span style="color:var(--green);">100% funds verified. Ready to send to vendor.</span>';
+  } else {
+    document.getElementById('fundingProgressDesc').innerText = 'Waiting for all members to complete payment.';
+  }
+
+  // Update Summary
+  document.getElementById('hostSubtotal').innerText = subtotal.toLocaleString('vi-VN') + 'đ';
+  document.getElementById('hostShipping').innerText = currentSession.shippingFee.toLocaleString('vi-VN') + 'đ';
+  document.getElementById('hostDiscount').innerText = currentSession.discount.toLocaleString('vi-VN') + 'đ';
+  
+  const grandTotal = subtotal + currentSession.shippingFee + currentSession.discount;
+  document.getElementById('hostTotal').innerText = grandTotal.toLocaleString('vi-VN') + 'đ';
+
+  checkHostGates();
+}
+
+function confirmPayment(name) {
+  const p = participants.find(x => x.name === name);
+  if (p) {
+    p.status = 'Paid';
+    p.method = 'Verified';
+    renderParticipants();
+    showToast(`Verified payment for ${name}`, '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
+  }
 }
 
 function remindUser(name) {
   showToast(`Slack reminder sent to ${name}`, '<i class="ph ph-bell-ringing" style="color: var(--blue);"></i>');
 }
 
-// --- Cart Logic ---
-function resetParticipantCart() {
-  cart = [];
-  renderCart();
+// --- GATE 6: CLOSE ORDER ---
+function checkHostGates() {
+  const btn = document.getElementById('btnSendToVendor');
+  if (!btn || !currentSession) return;
+
+  const validParticipants = participants.filter(p => p.status !== 'Canceled');
+  const allPaid = validParticipants.length > 0 && validParticipants.every(p => p.status === 'Paid');
+  
+  if (allPaid) {
+    btn.removeAttribute('disabled');
+  } else {
+    btn.setAttribute('disabled', 'true');
+  }
 }
 
+// --- GATE 5: AUTO-CANCEL AT CUT-OFF ---
+function simulateCutoff() {
+  if (!currentSession) return;
+  
+  let canceledCount = 0;
+  participants.forEach(p => {
+    if (p.status === 'Unpaid' || p.status === 'Waiting') {
+      p.status = 'Canceled';
+      p.amount = 0;
+      p.item = '-';
+      canceledCount++;
+    }
+  });
+
+  if (canceledCount > 0) {
+    showToast(`System Auto-Canceled ${canceledCount} unpaid participants.`, '<i class="ph ph-shield-warning" style="color: var(--orange);"></i>');
+  } else {
+    showToast('Cut-off reached. No unpaid participants to cancel.');
+  }
+
+  // Gate recalculation happens in renderParticipants
+  renderParticipants();
+}
+
+// --- GATE 2: PARTICIPANT PREVIEW & JOIN ---
+function handlePreviewParticipant() {
+  if (!currentSession) return;
+  
+  const now = new Date();
+  if (now > currentSession.cutoff) {
+    switchView('view-session-closed');
+    return;
+  }
+
+  // Valid, setup participant view
+  document.getElementById('participantShopName').innerText = currentSession.shopName;
+  document.getElementById('participantCutoff').innerText = currentSession.cutoff.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  
+  cart = [];
+  renderCart();
+  switchView('view-participant');
+}
+
+// --- CART LOGIC (GATE 3) ---
 function addToCart(name, price) {
   const existing = cart.find(i => i.name === name);
   if (existing) {
@@ -84,17 +253,18 @@ function renderCart() {
   const cartFilled = document.getElementById('cartFilled');
   const container = document.getElementById('cartItemsContainer');
   const subtotalEl = document.getElementById('cartSubtotal');
+  const sharedFeeEl = document.getElementById('cartSharedFee');
   const totalEl = document.getElementById('cartTotal');
   const btnEl = document.getElementById('checkoutBtn');
-  const paymentDisplay = document.getElementById('paymentAmountDisplay');
-  const successDisplay = document.getElementById('successAmountDisplay');
   
   if (cart.length === 0) {
     cartEmpty.style.display = 'block';
     cartFilled.style.display = 'none';
+    btnEl.setAttribute('disabled', 'true');
   } else {
     cartEmpty.style.display = 'none';
     cartFilled.style.display = 'block';
+    btnEl.removeAttribute('disabled');
     
     container.innerHTML = '';
     let subtotal = 0;
@@ -108,21 +278,67 @@ function renderCart() {
       `;
     });
     
-    const sharedFee = 5000;
-    const total = subtotal + sharedFee;
+    // Dynamic fee calc mockup: assume total fee is divided by (current participants + 1 self)
+    const validCount = participants.filter(p => p.status !== 'Canceled').length;
+    const mySharedFee = Math.round((currentSession.shippingFee + currentSession.discount) / Math.max(validCount, 1));
+    const total = subtotal + mySharedFee;
     
     subtotalEl.innerText = subtotal.toLocaleString('vi-VN') + 'đ';
+    sharedFeeEl.innerText = (mySharedFee >= 0 ? '+' : '') + mySharedFee.toLocaleString('vi-VN') + 'đ';
     totalEl.innerText = total.toLocaleString('vi-VN') + 'đ';
     btnEl.innerText = 'Confirm & Pay ' + total.toLocaleString('vi-VN') + 'đ';
     
-    // Update Payment views
-    if(paymentDisplay) paymentDisplay.innerText = total.toLocaleString('vi-VN') + 'đ';
-    if(successDisplay) successDisplay.innerText = total.toLocaleString('vi-VN') + 'đ';
+    // Pass to Payment view
+    const paymentTransferMsg = `${currentSession.code}-${previewParticipantName}`;
+    document.getElementById('paymentAmountDisplay').innerText = total.toLocaleString('vi-VN') + 'đ';
+    document.getElementById('paymentTransferMessage').innerText = paymentTransferMsg;
+    
+    document.getElementById('pendingShopName').innerText = currentSession.shopName;
+    document.getElementById('pendingAmountDisplay').innerText = total.toLocaleString('vi-VN') + 'đ';
   }
 }
 
 function proceedToPayment() {
+  if (cart.length === 0) return; // Gate
   switchView('view-payment');
+}
+
+// --- GATE 7: VENDOR COMPLETE ---
+function markOrderCompleted() {
+  currentSession = null;
+  participants = [];
+  showToast('Order officially completed!', '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
+  renderHomeSessions();
+  switchView('view-home');
+}
+
+function renderHomeSessions() {
+  const container = document.getElementById('activeSessionsList');
+  if (!container) return;
+
+  if (!currentSession) {
+    container.innerHTML = `
+      <div class="card" style="border-style: dashed; border-color: var(--border-medium); text-align: center; padding: 40px 20px;">
+        <i class="ph ph-coffee" style="font-size: 2rem; color: var(--border-medium); margin-bottom: 12px; display: block;"></i>
+        <h3 class="mb-1">No active orders</h3>
+        <p class="text-muted mb-3">You haven't started any group orders yet. Start one to invite your colleagues!</p>
+        <button class="btn-primary" onclick="switchView('view-create')">Create Order</button>
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="history-card" style="border-color: var(--teal); box-shadow: 0 4px 12px rgba(0,212,170,0.1);" onclick="switchView('view-host-dashboard')">
+        <div class="history-card-header">
+          <div class="history-shop">${currentSession.shopName}</div>
+          <div class="badge warning" style="font-size: 10px;">Collecting</div>
+        </div>
+        <div class="history-card-body">
+          <div class="history-detail"><i class="ph ph-clock"></i> Closes at ${currentSession.cutoff.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+          <div class="history-detail"><i class="ph ph-hash"></i> ${currentSession.code}</div>
+        </div>
+      </div>
+    `;
+  }
 }
 
 // Init QR Mockup
@@ -134,9 +350,3 @@ if (qrGrid) {
     qrGrid.appendChild(cell);
   }
 }
-
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  renderParticipants();
-  renderCart();
-});
