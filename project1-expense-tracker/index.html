@@ -101,7 +101,13 @@
         <i class="ph ph-repeat"></i> Subscriptions
         <span class="nav-badge" id="navGhostBadge" style="display: none;"></span>
       </a>
-      <a href="#" class="nav-item" onclick="switchView('view-analytics', this)"><i class="ph ph-chart-pie-slice"></i> Analytics</a>
+      <a href="#" class="nav-item" onclick="switchView('view-analytics', this)">
+          <i class="ph ph-chart-pie-slice"></i> Analytics
+        </a>
+        <a href="#" class="nav-item" onclick="switchView('view-cashflow', this)">
+          <i class="ph ph-trend-up"></i> Cashflow
+        </a>
+        <a href="#" class="nav-item" style="display:none;" onclick="switchView('view-analytics', this)"><i class="ph ph-chart-pie-slice"></i> Analytics</a>
       <a href="#" class="nav-item" onclick="switchView('view-budget', this)"><i class="ph ph-target"></i> Budget Planner</a>
     </nav>
   </aside>
@@ -262,6 +268,31 @@
 
     <!-- VIEW: ANALYTICS -->
     <div id="view-analytics" class="view-section">
+      <div class="page-title" style="margin-bottom: 24px;">Analytics</div>
+      <div class="dashboard-grid">
+        <div class="card" style="grid-column: span 6;">
+          <div class="card-header"><div class="card-title">Category Breakdown</div></div>
+          <canvas id="categoryChart" width="400" height="300"></canvas>
+        </div>
+        <div class="card" style="grid-column: span 6;">
+          <div class="card-header"><div class="card-title">Monthly Spending Trend</div></div>
+          <canvas id="trendChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div id="view-cashflow" class="view-section">
+      <div class="page-title" style="margin-bottom: 24px;">Cashflow Forecast</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Upcoming Bills (Next 30 Days)</div></div>
+        <table class="data-table">
+          <tbody id="cashflowList">
+          <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="view-analytics-old" class="view-section" style="display:none;">
       <header class="topbar"><h1 class="page-title">Analytics</h1></header>
       <div class="page-content">
         <div class="card" style="text-align:center; padding:40px;">

@@ -74,7 +74,7 @@ function loadMockData() {
   const daysAgo = (d) => new Date(today.getTime() - d * 86400000).toISOString().split('T')[0];
   
   state.subscriptions = [
-    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: 'Monthly', status: 'Active', icon: '🍿', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
+    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: cycle, status: 'Active', icon: '🍿', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
     { id: 's2', name: 'Spotify', category: 'Entertainment', cost: 9.99, cycle: 'Monthly', status: 'Active', icon: '🎧', added: daysAgo(60), snoozeUntil: null, ignoreGhost: false },
     { id: 's3', name: 'Gym Membership', category: 'Health', cost: 30.00, cycle: 'Monthly', status: 'Active', icon: '🏋️', added: daysAgo(120), snoozeUntil: null, ignoreGhost: false },
     { id: 's4', name: 'Coursera Plus', category: 'Education', cost: 49.00, cycle: 'Monthly', status: 'Active', icon: '📚', added: daysAgo(90), snoozeUntil: null, ignoreGhost: false }
@@ -134,6 +134,8 @@ function renderAll() {
   renderTransactions();
   renderSubscriptions();
   renderBudget();
+  renderAnalytics();
+  renderCashflow();
 }
 
 function renderOverview() {
@@ -292,6 +294,7 @@ function submitSubscription() {
   const name = document.getElementById('addSubName').value.trim();
   const cost = parseFloat(document.getElementById('addSubCost').value);
   const cat = document.getElementById('addSubCat').value;
+  const cycle = document.getElementById('addSubCycle').value;
   
   if (!name || isNaN(cost) || cost <= 0) {
     showToast('Cost must be > 0 and name cannot be empty'); return;
@@ -321,6 +324,13 @@ function openAddTransactionModal() {
   }
   
   select.innerHTML = activeSubs.map(s => `<option value="${s.id}">${s.name} (${formatMoney(s.cost)})</option>`).join('');
+  
+  // Set default amount on change
+  select.onchange = (e) => {
+    const s = state.subscriptions.find(x => x.id === e.target.value);
+    if(s) document.getElementById('addTxAmount').value = s.cost;
+  };
+  if(activeSubs.length > 0) document.getElementById('addTxAmount').value = activeSubs[0].cost;
   document.getElementById('addTxDate').value = new Date().toISOString().split('T')[0];
   document.getElementById('modal-add-transaction').classList.add('active');
 }
@@ -328,6 +338,7 @@ function openAddTransactionModal() {
 function submitTransaction() {
   const subId = document.getElementById('addTxSubId').value;
   const date = document.getElementById('addTxDate').value;
+  let overrideAmt = document.getElementById('addTxAmount').value;
   
   const today = new Date().toISOString().split('T')[0];
   if (date > today) {
@@ -342,7 +353,7 @@ function submitTransaction() {
     subId: sub.id,
     date: date,
     category: sub.category,
-    amount: sub.cost
+    amount: overrideAmt ? parseFloat(overrideAmt) : sub.cost
   });
   
   closeModal('modal-add-transaction');
@@ -442,3 +453,81 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('sidebarNav').style.pointerEvents = 'none';
   document.getElementById('sidebarNav').style.opacity = '0.5';
 });
+
+function openBudgetModal() {
+  document.getElementById('modal-edit-budget').classList.add('active');
+}
+function saveBudget() {
+  const cat = document.getElementById('editBudgetCat').value;
+  const limit = parseFloat(document.getElementById('editBudgetLimit').value);
+  if(isNaN(limit) || limit <= 0) { showToast('Invalid limit'); return; }
+  
+  let b = state.budgets.find(x => x.category === cat);
+  if(b) { b.limit = limit; } else { state.budgets.push({category: cat, limit, spent: 0}); }
+  
+  closeModal('modal-edit-budget');
+  renderBudget();
+  showToast('Budget updated');
+}
+
+let chartInstance1 = null;
+let chartInstance2 = null;
+function renderAnalytics() {
+  if(!document.getElementById('categoryChart')) return;
+  const ctx1 = document.getElementById('categoryChart').getContext('2d');
+  const ctx2 = document.getElementById('trendChart').getContext('2d');
+  
+  const catTotals = {};
+  state.transactions.forEach(t => {
+    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+  });
+  
+  if(chartInstance1) chartInstance1.destroy();
+  chartInstance1 = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(catTotals),
+      datasets: [{
+        data: Object.values(catTotals),
+        backgroundColor: ['#8E75C8', '#4a90d9', '#00d4aa', '#f472b6']
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'right', labels: {color: 'var(--text-primary)'} } } }
+  });
+  
+  // Simple trend (mocking monthly data)
+  if(chartInstance2) chartInstance2.destroy();
+  chartInstance2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: ['May', 'Jun', 'Jul'],
+      datasets: [{
+        label: 'Spending',
+        data: [120, 150, Object.values(catTotals).reduce((a,b)=>a+b, 0)],
+        backgroundColor: '#8E75C8'
+      }]
+    },
+    options: { responsive: true, scales: { y: { beginAtZero: true, ticks: {color: 'var(--text-secondary)'} }, x: { ticks: {color: 'var(--text-secondary)'} } }, plugins: { legend: {display:false} } }
+  });
+}
+
+function renderCashflow() {
+  const list = document.getElementById('cashflowList');
+  if(!list) return;
+  
+  const active = state.subscriptions.filter(s => s.status === 'Active');
+  if(active.length === 0) {
+    list.innerHTML = '<tr><td>No active subscriptions.</td></tr>';
+    return;
+  }
+  
+  list.innerHTML = active.map(s => {
+    let nextDate = new Date();
+    nextDate.setDate(nextDate.getDate() + Math.floor(Math.random() * 30));
+    return `<tr>
+      <td style="color:var(--text-secondary)">${nextDate.toISOString().split('T')[0]}</td>
+      <td><strong>${s.name}</strong></td>
+      <td style="font-weight:700;">${formatMoney(s.cost)}</td>
+    </tr>`;
+  }).join('');
+}
