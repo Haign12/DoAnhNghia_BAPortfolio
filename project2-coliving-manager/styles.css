@@ -242,3 +242,15 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .toast.show { transform: translateX(0); }
 .toast-success { border-left-color: var(--green); }
 .toast-error { border-left-color: var(--red); }
+
+/* --- SPA INJECTED STYLES --- */
+.empty-state { padding: 40px; text-align: center; color: var(--text2); background: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border); margin-top: 24px; font-weight: 600; }
+.badge-overdue { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
+.card-overdue { border: 2px solid #ef4444 !important; background: #fff5f5 !important; }
+.btn-confirm { background: #10B981; color: white; border: none; }
+.btn-confirm:hover { background: #059669; }
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay.active { display: flex; }
+.modal-card { background: var(--bg-card); width: 90%; max-width: 400px; padding: 24px; border-radius: 12px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.modal-close { position: absolute; top: 12px; right: 12px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--text2); }
+.modal-close:hover { color: var(--text); }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CoSpace | Co-living Task & Split Bill Manager</title>
+  <title>CoSpace | Co-living Manager</title>
   <link rel="icon" type="image/png" href="../logo.png?v=3">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -15,285 +15,40 @@
 <div class="portfolio-demo-bar">
   <div class="demo-info">
     <span class="live-dot"></span>
-    <span class="demo-text">Interactive Prototype — Fully Functional</span>
+    <span class="demo-text">Interactive Prototype — SPA Gated Logic</span>
   </div>
   <a href="../index.html#project-02" class="back-portfolio-btn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="19" y1="12" x2="5" y2="12"></line>
-      <polyline points="12 19 5 12 12 5"></polyline>
-    </svg>
-    Back to Portfolio
+    <i class="ph-bold ph-arrow-left"></i> Back to Portfolio
   </a>
 </div>
 
 <div class="page-container">
-  <div class="unified-header">
-    <nav class="top-nav">
+  <header class="unified-header">
+    <div class="top-nav">
       <div class="nav-brand">
-        <div class="nav-brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 10L12 3L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 10V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M9 21V14H15V21" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <span class="nav-brand-name">Co<span style="color: #60A5FA;">Space.</span></span>
+        <div class="nav-brand-icon"><i class="ph-bold ph-house-line"></i></div>
+        <div class="nav-brand-name">CoSpace</div>
       </div>
       <div class="nav-links">
-        <a href="index.html" class="nav-link active">Kanban Board</a>
-        <a href="ledger.html" class="nav-link">Split Ledger</a>
-        <a href="history.html" class="nav-link">History</a>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="#" class="nav-link active" data-target="kanban">Kanban</a>
+        <a href="#" class="nav-link" data-target="ledger">Split Ledger</a>
+        <a href="#" class="nav-link" data-target="settle">Settle Up</a>
       </div>
       <div class="nav-right">
-        <button class="nav-icon-btn" title="Notifications"><i class="ph ph-bell" style="font-size: 16px;"></i></button>
-        <div class="nav-avatar">DN</div>
-      </div>
-    </nav>
-    <div class="page-header">
-      <div>
-        <div class="page-greeting"><i class="ph ph-kanban" style="margin-right: 8px;"></i>Chore Kanban Board <span class="ba-hotspot" data-ba-note="Logic (US-102): The Kanban Board gives a transparent overview of tasks. Completed tasks are calculated dynamically based on 'done' status."><i class="ph ph-question"></i></span></div>
-        <div class="page-sub">Drag tasks or use buttons to update status. Auto-assign picks the person with fewest completions.</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <button class="btn-secondary" id="autoAssignBtn">
-          <i class="ph ph-magic-wand"></i> Auto-Assign
-        </button>
-        <button class="btn-primary" id="addChoreBtn">
-          <span>+</span> New Chore
-        </button>
+        <button class="nav-icon-btn"><i class="ph-bold ph-bell"></i></button>
+        <div class="nav-avatar">AN</div>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- Kanban Board -->
-  <div class="kanban-board">
-    <!-- Column: Not Assigned -->
-    <div class="kanban-col" data-status="not-assigned">
-      <div class="kanban-col-header">
-        <span class="kanban-col-dot" style="background: #888;"></span>
-        <span class="kanban-col-title">Not Assigned</span>
-        <span class="kanban-col-count" id="count-not-assigned">0</span>
-      </div>
-      <div class="kanban-cards" id="col-not-assigned"></div>
-    </div>
-    <!-- Column: To Do -->
-    <div class="kanban-col" data-status="todo">
-      <div class="kanban-col-header">
-        <span class="kanban-col-dot" style="background: #60A5FA;"></span>
-        <span class="kanban-col-title">To Do</span>
-        <span class="kanban-col-count" id="count-todo">0</span>
-      </div>
-      <div class="kanban-cards" id="col-todo"></div>
-    </div>
-    <!-- Column: In Progress -->
-    <div class="kanban-col" data-status="in-progress">
-      <div class="kanban-col-header">
-        <span class="kanban-col-dot" style="background: #FBBF24;"></span>
-        <span class="kanban-col-title">In Progress</span>
-        <span class="kanban-col-count" id="count-in-progress">0</span>
-      </div>
-      <div class="kanban-cards" id="col-in-progress"></div>
-    </div>
-    <!-- Column: Done -->
-    <div class="kanban-col" data-status="done">
-      <div class="kanban-col-header">
-        <span class="kanban-col-dot" style="background: #34D399;"></span>
-        <span class="kanban-col-title">Done</span>
-        <span class="kanban-col-count" id="count-done">0</span>
-      </div>
-      <div class="kanban-cards" id="col-done"></div>
-    </div>
-  </div>
-
-  <!-- Member Stats -->
-  <div class="member-stats-section">
-    <h3 class="section-label">Member Completion (Last 4 Weeks)</h3>
-    <div class="member-stats" id="memberStats"></div>
-  </div>
+  <main id="app-content">
+    <!-- View containers injected here -->
+  </main>
 </div>
 
-<!-- Add Chore Modal -->
-<div class="modal-overlay" id="addChoreModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>Add New Chore</h3>
-      <button class="modal-close" id="closeAddChore">&times;</button>
-    </div>
-    <div class="modal-body">
-      <label>Chore Name</label>
-      <input type="text" id="choreNameInput" placeholder="e.g. Lau nhà vệ sinh" autofocus>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary" id="cancelAddChore">Cancel</button>
-      <button class="btn-primary" id="confirmAddChore">Add Chore</button>
-    </div>
-  </div>
-</div>
+<!-- Modals -->
+<div class="modal-overlay" id="modal-overlay"></div>
 
-<!-- Leave Group Modal -->
-<div class="modal-overlay" id="leaveGroupModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>Leave Group</h3>
-      <button class="modal-close" id="closeLeaveGroup">&times;</button>
-    </div>
-    <div class="modal-body" id="leaveGroupBody">
-    </div>
-    <div class="modal-footer" id="leaveGroupFooter">
-    </div>
-  </div>
-</div>
-
-<!-- Toast -->
-<div class="toast-container" id="toastContainer"></div>
-
-<script src="data.js"></script>
-<script src="../ux-showcase.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  initUXShowcase({
-    projectId: 'p2_cospace',
-    role: 'Roommate (Member)',
-    title: 'Welcome to CoSpace Prototype',
-    desc: 'Test out our Co-living Task & Split Bill Manager. See how tasks are distributed fairly and expenses are settled.',
-    tasks: [
-      'Click Auto-Assign on a Chore and see it assigned to the person with fewest completions.',
-      'Drag and Drop a Chore into the Done column.',
-      'Switch to the Split Ledger tab and add an expense.'
-    ]
-  });
-
-  renderKanban();
-  renderMemberStats();
-
-  // Add Chore
-  document.getElementById('addChoreBtn').addEventListener('click', () => {
-    document.getElementById('addChoreModal').classList.add('active');
-    document.getElementById('choreNameInput').value = '';
-    document.getElementById('choreNameInput').focus();
-  });
-  document.getElementById('closeAddChore').addEventListener('click', () => {
-    document.getElementById('addChoreModal').classList.remove('active');
-  });
-  document.getElementById('cancelAddChore').addEventListener('click', () => {
-    document.getElementById('addChoreModal').classList.remove('active');
-  });
-  document.getElementById('confirmAddChore').addEventListener('click', () => {
-    const name = document.getElementById('choreNameInput').value.trim();
-    if (!name) { showToast('Please enter a chore name', 'error'); return; }
-    addChore(name);
-    document.getElementById('addChoreModal').classList.remove('active');
-    renderKanban();
-    renderMemberStats();
-    showToast(`"${name}" added to Not Assigned`, 'success');
-  });
-  document.getElementById('choreNameInput').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') document.getElementById('confirmAddChore').click();
-  });
-
-  // Auto-Assign all unassigned
-  document.getElementById('autoAssignBtn').addEventListener('click', () => {
-    const unassigned = chores.filter(c => c.status === 'not-assigned');
-    if (unassigned.length === 0) { showToast('No unassigned chores to auto-assign', 'info'); return; }
-    unassigned.forEach(c => {
-      const assignedTo = autoAssignChore(c.id);
-      showToast(`"${c.title}" assigned to ${getMemberName(assignedTo)}`, 'success');
-    });
-    renderKanban();
-    renderMemberStats();
-  });
-});
-
-function renderKanban() {
-  const currentWeek = getWeekNumber(new Date());
-  const recentChores = chores.filter(c => c.week >= currentWeek - 1);
-
-  ['not-assigned', 'todo', 'in-progress', 'done'].forEach(status => {
-    const col = document.getElementById('col-' + status);
-    const items = recentChores.filter(c => c.status === status);
-    document.getElementById('count-' + status).textContent = items.length;
-    col.innerHTML = items.map(c => `
-      <div class="kanban-card" data-id="${c.id}">
-        <div class="kanban-card-top">
-          <span class="kanban-card-title">${c.title}</span>
-          ${c.status === 'done' ? '<i class="ph ph-check-circle" style="color: #34D399; font-size: 18px;"></i>' : ''}
-        </div>
-        <div class="kanban-card-meta">
-          ${c.assignee ? `<div class="kanban-avatar" style="background: ${getMemberColor(c.assignee)}">${getMemberAvatar(c.assignee)}</div>` : '<span style="color: #888; font-size: 12px;">Unassigned</span>'}
-          <span class="kanban-card-date">${c.createdAt}</span>
-        </div>
-        <div class="kanban-card-actions">
-          ${getActionButtons(c)}
-        </div>
-      </div>
-    `).join('');
-  });
-
-  // Bind action buttons
-  document.querySelectorAll('.kanban-action-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const id = e.currentTarget.dataset.id;
-      const action = e.currentTarget.dataset.action;
-      if (action === 'assign') {
-        const assignedTo = autoAssignChore(id);
-        showToast(`Assigned to ${getMemberName(assignedTo)}`, 'success');
-      } else {
-        updateChoreStatus(id, action);
-        const c = chores.find(x => x.id === id);
-        showToast(`"${c.title}" moved to ${action.replace('-', ' ')}`, 'success');
-      }
-      renderKanban();
-      renderMemberStats();
-    });
-  });
-}
-
-function getActionButtons(chore) {
-  switch (chore.status) {
-    case 'not-assigned':
-      return `<button class="kanban-action-btn" data-id="${chore.id}" data-action="assign"><i class="ph ph-magic-wand"></i> Auto-Assign</button>`;
-    case 'todo':
-      return `<button class="kanban-action-btn" data-id="${chore.id}" data-action="in-progress"><i class="ph ph-play"></i> Start</button>`;
-    case 'in-progress':
-      return `<button class="kanban-action-btn green" data-id="${chore.id}" data-action="done"><i class="ph ph-check"></i> Complete</button>`;
-    case 'done':
-      return `<span style="font-size: 11px; color: #34D399;">Completed ${chore.completedAt || ''}</span>`;
-    default:
-      return '';
-  }
-}
-
-function renderMemberStats() {
-  const container = document.getElementById('memberStats');
-  container.innerHTML = members.map(m => {
-    const count = getChoreCompletionCount(m.id, 4);
-    const maxCount = Math.max(...members.map(x => getChoreCompletionCount(x.id, 4)), 1);
-    const pct = (count / maxCount) * 100;
-    return `
-      <div class="member-stat-card">
-        <div class="member-stat-avatar" style="background: ${m.color}">${m.avatar}</div>
-        <div class="member-stat-info">
-          <div class="member-stat-name">${m.name}</div>
-          <div class="member-stat-bar-wrap">
-            <div class="member-stat-bar" style="width: ${pct}%; background: ${m.color};"></div>
-          </div>
-        </div>
-        <div class="member-stat-count">${count} done</div>
-      </div>
-    `;
-  }).join('');
-}
-
-function showToast(msg, type = 'info') {
-  const container = document.getElementById('toastContainer');
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  toast.innerHTML = `<span>${msg}</span>`;
-  container.appendChild(toast);
-  setTimeout(() => toast.classList.add('show'), 10);
-  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
-}
-</script>
+<script src="app.js"></script>
 </body>
 </html>

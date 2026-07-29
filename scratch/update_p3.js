@@ -1,0 +1,594 @@
+const fs = require('fs');
+const path = require('path');
+
+const targetDir = 'c:\\Users\\LENOVO\\Documents\\GitHub\\DoAnhNghia_BAPortfolio\\project3-office-order';
+
+const indexHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderFlow | Group Order App</title>
+  <meta name="description" content="Office Group Order Optimization – Wallet-style Fintech Dashboard.">
+  <link rel="icon" type="image/png" href="../logo.png?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../ux-showcase.css">
+</head>
+<body>
+<!-- Portfolio Demo Bar -->
+<div class="portfolio-demo-bar">
+  <div class="demo-info">
+    <span class="live-dot"></span>
+    <span class="demo-text">Interactive Prototype</span>
+  </div>
+  <a href="../index.html#project-03" class="back-portfolio-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Portfolio
+  </a>
+</div>
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 8L12 13L3 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 16V8L12 3L3 8V16L12 21L21 16Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 21V13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="topbar-title" style="cursor:pointer;" onclick="switchView('view-home')">Order<span style="color: var(--teal);">Flow</span></div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-text" style="font-size: 13px;" onclick="switchView('view-analytics')">
+        <i class="ph ph-chart-line-up"></i> Global Analytics
+      </button>
+      <div class="topbar-avatar">DN</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <!-- VIEW: HOME -->
+    <div id="view-home" class="view-section active fade-in">
+      <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <h1 class="page-title">My Orders</h1>
+          <div class="page-subtitle">Manage your group food orders efficiently.</div>
+        </div>
+        <button class="btn-primary" onclick="switchView('view-create')">
+          <i class="ph ph-plus"></i> Create Group Order
+        </button>
+      </div>
+
+      <div class="section-title">Active Sessions</div>
+      <div class="card-list">
+        <div class="history-card" style="border-color: var(--teal); box-shadow: 0 4px 12px rgba(0,212,170,0.1);" onclick="switchView('view-host-dashboard')">
+          <div class="history-card-header">
+            <div class="history-shop">Highlands Coffee</div>
+            <div class="badge warning" style="font-size: 10px;">Collecting</div>
+          </div>
+          <div class="history-card-body">
+            <div class="history-detail"><i class="ph ph-clock"></i> Closes at 11:30 AM</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 3 of 5 Paid</div>
+            <div class="history-total">235.000đ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title mt-5">Recent Orders</div>
+      <div class="card-list">
+        <div class="history-card">
+          <div class="history-card-header">
+            <div class="history-shop">KFC Lunch</div>
+            <div class="history-status success">Completed</div>
+          </div>
+          <div class="history-card-body">
+            <div class="history-detail"><i class="ph ph-calendar"></i> July 20, 2026</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 8 Participants</div>
+            <div class="history-total">520.000đ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: CREATE ORDER -->
+    <div id="view-create" class="view-section fade-in">
+      <button class="back-link" onclick="switchView('view-home')"><i class="ph ph-arrow-left"></i> Back</button>
+      <div class="page-header">
+        <h1 class="page-title">Create New Order</h1>
+        <div class="page-subtitle">Set up a session and share the link.</div>
+      </div>
+      
+      <div class="form-card">
+        <div class="form-group">
+          <label>Shop / Restaurant Name</label>
+          <input type="text" class="form-input" id="shopName" placeholder="e.g. Highlands Coffee, Phuc Long...">
+        </div>
+        <div class="form-group">
+          <label>Menu Link (Optional)</label>
+          <input type="text" class="form-input" placeholder="Paste ShopeeFood / GrabFood link">
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label>Cut-off Date</label>
+            <input type="date" class="form-input" value="2026-07-30">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>Cut-off Time</label>
+            <input type="time" class="form-input" value="11:30">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Shipping Fee Split Method</label>
+          <select class="form-input">
+            <option>Equal split among all members</option>
+            <option>Proportional to order amount</option>
+          </select>
+        </div>
+        <div class="form-actions mt-4">
+          <button class="btn-primary w-100" onclick="switchView('view-host-dashboard')">Create & Generate Invite Link</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: HOST DASHBOARD -->
+    <div id="view-host-dashboard" class="view-section fade-in">
+      <button class="back-link" onclick="switchView('view-home')"><i class="ph ph-arrow-left"></i> Home</button>
+      <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <h1 class="page-title">Highlands Coffee</h1>
+          <div class="page-subtitle">Order Session • Closes Today at 11:30 AM</div>
+        </div>
+        <div class="share-box">
+          <input type="text" value="https://orderflow.app/join/HC-8273" readonly class="share-input">
+          <button class="btn-secondary" onclick="showToast('Invite link copied!', '<i class=\\'ph ph-copy\\'></i>')">Copy Link</button>
+        </div>
+      </div>
+
+      <!-- Funding Progress Bar -->
+      <div class="stepper-section" style="padding: 24px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <div style="font-weight: 700; font-size: 1.1rem;">Funding Progress</div>
+          <div style="font-weight: 700; color: var(--teal); font-size: 1.1rem;">3 / 5 Paid</div>
+        </div>
+        <div style="width: 100%; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+          <div style="width: 60%; height: 100%; background: var(--teal); border-radius: 4px;"></div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">Waiting for 2 members to complete payment before placing order.</div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Participant List -->
+        <div class="dashboard-main">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Participant List</h3>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Item</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="participantTableBody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Summary Panel -->
+        <div class="dashboard-side">
+          <div class="card">
+            <h3 class="card-title mb-3">Order Summary</h3>
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="hostSubtotal">240.000đ</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping Fee</span>
+              <span>15.000đ</span>
+            </div>
+            <div class="summary-row">
+              <span>Discount</span>
+              <span style="color: var(--green);">-20.000đ</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-total">
+              <span>Grand Total</span>
+              <span class="total-amount" id="hostTotal">235.000đ</span>
+            </div>
+
+            <div class="mt-4">
+              <button class="btn-primary w-100 mb-2" onclick="switchView('view-vendor-summary')">Close Order & Send to Vendor</button>
+              <button class="btn-secondary w-100" onclick="resetParticipantCart(); switchView('view-participant');">Preview as Participant</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: PARTICIPANT (Menu/Cart) -->
+    <div id="view-participant" class="view-section fade-in">
+      <div class="page-header centered text-center">
+        <div class="host-avatar" style="width: 48px; height: 48px; border-radius: 50%; background: var(--bg-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 12px; font-size: 1.2rem;">AN</div>
+        <h1 class="page-title" style="font-size: 1.5rem;">Anh Nghĩa invited you to order from Highlands Coffee</h1>
+        <div class="page-subtitle" style="color: var(--orange); font-weight: 600;">Closing in 14:59 mins</div>
+      </div>
+
+      <div class="menu-grid" style="max-width: 900px; margin: 0 auto;">
+        <div class="menu-items">
+          <h3 class="section-title">Menu Highlights</h3>
+          <div class="menu-item-card">
+            <div class="menu-item-info">
+              <h4>Trà Sữa Trân Châu</h4>
+              <p>Best seller, 50% sugar recommended.</p>
+              <span class="price">35.000đ</span>
+            </div>
+            <button class="btn-add" onclick="addToCart('Trà Sữa Trân Châu', 35000)">+</button>
+          </div>
+          <div class="menu-item-card">
+            <div class="menu-item-info">
+              <h4>Cà Phê Sữa Đá</h4>
+              <p>Strong Vietnamese coffee.</p>
+              <span class="price">29.000đ</span>
+            </div>
+            <button class="btn-add" onclick="addToCart('Cà Phê Sữa Đá', 29000)">+</button>
+          </div>
+          <div class="menu-item-card">
+            <div class="menu-item-info">
+              <h4>Matcha Latte</h4>
+              <p>Premium Japanese matcha.</p>
+              <span class="price">45.000đ</span>
+            </div>
+            <button class="btn-add" onclick="addToCart('Matcha Latte', 45000)">+</button>
+          </div>
+        </div>
+
+        <div class="cart-panel">
+          <div class="card" style="position: sticky; top: 100px;">
+            <h3 class="card-title mb-3">Your Cart</h3>
+            <!-- Cart Empty State -->
+            <div class="empty-state" id="cartEmpty" style="padding: 40px 20px;">
+              <i class="ph ph-shopping-cart" style="font-size: 2rem; color: var(--border-medium); margin-bottom: 10px; display: block;"></i>
+              <p style="font-size: 13px; color: var(--text-secondary);">Your cart is empty.<br>Select items from the menu to join the order.</p>
+            </div>
+            <!-- Cart Filled State -->
+            <div id="cartFilled" style="display: none;">
+              <div id="cartItemsContainer"></div>
+              
+              <div class="summary-divider"></div>
+              <div class="summary-row" style="font-size: 13px;">
+                <span>Item Subtotal</span>
+                <span id="cartSubtotal">0đ</span>
+              </div>
+              <div class="summary-row" style="font-size: 13px;">
+                <span>Shared Shipping/Discount</span>
+                <span>+ 5.000đ</span>
+              </div>
+              <div class="summary-total mt-2" style="font-size: 1.1rem;">
+                <span>Your Total</span>
+                <span id="cartTotal">0đ</span>
+              </div>
+              <button class="btn-primary w-100 mt-3" id="checkoutBtn" onclick="proceedToPayment()">Confirm & Pay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: PAYMENT -->
+    <div id="view-payment" class="view-section fade-in">
+      <div class="payment-container text-center">
+        <h2 class="mb-1">Pay Your Split</h2>
+        <p class="text-muted mb-4">Scan this QR code with your Momo/VNPay app to complete your order.</p>
+        
+        <div class="qr-card">
+          <div class="qr-mockup" id="qrMockup">
+            <div class="qr-grid" id="qrGrid"></div>
+            <div class="qr-scan-line"></div>
+          </div>
+          <div class="qr-amount-display" id="paymentAmountDisplay">0đ</div>
+          <div class="qr-instruction" style="background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px; font-family: monospace;">
+            Message: <strong style="color: var(--text-primary);">HC8273-ThuTrang</strong>
+          </div>
+        </div>
+
+        <button class="btn-primary w-100 mt-4" onclick="switchView('view-payment-success')">I have transferred</button>
+        <button class="btn-text w-100 mt-2" onclick="switchView('view-participant')">Back to Cart</button>
+      </div>
+    </div>
+
+    <!-- VIEW: PAYMENT SUCCESS -->
+    <div id="view-payment-success" class="view-section fade-in">
+      <div class="payment-container text-center" style="padding: 60px 40px;">
+        <i class="ph ph-check-circle" style="font-size: 4rem; color: var(--teal); margin-bottom: 20px;"></i>
+        <h2 class="mb-2">Payment Confirmed!</h2>
+        <p class="text-muted mb-4">You have successfully joined the group order. The Host will be notified.</p>
+        <div style="background: var(--bg-main); padding: 16px; border-radius: 12px; text-align: left; margin-bottom: 24px;">
+          <div class="summary-row" style="font-size: 13px;"><span>Order:</span> <strong>Highlands Coffee</strong></div>
+          <div class="summary-row" style="font-size: 13px;"><span>Amount:</span> <strong id="successAmountDisplay">0đ</strong></div>
+          <div class="summary-row" style="font-size: 13px;"><span>Status:</span> <strong style="color: var(--teal);">PAID</strong></div>
+        </div>
+        <button class="btn-primary w-100" onclick="switchView('view-home')">Go to Home</button>
+      </div>
+    </div>
+
+    <!-- VIEW: VENDOR SUMMARY -->
+    <div id="view-vendor-summary" class="view-section fade-in">
+      <button class="back-link" onclick="switchView('view-host-dashboard')"><i class="ph ph-arrow-left"></i> Back to Dashboard</button>
+      <div class="payment-container" style="max-width: 600px; padding: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px dashed var(--border-medium); padding-bottom: 24px; margin-bottom: 24px;">
+          <div>
+            <h2 class="mb-1">Vendor Order Sheet</h2>
+            <p class="text-muted">Highlands Coffee • 5 Items</p>
+          </div>
+          <button class="btn-secondary" onclick="showToast('PDF Exported!')"><i class="ph ph-printer"></i> Print / Export</button>
+        </div>
+        
+        <table class="data-table" style="margin-bottom: 24px;">
+          <thead>
+            <tr>
+              <th>Qty</th>
+              <th>Item Name</th>
+              <th style="text-align: right;">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2x</td><td style="font-weight: 600;">Trà Sữa Trân Châu</td><td style="text-align: right; color: var(--text-secondary);">50% sugar</td></tr>
+            <tr><td>2x</td><td style="font-weight: 600;">Cà Phê Sữa Đá</td><td style="text-align: right; color: var(--text-secondary);">-</td></tr>
+            <tr><td>1x</td><td style="font-weight: 600;">Matcha Latte</td><td style="text-align: right; color: var(--text-secondary);">-</td></tr>
+          </tbody>
+        </table>
+
+        <div style="background: var(--bg-main); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2rem;">
+          <span>Total to pay Vendor</span>
+          <span>240.000đ</span>
+        </div>
+        
+        <div style="margin-top: 32px; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
+          This document can be sent directly to the vendor via Zalo/Messenger to place the actual order.
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: ANALYTICS -->
+    <div id="view-analytics" class="view-section fade-in">
+      <button class="back-link" onclick="switchView('view-home')"><i class="ph ph-arrow-left"></i> Home</button>
+      <div class="page-header">
+        <h1 class="page-title">Global Analytics</h1>
+        <div class="page-subtitle">Historical impact data recorded across all group orders.</div>
+      </div>
+
+      <div class="kpi-row">
+        <!-- Card 1 -->
+        <div class="kpi-card">
+          <div class="kpi-card-label">Coordination Time</div>
+          <div class="kpi-card-rate">was <strong>50 mins</strong></div>
+          <svg class="kpi-sparkline-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+            <polyline points="0,40 20,35 40,45 60,10 80,25 100,5"></polyline>
+            <circle class="spark-dot" cx="100" cy="5" r="3"></circle>
+          </svg>
+          <div class="kpi-spark-label">-90%</div>
+          <div class="kpi-card-section-label">Avg. Current Time</div>
+          <div class="kpi-card-value-box">
+            <div class="val" style="color: #00d4aa;">5 mins</div>
+            <div class="kpi-card-coin-icon" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa;"><i class="ph ph-timer"></i></div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="kpi-card">
+          <div class="kpi-card-label">Payment Deficit</div>
+          <div class="kpi-card-rate">was <strong>12% Loss</strong></div>
+          <svg class="kpi-sparkline-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+            <polyline points="0,10 20,20 40,5 60,30 80,15 100,45"></polyline>
+            <circle class="spark-dot" cx="100" cy="45" r="3"></circle>
+          </svg>
+          <div class="kpi-spark-label">0% Risk</div>
+          <div class="kpi-card-section-label">Current Deficit</div>
+          <div class="kpi-card-value-box">
+            <div class="val" style="color: #00d4aa;">0.00%</div>
+            <div class="kpi-card-coin-icon" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa;"><i class="ph ph-shield-check"></i></div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="kpi-card">
+          <div class="kpi-card-label">Process Efficiency</div>
+          <div class="kpi-card-rate">vs <strong>Manual Flow</strong></div>
+          <svg class="kpi-sparkline-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+            <polyline points="0,45 20,35 40,40 60,15 80,20 100,5"></polyline>
+            <circle class="spark-dot" cx="100" cy="5" r="3"></circle>
+          </svg>
+          <div class="kpi-spark-label">Max</div>
+          <div class="kpi-card-section-label">Efficiency Gain</div>
+          <div class="kpi-card-value-box">
+            <div class="val" style="color: #00d4aa;">+80%</div>
+            <div class="kpi-card-coin-icon" style="background: rgba(0, 212, 170, 0.15); color: #00d4aa;"><i class="ph ph-rocket-launch"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+  <script src="../ux-showcase.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initUXShowcase({
+        projectId: 'p3_orderflow',
+        role: 'App Flow Demo',
+        title: 'OrderFlow Architecture Update',
+        desc: 'Redesigned according to proper Information Architecture: separating Host & Participant flows, handling empty states, and moving analytical artifacts out of the core app.',
+        tasks: [
+          'Click "+ Create Group Order" to start the Host flow.',
+          'In Host Dashboard, click "Simulate Participant Joining" to experience the Member flow.',
+          'Go back to Home and click "Recent Orders" to view the Analytics.'
+        ]
+      });
+    });
+  </script>
+</body>
+</html>`;
+
+const appJs = `/* ============================================================
+   PROJECT 3 – OFFICE GROUP ORDER | MULTI-VIEW LOGIC
+   ============================================================ */
+
+const participants = [
+  { name: 'Anh Nghĩa', item: 'Trà Sữa x1', amount: '40.000đ', status: 'Paid', method: 'Momo' },
+  { name: 'Minh Tuấn', item: 'Cà Phê Sữa x1', amount: '34.000đ', status: 'Unpaid', method: 'Pending' },
+  { name: 'Hương Giang', item: 'Matcha Latte x1', amount: '50.000đ', status: 'Paid', method: 'VNPay' },
+  { name: 'Hoàng Nam', item: '-', amount: '-', status: 'Waiting', method: '-' },
+  { name: 'Thu Trang', item: 'Trà Sữa x1', amount: '40.000đ', status: 'Unpaid', method: 'Pending' }
+];
+
+let cart = [];
+
+function switchView(viewId) {
+  document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+  const target = document.getElementById(viewId);
+  if (target) target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showToast(message, icon = '<i class="ph ph-info" style="color: var(--teal);"></i>') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = \`<span>\${icon}</span><span>\${message}</span>\`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+function renderParticipants() {
+  const tbody = document.getElementById('participantTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  participants.forEach((p) => {
+    const tr = document.createElement('tr');
+    
+    let statusHtml = '';
+    let actionHtml = '-';
+    
+    if (p.status === 'Paid') {
+      statusHtml = \`<span class="badge success">Paid (\${p.method})</span>\`;
+    } else if (p.status === 'Unpaid') {
+      statusHtml = \`<span class="badge warning">Unpaid</span>\`;
+      actionHtml = \`<span class="action-link" onclick="remindUser('\${p.name}')">Remind</span>\`;
+    } else {
+      statusHtml = \`<span class="badge" style="background: var(--border-light); color: var(--text-secondary);">Waiting</span>\`;
+    }
+
+    tr.innerHTML = \`
+      <td style="font-weight: 600;">\${p.name}</td>
+      <td style="color: var(--text-secondary);">\${p.item}</td>
+      <td style="font-weight: 700;">\${p.amount}</td>
+      <td>\${statusHtml}</td>
+      <td>\${actionHtml}</td>
+    \`;
+    tbody.appendChild(tr);
+  });
+}
+
+function remindUser(name) {
+  showToast(\`Slack reminder sent to \${name}\`, '<i class="ph ph-bell-ringing" style="color: var(--blue);"></i>');
+}
+
+// --- Cart Logic ---
+function resetParticipantCart() {
+  cart = [];
+  renderCart();
+}
+
+function addToCart(name, price) {
+  const existing = cart.find(i => i.name === name);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ name, price, qty: 1 });
+  }
+  showToast(\`Added \${name} to cart\`, '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
+  renderCart();
+}
+
+function renderCart() {
+  const cartEmpty = document.getElementById('cartEmpty');
+  const cartFilled = document.getElementById('cartFilled');
+  const container = document.getElementById('cartItemsContainer');
+  const subtotalEl = document.getElementById('cartSubtotal');
+  const totalEl = document.getElementById('cartTotal');
+  const btnEl = document.getElementById('checkoutBtn');
+  const paymentDisplay = document.getElementById('paymentAmountDisplay');
+  const successDisplay = document.getElementById('successAmountDisplay');
+  
+  if (cart.length === 0) {
+    cartEmpty.style.display = 'block';
+    cartFilled.style.display = 'none';
+  } else {
+    cartEmpty.style.display = 'none';
+    cartFilled.style.display = 'block';
+    
+    container.innerHTML = '';
+    let subtotal = 0;
+    cart.forEach(item => {
+      subtotal += item.price * item.qty;
+      container.innerHTML += \`
+        <div class="cart-item">
+          <div class="cart-item-name">\${item.name} (x\${item.qty})</div>
+          <div class="cart-item-price">\${(item.price * item.qty).toLocaleString('vi-VN')}đ</div>
+        </div>
+      \`;
+    });
+    
+    const sharedFee = 5000;
+    const total = subtotal + sharedFee;
+    
+    subtotalEl.innerText = subtotal.toLocaleString('vi-VN') + 'đ';
+    totalEl.innerText = total.toLocaleString('vi-VN') + 'đ';
+    btnEl.innerText = 'Confirm & Pay ' + total.toLocaleString('vi-VN') + 'đ';
+    
+    // Update Payment views
+    if(paymentDisplay) paymentDisplay.innerText = total.toLocaleString('vi-VN') + 'đ';
+    if(successDisplay) successDisplay.innerText = total.toLocaleString('vi-VN') + 'đ';
+  }
+}
+
+function proceedToPayment() {
+  switchView('view-payment');
+}
+
+// Init QR Mockup
+const qrGrid = document.getElementById('qrGrid');
+if (qrGrid) {
+  for(let i=0; i<49; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'qr-cell ' + (Math.random() > 0.4 ? 'filled' : '');
+    qrGrid.appendChild(cell);
+  }
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderParticipants();
+  renderCart();
+});
+`;
+
+fs.writeFileSync(path.join(targetDir, 'index.html'), indexHtml);
+fs.writeFileSync(path.join(targetDir, 'app.js'), appJs);
+console.log('Project 3 updated!');
