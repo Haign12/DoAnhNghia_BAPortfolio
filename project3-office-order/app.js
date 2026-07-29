@@ -1,522 +1,94 @@
 /* ============================================================
-   PROJECT 3 – OFFICE GROUP ORDER | Clean Enterprise App Logic
+   PROJECT 3 – OFFICE GROUP ORDER | MULTI-VIEW LOGIC
    ============================================================ */
 
-// --- Countdown Timer (Real-time) -----------------------------
-(function() {
-  const timerEl = document.getElementById('countdownTimer');
-  if (!timerEl) return;
-  let totalSeconds = 15 * 60 - 1; // Start at 14:59
+const participants = [
+  { name: 'Anh Nghĩa', item: 'Trà Sữa x1', amount: '40.000đ', status: 'Paid', method: 'Momo' },
+  { name: 'Minh Tuấn', item: 'Cà Phê Sữa x1', amount: '34.000đ', status: 'Unpaid', method: 'Pending' },
+  { name: 'Hương Giang', item: 'Matcha Latte x1', amount: '50.000đ', status: 'Paid', method: 'VNPay' },
+  { name: 'Thu Trang', item: '-', amount: '-', status: 'Pending', method: '-' }
+];
 
-  function updateTimer() {
-    const mins = Math.floor(totalSeconds / 60);
-    const secs = totalSeconds % 60;
-    timerEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-    
-    // Urgency colors
-    if (totalSeconds <= 60) {
-      timerEl.style.color = '#e74c3c';
-      timerEl.style.animation = 'pulse 1s infinite';
-    } else if (totalSeconds <= 300) {
-      timerEl.style.color = '#f5a623';
-    }
-    
-    if (totalSeconds > 0) {
-      totalSeconds--;
-    } else {
-      timerEl.textContent = 'CLOSED';
-      timerEl.style.color = '#e74c3c';
-    }
-  }
-  
-  updateTimer();
-  setInterval(updateTimer, 1000);
-})();
-
-// --- Language Switcher ---------------------------------------
-(function() {
-  const translations = {
-    en: {
-      'p3.title': 'My Orders Dashboard',
-      'p3.subtitle': 'Group ordering automation and payment deficit prevention',
-      'p3.confirm': 'Confirm Group Order',
-      'p3.export': 'Export Report',
-      'p3.total': 'Total Group Split',
-      'p3.quick': 'Quick Split',
-      'p3.history': 'History',
-      'p3.calc': 'Auto-Calculate Shares'
-    },
-    vi: {
-      'p3.title': 'Bảng điều khiển Đơn hàng',
-      'p3.subtitle': 'Tự động hóa đặt hàng nhóm và ngăn ngừa thâm hụt thanh toán',
-      'p3.confirm': 'Xác nhận Đặt nhóm',
-      'p3.export': 'Xuất Báo cáo',
-      'p3.total': 'Tổng số tiền chia',
-      'p3.quick': 'Chia tiền nhanh',
-      'p3.history': 'Lịch sử',
-      'p3.calc': 'Tự động chia tiền'
-    }
-  };
-
-  const langViBtn = document.getElementById('lang-vi');
-  const langEnBtn = document.getElementById('lang-en');
-
-  function setLanguage(lang) {
-    localStorage.setItem('lang_p3', lang);
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (translations[lang][key]) el.innerText = translations[lang][key];
-    });
-    if (lang === 'vi') {
-      if (langViBtn) { langViBtn.style.opacity = '1'; langViBtn.style.fontWeight = 'bold'; }
-      if (langEnBtn) { langEnBtn.style.opacity = '0.5'; langEnBtn.style.fontWeight = 'normal'; }
-    } else {
-      if (langEnBtn) { langEnBtn.style.opacity = '1'; langEnBtn.style.fontWeight = 'bold'; }
-      if (langViBtn) { langViBtn.style.opacity = '0.5'; langViBtn.style.fontWeight = 'normal'; }
-    }
-  }
-
-  const savedLang = localStorage.getItem('lang_p3') || 'en';
-  setLanguage(savedLang);
-
-  if(langViBtn) langViBtn.addEventListener('click', () => setLanguage('vi'));
-  if(langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
-})();
-
-
-
-// --- Mobile Sidebar Toggle ----------------------------------
-const sidebar = document.getElementById('sidebar');
-const mobileNavToggle = document.getElementById('mobileNavToggle');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-if (mobileNavToggle) {
-  mobileNavToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-    sidebarOverlay.classList.toggle('active');
-  });
+function switchView(viewId) {
+  document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+  const target = document.getElementById(viewId);
+  if (target) target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-if (sidebarOverlay) {
-  sidebarOverlay.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-    sidebarOverlay.classList.remove('active');
-  });
-}
-
-// --- Toast (Corporate styled) -------------------------------
-const toastContainer = document.getElementById('toastContainer');
 
 function showToast(message, icon = '<i class="ph ph-info" style="color: var(--teal);"></i>') {
+  const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
   toast.className = 'toast';
-  toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${message}</span>`;
-  toastContainer.appendChild(toast);
-  setTimeout(() => {
-    toast.classList.add('toast-out');
-    setTimeout(() => toast.remove(), 250);
-  }, 3000);
+  toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
 }
-
-// --- Format VND currency ------------------------------------
-function formatVND(amount) {
-  return amount.toLocaleString('vi-VN').replace(/,/g, '.') + 'đ';
-}
-
-// --- Render Process Flows -----------------------------------
-function renderProcess(containerId, processData) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  let html = '';
-
-  processData.forEach((step, index) => {
-    const labelTag = step.label
-      ? `<span class="step-label-tag ${step.type}">${step.label}</span>`
-      : '';
-
-    html += `
-      <div class="process-step">
-        <div class="step-number ${step.type}">${index + 1}</div>
-        <div class="step-content ${step.type}">
-          <div class="step-text">${step.text}</div>
-          ${labelTag}
-        </div>
-      </div>
-    `;
-
-    if (index < processData.length - 1) {
-      html += `
-        <div class="step-connector">
-          <div class="connector-line ${step.type}"></div>
-        </div>
-      `;
-    }
-  });
-
-  container.innerHTML = html;
-}
-
-renderProcess('asisProcess', asIsProcess);
-renderProcess('tobeProcess', toBeProcess);
-
-// --- Progress Stepper ---------------------------------------
-const stepperEl = document.getElementById('stepper');
-const stepperProgress = document.getElementById('stepperProgress');
-let currentStep = 0;
-
-function renderStepper() {
-  if (!stepperEl) return;
-  const existingSteps = stepperEl.querySelectorAll('.step');
-  existingSteps.forEach(s => s.remove());
-
-  stepperSteps.forEach((step, i) => {
-    const div = document.createElement('div');
-    div.className = 'step';
-    if (i < currentStep) div.classList.add('completed');
-    if (i === currentStep) div.classList.add('active');
-
-    const checkMark = i < currentStep ? '<i class="ph ph-check"></i>' : step.icon;
-
-    div.innerHTML = `
-      <div class="step-circle">${checkMark}</div>
-      <div class="step-label">${step.label}</div>
-    `;
-
-    div.addEventListener('click', () => {
-      currentStep = i;
-      updateStepper();
-      showToast(`View updated to: ${step.label}`, step.icon);
-    });
-
-    stepperEl.appendChild(div);
-  });
-
-  if (stepperProgress) {
-    const progressPercent = currentStep / (stepperSteps.length - 1) * 100;
-    stepperProgress.style.width = progressPercent + '%';
-  }
-}
-
-function updateStepper() {
-  if (!stepperEl) return;
-  const steps = stepperEl.querySelectorAll('.step');
-  steps.forEach((stepEl, i) => {
-    stepEl.classList.remove('completed', 'active');
-    const circle = stepEl.querySelector('.step-circle');
-    if (i < currentStep) {
-      stepEl.classList.add('completed');
-      circle.innerHTML = '<i class="ph ph-check"></i>';
-    } else if (i === currentStep) {
-      stepEl.classList.add('active');
-      circle.innerHTML = stepperSteps[i].icon;
-    } else {
-      circle.innerHTML = stepperSteps[i].icon;
-    }
-  });
-  if (stepperProgress) {
-    const progressPercent = currentStep / (stepperSteps.length - 1) * 100;
-    stepperProgress.style.width = progressPercent + '%';
-  }
-}
-
-renderStepper();
-
-// --- Order Table & Split Calculator -------------------------
-const orderTableBody = document.getElementById('orderTableBody');
-const splitAmountEl = document.getElementById('splitAmount');
-const personCountEl = document.getElementById('personCount');
-const quickSplitTotal = document.getElementById('quickSplitTotal');
-const qrSection = document.getElementById('qrSection');
-
-let grandTotal = 0;
-
-if (orderTableBody && typeof orderItems !== 'undefined') {
-  orderItems.forEach(item => {
-    const subtotal = item.qty * item.price;
-    grandTotal += subtotal;
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="item-name">${item.name}</td>
-      <td>${item.qty}</td>
-      <td class="item-price">${formatVND(item.price)}</td>
-      <td class="item-price">${formatVND(subtotal)}</td>
-    `;
-    orderTableBody.appendChild(tr);
-  });
-
-  const totalTr = document.createElement('tr');
-  totalTr.className = 'total-row';
-  totalTr.innerHTML = `
-    <td colspan="3">Grand Total</td>
-    <td class="item-price">${formatVND(grandTotal)}</td>
-  `;
-  orderTableBody.appendChild(totalTr);
-}
-
-const perPerson = Math.ceil(grandTotal / totalPeople);
-if (splitAmountEl) splitAmountEl.textContent = formatVND(perPerson);
-if (personCountEl) {
-  if (personCountEl.tagName === 'INPUT') personCountEl.value = totalPeople;
-  else personCountEl.textContent = totalPeople;
-}
-if (quickSplitTotal) {
-  quickSplitTotal.value = formatVND(grandTotal);
-  quickSplitTotal.addEventListener('input', function(e) {
-    let val = this.value.replace(/[^0-9]/g, '');
-    if (val) {
-      this.value = parseInt(val).toLocaleString('vi-VN') + 'đ';
-    } else {
-      this.value = '';
-    }
-  });
-}
-
-// --- QR Code Mockup -----------------------------------------
-const qrGrid = document.getElementById('qrGrid');
-if (qrGrid) {
-  const qrPattern = [
-    1,1,1,1,1,1,1, 1,0,0,0,0,0,1, 1,0,1,1,1,0,1, 1,0,1,0,1,0,1, 1,0,1,1,1,0,1, 1,0,0,0,0,0,1, 1,1,1,1,1,1,1,
-    0,0,1,0,1,0,0, 1,0,0,1,0,1,1, 0,1,1,0,1,0,0, 1,0,1,1,0,1,1, 0,1,0,0,1,0,0, 1,1,0,1,0,1,0, 1,1,1,1,1,1,1,
-    1,0,0,0,0,0,1, 1,0,1,1,1,0,1, 1,0,1,0,1,0,1, 1,0,1,1,1,0,1, 1,0,0,0,0,0,1, 1,1,1,1,1,1,1, 0,0,0,1,0,1,0,
-    1,1,0,0,1,0,1, 0,0,1,1,0,1,0, 1,0,0,1,1,0,1, 0,1,1,0,0,1,0, 1,0,1,0,1,1,0, 1,1,1,1,1,1,1, 1,0,0,0,0,0,1,
-    1,0,1,1,1,0,1, 1,0,1,0,1,0,1, 1,0,1,1,1,0,1, 1,0,0,0,0,0,1, 1,1,1,1,1,1,1, 0,1,0,1,0,0,1, 1,0,1,0,1,1,0,
-    0,1,0,1,0,0,1, 1,0,1,0,1,1,0, 0,1,0,1,0,0,1, 1,0,1,0,1,1,0, 1,1,1,1,1,1,1, 1,0,0,0,0,0,1, 1,0,1,1,1,0,1,
-    1,0,1,0,1,0,1, 1,0,1,1,1,0,1, 1,0,0,0,0,0,1, 1,1,1,1,1,1,1,
-  ];
-
-  qrPattern.forEach(val => {
-    const cell = document.createElement('div');
-    cell.className = 'qr-cell ' + (val ? 'filled' : 'empty');
-    qrGrid.appendChild(cell);
-  });
-}
-
-// --- Place Order & Calculate Buttons ------------------------
-const placeOrderBtn = document.getElementById('placeOrderBtn');
-const calcSplitBtn = document.getElementById('calcSplitBtn');
-
-if (calcSplitBtn) {
-  calcSplitBtn.addEventListener('click', () => {
-    let total = 0;
-    if (quickSplitTotal && quickSplitTotal.value) {
-      total = parseInt(quickSplitTotal.value.replace(/[^0-9]/g, '')) || 0;
-    }
-    let people = 1;
-    if (personCountEl && personCountEl.value) {
-      people = parseInt(personCountEl.value) || 1;
-    }
-    const newPerPerson = Math.ceil(total / people);
-    if (splitAmountEl) splitAmountEl.textContent = formatVND(newPerPerson);
-
-    calcSplitBtn.textContent = 'Calculated ✓';
-    calcSplitBtn.style.background = 'var(--teal)';
-    calcSplitBtn.style.color = '#fff';
-    calcSplitBtn.style.borderColor = 'var(--teal)';
-    
-    // Advance stepper to QR Payment step (Index 2)
-    currentStep = 2;
-    updateStepper();
-    showToast(`System split: ${formatVND(newPerPerson)} per person`, '<i class="ph ph-lightning" style="color: var(--teal);"></i>');
-    
-    // Show QR
-    if (qrSection) qrSection.style.display = 'flex';
-  });
-}
-
-if (placeOrderBtn) {
-  placeOrderBtn.addEventListener('click', () => {
-    placeOrderBtn.disabled = true;
-    placeOrderBtn.textContent = 'Processing...';
-
-    // Simulate flow
-    currentStep = 3;
-    updateStepper();
-    showToast('Verifying QR payments from all members', '<i class="ph ph-device-mobile" style="color: var(--blue-accent);"></i>');
-    
-    setTimeout(() => {
-      showToast('Order confirmed and sent to vendor.', '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
-      placeOrderBtn.textContent = '✓ Order Placed';
-      placeOrderBtn.style.background = '#059669'; // success green
-      placeOrderBtn.style.color = '#fff';
-      
-      setTimeout(() => {
-        currentStep = 0;
-        updateStepper();
-        if (qrSection) qrSection.style.display = 'none';
-        placeOrderBtn.disabled = false;
-        placeOrderBtn.textContent = 'Confirm Group Order';
-        placeOrderBtn.style.background = '';
-        placeOrderBtn.style.color = '';
-        if (calcSplitBtn) {
-          calcSplitBtn.textContent = 'Auto-Calculate Shares';
-          calcSplitBtn.style.background = '';
-          calcSplitBtn.style.color = '';
-          calcSplitBtn.style.borderColor = '';
-        }
-      }, 5000);
-    }, 2000);
-  });
-}
-
-// --- BA Requirements Modal Logic -----------------------------
-const baSpecBtn = document.getElementById('baSpecBtn');
-const baModalOverlay = document.getElementById('baModalOverlay');
-const closeBaModalBtn = document.getElementById('closeBaModalBtn');
-
-if (baSpecBtn && baModalOverlay) {
-  baSpecBtn.addEventListener('click', () => {
-    baModalOverlay.classList.add('active');
-  });
-}
-if (closeBaModalBtn && baModalOverlay) {
-  closeBaModalBtn.addEventListener('click', () => {
-    baModalOverlay.classList.remove('active');
-  });
-  baModalOverlay.addEventListener('click', (e) => {
-    if (e.target === baModalOverlay) {
-      baModalOverlay.classList.remove('active');
-    }
-  });
-}
-
-// --- Export Report Button ------------------------------------
-const exportReportBtn = document.getElementById('exportReportBtn');
-if (exportReportBtn) {
-  exportReportBtn.addEventListener('click', () => {
-    showToast('Group order summary report exported (PDF/CSV)', '<i class="ph ph-chart-bar" style="color: var(--teal);"></i>');
-  });
-}
-
-// --- Topbar Icon Interactions --------------------------------
-document.querySelectorAll('.topbar-icon').forEach((icon, i) => {
-  icon.addEventListener('click', () => {
-    const msgs = ['Notifications: 2 payment reminders sent', 'Settings: System defaults loaded'];
-    const icons = ['<i class="ph ph-bell" style="color: var(--orange);"></i>', '<i class="ph ph-gear" style="color: var(--teal);"></i>'];
-    showToast(msgs[i] || 'System action triggered', icons[i] || '<i class="ph ph-gear"></i>');
-  });
-});
-
-// --- Participant List Rendering & Payment Status Toggle ------
-const participantTableBody = document.getElementById('participantTableBody');
-const participantSummaryBadge = document.getElementById('participantSummaryBadge');
 
 function renderParticipants() {
-  if (!participantTableBody) return;
-  participantTableBody.innerHTML = '';
-  
-  let paidCount = 0;
-  
-  if (typeof participants !== 'undefined') {
-    participants.forEach(p => {
-      if (p.status === 'Paid') paidCount++;
-      
-      const tr = document.createElement('tr');
-      const isPaid = p.status === 'Paid';
-      
-      const statusTag = isPaid
-        ? `<span class="panel-tag success-tag" style="cursor: pointer;" title="Click to toggle status">Paid (${p.method})</span>`
-        : `<span class="panel-tag danger-tag" style="background: rgba(245, 166, 35, 0.1); color: #f5a623; cursor: pointer;" title="Click to toggle status">Unpaid</span>`;
-        
-      const actionBtn = isPaid
-        ? `<span style="color: var(--text-white-muted); font-size: 0.8rem;">✓ Verified</span>`
-        : `<button class="view-all-btn remind-btn" style="color: #4a90d9; border-color: #4a90d9;"><i class="ph ph-bell-ringing"></i> Remind</button>`;
+  const tbody = document.getElementById('participantTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  participants.forEach((p, index) => {
+    const tr = document.createElement('tr');
+    
+    const statusHtml = p.status === 'Paid' 
+      ? `<span class="badge success">Paid (${p.method})</span>`
+      : p.status === 'Unpaid' 
+        ? `<span class="badge warning">Unpaid</span>` 
+        : `<span class="badge" style="background: var(--border-light); color: var(--text-secondary);">Waiting</span>`;
 
-      tr.innerHTML = `
-        <td style="font-weight: 600; display: flex; align-items: center; gap: 8px;">
-          <span style="width: 26px; height: 26px; border-radius: 50%; background: var(--bg-dark-2); display: inline-flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--teal); font-weight: 700;">${p.avatar}</span>
-          ${p.name}
-        </td>
-        <td style="color: var(--text-secondary); font-size: 0.85rem;">${p.item}</td>
-        <td style="font-weight: 700; color: #fff;">${formatVND(p.amount)}</td>
-        <td>${statusTag}</td>
-        <td>${actionBtn}</td>
-      `;
+    const actionHtml = p.status === 'Unpaid'
+      ? `<span class="action-link" onclick="remindUser('${p.name}')">Remind</span>`
+      : `<span style="color: var(--text-muted); font-size: 0.8rem;">-</span>`;
 
-      // Toggle Paid/Unpaid status on badge click
-      const tagEl = tr.querySelector('.panel-tag');
-      if (tagEl) {
-        tagEl.addEventListener('click', () => {
-          p.status = (p.status === 'Paid') ? 'Unpaid' : 'Paid';
-          p.method = (p.status === 'Paid') ? 'Momo' : 'Pending';
-          renderParticipants();
-          showToast(`${p.name} status updated to ${p.status}`, p.status === 'Paid' ? '<i class="ph ph-check-circle" style="color: var(--teal);"></i>' : '<i class="ph ph-warning" style="color: var(--orange);"></i>');
-        });
-      }
+    tr.innerHTML = `
+      <td style="font-weight: 600;">${p.name}</td>
+      <td style="color: var(--text-secondary);">${p.item}</td>
+      <td style="font-weight: 700;">${p.amount}</td>
+      <td>${statusHtml}</td>
+      <td>${actionHtml}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
 
-      // Remind button click
-      const remindBtn = tr.querySelector('.remind-btn');
-      if (remindBtn) {
-        remindBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          showToast(`Slack reminder sent to ${p.name} with QR link`, '<i class="ph ph-bell-ringing" style="color: var(--blue-accent);"></i>');
-        });
-      }
+function remindUser(name) {
+  showToast(`Slack reminder sent to ${name}`, '<i class="ph ph-bell-ringing" style="color: var(--blue);"></i>');
+}
 
-      participantTableBody.appendChild(tr);
-    });
+function handlePaymentComplete() {
+  showToast('Payment detected! Updating status...', '<i class="ph ph-spinner"></i>');
+  setTimeout(() => {
+    // Mock updating Thu Trang
+    participants[3] = { name: 'Thu Trang', item: 'Trà Sữa x1', amount: '40.000đ', status: 'Paid', method: 'Momo' };
+    renderParticipants();
+    switchView('view-host-dashboard');
+    showToast('Payment successful!', '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
+  }, 1500);
+}
 
-    if (participantSummaryBadge) {
-      participantSummaryBadge.textContent = `${paidCount} of ${participants.length} paid`;
-      if (paidCount === participants.length) {
-        participantSummaryBadge.style.background = 'rgba(0, 212, 170, 0.2)';
-        participantSummaryBadge.style.color = '#00d4aa';
-      } else {
-        participantSummaryBadge.style.background = 'rgba(245, 166, 35, 0.1)';
-        participantSummaryBadge.style.color = '#f5a623';
-      }
-    }
+// Init QR Mockup
+const qrGrid = document.getElementById('qrGrid');
+if (qrGrid) {
+  for(let i=0; i<49; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'qr-cell ' + (Math.random() > 0.4 ? 'filled' : '');
+    qrGrid.appendChild(cell);
   }
 }
 
-renderParticipants();
-
-// --- Process Simulator ---------------------------------------
-const simulateProcessBtn = document.getElementById('simulateProcessBtn');
-if (simulateProcessBtn) {
-  simulateProcessBtn.addEventListener('click', () => {
-    simulateProcessBtn.disabled = true;
-    simulateProcessBtn.innerHTML = '<i class="ph ph-spinner spinner" style="font-size: 14px;"></i> Simulating...';
-    
-    const steps = document.querySelectorAll('#tobeProcess .process-step');
-    let delay = 0;
-    
-    steps.forEach((step, idx) => {
-      setTimeout(() => {
-        steps.forEach(s => s.style.border = '');
-        step.style.border = '2px solid var(--teal)';
-        step.style.borderRadius = '12px';
-        step.style.boxShadow = '0 0 12px rgba(0, 212, 170, 0.4)';
-        
-        const msg = toBeProcess[idx] ? `Step ${idx+1}: ${toBeProcess[idx].text}` : `Process Step ${idx+1}`;
-        showToast(msg, '<i class="ph ph-play-circle" style="color: var(--teal);"></i>');
-        
-        if (idx === steps.length - 1) {
-          setTimeout(() => {
-            steps.forEach(s => {
-              s.style.border = '';
-              s.style.boxShadow = '';
-            });
-            showToast('Simulation Complete: To-Be process saved 45 mins & eliminated payment deficit!', '<i class="ph ph-check-circle" style="color: var(--teal);"></i>', 4000);
-            simulateProcessBtn.disabled = false;
-            simulateProcessBtn.innerHTML = '<i class="ph ph-play-circle" style="font-size: 14px;"></i> Simulate Flow';
-          }, 1200);
-        }
-      }, delay);
-      delay += 1200;
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderParticipants();
+  
+  const placeOrderBtn = document.getElementById('placeOrderBtn');
+  if(placeOrderBtn) {
+    placeOrderBtn.addEventListener('click', function() {
+      this.innerHTML = '<i class="ph ph-check"></i> Sent to Vendor';
+      this.style.background = 'var(--green)';
+      this.style.color = '#fff';
+      showToast('Order successfully sent to Highlands Coffee!', '<i class="ph ph-check-circle" style="color: var(--green);"></i>');
     });
-  });
-}
-
-// --- Search Filter Logic -------------------------------------
-const searchInput = document.querySelector('.search-box input');
-if (searchInput) {
-  searchInput.addEventListener('input', (e) => {
-    const q = e.target.value.toLowerCase();
-    document.querySelectorAll('.order-table tbody tr').forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(q) ? '' : 'none';
-    });
-  });
-}
-
+  }
+});
