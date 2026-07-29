@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    PROJECT 3 ΓÇô ORDERFLOW | Mock Data & LocalStorage
    ============================================================ */
 
@@ -53,7 +53,7 @@ function persist() {
 
 // ΓöÇΓöÇ Helpers ΓöÇΓöÇ
 function uid() { return Date.now().toString(36); }
-function formatVND(amt) { return new Intl.NumberFormat('vi-VN').format(amt) + '─æ'; }
+function formatVND(amt) { return new Intl.NumberFormat('vi-VN').format(amt) + '₫'; }
 function getUser(id) { return users.find(u => u.id === id); }
 
 // ΓöÇΓöÇ Core Logic ΓöÇΓöÇ

@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    PROJECT 1 ΓÇô FINTRACK | Mock Data & LocalStorage
    ============================================================ */
 
@@ -33,7 +33,7 @@ function persist() {
 }
 
 // ΓöÇΓöÇ Helpers ΓöÇΓöÇ
-function formatVND(amt) { return new Intl.NumberFormat('vi-VN').format(amt) + '─æ'; }
+function formatVND(amt) { return new Intl.NumberFormat('vi-VN').format(amt) + '₫'; }
 function uid() { return Date.now().toString(36); }
 
 // Simulate today as '2026-07-27'
