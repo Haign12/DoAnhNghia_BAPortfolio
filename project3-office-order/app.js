@@ -83,25 +83,7 @@
   if(langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
 })();
 
-// --- Optimistic UI for Order Confirmation ---------------------
-const placeOrderBtn = document.getElementById('placeOrderBtn');
-if (placeOrderBtn) {
-  placeOrderBtn.addEventListener('click', function() {
-    // Save original state
-    const originalText = this.innerText;
-    const originalBg = this.style.background;
-    
-    // Optimistic update
-    this.innerHTML = '<i class="ph ph-check-circle"></i> Confirmed';
-    this.style.background = '#00d4aa';
-    this.style.color = '#fff';
-    
-    // Simulate server response success
-    setTimeout(() => {
-      showToast('Group order confirmed successfully!', '<i class="ph ph-check-circle" style="color: #00d4aa;"></i>');
-    }, 500);
-  });
-}
+
 
 // --- Mobile Sidebar Toggle ----------------------------------
 const sidebar = document.getElementById('sidebar');
