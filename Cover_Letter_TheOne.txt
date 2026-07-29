@@ -1,0 +1,32 @@
+Subject: [The One LLC] Ứng tuyển Vị trí Business Analyst (BA) - Đỗ Anh Nghĩa
+
+Kính gửi Bộ phận Tuyển dụng Công ty The One LLC,
+
+Em tên là Đỗ Anh Nghĩa. Em viết thư này để bày tỏ sự quan tâm sâu sắc đối với vị trí Business Analyst (POS / SaaS) tại The One LLC. Qua mô tả công việc, em rất hào hứng khi thấy vị trí này đòi hỏi tư duy logic hệ thống mạch lạc, khả năng viết spec chặt chẽ (breakdown flow if/else, xử lý edge cases) cùng sự am hiểu về kiến thức kỹ thuật (API, State, Database) — đây chính là những thế mạnh nòng cốt mà em đã tích lũy và rèn luyện qua các dự án thực tế.
+
+Về học vấn và kinh nghiệm, em tốt nghiệp chuyên ngành Công nghệ Thông tin tại Trường Đại học Khoa học Tự nhiên (HCMUS) liên kết với Đại học Claude Bernard Lyon 1 (Pháp). Với nền tảng kỹ thuật vững vàng kết hợp kinh nghiệm BA/Product và UI/UX Design, em hoàn toàn đáp ứng các yêu cầu nòng cốt của Quý công ty:
+
+1. Đóng gói Requirement & Viết Spec cấu trúc rõ ràng:
+Em có thói quen làm việc chặt chẽ với PM để breakdown ý tưởng sản phẩm (POS / SaaS) thành tài liệu đặc tả logic chi tiết. Các spec em xây dựng luôn tuân thủ cấu trúc chuẩn: Input/Output, Flow logic (if/else), State machine (loading/success/error/empty) và đào sâu các trường hợp biên (edge cases) nhằm đảm bảo Đội ngũ Developer có thể hiểu đúng 100% và lập trình được ngay mà không gặp sự mơ hồ (ambiguity).
+
+2. Tư duy Phân tích Hệ thống & Am hiểu Kỹ thuật nền tảng:
+Nhờ nền tảng CNTT, em chủ động phân tích Data Flow end-to-end, định nghĩa State Transitions và thiết kế hành vi Error Handling/Async behavior (timeout, retry delay, network loss). Em hiểu rõ về cấu trúc API (Request/Response Header, Body, Status Code) và thiết kế Database cơ bản (ERD, Table Relations, Primary/Foreign Key).
+
+3. Cầu nối giữa Product Manager, UI/UX Design và Đội ngũ Dev:
+- Với Design: Em cung cấp logic nghiệp vụ cho UI/UX, rà soát Wireframe/Screen Flow để đảm bảo đúng logic hệ thống và bổ sung đầy đủ các trạng thái khuyết (missing states: loading, error, empty data).
+- Với Dev: Em truyền đạt yêu cầu rõ ràng, đồng hành giải đáp thắc mắc trong suốt quá trình sprint build và chủ động cập nhật spec khi có thay đổi từ phía PM.
+
+Em đã hệ thống hóa các sản phẩm thực tế của mình (bao gồm các hệ thống SaaS quản lý đơn hàng/POS, quản trị hệ thống và theo dõi dòng tiền) thành một Portfolio tương tác. Kính mời Quý công ty tham khảo hồ sơ chi tiết tại:
+- Interactive Portfolio: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+- LinkedIn: https://www.linkedin.com/in/ginan12/
+
+Em rất mong có cơ hội được trao đổi trực tiếp với Quý công ty trong một buổi phỏng vấn để chia sẻ chi tiết hơn về cách em phân tích spec và đóng góp vào sự phát triển của các sản phẩm POS/SaaS tại The One LLC.
+
+Em xin chân thành cảm ơn Quý công ty đã dành thời gian xem xét hồ sơ!
+
+Trân trọng,
+
+Đỗ Anh Nghĩa
+Điện thoại: (+84) 798 876 074
+Email: anhnghia9a633@gmail.com
+Địa điểm: TP. Hồ Chí Minh
