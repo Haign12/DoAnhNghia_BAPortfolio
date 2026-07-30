@@ -107,7 +107,6 @@
         <a href="#" class="nav-item" onclick="switchView('view-cashflow', this)">
           <i class="ph ph-trend-up"></i> Cashflow
         </a>
-        <a href="#" class="nav-item" style="display:none;" onclick="switchView('view-analytics', this)"><i class="ph ph-chart-pie-slice"></i> Analytics</a>
       <a href="#" class="nav-item" onclick="switchView('view-budget', this)"><i class="ph ph-target"></i> Budget Planner</a>
     </nav>
   </aside>
@@ -303,7 +302,10 @@
 
     <!-- VIEW: BUDGET PLANNER -->
     <div id="view-budget" class="view-section">
-      <header class="topbar"><h1 class="page-title">Budget Planner</h1></header>
+      <header class="topbar">
+        <h1 class="page-title">Budget Planner</h1>
+        <button class="btn-primary" onclick="openBudgetModal()"><i class="ph ph-pencil-simple"></i> Edit Budget</button>
+      </header>
       <div class="page-content">
         <div class="card">
           <h3 class="card-title mb-4">Monthly Limits</h3>
@@ -395,6 +397,27 @@
       <button class="btn-secondary" style="flex: 1;" onclick="snoozeGhost()">Snooze 7D</button>
       <button class="btn-secondary" style="flex: 1;" onclick="keepGhost()">Keep</button>
     </div>
+  </div>
+</div>
+
+<!-- MODAL: EDIT BUDGET -->
+<div class="modal-overlay" id="modal-edit-budget">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal('modal-edit-budget')"><i class="ph ph-x"></i></button>
+    <h2 style="margin-bottom: 20px;">Edit Budget</h2>
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; margin-bottom: 8px; font-size: 13px;">Category</label>
+      <select id="editBudgetCat" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: var(--text-primary);">
+        <option>Entertainment</option>
+        <option>Health</option>
+        <option>Education</option>
+      </select>
+    </div>
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; margin-bottom: 8px; font-size: 13px;">Limit Amount</label>
+      <input type="number" id="editBudgetLimit" style="width: 100%; padding: 10px; background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; color: var(--text-primary);">
+    </div>
+    <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="saveBudget()">Save Budget</button>
   </div>
 </div>
 

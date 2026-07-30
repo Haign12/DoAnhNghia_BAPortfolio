@@ -74,7 +74,7 @@ function loadMockData() {
   const daysAgo = (d) => new Date(today.getTime() - d * 86400000).toISOString().split('T')[0];
   
   state.subscriptions = [
-    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: cycle, status: 'Active', icon: '🍿', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
+    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: 'Monthly', status: 'Active', icon: '🍿', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
     { id: 's2', name: 'Spotify', category: 'Entertainment', cost: 9.99, cycle: 'Monthly', status: 'Active', icon: '🎧', added: daysAgo(60), snoozeUntil: null, ignoreGhost: false },
     { id: 's3', name: 'Gym Membership', category: 'Health', cost: 30.00, cycle: 'Monthly', status: 'Active', icon: '🏋️', added: daysAgo(120), snoozeUntil: null, ignoreGhost: false },
     { id: 's4', name: 'Coursera Plus', category: 'Education', cost: 49.00, cycle: 'Monthly', status: 'Active', icon: '📚', added: daysAgo(90), snoozeUntil: null, ignoreGhost: false }
