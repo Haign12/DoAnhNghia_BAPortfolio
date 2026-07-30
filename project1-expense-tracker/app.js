@@ -418,8 +418,8 @@ function renderTransactions() {
         <td><span class="badge" style="background:var(--bg-main);">${t.category}</span></td>
         <td style="font-weight:700;">${formatMoney(t.amount)}</td>
         <td style="text-align: right;">
-          <button class="btn-text" style="color: var(--text-secondary); margin-right: 8px;"><i class="ph ph-pencil-simple"></i></button>
-          <button class="btn-text" style="color: var(--red);"><i class="ph ph-trash"></i></button>
+          <button class="btn-text" style="color: var(--text-secondary); margin-right: 8px;" onclick="editTx('${t.id}')"><i class="ph ph-pencil-simple"></i></button>
+          <button class="btn-text" style="color: var(--red);" onclick="deleteTx('${t.id}')"><i class="ph ph-trash"></i></button>
         </td>
       </tr>
       `;
@@ -427,12 +427,34 @@ function renderTransactions() {
   }
 }
 
+let currentSubFilter = 'All';
+
+function setSubFilter(status) {
+  currentSubFilter = status;
+  document.getElementById('subFilterAll').classList.remove('active');
+  document.getElementById('subFilterActive').classList.remove('active');
+  document.getElementById('subFilterGhost').classList.remove('active');
+  
+  if(status === 'All') document.getElementById('subFilterAll').classList.add('active');
+  if(status === 'Active') document.getElementById('subFilterActive').classList.add('active');
+  if(status === 'Ghost') document.getElementById('subFilterGhost').classList.add('active');
+  
+  renderSubscriptions();
+}
+
 function renderSubscriptions() {
   const tbody = document.getElementById('fullSubList');
-  if(state.subscriptions.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No subscriptions found.</td></tr>';
+  if(!tbody) return;
+  
+  let filteredSubs = state.subscriptions;
+  if (currentSubFilter !== 'All') {
+    filteredSubs = filteredSubs.filter(s => s.status === currentSubFilter);
+  }
+  
+  if(filteredSubs.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px; color: var(--text-secondary);">No subscriptions found.</td></tr>';
   } else {
-    tbody.innerHTML = state.subscriptions.map(s => {
+    tbody.innerHTML = filteredSubs.map(s => {
       let badge = '<span class="badge success">ACTIVE</span>';
       if(s.status === 'Ghost') badge = '<span class="badge badge-ghost">GHOST</span>';
       if(s.status === 'Cancelled') badge = '<span class="badge" style="background:var(--border-medium); color:white;">CANCELLED</span>';
@@ -442,14 +464,32 @@ function renderSubscriptions() {
         actionBtn = `<button class="btn-primary" style="background:var(--red) !important; color:white !important; border:none; padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Review</button>`;
       }
       
+      // Calculate next billing date mock based on cycle
+      let nextBillingStr = s.lastTxDate; // Default fallback
+      if (s.status !== 'Cancelled') {
+         let baseDate = new Date(s.lastTxDate || s.added);
+         if (s.cycle === 'Monthly') baseDate.setMonth(baseDate.getMonth() + 1);
+         if (s.cycle === 'Yearly') baseDate.setFullYear(baseDate.getFullYear() + 1);
+         if (s.cycle === 'Weekly') baseDate.setDate(baseDate.getDate() + 7);
+         
+         const diffDays = Math.ceil((baseDate - new Date()) / (1000 * 60 * 60 * 24));
+         if (diffDays > 0) {
+            nextBillingStr = `In ${diffDays} days`;
+         } else {
+            nextBillingStr = 'Overdue / Pending';
+         }
+      } else {
+         nextBillingStr = '-';
+      }
+      
       return `
       <tr style="${s.status === 'Cancelled' ? 'opacity: 0.5;' : ''}">
-        <td style="font-weight:600;"><span style="margin-right:8px;">${s.icon}</span> ${s.name}</td>
-        <td><span style="color:var(--text-secondary); font-size:12px;">Last Tx: ${s.lastTxDate}</span></td>
+        <td style="font-weight:600;"><span style="margin-right:8px; display:inline-block; width:24px; text-align:center; background:var(--bg-main); border-radius:4px; padding:4px;">${s.icon}</span> ${s.name}</td>
+        <td><span style="color:var(--text-secondary); font-size:13px; font-weight: 500;">${nextBillingStr}</span></td>
         <td style="color:var(--text-secondary);">${s.cycle}</td>
         <td style="font-weight:700;">${formatMoney(s.cost)}</td>
         <td>${badge}</td>
-        <td>${actionBtn}</td>
+        <td style="text-align: right;">${actionBtn}</td>
       </tr>
       `;
     }).join('');
