@@ -39,9 +39,9 @@
       --red-light: #FEE2E2;
       --blue: #3C50E0;
     }
-    body { background: var(--bg-main) !important; color: var(--text-primary) !important; margin: 0; font-family: 'Mulish', 'Inter', sans-serif; }
+    body { background: var(--bg-main); color: var(--text-primary); margin: 0; font-family: 'Mulish', 'Inter', sans-serif; }
     
-    .app-layout { display: flex; min-height: 100vh; padding: 0; gap: 0; background: var(--bg-main) !important; align-items: flex-start; }
+    .app-layout { display: flex; min-height: 100vh; padding: 0; gap: 0; background: var(--bg-main); align-items: flex-start; }
     .sidebar { position: sticky !important; top: 0 !important; width: 280px !important; background: var(--sidebar-bg) !important; display: flex !important; flex-direction: column !important; border-right: 1px solid var(--border-light) !important; flex-shrink: 0 !important; border-radius: 0 !important; padding: 0 !important; overflow: hidden; height: 100vh; z-index: 100; }
     .sidebar-logo { display: flex !important; align-items: center !important; gap: 12px; padding: 32px 24px; font-size: 1.5rem; font-weight: 800; color: var(--text-primary); background: transparent !important; width: auto !important; height: auto !important; border-radius: 0 !important; margin-bottom: 0 !important; }
     .text-gradient { color: var(--primary); }
@@ -111,8 +111,18 @@
     .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
   </style>
 
+  
   <!-- Tailwind CSS & Alpine.js -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {}
+      }
+    }
+  </script>
+
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     /* Prevent vanilla CSS clashes */
