@@ -313,13 +313,14 @@ function renderOverview() {
   
   document.getElementById('kpiTotalCostContainer').innerHTML = `
     <div>
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-wallet"></i> TOTAL FIXED COST</div>
-      <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px;">
-        ${formatMoney(totalCost)}
-        <span style="font-size: 14px; font-weight: 700; color: #10B981; display: inline-flex; align-items: center;"><i class="ph-bold ph-arrow-up-right"></i>3%</span>
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-wallet"></i> FIXED COST</div>
+      <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px; margin-top: -8px;">
+        <span style="font-size: 24px; width: 32px; height: 32px; border-radius: 50%; background: #111827; color: white; display: inline-flex; justify-content: center; align-items: center;"><i class="ph ph-currency-dollar"></i></span>
+        ${formatMoney(totalCost).replace('$', '')}
+        <span style="font-size: 11px; font-weight: 700; color: #10B981; display: inline-flex; align-items: center; margin-left: 8px;"><i class="ph-bold ph-arrow-up-right"></i>3%</span>
       </div>
     </div>
-    <div style="width: 120px; height: 60px;">
+    <div style="width: 140px; height: 60px;">
       <canvas id="kpiSparklineCost"></canvas>
     </div>
   `;
@@ -328,21 +329,46 @@ function renderOverview() {
   if(kpiSavings) {
     kpiSavings.innerHTML = `
       <div>
-        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-piggy-bank"></i> POTENTIAL SAVINGS</div>
-        <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px;">
-          ${formatMoney(potentialSavings)}
-          <span style="font-size: 14px; font-weight: 700; color: var(--primary); display: inline-flex; align-items: center;"><i class="ph-bold ph-arrow-up-right"></i>12%</span>
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-piggy-bank"></i> SAVINGS</div>
+        <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px; margin-top: -8px;">
+          <span style="font-size: 24px; width: 32px; height: 32px; border-radius: 50%; background: #111827; color: white; display: inline-flex; justify-content: center; align-items: center;"><i class="ph ph-piggy-bank"></i></span>
+          ${formatMoney(potentialSavings).replace('$', '')}
+          <span style="font-size: 11px; font-weight: 700; color: var(--primary); display: inline-flex; align-items: center; margin-left: 8px;"><i class="ph-bold ph-arrow-up-right"></i>12%</span>
         </div>
       </div>
-      <div style="width: 120px; height: 60px;">
+      <div style="width: 140px; height: 60px;">
         <canvas id="kpiSparklineSavings"></canvas>
       </div>
     `;
   }
 
   // Row 3 Charts Setup
-  document.getElementById('overviewSpendingByCategory').innerHTML = '<canvas id="ovDonutChart"></canvas>';
+  document.getElementById('overviewSpendingByCategory').innerHTML = `
+    <div style="position: relative; height: 100px; display: flex; justify-content: center;">
+       <canvas id="ovDonutChart"></canvas>
+       <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+          <div style="font-size: 16px; font-weight: 800;">7K</div>
+          <div style="font-size: 8px; color: var(--text-secondary);">Female</div>
+       </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 12px;">
+       <div style="background: var(--bg-main); padding: 8px 12px; border-radius: 8px; text-align: center; flex: 1; margin: 0 4px;">
+           <div style="font-size: 14px; font-weight: 700;">3686</div>
+           <div style="font-size: 9px; color: var(--text-secondary);">Young Adult</div>
+       </div>
+       <div style="background: var(--bg-main); padding: 8px 12px; border-radius: 8px; text-align: center; flex: 1; margin: 0 4px;">
+           <div style="font-size: 14px; font-weight: 700;">5221</div>
+           <div style="font-size: 9px; color: var(--text-secondary);">Adult</div>
+       </div>
+       <div style="background: var(--bg-main); padding: 8px 12px; border-radius: 8px; text-align: center; flex: 1; margin: 0 4px;">
+           <div style="font-size: 14px; font-weight: 700;">1287</div>
+           <div style="font-size: 9px; color: var(--text-secondary);">Elder</div>
+       </div>
+    </div>
+  `;
+  document.getElementById('overviewSpendingByCategory').style.height = 'auto'; // allow expansion
   document.getElementById('overviewSubscriptionHealth').innerHTML = '<canvas id="ovBarChart"></canvas>';
+  document.getElementById('overviewSubscriptionHealth').style.height = '140px';
   
   // Top Line Progress Bars (Active vs Ghost by Category)
   const categories = [...new Set(state.subscriptions.map(s => s.category))];
@@ -354,91 +380,89 @@ function renderOverview() {
      const pActive = Math.round((active/tot)*100) || 0;
      const pGhost = Math.round((ghost/tot)*100) || 0;
      return `
-       <div style="margin-bottom: 8px;">
-         <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight: 500;">
-           <span>${cat}</span>
-           <span style="color:var(--text-secondary);">${tot} total</span>
+       <div style="margin-bottom: 12px;">
+         <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:6px; font-weight: 500; color: var(--text-primary);">
+           <span>Has our product helped you in ${cat}?</span>
          </div>
-         <div style="width:100%; height:8px; background:var(--bg-main); border-radius:4px; display:flex; overflow:hidden;">
+         <div style="width:100%; height:6px; background:var(--bg-main); border-radius:4px; display:flex; overflow:hidden;">
            <div style="width:${pActive}%; height:100%; background:var(--primary);"></div>
            <div style="width:${pGhost}%; height:100%; background:rgba(124, 58, 237, 0.2);"></div>
          </div>
        </div>
      `;
-  }).join('') + `<div style="display:flex; align-items:center; gap:12px; font-size:11px; margin-top:8px;"><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--primary);"></span>Active</div><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:rgba(124, 58, 237, 0.2);"></span>Ghost</div></div>`;
+  }).join('') + `<div style="display:flex; justify-content: flex-end; align-items:center; gap:12px; font-size:10px; margin-top:-140px; margin-bottom: 120px;"><div style="display:flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; border-radius:50%; background:var(--primary);"></span>Yes</div><div style="display:flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; border-radius:50%; background:rgba(124, 58, 237, 0.2);"></span>No</div></div>`;
+  document.getElementById('overviewTopLine').style.height = '140px';
+  document.getElementById('overviewTopLine').style.justifyContent = 'flex-end';
 
   setTimeout(() => {
     // Sparklines
     const costCtx = document.getElementById('kpiSparklineCost');
-    if(costCtx) new Chart(costCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [65,59,80,81,56], borderColor: '#D1D5DB', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(209, 213, 219, 0.1)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
+    if(costCtx) new Chart(costCtx, { type: 'line', data: { labels: ['1','2','3','4','5','6','7'], datasets: [{ data: [55,59,40,41,56,40,65], borderColor: 'rgba(124, 58, 237, 0.2)', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(124, 58, 237, 0.05)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
 
     const savCtx = document.getElementById('kpiSparklineSavings');
-    if(savCtx) new Chart(savCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [28,48,40,19,86], borderColor: '#7C3AED', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(124, 58, 237, 0.1)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
+    if(savCtx) new Chart(savCtx, { type: 'bar', data: { labels: ['1','2','3','4','5','6','7','8','9','10'], datasets: [{ data: [20,48,30,19,66,35,45,70,55,90], backgroundColor: '#D8B4FE', borderRadius: 2, barPercentage: 0.3 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
     
     // Donut Chart
     const dCtx = document.getElementById('ovDonutChart');
-    if(dCtx) new Chart(dCtx, { type: 'doughnut', data: { labels: ['Entertainment', 'Health', 'Education'], datasets: [{ data: [45, 25, 30], backgroundColor: ['#7C3AED', '#A78BFA', '#EDE9FE'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+    if(dCtx) new Chart(dCtx, { type: 'doughnut', data: { labels: ['A', 'B'], datasets: [{ data: [75, 25], backgroundColor: ['#7C3AED', '#EDE9FE'], borderWidth: 0, borderDash: [2, 2] }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } } });
 
     // Bar Chart
     const bCtx = document.getElementById('ovBarChart');
-    if(bCtx) new Chart(bCtx, { type: 'bar', data: { labels: ['Q1', 'Q2', 'Q3', 'Q4'], datasets: [{ data: [30, 45, 60, 20], backgroundColor: ['#EDE9FE', '#C4B5FD', '#7C3AED', '#EDE9FE'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, border: { display: false } }, y: { display: false } } } });
+    if(bCtx) new Chart(bCtx, { type: 'bar', data: { labels: ['Online', 'In-Person', 'Mobile', 'Telephonic'], datasets: [{ data: [4800, 1500, 1800, 1800], backgroundColor: '#A78BFA', borderRadius: 2, barPercentage: 0.1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 }, color: 'rgba(0,0,0,0.4)' } }, y: { display: false } } } });
   }, 0);
 
-  // Recent transactions full table
-
+  // Satisfaction Level Details (Mock for Survey Results UI)
   const txListEl = document.getElementById('overviewTxList');
-  if(state.transactions.length === 0) {
-    txListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;padding:12px 0;">No recent transactions</div>';
-  } else {
-    const sortedTx = [...state.transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
-    txListEl.innerHTML = sortedTx.slice(0, 4).map(t => {
-      const sub = state.subscriptions.find(s => s.id === t.subId);
-      const iconHTML = sub ? sub.icon : '<i class="ph-fill ph-receipt"></i>';
-      const d = new Date(t.date);
-      const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-      return `
-      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
-        <div style="display:flex; align-items:center; gap: 16px;">
-          <div style="font-size: 20px; color: var(--text-secondary); width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center;">${iconHTML}</div>
-          <div>
-            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${sub ? sub.name : 'Unknown'}</div>
-            <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">${dateStr}</div>
-          </div>
-        </div>
-        <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">${formatMoney(t.amount)}</div>
-      </div>
-      `;
-    }).join('');
-  }
+  const questions = [
+    "How satisfied are you with our speed of resolution?",
+    "Easy to find what you were looking for?",
+    "How was your product delivery experience?",
+    "How would you rate the professionalism of our support team?",
+    "How would you rate your return/exchange experience on your app?"
+  ];
+  const levels = ["Very Dissatisfied", "Somewhat Dissatisfied", "Neither Satisfied nor Dissatisfied", "Somewhat Satisfied", "Very Satisfied"];
+  
+  let html = '<div style="display: flex; gap: 24px; padding-top: 12px;">';
+  
+  // Leftmost column for labels
+  html += '<div style="flex: 0 0 140px; display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; padding-bottom: 2px;">';
+  levels.forEach(l => {
+     html += `<div style="font-size: 8px; color: var(--text-secondary); text-align: right; height: 16px; line-height: 16px;">${l}</div>`;
+  });
+  html += '</div>';
 
-  // Spending by category
-  const spendingListEl = document.getElementById('overviewSpendingByCategory');
-  if(spendingListEl) {
-    const catTotals = {};
-    state.transactions.forEach(t => {
-      catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
-    });
-    const catSpent = Object.keys(catTotals).map(cat => ({ cat, spent: catTotals[cat] })).sort((a, b) => b.spent - a.spent);
+  // 5 Columns of bars
+  questions.forEach((q, idx) => {
+    html += '<div style="flex: 1; display: flex; flex-direction: column; gap: 12px;">';
+    html += `<div style="font-size: 9px; font-weight: 600; margin-bottom: 12px; height: 32px; color: var(--text-primary); opacity: 0.8; line-height: 1.4;">${q}</div>`;
     
-    if(catSpent.length === 0) {
-      spendingListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;padding:12px 0;">No spending data.</div>';
-    } else {
-      const maxCatSpent = Math.max(...catSpent.map(c => c.spent));
-      spendingListEl.innerHTML = catSpent.map(c => {
-        const pct = Math.min(100, Math.round((c.spent / maxCatSpent) * 100));
-        return `
-        <div>
-          <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">
-            <span>${c.cat}</span>
-            <span>${formatMoney(c.spent)}</span>
-          </div>
-          <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px;">
-            <div style="width: ${pct}%; height: 100%; background: var(--blue); border-radius: 2px;"></div>
-          </div>
-        </div>
-        `;
-      }).join('');
-    }
+    // Generate 5 bars with different widths and color intensities
+    const values = [
+       [14.3, 14.9, 30.5, 57.2, 11.5],
+       [23.2, 19.4, 20.1, 58.4, 20.6],
+       [28.4, 17.5, 23.6, 19.5, 29.2],
+       [20.3, 17.5, 21.6, 30.9, 28.0],
+       [19.1, 19.0, 19.1, 18.8, 24.1]
+    ][idx];
+    
+    const opacities = [0.2, 0.4, 0.6, 0.8, 1.0];
+    
+    values.forEach((v, i) => {
+       html += `
+         <div style="display: flex; align-items: center; gap: 8px; height: 16px;">
+           <div style="flex: 1; height: 4px; background: rgba(124,58,237,0.05); border-radius: 2px; overflow: hidden; display: flex;">
+             <div style="width: ${v}%; height: 100%; background: var(--primary); opacity: ${opacities[i]}; border-radius: 2px;"></div>
+           </div>
+           <div style="font-size: 8px; color: var(--text-secondary); width: 24px; font-weight: 500;">${v}%</div>
+         </div>
+       `;
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+  
+  if(txListEl) {
+     txListEl.innerHTML = html;
   }
 
   // Upcoming Renewals for Right Rail
