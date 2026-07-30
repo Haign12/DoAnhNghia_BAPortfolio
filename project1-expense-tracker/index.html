@@ -27,8 +27,11 @@
       --text-primary: #1F2937;
       --text-secondary: #6B7280;
       --text-muted: #9CA3AF;
+      --primary: #4F46E5; /* Indigo 600 */
+      --primary-light: #EEF2FF;
       --teal: #00d4aa;
-      --red: #ff6b6b;
+      --red: #EF4444; /* Stronger Red */
+      --red-light: #FEF2F2;
       --blue: #4a90d9;
     }
     body { background: var(--bg-main) !important; color: var(--text-primary) !important; margin: 0; font-family: 'Inter', sans-serif; }
@@ -36,11 +39,11 @@
     .app-layout { display: flex; min-height: 100vh; padding: 24px; gap: 24px; background: var(--bg-main) !important; align-items: flex-start; }
     .sidebar { position: sticky !important; top: 24px !important; width: 260px !important; background: var(--sidebar-bg) !important; display: flex !important; flex-direction: column !important; border: 1px solid var(--border-light) !important; flex-shrink: 0 !important; border-radius: 20px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; padding: 0 !important; align-items: stretch !important; overflow: hidden; height: calc(100vh - 48px); z-index: 100; }
     .sidebar-logo { display: flex !important; align-items: center !important; gap: 12px; padding: 24px; font-size: 1.4rem; font-weight: 800; color: var(--text-primary); background: transparent !important; width: auto !important; height: auto !important; border-radius: 0 !important; margin-bottom: 0 !important; }
-    .text-gradient { background: linear-gradient(90deg, #8E75C8, #4a90d9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .text-gradient { background: linear-gradient(90deg, var(--primary), #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .sidebar-nav { flex: 1; padding: 0 16px 24px 16px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
     .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 12px; font-weight: 500; transition: all 0.2s; }
     .nav-item i { font-size: 20px; }
-    .nav-item:hover, .nav-item.active { background: rgba(142, 117, 200, 0.15); color: #8E75C8; }
+    .nav-item:hover, .nav-item.active { background: var(--primary-light); color: var(--primary); }
     .nav-badge { background: var(--red); padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto; color: white; font-weight: 700; }
     .main-content { flex: 1 !important; margin-left: 0 !important; background: var(--bg-main) !important; min-width: 0; }
     .right-rail { position: sticky !important; top: 24px !important; width: 320px !important; flex-shrink: 0 !important; display: flex !important; flex-direction: column !important; gap: 24px; height: calc(100vh - 48px); overflow-y: auto; }
@@ -58,7 +61,14 @@
     .data-table th, .data-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
     .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
     .badge.success { background: rgba(0, 212, 170, 0.1); color: #00A685; }
-    .badge-ghost { background: rgba(255, 107, 107, 0.1); color: #E53E3E; }
+    .badge-ghost { background: var(--red-light); color: var(--red); }
+    
+    .card-hero { background: linear-gradient(135deg, var(--primary), #7C3AED) !important; color: white !important; border: none !important; }
+    .card-hero * { color: white !important; }
+    .card-alert { background: var(--red-light) !important; border-color: #FCA5A5 !important; }
+    .label-sm { font-size: 11px !important; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.8; }
+    .hero-number { font-size: 36px !important; font-weight: 800 !important; margin-top: 8px; margin-bottom: 4px; }
+    
     /* Modal styles */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; }
     .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
@@ -68,7 +78,8 @@
     /* Input and Button Overrides */
     .form-group label { color: var(--text-secondary) !important; font-weight: 500; }
     input, select { color: var(--text-primary) !important; background: #FFFFFF !important; border-color: var(--border-light) !important; }
-    .btn-primary { background: #8E75C8 !important; color: #fff !important; border: none !important; padding: 10px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-primary { background: var(--primary) !important; color: #fff !important; border: none !important; padding: 10px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.9; }
     .btn-secondary { background: #F3F4F6 !important; color: #4B5563 !important; border: 1px solid #E5E7EB !important; padding: 10px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
     .btn-secondary:hover { background: #E5E7EB !important; }
     
@@ -161,15 +172,15 @@
       </header>
 
       <div class="page-content" id="overviewContent">
-        <div class="kpi-grid">
+        <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="kpi-card card card-hero" id="kpiSavingsContainer" style="grid-column: span 3;"></div>
           <div class="kpi-card card" id="kpiTotalCostContainer"></div>
           <div class="kpi-card card" id="kpiUtilizationContainer"></div>
           <div class="kpi-card card" id="kpiActiveCountContainer"></div>
-          <div class="kpi-card card" id="kpiSavingsContainer"></div>
         </div>
 
         <div class="dashboard-grid mt-4">
-          <div class="card ghost-alert-card" style="grid-column: span 6;">
+          <div class="card ghost-alert-card card-alert" style="grid-column: span 6;">
             <div class="card-header">
               <h3 class="card-title" style="color: var(--red);"><i class="ph ph-warning"></i> Ghost alerts</h3>
             </div>

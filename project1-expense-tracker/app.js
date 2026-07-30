@@ -80,14 +80,14 @@ function loadMockData() {
   const daysAgo = (d) => new Date(today.getTime() - d * 86400000).toISOString().split('T')[0];
   
   state.subscriptions = [
-    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-monitor-play"></i>', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
-    { id: 's2', name: 'Spotify', category: 'Entertainment', cost: 9.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-headphones"></i>', added: daysAgo(60), snoozeUntil: null, ignoreGhost: false },
-    { id: 's3', name: 'Gym Membership', category: 'Health', cost: 30.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-barbell"></i>', added: daysAgo(120), snoozeUntil: null, ignoreGhost: false },
-    { id: 's4', name: 'Coursera Plus', category: 'Education', cost: 49.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-student"></i>', added: daysAgo(90), snoozeUntil: null, ignoreGhost: false },
-    { id: 's5', name: 'Adobe CC', category: 'Education', cost: 52.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-pen-nib"></i>', added: daysAgo(200), snoozeUntil: null, ignoreGhost: false },
-    { id: 's6', name: 'Amazon Prime', category: 'Entertainment', cost: 14.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-package"></i>', added: daysAgo(150), snoozeUntil: null, ignoreGhost: false },
-    { id: 's7', name: 'Notion', category: 'Education', cost: 8.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-notebook"></i>', added: daysAgo(180), snoozeUntil: null, ignoreGhost: false },
-    { id: 's8', name: 'Yoga App', category: 'Health', cost: 12.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-person-simple-walk"></i>', added: daysAgo(210), snoozeUntil: null, ignoreGhost: false }
+    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#E50914;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-monitor-play"></i></div>', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
+    { id: 's2', name: 'Spotify', category: 'Entertainment', cost: 9.99, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#1DB954;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-headphones"></i></div>', added: daysAgo(60), snoozeUntil: null, ignoreGhost: false },
+    { id: 's3', name: 'Gym Membership', category: 'Health', cost: 30.00, cycle: 'Monthly', status: 'Active', icon: '<div style="background:var(--primary);color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-barbell"></i></div>', added: daysAgo(120), snoozeUntil: null, ignoreGhost: false },
+    { id: 's4', name: 'Coursera Plus', category: 'Education', cost: 49.00, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#0056D2;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-student"></i></div>', added: daysAgo(90), snoozeUntil: null, ignoreGhost: false },
+    { id: 's5', name: 'Adobe CC', category: 'Education', cost: 52.99, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#FF0000;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-pen-nib"></i></div>', added: daysAgo(200), snoozeUntil: null, ignoreGhost: false },
+    { id: 's6', name: 'Amazon Prime', category: 'Entertainment', cost: 14.99, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#00A8E1;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-package"></i></div>', added: daysAgo(150), snoozeUntil: null, ignoreGhost: false },
+    { id: 's7', name: 'Notion', category: 'Education', cost: 8.00, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#000000;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-notebook"></i></div>', added: daysAgo(180), snoozeUntil: null, ignoreGhost: false },
+    { id: 's8', name: 'Yoga App', category: 'Health', cost: 12.00, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#059669;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-person-simple-walk"></i></div>', added: daysAgo(210), snoozeUntil: null, ignoreGhost: false }
   ];
   
   state.transactions = [
@@ -190,14 +190,7 @@ function renderRightRail(viewId) {
     rightRail.innerHTML = `
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-heartbeat"></i> Subscription Health</h3>
-        <div style="display:flex; align-items:center; gap:16px;">
-          <div style="flex:1;">
-            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;"><span>Active</span><span id="rrActiveCount">0</span></div>
-            <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px; margin-bottom:12px;"><div id="rrActiveBar" style="width:0%; height:100%; background:var(--teal); border-radius:3px;"></div></div>
-            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;"><span>Ghosts</span><span id="rrGhostCount">0</span></div>
-            <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div id="rrGhostBar" style="width:0%; height:100%; background:var(--red); border-radius:3px;"></div></div>
-          </div>
-        </div>
+        <canvas id="rrHealthChart" width="200" height="200"></canvas>
       </div>
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-calendar-blank"></i> Renewal Calendar (Next 7D)</h3>
@@ -205,14 +198,22 @@ function renderRightRail(viewId) {
       </div>
     `;
     setTimeout(() => {
-       const total = state.subscriptions.length;
        const active = state.subscriptions.filter(s=>s.status==='Active').length;
        const ghost = state.subscriptions.filter(s=>s.status==='Ghost').length;
-       if(document.getElementById('rrActiveCount') && total > 0) {
-          document.getElementById('rrActiveCount').innerText = active;
-          document.getElementById('rrActiveBar').style.width = (active/total*100) + '%';
-          document.getElementById('rrGhostCount').innerText = ghost;
-          document.getElementById('rrGhostBar').style.width = (ghost/total*100) + '%';
+       const ctx = document.getElementById('rrHealthChart');
+       if(ctx) {
+           new Chart(ctx, {
+             type: 'doughnut',
+             data: {
+               labels: ['Active', 'Ghost'],
+               datasets: [{
+                 data: [active, ghost],
+                 backgroundColor: ['#00d4aa', '#EF4444'],
+                 borderWidth: 0
+               }]
+             },
+             options: { responsive: true, plugins: { legend: { position: 'bottom', labels: {color: 'var(--text-primary)'} } } }
+           });
        }
     }, 0);
   } else if (viewId === 'view-analytics') {
@@ -307,19 +308,19 @@ function renderOverview() {
   const utilization = activeSubs.length === 0 ? 100 : Math.round((activeCount / activeSubs.length) * 100);
   
   document.getElementById('kpiTotalCostContainer').innerHTML = `
-    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Total fixed cost</div>
-    <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">${formatMoney(totalCost)}</div>
+    <div class="label-sm">Total fixed cost</div>
+    <div class="hero-number">${formatMoney(totalCost)}</div>
   `;
   document.getElementById('kpiUtilizationContainer').innerHTML = `
-    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;" class="tooltip">Utilization rate<span class="tooltiptext">Tỷ lệ các dịch vụ bạn đang thực sự sử dụng trên tổng số dịch vụ đã đăng ký</span></div>
-    <div style="font-size: 24px; font-weight: 700; color: var(--teal); margin-bottom: 8px;">${utilization}%</div>
+    <div class="label-sm tooltip">Utilization rate<span class="tooltiptext">Tỷ lệ các dịch vụ bạn đang thực sự sử dụng trên tổng số dịch vụ đã đăng ký</span></div>
+    <div class="hero-number" style="color: var(--teal);">${utilization}%</div>
     <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px; overflow: hidden;">
       <div style="width: ${utilization}%; height: 100%; background: var(--teal); border-radius: 2px;"></div>
     </div>
   `;
   document.getElementById('kpiActiveCountContainer').innerHTML = `
-    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Active subscriptions</div>
-    <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">${activeCount} <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary);">/ ${state.subscriptions.length} total</span></div>
+    <div class="label-sm">Active subscriptions</div>
+    <div class="hero-number">${activeCount} <span style="font-size: 14px; font-weight: 500; opacity:0.8;">/ ${state.subscriptions.length} total</span></div>
   `;
 
   const ghostCost = state.subscriptions.filter(s => s.status === 'Ghost').reduce((sum, g) => sum + g.cost, 0);
@@ -327,8 +328,8 @@ function renderOverview() {
   const kpiSavings = document.getElementById('kpiSavingsContainer');
   if(kpiSavings) {
     kpiSavings.innerHTML = `
-      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Potential yearly savings</div>
-      <div style="font-size: 24px; font-weight: 700; color: var(--red);">${formatMoney(potentialSavings)}</div>
+      <div class="label-sm">Potential yearly savings</div>
+      <div class="hero-number">${formatMoney(potentialSavings)}</div>
     `;
   }
 
