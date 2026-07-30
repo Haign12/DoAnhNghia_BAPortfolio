@@ -241,8 +241,8 @@ body {
 .search-box input {
   width: 100%;
   background: transparent;
-  border: 1px solid transparent;
-  padding: 10px 16px 10px 48px;
+  border: 1px solid var(--border-medium);
+  padding: 10px 16px 10px 44px !important;
   outline: none;
   border-radius: 8px;
   transition: border 0.2s;
