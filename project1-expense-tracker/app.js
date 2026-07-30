@@ -551,11 +551,11 @@ function renderAnalytics() {
       labels: Object.keys(catTotals),
       datasets: [{
         data: Object.values(catTotals),
-        backgroundColor: ['#3b82f6', '#22c55e', '#ef4444', '#f59e0b', '#8b5cf6'],
+        backgroundColor: ['#4a90d9', '#00d4aa', '#ff6b6b', '#f59e0b', '#8E75C8'],
         borderWidth: 0
       }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'right', labels: {color: '#FFFFFF'} } } }
+    options: { responsive: true, plugins: { legend: { position: 'right', labels: {color: 'var(--text-primary)'} } } }
   });
   
   // Simple trend (mocking monthly data)
@@ -567,11 +567,11 @@ function renderAnalytics() {
       datasets: [{
         label: 'Spending',
         data: [120, 150, Object.values(catTotals).reduce((a,b)=>a+b, 0)],
-        backgroundColor: '#3b82f6',
+        backgroundColor: '#4a90d9',
         borderRadius: 4
       }]
     },
-    options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#333333' }, ticks: {color: '#A0A0A0'} }, x: { grid: { display: false }, ticks: {color: '#A0A0A0'} } }, plugins: { legend: {display:false} } }
+    options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#E5E7EB' }, ticks: {color: 'var(--text-secondary)'} }, x: { grid: { display: false }, ticks: {color: 'var(--text-secondary)'} } }, plugins: { legend: {display:false} } }
   });
 }
 
