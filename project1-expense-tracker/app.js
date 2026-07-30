@@ -188,17 +188,17 @@ function renderOverview() {
     ghostListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;">No ghosts found. Great job!</div>';
   } else {
     ghostListEl.innerHTML = ghosts.slice(0, 3).map(g => `
-      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
-        <div style="display:flex; align-items:center; gap: 16px;">
-          <div style="font-size: 20px; color: var(--red); width: 40px; height: 40px; background: rgba(239,68,68,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">${g.icon}</div>
-          <div>
-            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${g.name}</div>
-            <div style="font-size: 12px; color: var(--red); font-weight: 500;">${g.daysUnused} days unused</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light); gap: 16px;">
+        <div style="display:flex; align-items:center; gap: 16px; min-width: 0;">
+          <div style="font-size: 20px; color: var(--red); width: 40px; height: 40px; background: rgba(239,68,68,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">${g.icon}</div>
+          <div style="min-width: 0;">
+            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${g.name}</div>
+            <div style="font-size: 12px; color: var(--red); font-weight: 500; white-space: nowrap;">${g.daysUnused} days unused</div>
           </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
           <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">${formatMoney(g.cost)}</div>
-          <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border-medium); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;" onclick="openGhostDrilldown('${g.id}')">Review</button>
+          <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border-medium); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; flex-shrink: 0;" onclick="openGhostDrilldown('${g.id}')">Review</button>
         </div>
       </div>
     `).join('');
@@ -257,6 +257,31 @@ function renderOverview() {
           <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px;">
             <div style="width: ${pct}%; height: 100%; background: var(--blue); border-radius: 2px;"></div>
           </div>
+        </div>
+        `;
+      }).join('');
+    }
+  }
+
+  // Upcoming Renewals for Right Rail
+  const renewalsEl = document.getElementById('upcomingRenewalsList');
+  if (renewalsEl) {
+    const active = state.subscriptions.filter(s => s.status === 'Active');
+    if(active.length === 0) {
+      renewalsEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;">No upcoming renewals.</div>';
+    } else {
+      renewalsEl.innerHTML = active.slice(0, 4).map((s, i) => {
+        let days = (i+1)*3 + (i%2); 
+        return `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <div style="display:flex; align-items:center; gap: 12px; min-width: 0;">
+            <div style="font-size: 18px; color: var(--text-secondary); width: 36px; height: 36px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">${s.icon}</div>
+            <div style="min-width: 0;">
+              <div style="font-weight: 600; font-size: 13px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s.name}</div>
+              <div style="font-size: 11px; color: var(--text-secondary); font-weight: 500;">In ${days} days</div>
+            </div>
+          </div>
+          <div style="font-weight: 700; font-size: 13px; color: var(--text-primary); flex-shrink: 0;">${formatMoney(s.cost)}</div>
         </div>
         `;
       }).join('');

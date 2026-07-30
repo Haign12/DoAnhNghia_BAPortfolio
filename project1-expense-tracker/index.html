@@ -43,6 +43,8 @@
     .nav-item:hover, .nav-item.active { background: rgba(142, 117, 200, 0.15); color: #8E75C8; }
     .nav-badge { background: var(--red); padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto; color: white; font-weight: 700; }
     .main-content { flex: 1 !important; margin-left: 0 !important; background: var(--bg-main) !important; min-width: 0; }
+    .right-rail { position: sticky !important; top: 24px !important; width: 320px !important; flex-shrink: 0 !important; display: flex !important; flex-direction: column !important; gap: 24px; height: calc(100vh - 48px); overflow-y: auto; }
+    @media (max-width: 1400px) { .right-rail { display: none !important; } }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; margin-bottom: 24px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--bg-card) !important; position: static; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     .page-title { font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--text-primary); }
     .page-content { padding: 0; max-width: 1200px; margin: 0 auto; }
@@ -303,6 +305,18 @@
     </div>
 
   </main>
+  
+  <!-- RIGHT RAIL -->
+  <aside class="right-rail" id="rightRail">
+    <div class="card" style="padding: 24px;">
+      <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-calendar-blank"></i> Upcoming Renewals</h3>
+      <div id="upcomingRenewalsList" style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Populated by JS -->
+      </div>
+      <button class="btn-secondary" style="width: 100%; margin-top: 20px;" onclick="switchView('view-cashflow', document.querySelectorAll('.nav-item')[4])">View All</button>
+    </div>
+  </aside>
+
 </div>
 
 <!-- MODAL: ADD SUBSCRIPTION -->
