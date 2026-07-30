@@ -16,17 +16,20 @@
     .view-section.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     /* Missing SPA Layout Styles & Light Theme Override */
+    /* Dark Theme & Semantic Colors */
     :root {
-      --sidebar-bg: #FFFFFF;
-      --bg-main: #F5F7FA;
-      --bg-card: #FFFFFF;
-      --border-card: #E5E7EB;
-      --border-light: #E5E7EB;
-      --border-medium: #D1D5DB;
-      --text-primary: #1F2937;
-      --text-secondary: #6B7280;
-      --text-muted: #9CA3AF;
-      --teal: #00d4aa;
+      --sidebar-bg: #1A1A1A;
+      --bg-main: #121212;
+      --bg-card: #242424;
+      --border-card: #333333;
+      --border-light: #333333;
+      --border-medium: #444444;
+      --text-primary: #FFFFFF;
+      --text-secondary: #A0A0A0;
+      --text-muted: #737373;
+      --teal: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
     }
     body { background: var(--bg-main) !important; color: var(--text-primary) !important; margin: 0; font-family: 'Inter', sans-serif; }
     
@@ -62,9 +65,10 @@
     
     /* Input and Button Overrides */
     .form-group label { color: var(--text-secondary) !important; font-weight: 500; }
-    input, select { color: var(--text-primary) !important; background: #FFFFFF !important; border-color: var(--border-light) !important; }
-    .btn-primary { background: #8E75C8 !important; color: #fff !important; border: none !important; padding: 10px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-    .btn-secondary { background: #F3F4F6 !important; color: #4B5563 !important; border: 1px solid #E5E7EB !important; padding: 10px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    input, select { color: var(--text-primary) !important; background: #1A1A1A !important; border-color: var(--border-light) !important; }
+    .btn-primary { background: var(--text-primary) !important; color: var(--bg-main) !important; border: none !important; padding: 10px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-secondary { background: transparent !important; color: var(--text-primary) !important; border: 1px solid var(--border-light) !important; padding: 10px 16px !important; border-radius: 8px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
+    .btn-secondary:hover { background: rgba(255,255,255,0.05) !important; }
     
     .tooltip { position: relative; display: inline-block; border-bottom: 1px dotted var(--text-secondary); cursor: help; }
     .tooltip .tooltiptext { visibility: hidden; width: 220px; background-color: var(--bg-dark); color: #fff; text-align: center; border-radius: 6px; padding: 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 12px; font-weight: normal; font-family: Inter, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 1px solid var(--border-medium); }
@@ -156,48 +160,31 @@
 
       <div class="page-content" id="overviewContent">
         <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-card-header">
-              <div class="kpi-card-title">Total Fixed Cost</div>
-              <div class="kpi-card-icon"><i class="ph ph-currency-dollar"></i></div>
-            </div>
-            <div class="kpi-card-value" id="kpiTotalCost">$0.00</div>
-          </div>
-          
-          <div class="kpi-card">
-            <div class="kpi-card-header">
-              <div class="kpi-card-title tooltip">Utilization Rate<span class="tooltiptext">Active Subs / Total Subs</span></div>
-              <div class="kpi-card-icon" style="background: rgba(0, 212, 170, 0.1); color: var(--teal);"><i class="ph ph-lightning"></i></div>
-            </div>
-            <div class="kpi-card-value" id="kpiUtilization" style="color: var(--teal);">0%</div>
-          </div>
-          
-          <div class="kpi-card">
-            <div class="kpi-card-header">
-              <div class="kpi-card-title">Active Subscriptions</div>
-              <div class="kpi-card-icon" style="background: rgba(245, 166, 35, 0.1); color: var(--orange);"><i class="ph ph-repeat"></i></div>
-            </div>
-            <div class="kpi-card-value" id="kpiActiveCount">0</div>
-          </div>
+          <div class="kpi-card card" id="kpiTotalCostContainer"></div>
+          <div class="kpi-card card" id="kpiUtilizationContainer"></div>
+          <div class="kpi-card card" id="kpiActiveCountContainer"></div>
         </div>
 
         <div class="dashboard-grid mt-4">
           <div class="card ghost-alert-card" style="grid-column: span 6;">
             <div class="card-header">
-              <h3 class="card-title" style="color: #ff6b6b;"><i class="ph ph-ghost"></i> Ghost Alerts</h3>
+              <h3 class="card-title" style="color: var(--red);"><i class="ph ph-warning"></i> Ghost alerts</h3>
             </div>
-            <div class="sub-list" id="overviewGhostList" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            <div class="sub-list" id="overviewGhostList" style="display: flex; flex-direction: column; gap: 8px;"></div>
           </div>
           <div class="card" style="grid-column: span 6;">
             <div class="card-header">
-              <h3 class="card-title">Recent Transactions</h3>
+              <h3 class="card-title"><i class="ph ph-receipt"></i> Recent transactions</h3>
             </div>
-            <div class="table-responsive">
-              <table class="data-table">
-                <tbody id="overviewTxList"></tbody>
-              </table>
-            </div>
+            <div class="sub-list" id="overviewTxList" style="display: flex; flex-direction: column; gap: 8px;"></div>
           </div>
+        </div>
+        
+        <div class="card mt-4" style="margin-top: 24px;">
+          <div class="card-header">
+            <h3 class="card-title">Spending by category</h3>
+          </div>
+          <div id="overviewSpendingByCategory" style="display: flex; flex-direction: column; gap: 16px;"></div>
         </div>
       </div>
 

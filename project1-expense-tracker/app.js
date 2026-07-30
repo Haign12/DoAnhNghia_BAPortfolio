@@ -157,9 +157,21 @@ function renderOverview() {
   const activeCount = activeSubs.filter(s => s.status === 'Active').length;
   const utilization = activeSubs.length === 0 ? 100 : Math.round((activeCount / activeSubs.length) * 100);
   
-  document.getElementById('kpiTotalCost').innerText = formatMoney(totalCost);
-  document.getElementById('kpiActiveCount').innerText = activeCount;
-  document.getElementById('kpiUtilization').innerText = `${utilization}%`;
+  document.getElementById('kpiTotalCostContainer').innerHTML = `
+    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Total fixed cost</div>
+    <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">${formatMoney(totalCost)}</div>
+  `;
+  document.getElementById('kpiUtilizationContainer').innerHTML = `
+    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Utilization rate</div>
+    <div style="font-size: 24px; font-weight: 700; color: var(--teal); margin-bottom: 8px;">${utilization}%</div>
+    <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px; overflow: hidden;">
+      <div style="width: ${utilization}%; height: 100%; background: var(--teal); border-radius: 2px;"></div>
+    </div>
+  `;
+  document.getElementById('kpiActiveCountContainer').innerHTML = `
+    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Active subscriptions</div>
+    <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">${activeCount} <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary);">/ ${state.subscriptions.length} total</span></div>
+  `;
 
   // Ghosts from single truth
   const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
@@ -176,17 +188,17 @@ function renderOverview() {
     ghostListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;">No ghosts found. Great job!</div>';
   } else {
     ghostListEl.innerHTML = ghosts.slice(0, 3).map(g => `
-      <div class="sub-item" style="display:flex; align-items:center; justify-content:space-between; padding: 12px; background: var(--bg-main); border-radius: 12px; border-left: 4px solid #ff6b6b;">
-        <div style="display:flex; align-items:center; gap: 12px;">
-          <div style="font-size: 24px;">${g.icon}</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
+        <div style="display:flex; align-items:center; gap: 16px;">
+          <div style="font-size: 20px; color: var(--red); width: 40px; height: 40px; background: rgba(239,68,68,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">${g.icon}</div>
           <div>
-            <div style="font-weight: 600;">${g.name}</div>
-            <div style="font-size: 12px; color: #ff6b6b;">${g.daysUnused} days unused</div>
+            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${g.name}</div>
+            <div style="font-size: 12px; color: var(--red); font-weight: 500;">${g.daysUnused} days unused</div>
           </div>
         </div>
-        <div>
-          <div style="font-weight: 700; text-align:right;">${formatMoney(g.cost)}</div>
-          <button class="btn-text" style="color: #ff6b6b; padding: 0; font-size: 12px;" onclick="openGhostDrilldown('${g.id}')">Review</button>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">${formatMoney(g.cost)}</div>
+          <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border-medium); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;" onclick="openGhostDrilldown('${g.id}')">Review</button>
         </div>
       </div>
     `).join('');
@@ -196,22 +208,59 @@ function renderOverview() {
     }
   }
 
-  // Recent Tx
   const txListEl = document.getElementById('overviewTxList');
   if(state.transactions.length === 0) {
-    txListEl.innerHTML = '<tr><td colspan="4" style="text-align:center;">No recent transactions</td></tr>';
+    txListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;padding:12px 0;">No recent transactions</div>';
   } else {
     const sortedTx = [...state.transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
     txListEl.innerHTML = sortedTx.slice(0, 4).map(t => {
       const sub = state.subscriptions.find(s => s.id === t.subId);
+      const iconHTML = sub ? sub.icon : '<i class="ph-fill ph-receipt"></i>';
+      const d = new Date(t.date);
+      const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
       return `
-      <tr>
-        <td style="color:var(--text-secondary);">${t.date}</td>
-        <td style="font-weight:600;">${sub ? sub.name : 'Unknown'}</td>
-        <td style="font-weight:700;">${formatMoney(t.amount)}</td>
-      </tr>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
+        <div style="display:flex; align-items:center; gap: 16px;">
+          <div style="font-size: 20px; color: var(--text-secondary); width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center;">${iconHTML}</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${sub ? sub.name : 'Unknown'}</div>
+            <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">${dateStr}</div>
+          </div>
+        </div>
+        <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">${formatMoney(t.amount)}</div>
+      </div>
       `;
     }).join('');
+  }
+
+  // Spending by category
+  const spendingListEl = document.getElementById('overviewSpendingByCategory');
+  if(spendingListEl) {
+    const catTotals = {};
+    state.transactions.forEach(t => {
+      catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+    });
+    const catSpent = Object.keys(catTotals).map(cat => ({ cat, spent: catTotals[cat] })).sort((a, b) => b.spent - a.spent);
+    
+    if(catSpent.length === 0) {
+      spendingListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;padding:12px 0;">No spending data.</div>';
+    } else {
+      const maxCatSpent = Math.max(...catSpent.map(c => c.spent));
+      spendingListEl.innerHTML = catSpent.map(c => {
+        const pct = Math.min(100, Math.round((c.spent / maxCatSpent) * 100));
+        return `
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">
+            <span>${c.cat}</span>
+            <span>${formatMoney(c.spent)}</span>
+          </div>
+          <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px;">
+            <div style="width: ${pct}%; height: 100%; background: var(--blue); border-radius: 2px;"></div>
+          </div>
+        </div>
+        `;
+      }).join('');
+    }
   }
 }
 
