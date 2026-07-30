@@ -35,6 +35,15 @@ function switchView(viewId, navEl) {
   document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
   
+  const rightRail = document.getElementById('rightRail');
+  if(rightRail) {
+    if(viewId === 'view-overview') {
+      rightRail.style.setProperty('display', 'flex', 'important');
+    } else {
+      rightRail.style.setProperty('display', 'none', 'important');
+    }
+  }
+  
   if (navEl) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     navEl.classList.add('active');
