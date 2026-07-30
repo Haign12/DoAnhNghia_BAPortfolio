@@ -37,11 +37,8 @@ function switchView(viewId, navEl) {
   
   const rightRail = document.getElementById('rightRail');
   if(rightRail) {
-    if(viewId === 'view-overview') {
-      rightRail.style.setProperty('display', 'flex', 'important');
-    } else {
-      rightRail.style.setProperty('display', 'none', 'important');
-    }
+    rightRail.style.setProperty('display', 'flex', 'important');
+    renderRightRail(viewId);
   }
   
   if (navEl) {
@@ -144,6 +141,92 @@ function runGhostDetection() {
 }
 
 // --- 4. RENDER LOGIC ---
+function renderRightRail(viewId) {
+  const rightRail = document.getElementById('rightRail');
+  if (!rightRail) return;
+  
+  if (viewId === 'view-overview') {
+    rightRail.innerHTML = `
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-calendar-blank"></i> Upcoming Renewals</h3>
+        <div id="upcomingRenewalsList" style="display: flex; flex-direction: column; gap: 16px;"></div>
+        <button class="btn-secondary" style="width: 100%; margin-top: 20px;" onclick="switchView('view-cashflow', document.querySelectorAll('.nav-item')[4])">View All</button>
+      </div>
+    `;
+    // We populate this inside renderOverview
+  } else if (viewId === 'view-transactions') {
+    rightRail.innerHTML = `
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-trend-up"></i> Month vs Last Month</h3>
+        <div style="font-size: 24px; font-weight: 700;">$142.00 <span style="font-size:14px; color:var(--red);">+12%</span></div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-chart-donut"></i> By Category</h3>
+        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(Mini donut will render here)</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-star"></i> Top 3 Largest</h3>
+        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(List will render here)</div>
+      </div>
+    `;
+  } else if (viewId === 'view-subscriptions') {
+    rightRail.innerHTML = `
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-heartbeat"></i> Subscription Health</h3>
+        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(Donut chart will render here)</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-calendar-blank"></i> Renewal Calendar (Next 7D)</h3>
+        <div id="subRenewalCalendar" style="display: flex; flex-direction: column; gap: 16px;"></div>
+      </div>
+    `;
+  } else if (viewId === 'view-analytics') {
+    rightRail.innerHTML = `
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-fire"></i> Peak Spending Day</h3>
+        <div style="font-size: 24px; font-weight: 700;">Saturday</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-shield-check"></i> Best Streak</h3>
+        <div style="font-size: 24px; font-weight: 700; color: var(--teal);">14 Days</div>
+        <div style="font-size: 12px; color: var(--text-secondary);">Without ghost trigger</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-chart-line-up"></i> Annual Forecast</h3>
+        <div style="font-size: 24px; font-weight: 700;">$1,420.00</div>
+      </div>
+    `;
+  } else if (viewId === 'view-cashflow') {
+    rightRail.innerHTML = `
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-money"></i> Recent Income</h3>
+        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(List will render here)</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-target"></i> Savings Goal</h3>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Buy a Laptop</div>
+        <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">60%</div>
+        <div style="width: 100%; height: 8px; background: var(--bg-main); border-radius: 4px; overflow: hidden;">
+          <div style="width: 60%; height: 100%; background: var(--teal); border-radius: 4px;"></div>
+        </div>
+      </div>
+    `;
+  } else if (viewId === 'view-budget') {
+    rightRail.innerHTML = `
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-clock-counter-clockwise"></i> Budget History (3M)</h3>
+        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(Mini chart will render here)</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-warning"></i> Categories Over Budget</h3>
+        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(List will render here)</div>
+      </div>
+    `;
+  } else {
+    rightRail.innerHTML = '';
+  }
+}
+
 function renderAll() {
   if (state.subscriptions.length === 0 && state.transactions.length === 0) {
     document.getElementById('overviewContent').style.display = 'none';
@@ -300,14 +383,32 @@ function renderOverview() {
 
 function renderTransactions() {
   const tbody = document.getElementById('fullTxList');
-  if(state.transactions.length === 0) {
+  if(!tbody) return;
+  const searchEl = document.getElementById('txSearchFilter');
+  const catEl = document.getElementById('txCatFilter');
+  const searchTerm = searchEl ? searchEl.value.toLowerCase() : '';
+  const filterCat = catEl ? catEl.value : 'All';
+  
+  let filteredTx = state.transactions;
+  if(filterCat !== 'All') {
+    filteredTx = filteredTx.filter(t => t.category === filterCat);
+  }
+  if(searchTerm) {
+    filteredTx = filteredTx.filter(t => {
+      const sub = state.subscriptions.find(s => s.id === t.subId);
+      const name = sub ? sub.name.toLowerCase() : 'unknown';
+      return name.includes(searchTerm);
+    });
+  }
+  
+  if(filteredTx.length === 0) {
     document.getElementById('emptyTxState').style.display = 'block';
     tbody.parentElement.style.display = 'none';
   } else {
     document.getElementById('emptyTxState').style.display = 'none';
     tbody.parentElement.style.display = 'table';
     
-    const sortedTx = [...state.transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
+    const sortedTx = [...filteredTx].sort((a,b) => new Date(b.date) - new Date(a.date));
     tbody.innerHTML = sortedTx.map(t => {
       const sub = state.subscriptions.find(s => s.id === t.subId);
       return `
@@ -316,9 +417,9 @@ function renderTransactions() {
         <td style="font-weight:600;">${sub ? sub.name : 'Unknown'}</td>
         <td><span class="badge" style="background:var(--bg-main);">${t.category}</span></td>
         <td style="font-weight:700;">${formatMoney(t.amount)}</td>
-        <td>
-          <button class="btn-icon"><i class="ph ph-pencil-simple"></i></button>
-          <button class="btn-icon" onclick="deleteTx('${t.id}')"><i class="ph ph-trash"></i></button>
+        <td style="text-align: right;">
+          <button class="btn-text" style="color: var(--text-secondary); margin-right: 8px;"><i class="ph ph-pencil-simple"></i></button>
+          <button class="btn-text" style="color: var(--red);"><i class="ph ph-trash"></i></button>
         </td>
       </tr>
       `;

@@ -202,7 +202,20 @@
     <div id="view-transactions" class="view-section">
       <header class="topbar">
         <h1 class="page-title">Transactions</h1>
-        <button class="btn-primary" onclick="openAddTransactionModal()"><i class="ph ph-plus"></i> Add Transaction</button>
+        <div class="topbar-actions" style="display: flex; gap: 12px; align-items: center;">
+          <div style="position: relative;">
+            <i class="ph ph-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+            <input type="text" id="txSearchFilter" placeholder="Search..." onkeyup="renderTransactions()" style="padding-left: 36px; border-radius: 8px; border: 1px solid var(--border-light); padding-top: 8px; padding-bottom: 8px;">
+          </div>
+          <select id="txCatFilter" onchange="renderTransactions()" style="border-radius: 8px; border: 1px solid var(--border-light); padding: 8px 12px;">
+            <option value="All">All Categories</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Health">Health</option>
+            <option value="Education">Education</option>
+            <option value="Productivity">Productivity</option>
+          </select>
+          <button class="btn-primary" onclick="openAddTransactionModal()"><i class="ph ph-plus"></i> Add Tx</button>
+        </div>
       </header>
       <div class="page-content">
         <div class="card">
@@ -214,7 +227,7 @@
                   <th>Subscription</th>
                   <th>Category</th>
                   <th>Amount</th>
-                  <th>Action</th>
+                  <th style="text-align: right;">Action</th>
                 </tr>
               </thead>
               <tbody id="fullTxList"></tbody>
@@ -224,6 +237,7 @@
             <i class="ph ph-receipt" style="font-size: 48px; color: var(--border-medium); margin-bottom: 16px;"></i>
             <h3>No Transactions</h3>
           </div>
+          <div id="txPagination" style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;"></div>
         </div>
       </div>
     </div>
@@ -232,7 +246,14 @@
     <div id="view-subscriptions" class="view-section">
       <header class="topbar">
         <h1 class="page-title">Subscriptions</h1>
-        <button class="btn-primary" onclick="openAddSubModal()"><i class="ph ph-plus"></i> Add Subscription</button>
+        <div class="topbar-actions" style="display: flex; gap: 12px; align-items: center;">
+          <div style="background: var(--bg-main); padding: 4px; border-radius: 8px; display: flex; gap: 4px;">
+            <button class="btn-secondary active" id="subFilterAll" style="border: none !important; background: var(--bg-card) !important; box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;" onclick="setSubFilter('All')">All</button>
+            <button class="btn-secondary" id="subFilterActive" style="border: none !important;" onclick="setSubFilter('Active')">Active</button>
+            <button class="btn-secondary" id="subFilterGhost" style="border: none !important;" onclick="setSubFilter('Ghost')">Ghost</button>
+          </div>
+          <button class="btn-primary" onclick="openAddSubModal()"><i class="ph ph-plus"></i> Add Sub</button>
+        </div>
       </header>
       <div class="page-content">
         <div class="card">
@@ -241,11 +262,11 @@
               <thead>
                 <tr>
                   <th>Service</th>
-                  <th>Last Transaction</th>
+                  <th>Next Billing</th>
                   <th>Cycle</th>
                   <th>Cost</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th style="text-align: right;">Action</th>
                 </tr>
               </thead>
               <tbody id="fullSubList"></tbody>
@@ -257,35 +278,64 @@
 
     <!-- VIEW: ANALYTICS -->
     <div id="view-analytics" class="view-section">
-      <div class="page-title" style="margin-bottom: 24px;">Analytics</div>
-      <div class="dashboard-grid">
-        <div class="card" style="grid-column: span 6;">
-          <div class="card-header"><div class="card-title">Category Breakdown</div></div>
-          <canvas id="categoryChart" width="400" height="300"></canvas>
-        </div>
-        <div class="card" style="grid-column: span 6;">
-          <div class="card-header"><div class="card-title">Monthly Spending Trend</div></div>
-          <canvas id="trendChart" width="400" height="300"></canvas>
+      <header class="topbar">
+        <h1 class="page-title">Analytics</h1>
+      </header>
+      <div class="page-content">
+        <div class="dashboard-grid">
+          <div class="card" style="grid-column: span 12;">
+            <div class="card-header">
+              <h3 class="card-title">Monthly Spend Trend</h3>
+              <div style="background: var(--bg-main); padding: 4px; border-radius: 8px; display: flex; gap: 4px;">
+                <button class="btn-secondary active" style="border: none !important; background: var(--bg-card) !important; padding: 4px 12px !important;" onclick="renderAnalyticsTrend(6)">6M</button>
+                <button class="btn-secondary" style="border: none !important; padding: 4px 12px !important;" onclick="renderAnalyticsTrend(12)">1Y</button>
+                <button class="btn-secondary" style="border: none !important; padding: 4px 12px !important;" onclick="renderAnalyticsTrend(0)">ALL</button>
+              </div>
+            </div>
+            <canvas id="trendChart" width="400" height="120"></canvas>
+          </div>
+          <div class="card" style="grid-column: span 6;">
+            <div class="card-header"><h3 class="card-title">Category Breakdown</h3></div>
+            <canvas id="categoryChart" width="400" height="250"></canvas>
+          </div>
+          <div class="card" style="grid-column: span 6;">
+            <div class="card-header"><h3 class="card-title">Ghost Savings Tracker</h3></div>
+            <canvas id="ghostSavingsChart" width="400" height="250"></canvas>
+          </div>
+          <div class="card" style="grid-column: span 12;">
+            <div class="card-header"><h3 class="card-title">Spending Heatmap (Last 12 Weeks)</h3></div>
+            <div id="analyticsHeatmap" style="display:flex; gap:4px; overflow-x:auto; padding-bottom:8px;"></div>
+          </div>
         </div>
       </div>
     </div>
     
+    <!-- VIEW: CASHFLOW -->
     <div id="view-cashflow" class="view-section">
-      <div class="page-title" style="margin-bottom: 24px;">Cashflow Forecast</div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Upcoming Bills (Next 30 Days)</div></div>
-        <table class="data-table">
-          <tbody id="cashflowList">
-          <!-- Populated by JS -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div id="view-analytics-old" class="view-section" style="display:none;">
-      <header class="topbar"><h1 class="page-title">Analytics</h1></header>
+      <header class="topbar">
+        <h1 class="page-title">Cashflow Forecast</h1>
+        <button class="btn-primary" onclick="openAddIncomeModal()"><i class="ph ph-plus"></i> Add Income</button>
+      </header>
       <div class="page-content">
-        <div class="card" style="text-align:center; padding:40px;">
-          <h3 style="color:var(--text-secondary);">Analytics charts will populate here</h3>
+        <div class="dashboard-grid">
+          <div class="card" style="grid-column: span 12;">
+            <div class="card-header"><h3 class="card-title">Income vs Expense</h3></div>
+            <canvas id="cashflowChart" width="400" height="150"></canvas>
+          </div>
+          <div class="card" style="grid-column: span 6;">
+            <div class="card-header"><h3 class="card-title">Net Savings Rate</h3></div>
+            <canvas id="savingsRateChart" width="400" height="250"></canvas>
+          </div>
+          <div class="card" style="grid-column: span 6;">
+            <div class="card-header">
+              <h3 class="card-title">Forecast (Next 3 Months)</h3>
+              <i class="ph ph-info tooltip" style="color:var(--text-secondary);"><span class="tooltiptext">Based on 3-month moving average of past spending.</span></i>
+            </div>
+            <table class="data-table">
+              <thead><tr><th>Month</th><th>Projected Net</th></tr></thead>
+              <tbody id="cashflowForecastList"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -294,11 +344,12 @@
     <div id="view-budget" class="view-section">
       <header class="topbar">
         <h1 class="page-title">Budget Planner</h1>
-        <button class="btn-primary" onclick="openBudgetModal()"><i class="ph ph-pencil-simple"></i> Edit Budget</button>
+        <button class="btn-primary" onclick="openBudgetModal()"><i class="ph ph-plus"></i> Set Budget</button>
       </header>
       <div class="page-content">
+        <div id="budgetSmartAlerts" style="margin-bottom: 24px;"></div>
         <div class="card">
-          <h3 class="card-title mb-4">Monthly Limits</h3>
+          <div class="card-header"><h3 class="card-title">Monthly Limits</h3></div>
           <div id="budgetList"></div>
         </div>
       </div>
