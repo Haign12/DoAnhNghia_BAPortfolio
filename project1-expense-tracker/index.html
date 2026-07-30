@@ -110,8 +110,17 @@
     .tooltip .tooltiptext { visibility: hidden; width: 220px; background-color: var(--bg-dark); color: #fff; text-align: center; border-radius: 6px; padding: 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 12px; font-weight: normal; font-family: Inter, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 1px solid var(--border-medium); }
     .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
   </style>
+
+  <!-- Tailwind CSS & Alpine.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    /* Prevent vanilla CSS clashes */
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+  </style>
 </head>
-<body>
+<body x-data="{ sidebarToggle: false, darkMode: false }">
 <!-- Portfolio Demo Bar -->
 <div class="portfolio-demo-bar">
   <div class="demo-info">
@@ -190,148 +199,110 @@
       </div>
     </div>
     
+    
     <!-- VIEW: OVERVIEW -->
-    <div id="view-overview" class="view-section">
-      <header class="topbar">
-        <div class="topbar-left">
-          <div class="search-box">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M3.04175 9.37363C3.04175 5.87693 5.87711 3.04199 9.37508 3.04199C12.8731 3.04199 15.7084 5.87693 15.7084 9.37363C15.7084 12.8703 12.8731 15.7053 9.37508 15.7053C5.87711 15.7053 3.04175 12.8703 3.04175 9.37363ZM9.37508 1.54199C5.04902 1.54199 1.54175 5.04817 1.54175 9.37363C1.54175 13.6991 5.04902 17.2053 9.37508 17.2053C11.2674 17.2053 13.003 16.5344 14.357 15.4176L17.177 18.238C17.4699 18.5309 17.9448 18.5309 18.2377 18.238C18.5306 17.9451 18.5306 17.4703 18.2377 17.1774L15.418 14.3573C16.5365 13.0033 17.2084 11.2669 17.2084 9.37363C17.2084 5.04817 13.7011 1.54199 9.37508 1.54199Z" fill=""></path>
-            </svg>
-            <input type="text" placeholder="Search or type command...">
-            <div class="cmd-k">
-              <span>⌘</span><span>K</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="topbar-right">
-          <!-- Dark Mode Toggler -->
-          <button class="action-btn">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.99998 1.5415C10.4142 1.5415 10.75 1.87729 10.75 2.2915V3.5415C10.75 3.95572 10.4142 4.2915 9.99998 4.2915C9.58577 4.2915 9.24998 3.95572 9.24998 3.5415V2.2915C9.24998 1.87729 9.58577 1.5415 9.99998 1.5415ZM10.0009 6.79327C8.22978 6.79327 6.79402 8.22904 6.79402 10.0001C6.79402 11.7712 8.22978 13.207 10.0009 13.207C11.772 13.207 13.2078 11.7712 13.2078 10.0001C13.2078 8.22904 11.772 6.79327 10.0009 6.79327ZM5.29402 10.0001C5.29402 7.40061 7.40135 5.29327 10.0009 5.29327C12.6004 5.29327 14.7078 7.40061 14.7078 10.0001C14.7078 12.5997 12.6004 14.707 10.0009 14.707C7.40135 14.707 5.29402 12.5997 5.29402 10.0001ZM15.9813 5.08035C16.2742 4.78746 16.2742 4.31258 15.9813 4.01969C15.6884 3.7268 15.2135 3.7268 14.9207 4.01969L14.0368 4.90357C13.7439 5.19647 13.7439 5.67134 14.0368 5.96423C14.3297 6.25713 14.8045 6.25713 15.0974 5.96423L15.9813 5.08035ZM18.4577 10.0001C18.4577 10.4143 18.1219 10.7501 17.7077 10.7501H16.4577C16.0435 10.7501 15.7077 10.4143 15.7077 10.0001C15.7077 9.58592 16.0435 9.25013 16.4577 9.25013H17.7077C18.1219 9.25013 18.4577 9.58592 18.4577 10.0001ZM14.9207 15.9806C15.2135 16.2735 15.6884 16.2735 15.9813 15.9806C16.2742 15.6877 16.2742 15.2128 15.9813 14.9199L15.0974 14.036C14.8045 13.7431 14.3297 13.7431 14.0368 14.036C13.7439 14.3289 13.7439 14.8038 14.0368 15.0967L14.9207 15.9806ZM9.99998 15.7088C10.4142 15.7088 10.75 16.0445 10.75 16.4588V17.7088C10.75 18.123 10.4142 18.4588 9.99998 18.4588C9.58577 18.4588 9.24998 18.123 9.24998 17.7088V16.4588C9.24998 16.0445 9.58577 15.7088 9.99998 15.7088ZM5.96356 15.0972C6.25646 14.8043 6.25646 14.3295 5.96356 14.0366C5.67067 13.7437 5.1958 13.7437 4.9029 14.0366L4.01902 14.9204C3.72613 15.2133 3.72613 15.6882 4.01902 15.9811C4.31191 16.274 4.78679 16.274 5.07968 15.9811L5.96356 15.0972ZM4.29224 10.0001C4.29224 10.4143 3.95645 10.7501 3.54224 10.7501H2.29224C1.87802 10.7501 1.54224 10.4143 1.54224 10.0001C1.54224 9.58592 1.87802 9.25013 2.29224 9.25013H3.54224C3.95645 9.25013 4.29224 9.58592 4.29224 10.0001ZM4.9029 5.9637C5.1958 6.25659 5.67067 6.25659 5.96356 5.9637C6.25646 5.6708 6.25646 5.19593 5.96356 4.90303L5.07968 4.01915C4.78679 3.72626 4.31191 3.72626 4.01902 4.01915C3.72613 4.31204 3.72613 4.78692 4.01902 5.07981L4.9029 5.9637Z" fill="currentColor"></path>
-            </svg>
-          </button>
+    <div id="view-overview" class="view-section active">
+      <div class="mx-auto max-w-7xl p-4 pb-20 md:p-6 md:pb-6">
+        <div class="space-y-6">
           
-          <!-- Notification Bell -->
-          <button class="action-btn">
-            <span class="ping-dot"></span>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M10.75 2.29248C10.75 1.87827 10.4143 1.54248 10 1.54248C9.58583 1.54248 9.25004 1.87827 9.25004 2.29248V2.83613C6.08266 3.20733 3.62504 5.9004 3.62504 9.16748V14.4591H3.33337C2.91916 14.4591 2.58337 14.7949 2.58337 15.2091C2.58337 15.6234 2.91916 15.9591 3.33337 15.9591H4.37504H15.625H16.6667C17.0809 15.9591 17.4167 15.6234 17.4167 15.2091C17.4167 14.7949 17.0809 14.4591 16.6667 14.4591H16.375V9.16748C16.375 5.9004 13.9174 3.20733 10.75 2.83613V2.29248ZM14.875 14.4591V9.16748C14.875 6.47509 12.6924 4.29248 10 4.29248C7.30765 4.29248 5.12504 6.47509 5.12504 9.16748V14.4591H14.875ZM8.00004 17.7085C8.00004 18.1228 8.33583 18.4585 8.75004 18.4585H11.25C11.6643 18.4585 12 18.1228 12 17.7085C12 17.2943 11.6643 16.9585 11.25 16.9585H8.75004C8.33583 16.9585 8.00004 17.2943 8.00004 17.7085Z" fill="currentColor"></path>
-            </svg>
-          </button>
+          <!-- Metrics Start -->
+          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+            <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Overview</h3>
+              </div>
+            </div>
+            <div class="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-gray-900" id="overviewKPIsGrid">
+              <!-- KPI Cards injected here by JS -->
+            </div>
+          </div>
           
-          <!-- User Profile -->
-          <div class="user-profile">
-            <div class="user-avatar">
-              <img src="https://ui-avatars.com/api/?name=Musharof+Chowdhury&background=3C50E0&color=fff" alt="User">
+          <!-- Charts Start -->
+          <div class="gap-5 space-y-5 xl:grid xl:grid-cols-12 xl:space-y-0">
+            <div class="xl:col-span-7 2xl:col-span-8">
+              <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+                <div class="mb-6 flex justify-between">
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Spending by Category</h3>
+                  </div>
+                </div>
+                <div style="height: 300px;" id="overviewSpendingByCategory">
+                  <canvas id="ovDonutChart"></canvas>
+                </div>
+              </div>
             </div>
-            <div class="user-info">
-              <span class="user-name">Musharof</span>
-              <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4.3125 8.65625L9 13.3437L13.6875 8.65625" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
+            
+            <div class="xl:col-span-5 2xl:col-span-4">
+              <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+                <div class="mb-6 flex justify-between">
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Subscription Health</h3>
+                  </div>
+                </div>
+                <div style="height: 300px;" id="overviewSubscriptionHealth">
+                  <canvas id="ovBarChart"></canvas>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
-
-      <div class="page-content" id="overviewContent">
-        <div class="bento-grid">
-          <!-- Row 2: 2 KPIs -->
-          <div class="kpi-card card" id="kpiTotalCostContainer" style="grid-column: span 6; display: flex; justify-content: space-between; align-items: center;"></div>
-          <div class="kpi-card card" id="kpiSavingsContainer" style="grid-column: span 6; display: flex; justify-content: space-between; align-items: center;"></div>
           
-          <!-- Row 3: Donut & Bar & Stacked -->
-          <div class="card" style="grid-column: span 4;">
-            <div class="card-header">
-              <h3 class="card-title" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                <span style="font-size: 14px; font-weight: 700;">DEMOGRAPHICS</span>
-                <span style="font-size: 12px; font-weight: 400; color: var(--text-secondary);">STRUCTURE</span>
-              </h3>
+          <!-- Transactions -->
+          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+            <div class="mb-6 flex justify-between">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Recent Transactions</h3>
+              </div>
             </div>
-            <div id="overviewSpendingByCategory" style="height: 200px;"></div>
+            <div id="overviewTxList" class="space-y-4"></div>
           </div>
-          <div class="card" style="grid-column: span 4;">
-             <div class="card-header">
-              <h3 class="card-title" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                <span style="font-size: 14px; font-weight: 700;">SURVEY MODE</span>
-                <span style="font-size: 12px; font-weight: 400; color: var(--text-secondary);">DISTRIBUTION</span>
-              </h3>
-            </div>
-            <div id="overviewSubscriptionHealth" style="height: 200px;"></div>
-          </div>
-          <div class="card" style="grid-column: span 4;">
-             <div class="card-header">
-              <h3 class="card-title" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                <span style="font-size: 14px; font-weight: 700;">TOP LINE</span>
-                <span style="font-size: 12px; font-weight: 400; color: var(--text-secondary);">YES / NO</span>
-              </h3>
-            </div>
-            <div id="overviewTopLine" style="height: 200px; display: flex; flex-direction: column; justify-content: space-around;"></div>
-          </div>
-
-          <!-- Row 4: Full width table -->
-          <div class="card" style="grid-column: span 12;">
-            <div class="card-header">
-              <h3 class="card-title" style="font-size: 14px; font-weight: 700; text-transform: uppercase;">Recent transactions</h3>
-            </div>
-            <div class="sub-list" id="overviewTxList" style="display: flex; flex-direction: column; gap: 8px;"></div>
-          </div>
+          
         </div>
-      </div>
-      
-      <div class="page-content" id="overviewEmpty" style="display:none; text-align:center; padding: 60px;">
-        <i class="ph ph-ghost" style="font-size: 64px; color: var(--border-medium); margin-bottom: 20px;"></i>
-        <h2>No Financial Data</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 30px;">Your ledger is empty. Add a subscription and transactions to let the Ghost Detection algorithm work.</p>
-        <button class="btn-primary" onclick="openAddSubModal()"><i class="ph ph-plus"></i> Add First Subscription</button>
       </div>
     </div>
 
+
+    
     <!-- VIEW: TRANSACTIONS -->
     <div id="view-transactions" class="view-section">
-      <header class="topbar">
-        <h1 class="page-title">Transactions</h1>
-        <div class="topbar-actions" style="display: flex; gap: 12px; align-items: center;">
-          <div style="position: relative;">
-            <i class="ph ph-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
-            <input type="text" id="txSearchFilter" placeholder="Search..." onkeyup="renderTransactions()" style="padding-left: 36px; border-radius: 8px; border: 1px solid var(--border-light); padding-top: 8px; padding-bottom: 8px;">
+      <div class="mx-auto max-w-7xl p-4 pb-20 md:p-6 md:pb-6">
+        <div class="space-y-6">
+          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+            <div class="mb-6 flex justify-between">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Transactions</h3>
+              </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row justify-between mb-4 gap-4">
+              <input type="text" id="txSearchFilter" placeholder="Search transactions..." onkeyup="renderTransactions()" class="w-full sm:w-64 rounded-lg border border-gray-200 bg-transparent px-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-none dark:border-gray-800 dark:text-white">
+              <select id="txCatFilter" onchange="renderTransactions()" class="w-full sm:w-48 rounded-lg border border-gray-200 bg-transparent px-4 py-2 text-sm text-gray-800 focus:border-brand-300 focus:outline-none dark:border-gray-800 dark:text-white">
+                <option value="All">All Categories</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Health">Health</option>
+                <option value="Education">Education</option>
+              </select>
+            </div>
+            <div class="table-responsive w-full overflow-x-auto">
+              <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                <thead class="bg-gray-50 dark:bg-gray-800/50">
+                  <tr>
+                    <th class="px-6 py-4 font-medium text-gray-900 dark:text-white">Date</th>
+                    <th class="px-6 py-4 font-medium text-gray-900 dark:text-white">Subscription</th>
+                    <th class="px-6 py-4 font-medium text-gray-900 dark:text-white">Category</th>
+                    <th class="px-6 py-4 font-medium text-gray-900 dark:text-white">Amount</th>
+                    <th class="px-6 py-4 text-right font-medium text-gray-900 dark:text-white">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="fullTxList" class="divide-y divide-gray-200 dark:divide-gray-800"></tbody>
+              </table>
+              <div id="emptyTxState" style="display:none; text-align:center; padding: 40px; color: #6b7280;">No transactions found.</div>
+            </div>
+
           </div>
-          <select id="txCatFilter" onchange="renderTransactions()" style="border-radius: 8px; border: 1px solid var(--border-light); padding: 8px 12px;">
-            <option value="All">All Categories</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Health">Health</option>
-            <option value="Education">Education</option>
-            <option value="Productivity">Productivity</option>
-          </select>
-          <button class="btn-primary" onclick="openAddTransactionModal()"><i class="ph ph-plus"></i> Add Transaction</button>
-        </div>
-      </header>
-      <div class="page-content">
-        <div class="card">
-          <div class="table-responsive">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Merchant / Description</th>
-                  <th>Category</th>
-                  <th>Amount</th>
-                  <th style="text-align: right;">Action</th>
-                </tr>
-              </thead>
-              <tbody id="fullTxList"></tbody>
-            </table>
-          </div>
-          <div id="emptyTxState" style="display:none; text-align:center; padding: 60px 20px;">
-            <i class="ph ph-receipt" style="font-size: 48px; color: var(--border-medium); margin-bottom: 16px;"></i>
-            <h3>No Transactions</h3>
-          </div>
-          <div id="txPagination" style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;"></div>
         </div>
       </div>
     </div>
+
 
     <!-- VIEW: SUBSCRIPTIONS -->
     <div id="view-subscriptions" class="view-section">

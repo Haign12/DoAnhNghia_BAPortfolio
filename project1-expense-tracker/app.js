@@ -301,46 +301,49 @@ function renderAll() {
   renderCashflow();
 }
 
+
 function renderOverview() {
   const activeSubs = state.subscriptions.filter(s => s.status !== 'Cancelled');
   const totalCost = activeSubs.reduce((sum, s) => sum + s.cost, 0);
   const activeCount = activeSubs.filter(s => s.status === 'Active').length;
-  const utilization = activeSubs.length === 0 ? 100 : Math.round((activeCount / activeSubs.length) * 100);
-  
+  const ghostCount = state.subscriptions.filter(s => s.status === 'Ghost').length;
   const ghostCost = state.subscriptions.filter(s => s.status === 'Ghost').reduce((sum, g) => sum + g.cost, 0);
   const potentialSavings = ghostCost * 12; // yearly savings
-  const totalSub = state.subscriptions.length;
   
-  document.getElementById('kpiTotalCostContainer').innerHTML = `
-    <div>
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-wallet"></i> TOTAL FIXED COST</div>
-      <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px;">
-        ${formatMoney(totalCost)}
-        <span style="font-size: 14px; font-weight: 700; color: #10B981; display: inline-flex; align-items: center;"><i class="ph-bold ph-arrow-up-right"></i>3%</span>
-      </div>
-    </div>
-    <div style="width: 120px; height: 60px;">
-      <canvas id="kpiSparklineCost"></canvas>
-    </div>
-  `;
-
-  const kpiSavings = document.getElementById('kpiSavingsContainer');
-  if(kpiSavings) {
-    kpiSavings.innerHTML = `
-      <div>
-        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-piggy-bank"></i> POTENTIAL SAVINGS</div>
-        <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px;">
-          ${formatMoney(potentialSavings)}
-          <span style="font-size: 14px; font-weight: 700; color: var(--primary); display: inline-flex; align-items: center;"><i class="ph-bold ph-arrow-up-right"></i>12%</span>
+  const gridEl = document.getElementById('overviewKPIsGrid');
+  if (gridEl) {
+    gridEl.innerHTML = `
+      <div class="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
+        <span class="text-sm text-gray-500 dark:text-gray-400">Total Monthly Cost</span>
+        <div class="mt-2 flex items-end gap-3">
+          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${formatMoney(totalCost)}</h4>
         </div>
       </div>
-      <div style="width: 120px; height: 60px;">
-        <canvas id="kpiSparklineSavings"></canvas>
+      <div class="border-b border-gray-200 px-6 py-5 xl:border-r xl:border-b-0 dark:border-gray-800">
+        <span class="text-sm text-gray-500 dark:text-gray-400">Potential Yearly Savings</span>
+        <div class="mt-2 flex items-end gap-3">
+          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${formatMoney(potentialSavings)}</h4>
+          <div><span class="bg-blue-50 text-blue-600 flex items-center gap-1 rounded-full py-0.5 pr-2.5 pl-2 text-sm font-medium">Ghost Subs</span></div>
+        </div>
+      </div>
+      <div class="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
+        <span class="text-sm text-gray-500 dark:text-gray-400">Active Subscriptions</span>
+        <div class="mt-2 flex items-end gap-3">
+          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${activeCount}</h4>
+        </div>
+      </div>
+      <div class="px-6 py-5">
+        <span class="text-sm text-gray-500 dark:text-gray-400">Ghost Alerts</span>
+        <div class="mt-2 flex items-end gap-3">
+          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${ghostCount}</h4>
+          ${ghostCount > 0 ? '<div><span class="bg-red-50 text-red-600 flex items-center gap-1 rounded-full py-0.5 pr-2.5 pl-2 text-sm font-medium">Action Required</span></div>' : ''}
+        </div>
       </div>
     `;
   }
 
   // Row 3 Charts Setup
+
   document.getElementById('overviewSpendingByCategory').innerHTML = '<canvas id="ovDonutChart"></canvas>';
   document.getElementById('overviewSubscriptionHealth').innerHTML = '<canvas id="ovBarChart"></canvas>';
   
@@ -390,23 +393,20 @@ function renderOverview() {
   if(state.transactions.length === 0) {
     txListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;padding:12px 0;">No recent transactions</div>';
   } else {
-    const sortedTx = [...state.transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
-    txListEl.innerHTML = sortedTx.slice(0, 4).map(t => {
+    const sortedTx = [...filteredTx].sort((a,b) => new Date(b.date) - new Date(a.date));
+    tbody.innerHTML = sortedTx.map(t => {
       const sub = state.subscriptions.find(s => s.id === t.subId);
-      const iconHTML = sub ? sub.icon : '<i class="ph-fill ph-receipt"></i>';
-      const d = new Date(t.date);
-      const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
       return `
-      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
-        <div style="display:flex; align-items:center; gap: 16px;">
-          <div style="font-size: 20px; color: var(--text-secondary); width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center;">${iconHTML}</div>
-          <div>
-            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${sub ? sub.name : 'Unknown'}</div>
-            <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">${dateStr}</div>
-          </div>
-        </div>
-        <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">${formatMoney(t.amount)}</div>
-      </div>
+      <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+        <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-400">${t.date}</td>
+        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">${sub ? sub.name : 'Unknown'}</td>
+        <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">${t.category}</span></td>
+        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-white">${formatMoney(t.amount)}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="editTx('${t.id}')"><i class="ph ph-pencil-simple text-lg"></i></button>
+          <button class="text-red-600 hover:text-red-900" onclick="deleteTx('${t.id}')"><i class="ph ph-trash text-lg"></i></button>
+        </td>
+      </tr>
       `;
     }).join('');
   }
@@ -498,14 +498,14 @@ function renderTransactions() {
     tbody.innerHTML = sortedTx.map(t => {
       const sub = state.subscriptions.find(s => s.id === t.subId);
       return `
-      <tr>
-        <td style="color:var(--text-secondary);">${t.date}</td>
-        <td style="font-weight:600;">${sub ? sub.name : 'Unknown'}</td>
-        <td><span class="badge" style="background:var(--bg-main);">${t.category}</span></td>
-        <td style="font-weight:700;">${formatMoney(t.amount)}</td>
-        <td style="text-align: right;">
-          <button class="btn-text" style="color: var(--text-secondary); margin-right: 8px;" onclick="editTx('${t.id}')"><i class="ph ph-pencil-simple"></i></button>
-          <button class="btn-text" style="color: var(--red);" onclick="deleteTx('${t.id}')"><i class="ph ph-trash"></i></button>
+      <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+        <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-400">${t.date}</td>
+        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">${sub ? sub.name : 'Unknown'}</td>
+        <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">${t.category}</span></td>
+        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-white">${formatMoney(t.amount)}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="editTx('${t.id}')"><i class="ph ph-pencil-simple text-lg"></i></button>
+          <button class="text-red-600 hover:text-red-900" onclick="deleteTx('${t.id}')"><i class="ph ph-trash text-lg"></i></button>
         </td>
       </tr>
       `;
@@ -541,20 +541,19 @@ function renderSubscriptions() {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px; color: var(--text-secondary);">No subscriptions found.</td></tr>';
   } else {
     tbody.innerHTML = filteredSubs.map(s => {
-      let badge = '<span class="badge success">ACTIVE</span>';
-      if(s.status === 'Ghost') badge = '<span class="badge badge-ghost">GHOST</span>';
-      if(s.status === 'Cancelled') badge = '<span class="badge" style="background:var(--border-medium); color:white;">CANCELLED</span>';
+      let badge = '<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">ACTIVE</span>';
+      if(s.status === 'Ghost') badge = '<span class="inline-flex items-center rounded-full bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">GHOST</span>';
+      if(s.status === 'Cancelled') badge = '<span class="inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">CANCELLED</span>';
       
-      let actionBtn = s.status === 'Cancelled' ? '-' : `<button class="btn-secondary" style="padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Manage</button>`;
+      let actionBtn = s.status === 'Cancelled' ? '-' : `<button class="rounded bg-white px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" onclick="openGhostDrilldown('${s.id}')">Manage</button>`;
       if (s.status === 'Ghost') {
-        actionBtn = `<button class="btn-primary" style="background:var(--red) !important; color:white !important; border:none; padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Manage Ghost</button>`;
+        actionBtn = `<button class="rounded bg-red-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" onclick="openGhostDrilldown('${s.id}')">Manage Ghost</button>`;
       }
       
-      // Calculate next billing date mock based on cycle
-      let nextBillingStr = s.lastTxDate; // Default fallback
+      let nextBillingStr = s.lastTxDate;
       if (s.status !== 'Cancelled') {
          if (s.status === 'Ghost') {
-            nextBillingStr = '<span style="color:var(--red); font-weight:600;"><i class="ph ph-warning-circle"></i> Action Required</span>';
+            nextBillingStr = '<span class="text-red-600 font-semibold flex items-center gap-1"><i class="ph ph-warning-circle"></i> Action Required</span>';
          } else {
             let baseDate = new Date(s.lastTxDate || s.added);
             if (s.cycle === 'Monthly') baseDate.setMonth(baseDate.getMonth() + 1);
@@ -573,13 +572,13 @@ function renderSubscriptions() {
       }
       
       return `
-      <tr style="${s.status === 'Cancelled' ? 'opacity: 0.5;' : ''}">
-        <td style="font-weight:600;"><span style="margin-right:8px; display:inline-block; width:24px; text-align:center; background:var(--bg-main); border-radius:4px; padding:4px;">${s.icon}</span> ${s.name}</td>
-        <td><span style="color:var(--text-secondary); font-size:13px; font-weight: 500;">${nextBillingStr}</span></td>
-        <td style="color:var(--text-secondary);">${s.cycle}</td>
-        <td style="font-weight:700;">${formatMoney(s.cost)}</td>
-        <td>${badge}</td>
-        <td style="text-align: right;">${actionBtn}</td>
+      <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 ${s.status === 'Cancelled' ? 'opacity-50' : ''}">
+        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">${s.icon}</span> ${s.name}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${nextBillingStr}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${s.cycle}</td>
+        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-white">${formatMoney(s.cost)}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${badge}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">${actionBtn}</td>
       </tr>
       `;
     }).join('');
