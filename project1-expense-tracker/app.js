@@ -304,7 +304,7 @@ function renderSubscriptions() {
       
       let actionBtn = s.status === 'Cancelled' ? '-' : `<button class="btn-secondary" style="padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Manage</button>`;
       if (s.status === 'Ghost') {
-        actionBtn = `<button class="btn-primary" style="background:#ff6b6b; padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Review</button>`;
+        actionBtn = `<button class="btn-primary" style="background:var(--red) !important; color:white !important; border:none; padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Review</button>`;
       }
       
       return `
@@ -328,18 +328,18 @@ function renderBudget() {
     const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
     const pct = Math.min(100, Math.round((spent / b.limit) * 100));
     const isExceeded = spent > b.limit;
-    const color = isExceeded ? '#ff6b6b' : 'var(--teal)';
+    const color = isExceeded ? 'var(--red)' : 'var(--blue)';
     
     return `
       <div style="margin-bottom: 24px;">
         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-          <strong style="display:flex; align-items:center; gap:8px;">
-            ${b.category} ${isExceeded ? '<i class="ph ph-warning-circle" style="color:#ff6b6b;"></i>' : ''}
+          <strong style="display:flex; align-items:center; gap:8px; color: var(--text-primary);">
+            ${b.category} ${isExceeded ? '<i class="ph ph-warning-circle" style="color:var(--red);"></i>' : ''}
           </strong>
           <span style="font-size:13px; color:var(--text-secondary);">${formatMoney(spent)} / ${formatMoney(b.limit)}</span>
         </div>
-        <div style="width:100%; height:8px; background:var(--bg-main); border-radius:4px; margin-bottom:8px; overflow:hidden;">
-          <div style="height:100%; width:${pct}%; background:${color};"></div>
+        <div style="width:100%; height:8px; background:var(--border-medium); border-radius:4px; overflow:hidden;">
+          <div style="height:100%; width:${pct}%; background:${color}; border-radius:4px;"></div>
         </div>
       </div>
     `;
@@ -551,10 +551,11 @@ function renderAnalytics() {
       labels: Object.keys(catTotals),
       datasets: [{
         data: Object.values(catTotals),
-        backgroundColor: ['#8E75C8', '#4a90d9', '#00d4aa', '#f472b6']
+        backgroundColor: ['#3b82f6', '#22c55e', '#ef4444', '#f59e0b', '#8b5cf6'],
+        borderWidth: 0
       }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'right', labels: {color: 'var(--text-primary)'} } } }
+    options: { responsive: true, plugins: { legend: { position: 'right', labels: {color: '#FFFFFF'} } } }
   });
   
   // Simple trend (mocking monthly data)
@@ -566,10 +567,11 @@ function renderAnalytics() {
       datasets: [{
         label: 'Spending',
         data: [120, 150, Object.values(catTotals).reduce((a,b)=>a+b, 0)],
-        backgroundColor: '#8E75C8'
+        backgroundColor: '#3b82f6',
+        borderRadius: 4
       }]
     },
-    options: { responsive: true, scales: { y: { beginAtZero: true, ticks: {color: 'var(--text-secondary)'} }, x: { ticks: {color: 'var(--text-secondary)'} } }, plugins: { legend: {display:false} } }
+    options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#333333' }, ticks: {color: '#A0A0A0'} }, x: { grid: { display: false }, ticks: {color: '#A0A0A0'} } }, plugins: { legend: {display:false} } }
   });
 }
 

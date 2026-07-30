@@ -41,7 +41,7 @@
     .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 12px; font-weight: 500; transition: all 0.2s; }
     .nav-item i { font-size: 20px; }
     .nav-item:hover, .nav-item.active { background: rgba(142, 117, 200, 0.15); color: #8E75C8; }
-    .nav-badge { background: #ff6b6b; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto; color: white; font-weight: 700; }
+    .nav-badge { background: var(--red); padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto; color: white; font-weight: 700; }
     .main-content { flex: 1 !important; margin-left: 0 !important; background: var(--bg-main) !important; min-width: 0; }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; margin-bottom: 24px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--bg-card) !important; position: static; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     .page-title { font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--text-primary); }
@@ -363,7 +363,7 @@
     <div style="background: var(--bg-main); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
       <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
         <span style="color: var(--text-secondary);">Days without usage:</span>
-        <strong id="ghostModalDays" style="color: #ff6b6b;">0 days</strong>
+        <strong id="ghostModalDays" style="color: var(--red);">0 days</strong>
       </div>
       <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
         <span style="color: var(--text-secondary);">Monthly bleed rate:</span>
@@ -381,7 +381,7 @@
     </div>
     
     <div style="display: flex; gap: 8px;">
-      <button class="btn-primary" style="flex: 1; background: #ff6b6b;" onclick="confirmCancelGhost()">Cancel Sub</button>
+      <button class="btn-primary" style="flex: 1; background: var(--red) !important; color: white !important;" onclick="confirmCancelGhost()">Cancel Sub</button>
       <button class="btn-secondary" style="flex: 1;" onclick="snoozeGhost()">Snooze 7D</button>
       <button class="btn-secondary" style="flex: 1;" onclick="keepGhost()">Keep</button>
     </div>
