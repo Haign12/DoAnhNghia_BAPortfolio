@@ -307,66 +307,84 @@ function renderOverview() {
   const activeCount = activeSubs.filter(s => s.status === 'Active').length;
   const utilization = activeSubs.length === 0 ? 100 : Math.round((activeCount / activeSubs.length) * 100);
   
-  document.getElementById('kpiTotalCostContainer').innerHTML = `
-    <div class="label-sm">Total fixed cost</div>
-    <div class="hero-number">${formatMoney(totalCost)}</div>
-  `;
-  document.getElementById('kpiUtilizationContainer').innerHTML = `
-    <div class="label-sm tooltip">Utilization rate<span class="tooltiptext">Tỷ lệ các dịch vụ bạn đang thực sự sử dụng trên tổng số dịch vụ đã đăng ký</span></div>
-    <div class="hero-number" style="color: var(--teal);">${utilization}%</div>
-    <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px; overflow: hidden;">
-      <div style="width: ${utilization}%; height: 100%; background: var(--teal); border-radius: 2px;"></div>
-    </div>
-  `;
-  document.getElementById('kpiActiveCountContainer').innerHTML = `
-    <div class="label-sm">Active subscriptions</div>
-    <div class="hero-number">${activeCount} <span style="font-size: 14px; font-weight: 500; opacity:0.8;">/ ${state.subscriptions.length} total</span></div>
-  `;
-
   const ghostCost = state.subscriptions.filter(s => s.status === 'Ghost').reduce((sum, g) => sum + g.cost, 0);
   const potentialSavings = ghostCost * 12; // yearly savings
+  const totalSub = state.subscriptions.length;
+  
+  document.getElementById('kpiTotalCostContainer').innerHTML = `
+    <div>
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-wallet"></i> TOTAL FIXED COST</div>
+      <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px;">
+        ${formatMoney(totalCost)}
+        <span style="font-size: 14px; font-weight: 700; color: #10B981; display: inline-flex; align-items: center;"><i class="ph-bold ph-arrow-up-right"></i>3%</span>
+      </div>
+    </div>
+    <div style="width: 120px; height: 60px;">
+      <canvas id="kpiSparklineCost"></canvas>
+    </div>
+  `;
+
   const kpiSavings = document.getElementById('kpiSavingsContainer');
   if(kpiSavings) {
     kpiSavings.innerHTML = `
-      <div class="label-sm">Potential yearly savings</div>
-      <div class="hero-number">${formatMoney(potentialSavings)}</div>
+      <div>
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; opacity: 0.5; margin-bottom: 4px;"><i class="ph-fill ph-piggy-bank"></i> POTENTIAL SAVINGS</div>
+        <div style="font-size: 40px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 12px;">
+          ${formatMoney(potentialSavings)}
+          <span style="font-size: 14px; font-weight: 700; color: var(--primary); display: inline-flex; align-items: center;"><i class="ph-bold ph-arrow-up-right"></i>12%</span>
+        </div>
+      </div>
+      <div style="width: 120px; height: 60px;">
+        <canvas id="kpiSparklineSavings"></canvas>
+      </div>
     `;
   }
 
-  // Ghosts from single truth
-  const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
-  const ghostBadge = document.getElementById('navGhostBadge');
-  if (ghosts.length > 0) {
-    ghostBadge.style.display = 'inline-flex';
-    ghostBadge.innerText = ghosts.length;
-  } else {
-    ghostBadge.style.display = 'none';
-  }
+  // Row 3 Charts Setup
+  document.getElementById('overviewSpendingByCategory').innerHTML = '<canvas id="ovDonutChart"></canvas>';
+  document.getElementById('overviewSubscriptionHealth').innerHTML = '<canvas id="ovBarChart"></canvas>';
+  
+  // Top Line Progress Bars (Active vs Ghost by Category)
+  const categories = [...new Set(state.subscriptions.map(s => s.category))];
+  document.getElementById('overviewTopLine').innerHTML = categories.slice(0,3).map(cat => {
+     const subsInCat = state.subscriptions.filter(s => s.category === cat);
+     const active = subsInCat.filter(s => s.status === 'Active').length;
+     const ghost = subsInCat.filter(s => s.status === 'Ghost').length;
+     const tot = subsInCat.length;
+     const pActive = Math.round((active/tot)*100) || 0;
+     const pGhost = Math.round((ghost/tot)*100) || 0;
+     return `
+       <div style="margin-bottom: 8px;">
+         <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight: 500;">
+           <span>${cat}</span>
+           <span style="color:var(--text-secondary);">${tot} total</span>
+         </div>
+         <div style="width:100%; height:8px; background:var(--bg-main); border-radius:4px; display:flex; overflow:hidden;">
+           <div style="width:${pActive}%; height:100%; background:var(--primary);"></div>
+           <div style="width:${pGhost}%; height:100%; background:rgba(124, 58, 237, 0.2);"></div>
+         </div>
+       </div>
+     `;
+  }).join('') + `<div style="display:flex; align-items:center; gap:12px; font-size:11px; margin-top:8px;"><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--primary);"></span>Active</div><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:rgba(124, 58, 237, 0.2);"></span>Ghost</div></div>`;
 
-  const ghostListEl = document.getElementById('overviewGhostList');
-  if(ghosts.length === 0) {
-    ghostListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;">No ghosts found. Great job!</div>';
-  } else {
-    ghostListEl.innerHTML = ghosts.slice(0, 3).map(g => `
-      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light); gap: 16px;">
-        <div style="display:flex; align-items:center; gap: 16px; min-width: 0;">
-          <div style="font-size: 20px; color: var(--red); width: 40px; height: 40px; background: rgba(239,68,68,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">${g.icon}</div>
-          <div style="min-width: 0;">
-            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${g.name}</div>
-            <div style="font-size: 12px; color: var(--red); font-weight: 500; white-space: nowrap;">${g.daysUnused} days unused</div>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
-          <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">${formatMoney(g.cost)}</div>
-          <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border-medium); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; flex-shrink: 0;" onclick="openGhostDrilldown('${g.id}')">Manage Ghost</button>
-        </div>
-      </div>
-    `).join('');
+  setTimeout(() => {
+    // Sparklines
+    const costCtx = document.getElementById('kpiSparklineCost');
+    if(costCtx) new Chart(costCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [65,59,80,81,56], borderColor: '#D1D5DB', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(209, 213, 219, 0.1)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
 
-    if (ghosts.length > 3) {
-      ghostListEl.innerHTML += `<div style="text-align:center; font-size:12px; margin-top:8px;"><a href="#" onclick="switchView('view-subscriptions', document.querySelectorAll('.nav-item')[2])">+ ${ghosts.length - 3} more ghosts</a></div>`;
-    }
-  }
+    const savCtx = document.getElementById('kpiSparklineSavings');
+    if(savCtx) new Chart(savCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [28,48,40,19,86], borderColor: '#7C3AED', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(124, 58, 237, 0.1)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
+    
+    // Donut Chart
+    const dCtx = document.getElementById('ovDonutChart');
+    if(dCtx) new Chart(dCtx, { type: 'doughnut', data: { labels: ['Entertainment', 'Health', 'Education'], datasets: [{ data: [45, 25, 30], backgroundColor: ['#7C3AED', '#A78BFA', '#EDE9FE'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+
+    // Bar Chart
+    const bCtx = document.getElementById('ovBarChart');
+    if(bCtx) new Chart(bCtx, { type: 'bar', data: { labels: ['Q1', 'Q2', 'Q3', 'Q4'], datasets: [{ data: [30, 45, 60, 20], backgroundColor: ['#EDE9FE', '#C4B5FD', '#7C3AED', '#EDE9FE'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, border: { display: false } }, y: { display: false } } } });
+  }, 0);
+
+  // Recent transactions full table
 
   const txListEl = document.getElementById('overviewTxList');
   if(state.transactions.length === 0) {

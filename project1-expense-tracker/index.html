@@ -37,22 +37,23 @@
     body { background: var(--bg-main) !important; color: var(--text-primary) !important; margin: 0; font-family: 'Inter', sans-serif; }
     
     .app-layout { display: flex; min-height: 100vh; padding: 24px; gap: 24px; background: var(--bg-main) !important; align-items: flex-start; }
-    .sidebar { position: sticky !important; top: 24px !important; width: 260px !important; background: var(--sidebar-bg) !important; display: flex !important; flex-direction: column !important; border: 1px solid var(--border-light) !important; flex-shrink: 0 !important; border-radius: 20px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; padding: 0 !important; align-items: stretch !important; overflow: hidden; height: calc(100vh - 48px); z-index: 100; }
+    .sidebar { position: sticky !important; top: 24px !important; width: 260px !important; background: var(--sidebar-bg) !important; display: flex !important; flex-direction: column !important; border: none !important; flex-shrink: 0 !important; border-radius: 24px !important; padding: 0 !important; overflow: hidden; height: calc(100vh - 48px); z-index: 100; }
     .sidebar-logo { display: flex !important; align-items: center !important; gap: 12px; padding: 24px; font-size: 1.4rem; font-weight: 800; color: var(--text-primary); background: transparent !important; width: auto !important; height: auto !important; border-radius: 0 !important; margin-bottom: 0 !important; }
     .text-gradient { background: linear-gradient(90deg, #7C3AED, #EC4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .sidebar-nav { flex: 1; padding: 0 16px 24px 16px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 50px; font-weight: 500; transition: all 0.2s; }
-    .nav-item i { font-size: 20px; }
-    .nav-item:hover { background: rgba(0,0,0,0.05); color: #0A0A0A; }
-    .nav-item.active { background: #0A0A0A !important; color: #FFFFFF !important; }
-    .nav-badge { background: var(--red); padding: 2px 8px; border-radius: 50px; font-size: 11px; margin-left: auto; color: white; font-weight: 700; }
+    .sidebar-nav { flex: 1; padding: 0 24px 24px 24px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+    .nav-item { display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; color: var(--text-secondary); text-decoration: none; border-radius: 50px; font-weight: 600; transition: all 0.2s; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; width: max-content; }
+    .nav-item i { font-size: 18px; }
+    .nav-item:hover { background: rgba(0,0,0,0.03); color: #0A0A0A; }
+    .nav-item.active { background: #EDE9FE !important; color: #7C3AED !important; }
+    .nav-badge { background: var(--red); padding: 2px 8px; border-radius: 50px; font-size: 11px; margin-left: 8px; color: white; font-weight: 700; }
     .main-content { flex: 1 !important; margin-left: 0 !important; background: var(--bg-main) !important; min-width: 0; }
     .right-rail { position: sticky !important; top: 24px !important; width: 320px !important; flex-shrink: 0 !important; display: flex !important; flex-direction: column !important; gap: 24px; height: calc(100vh - 48px); overflow-y: auto; }
     @media (max-width: 1400px) { .right-rail { display: none !important; } }
-    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; margin-bottom: 24px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--bg-card) !important; position: static; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-    .page-title { font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--text-primary); }
-    .page-content { padding: 0; max-width: 1200px; margin: 0 auto; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 24px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; margin-bottom: 24px; background: transparent !important; position: static; }
+    .page-title { font-size: 1.1rem; font-weight: 600; margin: 0; color: var(--text-primary); text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 12px; }
+    .page-subtitle { font-size: 13px; color: var(--text-secondary); font-weight: 400; text-transform: none; letter-spacing: normal; border-left: 1px solid var(--border-medium); padding-left: 12px; }
+    .page-content { padding: 0; max-width: 1400px; margin: 0 auto; }
+    .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; margin-bottom: 24px; }
     .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
     .card { background: var(--bg-card) !important; border-radius: 24px; padding: 24px; border: 1px solid var(--border-light) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important; color: var(--text-primary) !important; }
     .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -81,8 +82,8 @@
     input, select { color: var(--text-primary) !important; background: #FFFFFF !important; border-color: var(--border-light) !important; }
     .btn-primary { background: #0A0A0A !important; color: #fff !important; border: none !important; padding: 10px 20px !important; border-radius: 50px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s; }
     .btn-primary:hover { opacity: 0.9; }
-    .btn-secondary { background: transparent !important; color: #4B5563 !important; border: 1px solid #D1D5DB !important; padding: 10px 20px !important; border-radius: 50px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
-    .btn-secondary:hover { background: #F3F4F6 !important; border-color: #9CA3AF !important; }
+    .btn-secondary { background: linear-gradient(to right, #F5F3FF, #FFFFFF) !important; color: #7C3AED !important; border: 1px solid #EDE9FE !important; padding: 10px 20px !important; border-radius: 50px !important; font-weight: 600 !important; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
+    .btn-secondary:hover { background: #EDE9FE !important; }
     
     .tooltip { position: relative; display: inline-block; border-bottom: 1px dotted var(--text-secondary); cursor: help; }
     .tooltip .tooltiptext { visibility: hidden; width: 220px; background-color: var(--bg-dark); color: #fff; text-align: center; border-radius: 6px; padding: 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 12px; font-weight: normal; font-family: Inter, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 1px solid var(--border-medium); }
@@ -126,8 +127,14 @@
         <a href="#" class="nav-item" onclick="switchView('view-cashflow', this)">
           <i class="ph ph-trend-up"></i> Cashflow
         </a>
-      <a href="#" class="nav-item" onclick="switchView('view-budget', this)"><i class="ph ph-target"></i> Budget Planner</a>
+      <a href="#" class="nav-item" onclick="switchView('view-budget', this)"><i class="ph ph-target"></i> Budget</a>
     </nav>
+    <div style="padding: 24px; display: flex; align-items: center; gap: 12px; margin-top: auto; border-top: 1px solid rgba(0,0,0,0.05);">
+      <div style="width: 40px; height: 40px; border-radius: 50%; background: #E5E7EB; overflow: hidden; flex-shrink: 0;">
+        <img src="https://ui-avatars.com/api/?name=Alex+Smith&background=E5E7EB&color=111827" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+      <div style="font-size: 12px; font-weight: 500; color: var(--text-secondary); line-height: 1.4;">Project Owner<br><span style="color: var(--text-primary); font-weight: 600; font-size: 14px;">Alex Smith</span></div>
+    </div>
   </aside>
 
   <!-- Main Content -->
@@ -165,44 +172,60 @@
     <!-- VIEW: OVERVIEW -->
     <div id="view-overview" class="view-section">
       <header class="topbar">
-        <h1 class="page-title">Overview</h1>
-        <div class="topbar-actions">
-          <button class="btn-secondary" onclick="openAddSubModal()"><i class="ph ph-plus"></i> Add Sub</button>
-          <button class="btn-primary" onclick="openAddTransactionModal()"><i class="ph ph-plus"></i> Add Tx</button>
+        <h1 class="page-title">DATA <span class="page-subtitle">Workspace #ER8729</span></h1>
+        <div class="topbar-actions" style="display: flex; gap: 12px; align-items: center;">
+          <button style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-light); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary);"><i class="ph ph-chat-circle"></i></button>
+          <button style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-light); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary);"><i class="ph ph-bell"></i></button>
+          <button class="btn-secondary" onclick="openAddSubModal()"><i class="ph ph-download-simple"></i> Export</button>
+          <button class="btn-primary" onclick="openAddTransactionModal()"><i class="ph ph-plus"></i> New Record</button>
         </div>
       </header>
 
       <div class="page-content" id="overviewContent">
-        <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr);">
-          <div class="kpi-card card card-hero" id="kpiSavingsContainer" style="grid-column: span 3;"></div>
-          <div class="kpi-card card" id="kpiTotalCostContainer"></div>
-          <div class="kpi-card card" id="kpiUtilizationContainer"></div>
-          <div class="kpi-card card" id="kpiActiveCountContainer"></div>
-        </div>
-
-        <div class="dashboard-grid mt-4">
-          <div class="card ghost-alert-card card-alert" style="grid-column: span 6;">
+        <div class="bento-grid">
+          <!-- Row 2: 2 KPIs -->
+          <div class="kpi-card card" id="kpiTotalCostContainer" style="grid-column: span 6; display: flex; justify-content: space-between; align-items: center;"></div>
+          <div class="kpi-card card" id="kpiSavingsContainer" style="grid-column: span 6; display: flex; justify-content: space-between; align-items: center;"></div>
+          
+          <!-- Row 3: Donut & Bar & Stacked -->
+          <div class="card" style="grid-column: span 4;">
             <div class="card-header">
-              <h3 class="card-title" style="color: var(--red);"><i class="ph ph-warning"></i> Ghost alerts</h3>
+              <h3 class="card-title" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <span style="font-size: 14px; font-weight: 700;">DEMOGRAPHICS</span>
+                <span style="font-size: 12px; font-weight: 400; color: var(--text-secondary);">STRUCTURE</span>
+              </h3>
             </div>
-            <div class="sub-list" id="overviewGhostList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+            <div id="overviewSpendingByCategory" style="height: 200px;"></div>
           </div>
-          <div class="card" style="grid-column: span 6;">
+          <div class="card" style="grid-column: span 4;">
+             <div class="card-header">
+              <h3 class="card-title" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <span style="font-size: 14px; font-weight: 700;">SURVEY MODE</span>
+                <span style="font-size: 12px; font-weight: 400; color: var(--text-secondary);">DISTRIBUTION</span>
+              </h3>
+            </div>
+            <div id="overviewSubscriptionHealth" style="height: 200px;"></div>
+          </div>
+          <div class="card" style="grid-column: span 4;">
+             <div class="card-header">
+              <h3 class="card-title" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <span style="font-size: 14px; font-weight: 700;">TOP LINE</span>
+                <span style="font-size: 12px; font-weight: 400; color: var(--text-secondary);">YES / NO</span>
+              </h3>
+            </div>
+            <div id="overviewTopLine" style="height: 200px; display: flex; flex-direction: column; justify-content: space-around;"></div>
+          </div>
+
+          <!-- Row 4: Full width table -->
+          <div class="card" style="grid-column: span 12;">
             <div class="card-header">
-              <h3 class="card-title"><i class="ph ph-receipt"></i> Recent transactions</h3>
+              <h3 class="card-title" style="font-size: 14px; font-weight: 700; text-transform: uppercase;">Recent transactions</h3>
             </div>
             <div class="sub-list" id="overviewTxList" style="display: flex; flex-direction: column; gap: 8px;"></div>
           </div>
         </div>
-        
-        <div class="card mt-4" style="margin-top: 24px;">
-          <div class="card-header">
-            <h3 class="card-title">Spending by category</h3>
-          </div>
-          <div id="overviewSpendingByCategory" style="display: flex; flex-direction: column; gap: 16px;"></div>
-        </div>
       </div>
-
+      
       <div class="page-content" id="overviewEmpty" style="display:none; text-align:center; padding: 60px;">
         <i class="ph ph-ghost" style="font-size: 64px; color: var(--border-medium); margin-bottom: 20px;"></i>
         <h2>No Financial Data</h2>
