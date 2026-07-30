@@ -30,18 +30,19 @@
     }
     body { background: var(--bg-main) !important; color: var(--text-primary) !important; margin: 0; font-family: 'Inter', sans-serif; }
     
-    .app-layout { display: flex; min-height: 100vh; padding-top: 48px; }
-    .sidebar { position: static !important; width: 260px !important; background: var(--sidebar-bg) !important; display: flex !important; flex-direction: column !important; border-right: 1px solid var(--border-light) !important; flex-shrink: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; align-items: stretch !important; }
+    .app-layout { display: flex; min-height: 100vh; padding: 24px; gap: 24px; background: var(--bg-main) !important; align-items: flex-start; }
+    .sidebar { position: sticky !important; top: 24px !important; width: 260px !important; background: var(--sidebar-bg) !important; display: flex !important; flex-direction: column !important; border: 1px solid var(--border-light) !important; flex-shrink: 0 !important; border-radius: 20px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; padding: 0 !important; align-items: stretch !important; overflow: hidden; height: calc(100vh - 48px); z-index: 100; }
     .sidebar-logo { display: flex !important; align-items: center !important; gap: 12px; padding: 24px; font-size: 1.4rem; font-weight: 800; color: var(--text-primary); background: transparent !important; width: auto !important; height: auto !important; border-radius: 0 !important; margin-bottom: 0 !important; }
     .text-gradient { background: linear-gradient(90deg, #8E75C8, #4a90d9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .sidebar-nav { flex: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 4px; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; font-weight: 500; transition: all 0.2s; }
+    .sidebar-nav { flex: 1; padding: 0 16px 24px 16px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 12px; font-weight: 500; transition: all 0.2s; }
+    .nav-item i { font-size: 20px; }
     .nav-item:hover, .nav-item.active { background: rgba(142, 117, 200, 0.15); color: #8E75C8; }
     .nav-badge { background: #ff6b6b; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto; color: white; font-weight: 700; }
-    .main-content { flex: 1 !important; margin-left: 0 !important; overflow-y: auto; background: var(--bg-main) !important; }
-    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 40px; border-bottom: 1px solid var(--border-light); background: var(--bg-card) !important; position: sticky; top: 48px; z-index: 10; margin-left: 0 !important; width: 100% !important; box-sizing: border-box; }
+    .main-content { flex: 1 !important; margin-left: 0 !important; background: var(--bg-main) !important; min-width: 0; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; margin-bottom: 24px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--bg-card) !important; position: static; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     .page-title { font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--text-primary); }
-    .page-content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+    .page-content { padding: 0; max-width: 1200px; margin: 0 auto; }
     .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
     .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
     .card { background: var(--bg-card) !important; border-radius: 16px; padding: 24px; border: 1px solid var(--border-light) !important; box-shadow: 0 4px 6px rgba(0,0,0,0.02) !important; color: var(--text-primary) !important; }

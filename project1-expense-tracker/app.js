@@ -74,17 +74,30 @@ function loadMockData() {
   const daysAgo = (d) => new Date(today.getTime() - d * 86400000).toISOString().split('T')[0];
   
   state.subscriptions = [
-    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: 'Monthly', status: 'Active', icon: '🍿', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
-    { id: 's2', name: 'Spotify', category: 'Entertainment', cost: 9.99, cycle: 'Monthly', status: 'Active', icon: '🎧', added: daysAgo(60), snoozeUntil: null, ignoreGhost: false },
-    { id: 's3', name: 'Gym Membership', category: 'Health', cost: 30.00, cycle: 'Monthly', status: 'Active', icon: '🏋️', added: daysAgo(120), snoozeUntil: null, ignoreGhost: false },
-    { id: 's4', name: 'Coursera Plus', category: 'Education', cost: 49.00, cycle: 'Monthly', status: 'Active', icon: '📚', added: daysAgo(90), snoozeUntil: null, ignoreGhost: false }
+    { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-monitor-play"></i>', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
+    { id: 's2', name: 'Spotify', category: 'Entertainment', cost: 9.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-headphones"></i>', added: daysAgo(60), snoozeUntil: null, ignoreGhost: false },
+    { id: 's3', name: 'Gym Membership', category: 'Health', cost: 30.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-barbell"></i>', added: daysAgo(120), snoozeUntil: null, ignoreGhost: false },
+    { id: 's4', name: 'Coursera Plus', category: 'Education', cost: 49.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-student"></i>', added: daysAgo(90), snoozeUntil: null, ignoreGhost: false },
+    { id: 's5', name: 'Adobe CC', category: 'Education', cost: 52.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-pen-nib"></i>', added: daysAgo(200), snoozeUntil: null, ignoreGhost: false },
+    { id: 's6', name: 'Amazon Prime', category: 'Entertainment', cost: 14.99, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-package"></i>', added: daysAgo(150), snoozeUntil: null, ignoreGhost: false },
+    { id: 's7', name: 'Notion', category: 'Education', cost: 8.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-notebook"></i>', added: daysAgo(180), snoozeUntil: null, ignoreGhost: false },
+    { id: 's8', name: 'Yoga App', category: 'Health', cost: 12.00, cycle: 'Monthly', status: 'Active', icon: '<i class="ph-fill ph-person-simple-walk"></i>', added: daysAgo(210), snoozeUntil: null, ignoreGhost: false }
   ];
   
   state.transactions = [
     { id: 't1', subId: 's1', date: daysAgo(5), category: 'Entertainment', amount: 15.99 },
     { id: 't2', subId: 's2', date: daysAgo(2), category: 'Entertainment', amount: 9.99 },
     { id: 't3', subId: 's3', date: daysAgo(45), category: 'Health', amount: 30.00 },
-    { id: 't4', subId: 's4', date: daysAgo(60), category: 'Education', amount: 49.00 }
+    { id: 't4', subId: 's4', date: daysAgo(60), category: 'Education', amount: 49.00 },
+    { id: 't5', subId: 's5', date: daysAgo(3), category: 'Education', amount: 52.99 },
+    { id: 't6', subId: 's6', date: daysAgo(10), category: 'Entertainment', amount: 14.99 },
+    { id: 't7', subId: 's7', date: daysAgo(12), category: 'Education', amount: 8.00 },
+    { id: 't8', subId: 's8', date: daysAgo(35), category: 'Health', amount: 12.00 },
+    { id: 't9', subId: 's1', date: daysAgo(35), category: 'Entertainment', amount: 15.99 },
+    { id: 't10', subId: 's2', date: daysAgo(32), category: 'Entertainment', amount: 9.99 },
+    { id: 't11', subId: 's5', date: daysAgo(33), category: 'Education', amount: 52.99 },
+    { id: 't12', subId: 's6', date: daysAgo(40), category: 'Entertainment', amount: 14.99 },
+    { id: 't13', subId: 's7', date: daysAgo(42), category: 'Education', amount: 8.00 }
   ];
 }
 
@@ -388,7 +401,7 @@ function openGhostDrilldown(subId) {
     `).join('');
   }
   
-  document.getElementById('ghostModalIcon').innerText = sub.icon;
+  document.getElementById('ghostModalIcon').innerHTML = sub.icon;
   document.getElementById('ghostModalTitle').innerText = sub.name;
   document.getElementById('ghostModalDays').innerText = sub.daysUnused + ' days';
   document.getElementById('ghostModalBleed').innerText = `${formatMoney(sub.cost)}/mo`;
