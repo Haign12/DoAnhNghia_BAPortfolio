@@ -162,24 +162,59 @@ function renderRightRail(viewId) {
       </div>
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-chart-donut"></i> By Category</h3>
-        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(Mini donut will render here)</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px;"><span>Entertainment</span><span style="font-weight:600;">45%</span></div>
+          <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div style="width:45%; height:100%; background:var(--blue); border-radius:3px;"></div></div>
+          <div style="display:flex; justify-content:space-between; font-size:13px; margin-top:8px;"><span>Health</span><span style="font-weight:600;">30%</span></div>
+          <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div style="width:30%; height:100%; background:var(--teal); border-radius:3px;"></div></div>
+        </div>
       </div>
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-star"></i> Top 3 Largest</h3>
-        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(List will render here)</div>
+        <div id="rrTopTxList" style="display: flex; flex-direction: column; gap: 12px;"></div>
       </div>
     `;
+    setTimeout(() => {
+       const sorted = [...state.transactions].sort((a,b)=>b.amount-a.amount).slice(0,3);
+       const el = document.getElementById('rrTopTxList');
+       if(el) {
+          el.innerHTML = sorted.map(t => {
+             const sub = state.subscriptions.find(s => s.id === t.subId);
+             return `<div style="display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">
+               <span>${sub ? sub.name : 'Unknown'}</span><span style="font-weight:600;">${formatMoney(t.amount)}</span>
+             </div>`;
+          }).join('');
+       }
+    }, 0);
   } else if (viewId === 'view-subscriptions') {
     rightRail.innerHTML = `
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-heartbeat"></i> Subscription Health</h3>
-        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(Donut chart will render here)</div>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <div style="flex:1;">
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;"><span>Active</span><span id="rrActiveCount">0</span></div>
+            <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px; margin-bottom:12px;"><div id="rrActiveBar" style="width:0%; height:100%; background:var(--teal); border-radius:3px;"></div></div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;"><span>Ghosts</span><span id="rrGhostCount">0</span></div>
+            <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div id="rrGhostBar" style="width:0%; height:100%; background:var(--red); border-radius:3px;"></div></div>
+          </div>
+        </div>
       </div>
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-calendar-blank"></i> Renewal Calendar (Next 7D)</h3>
         <div id="subRenewalCalendar" style="display: flex; flex-direction: column; gap: 16px;"></div>
       </div>
     `;
+    setTimeout(() => {
+       const total = state.subscriptions.length;
+       const active = state.subscriptions.filter(s=>s.status==='Active').length;
+       const ghost = state.subscriptions.filter(s=>s.status==='Ghost').length;
+       if(document.getElementById('rrActiveCount') && total > 0) {
+          document.getElementById('rrActiveCount').innerText = active;
+          document.getElementById('rrActiveBar').style.width = (active/total*100) + '%';
+          document.getElementById('rrGhostCount').innerText = ghost;
+          document.getElementById('rrGhostBar').style.width = (ghost/total*100) + '%';
+       }
+    }, 0);
   } else if (viewId === 'view-analytics') {
     rightRail.innerHTML = `
       <div class="card" style="padding: 24px;">
@@ -200,7 +235,14 @@ function renderRightRail(viewId) {
     rightRail.innerHTML = `
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-money"></i> Recent Income</h3>
-        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(List will render here)</div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">
+             <span>Salary (Stripe)</span><span style="font-weight:600; color:var(--teal);">+$3,200.00</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">
+             <span>Freelance Upwork</span><span style="font-weight:600; color:var(--teal);">+$450.00</span>
+          </div>
+        </div>
       </div>
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-target"></i> Savings Goal</h3>
@@ -215,13 +257,28 @@ function renderRightRail(viewId) {
     rightRail.innerHTML = `
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-clock-counter-clockwise"></i> Budget History (3M)</h3>
-        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(Mini chart will render here)</div>
+        <div style="display:flex; align-items:flex-end; gap:8px; height:60px; margin-top:16px;">
+          <div style="flex:1; background:var(--blue); height:40%; border-radius:4px 4px 0 0;" title="3 Months Ago"></div>
+          <div style="flex:1; background:var(--blue); height:70%; border-radius:4px 4px 0 0;" title="2 Months Ago"></div>
+          <div style="flex:1; background:var(--teal); height:55%; border-radius:4px 4px 0 0;" title="Last Month"></div>
+        </div>
       </div>
       <div class="card" style="padding: 24px;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-warning"></i> Categories Over Budget</h3>
-        <div style="text-align:center; color:var(--text-secondary); font-size:13px;">(List will render here)</div>
+        <div id="rrOverBudgetList" style="display: flex; flex-direction: column; gap: 12px;"></div>
       </div>
     `;
+    setTimeout(() => {
+       const over = state.budgets.filter(b => {
+          const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
+          return spent > b.limit;
+       });
+       const el = document.getElementById('rrOverBudgetList');
+       if(el) {
+          if(over.length===0) el.innerHTML = '<div style="font-size:13px; color:var(--text-secondary);">All good!</div>';
+          else el.innerHTML = over.map(b => `<div style="display:flex; justify-content:space-between; font-size:13px;"><span>${b.category}</span><span style="color:var(--red); font-weight:600;">Exceeded</span></div>`).join('');
+       }
+    }, 0);
   } else {
     rightRail.innerHTML = '';
   }
@@ -254,7 +311,7 @@ function renderOverview() {
     <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">${formatMoney(totalCost)}</div>
   `;
   document.getElementById('kpiUtilizationContainer').innerHTML = `
-    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Utilization rate</div>
+    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;" class="tooltip">Utilization rate<span class="tooltiptext">Tỷ lệ các dịch vụ bạn đang thực sự sử dụng trên tổng số dịch vụ đã đăng ký</span></div>
     <div style="font-size: 24px; font-weight: 700; color: var(--teal); margin-bottom: 8px;">${utilization}%</div>
     <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px; overflow: hidden;">
       <div style="width: ${utilization}%; height: 100%; background: var(--teal); border-radius: 2px;"></div>
@@ -264,6 +321,16 @@ function renderOverview() {
     <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Active subscriptions</div>
     <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">${activeCount} <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary);">/ ${state.subscriptions.length} total</span></div>
   `;
+
+  const ghostCost = state.subscriptions.filter(s => s.status === 'Ghost').reduce((sum, g) => sum + g.cost, 0);
+  const potentialSavings = ghostCost * 12; // yearly savings
+  const kpiSavings = document.getElementById('kpiSavingsContainer');
+  if(kpiSavings) {
+    kpiSavings.innerHTML = `
+      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Potential yearly savings</div>
+      <div style="font-size: 24px; font-weight: 700; color: var(--red);">${formatMoney(potentialSavings)}</div>
+    `;
+  }
 
   // Ghosts from single truth
   const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
@@ -290,7 +357,7 @@ function renderOverview() {
         </div>
         <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
           <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">${formatMoney(g.cost)}</div>
-          <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border-medium); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; flex-shrink: 0;" onclick="openGhostDrilldown('${g.id}')">Review</button>
+          <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border-medium); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; flex-shrink: 0;" onclick="openGhostDrilldown('${g.id}')">Manage Ghost</button>
         </div>
       </div>
     `).join('');
@@ -461,22 +528,26 @@ function renderSubscriptions() {
       
       let actionBtn = s.status === 'Cancelled' ? '-' : `<button class="btn-secondary" style="padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Manage</button>`;
       if (s.status === 'Ghost') {
-        actionBtn = `<button class="btn-primary" style="background:var(--red) !important; color:white !important; border:none; padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Review</button>`;
+        actionBtn = `<button class="btn-primary" style="background:var(--red) !important; color:white !important; border:none; padding: 4px 12px; font-size:12px;" onclick="openGhostDrilldown('${s.id}')">Manage Ghost</button>`;
       }
       
       // Calculate next billing date mock based on cycle
       let nextBillingStr = s.lastTxDate; // Default fallback
       if (s.status !== 'Cancelled') {
-         let baseDate = new Date(s.lastTxDate || s.added);
-         if (s.cycle === 'Monthly') baseDate.setMonth(baseDate.getMonth() + 1);
-         if (s.cycle === 'Yearly') baseDate.setFullYear(baseDate.getFullYear() + 1);
-         if (s.cycle === 'Weekly') baseDate.setDate(baseDate.getDate() + 7);
-         
-         const diffDays = Math.ceil((baseDate - new Date()) / (1000 * 60 * 60 * 24));
-         if (diffDays > 0) {
-            nextBillingStr = `In ${diffDays} days`;
+         if (s.status === 'Ghost') {
+            nextBillingStr = '<span style="color:var(--red); font-weight:600;"><i class="ph ph-warning-circle"></i> Action Required</span>';
          } else {
-            nextBillingStr = 'Overdue / Pending';
+            let baseDate = new Date(s.lastTxDate || s.added);
+            if (s.cycle === 'Monthly') baseDate.setMonth(baseDate.getMonth() + 1);
+            if (s.cycle === 'Yearly') baseDate.setFullYear(baseDate.getFullYear() + 1);
+            if (s.cycle === 'Weekly') baseDate.setDate(baseDate.getDate() + 7);
+            
+            const diffDays = Math.ceil((baseDate - new Date()) / (1000 * 60 * 60 * 24));
+            if (diffDays > 0) {
+               nextBillingStr = `In ${diffDays} days`;
+            } else {
+               nextBillingStr = 'Overdue / Pending';
+            }
          }
       } else {
          nextBillingStr = '-';

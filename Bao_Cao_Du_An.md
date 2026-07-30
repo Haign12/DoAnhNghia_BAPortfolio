@@ -18,16 +18,26 @@ Báo cáo này mô tả chi tiết thông tin, mục đích kinh doanh, và tín
    - Tự động phân loại giao dịch (Categorization) dựa vào từ khóa (VD: "Netflix" -> Entertainment).
 2. **Thuật toán "Ghost Detection":**
    - Chạy ngầm (Cron job) hàng tuần để quét cơ sở dữ liệu.
+   - Ứng dụng tích hợp Open Banking API (như Plaid, Salt Edge) để tự động sync lịch sử giao dịch. Hệ thống nhận diện qua tên Merchant/Payee thay vì bắt user nhập thủ công.
    - Bất kỳ dịch vụ nào ở trạng thái "Active" nhưng không có giao dịch sử dụng (transaction) trong $\ge$ 30 ngày sẽ bị gắn nhãn "Ghost".
+   - **Status Flow:** Active -> Ghost -> Canceled/Paused (Khi rơi vào Ghost, cột Next Billing sẽ hiển thị "Action Required" để nhắc nhở, tránh nhầm lẫn với "Overdue" của trạng thái Active).
 3. **Quản lý Cảnh báo (Alert/Snooze Logic):**
    - Khi phát hiện Ghost, hệ thống pop-up hiển thị số tiền tiết kiệm được nếu hủy.
    - Người dùng có 2 lựa chọn: CTA "Hủy ngay" hoặc "Snooze 7 ngày" (Tạm ẩn cảnh báo và chưa tính vào Ghost List).
 4. **Dashboard & KPIs:**
-   - Cung cấp màn hình Dashboard hiển thị KPI thời gian thực: *Subscription Utilization Rate* (Tỷ lệ sử dụng hiệu quả), *True Fixed Cost*, và *Variance to Budget*.
+   - Cung cấp màn hình Dashboard hiển thị KPI thời gian thực: *Subscription Utilization Rate* (Tỷ lệ sử dụng hiệu quả), *True Fixed Cost*, *Potential Savings* và *Variance to Budget*.
+5. **Trải nghiệm người dùng (UX) & Mở rộng:**
+   - **Pagination / Infinite Scroll:** Tối ưu hóa UI cho bảng Transactions để xử lý dữ liệu dài hàng ngàn dòng.
+   - **Multi-currency (Đa tiền tệ):** Tự động quy đổi tỷ giá (Exchange rate) các giao dịch ngoại tệ (ví dụ VND) về đồng tiền Base (ví dụ USD) để tính tổng chi phí cố định một cách chính xác.
 
 ### Nền tảng Kỹ thuật thiết kế
 - **Database:** Xây dựng theo Data Warehouse Star Schema (Gồm Fact_Transactions kết nối với Dim_Subscription, Dim_Category, Dim_Date).
 - **Kiến trúc:** 3-Tier Architecture (Presentation Layer với UI Neo-Brutalism/Neumorphic, Business Logic cho Subscription/Ghost, và Data Layer).
+
+### Tầm nhìn & Khả năng mở rộng (Roadmap)
+- **Open Banking Integration:** Mở rộng liên kết trực tiếp với các ngân hàng lớn để pull data real-time, triệt tiêu hoàn toàn Data Entry thủ công.
+- **Family/Group Share:** Tính năng Split Bill cho các gói dịch vụ gia đình (Netflix Family, Spotify Duo), tự động chia tiền và thông báo nợ cho các thành viên.
+- **One-click Cancelation:** Dịch vụ giá trị gia tăng (Killer Feature) cho phép người dùng ấn nút "Cancel Sub" ngay trên FinTrack, hệ thống sẽ sử dụng API hoặc Bot tự động thao tác hủy trên nền tảng của Vendor (Adobe, Coursera, v.v.).
 
 ---
 

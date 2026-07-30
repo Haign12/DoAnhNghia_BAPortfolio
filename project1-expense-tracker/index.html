@@ -48,7 +48,7 @@
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; margin-bottom: 24px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--bg-card) !important; position: static; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     .page-title { font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--text-primary); }
     .page-content { padding: 0; max-width: 1200px; margin: 0 auto; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 24px; }
     .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
     .card { background: var(--bg-card) !important; border-radius: 16px; padding: 24px; border: 1px solid var(--border-light) !important; box-shadow: 0 4px 6px rgba(0,0,0,0.02) !important; color: var(--text-primary) !important; }
     .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -165,6 +165,7 @@
           <div class="kpi-card card" id="kpiTotalCostContainer"></div>
           <div class="kpi-card card" id="kpiUtilizationContainer"></div>
           <div class="kpi-card card" id="kpiActiveCountContainer"></div>
+          <div class="kpi-card card" id="kpiSavingsContainer"></div>
         </div>
 
         <div class="dashboard-grid mt-4">
@@ -224,7 +225,7 @@
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Subscription</th>
+                  <th>Merchant / Description</th>
                   <th>Category</th>
                   <th>Amount</th>
                   <th style="text-align: right;">Action</th>
