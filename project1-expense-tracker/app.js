@@ -1,12 +1,12 @@
 /* ============================================================
-   PROJECT 1 – Gated Flow & State Management
+   PROJECT 1 — Gated Flow & State Management
    ============================================================ */
 
 // --- 1. GLOBAL STATE (Single Source of Truth) ---
 let state = {
   settings: {
     setupCompleted: false,
-    currency: 'USD', // USD or VND
+    currency: 'USD',
     ghostThreshold: 30
   },
   subscriptions: [],
@@ -19,66 +19,92 @@ let state = {
 };
 
 let currentGhostDrilldown = null;
+let chartInstance1 = null;
+let chartInstance2 = null;
+let chartInstance3 = null;
+let chartInstance4 = null;
+let chartInstance5 = null;
+let chartInstance6 = null;
+let chartInstance7 = null;
+let chartInstance8 = null;
+let chartInstance9 = null;
+let chartInstance10 = null;
+let chartInstance11 = null;
+let chartInstance12 = null;
+let chartInstanceCashflow = null;
+let chartInstanceSavings = null;
+let currentSubFilter = 'All';
+let currentAnalyticsRange = 6;
 
 function formatMoney(amount) {
-  if (state.settings.currency === 'USD') return `$${amount.toFixed(2)}`;
-  return `${(amount * 25000).toLocaleString('vi-VN')}đ`;
+  const v = Number(amount) || 0;
+  if (state.settings.currency === 'USD') return `$${v.toFixed(2)}`;
+  return `${(v * 25000).toLocaleString('vi-VN')}đ`;
 }
 
 // --- 2. VIEW ROUTING & ONBOARDING ---
 function switchView(viewId, navEl) {
   if (!state.settings.setupCompleted && viewId !== 'view-onboarding') {
-    showToast('Please complete setup first.', '<i class="ph ph-warning-circle" style="color:red;"></i>');
+    showToast('Please complete setup first.', '<i class="ph ph-warning-circle" style="color:#F97316;"></i>');
     return;
   }
-  
+
   document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-  document.getElementById(viewId).classList.add('active');
-  
+  const target = document.getElementById(viewId);
+  if (target) target.classList.add('active');
+
   const rightRail = document.getElementById('rightRail');
-  if(rightRail) {
+  if (rightRail) {
     rightRail.style.setProperty('display', 'flex', 'important');
     renderRightRail(viewId);
   }
-  
+
   if (navEl) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     navEl.classList.add('active');
   }
-  
+
   window.scrollTo(0, 0);
   runGhostDetection();
-  renderAll();
+  renderAll(viewId);
 }
 
 function completeOnboarding() {
   const curr = document.getElementById('onboardCurrency').value;
   const thres = parseInt(document.getElementById('onboardThreshold').value);
   const loadMock = document.getElementById('onboardMock').checked;
-  
+
   if (isNaN(thres) || thres < 1) {
-    showToast('Invalid threshold'); return;
+    showToast('Invalid threshold', '<i class="ph ph-warning-circle" style="color:#EF4444;"></i>');
+    return;
   }
-  
+
   state.settings.currency = curr;
   state.settings.ghostThreshold = thres;
   state.settings.setupCompleted = true;
-  
-  if (loadMock) {
-    loadMockData();
+
+  if (loadMock) loadMockData();
+
+  // Hide onboarding, show overview
+  const onboarding = document.getElementById('view-onboarding');
+  if (onboarding) onboarding.classList.remove('active');
+
+  const sidebarNav = document.getElementById('sidebarNav');
+  if (sidebarNav) {
+    sidebarNav.style.pointerEvents = 'auto';
+    sidebarNav.style.opacity = '1';
   }
-  
-  document.getElementById('sidebarNav').style.pointerEvents = 'auto';
-  document.getElementById('sidebarNav').style.opacity = '1';
-  
-  switchView('view-overview', document.querySelectorAll('.nav-item')[0]);
-  showToast('Setup complete! Welcome to FinTrack.');
+
+  // Activate the first nav item (Overview)
+  const firstNav = document.querySelectorAll('.nav-item')[0];
+  switchView('view-overview', firstNav);
+  showToast('Setup complete! Welcome to FinTrack.', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
 }
 
 function loadMockData() {
   const today = new Date();
   const daysAgo = (d) => new Date(today.getTime() - d * 86400000).toISOString().split('T')[0];
-  
+
   state.subscriptions = [
     { id: 's1', name: 'Netflix', category: 'Entertainment', cost: 15.99, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#E50914;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-monitor-play"></i></div>', added: daysAgo(100), snoozeUntil: null, ignoreGhost: false },
     { id: 's2', name: 'Spotify', category: 'Entertainment', cost: 9.99, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#1DB954;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-headphones"></i></div>', added: daysAgo(60), snoozeUntil: null, ignoreGhost: false },
@@ -89,21 +115,21 @@ function loadMockData() {
     { id: 's7', name: 'Notion', category: 'Education', cost: 8.00, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#000000;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-notebook"></i></div>', added: daysAgo(180), snoozeUntil: null, ignoreGhost: false },
     { id: 's8', name: 'Yoga App', category: 'Health', cost: 12.00, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#059669;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-person-simple-walk"></i></div>', added: daysAgo(210), snoozeUntil: null, ignoreGhost: false }
   ];
-  
+
   state.transactions = [
-    { id: 't1', subId: 's1', date: daysAgo(5), category: 'Entertainment', amount: 15.99 },
-    { id: 't2', subId: 's2', date: daysAgo(2), category: 'Entertainment', amount: 9.99 },
-    { id: 't3', subId: 's3', date: daysAgo(45), category: 'Health', amount: 30.00 },
-    { id: 't4', subId: 's4', date: daysAgo(60), category: 'Education', amount: 49.00 },
-    { id: 't5', subId: 's5', date: daysAgo(3), category: 'Education', amount: 52.99 },
+    { id: 't1', subId: 's1', date: daysAgo(5),  category: 'Entertainment', amount: 15.99 },
+    { id: 't2', subId: 's2', date: daysAgo(2),  category: 'Entertainment', amount: 9.99 },
+    { id: 't3', subId: 's3', date: daysAgo(45), category: 'Health',        amount: 30.00 },
+    { id: 't4', subId: 's4', date: daysAgo(60), category: 'Education',     amount: 49.00 },
+    { id: 't5', subId: 's5', date: daysAgo(3),  category: 'Education',     amount: 52.99 },
     { id: 't6', subId: 's6', date: daysAgo(10), category: 'Entertainment', amount: 14.99 },
-    { id: 't7', subId: 's7', date: daysAgo(12), category: 'Education', amount: 8.00 },
-    { id: 't8', subId: 's8', date: daysAgo(35), category: 'Health', amount: 12.00 },
-    { id: 't9', subId: 's1', date: daysAgo(35), category: 'Entertainment', amount: 15.99 },
+    { id: 't7', subId: 's7', date: daysAgo(12), category: 'Education',     amount: 8.00 },
+    { id: 't8', subId: 's8', date: daysAgo(35), category: 'Health',        amount: 12.00 },
+    { id: 't9',  subId: 's1', date: daysAgo(35), category: 'Entertainment', amount: 15.99 },
     { id: 't10', subId: 's2', date: daysAgo(32), category: 'Entertainment', amount: 9.99 },
-    { id: 't11', subId: 's5', date: daysAgo(33), category: 'Education', amount: 52.99 },
+    { id: 't11', subId: 's5', date: daysAgo(33), category: 'Education',     amount: 52.99 },
     { id: 't12', subId: 's6', date: daysAgo(40), category: 'Entertainment', amount: 14.99 },
-    { id: 't13', subId: 's7', date: daysAgo(42), category: 'Education', amount: 8.00 }
+    { id: 't13', subId: 's7', date: daysAgo(42), category: 'Education',     amount: 8.00 }
   ];
 }
 
@@ -112,56 +138,91 @@ function runGhostDetection() {
   const today = new Date();
   state.subscriptions.forEach(sub => {
     if (sub.status === 'Cancelled' || sub.ignoreGhost) return;
-    
-    // Find latest transaction
-    const txs = state.transactions.filter(t => t.subId === sub.id).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    const txs = state.transactions.filter(t => t.subId === sub.id).sort((a, b) => new Date(b.date) - new Date(a.date));
     let lastActiveDate = new Date(sub.added);
-    if (txs.length > 0) {
-      lastActiveDate = new Date(txs[0].date);
-    }
-    
+    if (txs.length > 0) lastActiveDate = new Date(txs[0].date);
+
     const diffTime = Math.abs(today - lastActiveDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     sub.daysUnused = diffDays;
     sub.lastTxDate = lastActiveDate.toISOString().split('T')[0];
-    
-    // Check snoozed
+
     if (sub.snoozeUntil && new Date(sub.snoozeUntil) > today) {
       sub.status = 'Active';
       return;
     }
-    
-    if (diffDays >= state.settings.ghostThreshold) {
-      sub.status = 'Ghost';
-    } else {
-      sub.status = 'Active';
-    }
+
+    sub.status = diffDays >= state.settings.ghostThreshold ? 'Ghost' : 'Active';
   });
 }
 
-// --- 4. RENDER LOGIC ---
+// --- 4. RENDER ROUTER ---
+function renderAll(viewId) {
+  try {
+    renderOverview();
+    renderTransactions();
+    renderSubscriptions();
+    renderBudget();
+    renderAnalytics(viewId);
+    renderCashflow();
+    renderUpcomingRenewals();
+  } catch (err) {
+    document.body.innerHTML += `<div style="position:fixed;top:0;left:0;z-index:9999;background:red;color:white;padding:20px;width:100%;"><b>JS ERROR in renderAll:</b> ${err.message}<br><pre>${err.stack}</pre></div>`;
+    console.error(err);
+  }
+}
+
+function kpiCard(label, value, sub, badge) {
+  return `
+    <div style="padding: 20px 24px; border-right: 1px solid var(--border-light);">
+      <div style="font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-bottom: 8px;">${label}</div>
+      <div style="font-size: 1.875rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1;">${value}</div>
+      ${sub ? `<div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px;">${sub}</div>` : ''}
+      ${badge ? `<div style="margin-top: 8px;"><span style="display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: var(--primary-light); color: var(--primary); border-radius: 50px; font-size: 11px; font-weight: 600;">${badge}</span></div>` : ''}
+    </div>
+  `;
+}
+
+function kpiGrid(kpis) {
+  return kpis.map((k, i) => `
+    <div style="padding: 0;${i < kpis.length - 1 ? ' border-right: 1px solid var(--border-light);' : ''}">
+      ${kpiCard(k.label, k.value, k.sub, k.badge)}
+    </div>
+  `).join('');
+}
+
+// --- 4a. RIGHT RAIL ---
 function renderRightRail(viewId) {
   const rightRail = document.getElementById('rightRail');
   if (!rightRail) return;
-  
+
   if (viewId === 'view-overview') {
     rightRail.innerHTML = `
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-calendar-blank"></i> Upcoming Renewals</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-calendar-blank"></i> Upcoming Renewals
+        </h3>
         <div id="upcomingRenewalsList" style="display: flex; flex-direction: column; gap: 16px;"></div>
         <button class="btn-secondary" style="width: 100%; margin-top: 20px;" onclick="switchView('view-cashflow', document.querySelectorAll('.nav-item')[4])">View All</button>
       </div>
     `;
-    // We populate this inside renderOverview
+    renderUpcomingRenewals();
   } else if (viewId === 'view-transactions') {
+    const sorted = [...state.transactions].sort((a, b) => b.amount - a.amount).slice(0, 3);
+    const monthTot = state.transactions.reduce((s, t) => s + t.amount, 0);
     rightRail.innerHTML = `
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-trend-up"></i> Month vs Last Month</h3>
-        <div style="font-size: 24px; font-weight: 700;">$142.00 <span style="font-size:14px; color:var(--red);">+12%</span></div>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-trend-up"></i> Month vs Last Month
+        </h3>
+        <div style="font-size: 24px; font-weight: 700;">${formatMoney(monthTot)} <span style="font-size:14px; color:var(--red);">+12%</span></div>
       </div>
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-chart-donut"></i> By Category</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-chart-donut"></i> By Category
+        </h3>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <div style="display:flex; justify-content:space-between; font-size:13px;"><span>Entertainment</span><span style="font-weight:600;">45%</span></div>
           <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div style="width:45%; height:100%; background:var(--blue); border-radius:3px;"></div></div>
@@ -169,73 +230,79 @@ function renderRightRail(viewId) {
           <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div style="width:30%; height:100%; background:var(--teal); border-radius:3px;"></div></div>
         </div>
       </div>
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-star"></i> Top 3 Largest</h3>
-        <div id="rrTopTxList" style="display: flex; flex-direction: column; gap: 12px;"></div>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-star"></i> Top 3 Largest
+        </h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          ${sorted.map(t => {
+            const sub = state.subscriptions.find(s => s.id === t.subId);
+            return `<div style="display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">
+              <span>${sub ? sub.name : 'Unknown'}</span><span style="font-weight:600;">${formatMoney(t.amount)}</span>
+            </div>`;
+          }).join('')}
+        </div>
       </div>
     `;
-    setTimeout(() => {
-       const sorted = [...state.transactions].sort((a,b)=>b.amount-a.amount).slice(0,3);
-       const el = document.getElementById('rrTopTxList');
-       if(el) {
-          el.innerHTML = sorted.map(t => {
-             const sub = state.subscriptions.find(s => s.id === t.subId);
-             return `<div style="display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">
-               <span>${sub ? sub.name : 'Unknown'}</span><span style="font-weight:600;">${formatMoney(t.amount)}</span>
-             </div>`;
-          }).join('');
-       }
-    }, 0);
   } else if (viewId === 'view-subscriptions') {
     rightRail.innerHTML = `
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-heartbeat"></i> Subscription Health</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-heartbeat"></i> Subscription Health
+        </h3>
         <canvas id="rrHealthChart" width="200" height="200"></canvas>
       </div>
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-calendar-blank"></i> Renewal Calendar (Next 7D)</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-calendar-blank"></i> Renewal Calendar (Next 7D)
+        </h3>
         <div id="subRenewalCalendar" style="display: flex; flex-direction: column; gap: 16px;"></div>
       </div>
     `;
     setTimeout(() => {
-       const active = state.subscriptions.filter(s=>s.status==='Active').length;
-       const ghost = state.subscriptions.filter(s=>s.status==='Ghost').length;
-       const ctx = document.getElementById('rrHealthChart');
-       if(ctx) {
-           new Chart(ctx, {
-             type: 'doughnut',
-             data: {
-               labels: ['Active', 'Ghost'],
-               datasets: [{
-                 data: [active, ghost],
-                 backgroundColor: ['#00d4aa', '#EF4444'],
-                 borderWidth: 0
-               }]
-             },
-             options: { responsive: true, plugins: { legend: { position: 'bottom', labels: {color: 'var(--text-primary)'} } } }
-           });
-       }
+      const active = state.subscriptions.filter(s => s.status === 'Active').length;
+      const ghost = state.subscriptions.filter(s => s.status === 'Ghost').length;
+      const ctx = document.getElementById('rrHealthChart');
+      if (ctx) {
+        if (chartInstance3) chartInstance3.destroy();
+        chartInstance3 = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Active', 'Ghost'],
+            datasets: [{ data: [active, ghost], backgroundColor: ['#10B981', '#EF4444'], borderWidth: 0 }]
+          },
+          options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#1C2434' } } } }
+        });
+      }
     }, 0);
   } else if (viewId === 'view-analytics') {
     rightRail.innerHTML = `
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-fire"></i> Peak Spending Day</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-fire"></i> Peak Spending Day
+        </h3>
         <div style="font-size: 24px; font-weight: 700;">Saturday</div>
       </div>
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-shield-check"></i> Best Streak</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-shield-check"></i> Best Streak
+        </h3>
         <div style="font-size: 24px; font-weight: 700; color: var(--teal);">14 Days</div>
         <div style="font-size: 12px; color: var(--text-secondary);">Without ghost trigger</div>
       </div>
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-chart-line-up"></i> Annual Forecast</h3>
-        <div style="font-size: 24px; font-weight: 700;">$1,420.00</div>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-chart-line-up"></i> Annual Forecast
+        </h3>
+        <div style="font-size: 24px; font-weight: 700;">${formatMoney(state.subscriptions.filter(s => s.status !== 'Cancelled').reduce((sum, s) => sum + s.cost, 0) * 12)}</div>
       </div>
     `;
   } else if (viewId === 'view-cashflow') {
     rightRail.innerHTML = `
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-money"></i> Recent Income</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-money"></i> Recent Income
+        </h3>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div style="display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">
              <span>Salary (Stripe)</span><span style="font-weight:600; color:var(--teal);">+$3,200.00</span>
@@ -245,8 +312,10 @@ function renderRightRail(viewId) {
           </div>
         </div>
       </div>
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-target"></i> Savings Goal</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-target"></i> Savings Goal
+        </h3>
         <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600;">Buy a Laptop</div>
         <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">60%</div>
         <div style="width: 100%; height: 8px; background: var(--bg-main); border-radius: 4px; overflow: hidden;">
@@ -256,60 +325,74 @@ function renderRightRail(viewId) {
     `;
   } else if (viewId === 'view-budget') {
     rightRail.innerHTML = `
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-clock-counter-clockwise"></i> Budget History (3M)</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-clock-counter-clockwise"></i> Budget History (3M)
+        </h3>
         <div style="display:flex; align-items:flex-end; gap:8px; height:60px; margin-top:16px;">
           <div style="flex:1; background:var(--blue); height:40%; border-radius:4px 4px 0 0;" title="3 Months Ago"></div>
           <div style="flex:1; background:var(--blue); height:70%; border-radius:4px 4px 0 0;" title="2 Months Ago"></div>
           <div style="flex:1; background:var(--teal); height:55%; border-radius:4px 4px 0 0;" title="Last Month"></div>
         </div>
       </div>
-      <div class="card" style="padding: 24px;">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary);"><i class="ph ph-warning"></i> Categories Over Budget</h3>
+      <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="ph ph-warning"></i> Categories Over Budget
+        </h3>
         <div id="rrOverBudgetList" style="display: flex; flex-direction: column; gap: 12px;"></div>
       </div>
     `;
     setTimeout(() => {
-       const over = state.budgets.filter(b => {
-          const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
-          return spent > b.limit;
-       });
-       const el = document.getElementById('rrOverBudgetList');
-       if(el) {
-          if(over.length===0) el.innerHTML = '<div style="font-size:13px; color:var(--text-secondary);">All good!</div>';
-          else el.innerHTML = over.map(b => `<div style="display:flex; justify-content:space-between; font-size:13px;"><span>${b.category}</span><span style="color:var(--red); font-weight:600;">Exceeded</span></div>`).join('');
-       }
+      const over = state.budgets.filter(b => {
+        const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
+        return spent > b.limit;
+      });
+      const el = document.getElementById('rrOverBudgetList');
+      if (el) {
+        if (over.length === 0) el.innerHTML = '<div style="font-size:13px; color:var(--text-secondary);">All good — no overruns.</div>';
+        else el.innerHTML = over.map(b => `<div style="display:flex; justify-content:space-between; font-size:13px;"><span>${b.category}</span><span style="color:var(--red); font-weight:600;">Exceeded</span></div>`).join('');
+      }
     }, 0);
   } else {
     rightRail.innerHTML = '';
   }
 }
 
-function renderAll() {
-  if (state.subscriptions.length === 0 && state.transactions.length === 0) {
-    document.getElementById('overviewContent').style.display = 'none';
-    document.getElementById('overviewEmpty').style.display = 'block';
-  } else {
-    document.getElementById('overviewContent').style.display = 'block';
-    document.getElementById('overviewEmpty').style.display = 'none';
-    renderOverview();
+function renderUpcomingRenewals() {
+  const renewalsEl = document.getElementById('upcomingRenewalsList');
+  if (!renewalsEl) return;
+  const active = state.subscriptions.filter(s => s.status === 'Active');
+  if (active.length === 0) {
+    renewalsEl.innerHTML = '<div style="color:var(--text-secondary); font-size:13px;">No upcoming renewals.</div>';
+    return;
   }
-  renderTransactions();
-  renderSubscriptions();
-  renderBudget();
-  renderAnalytics();
-  renderCashflow();
+  renewalsEl.innerHTML = active.slice(0, 4).map((s, i) => {
+    const days = (i + 1) * 3 + (i % 2);
+    return `
+      <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <div style="display:flex; align-items:center; gap: 12px; min-width: 0;">
+          <div style="font-size: 18px; color: var(--text-secondary); width: 36px; height: 36px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">${s.icon}</div>
+          <div style="min-width: 0;">
+            <div style="font-weight: 600; font-size: 13px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s.name}</div>
+            <div style="font-size: 11px; color: var(--text-secondary); font-weight: 500;">In ${days} days</div>
+          </div>
+        </div>
+        <div style="font-weight: 700; font-size: 13px; color: var(--text-primary); flex-shrink: 0;">${formatMoney(s.cost)}</div>
+      </div>
+    `;
+  }).join('');
 }
 
-
+// --- 4b. OVERVIEW ---
 function renderOverview() {
   const activeSubs = state.subscriptions.filter(s => s.status !== 'Cancelled');
   const totalCost = activeSubs.reduce((sum, s) => sum + s.cost, 0);
   const activeCount = activeSubs.filter(s => s.status === 'Active').length;
   const ghostCount = state.subscriptions.filter(s => s.status === 'Ghost').length;
   const ghostCost = state.subscriptions.filter(s => s.status === 'Ghost').reduce((sum, g) => sum + g.cost, 0);
-  const potentialSavings = ghostCost * 12; // yearly savings
-  
+  const potentialSavings = ghostCost * 12;
+
+  // KPI grid
   const gridEl = document.getElementById('overviewKPIsGrid');
   if (gridEl) {
     gridEl.innerHTML = `
@@ -342,159 +425,179 @@ function renderOverview() {
     `;
   }
 
-  // Row 3 Charts Setup
+  // Charts - reset canvas
+  const donutHost = document.getElementById('overviewSpendingByCategory');
+  const barHost = document.getElementById('overviewSubscriptionHealth');
+  if (donutHost) donutHost.innerHTML = '<canvas id="ovDonutChart"></canvas>';
+  if (barHost) barHost.innerHTML = '<canvas id="ovBarChart"></canvas>';
 
-  document.getElementById('overviewSpendingByCategory').innerHTML = '<canvas id="ovDonutChart"></canvas>';
-  document.getElementById('overviewSubscriptionHealth').innerHTML = '<canvas id="ovBarChart"></canvas>';
-  
-  // Top Line Progress Bars (Active vs Ghost by Category)
-  const categories = [...new Set(state.subscriptions.map(s => s.category))];
-  document.getElementById('overviewTopLine').innerHTML = categories.slice(0,3).map(cat => {
-     const subsInCat = state.subscriptions.filter(s => s.category === cat);
-     const active = subsInCat.filter(s => s.status === 'Active').length;
-     const ghost = subsInCat.filter(s => s.status === 'Ghost').length;
-     const tot = subsInCat.length;
-     const pActive = Math.round((active/tot)*100) || 0;
-     const pGhost = Math.round((ghost/tot)*100) || 0;
-     return `
-       <div style="margin-bottom: 8px;">
-         <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight: 500;">
-           <span>${cat}</span>
-           <span style="color:var(--text-secondary);">${tot} total</span>
-         </div>
-         <div style="width:100%; height:8px; background:var(--bg-main); border-radius:4px; display:flex; overflow:hidden;">
-           <div style="width:${pActive}%; height:100%; background:var(--primary);"></div>
-           <div style="width:${pGhost}%; height:100%; background:rgba(60, 80, 224, 0.2);"></div>
-         </div>
-       </div>
-     `;
-  }).join('') + `<div style="display:flex; align-items:center; gap:12px; font-size:11px; margin-top:8px;"><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--primary);"></span>Active</div><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:rgba(60, 80, 224, 0.2);"></span>Ghost</div></div>`;
+  bindOverviewCharts();
 
-  setTimeout(() => {
-    // Sparklines
-    const costCtx = document.getElementById('kpiSparklineCost');
-    if(costCtx) new Chart(costCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [65,59,80,81,56], borderColor: '#CBD5E1', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(203, 213, 225, 0.2)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
-
-    const savCtx = document.getElementById('kpiSparklineSavings');
-    if(savCtx) new Chart(savCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [28,48,40,19,86], borderColor: '#3C50E0', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(60, 80, 224, 0.15)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
-    
-    // Donut Chart
-    const dCtx = document.getElementById('ovDonutChart');
-    if(dCtx) new Chart(dCtx, { type: 'doughnut', data: { labels: ['Entertainment', 'Health', 'Education'], datasets: [{ data: [45, 25, 30], backgroundColor: ['#3C50E0', '#80CAEE', '#E2E8F0'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
-
-    // Bar Chart
-    const bCtx = document.getElementById('ovBarChart');
-    if(bCtx) new Chart(bCtx, { type: 'bar', data: { labels: ['Q1', 'Q2', 'Q3', 'Q4'], datasets: [{ data: [30, 45, 60, 20], backgroundColor: ['#E2E8F0', '#80CAEE', '#3C50E0', '#E2E8F0'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, border: { display: false } }, y: { display: false } } } });
-  }, 0);
-
-  // Recent transactions full table
-
+  // Recent transactions list
   const txListEl = document.getElementById('overviewTxList');
-  if(state.transactions.length === 0) {
-    txListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;padding:12px 0;">No recent transactions</div>';
-  } else {
-    const sortedTx = [...filteredTx].sort((a,b) => new Date(b.date) - new Date(a.date));
-    tbody.innerHTML = sortedTx.map(t => {
-      const sub = state.subscriptions.find(s => s.id === t.subId);
-      return `
-      <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
-        <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-400">${t.date}</td>
-        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">${sub ? sub.name : 'Unknown'}</td>
-        <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">${t.category}</span></td>
-        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-white">${formatMoney(t.amount)}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-          <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="editTx('${t.id}')"><i class="ph ph-pencil-simple text-lg"></i></button>
-          <button class="text-red-600 hover:text-red-900" onclick="deleteTx('${t.id}')"><i class="ph ph-trash text-lg"></i></button>
-        </td>
-      </tr>
-      `;
-    }).join('');
-  }
-
-  // Spending by category
-  const spendingListEl = document.getElementById('overviewSpendingByCategory');
-  if(spendingListEl) {
-    const catTotals = {};
-    state.transactions.forEach(t => {
-      catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
-    });
-    const catSpent = Object.keys(catTotals).map(cat => ({ cat, spent: catTotals[cat] })).sort((a, b) => b.spent - a.spent);
-    
-    if(catSpent.length === 0) {
-      spendingListEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;padding:12px 0;">No spending data.</div>';
+  if (txListEl) {
+    if (state.transactions.length === 0) {
+      txListEl.innerHTML = '<div style="color:var(--text-secondary); font-size:13px; padding:12px 0;">No recent transactions</div>';
     } else {
-      const maxCatSpent = Math.max(...catSpent.map(c => c.spent));
-      spendingListEl.innerHTML = catSpent.map(c => {
-        const pct = Math.min(100, Math.round((c.spent / maxCatSpent) * 100));
+      const sortedTx = [...state.transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+      txListEl.innerHTML = sortedTx.map(t => {
+        const sub = state.subscriptions.find(s => s.id === t.subId);
         return `
-        <div>
-          <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">
-            <span>${c.cat}</span>
-            <span>${formatMoney(c.spent)}</span>
-          </div>
-          <div style="width: 100%; height: 4px; background: var(--border-medium); border-radius: 2px;">
-            <div style="width: ${pct}%; height: 100%; background: var(--blue); border-radius: 2px;"></div>
-          </div>
-        </div>
-        `;
-      }).join('');
-    }
-  }
-
-  // Upcoming Renewals for Right Rail
-  const renewalsEl = document.getElementById('upcomingRenewalsList');
-  if (renewalsEl) {
-    const active = state.subscriptions.filter(s => s.status === 'Active');
-    if(active.length === 0) {
-      renewalsEl.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;">No upcoming renewals.</div>';
-    } else {
-      renewalsEl.innerHTML = active.slice(0, 4).map((s, i) => {
-        let days = (i+1)*3 + (i%2); 
-        return `
-        <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-          <div style="display:flex; align-items:center; gap: 12px; min-width: 0;">
-            <div style="font-size: 18px; color: var(--text-secondary); width: 36px; height: 36px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">${s.icon}</div>
-            <div style="min-width: 0;">
-              <div style="font-weight: 600; font-size: 13px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s.name}</div>
-              <div style="font-size: 11px; color: var(--text-secondary); font-weight: 500;">In ${days} days</div>
+          <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
+            <div style="display:flex; align-items:center; gap: 12px; min-width: 0;">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--bg-main); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px;">${sub ? sub.icon : '📦'}</div>
+              <div style="min-width: 0;">
+                <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${sub ? sub.name : 'Unknown'}</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">${t.category} • ${t.date}</div>
+              </div>
             </div>
+            <div style="font-weight: 700; font-size: 14px; color: var(--text-primary); flex-shrink: 0;">${formatMoney(t.amount)}</div>
           </div>
-          <div style="font-weight: 700; font-size: 13px; color: var(--text-primary); flex-shrink: 0;">${formatMoney(s.cost)}</div>
-        </div>
         `;
       }).join('');
     }
   }
 }
 
+function bindOverviewCharts() {
+  setTimeout(() => {
+    const dCtx = document.getElementById('ovDonutChart');
+    if (dCtx) {
+      if (chartInstance4) chartInstance4.destroy();
+      chartInstance4 = new Chart(dCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Entertainment', 'Health', 'Education'],
+          datasets: [{ data: [45, 25, 30], backgroundColor: ['#3C50E0', '#80CAEE', '#E2E8F0'], borderWidth: 0 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
+    }
+
+    const bCtx = document.getElementById('ovBarChart');
+    if (bCtx) {
+      if (chartInstance5) chartInstance5.destroy();
+      chartInstance5 = new Chart(bCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+          datasets: [{ data: [30, 45, 60, 20], backgroundColor: ['#E2E8F0', '#80CAEE', '#3C50E0', '#E2E8F0'], borderRadius: 4 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { grid: { display: false }, border: { display: false } }, y: { display: false } }
+        }
+      });
+    }
+  }, 0);
+}
+
+// --- 4c. TRANSACTIONS ---
 function renderTransactions() {
   const tbody = document.getElementById('fullTxList');
-  if(!tbody) return;
+  if (!tbody) return;
   const searchEl = document.getElementById('txSearchFilter');
   const catEl = document.getElementById('txCatFilter');
   const searchTerm = searchEl ? searchEl.value.toLowerCase() : '';
   const filterCat = catEl ? catEl.value : 'All';
-  
+
   let filteredTx = state.transactions;
-  if(filterCat !== 'All') {
-    filteredTx = filteredTx.filter(t => t.category === filterCat);
-  }
-  if(searchTerm) {
+  if (filterCat !== 'All') filteredTx = filteredTx.filter(t => t.category === filterCat);
+  if (searchTerm) {
     filteredTx = filteredTx.filter(t => {
       const sub = state.subscriptions.find(s => s.id === t.subId);
       const name = sub ? sub.name.toLowerCase() : 'unknown';
       return name.includes(searchTerm);
     });
   }
-  
-  if(filteredTx.length === 0) {
-    document.getElementById('emptyTxState').style.display = 'block';
+
+  // KPIs
+  const totalCount = state.transactions.length;
+  const totalAmount = state.transactions.reduce((s, t) => s + t.amount, 0);
+  const avgAmount = totalCount ? totalAmount / totalCount : 0;
+  const biggest = state.transactions.reduce((m, t) => t.amount > (m?.amount || 0) ? t : m, null);
+  const categories = new Set(state.transactions.map(t => t.category)).size;
+
+  const kpiEl = document.getElementById('transactionsKPIsGrid');
+  if (kpiEl) {
+    kpiEl.innerHTML = kpiGrid([
+      { label: 'Total Transactions', value: totalCount, sub: `${categories} categories` },
+      { label: 'Total Amount', value: formatMoney(totalAmount) },
+      { label: 'Average Amount', value: formatMoney(avgAmount) },
+      { label: 'Biggest Transaction', value: biggest ? formatMoney(biggest.amount) : '—', sub: biggest ? (state.subscriptions.find(s => s.id === biggest.subId)?.name || 'Unknown') : '' }
+    ]);
+  }
+
+  // Charts
+  setTimeout(() => {
+    const catCtx = document.getElementById('txCategoryChart');
+    if (catCtx) {
+      if (chartInstance7) chartInstance7.destroy();
+      const catMap = {};
+      state.transactions.forEach(t => { catMap[t.category] = (catMap[t.category] || 0) + t.amount; });
+      chartInstance7 = new Chart(catCtx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(catMap),
+          datasets: [{
+            label: 'Spent',
+            data: Object.values(catMap),
+            backgroundColor: ['#3C50E0', '#10B981', '#F59E0B', '#EF4444', '#7C3AED'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+        }
+      });
+    }
+
+    const dailyCtx = document.getElementById('txDailyChart');
+    if (dailyCtx) {
+      if (chartInstance8) chartInstance8.destroy();
+      const last7 = [];
+      const today = new Date();
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(today.getTime() - i * 86400000).toISOString().split('T')[0];
+        const dayTotal = state.transactions.filter(t => t.date === d).reduce((s, t) => s + t.amount, 0);
+        last7.push({ label: d.slice(5), value: dayTotal });
+      }
+      chartInstance8 = new Chart(dailyCtx, {
+        type: 'line',
+        data: {
+          labels: last7.map(d => d.label),
+          datasets: [{
+            label: 'Daily Total',
+            data: last7.map(d => d.value),
+            borderColor: '#3C50E0',
+            backgroundColor: 'rgba(60, 80, 224, 0.15)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#3C50E0'
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+        }
+      });
+    }
+  }, 0);
+
+  const emptyState = document.getElementById('emptyTxState');
+  if (filteredTx.length === 0) {
+    if (emptyState) emptyState.style.display = 'block';
     tbody.parentElement.style.display = 'none';
   } else {
-    document.getElementById('emptyTxState').style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
     tbody.parentElement.style.display = 'table';
-    
-    const sortedTx = [...filteredTx].sort((a,b) => new Date(b.date) - new Date(a.date));
+    const sortedTx = [...filteredTx].sort((a, b) => new Date(b.date) - new Date(a.date));
     tbody.innerHTML = sortedTx.map(t => {
       const sub = state.subscriptions.find(s => s.id === t.subId);
       return `
@@ -513,105 +616,477 @@ function renderTransactions() {
   }
 }
 
-let currentSubFilter = 'All';
-
+// --- 4d. SUBSCRIPTIONS ---
 function setSubFilter(status) {
   currentSubFilter = status;
-  document.getElementById('subFilterAll').classList.remove('active');
-  document.getElementById('subFilterActive').classList.remove('active');
-  document.getElementById('subFilterGhost').classList.remove('active');
-  
-  if(status === 'All') document.getElementById('subFilterAll').classList.add('active');
-  if(status === 'Active') document.getElementById('subFilterActive').classList.add('active');
-  if(status === 'Ghost') document.getElementById('subFilterGhost').classList.add('active');
-  
+  ['subFilterAll', 'subFilterActive', 'subFilterGhost'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+  const idMap = { 'All': 'subFilterAll', 'Active': 'subFilterActive', 'Ghost': 'subFilterGhost' };
+  const activeEl = document.getElementById(idMap[status]);
+  if (activeEl) activeEl.classList.add('active');
   renderSubscriptions();
 }
 
 function renderSubscriptions() {
   const tbody = document.getElementById('fullSubList');
-  if(!tbody) return;
-  
-  let filteredSubs = state.subscriptions;
-  if (currentSubFilter !== 'All') {
-    filteredSubs = filteredSubs.filter(s => s.status === currentSubFilter);
+  if (!tbody) return;
+
+  const activeCount = state.subscriptions.filter(s => s.status === 'Active').length;
+  const ghostCount = state.subscriptions.filter(s => s.status === 'Ghost').length;
+  const cancelledCount = state.subscriptions.filter(s => s.status === 'Cancelled').length;
+  const monthlyCost = state.subscriptions.filter(s => s.status !== 'Cancelled').reduce((s, x) => s + x.cost, 0);
+  const ghostCost = state.subscriptions.filter(s => s.status === 'Ghost').reduce((s, x) => s + x.cost, 0);
+
+  // KPIs
+  const kpiEl = document.getElementById('subscriptionsKPIsGrid');
+  if (kpiEl) {
+    kpiEl.innerHTML = kpiGrid([
+      { label: 'Total Subscriptions', value: state.subscriptions.length, sub: `${cancelledCount} cancelled` },
+      { label: 'Active', value: activeCount, badge: 'Healthy' },
+      { label: 'Ghost Alerts', value: ghostCount, sub: ghostCount > 0 ? `Bleeding ${formatMoney(ghostCost)}/mo` : 'No leaks', badge: ghostCount > 0 ? 'Action Required' : 'All Clear' },
+      { label: 'Monthly Cost', value: formatMoney(monthlyCost), sub: `Yearly: ${formatMoney(monthlyCost * 12)}` }
+    ]);
   }
-  
-  if(filteredSubs.length === 0) {
+
+  // Charts
+  setTimeout(() => {
+    const statusCtx = document.getElementById('subStatusChart');
+    if (statusCtx) {
+      if (chartInstance9) chartInstance9.destroy();
+      chartInstance9 = new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Active', 'Ghost', 'Cancelled'],
+          datasets: [{
+            data: [activeCount, ghostCount, cancelledCount],
+            backgroundColor: ['#10B981', '#EF4444', '#94A3B8'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#1C2434', padding: 12, font: { size: 12 } } } }
+        }
+      });
+    }
+
+    const catCtx = document.getElementById('subCategoryChart');
+    if (catCtx) {
+      if (chartInstance10) chartInstance10.destroy();
+      const catMap = {};
+      state.subscriptions.filter(s => s.status !== 'Cancelled').forEach(s => {
+        catMap[s.category] = (catMap[s.category] || 0) + s.cost;
+      });
+      chartInstance10 = new Chart(catCtx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(catMap),
+          datasets: [{
+            label: 'Cost',
+            data: Object.values(catMap),
+            backgroundColor: ['#3C50E0', '#10B981', '#F59E0B', '#EF4444', '#7C3AED'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+        }
+      });
+    }
+  }, 0);
+
+  let filteredSubs = state.subscriptions;
+  if (currentSubFilter !== 'All') filteredSubs = filteredSubs.filter(s => s.status === currentSubFilter);
+
+  if (filteredSubs.length === 0) {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px; color: var(--text-secondary);">No subscriptions found.</td></tr>';
-  } else {
-    tbody.innerHTML = filteredSubs.map(s => {
-      let badge = '<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">ACTIVE</span>';
-      if(s.status === 'Ghost') badge = '<span class="inline-flex items-center rounded-full bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">GHOST</span>';
-      if(s.status === 'Cancelled') badge = '<span class="inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">CANCELLED</span>';
-      
-      let actionBtn = s.status === 'Cancelled' ? '-' : `<button class="rounded bg-white px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" onclick="openGhostDrilldown('${s.id}')">Manage</button>`;
+    return;
+  }
+
+  tbody.innerHTML = filteredSubs.map(s => {
+    let badge = '<span class="badge success">ACTIVE</span>';
+    if (s.status === 'Ghost') badge = '<span class="badge-ghost">GHOST</span>';
+    if (s.status === 'Cancelled') badge = '<span class="badge-neutral">CANCELLED</span>';
+
+    let actionBtn = s.status === 'Cancelled' ? '<span style="color:var(--text-muted);">-</span>' : `<button class="btn-secondary" style="padding: 6px 16px; font-size: 12px;" onclick="openGhostDrilldown('${s.id}')">Manage</button>`;
+    if (s.status === 'Ghost') {
+      actionBtn = `<button class="btn-primary" style="padding: 6px 16px; font-size: 12px; background: var(--red) !important;" onclick="openGhostDrilldown('${s.id}')">Manage Ghost</button>`;
+    }
+
+    let nextBillingStr = '-';
+    if (s.status !== 'Cancelled') {
       if (s.status === 'Ghost') {
-        actionBtn = `<button class="rounded bg-red-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" onclick="openGhostDrilldown('${s.id}')">Manage Ghost</button>`;
-      }
-      
-      let nextBillingStr = s.lastTxDate;
-      if (s.status !== 'Cancelled') {
-         if (s.status === 'Ghost') {
-            nextBillingStr = '<span class="text-red-600 font-semibold flex items-center gap-1"><i class="ph ph-warning-circle"></i> Action Required</span>';
-         } else {
-            let baseDate = new Date(s.lastTxDate || s.added);
-            if (s.cycle === 'Monthly') baseDate.setMonth(baseDate.getMonth() + 1);
-            if (s.cycle === 'Yearly') baseDate.setFullYear(baseDate.getFullYear() + 1);
-            if (s.cycle === 'Weekly') baseDate.setDate(baseDate.getDate() + 7);
-            
-            const diffDays = Math.ceil((baseDate - new Date()) / (1000 * 60 * 60 * 24));
-            if (diffDays > 0) {
-               nextBillingStr = `In ${diffDays} days`;
-            } else {
-               nextBillingStr = 'Overdue / Pending';
-            }
-         }
+        nextBillingStr = '<span style="color: var(--red); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><i class="ph ph-warning-circle"></i> Action Required</span>';
       } else {
-         nextBillingStr = '-';
+        let baseDate = new Date(s.lastTxDate || s.added);
+        if (s.cycle === 'Monthly') baseDate.setMonth(baseDate.getMonth() + 1);
+        if (s.cycle === 'Yearly') baseDate.setFullYear(baseDate.getFullYear() + 1);
+        if (s.cycle === 'Weekly') baseDate.setDate(baseDate.getDate() + 7);
+
+        const diffDays = Math.ceil((baseDate - new Date()) / (1000 * 60 * 60 * 24));
+        nextBillingStr = diffDays > 0 ? `In ${diffDays} days` : 'Overdue / Pending';
       }
-      
-      return `
+    }
+
+    return `
       <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 ${s.status === 'Cancelled' ? 'opacity-50' : ''}">
-        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white flex items-center gap-3"><span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">${s.icon}</span> ${s.name}</td>
+        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="width:36px; height:36px; border-radius:8px; background:#F1F5F9; display:flex; align-items:center; justify-content:center; flex-shrink:0;">${s.icon}</span>
+            <span>${s.name}</span>
+          </div>
+        </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${nextBillingStr}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${s.cycle}</td>
         <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-white">${formatMoney(s.cost)}</td>
         <td class="px-6 py-4 whitespace-nowrap">${badge}</td>
         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">${actionBtn}</td>
       </tr>
-      `;
-    }).join('');
-  }
+    `;
+  }).join('');
 }
 
+// --- 4e. BUDGET ---
 function renderBudget() {
   const container = document.getElementById('budgetList');
+  if (!container) return;
+
+  const totalLimit = state.budgets.reduce((s, b) => s + b.limit, 0);
+  const totalSpent = state.budgets.reduce((s, b) => {
+    return s + state.transactions.filter(t => t.category === b.category).reduce((ss, t) => ss + t.amount, 0);
+  }, 0);
+  const overCount = state.budgets.filter(b => {
+    const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
+    return spent > b.limit;
+  }).length;
+  const remaining = totalLimit - totalSpent;
+
+  // KPIs
+  const kpiEl = document.getElementById('budgetKPIsGrid');
+  if (kpiEl) {
+    kpiEl.innerHTML = kpiGrid([
+      { label: 'Total Budget', value: formatMoney(totalLimit), sub: `${state.budgets.length} categories` },
+      { label: 'Total Spent', value: formatMoney(totalSpent), sub: `${totalLimit ? Math.round((totalSpent/totalLimit)*100) : 0}% of budget` },
+      { label: 'Over Budget', value: overCount, sub: overCount > 0 ? 'Action needed' : 'On track', badge: overCount > 0 ? 'Review' : 'OK' },
+      { label: 'Remaining', value: formatMoney(remaining), sub: remaining >= 0 ? 'Under budget' : 'Over budget' }
+    ]);
+  }
+
+  // Charts
+  setTimeout(() => {
+    const utilCtx = document.getElementById('budgetUtilChart');
+    if (utilCtx) {
+      if (chartInstance11) chartInstance11.destroy();
+      const pct = totalLimit ? Math.round((totalSpent / totalLimit) * 100) : 0;
+      chartInstance11 = new Chart(utilCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Spent', 'Remaining'],
+          datasets: [{
+            data: [totalSpent, Math.max(0, remaining)],
+            backgroundColor: [totalSpent > totalLimit ? '#EF4444' : '#3C50E0', '#E2E8F0'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: '#1C2434', padding: 12 } },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.label}: ${formatMoney(ctx.parsed)}`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    const catCtx = document.getElementById('budgetCatChart');
+    if (catCtx) {
+      if (chartInstance12) chartInstance12.destroy();
+      const labels = state.budgets.map(b => b.category);
+      const data = state.budgets.map(b => state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0));
+      chartInstance12 = new Chart(catCtx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Spent', data, backgroundColor: '#3C50E0', borderRadius: 6 },
+            { label: 'Limit', data: state.budgets.map(b => b.limit), backgroundColor: '#E2E8F0', borderRadius: 6 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#1C2434', padding: 12 } } },
+          scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+        }
+      });
+    }
+  }, 0);
+
+  // List
   container.innerHTML = state.budgets.map(b => {
-    // calculate spent dynamically from txs this month
     const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
     const pct = Math.min(100, Math.round((spent / b.limit) * 100));
     const isExceeded = spent > b.limit;
-    const color = isExceeded ? 'var(--red)' : 'var(--blue)';
-    
+    const color = isExceeded ? 'var(--red)' : (pct > 80 ? 'var(--orange)' : 'var(--blue)');
+
     return `
       <div style="margin-bottom: 24px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-          <strong style="display:flex; align-items:center; gap:8px; color: var(--text-primary);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items: center;">
+          <strong style="display:flex; align-items:center; gap:8px; color: var(--text-primary); font-size: 14px;">
             ${b.category} ${isExceeded ? '<i class="ph ph-warning-circle" style="color:var(--red);"></i>' : ''}
           </strong>
-          <span style="font-size:13px; color:var(--text-secondary);">${formatMoney(spent)} / ${formatMoney(b.limit)}</span>
+          <span style="font-size:13px; color:var(--text-secondary);"><strong style="color:var(--text-primary);">${formatMoney(spent)}</strong> / ${formatMoney(b.limit)}</span>
         </div>
         <div style="width:100%; height:8px; background:var(--border-medium); border-radius:4px; overflow:hidden;">
-          <div style="height:100%; width:${pct}%; background:${color}; border-radius:4px;"></div>
+          <div style="height:100%; width:${pct}%; background:${color}; border-radius:4px; transition: width 0.6s ease;"></div>
         </div>
       </div>
     `;
   }).join('');
 }
 
-// --- 5. MODALS & FORMS ---
+// --- 4f. ANALYTICS ---
+function renderAnalytics(viewId) {
+  if (!document.getElementById('categoryChart')) return;
+  if (viewId && viewId !== 'view-analytics') return;
 
+  const ctx1 = document.getElementById('categoryChart').getContext('2d');
+  const ctx2 = document.getElementById('trendChart').getContext('2d');
+  const ctx3 = document.getElementById('ghostSavingsChart').getContext('2d');
+
+  const catTotals = {};
+  state.transactions.forEach(t => {
+    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+  });
+
+  // KPIs
+  const totalSpent = state.transactions.reduce((s, t) => s + t.amount, 0);
+  const months = Object.keys(catTotals).length || 1;
+  const avgMonthly = totalSpent / months;
+  const topCat = Object.entries(catTotals).sort((a, b) => b[1] - a[1])[0];
+  const avgPerDay = state.transactions.length ? totalSpent / state.transactions.length : 0;
+
+  const kpiEl = document.getElementById('analyticsKPIsGrid');
+  if (kpiEl) {
+    kpiEl.innerHTML = kpiGrid([
+      { label: 'Total Spend', value: formatMoney(totalSpent), sub: `${state.transactions.length} transactions` },
+      { label: 'Avg Monthly', value: formatMoney(avgMonthly), sub: `${months} categories` },
+      { label: 'Top Category', value: topCat ? topCat[0] : '—', sub: topCat ? formatMoney(topCat[1]) : '' },
+      { label: 'Avg per Transaction', value: formatMoney(avgPerDay) }
+    ]);
+  }
+
+  if (chartInstance1) chartInstance1.destroy();
+  chartInstance1 = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(catTotals),
+      datasets: [{
+        data: Object.values(catTotals),
+        backgroundColor: ['#3C50E0', '#10B981', '#EF4444', '#F59E0B', '#7C3AED'],
+        borderWidth: 0
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: '#1C2434' } } } }
+  });
+
+  renderAnalyticsTrend(currentAnalyticsRange);
+
+  if (chartInstance6) chartInstance6.destroy();
+  chartInstance6 = new Chart(ctx3, {
+    type: 'line',
+    data: {
+      labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12'],
+      datasets: [{
+        label: 'Ghost Savings',
+        data: [12, 18, 25, 30, 28, 35, 42, 50, 48, 55, 62, 70],
+        borderColor: '#10B981',
+        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 4,
+        pointBackgroundColor: '#10B981'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+    }
+  });
+
+  renderAnalyticsHeatmap();
+}
+
+function setTrendRange(months) {
+  currentAnalyticsRange = months;
+  ['trendBtn6', 'trendBtn12', 'trendBtnAll'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+  const idMap = { 6: 'trendBtn6', 12: 'trendBtn12', 0: 'trendBtnAll' };
+  const activeEl = document.getElementById(idMap[months]);
+  if (activeEl) activeEl.classList.add('active');
+  renderAnalyticsTrend(months);
+}
+
+function renderAnalyticsTrend(months) {
+  const canvas = document.getElementById('trendChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let labels, data;
+  if (months === 6) {
+    labels = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+    data = [110, 130, 125, 145, 160, 150];
+  } else if (months === 12) {
+    labels = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+    data = [95, 105, 110, 120, 135, 115, 110, 130, 125, 145, 160, 150];
+  } else {
+    labels = ['2024 Q3', '2024 Q4', '2025 Q1', '2025 Q2', '2025 Q3', '2025 Q4', '2026 Q1', '2026 Q2', '2026 Q3'];
+    data = [310, 340, 360, 380, 410, 425, 440, 460, 480];
+  }
+
+  if (chartInstance2) chartInstance2.destroy();
+  chartInstance2 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Spending',
+        data,
+        backgroundColor: '#3C50E0',
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+    }
+  });
+}
+
+function renderAnalyticsHeatmap() {
+  const host = document.getElementById('analyticsHeatmap');
+  if (!host) return;
+  const weeks = 12;
+  const days = 7;
+  let html = '';
+  for (let w = 0; w < weeks; w++) {
+    html += '<div style="display:flex; flex-direction:column; gap:4px;">';
+    for (let d = 0; d < days; d++) {
+      const intensity = Math.random();
+      const alpha = 0.05 + intensity * 0.7;
+      html += `<div style="width:14px; height:14px; border-radius:3px; background: rgba(60, 80, 224, ${alpha});"></div>`;
+    }
+    html += '</div>';
+  }
+  html += '<div style="display:flex; flex-direction:column; gap:4px; margin-left:8px; justify-content: flex-end; font-size:11px; color: var(--text-muted); align-self: center;">Less <div style="display:flex; gap:4px;">';
+  for (let i = 0; i < 5; i++) {
+    html += `<div style="width:14px; height:14px; border-radius:3px; background: rgba(60, 80, 224, ${0.1 + i * 0.2});"></div>`;
+  }
+  html += '</div> More</div>';
+  host.innerHTML = html;
+}
+
+// --- 4g. CASHFLOW ---
+function renderCashflow() {
+  const tbody = document.getElementById('cashflowForecastList');
+
+  const monthly = state.subscriptions.filter(s => s.status === 'Active').reduce((sum, s) => sum + s.cost, 0);
+  const monthlyIncome = 3200 + (Math.random() * 500);
+  const netSavings = monthlyIncome - monthly;
+  const savingsRate = monthlyIncome ? Math.round((netSavings / monthlyIncome) * 100) : 0;
+  const annualSavings = netSavings * 12;
+
+  // KPIs
+  const kpiEl = document.getElementById('cashflowKPIsGrid');
+  if (kpiEl) {
+    kpiEl.innerHTML = kpiGrid([
+      { label: 'Monthly Income', value: formatMoney(monthlyIncome), sub: 'Avg last 3 months' },
+      { label: 'Monthly Expenses', value: formatMoney(monthly), sub: `${state.subscriptions.filter(s => s.status === 'Active').length} active subs` },
+      { label: 'Net Savings', value: formatMoney(netSavings), sub: `${savingsRate}% savings rate`, badge: savingsRate >= 50 ? 'Healthy' : 'Warning' },
+      { label: 'Annual Forecast', value: formatMoney(annualSavings), sub: 'Projected yearly' }
+    ]);
+  }
+
+  if (tbody) {
+    const months = ['Next Month', 'Month +2', 'Month +3'];
+    tbody.innerHTML = months.map((m, i) => {
+      const projectedIncome = monthlyIncome + (i * 50);
+      const projectedExpense = monthly + (i * 10);
+      const projectedNet = projectedIncome - projectedExpense;
+      return `<tr>
+        <td style="padding: 12px 16px; color: var(--text-primary); font-weight: 500;">${m}</td>
+        <td style="padding: 12px 16px; color: var(--teal); font-weight: 600;">${formatMoney(projectedIncome)}</td>
+        <td style="padding: 12px 16px; color: var(--red); font-weight: 600;">${formatMoney(projectedExpense)}</td>
+        <td style="padding: 12px 16px; font-weight: 700; color: ${projectedNet >= 0 ? 'var(--primary)' : 'var(--red)'};">${formatMoney(projectedNet)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  const ctx = document.getElementById('cashflowChart');
+  if (ctx) {
+    if (chartInstanceCashflow) chartInstanceCashflow.destroy();
+    chartInstanceCashflow = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [
+          { label: 'Income', data: [3200, 3200, 3650, 3200, 3650, 3200, 3650], backgroundColor: '#10B981', borderRadius: 4 },
+          { label: 'Expense', data: [180, 220, 195, 240, 210, 230, 200], backgroundColor: '#EF4444', borderRadius: 4 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { color: '#1C2434' } } },
+        scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+      }
+    });
+  }
+
+  const srCtx = document.getElementById('savingsRateChart');
+  if (srCtx) {
+    if (chartInstanceSavings) chartInstanceSavings.destroy();
+    chartInstanceSavings = new Chart(srCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Savings Rate',
+          data: [82, 75, 80, 72, 78, 74, 79],
+          borderColor: '#3C50E0',
+          backgroundColor: 'rgba(60, 80, 224, 0.15)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#3C50E0'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, max: 100, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B', callback: (v) => v + '%' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
+      }
+    });
+  }
+}
+
+// --- 5. MODALS & FORMS ---
 function openAddSubModal() {
   document.getElementById('modal-add-sub').classList.add('active');
 }
@@ -620,43 +1095,51 @@ function submitSubscription() {
   const name = document.getElementById('addSubName').value.trim();
   const cost = parseFloat(document.getElementById('addSubCost').value);
   const cat = document.getElementById('addSubCat').value;
-  const cycle = document.getElementById('addSubCycle').value;
-  
+  const cycleEl = document.getElementById('addSubCycle');
+  const cycle = cycleEl ? cycleEl.value : 'Monthly';
+
   if (!name || isNaN(cost) || cost <= 0) {
-    showToast('Cost must be > 0 and name cannot be empty'); return;
+    showToast('Name and cost > 0 are required', '<i class="ph ph-warning-circle" style="color:#EF4444;"></i>');
+    return;
   }
   if (state.subscriptions.some(s => s.name.toLowerCase() === name.toLowerCase() && s.status !== 'Cancelled')) {
-    showToast('Active subscription with this name already exists!'); return;
+    showToast('Active subscription with this name already exists!', '<i class="ph ph-warning-circle" style="color:#F59E0B;"></i>');
+    return;
   }
-  
+
   state.subscriptions.push({
     id: 's' + Date.now(),
-    name, category: cat, cost, cycle: 'Monthly', status: 'Active', 
-    icon: '✨', added: new Date().toISOString().split('T')[0], snoozeUntil: null, ignoreGhost: false
+    name, category: cat, cost, cycle, status: 'Active',
+    icon: '<div style="background:var(--primary);color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-sparkle"></i></div>',
+    added: new Date().toISOString().split('T')[0],
+    snoozeUntil: null,
+    ignoreGhost: false
   });
-  
+
   closeModal('modal-add-sub');
-  showToast('Subscription added');
+  document.getElementById('addSubName').value = '';
+  document.getElementById('addSubCost').value = '';
+  showToast('Subscription added', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
   runGhostDetection();
-  renderAll();
+  renderAll(document.querySelector('.view-section.active')?.id);
 }
 
 function openAddTransactionModal() {
   const select = document.getElementById('addTxSubId');
   const activeSubs = state.subscriptions.filter(s => s.status !== 'Cancelled');
-  
+
   if (activeSubs.length === 0) {
-    showToast('Please add a subscription first.'); return;
+    showToast('Please add a subscription first.', '<i class="ph ph-warning-circle" style="color:#F59E0B;"></i>');
+    return;
   }
-  
+
   select.innerHTML = activeSubs.map(s => `<option value="${s.id}">${s.name} (${formatMoney(s.cost)})</option>`).join('');
-  
-  // Set default amount on change
+  const amountInput = document.getElementById('addTxAmount');
+  if (amountInput) amountInput.value = activeSubs[0].cost;
   select.onchange = (e) => {
     const s = state.subscriptions.find(x => x.id === e.target.value);
-    if(s) document.getElementById('addTxAmount').value = s.cost;
+    if (s && amountInput) amountInput.value = s.cost;
   };
-  if(activeSubs.length > 0) document.getElementById('addTxAmount').value = activeSubs[0].cost;
   document.getElementById('addTxDate').value = new Date().toISOString().split('T')[0];
   document.getElementById('modal-add-transaction').classList.add('active');
 }
@@ -664,73 +1147,86 @@ function openAddTransactionModal() {
 function submitTransaction() {
   const subId = document.getElementById('addTxSubId').value;
   const date = document.getElementById('addTxDate').value;
-  let overrideAmt = document.getElementById('addTxAmount').value;
-  
+  const amountInput = document.getElementById('addTxAmount');
+  const overrideAmt = amountInput ? parseFloat(amountInput.value) : null;
+
+  if (!subId) {
+    showToast('Please select a subscription', '<i class="ph ph-warning-circle" style="color:#EF4444;"></i>');
+    return;
+  }
+
   const today = new Date().toISOString().split('T')[0];
   if (date > today) {
-    showToast('Transaction date cannot be in the future!'); return;
+    showToast('Transaction date cannot be in the future!', '<i class="ph ph-warning-circle" style="color:#EF4444;"></i>');
+    return;
   }
-  
+
   const sub = state.subscriptions.find(s => s.id === subId);
   if (!sub) return;
-  
+
+  const amount = overrideAmt && !isNaN(overrideAmt) ? overrideAmt : sub.cost;
+
   state.transactions.unshift({
     id: 't' + Date.now(),
     subId: sub.id,
     date: date,
     category: sub.category,
-    amount: overrideAmt ? parseFloat(overrideAmt) : sub.cost
+    amount: amount
   });
-  
+
   closeModal('modal-add-transaction');
-  showToast('Transaction recorded!');
+  showToast('Transaction recorded!', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
   runGhostDetection();
-  renderAll();
+  renderAll(document.querySelector('.view-section.active')?.id);
 }
 
 function deleteTx(id) {
   state.transactions = state.transactions.filter(t => t.id !== id);
   runGhostDetection();
-  renderAll();
-  showToast('Transaction deleted');
+  renderAll(document.querySelector('.view-section.active')?.id);
+  showToast('Transaction deleted', '<i class="ph ph-trash" style="color:#EF4444;"></i>');
+}
+
+function editTx(id) {
+  showToast('Edit functionality coming soon', '<i class="ph ph-info" style="color:#3C50E0;"></i>');
 }
 
 function openGhostDrilldown(subId) {
   const sub = state.subscriptions.find(s => s.id === subId);
   if (!sub) return;
   currentGhostDrilldown = subId;
-  
-  const txs = state.transactions.filter(t => t.subId === sub.id).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  const txs = state.transactions.filter(t => t.subId === sub.id).sort((a, b) => new Date(b.date) - new Date(a.date));
   const timelineEl = document.getElementById('ghostModalTimeline');
-  
+
   if (txs.length === 0) {
     timelineEl.innerHTML = '<div style="font-size:12px; color:var(--text-secondary);">No transactions found.</div>';
   } else {
     timelineEl.innerHTML = txs.slice(0, 3).map(t => `
-      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; padding:4px; background:rgba(0,0,0,0.1); border-radius:4px;">
+      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; padding:8px 12px; background: var(--bg-main); border-radius:6px;">
         <span style="color:var(--text-secondary);">${t.date}</span>
         <strong>${formatMoney(t.amount)}</strong>
       </div>
     `).join('');
   }
-  
+
   document.getElementById('ghostModalIcon').innerHTML = sub.icon;
   document.getElementById('ghostModalTitle').innerText = sub.name;
-  document.getElementById('ghostModalDays').innerText = sub.daysUnused + ' days';
+  document.getElementById('ghostModalDays').innerText = (sub.daysUnused || 0) + ' days';
   document.getElementById('ghostModalBleed').innerText = `${formatMoney(sub.cost)}/mo`;
   document.getElementById('ghostModalSave').innerText = formatMoney(sub.cost * 12) + ' / year';
-  
+
   document.getElementById('modal-ghost-drilldown').classList.add('active');
 }
 
 function confirmCancelGhost() {
   if (!currentGhostDrilldown) return;
   const sub = state.subscriptions.find(s => s.id === currentGhostDrilldown);
-  if(sub) sub.status = 'Cancelled';
+  if (sub) sub.status = 'Cancelled';
   closeModal('modal-ghost-drilldown');
-  showToast('Subscription Cancelled. Added to Savings!', '<i class="ph ph-check-circle" style="color:var(--teal);"></i>');
+  showToast('Subscription Cancelled. Added to Savings!', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
   runGhostDetection();
-  renderAll();
+  renderAll(document.querySelector('.view-section.active')?.id);
 }
 
 function snoozeGhost() {
@@ -742,9 +1238,9 @@ function snoozeGhost() {
     sub.snoozeUntil = d.toISOString().split('T')[0];
   }
   closeModal('modal-ghost-drilldown');
-  showToast('Ghost alert snoozed for 7 days', '<i class="ph ph-clock" style="color:var(--blue);"></i>');
+  showToast('Ghost alert snoozed for 7 days', '<i class="ph ph-clock" style="color:#3C50E0;"></i>');
   runGhostDetection();
-  renderAll();
+  renderAll(document.querySelector('.view-section.active')?.id);
 }
 
 function keepGhost() {
@@ -755,107 +1251,61 @@ function keepGhost() {
     sub.status = 'Active';
   }
   closeModal('modal-ghost-drilldown');
-  showToast('Algorithm updated. Will ignore this sub.', '<i class="ph ph-brain" style="color:var(--teal);"></i>');
+  showToast('Algorithm updated. Will ignore this sub.', '<i class="ph ph-brain" style="color:#10B981;"></i>');
   runGhostDetection();
-  renderAll();
+  renderAll(document.querySelector('.view-section.active')?.id);
 }
 
 function closeModal(id) {
   document.getElementById(id).classList.remove('active');
 }
 
-function showToast(message, icon = '<i class="ph ph-info" style="color: var(--teal);"></i>') {
+function showToast(message, icon = '<i class="ph ph-info" style="color:#10B981;"></i>') {
   const container = document.getElementById('toastContainer');
-  if(!container) return;
+  if (!container) return;
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
   container.appendChild(toast);
-  setTimeout(() => toast.remove(), 4000);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(120%)'; setTimeout(() => toast.remove(), 300); }, 3500);
 }
-
-// Initial boot
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('sidebarNav').style.pointerEvents = 'none';
-  document.getElementById('sidebarNav').style.opacity = '0.5';
-});
 
 function openBudgetModal() {
   document.getElementById('modal-edit-budget').classList.add('active');
 }
+
 function saveBudget() {
   const cat = document.getElementById('editBudgetCat').value;
   const limit = parseFloat(document.getElementById('editBudgetLimit').value);
-  if(isNaN(limit) || limit <= 0) { showToast('Invalid limit'); return; }
-  
-  let b = state.budgets.find(x => x.category === cat);
-  if(b) { b.limit = limit; } else { state.budgets.push({category: cat, limit, spent: 0}); }
-  
-  closeModal('modal-edit-budget');
-  renderBudget();
-  showToast('Budget updated');
-}
-
-let chartInstance1 = null;
-let chartInstance2 = null;
-function renderAnalytics() {
-  if(!document.getElementById('categoryChart')) return;
-  const ctx1 = document.getElementById('categoryChart').getContext('2d');
-  const ctx2 = document.getElementById('trendChart').getContext('2d');
-  
-  const catTotals = {};
-  state.transactions.forEach(t => {
-    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
-  });
-  
-  if(chartInstance1) chartInstance1.destroy();
-  chartInstance1 = new Chart(ctx1, {
-    type: 'doughnut',
-    data: {
-      labels: Object.keys(catTotals),
-      datasets: [{
-        data: Object.values(catTotals),
-        backgroundColor: ['#4a90d9', '#00d4aa', '#ff6b6b', '#f59e0b', '#8E75C8'],
-        borderWidth: 0
-      }]
-    },
-    options: { responsive: true, plugins: { legend: { position: 'right', labels: {color: 'var(--text-primary)'} } } }
-  });
-  
-  // Simple trend (mocking monthly data)
-  if(chartInstance2) chartInstance2.destroy();
-  chartInstance2 = new Chart(ctx2, {
-    type: 'bar',
-    data: {
-      labels: ['May', 'Jun', 'Jul'],
-      datasets: [{
-        label: 'Spending',
-        data: [120, 150, Object.values(catTotals).reduce((a,b)=>a+b, 0)],
-        backgroundColor: '#4a90d9',
-        borderRadius: 4
-      }]
-    },
-    options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#E5E7EB' }, ticks: {color: 'var(--text-secondary)'} }, x: { grid: { display: false }, ticks: {color: 'var(--text-secondary)'} } }, plugins: { legend: {display:false} } }
-  });
-}
-
-function renderCashflow() {
-  const list = document.getElementById('cashflowList');
-  if(!list) return;
-  
-  const active = state.subscriptions.filter(s => s.status === 'Active');
-  if(active.length === 0) {
-    list.innerHTML = '<tr><td>No active subscriptions.</td></tr>';
+  if (isNaN(limit) || limit <= 0) {
+    showToast('Invalid limit', '<i class="ph ph-warning-circle" style="color:#EF4444;"></i>');
     return;
   }
-  
-  list.innerHTML = active.map(s => {
-    let nextDate = new Date();
-    nextDate.setDate(nextDate.getDate() + Math.floor(Math.random() * 30));
-    return `<tr>
-      <td style="color:var(--text-secondary)">${nextDate.toISOString().split('T')[0]}</td>
-      <td><strong>${s.name}</strong></td>
-      <td style="font-weight:700;">${formatMoney(s.cost)}</td>
-    </tr>`;
-  }).join('');
+
+  let b = state.budgets.find(x => x.category === cat);
+  if (b) b.limit = limit;
+  else state.budgets.push({ category: cat, limit, spent: 0 });
+
+  closeModal('modal-edit-budget');
+  renderBudget();
+  showToast('Budget updated', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
 }
+
+function openAddIncomeModal() {
+  showToast('Income tracking coming soon', '<i class="ph ph-info" style="color:#3C50E0;"></i>');
+}
+
+// --- 6. BOOT ---
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebarNav = document.getElementById('sidebarNav');
+  if (sidebarNav) {
+    sidebarNav.style.pointerEvents = 'none';
+    sidebarNav.style.opacity = '0.5';
+  }
+  // Show onboarding by default
+  const onboarding = document.getElementById('view-onboarding');
+  if (onboarding) {
+    document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+    onboarding.classList.add('active');
+  }
+});

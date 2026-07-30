@@ -3,7 +3,28 @@
     "allow": [
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl *)",
+      "Bash(node -c app.js)",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Read(//c/Program Files \\(x86\\)/Google/Chrome/Application/**)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-onboarding.png http://localhost:8765/index.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-overview.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-subscriptions.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-analytics.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-cashflow.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-budget.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-transactions.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-modal.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --force-device-scale-factor=1 --virtual-time-budget=3000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/screenshot-modal-hi.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=3000 --enable-logging --v=1 --dump-dom http://localhost:8765/index-test.html)",
+      "Bash(pkill -f \"python -m http.server 8765\")",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,900 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-overview.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-transactions.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-subscriptions.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1400 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-analytics.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-cashflow.png http://localhost:8765/index-test.html)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-budget.png http://localhost:8765/index-test.html)"
     ]
   }
 }
