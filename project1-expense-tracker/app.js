@@ -361,27 +361,27 @@ function renderOverview() {
          </div>
          <div style="width:100%; height:8px; background:var(--bg-main); border-radius:4px; display:flex; overflow:hidden;">
            <div style="width:${pActive}%; height:100%; background:var(--primary);"></div>
-           <div style="width:${pGhost}%; height:100%; background:rgba(124, 58, 237, 0.2);"></div>
+           <div style="width:${pGhost}%; height:100%; background:rgba(60, 80, 224, 0.2);"></div>
          </div>
        </div>
      `;
-  }).join('') + `<div style="display:flex; align-items:center; gap:12px; font-size:11px; margin-top:8px;"><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--primary);"></span>Active</div><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:rgba(124, 58, 237, 0.2);"></span>Ghost</div></div>`;
+  }).join('') + `<div style="display:flex; align-items:center; gap:12px; font-size:11px; margin-top:8px;"><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--primary);"></span>Active</div><div style="display:flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:rgba(60, 80, 224, 0.2);"></span>Ghost</div></div>`;
 
   setTimeout(() => {
     // Sparklines
     const costCtx = document.getElementById('kpiSparklineCost');
-    if(costCtx) new Chart(costCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [65,59,80,81,56], borderColor: '#D1D5DB', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(209, 213, 219, 0.1)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
+    if(costCtx) new Chart(costCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [65,59,80,81,56], borderColor: '#CBD5E1', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(203, 213, 225, 0.2)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
 
     const savCtx = document.getElementById('kpiSparklineSavings');
-    if(savCtx) new Chart(savCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [28,48,40,19,86], borderColor: '#7C3AED', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(124, 58, 237, 0.1)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
+    if(savCtx) new Chart(savCtx, { type: 'line', data: { labels: ['1','2','3','4','5'], datasets: [{ data: [28,48,40,19,86], borderColor: '#3C50E0', borderWidth: 2, tension: 0.4, fill: true, backgroundColor: 'rgba(60, 80, 224, 0.15)', pointRadius: 0 }] }, options: { plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } }, layout: { padding: 0 } } });
     
     // Donut Chart
     const dCtx = document.getElementById('ovDonutChart');
-    if(dCtx) new Chart(dCtx, { type: 'doughnut', data: { labels: ['Entertainment', 'Health', 'Education'], datasets: [{ data: [45, 25, 30], backgroundColor: ['#7C3AED', '#A78BFA', '#EDE9FE'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+    if(dCtx) new Chart(dCtx, { type: 'doughnut', data: { labels: ['Entertainment', 'Health', 'Education'], datasets: [{ data: [45, 25, 30], backgroundColor: ['#3C50E0', '#80CAEE', '#E2E8F0'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
 
     // Bar Chart
     const bCtx = document.getElementById('ovBarChart');
-    if(bCtx) new Chart(bCtx, { type: 'bar', data: { labels: ['Q1', 'Q2', 'Q3', 'Q4'], datasets: [{ data: [30, 45, 60, 20], backgroundColor: ['#EDE9FE', '#C4B5FD', '#7C3AED', '#EDE9FE'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, border: { display: false } }, y: { display: false } } } });
+    if(bCtx) new Chart(bCtx, { type: 'bar', data: { labels: ['Q1', 'Q2', 'Q3', 'Q4'], datasets: [{ data: [30, 45, 60, 20], backgroundColor: ['#E2E8F0', '#80CAEE', '#3C50E0', '#E2E8F0'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, border: { display: false } }, y: { display: false } } } });
   }, 0);
 
   // Recent transactions full table
