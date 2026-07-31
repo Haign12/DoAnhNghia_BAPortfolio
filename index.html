@@ -50,6 +50,7 @@
       --card-hover-bg: #252525;
       --selection-bg: rgba(255, 255, 255, 0.15);
       --selection-color: #ffffff;
+      --icon-filter-default: invert(70%);
     }
 
     /* Light Theme */
@@ -69,6 +70,7 @@
       --card-hover-bg: #ffffff;
       --selection-bg: rgba(0, 0, 0, 0.08);
       --selection-color: #171717;
+      --icon-filter-default: invert(30%);
     }
 
     /* Custom Text Selection */
@@ -941,6 +943,8 @@
       width: 32px;
       height: 32px;
       object-fit: contain;
+      filter: var(--icon-filter-default);
+      transition: filter 0.3s ease;
     }
     .tech-icon span {
       font-size: 11px;
@@ -1143,25 +1147,25 @@
     <h2 class="resume-title" style="font-size: 1.1rem; letter-spacing: 1px; color: var(--text3);" data-i18n="tech.title">TECH STACK & TOOLS</h2>
     <div class="tech-icons">
       <div class="tech-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/jira.svg" alt="Jira" style="filter: brightness(0) saturate(100%) invert(29%) sepia(97%) saturate(1815%) hue-rotate(209deg) brightness(97%) contrast(101%);">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/jira.svg" alt="Jira" style="--icon-color: brightness(0) saturate(100%) invert(29%) sepia(97%) saturate(1815%) hue-rotate(209deg) brightness(97%) contrast(101%);">
         <span>Jira</span>
       </div>
       <div class="tech-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/figma.svg" alt="Figma" style="filter: brightness(0) saturate(100%) invert(32%) sepia(93%) saturate(2270%) hue-rotate(342deg) brightness(96%) contrast(95%);">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/figma.svg" alt="Figma" style="--icon-color: brightness(0) saturate(100%) invert(32%) sepia(93%) saturate(2270%) hue-rotate(342deg) brightness(96%) contrast(95%);">
         <span>Figma</span>
       </div>
 
       <div class="tech-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/mysql.svg" alt="SQL" style="filter: brightness(0) saturate(100%) invert(37%) sepia(77%) saturate(1003%) hue-rotate(173deg) brightness(92%) contrast(90%);">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/mysql.svg" alt="SQL" style="--icon-color: brightness(0) saturate(100%) invert(37%) sepia(77%) saturate(1003%) hue-rotate(173deg) brightness(92%) contrast(90%);">
         <span>SQL</span>
       </div>
       <div class="tech-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/diagramsdotnet.svg" alt="Draw.io" style="filter: brightness(0) saturate(100%) invert(47%) sepia(79%) saturate(5061%) hue-rotate(346deg) brightness(95%) contrast(93%);">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/diagramsdotnet.svg" alt="Draw.io" style="--icon-color: brightness(0) saturate(100%) invert(47%) sepia(79%) saturate(5061%) hue-rotate(346deg) brightness(95%) contrast(93%);">
         <span>Draw.io</span>
       </div>
 
       <div class="tech-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/postman.svg" alt="Postman" style="filter: brightness(0) saturate(100%) invert(47%) sepia(95%) saturate(1721%) hue-rotate(346deg) brightness(93%) contrast(87%);">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/postman.svg" alt="Postman" style="--icon-color: brightness(0) saturate(100%) invert(47%) sepia(95%) saturate(1721%) hue-rotate(346deg) brightness(93%) contrast(87%);">
         <span>Postman</span>
       </div>
     </div>
