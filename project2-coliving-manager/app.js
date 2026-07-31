@@ -197,21 +197,6 @@ function renderKanban() {
 
   return `
     <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
-      <!-- Breadcrumb -->
-      <div class="flex flex-wrap items-center justify-between gap-3 pb-6">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">Kanban</h2>
-        <nav>
-          <ol class="flex items-center gap-1.5 list-none m-0 p-0">
-            <li><a class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500" href="#">Home
-              <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </a></li>
-            <li class="text-sm text-gray-800 dark:text-white/90">Kanban</li>
-          </ol>
-        </nav>
-      </div>
-
       <!-- Main Kanban Wrapper -->
       <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
         
@@ -300,7 +285,10 @@ function renderLedger() {
   const pendingCount = expenses.filter(e => e.settled === 'pending').length;
   const unpaidCount = expenses.filter(e => e.settled === 'false').length;
 
-  return `
+  return 
+    <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
+      <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+        `
     <div class="page-breadcrumb-section">
       <!-- Breadcrumb -->
       <div class="breadcrumb-wrap">
@@ -381,7 +369,10 @@ function renderLedger() {
       </table>
       `}
     </div>
-  `;
+  `
+      </div>
+    </div>
+;
 }
 
 // -- SETTLE UP VIEW --
@@ -425,7 +416,10 @@ function renderSettleUp() {
   const transactions = calculateSimplifications();
   const totalDebt = transactions.reduce((s, t) => s + t.amount, 0);
 
-  return `
+  return 
+    <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
+      <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+        `
     <div class="page-breadcrumb-section">
       <!-- Breadcrumb -->
       <div class="breadcrumb-wrap">
@@ -472,7 +466,10 @@ function renderSettleUp() {
         }).join('')}
       </div>
     </div>
-  `;
+  `
+      </div>
+    </div>
+;
 }
 
 // 4. Application Methods
