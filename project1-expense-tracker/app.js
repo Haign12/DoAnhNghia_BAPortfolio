@@ -396,30 +396,30 @@ function renderOverview() {
   const gridEl = document.getElementById('overviewKPIsGrid');
   if (gridEl) {
     gridEl.innerHTML = `
-      <div class="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
-        <span class="text-sm text-gray-500 dark:text-gray-400">Total Monthly Cost</span>
-        <div class="mt-2 flex items-end gap-3">
-          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${formatMoney(totalCost)}</h4>
+      <div style="padding: 24px; border-right: 1px solid var(--border-light);">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Total Monthly Cost</div>
+        <div style="display: flex; align-items: flex-end; gap: 12px;">
+          <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">${formatMoney(totalCost)}</div>
         </div>
       </div>
-      <div class="border-b border-gray-200 px-6 py-5 xl:border-r xl:border-b-0 dark:border-gray-800">
-        <span class="text-sm text-gray-500 dark:text-gray-400">Potential Yearly Savings</span>
-        <div class="mt-2 flex items-end gap-3">
-          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${formatMoney(potentialSavings)}</h4>
-          <div><span class="bg-blue-50 text-blue-600 flex items-center gap-1 rounded-full py-0.5 pr-2.5 pl-2 text-sm font-medium">Ghost Subs</span></div>
+      <div style="padding: 24px; border-right: 1px solid var(--border-light);">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Potential Yearly Savings</div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">${formatMoney(potentialSavings)}</div>
+          <div style="background: var(--primary-light); color: var(--primary); padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;">Ghost Subs</div>
         </div>
       </div>
-      <div class="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
-        <span class="text-sm text-gray-500 dark:text-gray-400">Active Subscriptions</span>
-        <div class="mt-2 flex items-end gap-3">
-          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${activeCount}</h4>
+      <div style="padding: 24px; border-right: 1px solid var(--border-light);">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Active Subscriptions</div>
+        <div style="display: flex; align-items: flex-end; gap: 12px;">
+          <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">${activeCount}</div>
         </div>
       </div>
-      <div class="px-6 py-5">
-        <span class="text-sm text-gray-500 dark:text-gray-400">Ghost Alerts</span>
-        <div class="mt-2 flex items-end gap-3">
-          <h4 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white/90">${ghostCount}</h4>
-          ${ghostCount > 0 ? '<div><span class="bg-red-50 text-red-600 flex items-center gap-1 rounded-full py-0.5 pr-2.5 pl-2 text-sm font-medium">Action Required</span></div>' : ''}
+      <div style="padding: 24px;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Ghost Alerts</div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">${ghostCount}</div>
+          ${ghostCount > 0 ? '<div style="background: var(--red-light); color: var(--red); padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;">Action Required</div>' : ''}
         </div>
       </div>
     `;
