@@ -56,6 +56,24 @@ body {
 }
 
 /* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* ============================================================
    LAYOUT: 3-COLUMN APP SHELL
    ============================================================ */
 .app-layout {
@@ -420,6 +438,73 @@ body {
 .btn-secondary.active {
   background: var(--bg-card);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* ============================================================
+   ONBOARDING WIZARD
+   ============================================================ */
+.onboard-step { display: none; }
+.onboard-step.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.onboard-step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-medium);
+  transition: all 0.3s ease;
+}
+.onboard-step-dot.active {
+  background: var(--primary);
+  width: 28px;
+  border-radius: 5px;
+}
+.onboard-step-dot.completed {
+  background: var(--primary);
+}
+
+.onboard-step-line {
+  width: 32px;
+  height: 2px;
+  background: var(--border-medium);
+  transition: background 0.3s ease;
+}
+.onboard-step-line.active {
+  background: var(--primary);
+}
+
+.onboard-threshold-chip {
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-medium);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+.onboard-threshold-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.onboard-threshold-chip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.onboard-radio-card {
+  transition: all 0.2s ease;
+}
+.onboard-radio-card:hover {
+  border-color: var(--primary) !important;
+  background: var(--primary-light) !important;
 }
 
 /* ============================================================
