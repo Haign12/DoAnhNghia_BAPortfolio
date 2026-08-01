@@ -45,7 +45,7 @@ function showToast(message, icon = '<i class="ph ph-info" style="color: var(--te
   if (shopInput) {
     shopInput.addEventListener('input', (e) => {
       const title = document.getElementById('previewTitle');
-      if (title) title.innerText = e.target.value ? \`Join order from \${e.target.value}\` : 'Join order from ...';
+      if (title) title.innerText = e.target.value ? `Join order from ${e.target.value}` : 'Join order from ...';
     });
   }
   if (cutoffInput) {
@@ -59,10 +59,37 @@ function showToast(message, icon = '<i class="ph ph-info" style="color: var(--te
         const [h, m] = e.target.value.split(':');
         const d = new Date();
         d.setHours(h, m);
-        cutoff.innerText = \`Closes at \${d.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12:true})}\`;
+        cutoff.innerText = `Closes at ${d.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12:true})}`;
       }
     });
   }
+
+  // Bind History Card Clicks (Mock Navigation)
+  document.querySelectorAll('.history-card:not([onclick])').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') return; // Don't trigger if clicking a button
+      switchView('view-host-dashboard', 1);
+    });
+  });
+
+  // Bind Filter Pills
+  const pills = document.querySelectorAll('.task-group-pill');
+  pills.forEach(pill => {
+    pill.addEventListener('click', (e) => {
+      pills.forEach(p => p.classList.remove('active'));
+      e.target.classList.add('active');
+      const filter = e.target.innerText.toLowerCase();
+      const cards = document.querySelectorAll('.history-grid .history-card');
+      cards.forEach(card => {
+        const status = card.querySelector('.history-status').innerText.toLowerCase();
+        if (filter === 'all' || status === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
 }
 
 // --- GATE 1: CREATE ORDER ---

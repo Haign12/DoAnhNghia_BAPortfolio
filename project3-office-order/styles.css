@@ -97,6 +97,11 @@ button { font-family: inherit; cursor: pointer; transition: all 0.2s; border-rad
 .history-card-body { display: flex; justify-content: space-between; align-items: flex-end; }
 .history-detail { font-size: 0.85rem; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
 .history-total { font-weight: 800; font-size: 1.2rem; color: var(--teal); }
+.history-status.cancelled { background: rgba(245, 166, 35, 0.1); color: var(--orange); }
+.history-status.refunded { background: rgba(154, 165, 180, 0.15); color: var(--text-muted); }
+.history-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 640px) { .history-grid { grid-template-columns: 1fr; } }
+.history-grid .history-card { max-width: none; }
 
 /* Data Tables */
 .data-table { width: 100%; border-collapse: collapse; }
@@ -153,7 +158,11 @@ button { font-family: inherit; cursor: pointer; transition: all 0.2s; border-rad
 .step-circle { width: 40px; height: 40px; background: var(--bg-card); border: 2px solid var(--border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text-muted); }
 .step.active .step-circle { border-color: var(--teal); color: var(--teal); background: rgba(0,212,170,0.1); }
 .step.completed .step-circle { background: var(--teal); border-color: var(--teal); color: #fff; }
-.step-label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+.step.active .step-circle { animation: stepPulse 2s ease-in-out infinite; }
+@keyframes stepPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,170,0.4); } 50% { box-shadow: 0 0 0 8px rgba(0,212,170,0); } }
+.step-label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); text-align: center; }
+.step.completed .step-label { color: var(--teal); }
+.step.active .step-label { color: var(--text-primary); font-weight: 700; }
 
 /* Analytics KPI */
 .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -239,3 +248,11 @@ button { font-family: inherit; cursor: pointer; transition: all 0.2s; border-rad
   transform: translateX(-4px) scale(1.02);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
+/* Missing Classes from UI Additions */
+.task-group-pills { display: flex; gap: 4px; background: var(--bg-main); border: 1px solid var(--border-medium); border-radius: 8px; padding: 4px; }
+.task-group-pill { padding: 6px 16px; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: 0.2s; border-radius: 6px; font-size: 13px; }
+.task-group-pill:hover { background: rgba(0,0,0,0.04); }
+.task-group-pill.active { background: var(--bg-card); color: var(--text-primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+.nav-avatar { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--bg-dark); color: white; font-weight: 600; }
