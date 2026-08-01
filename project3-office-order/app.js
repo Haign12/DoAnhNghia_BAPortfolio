@@ -39,6 +39,30 @@ function showToast(message, icon = '<i class="ph ph-info" style="color: var(--te
   toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 4000);
+  // Sync Live Preview
+  const shopInput = document.getElementById('createShopName');
+  const cutoffInput = document.getElementById('createCutoffTime');
+  if (shopInput) {
+    shopInput.addEventListener('input', (e) => {
+      const title = document.getElementById('previewTitle');
+      if (title) title.innerText = e.target.value ? \`Join order from \${e.target.value}\` : 'Join order from ...';
+    });
+  }
+  if (cutoffInput) {
+    cutoffInput.addEventListener('input', (e) => {
+      const cutoff = document.getElementById('previewCutoff');
+      if (cutoff) {
+        if (!e.target.value) {
+          cutoff.innerText = 'Closes at --:--';
+          return;
+        }
+        const [h, m] = e.target.value.split(':');
+        const d = new Date();
+        d.setHours(h, m);
+        cutoff.innerText = \`Closes at \${d.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12:true})}\`;
+      }
+    });
+  }
 }
 
 // --- GATE 1: CREATE ORDER ---
