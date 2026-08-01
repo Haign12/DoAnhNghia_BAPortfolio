@@ -59,6 +59,21 @@
           <i class="ph ph-plus"></i> Create Group Order
         </button>
       </div>
+      <!-- Quick Stats -->
+      <div style="display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;">
+        <div class="card" style="flex: 1; min-width: 200px; padding: 20px;">
+          <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600; margin-bottom: 8px;"><i class="ph ph-shopping-bag"></i> Total Orders</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-dark);">24</div>
+        </div>
+        <div class="card" style="flex: 1; min-width: 200px; padding: 20px;">
+          <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600; margin-bottom: 8px;"><i class="ph ph-coins"></i> Total Spent (Month)</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--teal);">1.45M ₫</div>
+        </div>
+        <div class="card" style="flex: 1; min-width: 200px; padding: 20px;">
+          <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600; margin-bottom: 8px;"><i class="ph ph-piggy-bank"></i> Est. Savings (Month)</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--green);">320K ₫</div>
+        </div>
+      </div>
 
       <div class="section-title">Active Sessions</div>
       <div class="card-list" id="activeSessionsList">
@@ -78,6 +93,30 @@
             <div class="history-total">520.000đ</div>
           </div>
         </div>
+        
+        <div class="history-card" style="opacity: 0.85;">
+          <div class="history-card-header">
+            <div class="history-shop">Phúc Long</div>
+            <div class="history-status success">Completed</div>
+          </div>
+          <div class="history-card-body">
+            <div class="history-detail"><i class="ph ph-calendar"></i> July 18, 2026</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 5 Participants</div>
+            <div class="history-total">340.000đ</div>
+          </div>
+        </div>
+
+        <div class="history-card" style="opacity: 0.85;">
+          <div class="history-card-header">
+            <div class="history-shop">Pizza 4P's</div>
+            <div class="history-status success">Completed</div>
+          </div>
+          <div class="history-card-body">
+            <div class="history-detail"><i class="ph ph-calendar"></i> July 10, 2026</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 12 Participants</div>
+            <div class="history-total">2.150.000đ</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -93,6 +132,12 @@
         <div class="form-group">
           <label>Shop / Restaurant Name <span style="color:red">*</span></label>
           <input type="text" class="form-input" id="createShopName" placeholder="e.g. Highlands Coffee, Phuc Long...">
+          <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
+             <span class="badge" style="background: var(--bg-light); color: var(--text-secondary); cursor: pointer;" onclick="document.getElementById('createShopName').value='Highlands Coffee'">Highlands Coffee</span>
+             <span class="badge" style="background: var(--bg-light); color: var(--text-secondary); cursor: pointer;" onclick="document.getElementById('createShopName').value='Phúc Long'">Phúc Long</span>
+             <span class="badge" style="background: var(--bg-light); color: var(--text-secondary); cursor: pointer;" onclick="document.getElementById('createShopName').value='KFC'">KFC</span>
+             <span class="badge" style="background: var(--bg-light); color: var(--text-secondary); cursor: pointer;" onclick="document.getElementById('createShopName').value='Gogi House'">Gogi House</span>
+          </div>
         </div>
         <div class="form-group">
           <label>Menu Link (Optional)</label>
@@ -113,7 +158,23 @@
           <select class="form-input" id="createSplitMethod">
             <option>Equal split among all members</option>
             <option>Proportional to order amount</option>
-          </select>
+        <div class="form-group mt-4" style="border-top: 1px solid var(--border-light); padding-top: 16px;">
+          <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+            <div>
+              <strong style="display: block; margin-bottom: 2px;">Auto-Cancel Unpaid Items</strong>
+              <div style="font-size: 12px; color: var(--text-secondary); font-weight: 400;">Automatically remove participants who haven't paid at cut-off time.</div>
+            </div>
+            <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--teal);">
+          </label>
+        </div>
+        <div class="form-group mt-3">
+          <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+            <div>
+              <strong style="display: block; margin-bottom: 2px;">Require Payment Receipt</strong>
+              <div style="font-size: 12px; color: var(--text-secondary); font-weight: 400;">Participants must upload a screenshot of their transfer.</div>
+            </div>
+            <input type="checkbox" style="width: 18px; height: 18px; accent-color: var(--teal);">
+          </label>
         </div>
         <div class="form-actions mt-4">
           <button class="btn-primary w-100" onclick="handleCreateOrder()">Create & Generate Invite Link</button>
@@ -200,6 +261,15 @@
             </div>
           </div>
           
+          <div class="card mt-4">
+            <h3 class="card-title mb-3" style="font-size: 14px;">Recent Activity</h3>
+            <div style="font-size: 13px; color: var(--text-secondary);">
+              <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-light);"><strong style="color: var(--text-dark);">Anh Nghĩa</strong> paid via Momo <span style="float: right; font-size: 11px;">10 mins ago</span></div>
+              <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-light);"><strong style="color: var(--text-dark);">Hương Giang</strong> added <span style="color: var(--teal);">Matcha Latte x1</span> <span style="float: right; font-size: 11px;">15 mins ago</span></div>
+              <div style="margin-bottom: 4px;"><strong style="color: var(--text-dark);">Minh Tuấn</strong> added <span style="color: var(--teal);">Cà Phê Sữa x1</span> <span style="float: right; font-size: 11px;">20 mins ago</span></div>
+            </div>
+          </div>
+          
           <!-- Debug Tools Panel -->
           <div class="card mt-4" style="border: 1px dashed var(--orange); background: var(--bg-light);">
             <h3 class="card-title mb-2" style="font-size: 13px; color: var(--orange);">Admin / Debug Tools</h3>
@@ -230,6 +300,21 @@
       </div>
 
       <div class="menu-grid" style="max-width: 900px; margin: 0 auto;">
+        
+        <!-- Filter/Search Bar -->
+        <div class="card mb-4" style="padding: 12px 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 200px; position: relative;">
+            <i class="ph ph-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+            <input type="text" class="form-input" placeholder="Search menu..." style="padding-left: 36px; margin: 0; min-height: 42px;">
+          </div>
+          <select class="form-input" style="width: auto; min-width: 150px; margin: 0; min-height: 42px; background: var(--bg-light); border-color: var(--border-medium);">
+            <option>All Categories</option>
+            <option>Coffee</option>
+            <option>Milk Tea</option>
+            <option>Snacks</option>
+          </select>
+        </div>
+
         <div class="menu-items">
           <h3 class="section-title">Menu Highlights</h3>
           <div class="menu-item-card">
