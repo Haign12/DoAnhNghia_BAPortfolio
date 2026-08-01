@@ -35,7 +35,10 @@ function switchView(viewId) {
     const now = new Date();
     const dateInput = document.getElementById('createCutoffDate');
     const timeInput = document.getElementById('createCutoffTime');
-    if (dateInput) dateInput.value = now.toISOString().split('T')[0];
+    if (dateInput) {
+      const offset = now.getTimezoneOffset() * 60000;
+      dateInput.value = (new Date(now.getTime() - offset)).toISOString().split('T')[0];
+    }
     if (timeInput) {
       now.setHours(now.getHours() + 1);
       timeInput.value = now.toTimeString().substring(0, 5);
