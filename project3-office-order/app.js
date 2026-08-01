@@ -30,6 +30,19 @@ function switchView(viewId) {
   const target = document.getElementById(viewId);
   if (target) target.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (viewId === 'view-create') {
+    const now = new Date();
+    const dateInput = document.getElementById('createCutoffDate');
+    const timeInput = document.getElementById('createCutoffTime');
+    if (dateInput) dateInput.value = now.toISOString().split('T')[0];
+    if (timeInput) {
+      now.setHours(now.getHours() + 1);
+      timeInput.value = now.toTimeString().substring(0, 5);
+      // Trigger input event to update preview
+      timeInput.dispatchEvent(new Event('input'));
+    }
+  }
 }
 
 function showToast(message, icon = '<i class="ph ph-info" style="color: var(--teal);"></i>') {
@@ -39,7 +52,10 @@ function showToast(message, icon = '<i class="ph ph-info" style="color: var(--te
   toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 4000);
-  // Sync Live Preview
+}
+
+// Sync Live Preview & Bind Elements
+document.addEventListener('DOMContentLoaded', () => {
   const shopInput = document.getElementById('createShopName');
   const cutoffInput = document.getElementById('createCutoffTime');
   if (shopInput) {
@@ -90,7 +106,7 @@ function showToast(message, icon = '<i class="ph ph-info" style="color: var(--te
       });
     });
   });
-}
+});
 
 // --- GATE 1: CREATE ORDER ---
 function handleCreateOrder() {
@@ -119,7 +135,7 @@ function handleCreateOrder() {
   
   // Gate check: Cutoff must be at least 5 minutes in the future
   if (cutoffDateTime.getTime() <= now.getTime() + 5 * 60000) {
-    showToast('Cut-off time must be at least 5 minutes from now.', '<i class="ph ph-x-circle" style="color: red;"></i>');
+    showToast('Cut-off date & time must be at least 5 minutes from now.', '<i class="ph ph-x-circle" style="color: red;"></i>');
     timeInput.style.borderColor = 'var(--orange)';
     return;
   }
