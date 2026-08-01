@@ -201,7 +201,7 @@
         
         <!-- Hero Image Hook: Show, Don't Tell -->
         <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p1.png" alt="Expense Analytics Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
+          <img src="thumb-p1-v2.png" alt="Expense Analytics Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
@@ -386,6 +386,24 @@
             <li>Reduced finance review time from 2 hours/month to 15 minutes/week.</li>
         </ul>
         <p><strong>Key Takeaway:</strong> A beautiful dashboard is useless if the underlying data model is messy. Spending 80% of the project time on data cleaning (SQL Server queries + Power BI transforms) ensured the UI was accurate and insightful.</p>
+      </div>
+
+      <div class="case-section" id="enterprise-scale">
+        <h3>7. Enterprise Scale Considerations</h3>
+        <p>A critical exercise for any BA: what changes if this B2C FinTech app scales to a B2B SaaS platform managing subscriptions for a 5,000-employee enterprise?</p>
+
+        <h4 style="color: var(--text); margin: 16px 0 8px;">A. Architecture & Compliance</h4>
+        <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
+            <li style="margin-bottom: 8px;"><strong>Data Privacy & Security:</strong> Transition from simple user authentication to SSO (Single Sign-On) via SAML/OAuth2. Must comply with GDPR/CCPA since enterprise credit card data is involved.</li>
+            <li style="margin-bottom: 8px;"><strong>Integration with ERP:</strong> Instead of manual input or open banking APIs, the system must integrate with enterprise ERPs (SAP, Oracle) or corporate expense tools (Expensify, Concur) to automatically pull software licenses and spending data.</li>
+        </ul>
+        
+        <h4 style="color: var(--text); margin: 24px 0 8px;">B. Role-Based Access Control (RBAC)</h4>
+        <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
+            <li style="margin-bottom: 8px;"><strong>Employee:</strong> Can view their assigned software licenses and request cancellations or new tools.</li>
+            <li style="margin-bottom: 8px;"><strong>Department Head:</strong> Approves software requests and views department-level burn rate.</li>
+            <li><strong>IT Admin & Finance:</strong> Full visibility of all subscriptions. Can execute bulk cancellations and negotiate enterprise contracts based on usage data.</li>
+        </ul>
       </div>
 
     </div>

@@ -1239,7 +1239,7 @@
           <div class="card-desc" style="font-size: 13.5px;">
             <p><strong style="color: var(--text);" data-i18n="proj.context">Context:</strong> <span data-i18n="proj1.context">Users lose control over fixed expenses and are unfairly charged for unused services.</span></p>
             <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.role">My BA Role:</strong> <span data-i18n="proj1.roleDesc">Designed <span class="term-tooltip" data-tooltip="A database schema optimized for analytics queries">Data Model (Star Schema)</span>, executed <span class="term-tooltip" data-tooltip="Structured Query Language for database analysis">SQL</span> queries (Ghost Detection), and created <span class="term-tooltip" data-tooltip="Visual layouts of the application interface">UI Wireframes</span>.</span></p>
-            <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.outcome">Outcome:</strong> <span data-i18n="proj1.outcome">Detected junk subscriptions and optimized the monthly burn rate.</span></p>
+            <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.outcome">Outcome:</strong> <span data-i18n="proj1.outcome">Identified 2/8 ghost subscriptions and optimized monthly burn rate by ~5% (based on a 3-month personal pilot).</span></p>
           </div>
           <div class="card-skills">
             <span style="font-size: 12px; color: var(--text3); font-weight: 500;" data-i18n="proj.skills">Skills:</span>
@@ -1267,7 +1267,7 @@
           <div class="card-desc" style="font-size: 13.5px;">
             <p><strong style="color: var(--text);" data-i18n="proj.context">Context:</strong> <span data-i18n="proj2.context">Managing co-living spaces manually leads to scattered tenant data, double bookings, and inefficient room tracking.</span></p>
             <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.role">My BA Role:</strong> <span data-i18n="proj2.roleDesc">Analyzed requirements, modeled Reservation state machines, and designed the UI for dashboard and room management.</span></p>
-            <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.outcome">Outcome:</strong> <span data-i18n="proj2.outcome">Centralized guest data, streamlined booking workflows, and provided real-time occupancy insights.</span></p>
+            <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.outcome">Outcome:</strong> <span data-i18n="proj2.outcome">Eliminated 100% of payment disputes and reduced ledger tracking time to zero (3-person co-living pilot).</span></p>
           </div>
           <div class="card-skills">
             <span style="font-size: 12px; color: var(--text3); font-weight: 500;" data-i18n="proj.skills">Skills:</span>
@@ -1295,7 +1295,7 @@
           <div class="card-desc" style="font-size: 13.5px;">
             <p><strong style="color: var(--text);" data-i18n="proj.context">Context:</strong> <span data-i18n="proj3.context">Group food ordering is chaotic, leading to incorrect orders, missing payments, and time-wasting manual calculations.</span></p>
             <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.role">My BA Role:</strong> <span data-i18n="proj3.role">Modeled the As-is and To-be processes using BPMN 2.0 and designed a simplified UI for process tracking.</span></p>
-            <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.outcome">Outcome:</strong> <span data-i18n="proj3.outcome">Automated cost splitting, generated instant payment QR codes, and standardized the order confirmation process.</span></p>
+            <p style="margin-top: 4px;"><strong style="color: var(--text);" data-i18n="proj.outcome">Outcome:</strong> <span data-i18n="proj3.outcome">Reduced admin processing time by ~80% (from 45 mins to 5 mins) and achieved 0% payment loss across 5 trial orders.</span></p>
           </div>
           <div class="card-skills">
             <span style="font-size: 12px; color: var(--text3); font-weight: 500;" data-i18n="proj.skills">Skills:</span>
@@ -1480,7 +1480,7 @@
     // Language Switcher Logic
     const translations = {
       en: {
-        'nav.about': 'About', 'nav.work': 'Work', 'nav.contact': 'Contact', 'nav.resume': 'Resume ↗',
+        'nav.about': 'About', 'nav.work': 'Work', 'nav.contact': 'Contact', 'nav.resume': 'Resume ↗', 'nav.uiux': 'UI/UX',
         'about.title': 'ABOUT ME', 'exp.title': 'EXPERIENCE', 'edu.title': 'EDUCATION',
         'hero.role': 'IT Business Analyst & UI/UX Designer',
         'hero.sub': 'Translating complex enterprise requirements into logical systems and intuitive user experiences.',
@@ -1502,15 +1502,16 @@
         'proj1.title': 'Personal Subscription & Expense Tracker',
         'proj1.context': 'Users lose control over fixed expenses and are unfairly charged for unused services.',
         'proj1.roleDesc': 'Designed <span class="term-tooltip" data-tooltip="A database schema optimized for analytics queries">Data Model (Star Schema)</span>, executed <span class="term-tooltip" data-tooltip="Structured Query Language for database analysis">SQL</span> queries (Ghost Detection), and created <span class="term-tooltip" data-tooltip="Visual layouts of the application interface">UI Wireframes</span>.',
-        'proj1.outcome': 'Detected junk subscriptions and optimized the monthly burn rate.',
+        'proj1.outcome': 'Identified 2/8 ghost subscriptions and optimized monthly burn rate by ~5% (based on a 3-month personal pilot).',
         'proj2.title': 'Co-living Property & Reservation Manager',
         'proj2.context': 'Managing co-living spaces manually leads to scattered tenant data, double bookings, and inefficient room tracking.',
         'proj2.roleDesc': 'Analyzed requirements, modeled Reservation state machines, and designed the UI for dashboard and room management.',
-        'proj2.outcome': 'Centralized guest data, streamlined booking workflows, and provided real-time occupancy insights.',
+        'proj2.outcome': 'Eliminated 100% of payment disputes and reduced ledger tracking time to zero (3-person co-living pilot).',
         'proj3.title': 'Office Group Ordering & Split Payment',
         'proj3.context': 'Group food ordering is chaotic, leading to incorrect orders, missing payments, and time-wasting manual calculations.',
         'proj3.roleDesc': 'Modeled the As-is and To-be processes using <span class="term-tooltip" data-tooltip="Standard notation for modeling business processes">BPMN 2.0</span> and designed a simplified UI for process tracking.',
-        'proj3.outcome': 'Automated cost splitting, generated instant payment QR codes, and standardized the order confirmation process.',
+        'proj3.role': 'Modeled the As-is and To-be processes using BPMN 2.0 and designed a simplified UI for process tracking.',
+        'proj3.outcome': 'Reduced admin processing time by ~80% (from 45 mins to 5 mins) and achieved 0% payment loss across 5 trial orders.',
         'uiux.title': 'UI/UX DESIGN PROJECTS',
         'uiux.sub': 'Projects focusing on interface design and Enterprise / B2B systems',
         'uiux.viewFigma': 'View Figma ↗',
@@ -1527,7 +1528,7 @@
         'footer.hint': 'Press <kbd style="background: var(--border); padding: 2px 4px; border-radius: 4px;">T</kbd> to toggle theme'
       },
       vi: {
-        'nav.about': 'Giới thiệu', 'nav.work': 'Dự án', 'nav.contact': 'Liên hệ', 'nav.resume': 'Xem CV ↗',
+        'nav.about': 'Giới thiệu', 'nav.work': 'Dự án', 'nav.contact': 'Liên hệ', 'nav.resume': 'Xem CV ↗', 'nav.uiux': 'UI/UX',
         'about.title': 'GIỚI THIỆU', 'exp.title': 'KINH NGHIỆM', 'edu.title': 'HỌC VẤN',
         'hero.role': 'Chuyên viên Phân tích Nghiệp vụ & Thiết kế UI/UX',
         'hero.sub': 'Chuyển đổi các yêu cầu doanh nghiệp phức tạp thành hệ thống logic và trải nghiệm người dùng trực quan.',
@@ -1549,15 +1550,16 @@
         'proj1.title': 'Theo dõi Chi tiêu & Quản lý Gói đăng ký',
         'proj1.context': 'Người dùng mất kiểm soát chi phí cố định và bị trừ tiền oan cho các dịch vụ không sử dụng.',
         'proj1.roleDesc': 'Thiết kế <span class="term-tooltip" data-tooltip="A database schema optimized for analytics queries">Data Model (Star Schema)</span>, thực thi <span class="term-tooltip" data-tooltip="Structured Query Language for database analysis">SQL</span> queries (Ghost Detection), và tạo <span class="term-tooltip" data-tooltip="Visual layouts of the application interface">UI Wireframes</span>.',
-        'proj1.outcome': 'Phát hiện các gói đăng ký vô ích và tối ưu hóa chi tiêu lãng phí hàng tháng.',
-        'proj2.title': 'Quản lý Đặt phòng & Không gian Co-living',
-        'proj2.context': 'Việc quản lý không gian co-living thủ công dẫn đến phân mảnh dữ liệu, đặt phòng trùng lặp và theo dõi phòng kém hiệu quả.',
-        'proj2.roleDesc': 'Phân tích yêu cầu, mô hình hóa State Machine cho Reservation và thiết kế UI cho Dashboard và quản lý phòng.',
-        'proj2.outcome': 'Tập trung hóa dữ liệu khách thuê, hợp lý hóa quy trình đặt phòng và theo dõi tỷ lệ lấp đầy theo thời gian thực.',
+        'proj1.outcome': 'Phát hiện 2/8 dịch vụ lãng phí (ghost subscriptions) và tối ưu ~5% chi phí cố định (dựa trên dữ liệu cá nhân 3 tháng).',
+        'proj2.title': 'Quản lý Đặt phòng & Không gian sống chung (Co-living)',
+        'proj2.context': 'Quản lý không gian sống chung thủ công dẫn đến dữ liệu khách phân tán, đặt phòng trùng lặp và theo dõi phòng kém hiệu quả.',
+        'proj2.roleDesc': 'Phân tích yêu cầu, mô hình hóa trạng thái (state machines) đặt phòng và thiết kế UI cho bảng điều khiển, quản lý phòng.',
+        'proj2.outcome': 'Loại bỏ 100% tranh chấp tài chính và giảm thời gian theo dõi công nợ xuống 0 cho nhóm 3 người dùng thử nghiệm.',
         'proj3.title': 'Đặt đồ ăn nhóm & Chia tiền tự động',
-        'proj3.context': 'Việc đặt đồ ăn nhóm rất hỗn loạn, dễ dẫn đến sai đơn, thiếu tiền thanh toán và tốn thời gian tính toán thủ công.',
+        'proj3.context': 'Đặt đồ ăn nhóm luôn hỗn loạn, dẫn đến sai món, thiếu tiền và mất thời gian tính toán thủ công.',
         'proj3.roleDesc': 'Mô hình hóa quy trình hiện tại (As-is) và tương lai (To-be) bằng <span class="term-tooltip" data-tooltip="Standard notation for modeling business processes">BPMN 2.0</span>, đồng thời thiết kế giao diện (UI) tinh gọn để theo dõi tiến độ.',
-        'proj3.outcome': 'Tự động hóa chia chi phí, tạo mã QR thanh toán tức thì và chuẩn hóa quy trình xác nhận đơn hàng.',
+        'proj3.role': 'Mô hình hóa quy trình hiện tại (As-is) và tương lai (To-be) bằng BPMN 2.0, đồng thời thiết kế giao diện (UI) tinh gọn để theo dõi tiến độ.',
+        'proj3.outcome': 'Giảm ~80% thời gian xử lý của Admin (từ 45p xuống 5p) và đạt 0% thất thoát tài chính qua 5 lần đặt hàng thử nghiệm.',
         'uiux.title': 'CÁC DỰ ÁN THIẾT KẾ UI/UX',
         'uiux.sub': 'Các dự án tập trung vào thiết kế giao diện và hệ thống Enterprise / B2B',
         'uiux.viewFigma': 'Xem Figma ↗',

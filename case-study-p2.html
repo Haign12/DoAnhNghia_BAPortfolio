@@ -197,7 +197,7 @@
         
         <!-- Hero Image Hook: Show, Don't Tell -->
         <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
+          <img src="thumb-p2-v2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
@@ -323,7 +323,7 @@
         
         <!-- Hero Image Hook: Show, Don't Tell -->
         <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
+          <img src="thumb-p2-v2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
@@ -394,7 +394,7 @@
         
         <!-- Hero Image Hook: Show, Don't Tell -->
         <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
+          <img src="thumb-p2-v2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
         </div>
       </div>
 
@@ -409,6 +409,23 @@
             <li>Limitation: Sample too small (n=3) to generalize. Results reflect a controlled personal environment, not enterprise deployment.</li>
         </ul>
         <p><strong>Key Takeaway:</strong> Excellent Requirement Elicitation involves understanding the true bottleneck (user habits). A perfectly coded app fails if users don't want to open it; integrating with their existing Zalo habit was the real win.</p>
+      </div>
+
+      <div class="case-section" id="enterprise-scale">
+        <h3>7. Enterprise Scale Considerations</h3>
+        <p>What changes if this Co-living Task Manager scales from a 3-person apartment to a Property Management Company handling 5,000 tenants across 50 buildings?</p>
+
+        <h4 style="color: var(--text); margin: 16px 0 8px;">A. Core System Scaling</h4>
+        <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
+            <li style="margin-bottom: 8px;"><strong>Automated Ledger Reconciliation:</strong> Instead of manual expense entry, integrate with banking APIs (e.g., Plaid) or property management ERPs to auto-reconcile rent and utility payments across thousands of units.</li>
+            <li style="margin-bottom: 8px;"><strong>Vendor & Maintenance Portal:</strong> Chores transition from "Roommate A cleans the kitchen" to dispatching professional maintenance contractors. The State Machine must handle SLA tracking, vendor invoicing, and tenant approvals.</li>
+        </ul>
+        
+        <h4 style="color: var(--text); margin: 24px 0 8px;">B. Regulatory & Compliance Handling</h4>
+        <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
+            <li style="margin-bottom: 8px;"><strong>Legal Notice Workflows:</strong> Eviction warnings and lease violations must follow strict legal timelines. The system needs hard-coded compliance rules (e.g., 30-day notice generation) mapped via BPMN.</li>
+            <li><strong>Data Partitioning:</strong> Multi-tenant architecture is required so Building Manager A cannot see tenant financial data from Building B, ensuring strict data governance.</li>
+        </ul>
       </div>
 
     </div>
