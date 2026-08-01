@@ -154,7 +154,6 @@
           <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h3 class="card-title">Participant List</h3>
-              <button class="btn-secondary" style="padding: 4px 12px; font-size: 12px;" onclick="simulateCutoff()">Simulate Cut-off Trigger</button>
             </div>
             <table class="data-table">
               <thead>
@@ -196,9 +195,16 @@
             </div>
 
             <div class="mt-4">
-              <button class="btn-primary w-100 mb-2" id="btnSendToVendor" onclick="switchView('view-vendor-summary')" disabled>Close Order & Send to Vendor</button>
+              <button class="btn-primary w-100 mb-2" id="btnSendToVendor" onclick="handleSendToVendor()">Close Order & Send to Vendor</button>
               <button class="btn-secondary w-100" onclick="handlePreviewParticipant()">Preview as Participant</button>
             </div>
+          </div>
+          
+          <!-- Debug Tools Panel -->
+          <div class="card mt-4" style="border: 1px dashed var(--orange); background: var(--bg-light);">
+            <h3 class="card-title mb-2" style="font-size: 13px; color: var(--orange);">Admin / Debug Tools</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">These tools are for testing purposes only and would not appear in production.</p>
+            <button class="btn-secondary w-100" style="padding: 6px; font-size: 13px;" onclick="simulateCutoff()">Simulate Cut-off Trigger</button>
           </div>
         </div>
       </div>
@@ -219,7 +225,7 @@
     <div id="view-participant" class="view-section fade-in">
       <div class="page-header centered text-center">
         <div class="host-avatar" style="width: 48px; height: 48px; border-radius: 50%; background: var(--bg-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 12px; font-size: 1.2rem;">DN</div>
-        <h1 class="page-title" style="font-size: 1.5rem;">Join order from <span id="participantShopName">Shop Name</span></h1>
+        <h1 class="page-title" style="font-size: 1.5rem; margin-bottom: 4px;">Join order from <span id="participantShopName">Shop Name</span> <span style="font-size: 1.1rem; color: var(--text-secondary); font-weight: normal;">(Session <span id="participantSessionCode"></span>)</span></h1>
         <div class="page-subtitle" style="color: var(--orange); font-weight: 600;">Closes at <span id="participantCutoff"></span></div>
       </div>
 

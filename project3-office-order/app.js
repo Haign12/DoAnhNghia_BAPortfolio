@@ -43,12 +43,23 @@ function showToast(message, icon = '<i class="ph ph-info" style="color: var(--te
 
 // --- GATE 1: CREATE ORDER ---
 function handleCreateOrder() {
-  const shopName = document.getElementById('createShopName').value.trim();
-  const dateStr = document.getElementById('createCutoffDate').value;
-  const timeStr = document.getElementById('createCutoffTime').value;
+  const shopNameInput = document.getElementById('createShopName');
+  const dateInput = document.getElementById('createCutoffDate');
+  const timeInput = document.getElementById('createCutoffTime');
+  const shopName = shopNameInput.value.trim();
+  const dateStr = dateInput.value;
+  const timeStr = timeInput.value;
+
+  // Clear previous validation states
+  shopNameInput.style.borderColor = '';
+  dateInput.style.borderColor = '';
+  timeInput.style.borderColor = '';
 
   if (!shopName || !dateStr || !timeStr) {
     showToast('Please fill all required fields.', '<i class="ph ph-warning-circle" style="color: var(--orange);"></i>');
+    if (!shopName) shopNameInput.style.borderColor = 'var(--orange)';
+    if (!dateStr) dateInput.style.borderColor = 'var(--orange)';
+    if (!timeStr) timeInput.style.borderColor = 'var(--orange)';
     return;
   }
 
@@ -58,6 +69,7 @@ function handleCreateOrder() {
   // Gate check: Cutoff must be at least 5 minutes in the future
   if (cutoffDateTime.getTime() <= now.getTime() + 5 * 60000) {
     showToast('Cut-off time must be at least 5 minutes from now.', '<i class="ph ph-x-circle" style="color: red;"></i>');
+    timeInput.style.borderColor = 'var(--orange)';
     return;
   }
 
@@ -90,7 +102,9 @@ function updateHostDashboard() {
 
   document.getElementById('hostDashShopName').innerText = currentSession.shopName;
   document.getElementById('hostDashSessionCode').innerText = currentSession.code;
-  document.getElementById('hostDashCutoff').innerText = currentSession.cutoff.toLocaleString();
+  const formattedDate = currentSession.cutoff.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+  const formattedTime = currentSession.cutoff.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+  document.getElementById('hostDashCutoff').innerText = `${formattedDate}, ${formattedTime}`;
   document.getElementById('hostDashInviteLink').value = `https://orderflow.app/join/${currentSession.code}`;
 
   renderParticipants();
@@ -121,11 +135,11 @@ function renderParticipants() {
       paidCount++;
       subtotal += p.amount;
     } else if (p.status === 'Pending') {
-      statusHtml = `<span class="badge" style="background: var(--orange); color: white;">Pending</span>`;
+      statusHtml = `<span class="badge" style="background: var(--orange); color: white;" title="Paid, waiting for manual verification">Pending Verify</span>`;
       actionHtml = `<button class="btn-primary" style="padding: 2px 8px; font-size: 11px;" onclick="confirmPayment('${p.name}')">Verify</button>`;
       subtotal += p.amount;
     } else if (p.status === 'Unpaid') {
-      statusHtml = `<span class="badge warning">Unpaid</span>`;
+      statusHtml = `<span class="badge warning" title="User has not transferred money yet">Unpaid</span>`;
       actionHtml = `<span class="action-link" onclick="remindUser('${p.name}')">Remind</span>`;
       subtotal += p.amount;
     } else {
@@ -134,7 +148,9 @@ function renderParticipants() {
 
     tr.innerHTML = `
       <td style="font-weight: 600;">${p.name}</td>
-      <td style="color: var(--text-secondary);">${p.item}</td>
+      <td style="color: var(--text-secondary); line-height: 1.4;">${p.item}
+        ${p.amount > 0 ? '<span style="display:block; font-size:11px; color:var(--teal); margin-top:2px;">Includes +5.000đ shipping</span>' : ''}
+      </td>
       <td style="font-weight: 700;">${p.amount > 0 ? p.amount.toLocaleString('vi-VN') + 'đ' : '-'}</td>
       <td>${statusHtml}</td>
       <td>${actionHtml}</td>
@@ -179,18 +195,22 @@ function remindUser(name) {
 }
 
 // --- GATE 6: CLOSE ORDER ---
-function checkHostGates() {
-  const btn = document.getElementById('btnSendToVendor');
-  if (!btn || !currentSession) return;
-
+function handleSendToVendor() {
   const validParticipants = participants.filter(p => p.status !== 'Canceled');
   const allPaid = validParticipants.length > 0 && validParticipants.every(p => p.status === 'Paid');
-  
-  if (allPaid) {
-    btn.removeAttribute('disabled');
-  } else {
-    btn.setAttribute('disabled', 'true');
+  const unpaidParticipants = validParticipants.filter(p => p.status !== 'Paid');
+
+  if (!allPaid && unpaidParticipants.length > 0) {
+    const confirmMsg = `${unpaidParticipants.length} member(s) haven't paid yet. If you close the order now, you will have to cover their deficit.\n\nProceed to close order?`;
+    if (!confirm(confirmMsg)) {
+      return;
+    }
   }
+  switchView('view-vendor-summary');
+}
+
+function checkHostGates() {
+  // We no longer strictly disable the button, we use handleSendToVendor to prompt a warning.
 }
 
 // --- GATE 5: AUTO-CANCEL AT CUT-OFF ---
@@ -229,7 +249,9 @@ function handlePreviewParticipant() {
 
   // Valid, setup participant view
   document.getElementById('participantShopName').innerText = currentSession.shopName;
-  document.getElementById('participantCutoff').innerText = currentSession.cutoff.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  document.getElementById('participantSessionCode').innerText = currentSession.code;
+  const formattedTime = currentSession.cutoff.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+  document.getElementById('participantCutoff').innerText = formattedTime;
   
   cart = [];
   renderCart();
@@ -322,10 +344,11 @@ function renderHomeSessions() {
         <i class="ph ph-coffee" style="font-size: 2rem; color: var(--border-medium); margin-bottom: 12px; display: block;"></i>
         <h3 class="mb-1">No active orders</h3>
         <p class="text-muted mb-3">You haven't started any group orders yet. Start one to invite your colleagues!</p>
-        <button class="btn-primary" onclick="switchView('view-create')">Create Order</button>
+          <button class="btn-secondary" onclick="switchView('view-create')">Create Order</button>
       </div>
     `;
   } else {
+    const formattedTime = currentSession.cutoff.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
     container.innerHTML = `
       <div class="history-card" style="border-color: var(--teal); box-shadow: 0 4px 12px rgba(0,212,170,0.1);" onclick="switchView('view-host-dashboard')">
         <div class="history-card-header">
@@ -333,7 +356,7 @@ function renderHomeSessions() {
           <div class="badge warning" style="font-size: 10px;">Collecting</div>
         </div>
         <div class="history-card-body">
-          <div class="history-detail"><i class="ph ph-clock"></i> Closes at ${currentSession.cutoff.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+          <div class="history-detail"><i class="ph ph-clock"></i> Closes at ${formattedTime}</div>
           <div class="history-detail"><i class="ph ph-hash"></i> ${currentSession.code}</div>
         </div>
       </div>
