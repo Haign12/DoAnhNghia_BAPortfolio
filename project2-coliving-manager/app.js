@@ -6,9 +6,19 @@ const DEFAULT_MEMBERS = [
   { id: 'm2', name: 'Roommate A', avatar: 'RA', color: '#F472B6' },
   { id: 'm3', name: 'Roommate B', avatar: 'RB', color: '#34D399' }
 ];
-let members = JSON.parse(localStorage.getItem('cospace_members')) || DEFAULT_MEMBERS;
-let chores = JSON.parse(localStorage.getItem('cospace_chores')) || [];
-let expenses = JSON.parse(localStorage.getItem('cospace_expenses')) || [];
+let members = DEFAULT_MEMBERS;
+let chores = [];
+let expenses = [];
+try {
+  members = JSON.parse(localStorage.getItem('cospace_members')) || DEFAULT_MEMBERS;
+  chores = JSON.parse(localStorage.getItem('cospace_chores')) || [];
+  expenses = JSON.parse(localStorage.getItem('cospace_expenses')) || [];
+} catch (e) {
+  console.error('LocalStorage parse error:', e);
+  localStorage.removeItem('cospace_members');
+  localStorage.removeItem('cospace_chores');
+  localStorage.removeItem('cospace_expenses');
+}
 
 function persist() {
   localStorage.setItem('cospace_chores', JSON.stringify(chores));
@@ -285,94 +295,93 @@ function renderLedger() {
   const pendingCount = expenses.filter(e => e.settled === 'pending').length;
   const unpaidCount = expenses.filter(e => e.settled === 'false').length;
 
-  return 
+  return `
     <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
       <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-        `
-    <div class="page-breadcrumb-section">
-      <!-- Breadcrumb -->
-      <div class="breadcrumb-wrap">
-        <div class="breadcrumb-row">
-          <h2 class="breadcrumb-title">Split Ledger</h2>
-          <nav class="breadcrumb-nav">
-            <ol>
-              <li><a href="#">Home</a></li>
-              <li class="current">Split Ledger</li>
-            </ol>
-          </nav>
+        <div class="page-breadcrumb-section">
+          <!-- Breadcrumb -->
+          <div class="breadcrumb-wrap">
+            <div class="breadcrumb-row">
+              <h2 class="breadcrumb-title">Split Ledger</h2>
+              <nav class="breadcrumb-nav">
+                <ol>
+                  <li><a href="#">Home</a></li>
+                  <li class="current">Split Ledger</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+
+          <!-- Action row (TailAdmin-style) -->
+          <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
+            <div class="task-group-pills" style="background: transparent;">
+              <div class="task-group-pill active" style="cursor:default;">All <span class="count-chip">${expenses.length}</span></div>
+              <div class="task-group-pill" style="cursor:default; color: var(--warning-700);">Unpaid <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${unpaidCount}</span></div>
+              <div class="task-group-pill" style="cursor:default; color: var(--warning-700);">Pending <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${pendingCount}</span></div>
+              <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Settled <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${settledCount}</span></div>
+            </div>
+            <div class="kanban-action-row">
+              <button class="btn-add-task" onclick="app.openExpenseModal()">
+                <i class="ph-bold ph-plus"></i> Add Expense
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px;">
+            <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
+              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Total Expenses</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--text);">${formatMoney(totalExpenses)}</div>
+            </div>
+            <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
+              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Unsettled</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--warning-700);">${formatMoney(totalUnsettled)}</div>
+            </div>
+            <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
+              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Settled Count</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--success-700);">${settledCount}</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 8px;">
+            ${expenses.length === 0 ? '<div class="empty-state">Chưa có chi tiêu nào. Bấm Add Expense để tạo!</div>' : `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Paid By</th>
+              <th>Amount</th>
+              <th>Status / Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${expenses.map(e => {
+              const payer = getMember(e.paidBy);
+              let actionHtml = '';
+              // Gated logic
+              if(e.settled === 'false') {
+                actionHtml = `<button class="btn-small" onclick="app.markSent('${e.id}')">I've sent it</button>`;
+              } else if(e.settled === 'pending') {
+                actionHtml = `<button class="btn-small btn-confirm" onclick="app.confirmReceived('${e.id}')">Confirm Receipt</button>`;
+              } else {
+                actionHtml = `<span class="badge badge-paid">SETTLED</span>`;
+              }
+              return `<tr>
+                <td>${e.date}</td>
+                <td>${e.description}</td>
+                <td><div style="display:flex;align-items:center;gap:8px;"><div class="nav-avatar" style="background:${payer.color}">${payer.avatar}</div> ${payer.name}</div></td>
+                <td>${formatMoney(e.amount)}</td>
+                <td>${e.settled === 'pending' ? '<span class="badge badge-unpaid" style="margin-right:8px;">PENDING CONFIRM</span>' : ''}${actionHtml}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+        `}
+          </div>
         </div>
       </div>
-
-      <!-- Action row (TailAdmin-style) -->
-      <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
-        <div class="task-group-pills" style="background: transparent;">
-          <div class="task-group-pill active" style="cursor:default;">All <span class="count-chip">${expenses.length}</span></div>
-          <div class="task-group-pill" style="cursor:default; color: var(--warning-700);">Unpaid <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${unpaidCount}</span></div>
-          <div class="task-group-pill" style="cursor:default; color: var(--warning-700);">Pending <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${pendingCount}</span></div>
-          <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Settled <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${settledCount}</span></div>
-        </div>
-        <div class="kanban-action-row">
-          <button class="btn-add-task" onclick="app.openExpenseModal()">
-            <i class="ph-bold ph-plus"></i> Add Expense
-          </button>
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px;">
-        <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-          <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Total Expenses</div>
-          <div style="font-size: 1.4rem; font-weight: 800; color: var(--text);">${formatMoney(totalExpenses)}</div>
-        </div>
-        <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-          <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Unsettled</div>
-          <div style="font-size: 1.4rem; font-weight: 800; color: var(--warning-700);">${formatMoney(totalUnsettled)}</div>
-        </div>
-        <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-          <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Settled Count</div>
-          <div style="font-size: 1.4rem; font-weight: 800; color: var(--success-700);">${settledCount}</div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top: 8px;">
-        ${expenses.length === 0 ? '<div class="empty-state">Chưa có chi tiêu nào. Bấm Add Expense để tạo!</div>' : `
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Paid By</th>
-            <th>Amount</th>
-            <th>Status / Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${expenses.map(e => {
-            const payer = getMember(e.paidBy);
-            let actionHtml = '';
-            // Gated logic
-            if(e.settled === 'false') {
-              actionHtml = `<button class="btn-small" onclick="app.markSent('${e.id}')">I've sent it</button>`;
-            } else if(e.settled === 'pending') {
-              actionHtml = `<button class="btn-small btn-confirm" onclick="app.confirmReceived('${e.id}')">Confirm Receipt</button>`;
-            } else {
-              actionHtml = `<span class="badge badge-paid">SETTLED</span>`;
-            }
-            return `<tr>
-              <td>${e.date}</td>
-              <td>${e.description}</td>
-              <td><div style="display:flex;align-items:center;gap:8px;"><div class="nav-avatar" style="background:${payer.color}">${payer.avatar}</div> ${payer.name}</div></td>
-              <td>${formatMoney(e.amount)}</td>
-              <td>${e.settled === 'pending' ? '<span class="badge badge-unpaid" style="margin-right:8px;">PENDING CONFIRM</span>' : ''}${actionHtml}</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-      `}
     </div>
-  `
-      </div>
-    </div>
-;
+  `;
 }
 
 // -- SETTLE UP VIEW --
@@ -416,60 +425,59 @@ function renderSettleUp() {
   const transactions = calculateSimplifications();
   const totalDebt = transactions.reduce((s, t) => s + t.amount, 0);
 
-  return 
+  return `
     <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
       <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-        `
-    <div class="page-breadcrumb-section">
-      <!-- Breadcrumb -->
-      <div class="breadcrumb-wrap">
-        <div class="breadcrumb-row">
-          <h2 class="breadcrumb-title">Settle Up</h2>
-          <nav class="breadcrumb-nav">
-            <ol>
-              <li><a href="#">Home</a></li>
-              <li class="current">Settle Up</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
+        <div class="page-breadcrumb-section">
+          <!-- Breadcrumb -->
+          <div class="breadcrumb-wrap">
+            <div class="breadcrumb-row">
+              <h2 class="breadcrumb-title">Settle Up</h2>
+              <nav class="breadcrumb-nav">
+                <ol>
+                  <li><a href="#">Home</a></li>
+                  <li class="current">Settle Up</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
 
-      <!-- Status pills -->
-      <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
-        <div class="task-group-pills" style="background: transparent;">
-          <div class="task-group-pill active" style="cursor:default;">Transactions <span class="count-chip">${transactions.length}</span></div>
-          <div class="task-group-pill" style="cursor:default; color: var(--error-700);">Total Debt <span class="count-chip" style="background: var(--error-50); color: var(--error-700); border-color: transparent;">${formatMoney(totalDebt)}</span></div>
-          <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Members <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${members.length}</span></div>
-        </div>
-      </div>
+          <!-- Status pills -->
+          <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
+            <div class="task-group-pills" style="background: transparent;">
+              <div class="task-group-pill active" style="cursor:default;">Transactions <span class="count-chip">${transactions.length}</span></div>
+              <div class="task-group-pill" style="cursor:default; color: var(--error-700);">Total Debt <span class="count-chip" style="background: var(--error-50); color: var(--error-700); border-color: transparent;">${formatMoney(totalDebt)}</span></div>
+              <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Members <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${members.length}</span></div>
+            </div>
+          </div>
 
-      <div class="card" style="margin-top:8px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-          <h3 style="margin: 0;">Who owes who?</h3>
-          ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Min ${transactions.length} giao dịch để tất toán</span>`}
+          <div class="card" style="margin-top:8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+              <h3 style="margin: 0;">Who owes who?</h3>
+              ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Min ${transactions.length} giao dịch để tất toán</span>`}
+            </div>
+            ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Tất cả đã thanh toán đầy đủ!</p>' : ''}
+            <div class="settle-list" style="display:flex; flex-direction: column; gap: 12px;">
+              ${transactions.map(t => {
+                const fromM = getMember(t.from);
+                const toM = getMember(t.to);
+                return `<div style="display:flex; align-items:center; justify-content:space-between; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg);">
+                  <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="nav-avatar" style="background:${fromM.color}">${fromM.avatar}</div>
+                    <strong>${fromM.name}</strong>
+                    <i class="ph-bold ph-arrow-right" style="color:var(--text2)"></i>
+                    <div class="nav-avatar" style="background:${toM.color}">${toM.avatar}</div>
+                    <strong>${toM.name}</strong>
+                  </div>
+                  <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
         </div>
-        ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Tất cả đã thanh toán đầy đủ!</p>' : ''}
-        <div class="settle-list" style="display:flex; flex-direction: column; gap: 12px;">
-          ${transactions.map(t => {
-            const fromM = getMember(t.from);
-            const toM = getMember(t.to);
-            return `<div style="display:flex; align-items:center; justify-content:space-between; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg);">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div class="nav-avatar" style="background:${fromM.color}">${fromM.avatar}</div>
-                <strong>${fromM.name}</strong>
-                <i class="ph-bold ph-arrow-right" style="color:var(--text2)"></i>
-                <div class="nav-avatar" style="background:${toM.color}">${toM.avatar}</div>
-                <strong>${toM.name}</strong>
-              </div>
-              <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
-            </div>`;
-        }).join('')}
       </div>
     </div>
-  `
-      </div>
-    </div>
-;
+  `;
 }
 
 // 4. Application Methods
