@@ -10,7 +10,7 @@ let state = {
     ghostThreshold: 30
   },
   subscriptions: [],
-  transactions: [],
+  purchases: [],
   budgets: [
     { category: 'Entertainment', limit: 50, spent: 0 },
     { category: 'Health', limit: 25, spent: 0 },
@@ -69,13 +69,103 @@ function switchView(viewId, navEl) {
   renderAll(viewId);
 }
 
+// --- 2a. ONBOARDING WIZARD (3 steps) ---
+let onboardDataSource = 'mock';
+let onboardSubs = []; // {id, name, cost, cycle, category}
+
+function goToOnboardStep(step) {
+  // Hide all steps
+  document.querySelectorAll('.onboard-step').forEach(el => el.classList.remove('active'));
+
+  // Update progress dots
+  document.querySelectorAll('.onboard-step-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i < step);
+    dot.classList.toggle('completed', i + 1 < step);
+  });
+  document.querySelectorAll('.onboard-step-line').forEach((line, i) => {
+    line.classList.toggle('active', i + 1 < step);
+  });
+
+  // Show target step
+  const target = document.getElementById('onboardStep' + step);
+  if (target) target.classList.add('active');
+
+  // Auto-skip step 2 if user picked "blank" data source and already has subs
+  if (step === 2) {
+    const picked = document.querySelector('input[name="onboardDataSource"]:checked');
+    if (picked && picked.value === 'mock') {
+      // Pre-fill mock subs for review
+      onboardSubs = [
+        { name: 'Netflix', cost: 15.99, cycle: 'Monthly', category: 'Entertainment' },
+        { name: 'Spotify', cost: 9.99, cycle: 'Monthly', category: 'Entertainment' },
+        { name: 'Gym Membership', cost: 30.00, cycle: 'Monthly', category: 'Health' },
+        { name: 'Coursera Plus', cost: 49.00, cycle: 'Monthly', category: 'Education' }
+      ];
+      renderOnboardSubList();
+    } else if (onboardSubs.length === 0) {
+      renderOnboardSubList();
+    }
+  }
+}
+
+function renderOnboardSubList() {
+  const host = document.getElementById('onboardSubList');
+  if (!host) return;
+  if (onboardSubs.length === 0) {
+    host.innerHTML = '<div style="text-align:center; padding: 30px 20px; color: var(--text-secondary); font-size: 13px; border: 1.5px dashed var(--border-medium); border-radius: 10px;"><i class="ph ph-plus-circle" style="font-size: 28px; display:block; margin-bottom: 8px; color: var(--text-muted);"></i>Click "Add another" below to add your first subscription</div>';
+    return;
+  }
+  host.innerHTML = onboardSubs.map((s, i) => `
+    <div style="display: flex; gap: 8px; align-items: center; padding: 8px; background: var(--bg-main); border-radius: 10px;">
+      <input type="text" placeholder="Name (e.g. Netflix)" value="${s.name}" onchange="updateOnboardSub(${i}, 'name', this.value)" style="flex: 2; padding: 8px 10px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit;">
+      <input type="number" placeholder="Cost" value="${s.cost}" step="0.01" min="0" onchange="updateOnboardSub(${i}, 'cost', this.value)" style="flex: 1; padding: 8px 10px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit; min-width: 0;">
+      <select onchange="updateOnboardSub(${i}, 'cycle', this.value)" style="padding: 8px 6px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit;">
+        <option ${s.cycle === 'Monthly' ? 'selected' : ''}>Monthly</option>
+        <option ${s.cycle === 'Yearly' ? 'selected' : ''}>Yearly</option>
+        <option ${s.cycle === 'Weekly' ? 'selected' : ''}>Weekly</option>
+      </select>
+      <button onclick="removeOnboardSub(${i})" style="background: none; border: none; color: var(--red); cursor: pointer; padding: 6px; font-size: 18px; line-height: 1;" title="Remove"><i class="ph ph-trash"></i></button>
+    </div>
+  `).join('');
+}
+
+function addOnboardSubRow() {
+  onboardSubs.push({ name: '', cost: '', cycle: 'Monthly', category: 'Entertainment' });
+  renderOnboardSubList();
+}
+
+function updateOnboardSub(idx, field, val) {
+  if (!onboardSubs[idx]) return;
+  if (field === 'cost') val = parseFloat(val) || 0;
+  onboardSubs[idx][field] = val;
+}
+
+function removeOnboardSub(idx) {
+  onboardSubs.splice(idx, 1);
+  renderOnboardSubList();
+}
+
+function finishOnboardingStep2() {
+  // Filter out empty rows
+  const valid = onboardSubs.filter(s => s.name && s.name.trim() && s.cost > 0);
+  if (valid.length === 0) {
+    const hint = document.getElementById('onboardStep2Hint');
+    if (hint) hint.style.display = 'block';
+    return;
+  }
+  onboardSubs = valid;
+  goToOnboardStep(3);
+}
+
 function completeOnboarding() {
   const curr = document.getElementById('onboardCurrency').value;
   const thres = parseInt(document.getElementById('onboardThreshold').value);
-  const loadMock = document.getElementById('onboardMock').checked;
+  const picked = document.querySelector('input[name="onboardDataSource"]:checked');
+  const dataSource = picked ? picked.value : 'mock';
 
   if (isNaN(thres) || thres < 1) {
     showToast('Invalid threshold', '<i class="ph ph-warning-circle" style="color:#EF4444;"></i>');
+    goToOnboardStep(1);
     return;
   }
 
@@ -83,7 +173,25 @@ function completeOnboarding() {
   state.settings.ghostThreshold = thres;
   state.settings.setupCompleted = true;
 
-  if (loadMock) loadMockData();
+  if (dataSource === 'mock') {
+    loadMockData();
+  } else {
+    // Save user's manually-entered subs
+    onboardSubs.forEach(s => {
+      state.subscriptions.push({
+        id: 's' + Date.now() + Math.random().toString(36).slice(2, 6),
+        name: s.name.trim(),
+        category: s.category || 'Entertainment',
+        cost: s.cost,
+        cycle: s.cycle || 'Monthly',
+        status: 'Active',
+        icon: '<div style="background:var(--primary);color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-sparkle"></i></div>',
+        added: new Date().toISOString().split('T')[0],
+        snoozeUntil: null,
+        ignoreGhost: false
+      });
+    });
+  }
 
   // Hide onboarding, show overview
   const onboarding = document.getElementById('view-onboarding');
@@ -116,7 +224,7 @@ function loadMockData() {
     { id: 's8', name: 'Yoga App', category: 'Health', cost: 12.00, cycle: 'Monthly', status: 'Active', icon: '<div style="background:#059669;color:white;width:100%;height:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="ph-fill ph-person-simple-walk"></i></div>', added: daysAgo(210), snoozeUntil: null, ignoreGhost: false }
   ];
 
-  state.transactions = [
+  state.purchases = [
     { id: 't1', subId: 's1', date: daysAgo(5),  category: 'Entertainment', amount: 15.99 },
     { id: 't2', subId: 's2', date: daysAgo(2),  category: 'Entertainment', amount: 9.99 },
     { id: 't3', subId: 's3', date: daysAgo(45), category: 'Health',        amount: 30.00 },
@@ -139,7 +247,7 @@ function runGhostDetection() {
   state.subscriptions.forEach(sub => {
     if (sub.status === 'Cancelled' || sub.ignoreGhost) return;
 
-    const txs = state.transactions.filter(t => t.subId === sub.id).sort((a, b) => new Date(b.date) - new Date(a.date));
+    const txs = state.purchases.filter(t => t.subId === sub.id).sort((a, b) => new Date(b.date) - new Date(a.date));
     let lastActiveDate = new Date(sub.added);
     if (txs.length > 0) lastActiveDate = new Date(txs[0].date);
 
@@ -162,16 +270,109 @@ function runGhostDetection() {
 function renderAll(viewId) {
   try {
     renderOverview();
-    renderTransactions();
-    renderSubscriptions();
+    renderRecurring Bills();
     renderBudget();
     renderAnalytics(viewId);
     renderCashflow();
     renderUpcomingRenewals();
+    renderGhostBanner(viewId);
   } catch (err) {
     document.body.innerHTML += `<div style="position:fixed;top:0;left:0;z-index:9999;background:red;color:white;padding:20px;width:100%;"><b>JS ERROR in renderAll:</b> ${err.message}<br><pre>${err.stack}</pre></div>`;
     console.error(err);
   }
+}
+
+// --- 4a.5 GHOST HERO BANNER (Phase 2: value moment) ---
+function getGhostList() {
+  return state.subscriptions.filter(s => s.status === 'Ghost');
+}
+
+function renderGhostBanner(viewId) {
+  const banner = document.getElementById('ghostHeroBanner');
+  if (!banner) return;
+
+  // Only show on Overview
+  if (viewId && viewId !== 'view-overview') {
+    banner.style.display = 'none';
+    return;
+  }
+
+  const ghosts = getGhostList();
+  const dismissed = sessionStorage.getItem('fintrack_ghostBannerDismissed') === '1';
+
+  if (ghosts.length === 0) {
+    banner.style.display = 'none';
+    // Reset dismiss state if ghosts all resolved
+    if (dismissed) sessionStorage.removeItem('fintrack_ghostBannerDismissed');
+    return;
+  }
+
+  // If ghost count changed (e.g. user added new), reset dismiss
+  const lastSeenCount = parseInt(sessionStorage.getItem('fintrack_ghostBannerLastSeen') || '0');
+  if (lastSeenCount !== ghosts.length) {
+    sessionStorage.setItem('fintrack_ghostBannerLastSeen', String(ghosts.length));
+    if (dismissed) {
+      sessionStorage.removeItem('fintrack_ghostBannerDismissed');
+    }
+  }
+
+  if (sessionStorage.getItem('fintrack_ghostBannerDismissed') === '1') {
+    banner.style.display = 'none';
+    return;
+  }
+
+  const totalSavings = ghosts.reduce((sum, g) => sum + g.cost * 12, 0);
+  const countEl = document.getElementById('ghostHeroCount');
+  const countS = document.getElementById('ghostHeroCountS');
+  const saveEl = document.getElementById('ghostHeroSavings');
+  if (countEl) countEl.textContent = ghosts.length;
+  if (countS) countS.textContent = ghosts.length === 1 ? '' : 's';
+  if (saveEl) saveEl.textContent = formatMoney(totalSavings) + ' / year';
+
+  banner.style.display = 'block';
+}
+
+function dismissGhostBanner() {
+  sessionStorage.setItem('fintrack_ghostBannerDismissed', '1');
+  const banner = document.getElementById('ghostHeroBanner');
+  if (banner) banner.style.display = 'none';
+}
+
+function openGhostDetailDrawer() {
+  const ghosts = getGhostList().sort((a, b) => (b.cost * 12) - (a.cost * 12));
+  if (ghosts.length === 0) {
+    showToast('No ghost subscriptions found 🎉', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
+    return;
+  }
+
+  const totalSavings = ghosts.reduce((sum, g) => sum + g.cost * 12, 0);
+  const totalEl = document.getElementById('ghostDrawerTotalSavings');
+  const countEl = document.getElementById('ghostDrawerCount');
+  if (totalEl) totalEl.textContent = formatMoney(totalSavings);
+  if (countEl) countEl.textContent = ghosts.length + ' ghost' + (ghosts.length === 1 ? '' : 's');
+
+  const listEl = document.getElementById('ghostDrawerList');
+  if (listEl) {
+    listEl.innerHTML = ghosts.map(g => {
+      const sub = state.subscriptions.find(s => s.id === g.id);
+      return `
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(239, 68, 68, 0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">${sub ? sub.icon : '📦'}</div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-weight: 600; font-size: 14px; color: var(--text-primary);">${sub ? sub.name : 'Unknown'}</div>
+            <div style="font-size: 12px; color: var(--red); font-weight: 500;">Unused ${g.daysUnused || 0} days · ${formatMoney(g.cost)}/mo</div>
+          </div>
+          <div style="text-align: right; flex-shrink: 0;">
+            <div style="font-size: 11px; color: var(--text-secondary);">Save</div>
+            <div style="font-weight: 700; font-size: 14px; color: var(--teal);">${formatMoney(g.cost * 12)}/yr</div>
+          </div>
+          <button class="btn-primary" style="padding: 8px 14px; font-size: 12px; background: var(--red) !important;" onclick="openGhostDrilldown('${g.id}'); closeModal('modal-ghost-detail-drawer');">Act</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('modal-ghost-detail-drawer').classList.add('active');
 }
 
 function kpiCard(label, value, sub, badge) {
@@ -205,45 +406,10 @@ function renderRightRail(viewId) {
           <i class="ph ph-calendar-blank"></i> Upcoming Renewals
         </h3>
         <div id="upcomingRenewalsList" style="display: flex; flex-direction: column; gap: 16px;"></div>
-        <button class="btn-secondary" style="width: 100%; margin-top: 20px;" onclick="switchView('view-cashflow', document.querySelectorAll('.nav-item')[4])">View All</button>
+        <button class="btn-secondary" style="width: 100%; margin-top: 20px;" onclick="switchView('view-cashflow', document.querySelectorAll('.nav-item')[3])">View All</button>
       </div>
     `;
     renderUpcomingRenewals();
-  } else if (viewId === 'view-transactions') {
-    const sorted = [...state.transactions].sort((a, b) => b.amount - a.amount).slice(0, 3);
-    const monthTot = state.transactions.reduce((s, t) => s + t.amount, 0);
-    rightRail.innerHTML = `
-      <div class="card">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
-          <i class="ph ph-trend-up"></i> Month vs Last Month
-        </h3>
-        <div style="font-size: 24px; font-weight: 700;">${formatMoney(monthTot)} <span style="font-size:14px; color:var(--red);">+12%</span></div>
-      </div>
-      <div class="card">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
-          <i class="ph ph-chart-donut"></i> By Category
-        </h3>
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          <div style="display:flex; justify-content:space-between; font-size:13px;"><span>Entertainment</span><span style="font-weight:600;">45%</span></div>
-          <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div style="width:45%; height:100%; background:var(--blue); border-radius:3px;"></div></div>
-          <div style="display:flex; justify-content:space-between; font-size:13px; margin-top:8px;"><span>Health</span><span style="font-weight:600;">30%</span></div>
-          <div style="width:100%; height:6px; background:var(--bg-main); border-radius:3px;"><div style="width:30%; height:100%; background:var(--teal); border-radius:3px;"></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
-          <i class="ph ph-star"></i> Top 3 Largest
-        </h3>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          ${sorted.map(t => {
-            const sub = state.subscriptions.find(s => s.id === t.subId);
-            return `<div style="display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">
-              <span>${sub ? sub.name : 'Unknown'}</span><span style="font-weight:600;">${formatMoney(t.amount)}</span>
-            </div>`;
-          }).join('')}
-        </div>
-      </div>
-    `;
   } else if (viewId === 'view-subscriptions') {
     rightRail.innerHTML = `
       <div class="card">
@@ -344,7 +510,7 @@ function renderRightRail(viewId) {
     `;
     setTimeout(() => {
       const over = state.budgets.filter(b => {
-        const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
+        const spent = state.purchases.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
         return spent > b.limit;
       });
       const el = document.getElementById('rrOverBudgetList');
@@ -410,7 +576,7 @@ function renderOverview() {
         </div>
       </div>
       <div style="padding: 24px; border-right: 1px solid var(--border-light);">
-        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Active Subscriptions</div>
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Active Recurring Bills</div>
         <div style="display: flex; align-items: flex-end; gap: 12px;">
           <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">${activeCount}</div>
         </div>
@@ -433,13 +599,13 @@ function renderOverview() {
 
   bindOverviewCharts();
 
-  // Recent transactions list
+  // Recent purchases list
   const txListEl = document.getElementById('overviewTxList');
   if (txListEl) {
-    if (state.transactions.length === 0) {
-      txListEl.innerHTML = '<div style="color:var(--text-secondary); font-size:13px; padding:12px 0;">No recent transactions</div>';
+    if (state.purchases.length === 0) {
+      txListEl.innerHTML = '<div style="color:var(--text-secondary); font-size:13px; padding:12px 0;">No recent purchases</div>';
     } else {
-      const sortedTx = [...state.transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+      const sortedTx = [...state.purchases].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
       txListEl.innerHTML = sortedTx.map(t => {
         const sub = state.subscriptions.find(s => s.id === t.subId);
         return `
@@ -493,130 +659,7 @@ function bindOverviewCharts() {
   }, 0);
 }
 
-// --- 4c. TRANSACTIONS ---
-function renderTransactions() {
-  const tbody = document.getElementById('fullTxList');
-  if (!tbody) return;
-  const searchEl = document.getElementById('txSearchFilter');
-  const catEl = document.getElementById('txCatFilter');
-  const searchTerm = searchEl ? searchEl.value.toLowerCase() : '';
-  const filterCat = catEl ? catEl.value : 'All';
-
-  let filteredTx = state.transactions;
-  if (filterCat !== 'All') filteredTx = filteredTx.filter(t => t.category === filterCat);
-  if (searchTerm) {
-    filteredTx = filteredTx.filter(t => {
-      const sub = state.subscriptions.find(s => s.id === t.subId);
-      const name = sub ? sub.name.toLowerCase() : 'unknown';
-      return name.includes(searchTerm);
-    });
-  }
-
-  // KPIs
-  const totalCount = state.transactions.length;
-  const totalAmount = state.transactions.reduce((s, t) => s + t.amount, 0);
-  const avgAmount = totalCount ? totalAmount / totalCount : 0;
-  const biggest = state.transactions.reduce((m, t) => t.amount > (m?.amount || 0) ? t : m, null);
-  const categories = new Set(state.transactions.map(t => t.category)).size;
-
-  const kpiEl = document.getElementById('transactionsKPIsGrid');
-  if (kpiEl) {
-    kpiEl.innerHTML = kpiGrid([
-      { label: 'Total Transactions', value: totalCount, sub: `${categories} categories` },
-      { label: 'Total Amount', value: formatMoney(totalAmount) },
-      { label: 'Average Amount', value: formatMoney(avgAmount) },
-      { label: 'Biggest Transaction', value: biggest ? formatMoney(biggest.amount) : '—', sub: biggest ? (state.subscriptions.find(s => s.id === biggest.subId)?.name || 'Unknown') : '' }
-    ]);
-  }
-
-  // Charts
-  setTimeout(() => {
-    const catCtx = document.getElementById('txCategoryChart');
-    if (catCtx) {
-      if (chartInstance7) chartInstance7.destroy();
-      const catMap = {};
-      state.transactions.forEach(t => { catMap[t.category] = (catMap[t.category] || 0) + t.amount; });
-      chartInstance7 = new Chart(catCtx, {
-        type: 'bar',
-        data: {
-          labels: Object.keys(catMap),
-          datasets: [{
-            label: 'Spent',
-            data: Object.values(catMap),
-            backgroundColor: ['#3C50E0', '#10B981', '#F59E0B', '#EF4444', '#7C3AED'],
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
-        }
-      });
-    }
-
-    const dailyCtx = document.getElementById('txDailyChart');
-    if (dailyCtx) {
-      if (chartInstance8) chartInstance8.destroy();
-      const last7 = [];
-      const today = new Date();
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(today.getTime() - i * 86400000).toISOString().split('T')[0];
-        const dayTotal = state.transactions.filter(t => t.date === d).reduce((s, t) => s + t.amount, 0);
-        last7.push({ label: d.slice(5), value: dayTotal });
-      }
-      chartInstance8 = new Chart(dailyCtx, {
-        type: 'line',
-        data: {
-          labels: last7.map(d => d.label),
-          datasets: [{
-            label: 'Daily Total',
-            data: last7.map(d => d.value),
-            borderColor: '#3C50E0',
-            backgroundColor: 'rgba(60, 80, 224, 0.15)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-            pointRadius: 4,
-            pointBackgroundColor: '#3C50E0'
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } }, x: { grid: { display: false }, ticks: { color: '#64748B' } } }
-        }
-      });
-    }
-  }, 0);
-
-  const emptyState = document.getElementById('emptyTxState');
-  if (filteredTx.length === 0) {
-    if (emptyState) emptyState.style.display = 'block';
-    tbody.parentElement.style.display = 'none';
-  } else {
-    if (emptyState) emptyState.style.display = 'none';
-    tbody.parentElement.style.display = 'table';
-    const sortedTx = [...filteredTx].sort((a, b) => new Date(b.date) - new Date(a.date));
-    tbody.innerHTML = sortedTx.map(t => {
-      const sub = state.subscriptions.find(s => s.id === t.subId);
-      return `
-      <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
-        <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-400">${t.date}</td>
-        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">${sub ? sub.name : 'Unknown'}</td>
-        <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">${t.category}</span></td>
-        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-white">${formatMoney(t.amount)}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-          <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="editTx('${t.id}')"><i class="ph ph-pencil-simple text-lg"></i></button>
-          <button class="text-red-600 hover:text-red-900" onclick="deleteTx('${t.id}')"><i class="ph ph-trash text-lg"></i></button>
-        </td>
-      </tr>
-      `;
-    }).join('');
-  }
-}
-
-// --- 4d. SUBSCRIPTIONS ---
+// --- 4c. SUBSCRIPTIONS ---
 function setSubFilter(status) {
   currentSubFilter = status;
   ['subFilterAll', 'subFilterActive', 'subFilterGhost'].forEach(id => {
@@ -626,10 +669,10 @@ function setSubFilter(status) {
   const idMap = { 'All': 'subFilterAll', 'Active': 'subFilterActive', 'Ghost': 'subFilterGhost' };
   const activeEl = document.getElementById(idMap[status]);
   if (activeEl) activeEl.classList.add('active');
-  renderSubscriptions();
+  renderRecurring Bills();
 }
 
-function renderSubscriptions() {
+function renderRecurring Bills() {
   const tbody = document.getElementById('fullSubList');
   if (!tbody) return;
 
@@ -643,7 +686,7 @@ function renderSubscriptions() {
   const kpiEl = document.getElementById('subscriptionsKPIsGrid');
   if (kpiEl) {
     kpiEl.innerHTML = kpiGrid([
-      { label: 'Total Subscriptions', value: state.subscriptions.length, sub: `${cancelledCount} cancelled` },
+      { label: 'Total Recurring Bills', value: state.subscriptions.length, sub: `${cancelledCount} cancelled` },
       { label: 'Active', value: activeCount, badge: 'Healthy' },
       { label: 'Ghost Alerts', value: ghostCount, sub: ghostCount > 0 ? `Bleeding ${formatMoney(ghostCost)}/mo` : 'No leaks', badge: ghostCount > 0 ? 'Action Required' : 'All Clear' },
       { label: 'Monthly Cost', value: formatMoney(monthlyCost), sub: `Yearly: ${formatMoney(monthlyCost * 12)}` }
@@ -750,17 +793,17 @@ function renderSubscriptions() {
   }).join('');
 }
 
-// --- 4e. BUDGET ---
+// --- 4d. BUDGET ---
 function renderBudget() {
   const container = document.getElementById('budgetList');
   if (!container) return;
 
   const totalLimit = state.budgets.reduce((s, b) => s + b.limit, 0);
   const totalSpent = state.budgets.reduce((s, b) => {
-    return s + state.transactions.filter(t => t.category === b.category).reduce((ss, t) => ss + t.amount, 0);
+    return s + state.purchases.filter(t => t.category === b.category).reduce((ss, t) => ss + t.amount, 0);
   }, 0);
   const overCount = state.budgets.filter(b => {
-    const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
+    const spent = state.purchases.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
     return spent > b.limit;
   }).length;
   const remaining = totalLimit - totalSpent;
@@ -810,7 +853,7 @@ function renderBudget() {
     if (catCtx) {
       if (chartInstance12) chartInstance12.destroy();
       const labels = state.budgets.map(b => b.category);
-      const data = state.budgets.map(b => state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0));
+      const data = state.budgets.map(b => state.purchases.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0));
       chartInstance12 = new Chart(catCtx, {
         type: 'bar',
         data: {
@@ -831,7 +874,7 @@ function renderBudget() {
 
   // List
   container.innerHTML = state.budgets.map(b => {
-    const spent = state.transactions.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
+    const spent = state.purchases.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
     const pct = Math.min(100, Math.round((spent / b.limit) * 100));
     const isExceeded = spent > b.limit;
     const color = isExceeded ? 'var(--red)' : (pct > 80 ? 'var(--orange)' : 'var(--blue)');
@@ -852,7 +895,7 @@ function renderBudget() {
   }).join('');
 }
 
-// --- 4f. ANALYTICS ---
+// --- 4e. ANALYTICS ---
 function renderAnalytics(viewId) {
   if (!document.getElementById('categoryChart')) return;
   if (viewId && viewId !== 'view-analytics') return;
@@ -862,21 +905,21 @@ function renderAnalytics(viewId) {
   const ctx3 = document.getElementById('ghostSavingsChart').getContext('2d');
 
   const catTotals = {};
-  state.transactions.forEach(t => {
+  state.purchases.forEach(t => {
     catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
   });
 
   // KPIs
-  const totalSpent = state.transactions.reduce((s, t) => s + t.amount, 0);
+  const totalSpent = state.purchases.reduce((s, t) => s + t.amount, 0);
   const months = Object.keys(catTotals).length || 1;
   const avgMonthly = totalSpent / months;
   const topCat = Object.entries(catTotals).sort((a, b) => b[1] - a[1])[0];
-  const avgPerDay = state.transactions.length ? totalSpent / state.transactions.length : 0;
+  const avgPerDay = state.purchases.length ? totalSpent / state.purchases.length : 0;
 
   const kpiEl = document.getElementById('analyticsKPIsGrid');
   if (kpiEl) {
     kpiEl.innerHTML = kpiGrid([
-      { label: 'Total Spend', value: formatMoney(totalSpent), sub: `${state.transactions.length} transactions` },
+      { label: 'Total Spend', value: formatMoney(totalSpent), sub: `${state.purchases.length} purchases` },
       { label: 'Avg Monthly', value: formatMoney(avgMonthly), sub: `${months} categories` },
       { label: 'Top Category', value: topCat ? topCat[0] : '—', sub: topCat ? formatMoney(topCat[1]) : '' },
       { label: 'Avg per Transaction', value: formatMoney(avgPerDay) }
@@ -1000,7 +1043,7 @@ function renderAnalyticsHeatmap() {
   host.innerHTML = html;
 }
 
-// --- 4g. CASHFLOW ---
+// --- 4f. CASHFLOW ---
 function renderCashflow() {
   const tbody = document.getElementById('cashflowForecastList');
 
@@ -1166,7 +1209,7 @@ function submitTransaction() {
 
   const amount = overrideAmt && !isNaN(overrideAmt) ? overrideAmt : sub.cost;
 
-  state.transactions.unshift({
+  state.purchases.unshift({
     id: 't' + Date.now(),
     subId: sub.id,
     date: date,
@@ -1181,7 +1224,7 @@ function submitTransaction() {
 }
 
 function deleteTx(id) {
-  state.transactions = state.transactions.filter(t => t.id !== id);
+  state.purchases = state.purchases.filter(t => t.id !== id);
   runGhostDetection();
   renderAll(document.querySelector('.view-section.active')?.id);
   showToast('Transaction deleted', '<i class="ph ph-trash" style="color:#EF4444;"></i>');
@@ -1196,11 +1239,11 @@ function openGhostDrilldown(subId) {
   if (!sub) return;
   currentGhostDrilldown = subId;
 
-  const txs = state.transactions.filter(t => t.subId === sub.id).sort((a, b) => new Date(b.date) - new Date(a.date));
+  const txs = state.purchases.filter(t => t.subId === sub.id).sort((a, b) => new Date(b.date) - new Date(a.date));
   const timelineEl = document.getElementById('ghostModalTimeline');
 
   if (txs.length === 0) {
-    timelineEl.innerHTML = '<div style="font-size:12px; color:var(--text-secondary);">No transactions found.</div>';
+    timelineEl.innerHTML = '<div style="font-size:12px; color:var(--text-secondary);">No purchases found.</div>';
   } else {
     timelineEl.innerHTML = txs.slice(0, 3).map(t => `
       <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; padding:8px 12px; background: var(--bg-main); border-radius:6px;">
@@ -1308,4 +1351,30 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
     onboarding.classList.add('active');
   }
+
+  // Wire threshold chips
+  document.querySelectorAll('.onboard-threshold-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.onboard-threshold-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const hidden = document.getElementById('onboardThreshold');
+      if (hidden) hidden.value = chip.getAttribute('data-threshold');
+    });
+  });
+
+  // Wire radio cards (visual feedback)
+  document.querySelectorAll('.onboard-radio-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const value = card.getAttribute('data-source');
+      const radio = card.querySelector('input[type="radio"]');
+      if (radio) radio.checked = true;
+      document.querySelectorAll('.onboard-radio-card').forEach(c => {
+        c.style.borderColor = 'var(--border-medium)';
+        c.style.background = 'var(--bg-card)';
+      });
+      card.style.borderColor = 'var(--primary)';
+      card.style.background = 'var(--primary-light)';
+      onboardDataSource = value;
+    });
+  });
 });

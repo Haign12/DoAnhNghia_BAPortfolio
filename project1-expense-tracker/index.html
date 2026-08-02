@@ -38,15 +38,14 @@
     </div>
 
     <nav class="sidebar-nav" id="sidebarNav">
-      <a href="#" class="nav-item active" onclick="switchView('view-overview', this)"><i class="ph ph-squares-four"></i> Overview</a>
-      <a href="#" class="nav-item" onclick="switchView('view-transactions', this)"><i class="ph ph-list-dashes"></i> Transactions</a>
+      <a href="#" class="nav-item active" onclick="switchView('view-overview', this)"><i class="ph ph-squares-four"></i> Dashboard</a>
       <a href="#" class="nav-item" onclick="switchView('view-subscriptions', this)">
         <i class="ph ph-repeat"></i> Subscriptions
         <span class="nav-badge" id="navGhostBadge" style="display: none;"></span>
       </a>
-      <a href="#" class="nav-item" onclick="switchView('view-analytics', this)"><i class="ph ph-chart-pie-slice"></i> Analytics</a>
-      <a href="#" class="nav-item" onclick="switchView('view-cashflow', this)"><i class="ph ph-trend-up"></i> Cashflow</a>
-      <a href="#" class="nav-item" onclick="switchView('view-budget', this)"><i class="ph ph-target"></i> Budget</a>
+      <a href="#" class="nav-item" onclick="switchView('view-analytics', this)"><i class="ph ph-chart-pie-slice"></i> My Spending</a>
+      <a href="#" class="nav-item" onclick="switchView('view-cashflow', this)"><i class="ph ph-trend-up"></i> Money In / Out</a>
+      <a href="#" class="nav-item" onclick="switchView('view-budget', this)"><i class="ph ph-target"></i> Spending Limits</a>
     </nav>
 
     <div class="sidebar-footer">
@@ -54,7 +53,7 @@
         <img src="https://ui-avatars.com/api/?name=Alex+Smith&background=E5E7EB&color=111827" alt="Avatar">
       </div>
       <div class="sidebar-user-info">
-        Project Owner
+        Welcome back,
         <strong>Alex Smith</strong>
       </div>
     </div>
@@ -71,7 +70,7 @@
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" placeholder="Search subscriptions, transactions...">
+          <input type="text" placeholder="Search for a recent purchase...">
           <span class="cmd-k"><span>⌘</span><span>K</span></span>
         </div>
       </div>
@@ -94,32 +93,110 @@
       </div>
     </header>
 
-    <!-- ============ VIEW: ONBOARDING ============ -->
+    <!-- ============ VIEW: ONBOARDING (3-step wizard) ============ -->
     <div id="view-onboarding" class="view-section active">
-      <div style="max-width: 500px; margin: 60px auto; background: var(--bg-card); padding: 40px; border-radius: 16px; border: 1px solid var(--border-light); text-align: center;">
-        <i class="ph ph-rocket-launch" style="font-size: 48px; color: var(--primary); margin-bottom: 20px;"></i>
-        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary);">Welcome to FinTrack</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 14px;">Set up your financial rules before we begin tracking ghosts.</p>
+      <div style="max-width: 560px; margin: 40px auto; background: var(--bg-card); padding: 40px; border-radius: 16px; border: 1px solid var(--border-light);">
 
-        <div style="text-align: left; margin-bottom: 20px;">
-          <label style="display:block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--text-primary);">Primary Currency</label>
-          <select id="onboardCurrency" style="width: 100%; padding: 10px; background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: 8px; color: var(--text-primary);">
-            <option value="USD">USD ($)</option>
-            <option value="VND">VND (đ)</option>
-          </select>
+        <!-- Progress Indicator -->
+        <div id="onboardProgress" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 32px;">
+          <div class="onboard-step-dot active" data-step="1"></div>
+          <div class="onboard-step-line" data-step-line="1"></div>
+          <div class="onboard-step-dot" data-step="2"></div>
+          <div class="onboard-step-line" data-step-line="2"></div>
+          <div class="onboard-step-dot" data-step="3"></div>
         </div>
 
-        <div style="text-align: left; margin-bottom: 20px;">
-          <label style="display:block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--text-primary);">Ghost Threshold (Days without transaction)</label>
-          <input type="number" id="onboardThreshold" value="30" min="1" style="width: 100%; padding: 10px; background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: 8px; color: var(--text-primary);">
+        <!-- STEP 1: Rules -->
+        <div id="onboardStep1" class="onboard-step active">
+          <div style="text-align: center; margin-bottom: 28px;">
+            <i class="ph ph-rocket-launch" style="font-size: 44px; color: var(--primary); margin-bottom: 12px; display: inline-block;"></i>
+            <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Welcome to FinTrack</h2>
+            <p style="color: var(--text-secondary); font-size: 13px;">Set up your financial rules before we begin tracking ghosts.</p>
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <label style="display:block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--text-primary);">Primary Currency</label>
+            <select id="onboardCurrency" style="width: 100%; padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: 8px; color: var(--text-primary); font-size: 14px; font-family: inherit;">
+              <option value="USD">USD ($)</option>
+              <option value="VND">VND (đ)</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <label style="display:block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--text-primary);">
+              Ghost Threshold
+              <span style="font-weight: 400; color: var(--text-secondary); font-size: 12px; margin-left: 6px;">— days without a transaction before a sub is flagged</span>
+            </label>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="onboard-threshold-chip" data-threshold="7" style="flex:1;">7d</button>
+              <button type="button" class="onboard-threshold-chip" data-threshold="14" style="flex:1;">14d</button>
+              <button type="button" class="onboard-threshold-chip active" data-threshold="30" style="flex:1;">30d</button>
+              <button type="button" class="onboard-threshold-chip" data-threshold="60" style="flex:1;">60d</button>
+            </div>
+            <input type="hidden" id="onboardThreshold" value="30">
+          </div>
+
+          <div style="margin-bottom: 28px;">
+            <label style="display:block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--text-primary);">Data Source</label>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label class="onboard-radio-card" data-source="mock" style="cursor: pointer; padding: 12px 14px; border: 1.5px solid var(--primary); border-radius: 10px; display: flex; align-items: flex-start; gap: 12px; background: var(--primary-light);">
+                <input type="radio" name="onboardDataSource" value="mock" checked style="margin-top: 3px; accent-color: var(--primary);">
+                <div>
+                  <div style="font-weight: 600; font-size: 13px; color: var(--text-primary);">Use sample demo data <span style="font-weight: 400; color: var(--text-secondary); font-size: 12px;">(recommended)</span></div>
+                  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">8 mock subscriptions with realistic ghost patterns — see FinTrack in action immediately.</div>
+                </div>
+              </label>
+              <label class="onboard-radio-card" data-source="manual" style="cursor: pointer; padding: 12px 14px; border: 1.5px solid var(--border-medium); border-radius: 10px; display: flex; align-items: flex-start; gap: 12px; background: var(--bg-card);">
+                <input type="radio" name="onboardDataSource" value="manual" style="margin-top: 3px; accent-color: var(--primary);">
+                <div>
+                  <div style="font-weight: 600; font-size: 13px; color: var(--text-primary);">Start blank — I'll add my own</div>
+                  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Empty dashboard. You add subscriptions manually on the next step.</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-primary" style="flex:1;" onclick="goToOnboardStep(2)">Continue <i class="ph ph-arrow-right" style="margin-left:4px;"></i></button>
+          </div>
         </div>
 
-        <div style="text-align: left; margin-bottom: 30px; display: flex; align-items: center; gap: 8px;">
-          <input type="checkbox" id="onboardMock" checked>
-          <label for="onboardMock" style="font-size: 13px; color: var(--text-primary);">Import sample demo data</label>
+        <!-- STEP 2: Add Subscriptions -->
+        <div id="onboardStep2" class="onboard-step">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <i class="ph ph-list-plus" style="font-size: 40px; color: var(--primary); margin-bottom: 10px; display: inline-block;"></i>
+            <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">Add your subscriptions</h2>
+            <p style="color: var(--text-secondary); font-size: 13px;">Add at least one to unlock the dashboard. You can always add more later.</p>
+          </div>
+
+          <div id="onboardSubList" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; max-height: 280px; overflow-y: auto; padding-right: 4px;">
+            <!-- subscription rows injected by JS -->
+          </div>
+
+          <button class="btn-secondary" style="width: 100%; margin-bottom: 20px;" onclick="addOnboardSubRow()">
+            <i class="ph ph-plus"></i> Add another
+          </button>
+
+          <div id="onboardStep2Hint" style="display: none; padding: 10px 14px; background: var(--red-light); color: var(--red); border-radius: 8px; font-size: 12px; margin-bottom: 16px;">
+            Please add at least 1 subscription to continue.
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-secondary" onclick="goToOnboardStep(1)"><i class="ph ph-arrow-left" style="margin-right:4px;"></i> Back</button>
+            <button class="btn-primary" style="flex:1;" onclick="finishOnboardingStep2()">Continue <i class="ph ph-arrow-right" style="margin-left:4px;"></i></button>
+          </div>
         </div>
 
-        <button class="btn-primary" style="width:100%" onclick="completeOnboarding()">Complete Setup</button>
+        <!-- STEP 3: Done -->
+        <div id="onboardStep3" class="onboard-step" style="text-align: center;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary-light); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+            <i class="ph ph-check-circle" style="font-size: 44px; color: var(--primary);"></i>
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary);">You're all set!</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 28px;">FinTrack is now watching for ghost subscriptions. Let's see your dashboard.</p>
+          <button class="btn-primary" style="width: 100%;" onclick="completeOnboarding()">Go to Dashboard <i class="ph ph-arrow-right" style="margin-left:4px;"></i></button>
+        </div>
+
       </div>
     </div>
 
@@ -130,6 +207,27 @@
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- Ghost Hero Banner (Phase 2: value moment) -->
+        <div id="ghostHeroBanner" style="display: none; background: linear-gradient(135deg, #1C2434 0%, #2D3748 100%); border-radius: 16px; padding: 24px 28px; color: #fff; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: -20px; right: -20px; font-size: 180px; opacity: 0.07; line-height: 1; pointer-events: none;">👻</div>
+          <div style="display: flex; align-items: center; gap: 20px; position: relative; z-index: 1; flex-wrap: wrap;">
+            <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0;">👻</div>
+            <div style="flex: 1; min-width: 220px;">
+              <div style="font-size: 12px; font-weight: 600; color: #FCA5A5; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Ghost Detection Alert</div>
+              <h2 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 4px; line-height: 1.3;">
+                <span id="ghostHeroCount">2</span> ghost subscription<span id="ghostHeroCountS">s</span> detected
+              </h2>
+              <p style="font-size: 13px; color: #CBD5E1; margin: 0;">
+                You could save <strong id="ghostHeroSavings" style="color: #6EE7B7; font-weight: 700;">$240/year</strong> by cancelling them.
+              </p>
+            </div>
+            <div style="display: flex; gap: 8px; flex-shrink: 0;">
+              <button class="btn-primary" style="background: var(--red) !important;" onclick="openGhostDetailDrawer()">Review Ghosts</button>
+              <button class="btn-secondary" style="background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2);" onclick="dismissGhostBanner()">Later</button>
+            </div>
+          </div>
+        </div>
 
         <!-- KPIs -->
         <div class="card" style="padding: 0;">
@@ -161,69 +259,9 @@
         <!-- Recent Transactions -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Recent Transactions</h3>
+            <h3 class="card-title">Recent Activity</h3>
           </div>
           <div id="overviewTxList"></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ============ VIEW: TRANSACTIONS ============ -->
-    <div id="view-transactions" class="view-section">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h1 class="page-title">Transactions</h1>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 24px;">
-
-        <!-- KPIs -->
-        <div class="card" style="padding: 0;">
-          <div id="transactionsKPIsGrid" style="display: grid; grid-template-columns: repeat(4, 1fr);"></div>
-        </div>
-
-        <!-- Charts Row -->
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
-          <div class="card">
-            <div class="card-header"><h3 class="card-title">Spending by Category</h3></div>
-            <div style="height: 300px;"><canvas id="txCategoryChart"></canvas></div>
-          </div>
-          <div class="card">
-            <div class="card-header"><h3 class="card-title">Daily Activity</h3></div>
-            <div style="height: 300px;"><canvas id="txDailyChart"></canvas></div>
-          </div>
-        </div>
-
-        <!-- Transactions Table -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">All Transactions</h3>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <input type="text" id="txSearchFilter" placeholder="Search transactions..." onkeyup="renderTransactions()" style="padding: 8px 14px; border: 1px solid var(--border-medium); border-radius: 8px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); min-width: 200px;">
-              <select id="txCatFilter" onchange="renderTransactions()" style="padding: 8px 14px; border: 1px solid var(--border-medium); border-radius: 8px; font-size: 13px; background: var(--bg-card); color: var(--text-primary);">
-                <option value="All">All Categories</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Health">Health</option>
-                <option value="Education">Education</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Subscription</th>
-                  <th>Category</th>
-                  <th>Amount</th>
-                  <th style="text-align: right;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="fullTxList"></tbody>
-            </table>
-            <div id="emptyTxState" style="display:none; text-align:center; padding: 40px; color: var(--text-secondary);">No transactions found.</div>
-          </div>
         </div>
 
       </div>
@@ -475,6 +513,39 @@
       <input type="date" id="addTxDate">
     </div>
     <button class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="submitTransaction()">Record Transaction</button>
+  </div>
+</div>
+
+<!-- ============ MODAL: GHOST DETAIL DRAWER (Phase 2) ============ -->
+<div class="modal-overlay" id="modal-ghost-detail-drawer">
+  <div class="modal-card" style="max-width: 560px;">
+    <button class="modal-close" onclick="closeModal('modal-ghost-detail-drawer')"><i class="ph ph-x"></i></button>
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 8px;">
+      <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); display: flex; align-items: center; justify-content: center; font-size: 26px;">👻</div>
+      <div>
+        <h2 style="margin-bottom: 2px; font-size: 1.2rem;">Ghost Subscriptions</h2>
+        <div style="font-size: 12px; color: var(--text-secondary);">Unusued for 30+ days · Sorted by biggest cost</div>
+      </div>
+    </div>
+
+    <div style="background: linear-gradient(135deg, var(--primary-light) 0%, #DBEAFE 100%); padding: 14px 18px; border-radius: 10px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Potential Yearly Savings</div>
+        <div id="ghostDrawerTotalSavings" style="font-size: 1.6rem; font-weight: 800; color: var(--primary); line-height: 1.1;">$0</div>
+      </div>
+      <div style="font-size: 12px; color: var(--text-secondary); text-align: right;">
+        <div style="font-weight: 600; color: var(--text-primary);" id="ghostDrawerCount">0 ghosts</div>
+        <div>bleeding cash monthly</div>
+      </div>
+    </div>
+
+    <div id="ghostDrawerList" style="display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto; margin-bottom: 16px;">
+      <!-- ghost cards injected by JS -->
+    </div>
+
+    <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding-top: 8px; border-top: 1px solid var(--border-light);">
+      💡 Tip: cancelling just 1 ghost pays for FinTrack for a year.
+    </div>
   </div>
 </div>
 
