@@ -393,64 +393,103 @@ function renderLedger() {
               let actionHtml = '';
               
               if(e.settled === 'false') {
-                statusHtml = `<span class="badge" style="background:var(--gray-100); color:var(--gray-700);">UNPAID</span>`;
-                actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 8px 16px; width: 100%; justify-content: center;" onclick="app.markSent('${e.id}')">I Paid This</button>`;
+                statusHtml = `<span class="badge" style="background:var(--warning-700); color:#fff; border:none; padding:4px 12px; font-weight:600;">Unpaid</span>`;
+                actionHtml = `<button class="btn-primary" style="flex:1; justify-content:center; padding: 12px; font-weight:600; font-size:15px; background:var(--brand-950); color:#fff; border-radius:12px;" onclick="app.markSent('${e.id}')">Xác nhận đã thanh toán</button>`;
               } else if(e.settled === 'pending') {
-                statusHtml = `<span class="badge badge-unpaid" title="Waiting for recipient to confirm">PENDING</span>`;
-                actionHtml = `<button class="btn-primary" style="background: var(--success-600); color: white; padding: 8px 16px; width: 100%; justify-content: center;" onclick="app.confirmReceived('${e.id}')">Got It!</button>`;
+                statusHtml = `<span class="badge" style="background:var(--warning-400); color:var(--warning-950); border:none; padding:4px 12px; font-weight:600;" title="Waiting for recipient to confirm">Pending</span>`;
+                actionHtml = `<button class="btn-primary" style="flex:1; justify-content:center; padding: 12px; font-weight:600; font-size:15px; background:#fff; color:var(--text); border:1px solid var(--border); border-radius:12px;" onclick="app.confirmReceived('${e.id}')">Xác nhận đã nhận</button>`;
               } else {
-                statusHtml = `<span class="badge badge-paid">SETTLED</span>`;
+                statusHtml = `<span class="badge badge-paid" style="border:none; padding:4px 12px; font-weight:600;">Settled</span>`;
                 actionHtml = '';
               }
               
               const splitAmount = Math.round(e.amount / e.splitAmong.length);
-              const splitHtml = e.splitAmong.map(mid => {
-                const m = getMember(mid);
-                return `<div style="display:inline-flex; align-items:center; gap:4px; background:var(--gray-50); padding:2px 8px 2px 2px; border-radius:12px; border:1px solid var(--border); margin-right:6px; margin-bottom:4px;">
-                  <div class="nav-avatar" style="background:${m.color}; width: 16px; height: 16px; font-size: 8px; border: none; flex-shrink:0;">${m.avatar}</div>
-                  <span style="font-size:11px; font-weight:600; color:var(--text2);">${formatMoney(splitAmount)}</span>
-                </div>`;
-              }).join('');
+              
+              // Progress bar logic (mocked based on status)
+              let progressHtml = '';
+              if (e.settled === 'false') {
+                  progressHtml = `
+                    <div style="display:flex; gap:4px; height:6px; margin-top:8px; margin-bottom:6px;">
+                      <div style="flex:1; background:var(--success-500); border-radius:3px;"></div>
+                      <div style="flex:1; background:var(--gray-300); border-radius:3px;"></div>
+                      <div style="flex:1; background:var(--gray-300); border-radius:3px;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text3); font-weight:500;">
+                      <span>${payer.name} đã trả</span>
+                      <span>Chờ thanh toán</span>
+                      <span>Chờ thanh toán</span>
+                    </div>
+                  `;
+              } else if (e.settled === 'pending') {
+                  progressHtml = `
+                    <div style="display:flex; gap:4px; height:6px; margin-top:8px; margin-bottom:6px;">
+                      <div style="flex:1; background:var(--success-500); border-radius:3px;"></div>
+                      <div style="flex:1; background:var(--warning-500); border-radius:3px;"></div>
+                      <div style="flex:1; background:var(--gray-300); border-radius:3px;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text3); font-weight:500;">
+                      <span>${payer.name} đã trả</span>
+                      <span>AN chờ xác nhận</span>
+                      <span>RB chưa phản hồi</span>
+                    </div>
+                  `;
+              } else {
+                  progressHtml = `
+                    <div style="display:flex; gap:4px; height:6px; margin-top:8px; margin-bottom:6px;">
+                      <div style="flex:1; background:var(--success-500); border-radius:3px;"></div>
+                      <div style="flex:1; background:var(--success-500); border-radius:3px;"></div>
+                      <div style="flex:1; background:var(--success-500); border-radius:3px;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text3); font-weight:500;">
+                      <span>${payer.name} đã trả</span>
+                      <span>Đã thanh toán</span>
+                      <span>Đã thanh toán</span>
+                    </div>
+                  `;
+              }
 
               return `
-              <div class="card" style="padding: 20px; transition: all 0.2s; border: 1px solid var(--gray-200); position: relative;">
+              <div class="card" style="padding: 24px; transition: all 0.2s; border: 1px solid var(--border); border-radius: 16px; position: relative; display:flex; flex-direction:column; gap:20px;">
                 
                 <!-- Top row: Date & Status -->
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
-                  <div style="font-size: 12px; color: var(--text3); font-weight: 500;"><i class="ph-bold ph-calendar-blank"></i> ${e.date}</div>
-                  <div style="display:flex; align-items:center; gap: 8px;">
-                    ${statusHtml}
-                    <button class="nav-icon-btn" style="color:var(--text3); border:none; padding:4px;" onclick="alert('Options: Edit / Delete')"><i class="ph-bold ph-dots-three"></i></button>
-                  </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="font-size: 13px; color: var(--text3); font-weight: 500;">${e.date}</div>
+                  <div>${statusHtml}</div>
                 </div>
                 
-                <!-- Main row: Desc & Amount -->
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 16px; margin-bottom: 16px;">
-                  <div>
-                    <div style="font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; display:flex; align-items:center; gap:8px;">
-                      ${e.description}
-                      <span class="badge" style="background:var(--brand-50); color:var(--brand-700); border-color:transparent; font-size:10px;"><i class="ph-bold ph-tag"></i> ${e.category || 'GENERAL'}</span>
-                    </div>
-                    <div style="font-size: 13px; color: var(--text2); display:flex; align-items:center; gap:6px;">
-                      Paid by <div class="nav-avatar" style="background:${payer.color}; width: 16px; height: 16px; font-size: 8px; display:inline-flex; border:none; align-items:center; justify-content:center; color:#fff;">${payer.avatar}</div> <strong>${payer.name}</strong>
-                    </div>
+                <!-- Second row: Title, Tag, Amount -->
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    <div style="font-size: 1.35rem; font-weight: 700; color: var(--text); line-height: 1.2;">${e.description}</div>
+                    <div class="badge" style="background:var(--gray-100); color:var(--text2); border-color:transparent; font-size:12px; align-self:flex-start; padding:4px 12px; font-weight: 500;">${e.category || 'General'}</div>
                   </div>
-                  <div style="text-align: right;">
-                    <div style="font-size: 1.5rem; font-weight: 800; color: var(--text); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(e.amount)}</div>
-                    <div style="font-size: 11px; color: var(--text3); margin-top: 4px;"><i class="ph-bold ph-arrows-clockwise"></i> Recurring</div>
-                  </div>
+                  <div style="font-size: 1.6rem; font-weight: 700; color: var(--text); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(e.amount)}</div>
                 </div>
                 
-                <!-- Bottom row: Split details -->
-                <div style="background: var(--bg); padding: 12px 16px; border-radius: 8px; margin-bottom: ${actionHtml ? '16px' : '0'};">
-                  <div style="font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 8px;">Split equally among ${e.splitAmong.length} people:</div>
-                  <div style="display:flex; flex-wrap:wrap;">
-                    ${splitHtml}
-                  </div>
+                <hr style="border:none; border-top:1px solid var(--border); margin: 0;">
+                
+                <!-- Third row: Payer -->
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div class="nav-avatar" style="background:transparent; width:32px; height:32px; font-size:12px; display:flex; align-items:center; justify-content:center; color:var(--brand-700); font-weight:700; border-radius:8px; border:none;">${payer.avatar}</div>
+                  <span style="font-size:14px; font-weight:600; color:var(--text2);">${payer.name} đã trả trước</span>
                 </div>
                 
-                <!-- Action row -->
-                ${actionHtml ? `<div>${actionHtml}</div>` : ''}
+                <!-- Fourth row: Split info & Progress -->
+                <div style="margin-top: 4px;">
+                  <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:600; color:var(--text2); margin-bottom:8px;">
+                    <span>Chia cho ${e.splitAmong.length} người</span>
+                    <span style="color:var(--text3); font-weight:500;">${formatMoney(splitAmount)} / người</span>
+                  </div>
+                  ${progressHtml}
+                </div>
+                
+                <!-- Fifth row: Action Buttons -->
+                <div style="display:flex; gap:12px; align-items:center; margin-top:4px;">
+                  ${actionHtml ? actionHtml : '<div style="flex:1;"></div>'}
+                  <button style="width:48px; height:48px; border-radius:12px; border:1px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); flex-shrink:0; transition: background 0.2s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="alert('Options')">
+                    <i class="ph-bold ph-dots-three" style="font-size: 20px;"></i>
+                  </button>
+                </div>
                 
               </div>`;
             }).join('')}
