@@ -341,11 +341,11 @@ function renderLedger() {
           <!-- Breadcrumb -->
           <div class="breadcrumb-wrap">
             <div class="breadcrumb-row">
-              <h2 class="breadcrumb-title">Split Ledger</h2>
+              <h2 class="breadcrumb-title">Expenses</h2>
               <nav class="breadcrumb-nav">
                 <ol>
                   <li><a href="#">Home</a></li>
-                  <li class="current">Split Ledger</li>
+                  <li class="current">Expenses</li>
                 </ol>
               </nav>
             </div>
@@ -471,11 +471,11 @@ function renderSettleUp() {
           <!-- Breadcrumb -->
           <div class="breadcrumb-wrap">
             <div class="breadcrumb-row">
-              <h2 class="breadcrumb-title">Settle Up</h2>
+              <h2 class="breadcrumb-title">Balances</h2>
               <nav class="breadcrumb-nav">
                 <ol>
                   <li><a href="#">Home</a></li>
-                  <li class="current">Settle Up</li>
+                  <li class="current">Balances</li>
                 </ol>
               </nav>
             </div>
