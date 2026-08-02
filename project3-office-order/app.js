@@ -177,16 +177,16 @@ function updateHostDashboard() {
   document.getElementById('hostDashCutoff').innerText = `${formattedDate}, ${formattedTime}`;
   document.getElementById('hostDashInviteLink').value = `https://orderflow.app/join/${currentSession.code}`;
 
-  renderParticipants();
+  renderPeople Joined();
   checkHostGates();
 }
 
-function renderParticipants() {
+function renderPeople Joined() {
   const tbody = document.getElementById('participantTableBody');
   if (!tbody) return;
   tbody.innerHTML = '';
   
-  let totalParticipants = 0;
+  let totalPeople Joined = 0;
   let paidCount = 0;
   let subtotal = 0;
 
@@ -194,7 +194,7 @@ function renderParticipants() {
     // Ignore canceled
     if (p.status === 'Canceled') return;
 
-    totalParticipants++;
+    totalPeople Joined++;
     const tr = document.createElement('tr');
     
     let statusHtml = '';
@@ -229,11 +229,11 @@ function renderParticipants() {
   });
 
   // Update Funding Progress
-  const pct = totalParticipants === 0 ? 0 : Math.round((paidCount / totalParticipants) * 100);
-  document.getElementById('fundingProgressText').innerText = `${paidCount} / ${totalParticipants} Paid`;
+  const pct = totalPeople Joined === 0 ? 0 : Math.round((paidCount / totalPeople Joined) * 100);
+  document.getElementById('fundingProgressText').innerText = `${paidCount} / ${totalPeople Joined} Paid`;
   document.getElementById('fundingProgressBar').style.width = `${pct}%`;
 
-  if (paidCount === totalParticipants && totalParticipants > 0) {
+  if (paidCount === totalPeople Joined && totalPeople Joined > 0) {
     document.getElementById('fundingProgressDesc').innerHTML = '<span style="color:var(--green);">100% funds verified. Ready to send to vendor.</span>';
   } else {
     document.getElementById('fundingProgressDesc').innerText = 'Waiting for all members to complete payment.';
@@ -255,7 +255,7 @@ function confirmPayment(name) {
   if (p) {
     p.status = 'Paid';
     p.method = 'Verified';
-    renderParticipants();
+    renderPeople Joined();
     showToast(`Verified payment for ${name}`, '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
   }
 }
@@ -266,12 +266,12 @@ function remindUser(name) {
 
 // --- GATE 6: CLOSE ORDER ---
 function handleSendToVendor() {
-  const validParticipants = participants.filter(p => p.status !== 'Canceled');
-  const allPaid = validParticipants.length > 0 && validParticipants.every(p => p.status === 'Paid');
-  const unpaidParticipants = validParticipants.filter(p => p.status !== 'Paid');
+  const validPeople Joined = participants.filter(p => p.status !== 'Canceled');
+  const allPaid = validPeople Joined.length > 0 && validPeople Joined.every(p => p.status === 'Paid');
+  const unpaidPeople Joined = validPeople Joined.filter(p => p.status !== 'Paid');
 
-  if (!allPaid && unpaidParticipants.length > 0) {
-    const confirmMsg = `${unpaidParticipants.length} member(s) haven't paid yet. If you close the order now, you will have to cover their deficit.\n\nProceed to close order?`;
+  if (!allPaid && unpaidPeople Joined.length > 0) {
+    const confirmMsg = `${unpaidPeople Joined.length} member(s) haven't paid yet. If you close the order now, you will have to cover their deficit.\n\nProceed to close order?`;
     if (!confirm(confirmMsg)) {
       return;
     }
@@ -303,8 +303,8 @@ function simulateCutoff() {
     showToast('Cut-off reached. No unpaid participants to cancel.');
   }
 
-  // Gate recalculation happens in renderParticipants
-  renderParticipants();
+  // Gate recalculation happens in renderPeople Joined
+  renderPeople Joined();
 }
 
 // --- GATE 2: PARTICIPANT PREVIEW & JOIN ---

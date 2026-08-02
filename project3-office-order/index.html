@@ -40,7 +40,7 @@
     </div>
     <div class="topbar-right">
       <button class="btn-text" style="font-size: 13px;" onclick="switchView('view-analytics')">
-        <i class="ph ph-chart-line-up"></i> Global Analytics
+        <i class="ph ph-chart-line-up"></i> My Order Stats
       </button>
       <div class="topbar-avatar">DN</div>
     </div>
@@ -53,10 +53,10 @@
       <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
         <div>
           <h1 class="page-title">My Orders</h1>
-          <div class="page-subtitle">Manage your group food orders efficiently.</div>
+          <div class="page-subtitle">Order food together, save on delivery, and no more bill headaches.</div>
         </div>
         <button class="btn-primary" onclick="switchView('view-create')">
-          <i class="ph ph-plus"></i> Create Group Order
+          <i class="ph ph-plus"></i> Start a New Order
         </button>
       </div>
       <!-- Quick Stats -->
@@ -75,13 +75,13 @@
         </div>
       </div>
 
-      <div class="section-title">Active Sessions</div>
+      <div class="section-title">What's for lunch today?</div>
       <div class="card-list" id="activeSessionsList">
         <!-- Injected via JS -->
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px; margin-bottom: 16px;">
-        <div class="section-title" style="margin: 0;">Recent Orders</div>
+        <div class="section-title" style="margin: 0;">Past Lunches</div>
         <div class="task-group-pills" style="margin: 0; padding: 4px;">
           <div class="task-group-pill active" style="font-size: 12px; padding: 4px 12px; cursor: pointer;">All</div>
           <div class="task-group-pill" style="font-size: 12px; padding: 4px 12px; cursor: pointer;">Completed</div>
@@ -96,7 +96,7 @@
           </div>
           <div class="history-card-body">
             <div class="history-detail"><i class="ph ph-calendar"></i> July 30, 2026</div>
-            <div class="history-detail"><i class="ph ph-users"></i> 8 Participants</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 8 People Joined</div>
             <div class="history-total">520.000đ</div>
           </div>
           <button class="btn-secondary" style="margin-top: 12px; padding: 6px 12px; font-size: 12px; width: 100%;" onclick="event.stopPropagation(); switchView('view-create')">Repeat Order</button>
@@ -109,7 +109,7 @@
           </div>
           <div class="history-card-body">
             <div class="history-detail"><i class="ph ph-calendar"></i> July 28, 2026</div>
-            <div class="history-detail"><i class="ph ph-users"></i> 5 Participants</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 5 People Joined</div>
             <div class="history-total">285.000đ</div>
           </div>
         </div>
@@ -121,7 +121,7 @@
           </div>
           <div class="history-card-body">
             <div class="history-detail"><i class="ph ph-calendar"></i> July 25, 2026</div>
-            <div class="history-detail"><i class="ph ph-users"></i> 6 Participants</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 6 People Joined</div>
             <div class="history-total">340.000đ</div>
           </div>
         </div>
@@ -145,7 +145,7 @@
           </div>
           <div class="history-card-body">
             <div class="history-detail"><i class="ph ph-calendar"></i> July 18, 2026</div>
-            <div class="history-detail"><i class="ph ph-users"></i> 7 Participants</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 7 People Joined</div>
             <div class="history-total">455.000đ</div>
           </div>
         </div>
@@ -157,7 +157,7 @@
           </div>
           <div class="history-card-body">
             <div class="history-detail"><i class="ph ph-calendar"></i> July 15, 2026</div>
-            <div class="history-detail"><i class="ph ph-users"></i> 4 Participants</div>
+            <div class="history-detail"><i class="ph ph-users"></i> 4 People Joined</div>
             <div class="history-total">220.000đ</div>
           </div>
         </div>
@@ -221,7 +221,7 @@
           <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
             <div>
               <strong style="display: block; margin-bottom: 2px;">Require Payment Receipt</strong>
-              <div style="font-size: 12px; color: var(--text-secondary); font-weight: 400;">Participants must upload a screenshot of their transfer.</div>
+              <div style="font-size: 12px; color: var(--text-secondary); font-weight: 400;">People Joined must upload a screenshot of their transfer.</div>
             </div>
             <input type="checkbox" style="width: 18px; height: 18px; accent-color: var(--teal);">
           </label>
@@ -589,7 +589,7 @@
     <div id="view-analytics" class="view-section fade-in">
       <button class="back-link" onclick="switchView('view-home')"><i class="ph ph-arrow-left"></i> Home</button>
       <div class="page-header">
-        <h1 class="page-title">Global Analytics</h1>
+        <h1 class="page-title">My Order Stats</h1>
         <div class="page-subtitle">Historical impact data recorded across all group orders.</div>
       </div>
 
@@ -658,7 +658,7 @@
         title: 'OrderFlow Architecture Update',
         desc: 'Redesigned according to proper Information Architecture: separating Host & Participant flows, handling empty states, and moving analytical artifacts out of the core app.',
         tasks: [
-          'Click "+ Create Group Order" to start the Host flow.',
+          'Click "+ Start a New Order" to start the Host flow.',
           'In Host Dashboard, click "Simulate Participant Joining" to experience the Member flow.',
           'Go back to Home and click "Recent Orders" to view the Analytics.'
         ]
