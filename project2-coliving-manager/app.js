@@ -2,9 +2,9 @@
 /* CoSpace SPA Core Logic */
 // 1. Data & State Initialization
 const DEFAULT_MEMBERS = [
-  { id: 'm1', name: 'Nghĩa', avatar: 'AN', color: '#60A5FA' },
-  { id: 'm2', name: 'Roommate A', avatar: 'RA', color: '#F472B6' },
-  { id: 'm3', name: 'Roommate B', avatar: 'RB', color: '#34D399' }
+  { id: 'm1', name: 'Nghĩa', avatar: '<img src="https://i.pravatar.cc/150?u=m1" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">', color: 'transparent' },
+  { id: 'm2', name: 'Roommate A', avatar: '<img src="https://i.pravatar.cc/150?u=m2" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">', color: 'transparent' },
+  { id: 'm3', name: 'Roommate B', avatar: '<img src="https://i.pravatar.cc/150?u=m3" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">', color: 'transparent' }
 ];
 let members = DEFAULT_MEMBERS;
 let chores = [];
@@ -510,11 +510,13 @@ function renderSettleUp() {
             </div>
           </div>
 
-          <!-- Total Debt Banner -->
-          <div style="background: var(--error-50); border: 1px solid var(--error-100); border-radius: var(--radius-xl); padding: 24px; text-align: center; margin-bottom: 24px; position: relative;">
-            <div style="position: absolute; top: 12px; right: 16px; font-size: 13px; color: var(--error-700); opacity: 0.8;"><i class="ph-bold ph-clock"></i> Last updated: ${lastUpdated}</div>
-            <div style="font-size: 14px; color: var(--error-700); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Total Debt</div>
-            <div style="font-size: 2.5rem; font-weight: 800; color: var(--error-700);">${formatMoney(totalDebt)}</div>
+          <!-- Total Debt Banner (Asymmetrical / Bleeding / Playful) -->
+          <div style="background: var(--brand-100); border: 2px solid var(--brand-950); border-radius: 40px 8px 40px 40px; padding: 32px 24px; text-align: left; margin-bottom: 32px; position: relative; box-shadow: 4px 6px 0px rgba(0,0,0,0.1); transform: rotate(-1deg); display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 14px; color: var(--brand-950); font-family: var(--font-sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Total Debt</div>
+              <div style="font-size: 3.5rem; font-weight: 400; color: var(--brand-950); font-family: var(--font-serif); line-height: 1;">${formatMoney(totalDebt)}</div>
+            </div>
+            <div style="font-size: 12px; color: var(--brand-800); opacity: 0.9; font-weight: 600; text-align: right;"><i class="ph-bold ph-clock"></i> Updated: ${lastUpdated}</div>
           </div>
 
           <!-- Status pills -->
@@ -546,8 +548,7 @@ function renderSettleUp() {
                   </div>
                   <div style="display: flex; align-items: center; gap: 16px;">
                     <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
-                    <button class="btn-primary" style="background: var(--gray-900); padding: 6px 16px;" onclick="alert('Simulation: Open confirmation popup (Sent -> Confirm Receipt)')">Settle</button>
-                    <button class="btn-primary" style="background: var(--pink); padding: 6px 10px;" onclick="alert('Payment Method: Open MoMo / Bank Transfer details')" title="Pay via MoMo / Bank"><i class="ph-bold ph-wallet"></i></button>
+                    <button class="btn-primary" style="background: var(--brand-950); padding: 6px 20px; border-radius: 30px; font-weight: 600; font-family: var(--font-sans);" onclick="alert('Simulation: Proceed to payment gateway')">Settle <i class="ph-bold ph-check" style="margin-left: 4px;"></i></button>
                   </div>
                 </div>`;
               }).join('')}
