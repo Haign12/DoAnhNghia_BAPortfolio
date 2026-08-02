@@ -67,8 +67,8 @@
   --radius-3xl: 1.5rem;
 
   /* ── Typography ── */
-  --font-sans: 'DM Sans', system-ui, sans-serif;
-  --font-serif: 'DM Serif Display', serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Inter', system-ui, sans-serif;
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -155,11 +155,11 @@ body {
 }
 .nav-brand { display: flex; align-items: center; gap: 10px; }
 .nav-brand-icon { width: 36px; height: 36px; border-radius: 10px; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.nav-brand-name { font-size: 18px; font-weight: 700; color: var(--nav-text); }
+.nav-brand-name { font-size: 22px; font-weight: 700; color: var(--nav-text); }
 .nav-links { display: flex; gap: 8px; }
 .nav-link {
   padding: 8px 16px; border-radius: 8px; color: rgba(255,255,255,0.6); text-decoration: none;
-  font-size: 13px; font-weight: 600; transition: all 0.2s;
+  font-size: 16px; font-weight: 600; transition: all 0.2s;
 }
 .nav-link:hover { color: var(--nav-text); background: rgba(255,255,255,0.1); }
 .nav-link.active { color: var(--nav-text); background: rgba(255,255,255,0.15); }
