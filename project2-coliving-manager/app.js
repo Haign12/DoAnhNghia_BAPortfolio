@@ -566,66 +566,96 @@ function renderSettleUp() {
               </nav>
             </div>
           </div>
+        </div>
 
-          <!-- Total Debt Banner -->
-          <div style="background: linear-gradient(135deg, var(--brand-50), var(--brand-100)); border: 1px solid var(--brand-200); border-radius: var(--radius-2xl); padding: 32px 24px; text-align: left; margin-bottom: 24px; position: relative; box-shadow: var(--shadow-theme-sm); display: flex; align-items: center; justify-content: space-between;">
-            <div>
-              <div style="font-size: 14px; color: var(--brand-800); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Total Unpaid</div>
-              <div style="font-size: 2.5rem; font-weight: 800; color: var(--brand-950); line-height: 1;">${formatMoney(totalDebt)}</div>
-            </div>
-            <div style="font-size: 13px; color: var(--brand-800); opacity: 0.8; font-weight: 500; text-align: right;"><i class="ph-bold ph-clock"></i> Updated: ${lastUpdated}</div>
+        <!-- Total Unpaid Banner with asymmetric border radius for handcrafted feel -->
+        <div style="background: linear-gradient(135deg, var(--brand-50), var(--brand-100)); border: 1px solid var(--brand-200); border-radius: 20px 12px 28px 16px; transform: rotate(-0.5deg); padding: 32px 24px; text-align: left; margin-bottom: 32px; position: relative; box-shadow: var(--shadow-theme-sm); display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 13px; font-weight: 700; color: var(--brand-800); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Total Unpaid</div>
+            <div style="font-size: 2.8rem; font-weight: 800; color: var(--brand-950); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(totalDebt)}</div>
           </div>
-
-          <!-- Status pills -->
-          <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
-            <div class="task-group-pills" style="background: transparent;">
-              <div class="task-group-pill active" style="cursor:default;">Suggested Payments <span class="count-chip">${transactions.length}</span></div>
-              <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Roommates <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${members.length}</span></div>
-              <div class="task-group-pill" style="cursor:pointer;" onclick="alert('Filter by member coming soon')"><i class="ph-bold ph-funnel"></i> Just My Share</div>
-            </div>
+          <div style="font-size: 12px; color: var(--brand-600); font-weight: 500;">
+            <i class="ph-bold ph-clock"></i> Updated: ${lastUpdated}
           </div>
+        </div>
 
-          <div class="card" style="margin-top:8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-              <h3 style="margin: 0;">Who owes whom?</h3>
-              ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Smart split: Only ${transactions.length} payments needed</span>`}
-            </div>
-            ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Everyone is settled up!</p>' : ''}
-            <div class="settle-list" style="display:flex; flex-direction: column; gap: 12px;">
-              ${transactions.map(t => {
-                const fromM = getMember(t.from);
-                const toM = getMember(t.to);
-                return `<div style="display:flex; align-items:center; justify-content:space-between; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg);">
-                  <div style="display:flex; align-items:center; gap:12px;">
-                    <div class="nav-avatar" style="background:${fromM.color}">${fromM.avatar}</div>
-                    <strong>${fromM.name}</strong>
-                    <i class="ph-bold ph-arrow-right" style="color:var(--text2)"></i>
-                    <div class="nav-avatar" style="background:${toM.color}">${toM.avatar}</div>
-                    <strong>${toM.name}</strong>
+        <!-- Consistent Tabs Filter -->
+        <div style="display:flex; gap:12px; border: 1px solid var(--border); padding:8px; border-radius: 12px; margin-bottom: 24px; background: var(--bg-card);">
+          <div style="padding: 8px 16px; background: var(--brand-100); color: var(--brand-900); border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display:flex; align-items:center; gap:6px;">
+            Suggested Payments <span style="background:rgba(255,255,255,0.6); padding:2px 6px; border-radius:10px; font-size:11px;">${transactions.length}</span>
+          </div>
+          <div style="padding: 8px 16px; color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; display:flex; align-items:center; gap:6px; transition: 0.2s;" onmouseover="this.style.background='var(--gray-100)'; this.style.borderRadius='8px';" onmouseout="this.style.background='transparent';">
+            Roommates <span style="background:var(--gray-200); color:var(--text3); padding:2px 6px; border-radius:10px; font-size:11px;">${members.length}</span>
+          </div>
+          <div style="padding: 8px 16px; color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; display:flex; align-items:center; gap:6px; transition: 0.2s;" onmouseover="this.style.background='var(--gray-100)'; this.style.borderRadius='8px';" onmouseout="this.style.background='transparent';">
+            Just My Share
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0;">Who owes whom?</h3>
+            ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Smart split: Only ${transactions.length} payments needed</span>`}
+          </div>
+          
+          ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Everyone is settled up!</p>' : ''}
+          
+          <div class="settle-list" style="display:flex; flex-direction: column; gap: 12px;">
+            ${transactions.map((t, index) => {
+              const fromM = getMember(t.from);
+              const toM = getMember(t.to);
+              const isLargest = index === 0;
+              const isMe = (fromM.name === 'Nghĩa' || toM.name === 'Nghĩa'); // Mock auth user 'Nghĩa'
+              
+              let actionBtnHtml = '';
+              if (isMe) {
+                 actionBtnHtml = `<button class="btn-primary" style="background: var(--brand-600); color: #fff; padding: 8px 16px; box-shadow: var(--shadow-theme-sm);" onclick="alert('Proceed to payment')"><i class="ph-bold ph-wallet"></i> Trả ngay</button>`;
+              } else {
+                 actionBtnHtml = `<button class="btn-primary" style="background: var(--gray-100); color: var(--text2); padding: 8px 16px; border: 1px solid var(--border); box-shadow: none;" onclick="alert('Remind')"><i class="ph-bold ph-bell-ringing"></i> Nhắc thanh toán</button>`;
+              }
+
+              return `<div style="display:flex; align-items:center; justify-content:space-between; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); position: relative;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div class="nav-avatar" style="background:${fromM.color}; font-size:14px; font-weight:700;">${fromM.avatar}</div>
+                  <strong style="font-size: 14px;">${fromM.name}</strong>
+                  <i class="ph-bold ph-arrow-right" style="color:var(--text3)"></i>
+                  <div class="nav-avatar" style="background:${toM.color}; font-size:14px; font-weight:700;">${toM.avatar}</div>
+                  <strong style="font-size: 14px;">${toM.name}</strong>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                    ${isLargest ? '<span class="badge" style="background:var(--red); color:#fff; font-size:10px; margin-bottom:4px; padding:2px 8px; border:none; text-transform:uppercase;">Largest Debt</span>' : ''}
+                    <div style="font-weight: 800; font-size: ${isLargest ? '1.35rem' : '1.15rem'}; color: ${isLargest ? 'var(--red)' : 'var(--text)'}; font-family: 'DM Serif Display', serif;">${formatMoney(t.amount)}</div>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 16px;">
-                    <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
-                    <button class="btn-primary" style="background: var(--brand-950); padding: 6px 16px; border-radius: var(--radius-lg); font-weight: 600;" onclick="alert('Simulation: Proceed to payment gateway')">Pay Now</button>
-                  </div>
-                </div>`;
-              }).join('')}
+                  ${actionBtnHtml}
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+          
+          <div style="margin-top: 32px; border-top: 1px dashed var(--border); padding-top: 24px;">
+            <h3 style="margin-bottom: 16px; font-size: 16px;">Recent Activity</h3>
+            
+            <div style="font-size: 13.5px; color: var(--text2); display: flex; align-items: center; justify-content: space-between; background: var(--bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="position: relative;">
+                  <div class="nav-avatar" style="background:var(--brand-500); width:32px; height:32px; border:none; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700;">${members[0].avatar}</div>
+                  <div style="position: absolute; bottom: -4px; right: -4px; background: var(--success-500); width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; display: flex; align-items: center; justify-content: center;"><i class="ph-bold ph-check" style="color:#fff; font-size:8px;"></i></div>
+                </div>
+                <div>
+                  <strong style="color: var(--text);">Nghĩa</strong> paid <strong style="color: var(--text);">Roommate A</strong> <span style="color: var(--success-600); font-weight: 600;">150.000 ₫</span> via MoMo
+                </div>
+              </div>
+              <span style="font-size:12px; color:var(--text3);">Yesterday, 14:30</span>
             </div>
             
-            <div style="margin-top: 32px; border-top: 1px dashed var(--border); padding-top: 24px;">
-              <h3 style="margin-bottom: 16px; font-size: 16px;">Recent Activity</h3>
-              <div style="font-size: 13.5px; color: var(--text2); display: flex; align-items: center; gap: 12px; background: var(--gray-50); padding: 12px; border-radius: 8px;">
-                <i class="ph-fill ph-check-circle" style="color: var(--success-500); font-size: 20px;"></i>
-                <span style="flex:1;"><strong>Nghĩa</strong> paid <strong>Roommate A</strong> ${formatMoney(150000)} via MoMo</span>
-                <span style="font-size:12px; color:var(--text3);">Yesterday, 14:30</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   `;
 }
-
 
 // 4. Application Methods
 window.app = {
