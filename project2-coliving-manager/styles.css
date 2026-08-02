@@ -98,7 +98,7 @@
   --text3: var(--gray-400);
   --accent: var(--brand-500);
   --accent-dim: rgba(70, 95, 255, 0.08);
-  --nav-bg: var(--gray-900);
+  --nav-bg: linear-gradient(135deg, var(--brand-950), var(--brand-800));
   --nav-text: var(--white);
   --green: var(--success-500);
   --yellow: var(--warning-500);
