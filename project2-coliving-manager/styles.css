@@ -7,15 +7,16 @@
 
 :root {
   /* ── Brand / Accent (TailAdmin v2) ── */
-  --brand-50: #ecf3ff;
-  --brand-100: #dde9ff;
-  --brand-200: #c2d6ff;
-  --brand-300: #9cb9ff;
-  --brand-400: #7592ff;
-  --brand-500: #465fff;
-  --brand-600: #3641f5;
-  --brand-800: #252dae;
-  --brand-950: #161950;
+  /* ── Brand / Accent (Teal / Ocean) ── */
+  --brand-50: #f0fdfa;
+  --brand-100: #ccfbf1;
+  --brand-200: #99f6e4;
+  --brand-300: #5eead4;
+  --brand-400: #2dd4bf;
+  --brand-500: #0ea5e9; /* Light Blue-Teal mix */
+  --brand-600: #0284c7;
+  --brand-800: #075985;
+  --brand-950: #082f49;
 
   /* ── Semantic Colors ── */
   --success-50: #ecfdf3;
