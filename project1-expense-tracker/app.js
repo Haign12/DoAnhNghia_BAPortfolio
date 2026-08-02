@@ -270,7 +270,7 @@ function runGhostDetection() {
 function renderAll(viewId) {
   try {
     renderOverview();
-    renderRecurring Bills();
+    renderSubscriptions();
     renderBudget();
     renderAnalytics(viewId);
     renderCashflow();
@@ -669,10 +669,10 @@ function setSubFilter(status) {
   const idMap = { 'All': 'subFilterAll', 'Active': 'subFilterActive', 'Ghost': 'subFilterGhost' };
   const activeEl = document.getElementById(idMap[status]);
   if (activeEl) activeEl.classList.add('active');
-  renderRecurring Bills();
+  renderSubscriptions();
 }
 
-function renderRecurring Bills() {
+function renderSubscriptions() {
   const tbody = document.getElementById('fullSubList');
   if (!tbody) return;
 
