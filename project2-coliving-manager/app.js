@@ -355,13 +355,16 @@ function renderLedger() {
           <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
             <div class="task-group-pills" style="background: transparent;">
               <div class="task-group-pill active" style="cursor:default;">All <span class="count-chip">${expenses.length}</span></div>
-              <div class="task-group-pill" style="cursor:default; color: var(--warning-700);">Unpaid <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${unpaidCount}</span></div>
-              <div class="task-group-pill" style="cursor:default; color: var(--warning-700);">Pending <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${pendingCount}</span></div>
-              <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Settled <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${settledCount}</span></div>
+              <div class="task-group-pill" style="cursor:default;">Unpaid <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${unpaidCount}</span></div>
+              <div class="task-group-pill" style="cursor:default;">Pending <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${pendingCount}</span></div>
+              <div class="task-group-pill" style="cursor:default;">Settled <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${settledCount}</span></div>
             </div>
             <div class="kanban-action-row">
               <button class="btn-add-task" onclick="app.openExpenseModal()">
                 <i class="ph-bold ph-plus"></i> Add Expense
+              </button>
+              <button class="btn-primary" style="background: var(--gray-900);" onclick="renderView('settle')">
+                View in Balances <i class="ph-bold ph-arrow-right"></i>
               </button>
             </div>
           </div>
@@ -399,7 +402,7 @@ function renderLedger() {
               let actionHtml = '';
               // Gated logic
               if(e.settled === 'false') {
-                actionHtml = `<button class="btn-small" onclick="app.markSent('${e.id}')">I've sent it</button>`;
+                actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 6px 12px; font-size: 13px;" onclick="app.markSent('${e.id}')">I've sent it</button>`;
               } else if(e.settled === 'pending') {
                 actionHtml = `<button class="btn-small btn-confirm" onclick="app.confirmReceived('${e.id}')">Confirm Receipt</button>`;
               } else {
@@ -481,11 +484,16 @@ function renderSettleUp() {
             </div>
           </div>
 
+          <!-- Total Debt Banner -->
+          <div style="background: var(--error-50); border: 1px solid var(--error-100); border-radius: var(--radius-xl); padding: 24px; text-align: center; margin-bottom: 24px;">
+            <div style="font-size: 14px; color: var(--error-700); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Total Debt</div>
+            <div style="font-size: 2.5rem; font-weight: 800; color: var(--error-700);">${formatMoney(totalDebt)}</div>
+          </div>
+
           <!-- Status pills -->
           <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
             <div class="task-group-pills" style="background: transparent;">
               <div class="task-group-pill active" style="cursor:default;">Transactions <span class="count-chip">${transactions.length}</span></div>
-              <div class="task-group-pill" style="cursor:default; color: var(--error-700);">Total Debt <span class="count-chip" style="background: var(--error-50); color: var(--error-700); border-color: transparent;">${formatMoney(totalDebt)}</span></div>
               <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Members <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${members.length}</span></div>
             </div>
           </div>
@@ -508,7 +516,10 @@ function renderSettleUp() {
                     <div class="nav-avatar" style="background:${toM.color}">${toM.avatar}</div>
                     <strong>${toM.name}</strong>
                   </div>
-                  <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
+                  <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
+                    <button class="btn-primary" style="background: var(--gray-900); padding: 6px 16px;" onclick="alert('Simulation: Proceed to payment gateway or mark as paid.')">Settle</button>
+                  </div>
                 </div>`;
               }).join('')}
             </div>
