@@ -369,9 +369,9 @@ function renderLedger() {
 
           <!-- KPIs -->
           <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px; margin-bottom: 24px;">
-            <div class="card" style="flex: 2; min-width: 280px; padding: 24px; background: linear-gradient(135deg, var(--warning-50), #fff9f0); border: 1px solid var(--warning-200); box-shadow: var(--shadow-theme-sm);">
-              <div style="font-size: 13px; color: var(--warning-700); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><i class="ph-bold ph-warning-circle"></i> Still Unpaid</div>
-              <div style="font-size: 2.2rem; font-weight: 800; color: var(--warning-700); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(totalUnsettled)}</div>
+            <div class="card" style="flex: 2; min-width: 280px; padding: 24px; background: #ffffff; border: 1px solid var(--border); box-shadow: var(--shadow-theme-sm);">
+              <div style="font-size: 13px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><i class="ph-bold ph-warning-circle"></i> Still Unpaid</div>
+              <div style="font-size: 2.2rem; font-weight: 800; color: var(--text); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(totalUnsettled)}</div>
             </div>
             <div style="flex: 1; display: flex; flex-direction: column; gap: 16px; min-width: 200px;">
               <div class="card" style="flex: 1; padding: 16px 20px; display:flex; justify-content:space-between; align-items:center;">
