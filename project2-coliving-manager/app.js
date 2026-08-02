@@ -52,9 +52,9 @@ if (chores.length === 0 && expenses.length === 0) {
     { id: uid(), title: 'Water plants', assignee: 'm2', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) }
   ];
   expenses = [
-    { id: uid(), description: 'Electricity bill', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d2), settled: 'false' },
-    { id: uid(), description: 'Buy detergent', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'pending' },
-    { id: uid(), description: 'Water bill', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'true' }
+    { id: uid(), description: 'Electricity bill', category: 'Utilities', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d2), settled: 'false' },
+    { id: uid(), description: 'Buy detergent', category: 'Supplies', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2'], date: fmt(d1), settled: 'pending' },
+    { id: uid(), description: 'Water bill', category: 'Utilities', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'true' }
   ];
   persist();
 }
@@ -338,7 +338,6 @@ function renderLedger() {
     <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
       <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
         <div class="page-breadcrumb-section">
-          <!-- Breadcrumb -->
           <div class="breadcrumb-wrap">
             <div class="breadcrumb-row">
               <h2 class="breadcrumb-title">Expenses</h2>
@@ -351,7 +350,6 @@ function renderLedger() {
             </div>
           </div>
 
-          <!-- Action row (TailAdmin-style) -->
           <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
             <div class="task-group-pills" style="background: transparent;">
               <div class="task-group-pill active" style="cursor:default;">All <span class="count-chip">${expenses.length}</span></div>
@@ -384,14 +382,15 @@ function renderLedger() {
             </div>
           </div>
 
-          <div class="card" style="margin-top: 8px;">
+          <div class="card" style="margin-top: 8px; overflow-x: auto;">
             ${expenses.length === 0 ? '<div class="empty-state">No expenses yet. Click Add Expense to create one!</div>' : `
-        <table class="data-table">
+        <table class="data-table" style="min-width: 800px;">
           <thead>
             <tr>
               <th>Date</th>
-              <th>Description</th>
+              <th>Category / Desc</th>
               <th>Paid By</th>
+              <th>Split Among</th>
               <th>Amount</th>
               <th>Status / Action</th>
             </tr>
@@ -400,7 +399,6 @@ function renderLedger() {
             ${expenses.map(e => {
               const payer = getMember(e.paidBy);
               let actionHtml = '';
-              // Gated logic
               if(e.settled === 'false') {
                 actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 6px 12px; font-size: 13px;" onclick="app.markSent('${e.id}')">I've sent it</button>`;
               } else if(e.settled === 'pending') {
@@ -408,24 +406,52 @@ function renderLedger() {
               } else {
                 actionHtml = `<span class="badge badge-paid">SETTLED</span>`;
               }
+              
+              const splitHtml = (e.splitAmong || ['m1', 'm2', 'm3']).map(mid => {
+                const m = getMember(mid);
+                return `<div class="nav-avatar" style="background:${m.color}; width: 24px; height: 24px; font-size: 10px; margin-left: -6px; border: 2px solid var(--bg-card); display:inline-flex; align-items:center; justify-content:center; color:white; font-weight:bold; border-radius:50%;" title="${m.name}">${m.avatar}</div>`;
+              }).join('');
+
               return `<tr>
                 <td>${e.date}</td>
-                <td>${e.description}</td>
+                <td>
+                  <div style="display:flex; flex-direction:column; gap:6px;">
+                    <span style="font-weight:600;">${e.description} <i class="ph-bold ph-paperclip" style="color:var(--text3); font-size:14px; margin-left:4px; cursor:pointer;" title="View Attachment"></i></span>
+                    <span class="badge" style="width:fit-content; background:var(--brand-50); color:var(--brand-700); border-color:var(--brand-100);">${e.category || 'General'}</span>
+                  </div>
+                </td>
                 <td><div style="display:flex;align-items:center;gap:8px;"><div class="nav-avatar" style="background:${payer.color}">${payer.avatar}</div> ${payer.name}</div></td>
-                <td>${formatMoney(e.amount)}</td>
-                <td>${e.settled === 'pending' ? '<span class="badge badge-unpaid" style="margin-right:8px;">PENDING CONFIRM</span>' : ''}${actionHtml}</td>
+                <td><div style="display:flex; padding-left: 6px;">${splitHtml}</div></td>
+                <td style="font-weight:700;">${formatMoney(e.amount)} <div style="font-size:11px; color:var(--text3); font-weight:normal; display:flex; align-items:center; gap:4px; margin-top:2px;"><i class="ph-bold ph-arrows-clockwise"></i> Recurring</div></td>
+                <td>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    ${e.settled === 'pending' ? '<span class="badge badge-unpaid" title="Needs Payee Confirmation">PENDING</span>' : ''}
+                    ${actionHtml}
+                    <button class="nav-icon-btn" style="color:var(--text3); border:none;" onclick="alert('Edit expense')"><i class="ph-bold ph-pencil-simple"></i></button>
+                    <button class="nav-icon-btn" style="color:var(--red); border:none;" onclick="alert('Delete expense')"><i class="ph-bold ph-trash"></i></button>
+                  </div>
+                </td>
               </tr>`;
             }).join('')}
           </tbody>
         </table>
         `}
           </div>
+
+          <!-- BA Note Alert -->
+          <div style="margin-top: 24px; padding: 16px; background: rgba(11, 165, 236, 0.1); border-left: 4px solid var(--brand-500); border-radius: 4px;">
+            <h4 style="margin-bottom: 8px; color: var(--brand-600); display: flex; align-items: center; gap: 6px;"><i class="ph-bold ph-info"></i> BA Notes: Expense Rules</h4>
+            <ul style="font-size: 13px; color: var(--text2); margin-left: 16px;">
+              <li><strong>Split Rule:</strong> Default is Equal Split among selected members. Custom ratio splits are planned for Phase 2.</li>
+              <li><strong>Confirmation:</strong> 2-way verification required. Payer clicks "I've sent it", Payee clicks "Confirm Receipt" to fully settle.</li>
+              <li><strong>Disputes:</strong> If unconfirmed for >3 days, marked as "Disputed" for group review.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   `;
 }
-
 // -- SETTLE UP VIEW --
 function calculateSimplifications() {
   const balances = {};
@@ -466,12 +492,12 @@ function calculateSimplifications() {
 function renderSettleUp() {
   const transactions = calculateSimplifications();
   const totalDebt = transactions.reduce((s, t) => s + t.amount, 0);
+  const lastUpdated = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
   return `
     <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
       <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
         <div class="page-breadcrumb-section">
-          <!-- Breadcrumb -->
           <div class="breadcrumb-wrap">
             <div class="breadcrumb-row">
               <h2 class="breadcrumb-title">Balances</h2>
@@ -485,7 +511,8 @@ function renderSettleUp() {
           </div>
 
           <!-- Total Debt Banner -->
-          <div style="background: var(--error-50); border: 1px solid var(--error-100); border-radius: var(--radius-xl); padding: 24px; text-align: center; margin-bottom: 24px;">
+          <div style="background: var(--error-50); border: 1px solid var(--error-100); border-radius: var(--radius-xl); padding: 24px; text-align: center; margin-bottom: 24px; position: relative;">
+            <div style="position: absolute; top: 12px; right: 16px; font-size: 13px; color: var(--error-700); opacity: 0.8;"><i class="ph-bold ph-clock"></i> Last updated: ${lastUpdated}</div>
             <div style="font-size: 14px; color: var(--error-700); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Total Debt</div>
             <div style="font-size: 2.5rem; font-weight: 800; color: var(--error-700);">${formatMoney(totalDebt)}</div>
           </div>
@@ -495,6 +522,7 @@ function renderSettleUp() {
             <div class="task-group-pills" style="background: transparent;">
               <div class="task-group-pill active" style="cursor:default;">Transactions <span class="count-chip">${transactions.length}</span></div>
               <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Members <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${members.length}</span></div>
+              <div class="task-group-pill" style="cursor:pointer;" onclick="alert('Filter by member coming soon')"><i class="ph-bold ph-funnel"></i> My Debts Only</div>
             </div>
           </div>
 
@@ -518,10 +546,20 @@ function renderSettleUp() {
                   </div>
                   <div style="display: flex; align-items: center; gap: 16px;">
                     <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
-                    <button class="btn-primary" style="background: var(--gray-900); padding: 6px 16px;" onclick="alert('Simulation: Proceed to payment gateway or mark as paid.')">Settle</button>
+                    <button class="btn-primary" style="background: var(--gray-900); padding: 6px 16px;" onclick="alert('Simulation: Open confirmation popup (Sent -> Confirm Receipt)')">Settle</button>
+                    <button class="btn-primary" style="background: var(--pink); padding: 6px 10px;" onclick="alert('Payment Method: Open MoMo / Bank Transfer details')" title="Pay via MoMo / Bank"><i class="ph-bold ph-wallet"></i></button>
                   </div>
                 </div>`;
               }).join('')}
+            </div>
+            
+            <div style="margin-top: 32px; border-top: 1px dashed var(--border); padding-top: 24px;">
+              <h3 style="margin-bottom: 16px; font-size: 16px;">Settlement History</h3>
+              <div style="font-size: 13.5px; color: var(--text2); display: flex; align-items: center; gap: 12px; background: var(--gray-50); padding: 12px; border-radius: 8px;">
+                <i class="ph-fill ph-check-circle" style="color: var(--success-500); font-size: 20px;"></i>
+                <span style="flex:1;"><strong>Nghĩa</strong> paid <strong>Roommate A</strong> ${formatMoney(150000)} via MoMo</span>
+                <span style="font-size:12px; color:var(--text3);">Yesterday, 14:30</span>
+              </div>
             </div>
           </div>
         </div>
@@ -529,6 +567,7 @@ function renderSettleUp() {
     </div>
   `;
 }
+
 
 // 4. Application Methods
 window.app = {
