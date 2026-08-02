@@ -515,13 +515,13 @@ function renderSettleUp() {
             </div>
           </div>
 
-          <!-- Total Debt Banner (Asymmetrical / Bleeding / Playful) -->
-          <div style="background: var(--brand-100); border: 2px solid var(--brand-950); border-radius: 40px 8px 40px 40px; padding: 32px 24px; text-align: left; margin-bottom: 32px; position: relative; box-shadow: 4px 6px 0px rgba(0,0,0,0.1); transform: rotate(-1deg); display: flex; align-items: center; justify-content: space-between;">
+          <!-- Total Debt Banner -->
+          <div style="background: linear-gradient(135deg, var(--brand-50), var(--brand-100)); border: 1px solid var(--brand-200); border-radius: var(--radius-2xl); padding: 32px 24px; text-align: left; margin-bottom: 24px; position: relative; box-shadow: var(--shadow-theme-sm); display: flex; align-items: center; justify-content: space-between;">
             <div>
-              <div style="font-size: 14px; color: var(--brand-950); font-family: var(--font-sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Total Debt</div>
-              <div style="font-size: 3.5rem; font-weight: 400; color: var(--brand-950); font-family: var(--font-serif); line-height: 1;">${formatMoney(totalDebt)}</div>
+              <div style="font-size: 14px; color: var(--brand-800); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Total Debt</div>
+              <div style="font-size: 2.5rem; font-weight: 800; color: var(--brand-950); line-height: 1;">${formatMoney(totalDebt)}</div>
             </div>
-            <div style="font-size: 12px; color: var(--brand-800); opacity: 0.9; font-weight: 600; text-align: right;"><i class="ph-bold ph-clock"></i> Updated: ${lastUpdated}</div>
+            <div style="font-size: 13px; color: var(--brand-800); opacity: 0.8; font-weight: 500; text-align: right;"><i class="ph-bold ph-clock"></i> Updated: ${lastUpdated}</div>
           </div>
 
           <!-- Status pills -->
@@ -553,7 +553,7 @@ function renderSettleUp() {
                   </div>
                   <div style="display: flex; align-items: center; gap: 16px;">
                     <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
-                    <button class="btn-primary" style="background: var(--brand-950); padding: 6px 20px; border-radius: 30px; font-weight: 600; font-family: var(--font-sans);" onclick="alert('Simulation: Proceed to payment gateway')">Settle <i class="ph-bold ph-check" style="margin-left: 4px;"></i></button>
+                    <button class="btn-primary" style="background: var(--brand-950); padding: 6px 16px; border-radius: var(--radius-lg); font-weight: 600;" onclick="alert('Simulation: Proceed to payment gateway')">Settle</button>
                   </div>
                 </div>`;
               }).join('')}
