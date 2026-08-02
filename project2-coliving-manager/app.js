@@ -369,15 +369,15 @@ function renderLedger() {
 
           <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px;">
             <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Total Expenses</div>
+              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Total Shared</div>
               <div style="font-size: 1.4rem; font-weight: 800; color: var(--text);">${formatMoney(totalExpenses)}</div>
             </div>
             <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Unsettled</div>
+              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Still Unpaid</div>
               <div style="font-size: 1.4rem; font-weight: 800; color: var(--warning-700);">${formatMoney(totalUnsettled)}</div>
             </div>
             <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Settled Count</div>
+              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Completed</div>
               <div style="font-size: 1.4rem; font-weight: 800; color: var(--success-700);">${settledCount}</div>
             </div>
           </div>
@@ -403,10 +403,10 @@ function renderLedger() {
               let actionHtml = '';
               if(e.settled === 'false') {
                 statusHtml = `<span class="badge" style="background:var(--gray-100); color:var(--gray-700);">UNPAID</span>`;
-                actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 6px 12px; font-size: 13px;" onclick="app.markSent('${e.id}')">I've sent it</button>`;
+                actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 6px 12px; font-size: 13px;" onclick="app.markSent('${e.id}')">I Paid This</button>`;
               } else if(e.settled === 'pending') {
-                statusHtml = `<span class="badge badge-unpaid" title="Needs Payee Confirmation">PENDING</span>`;
-                actionHtml = `<button class="btn-small btn-confirm" onclick="app.confirmReceived('${e.id}')">Confirm Receipt</button>`;
+                statusHtml = `<span class="badge badge-unpaid" title="Waiting for recipient to confirm">PENDING</span>`;
+                actionHtml = `<button class="btn-small btn-confirm" onclick="app.confirmReceived('${e.id}')">Got It!</button>`;
               } else {
                 statusHtml = `<span class="badge badge-paid">SETTLED</span>`;
                 actionHtml = '';
@@ -518,7 +518,7 @@ function renderSettleUp() {
           <!-- Total Debt Banner -->
           <div style="background: linear-gradient(135deg, var(--brand-50), var(--brand-100)); border: 1px solid var(--brand-200); border-radius: var(--radius-2xl); padding: 32px 24px; text-align: left; margin-bottom: 24px; position: relative; box-shadow: var(--shadow-theme-sm); display: flex; align-items: center; justify-content: space-between;">
             <div>
-              <div style="font-size: 14px; color: var(--brand-800); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Total Debt</div>
+              <div style="font-size: 14px; color: var(--brand-800); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Total Unpaid</div>
               <div style="font-size: 2.5rem; font-weight: 800; color: var(--brand-950); line-height: 1;">${formatMoney(totalDebt)}</div>
             </div>
             <div style="font-size: 13px; color: var(--brand-800); opacity: 0.8; font-weight: 500; text-align: right;"><i class="ph-bold ph-clock"></i> Updated: ${lastUpdated}</div>
@@ -527,16 +527,16 @@ function renderSettleUp() {
           <!-- Status pills -->
           <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
             <div class="task-group-pills" style="background: transparent;">
-              <div class="task-group-pill active" style="cursor:default;">Transactions <span class="count-chip">${transactions.length}</span></div>
-              <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Members <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${members.length}</span></div>
-              <div class="task-group-pill" style="cursor:pointer;" onclick="alert('Filter by member coming soon')"><i class="ph-bold ph-funnel"></i> My Debts Only</div>
+              <div class="task-group-pill active" style="cursor:default;">Suggested Payments <span class="count-chip">${transactions.length}</span></div>
+              <div class="task-group-pill" style="cursor:default; color: var(--success-700);">Roommates <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${members.length}</span></div>
+              <div class="task-group-pill" style="cursor:pointer;" onclick="alert('Filter by member coming soon')"><i class="ph-bold ph-funnel"></i> Just My Share</div>
             </div>
           </div>
 
           <div class="card" style="margin-top:8px;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-              <h3 style="margin: 0;">Who owes who?</h3>
-              ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Min ${transactions.length} transactions to settle up</span>`}
+              <h3 style="margin: 0;">Who owes whom?</h3>
+              ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Smart split: Only ${transactions.length} payments needed</span>`}
             </div>
             ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Everyone is settled up!</p>' : ''}
             <div class="settle-list" style="display:flex; flex-direction: column; gap: 12px;">
@@ -553,14 +553,14 @@ function renderSettleUp() {
                   </div>
                   <div style="display: flex; align-items: center; gap: 16px;">
                     <div style="font-weight: 800; font-size: 1.1rem; color: var(--red);">${formatMoney(t.amount)}</div>
-                    <button class="btn-primary" style="background: var(--brand-950); padding: 6px 16px; border-radius: var(--radius-lg); font-weight: 600;" onclick="alert('Simulation: Proceed to payment gateway')">Settle</button>
+                    <button class="btn-primary" style="background: var(--brand-950); padding: 6px 16px; border-radius: var(--radius-lg); font-weight: 600;" onclick="alert('Simulation: Proceed to payment gateway')">Pay Now</button>
                   </div>
                 </div>`;
               }).join('')}
             </div>
             
             <div style="margin-top: 32px; border-top: 1px dashed var(--border); padding-top: 24px;">
-              <h3 style="margin-bottom: 16px; font-size: 16px;">Settlement History</h3>
+              <h3 style="margin-bottom: 16px; font-size: 16px;">Recent Activity</h3>
               <div style="font-size: 13.5px; color: var(--text2); display: flex; align-items: center; gap: 12px; background: var(--gray-50); padding: 12px; border-radius: 8px;">
                 <i class="ph-fill ph-check-circle" style="color: var(--success-500); font-size: 20px;"></i>
                 <span style="flex:1;"><strong>Nghĩa</strong> paid <strong>Roommate A</strong> ${formatMoney(150000)} via MoMo</span>
