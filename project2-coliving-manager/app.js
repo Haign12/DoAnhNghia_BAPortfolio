@@ -10,34 +10,51 @@ let members = DEFAULT_MEMBERS;
 let chores = [];
 let expenses = [];
 try {
-  members = JSON.parse(localStorage.getItem('cospace_members')) || DEFAULT_MEMBERS;
-  chores = JSON.parse(localStorage.getItem('cospace_chores')) || [];
-  expenses = JSON.parse(localStorage.getItem('cospace_expenses')) || [];
+  members = JSON.parse(localStorage.getItem('cospace_members_v2')) || DEFAULT_MEMBERS;
+  chores = JSON.parse(localStorage.getItem('cospace_chores_v2')) || [];
+  expenses = JSON.parse(localStorage.getItem('cospace_expenses_v2')) || [];
 } catch (e) {
   console.error('LocalStorage parse error:', e);
-  localStorage.removeItem('cospace_members');
-  localStorage.removeItem('cospace_chores');
-  localStorage.removeItem('cospace_expenses');
+  localStorage.removeItem('cospace_members_v2');
+  localStorage.removeItem('cospace_chores_v2');
+  localStorage.removeItem('cospace_expenses_v2');
 }
 
 function persist() {
-  localStorage.setItem('cospace_chores', JSON.stringify(chores));
-  localStorage.setItem('cospace_expenses', JSON.stringify(expenses));
+  localStorage.setItem('cospace_chores_v2', JSON.stringify(chores));
+  localStorage.setItem('cospace_expenses_v2', JSON.stringify(expenses));
 }
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
 
 // Seed data if empty (for demo purposes)
 if (chores.length === 0 && expenses.length === 0) {
+  const t = new Date();
+  const d1 = new Date(t); d1.setDate(t.getDate() - 2);
+  const d2 = new Date(t); d2.setDate(t.getDate() - 1);
+  const d3 = new Date(t); d3.setDate(t.getDate() + 1);
+  const d4 = new Date(t); d4.setDate(t.getDate() + 3);
+  const fmt = (d) => d.toISOString().split('T')[0];
+
   chores = [
-    { id: uid(), title: 'Lau nhà', assignee: 'm1', status: 'done', createdAt: '2026-07-21', dueDate: '2026-07-22' },
-    { id: 'c3', title: 'Đổ rác', assignee: 'm3', status: 'in-progress', createdAt: '2026-07-22', dueDate: '2026-07-22' }, // Overdue
-    { id: uid(), title: 'Lau nhà vệ sinh', assignee: null, status: 'not-assigned', createdAt: '2026-07-24', dueDate: '2026-07-30' }
+    { id: uid(), title: 'Lau nhà', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Đổ rác', assignee: 'm3', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Nấu ăn tối', assignee: 'm2', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Rửa bát', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Giặt đồ', assignee: 'm3', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Phơi đồ', assignee: 'm2', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Đóng tiền mạng', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Mua nước bình', assignee: 'm3', status: 'in-progress', createdAt: fmt(d2), dueDate: fmt(d3) },
+    { id: uid(), title: 'Lau dọn bếp', assignee: 'm2', status: 'in-progress', createdAt: fmt(d2), dueDate: fmt(d3) },
+    { id: uid(), title: 'Lau nhà vệ sinh', assignee: null, status: 'not-assigned', createdAt: fmt(d2), dueDate: fmt(d4) },
+    { id: uid(), title: 'Quét sân', assignee: null, status: 'not-assigned', createdAt: fmt(d2), dueDate: fmt(d4) },
+    { id: uid(), title: 'Mua trái cây', assignee: 'm1', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) },
+    { id: uid(), title: 'Tưới cây', assignee: 'm2', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) }
   ];
   expenses = [
-    { id: uid(), description: 'Tiền điện tháng 7', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: '2026-07-20', settled: 'false' },
-    { id: uid(), description: 'Mua nước giặt', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2', 'm3'], date: '2026-07-15', settled: 'pending' },
-    { id: uid(), description: 'Tiền nước tháng 7', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: '2026-07-19', settled: 'true' }
+    { id: uid(), description: 'Tiền điện tháng này', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d2), settled: 'false' },
+    { id: uid(), description: 'Mua nước giặt', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'pending' },
+    { id: uid(), description: 'Tiền nước tháng này', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'true' }
   ];
   persist();
 }
@@ -140,7 +157,10 @@ function renderKanban() {
     const formattedDate = c.dueDate ? formatRelativeDate(c.dueDate) : 'No date';
 
     return `
-      <div draggable="true" class="task shadow-theme-sm rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5 mb-5 cursor-move hover:border-brand-500 transition-colors">
+      <div draggable="true" class="task group relative shadow-theme-sm rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5 mb-5 cursor-move hover:border-brand-500 transition-colors">
+        <div class="absolute top-3 right-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M104,64A16,16,0,1,1,88,48,16,16,0,0,1,104,64Zm56-16a16,16,0,1,0,16,16A16,16,0,0,0,160,48ZM88,112a16,16,0,1,0,16,16A16,16,0,0,0,88,112Zm72,0a16,16,0,1,0,16,16A16,16,0,0,0,160,112ZM88,176a16,16,0,1,0,16,16A16,16,0,0,0,88,176Zm72,0a16,16,0,1,0,16,16A16,16,0,0,0,160,176Z"></path></svg>
+        </div>
         <div class="flex items-start justify-between gap-6">
           <div>
             <h4 class="mb-3 text-base text-gray-800 dark:text-white/90">
@@ -148,22 +168,22 @@ function renderKanban() {
             </h4>
 
             <div class="flex items-center gap-3 flex-wrap">
-              <span class="flex cursor-pointer items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <span class="flex cursor-pointer items-center gap-1 text-sm text-gray-700 font-medium dark:text-gray-300">
+                <svg class="fill-current text-gray-500" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M5.33329 1.0835C5.74751 1.0835 6.08329 1.41928 6.08329 1.8335V2.25016L9.91663 2.25016V1.8335C9.91663 1.41928 10.2524 1.0835 10.6666 1.0835C11.0808 1.0835 11.4166 1.41928 11.4166 1.8335V2.25016L12.3333 2.25016C13.2998 2.25016 14.0833 3.03366 14.0833 4.00016V6.00016L14.0833 12.6668C14.0833 13.6333 13.2998 14.4168 12.3333 14.4168L3.66663 14.4168C2.70013 14.4168 1.91663 13.6333 1.91663 12.6668L1.91663 6.00016L1.91663 4.00016C1.91663 3.03366 2.70013 2.25016 3.66663 2.25016L4.58329 2.25016V1.8335C4.58329 1.41928 4.91908 1.0835 5.33329 1.0835ZM5.33329 3.75016L3.66663 3.75016C3.52855 3.75016 3.41663 3.86209 3.41663 4.00016V5.25016L12.5833 5.25016V4.00016C12.5833 3.86209 12.4714 3.75016 12.3333 3.75016L10.6666 3.75016L5.33329 3.75016ZM12.5833 6.75016L3.41663 6.75016L3.41663 12.6668C3.41663 12.8049 3.52855 12.9168 3.66663 12.9168L12.3333 12.9168C12.4714 12.9168 12.5833 12.8049 12.5833 12.6668L12.5833 6.75016Z" fill=""></path>
                 </svg>
                 ${formattedDate}
               </span>
 
-              <span class="flex cursor-pointer items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-                <svg class="stroke-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <span class="flex cursor-pointer items-center gap-1 text-sm text-gray-700 font-medium dark:text-gray-300">
+                <svg class="stroke-current text-gray-500" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9 15.6343C12.6244 15.6343 15.5625 12.6961 15.5625 9.07178C15.5625 5.44741 12.6244 2.50928 9 2.50928C5.37563 2.50928 2.4375 5.44741 2.4375 9.07178C2.4375 10.884 3.17203 12.5246 4.35961 13.7122L2.4375 15.6343H9Z" stroke="" stroke-width="1.5" stroke-linejoin="round"></path>
                 </svg>
                 ${seedComments}
               </span>
               
-              ${seedAttachments > 0 ? `<span class="flex cursor-pointer items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              ${seedAttachments > 0 ? `<span class="flex cursor-pointer items-center gap-1 text-sm text-gray-700 font-medium dark:text-gray-300">
+                <svg class="fill-current text-gray-500" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M6.88066 3.10905C8.54039 1.44932 11.2313 1.44933 12.8911 3.10906C14.5508 4.76878 14.5508 7.45973 12.8911 9.11946L12.0657 9.94479L11.0051 8.88413L11.8304 8.0588C12.9043 6.98486 12.9043 5.24366 11.8304 4.16972C10.7565 3.09577 9.01526 3.09577 7.94132 4.16971L7.11599 4.99504L6.05533 3.93438L6.88066 3.10905ZM8.88376 11.0055L9.94442 12.0661L9.11983 12.8907C7.4601 14.5504 4.76915 14.5504 3.10942 12.8907C1.44969 11.231 1.44969 8.54002 3.10942 6.88029L3.93401 6.0557L4.99467 7.11636L4.17008 7.94095C3.09614 9.01489 3.09614 10.7561 4.17008 11.83C5.24402 12.904 6.98522 12.904 8.05917 11.83L8.88376 11.0055ZM9.94458 7.11599C10.2375 6.8231 10.2375 6.34823 9.94458 6.05533C9.65169 5.76244 9.17682 5.76244 8.88392 6.05533L6.0555 8.88376C5.7626 9.17665 5.7626 9.65153 6.0555 9.94442C6.34839 10.2373 6.82326 10.2373 7.11616 9.94442L9.94458 7.11599Z" fill=""></path>
                 </svg>
                 ${seedAttachments}
@@ -172,10 +192,10 @@ function renderKanban() {
 
             ${getTagHtml(tag)}
             
-            <div class="mt-4 flex gap-2">
+            <div class="mt-6 flex gap-2">
                ${c.status === 'not-assigned' ? `<button class="text-xs font-medium text-brand-500 bg-brand-50 px-3 py-1 rounded-md" onclick="app.autoAssign('${c.id}')">Auto-Assign</button>` : ''}
                ${c.status === 'todo' ? `<button class="text-xs font-medium text-brand-500 bg-brand-50 px-3 py-1 rounded-md hover:bg-brand-100" onclick="app.startChore('${c.id}')">Start</button><button class="text-xs font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md" onclick="app.autoAssign('${c.id}')">Reassign</button>` : ''}
-               ${c.status === 'in-progress' ? `<button class="text-xs font-medium text-success-700 bg-success-50 hover:bg-success-100 px-3 py-1 rounded-md" onclick="app.completeChore('${c.id}')">Complete</button><button class="text-xs font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md" onclick="app.autoAssign('${c.id}')">Reassign</button>` : ''}
+               ${c.status === 'in-progress' ? `<button class="text-xs font-medium text-white bg-success-600 hover:bg-success-700 px-3 py-1 rounded-md" onclick="app.completeChore('${c.id}')">Complete</button><button class="text-xs font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md" onclick="app.autoAssign('${c.id}')">Reassign</button>` : ''}
                ${c.status === 'done' ? `<button class="text-xs font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md" onclick="app.reopenChore('${c.id}')">Reopen</button>` : ''}
             </div>
           </div>
@@ -205,8 +225,22 @@ function renderKanban() {
     </div>
   `;
 
+  const progressPercent = all.length === 0 ? 0 : Math.round((completed.length / all.length) * 100);
+  const progressBarHtml = `
+    <div class="mb-6 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">Tiến độ công việc chung</span>
+        <span class="text-sm font-bold text-success-600 dark:text-success-500">Đã hoàn thành ${completed.length}/${all.length} công việc</span>
+      </div>
+      <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden dark:bg-gray-800">
+        <div class="h-full bg-success-500 transition-all duration-500" style="width: ${progressPercent}%"></div>
+      </div>
+    </div>
+  `;
+
   return `
     <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
+      ${progressBarHtml}
       <!-- Main Kanban Wrapper -->
       <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
         
@@ -276,13 +310,18 @@ function renderKanban() {
 
 function formatRelativeDate(dateStr) {
   if (!dateStr) return 'No date';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return 'Invalid date';
   const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(dateStr); d.setHours(0,0,0,0);
+  d.setHours(0,0,0,0);
   const diff = Math.round((d - today) / (1000*60*60*24));
   if (diff === 0) return 'Today';
   if (diff === 1) return 'Tomorrow';
   if (diff === -1) return 'Yesterday';
-  if (diff < 0) return `${Math.abs(diff)}d overdue`;
+  if (diff < 0) {
+    if (Math.abs(diff) > 365) return 'Overdue';
+    return `${Math.abs(diff)}d overdue`;
+  }
   if (diff < 7) return `In ${diff} days`;
   return dateStr;
 }
