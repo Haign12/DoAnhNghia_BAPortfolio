@@ -10,19 +10,19 @@ let members = DEFAULT_MEMBERS;
 let chores = [];
 let expenses = [];
 try {
-  members = JSON.parse(localStorage.getItem('cospace_members_v2')) || DEFAULT_MEMBERS;
-  chores = JSON.parse(localStorage.getItem('cospace_chores_v2')) || [];
-  expenses = JSON.parse(localStorage.getItem('cospace_expenses_v2')) || [];
+  members = JSON.parse(localStorage.getItem('cospace_members_v3')) || DEFAULT_MEMBERS;
+  chores = JSON.parse(localStorage.getItem('cospace_chores_v3')) || [];
+  expenses = JSON.parse(localStorage.getItem('cospace_expenses_v3')) || [];
 } catch (e) {
   console.error('LocalStorage parse error:', e);
-  localStorage.removeItem('cospace_members_v2');
-  localStorage.removeItem('cospace_chores_v2');
-  localStorage.removeItem('cospace_expenses_v2');
+  localStorage.removeItem('cospace_members_v3');
+  localStorage.removeItem('cospace_chores_v3');
+  localStorage.removeItem('cospace_expenses_v3');
 }
 
 function persist() {
-  localStorage.setItem('cospace_chores_v2', JSON.stringify(chores));
-  localStorage.setItem('cospace_expenses_v2', JSON.stringify(expenses));
+  localStorage.setItem('cospace_chores_v3', JSON.stringify(chores));
+  localStorage.setItem('cospace_expenses_v3', JSON.stringify(expenses));
 }
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
@@ -37,24 +37,24 @@ if (chores.length === 0 && expenses.length === 0) {
   const fmt = (d) => d.toISOString().split('T')[0];
 
   chores = [
-    { id: uid(), title: 'Lau nhà', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
-    { id: uid(), title: 'Đổ rác', assignee: 'm3', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
-    { id: uid(), title: 'Nấu ăn tối', assignee: 'm2', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
-    { id: uid(), title: 'Rửa bát', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
-    { id: uid(), title: 'Giặt đồ', assignee: 'm3', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
-    { id: uid(), title: 'Phơi đồ', assignee: 'm2', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
-    { id: uid(), title: 'Đóng tiền mạng', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
-    { id: uid(), title: 'Mua nước bình', assignee: 'm3', status: 'in-progress', createdAt: fmt(d2), dueDate: fmt(d3) },
-    { id: uid(), title: 'Lau dọn bếp', assignee: 'm2', status: 'in-progress', createdAt: fmt(d2), dueDate: fmt(d3) },
-    { id: uid(), title: 'Lau nhà vệ sinh', assignee: null, status: 'not-assigned', createdAt: fmt(d2), dueDate: fmt(d4) },
-    { id: uid(), title: 'Quét sân', assignee: null, status: 'not-assigned', createdAt: fmt(d2), dueDate: fmt(d4) },
-    { id: uid(), title: 'Mua trái cây', assignee: 'm1', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) },
-    { id: uid(), title: 'Tưới cây', assignee: 'm2', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) }
+    { id: uid(), title: 'Mop the floor', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Take out trash', assignee: 'm3', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Cook dinner', assignee: 'm2', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Wash dishes', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Do laundry', assignee: 'm3', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Hang laundry', assignee: 'm2', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Pay internet bill', assignee: 'm1', status: 'done', createdAt: fmt(d1), dueDate: fmt(d2) },
+    { id: uid(), title: 'Buy water', assignee: 'm3', status: 'in-progress', createdAt: fmt(d2), dueDate: fmt(d3) },
+    { id: uid(), title: 'Clean kitchen', assignee: 'm2', status: 'in-progress', createdAt: fmt(d2), dueDate: fmt(d3) },
+    { id: uid(), title: 'Clean bathroom', assignee: null, status: 'not-assigned', createdAt: fmt(d2), dueDate: fmt(d4) },
+    { id: uid(), title: 'Sweep yard', assignee: null, status: 'not-assigned', createdAt: fmt(d2), dueDate: fmt(d4) },
+    { id: uid(), title: 'Buy fruits', assignee: 'm1', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) },
+    { id: uid(), title: 'Water plants', assignee: 'm2', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) }
   ];
   expenses = [
-    { id: uid(), description: 'Tiền điện tháng này', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d2), settled: 'false' },
-    { id: uid(), description: 'Mua nước giặt', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'pending' },
-    { id: uid(), description: 'Tiền nước tháng này', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'true' }
+    { id: uid(), description: 'Electricity bill', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d2), settled: 'false' },
+    { id: uid(), description: 'Buy detergent', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'pending' },
+    { id: uid(), description: 'Water bill', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'true' }
   ];
   persist();
 }
@@ -134,8 +134,8 @@ function renderKanban() {
 
   const inferTag = (c) => {
     const t = (c.title || '').toLowerCase();
-    if (t.includes('nấu') || t.includes('nau') || t.includes('rửa') || t.includes('rua') || t.includes('lau') || t.includes('dọn') || t.includes('don')) return { label: 'Chore', color: 'brand' };
-    if (t.includes('đổ') || t.includes('do') || t.includes('rác') || t.includes('rac')) return { label: 'Urgent', color: 'warning' };
+    if (t.includes('cook') || t.includes('wash') || t.includes('clean') || t.includes('mop') || t.includes('sweep') || t.includes('laundry')) return { label: 'Chore', color: 'brand' };
+    if (t.includes('trash') || t.includes('bill') || t.includes('pay')) return { label: 'Urgent', color: 'warning' };
     return { label: 'Task', color: 'success' };
   };
 
@@ -229,8 +229,8 @@ function renderKanban() {
   const progressBarHtml = `
     <div class="mb-6 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
       <div class="flex items-center justify-between mb-3">
-        <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">Tiến độ công việc chung</span>
-        <span class="text-sm font-bold text-success-600 dark:text-success-500">Đã hoàn thành ${completed.length}/${all.length} công việc</span>
+        <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">Overall Progress</span>
+        <span class="text-sm font-bold text-success-600 dark:text-success-500">Completed ${completed.length}/${all.length} tasks</span>
       </div>
       <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden dark:bg-gray-800">
         <div class="h-full bg-success-500 transition-all duration-500" style="width: ${progressPercent}%"></div>
@@ -382,7 +382,7 @@ function renderLedger() {
           </div>
 
           <div class="card" style="margin-top: 8px;">
-            ${expenses.length === 0 ? '<div class="empty-state">Chưa có chi tiêu nào. Bấm Add Expense để tạo!</div>' : `
+            ${expenses.length === 0 ? '<div class="empty-state">No expenses yet. Click Add Expense to create one!</div>' : `
         <table class="data-table">
           <thead>
             <tr>
@@ -493,9 +493,9 @@ function renderSettleUp() {
           <div class="card" style="margin-top:8px;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
               <h3 style="margin: 0;">Who owes who?</h3>
-              ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Min ${transactions.length} giao dịch để tất toán</span>`}
+              ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Min ${transactions.length} transactions to settle up</span>`}
             </div>
-            ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Tất cả đã thanh toán đầy đủ!</p>' : ''}
+            ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Everyone is settled up!</p>' : ''}
             <div class="settle-list" style="display:flex; flex-direction: column; gap: 12px;">
               ${transactions.map(t => {
                 const fromM = getMember(t.from);
@@ -540,7 +540,7 @@ window.app = {
       c.status = 'todo';
       persist();
       renderView('kanban');
-      alert(`Auto-assigned to ${counts[0].name}\n\nTie-breaking Rule Applied: Lựa chọn dựa trên Số lượt hoàn thành thấp nhất (${counts[0].count}). Trong trường hợp hòa điểm, hệ thống ưu tiên Alphabetical Order.`);
+      alert(`Auto-assigned to ${counts[0].name}\n\nTie-breaking Rule Applied: Selection based on lowest completion count (${counts[0].count}). In case of tie, alphabetical order is prioritized.`);
     }
   },
   startChore: function(id) {
@@ -559,7 +559,7 @@ window.app = {
     const map = { 'To Do': ['not-assigned','todo'], 'In Progress': ['in-progress'], 'Completed': ['done'] };
     const statuses = map[laneTitle];
     if (!statuses) return;
-    if (!confirm(`Xoá tất cả tasks trong lane "${laneTitle}"?`)) return;
+    if (!confirm(`Clear all tasks in lane "${laneTitle}"?`)) return;
     chores = chores.filter(c => !statuses.includes(c.status));
     persist();
     renderView('kanban');

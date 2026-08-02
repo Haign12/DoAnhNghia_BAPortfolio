@@ -141,7 +141,7 @@ body {
 .page-container { max-width: 1400px; margin: 0 auto; padding: 0 24px 60px; }
 
 /* ── Navigation (Floating Pill) ── */
-.unified-header { margin-bottom: 32px; padding-top: 24px; }
+.unified-header { margin-bottom: 32px; padding-top: 24px; position: sticky; top: 0; z-index: 1000; }
 .top-nav {
   display: flex; justify-content: space-between; align-items: center;
   padding: 12px 24px;
@@ -153,7 +153,7 @@ body {
   z-index: 10;
 }
 .nav-brand { display: flex; align-items: center; gap: 10px; }
-.nav-brand-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--brand-500), var(--blue-light-500)); display: flex; align-items: center; justify-content: center; }
+.nav-brand-icon { width: 36px; height: 36px; border-radius: 10px; background: transparent; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .nav-brand-name { font-size: 18px; font-weight: 700; color: var(--nav-text); }
 .nav-links { display: flex; gap: 8px; }
 .nav-link {
