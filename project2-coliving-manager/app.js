@@ -122,14 +122,14 @@ function renderKanban() {
     All: all.length,
     Todo: toDo.length,
     InProgress: inProgress.length,
-    Đã hoàn thành: completed.length
+    'Đã hoàn thành': completed.length
   };
 
   const filtered = {
     All: all,
     Todo: toDo,
     InProgress: inProgress,
-    Đã hoàn thành: completed
+    'Đã hoàn thành': completed
   };
 
   const inferTag = (c) => {
@@ -273,7 +273,7 @@ function renderKanban() {
               <button class="inline-flex focus:outline-none items-center gap-2 px-4 py-2 text-sm font-medium rounded-md group ${currentTaskGroup === 'Đã hoàn thành' ? 'text-gray-900 bg-white shadow-sm dark:bg-gray-800 dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'}" onclick="setTaskGroup('Đã hoàn thành')">
                 Đã hoàn thành
                 <span class="${currentTaskGroup === 'Đã hoàn thành' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/15 dark:text-brand-400' : 'bg-white text-gray-500 group-hover:bg-brand-50 group-hover:text-brand-500 dark:bg-white/[0.03] dark:group-hover:bg-brand-500/15 dark:group-hover:text-brand-400'} inline-flex rounded-full px-2 py-0.5 text-xs font-medium leading-normal">
-                  ${counts.Đã hoàn thành}
+                  ${counts['Đã hoàn thành']}
                 </span>
               </button>
             </div>
@@ -299,7 +299,7 @@ function renderKanban() {
         <div class="mt-7 grid grid-cols-1 border-t border-gray-200 sm:mt-0 ${currentTaskGroup === 'All' ? 'sm:grid-cols-2 xl:grid-cols-3' : ''} dark:border-gray-800">
           ${currentTaskGroup === 'All' || currentTaskGroup === 'Todo' ? renderLane('To Do', counts.Todo, filtered.Todo, 'bg-gray-100 text-gray-700 dark:bg-white/[0.03] dark:text-white/80') : ''}
           ${currentTaskGroup === 'All' || currentTaskGroup === 'InProgress' ? renderLane('In Progress', counts.InProgress, filtered.InProgress, 'bg-warning-50 text-warning-700 dark:bg-warning-500/15 dark:text-orange-400') : ''}
-          ${currentTaskGroup === 'All' || currentTaskGroup === 'Đã hoàn thành' ? renderLane('Đã hoàn thành', counts.Đã hoàn thành, filtered.Đã hoàn thành, 'bg-success-50 text-success-700 dark:bg-success-500/15 dark:text-success-500') : ''}
+          ${currentTaskGroup === 'All' || currentTaskGroup === 'Đã hoàn thành' ? renderLane('Đã hoàn thành', counts['Đã hoàn thành'], filtered['Đã hoàn thành'], 'bg-success-50 text-success-700 dark:bg-success-500/15 dark:text-success-500') : ''}
         </div>
 
       </div>
