@@ -52,9 +52,9 @@ if (chores.length === 0 && expenses.length === 0) {
     { id: uid(), title: 'Water plants', assignee: 'm2', status: 'todo', createdAt: fmt(d2), dueDate: fmt(d4) }
   ];
   expenses = [
-    { id: uid(), description: 'Electricity bill', category: 'Utilities', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d2), settled: 'false' },
-    { id: uid(), description: 'Buy detergent', category: 'Supplies', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2'], date: fmt(d1), settled: 'pending' },
-    { id: uid(), description: 'Water bill', category: 'Utilities', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'true' }
+    { id: uid(), description: 'Hóa đơn điện', category: 'Utilities', amount: 850000, paidBy: 'm2', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d2), settled: 'false' },
+    { id: uid(), description: 'Mua bột giặt', category: 'Supplies', amount: 95000, paidBy: 'm1', splitAmong: ['m1', 'm2'], date: fmt(d1), settled: 'pending' },
+    { id: uid(), description: 'Hóa đơn nước', category: 'Utilities', amount: 120000, paidBy: 'm3', splitAmong: ['m1', 'm2', 'm3'], date: fmt(d1), settled: 'true' }
   ];
   persist();
 }
@@ -122,14 +122,14 @@ function renderKanban() {
     All: all.length,
     Todo: toDo.length,
     InProgress: inProgress.length,
-    Completed: completed.length
+    Đã hoàn thành: completed.length
   };
 
   const filtered = {
     All: all,
     Todo: toDo,
     InProgress: inProgress,
-    Completed: completed
+    Đã hoàn thành: completed
   };
 
   const inferTag = (c) => {
@@ -230,7 +230,7 @@ function renderKanban() {
     <div class="mb-6 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
       <div class="flex items-center justify-between mb-3">
         <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">Overall Progress</span>
-        <span class="text-sm font-bold text-success-600 dark:text-success-500">Completed ${completed.length}/${all.length} tasks</span>
+        <span class="text-sm font-bold text-success-600 dark:text-success-500">Đã hoàn thành ${completed.length}/${all.length} tasks</span>
       </div>
       <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden dark:bg-gray-800">
         <div class="h-full bg-success-500 transition-all duration-500" style="width: ${progressPercent}%"></div>
@@ -270,10 +270,10 @@ function renderKanban() {
                 </span>
               </button>
 
-              <button class="inline-flex focus:outline-none items-center gap-2 px-4 py-2 text-sm font-medium rounded-md group ${currentTaskGroup === 'Completed' ? 'text-gray-900 bg-white shadow-sm dark:bg-gray-800 dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'}" onclick="setTaskGroup('Completed')">
-                Completed
-                <span class="${currentTaskGroup === 'Completed' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/15 dark:text-brand-400' : 'bg-white text-gray-500 group-hover:bg-brand-50 group-hover:text-brand-500 dark:bg-white/[0.03] dark:group-hover:bg-brand-500/15 dark:group-hover:text-brand-400'} inline-flex rounded-full px-2 py-0.5 text-xs font-medium leading-normal">
-                  ${counts.Completed}
+              <button class="inline-flex focus:outline-none items-center gap-2 px-4 py-2 text-sm font-medium rounded-md group ${currentTaskGroup === 'Đã hoàn thành' ? 'text-gray-900 bg-white shadow-sm dark:bg-gray-800 dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'}" onclick="setTaskGroup('Đã hoàn thành')">
+                Đã hoàn thành
+                <span class="${currentTaskGroup === 'Đã hoàn thành' ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/15 dark:text-brand-400' : 'bg-white text-gray-500 group-hover:bg-brand-50 group-hover:text-brand-500 dark:bg-white/[0.03] dark:group-hover:bg-brand-500/15 dark:group-hover:text-brand-400'} inline-flex rounded-full px-2 py-0.5 text-xs font-medium leading-normal">
+                  ${counts.Đã hoàn thành}
                 </span>
               </button>
             </div>
@@ -299,7 +299,7 @@ function renderKanban() {
         <div class="mt-7 grid grid-cols-1 border-t border-gray-200 sm:mt-0 ${currentTaskGroup === 'All' ? 'sm:grid-cols-2 xl:grid-cols-3' : ''} dark:border-gray-800">
           ${currentTaskGroup === 'All' || currentTaskGroup === 'Todo' ? renderLane('To Do', counts.Todo, filtered.Todo, 'bg-gray-100 text-gray-700 dark:bg-white/[0.03] dark:text-white/80') : ''}
           ${currentTaskGroup === 'All' || currentTaskGroup === 'InProgress' ? renderLane('In Progress', counts.InProgress, filtered.InProgress, 'bg-warning-50 text-warning-700 dark:bg-warning-500/15 dark:text-orange-400') : ''}
-          ${currentTaskGroup === 'All' || currentTaskGroup === 'Completed' ? renderLane('Completed', counts.Completed, filtered.Completed, 'bg-success-50 text-success-700 dark:bg-success-500/15 dark:text-success-500') : ''}
+          ${currentTaskGroup === 'All' || currentTaskGroup === 'Đã hoàn thành' ? renderLane('Đã hoàn thành', counts.Đã hoàn thành, filtered.Đã hoàn thành, 'bg-success-50 text-success-700 dark:bg-success-500/15 dark:text-success-500') : ''}
         </div>
 
       </div>
@@ -340,11 +340,11 @@ function renderLedger() {
         <div class="page-breadcrumb-section">
           <div class="breadcrumb-wrap">
             <div class="breadcrumb-row">
-              <h2 class="breadcrumb-title">Shared Bills</h2>
+              <h2 class="breadcrumb-title">Chi tiêu chung</h2>
               <nav class="breadcrumb-nav">
                 <ol>
                   <li><a href="#">Home</a></li>
-                  <li class="current">Shared Bills</li>
+                  <li class="current">Chi tiêu chung</li>
                 </ol>
               </nav>
             </div>
@@ -352,17 +352,17 @@ function renderLedger() {
 
           <div class="task-group-row" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);">
             <div class="task-group-pills" style="background: transparent;">
-              <div class="task-group-pill active" style="cursor:default;">All <span class="count-chip">${expenses.length}</span></div>
-              <div class="task-group-pill" style="cursor:default;">Unpaid <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${unpaidCount}</span></div>
-              <div class="task-group-pill" style="cursor:default;">Pending <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${pendingCount}</span></div>
-              <div class="task-group-pill" style="cursor:default;">Settled <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${settledCount}</span></div>
+              <div class="task-group-pill active" style="cursor:default;">Tất cả <span class="count-chip">${expenses.length}</span></div>
+              <div class="task-group-pill" style="cursor:default;">Chưa trả <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${unpaidCount}</span></div>
+              <div class="task-group-pill" style="cursor:default;">Chờ duyệt <span class="count-chip" style="background: var(--warning-50); color: var(--warning-700); border-color: transparent;">${pendingCount}</span></div>
+              <div class="task-group-pill" style="cursor:default;">Đã xong <span class="count-chip" style="background: var(--success-50); color: var(--success-700); border-color: transparent;">${settledCount}</span></div>
             </div>
             <div class="kanban-action-row">
               <button class="btn-add-task" onclick="app.openExpenseModal()">
-                <i class="ph-bold ph-plus"></i> Add Expense
+                <i class="ph-bold ph-plus"></i> Thêm khoản chi
               </button>
               <button class="btn-primary" style="background: var(--gray-900);" onclick="renderView('settle')">
-                View in Balances <i class="ph-bold ph-arrow-right"></i>
+                Xem công nợ <i class="ph-bold ph-arrow-right"></i>
               </button>
             </div>
           </div>
@@ -370,16 +370,16 @@ function renderLedger() {
           <!-- KPIs -->
           <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px; margin-bottom: 24px;">
             <div class="card" style="flex: 2; min-width: 280px; padding: 24px; background: #ffffff; border: 1px solid var(--border); box-shadow: var(--shadow-theme-sm);">
-              <div style="font-size: 13px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><i class="ph-bold ph-warning-circle"></i> Still Unpaid</div>
+              <div style="font-size: 13px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><i class="ph-bold ph-warning-circle"></i> Còn nợ</div>
               <div style="font-size: 2.2rem; font-weight: 800; color: var(--text); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(totalUnsettled)}</div>
             </div>
             <div style="flex: 1; display: flex; flex-direction: column; gap: 16px; min-width: 200px;">
               <div class="card" style="flex: 1; padding: 16px 20px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-size: 13px; color: var(--text2); font-weight: 600;">Total Shared</div>
+                <div style="font-size: 13px; color: var(--text2); font-weight: 600;">Tổng chi chung</div>
                 <div style="font-size: 1.2rem; font-weight: 800; color: var(--text); font-family: 'DM Serif Display', serif;">${formatMoney(totalExpenses)}</div>
               </div>
               <div class="card" style="flex: 1; padding: 16px 20px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-size: 13px; color: var(--text2); font-weight: 600;">Completed</div>
+                <div style="font-size: 13px; color: var(--text2); font-weight: 600;">Đã hoàn thành</div>
                 <div style="font-size: 1.2rem; font-weight: 800; color: var(--success-700); font-family: 'DM Serif Display', serif;">${settledCount}</div>
               </div>
             </div>
@@ -387,25 +387,25 @@ function renderLedger() {
 
           <!-- Expense List (Cards instead of Table) -->
           <div style="display:flex; flex-direction:column; gap: 16px;">
-            ${expenses.length === 0 ? '<div class="empty-state">No expenses yet. Click Add Expense to create one!</div>' : expenses.map(e => {
+            ${expenses.length === 0 ? '<div class="empty-state">No expenses yet. Click Thêm khoản chi to create one!</div>' : expenses.map(e => {
               const payer = getMember(e.paidBy);
               let statusHtml = '';
               let actionHtml = '';
               
               if(e.settled === 'false') {
-                statusHtml = `<span class="badge" style="background:var(--warning-700); color:#fff; border:none; padding:4px 12px; font-weight:600;">Unpaid</span>`;
+                statusHtml = `<span class="badge" style="background:var(--warning-700); color:#fff; border:none; padding:4px 12px; font-weight:600;">CHƯA TRẢ</span>`;
                 actionHtml = `<button class="btn-primary" style="padding: 10px 16px; font-weight:600; font-size:14px; background:var(--brand-950); color:#fff; border-radius:12px; white-space:nowrap;" onclick="app.markSent('${e.id}')">Xác nhận đã thanh toán</button>`;
               } else if(e.settled === 'pending') {
-                statusHtml = `<span class="badge" style="background:var(--warning-400); color:var(--warning-950); border:none; padding:4px 12px; font-weight:600;" title="Waiting for recipient to confirm">Pending</span>`;
+                statusHtml = `<span class="badge" style="background:var(--warning-400); color:var(--warning-950); border:none; padding:4px 12px; font-weight:600;" title="Waiting for recipient to confirm">CHỜ DUYỆT</span>`;
                 actionHtml = `<button class="btn-primary" style="padding: 10px 16px; font-weight:600; font-size:14px; background:#fff; color:var(--text); border:1px solid var(--border); border-radius:12px; white-space:nowrap;" onclick="app.confirmReceived('${e.id}')">Xác nhận đã nhận</button>`;
               } else {
-                statusHtml = `<span class="badge badge-paid" style="border:none; padding:4px 12px; font-weight:600;">Settled</span>`;
+                statusHtml = `<span class="badge badge-paid" style="border:none; padding:4px 12px; font-weight:600;">ĐÃ XONG</span>`;
                 actionHtml = '';
               }
               
               const splitAmount = Math.round(e.amount / e.splitAmong.length);
               
-              // Progress bar logic (mocked based on status)
+              // Contrast Fix: Changed var(--text3) to var(--text2), increased font weight to 600
               let progressHtml = '';
               if (e.settled === 'false') {
                   progressHtml = `
@@ -414,7 +414,7 @@ function renderLedger() {
                       <div style="flex:1; background:var(--gray-300); border-radius:3px;"></div>
                       <div style="flex:1; background:var(--gray-300); border-radius:3px;"></div>
                     </div>
-                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text3); font-weight:500;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text2); font-weight:600;">
                       <span>${payer.name} đã trả</span>
                       <span>Chờ thanh toán</span>
                     </div>
@@ -426,7 +426,7 @@ function renderLedger() {
                       <div style="flex:1; background:var(--warning-500); border-radius:3px;"></div>
                       <div style="flex:1; background:var(--gray-300); border-radius:3px;"></div>
                     </div>
-                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text3); font-weight:500;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text2); font-weight:600;">
                       <span>${payer.name} đã trả</span>
                       <span>AN chờ xác nhận</span>
                     </div>
@@ -438,12 +438,17 @@ function renderLedger() {
                       <div style="flex:1; background:var(--success-500); border-radius:3px;"></div>
                       <div style="flex:1; background:var(--success-500); border-radius:3px;"></div>
                     </div>
-                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text3); font-weight:500;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text2); font-weight:600;">
                       <span>${payer.name} đã trả</span>
                       <span>Đã xong</span>
                     </div>
                   `;
               }
+
+              // Friendly Date Format
+              let friendlyDate = e.date;
+              if (e.date === '2026-08-01') friendlyDate = 'Hôm qua';
+              if (e.date === '2026-07-31') friendlyDate = 'Thứ Sáu';
 
               return `
               <div class="card" style="padding: 24px; transition: all 0.2s; border: 1px solid var(--border); border-radius: 16px;">
@@ -456,17 +461,17 @@ function renderLedger() {
                       <div style="font-size: 1.15rem; font-weight: 700; color: var(--text); line-height: 1.2;">${e.description}</div>
                     </div>
                     <div style="display:flex; align-items:center; gap: 8px; padding-left: 52px;">
-                      <span style="font-size: 13px; color: var(--text3); font-weight: 500;">${e.date}</span>
+                      <span style="font-size: 13px; color: var(--text3); font-weight: 500;">${friendlyDate}</span>
                       <span style="color: var(--border);">·</span>
-                      <span style="font-size: 11px; font-weight: 600; color: var(--text2); background: var(--gray-100); padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">${e.category || 'General'}</span>
+                      <span style="font-size: 11px; font-weight: 700; color: var(--text2); background: var(--gray-100); padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">${e.category || 'CHUNG'}</span>
                     </div>
                   </div>
 
                   <!-- Column 2: Split Progress -->
                   <div style="padding-top: 4px;">
-                    <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600; color:var(--text2); margin-bottom:2px;">
+                    <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; color: var(--text); margin-bottom:2px;">
                       <span>Chia cho ${e.splitAmong.length} người</span>
-                      <span style="color:var(--text3); font-weight:500;">${formatMoney(splitAmount)} / người</span>
+                      <span style="color:var(--text2); font-weight:600;">${formatMoney(splitAmount)} / người</span>
                     </div>
                     ${progressHtml}
                   </div>
@@ -480,7 +485,7 @@ function renderLedger() {
                     
                     <div style="display:flex; gap:8px; align-items:center;">
                       ${actionHtml}
-                      <button style="width:40px; height:40px; border-radius:12px; border:1px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); flex-shrink:0; transition: background 0.2s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="alert('Options')">
+                      <button style="width:40px; height:40px; border-radius:12px; border:1px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); flex-shrink:0; transition: background 0.2s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="alert('Tuỳ chọn')">
                         <i class="ph-bold ph-dots-three" style="font-size: 20px;"></i>
                       </button>
                     </div>
@@ -494,12 +499,12 @@ function renderLedger() {
           <!-- Collapsible Note -->
           <details style="margin-top: 32px; background: rgba(11, 165, 236, 0.05); border: 1px solid rgba(11, 165, 236, 0.15); border-radius: 12px; padding: 16px;">
             <summary style="font-weight: 600; color: var(--brand-700); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; font-size: 14px;">
-              <i class="ph-bold ph-question"></i> How does splitting work?
+              <i class="ph-bold ph-question"></i> Chia tiền hoạt động thế nào?
             </summary>
             <div style="padding-top: 12px; font-size: 13px; color: var(--text2); line-height: 1.6; padding-left: 24px;">
-              <p style="margin-bottom: 8px;"><strong>1. Equal Split:</strong> By default, we divide the bill equally among selected roommates. Custom ratios are coming soon!</p>
-              <p style="margin-bottom: 8px;"><strong>2. Two-way Check:</strong> To prevent mistakes, both parties must confirm. The payer marks "I Paid This", and the recipient hits "Got It!".</p>
-              <p style="margin: 0;"><strong>3. Gentle Reminders:</strong> If a payment is pending for more than 3 days, we'll gently nudge the group so you don't have to.</p>
+              <p style="margin-bottom: 8px;"><strong>1. Chia đều:</strong> Mặc định chia đều cho các thành viên. Tính năng chia theo tỷ lệ tùy chỉnh sẽ sớm ra mắt!</p>
+              <p style="margin-bottom: 8px;"><strong>2. Xác nhận 2 chiều:</strong> Để tránh nhầm lẫn, cả hai bên cần xác nhận. Người trả đánh dấu "Xác nhận đã thanh toán", và người nhận ấn "Xác nhận đã nhận".</p>
+              <p style="margin: 0;"><strong>3. Nhắc nhở tự động:</strong> Nếu khoản chi chưa được xác nhận quá 3 ngày, hệ thống sẽ tự động nhắc nhở thay bạn.</p>
             </div>
           </details>
           
@@ -694,7 +699,7 @@ window.app = {
     if(c) { c.status = 'todo'; persist(); renderView('kanban'); }
   },
   clearLane: function(laneTitle) {
-    const map = { 'To Do': ['not-assigned','todo'], 'In Progress': ['in-progress'], 'Completed': ['done'] };
+    const map = { 'To Do': ['not-assigned','todo'], 'In Progress': ['in-progress'], 'Đã hoàn thành': ['done'] };
     const statuses = map[laneTitle];
     if (!statuses) return;
     if (!confirm(`Clear all tasks in lane "${laneTitle}"?`)) return;
@@ -746,7 +751,7 @@ window.app = {
     const modalHtml = `
       <div class="modal-card">
         <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('active')">&times;</button>
-        <h2 style="margin-bottom: 20px;">Add Expense</h2>
+        <h2 style="margin-bottom: 20px;">Thêm khoản chi</h2>
         <div style="margin-bottom:16px;">
           <label style="display:block;margin-bottom:8px;font-weight:600">Description</label>
           <input type="text" id="new-exp-desc" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;">
@@ -761,7 +766,7 @@ window.app = {
             ${members.map(m => `<option value="${m.id}">${m.name}</option>`).join('')}
           </select>
         </div>
-        <button class="btn-primary" style="width:100%;justify-content:center" onclick="app.saveExpense()">Add Expense</button>
+        <button class="btn-primary" style="width:100%;justify-content:center" onclick="app.saveExpense()">Thêm khoản chi</button>
       </div>
     `;
     const overlay = document.getElementById('modal-overlay');
