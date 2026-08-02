@@ -340,11 +340,11 @@ function renderLedger() {
         <div class="page-breadcrumb-section">
           <div class="breadcrumb-wrap">
             <div class="breadcrumb-row">
-              <h2 class="breadcrumb-title">Expenses</h2>
+              <h2 class="breadcrumb-title">Shared Bills</h2>
               <nav class="breadcrumb-nav">
                 <ol>
                   <li><a href="#">Home</a></li>
-                  <li class="current">Expenses</li>
+                  <li class="current">Shared Bills</li>
                 </ol>
               </nav>
             </div>
@@ -367,96 +367,113 @@ function renderLedger() {
             </div>
           </div>
 
-          <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px;">
-            <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Total Shared</div>
-              <div style="font-size: 1.4rem; font-weight: 800; color: var(--text);">${formatMoney(totalExpenses)}</div>
+          <!-- KPIs -->
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px; margin-bottom: 24px;">
+            <div class="card" style="flex: 2; min-width: 280px; padding: 24px; background: linear-gradient(135deg, var(--warning-50), #fff9f0); border: 1px solid var(--warning-200); box-shadow: var(--shadow-theme-sm);">
+              <div style="font-size: 13px; color: var(--warning-700); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><i class="ph-bold ph-warning-circle"></i> Still Unpaid</div>
+              <div style="font-size: 2.2rem; font-weight: 800; color: var(--warning-700); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(totalUnsettled)}</div>
             </div>
-            <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Still Unpaid</div>
-              <div style="font-size: 1.4rem; font-weight: 800; color: var(--warning-700);">${formatMoney(totalUnsettled)}</div>
-            </div>
-            <div class="card" style="flex: 1; min-width: 200px; padding: 16px 20px;">
-              <div style="font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Completed</div>
-              <div style="font-size: 1.4rem; font-weight: 800; color: var(--success-700);">${settledCount}</div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 16px; min-width: 200px;">
+              <div class="card" style="flex: 1; padding: 16px 20px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size: 13px; color: var(--text2); font-weight: 600;">Total Shared</div>
+                <div style="font-size: 1.2rem; font-weight: 800; color: var(--text); font-family: 'DM Serif Display', serif;">${formatMoney(totalExpenses)}</div>
+              </div>
+              <div class="card" style="flex: 1; padding: 16px 20px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size: 13px; color: var(--text2); font-weight: 600;">Completed</div>
+                <div style="font-size: 1.2rem; font-weight: 800; color: var(--success-700); font-family: 'DM Serif Display', serif;">${settledCount}</div>
+              </div>
             </div>
           </div>
 
-          <div class="card" style="margin-top: 8px; overflow-x: auto;">
-            ${expenses.length === 0 ? '<div class="empty-state">No expenses yet. Click Add Expense to create one!</div>' : `
-        <table class="data-table" style="min-width: 800px;">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Category / Desc</th>
-              <th>Paid By</th>
-              <th>Split Among</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${expenses.map(e => {
+          <!-- Expense List (Cards instead of Table) -->
+          <div style="display:flex; flex-direction:column; gap: 16px;">
+            ${expenses.length === 0 ? '<div class="empty-state">No expenses yet. Click Add Expense to create one!</div>' : expenses.map(e => {
               const payer = getMember(e.paidBy);
               let statusHtml = '';
               let actionHtml = '';
+              
               if(e.settled === 'false') {
                 statusHtml = `<span class="badge" style="background:var(--gray-100); color:var(--gray-700);">UNPAID</span>`;
-                actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 6px 12px; font-size: 13px;" onclick="app.markSent('${e.id}')">I Paid This</button>`;
+                actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 8px 16px; width: 100%; justify-content: center;" onclick="app.markSent('${e.id}')">I Paid This</button>`;
               } else if(e.settled === 'pending') {
                 statusHtml = `<span class="badge badge-unpaid" title="Waiting for recipient to confirm">PENDING</span>`;
-                actionHtml = `<button class="btn-small btn-confirm" onclick="app.confirmReceived('${e.id}')">Got It!</button>`;
+                actionHtml = `<button class="btn-primary" style="background: var(--success-600); color: white; padding: 8px 16px; width: 100%; justify-content: center;" onclick="app.confirmReceived('${e.id}')">Got It!</button>`;
               } else {
                 statusHtml = `<span class="badge badge-paid">SETTLED</span>`;
                 actionHtml = '';
               }
               
-              const splitHtml = (e.splitAmong || ['m1', 'm2', 'm3']).map(mid => {
+              const splitAmount = Math.round(e.amount / e.splitAmong.length);
+              const splitHtml = e.splitAmong.map(mid => {
                 const m = getMember(mid);
-                return `<div class="nav-avatar" style="background:${m.color}; width: 24px; height: 24px; font-size: 10px; margin-left: -6px; border: 2px solid var(--bg-card); display:inline-flex; align-items:center; justify-content:center; color:white; font-weight:bold; border-radius:50%;" title="${m.name}">${m.avatar}</div>`;
+                return `<div style="display:inline-flex; align-items:center; gap:4px; background:var(--gray-50); padding:2px 8px 2px 2px; border-radius:12px; border:1px solid var(--border); margin-right:6px; margin-bottom:4px;">
+                  <div class="nav-avatar" style="background:${m.color}; width: 16px; height: 16px; font-size: 8px; border: none; flex-shrink:0;">${m.avatar}</div>
+                  <span style="font-size:11px; font-weight:600; color:var(--text2);">${formatMoney(splitAmount)}</span>
+                </div>`;
               }).join('');
 
-              return `<tr>
-                <td>${e.date}</td>
-                <td>
-                  <div style="display:flex; flex-direction:column; gap:6px;">
-                    <span style="font-weight:600;">${e.description} <i class="ph-bold ph-paperclip" style="color:var(--text3); font-size:14px; margin-left:4px; cursor:pointer;" title="View Attachment"></i></span>
-                    <span class="badge" style="width:fit-content; background:var(--brand-50); color:var(--brand-700); border-color:var(--brand-100);">${e.category || 'General'}</span>
+              return `
+              <div class="card" style="padding: 20px; transition: all 0.2s; border: 1px solid var(--gray-200); position: relative;">
+                
+                <!-- Top row: Date & Status -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                  <div style="font-size: 12px; color: var(--text3); font-weight: 500;"><i class="ph-bold ph-calendar-blank"></i> ${e.date}</div>
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    ${statusHtml}
+                    <button class="nav-icon-btn" style="color:var(--text3); border:none; padding:4px;" onclick="alert('Options: Edit / Delete')"><i class="ph-bold ph-dots-three"></i></button>
                   </div>
-                </td>
-                <td><div style="display:flex;align-items:center;gap:8px;"><div class="nav-avatar" style="background:${payer.color}">${payer.avatar}</div> ${payer.name}</div></td>
-                <td><div style="display:flex; padding-left: 6px;">${splitHtml}</div></td>
-                <td style="font-weight:700;">${formatMoney(e.amount)} <div style="font-size:11px; color:var(--text3); font-weight:normal; display:flex; align-items:center; gap:4px; margin-top:2px;"><i class="ph-bold ph-arrows-clockwise"></i> Recurring</div></td>
-                <td>${statusHtml}</td>
-                <td>
-                  <div style="display:flex; align-items:center; gap:8px;">
-                    ${actionHtml}
-                    <button class="nav-icon-btn" style="color:var(--text3); border:none;" onclick="alert('Edit expense')"><i class="ph-bold ph-pencil-simple"></i></button>
-                    <button class="nav-icon-btn" style="color:var(--red); border:none;" onclick="alert('Delete expense')"><i class="ph-bold ph-trash"></i></button>
+                </div>
+                
+                <!-- Main row: Desc & Amount -->
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 16px; margin-bottom: 16px;">
+                  <div>
+                    <div style="font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; display:flex; align-items:center; gap:8px;">
+                      ${e.description}
+                      <span class="badge" style="background:var(--brand-50); color:var(--brand-700); border-color:transparent; font-size:10px;"><i class="ph-bold ph-tag"></i> ${e.category || 'GENERAL'}</span>
+                    </div>
+                    <div style="font-size: 13px; color: var(--text2); display:flex; align-items:center; gap:6px;">
+                      Paid by <div class="nav-avatar" style="background:${payer.color}; width: 16px; height: 16px; font-size: 8px; display:inline-flex; border:none; align-items:center; justify-content:center; color:#fff;">${payer.avatar}</div> <strong>${payer.name}</strong>
+                    </div>
                   </div>
-                </td>
-              </tr>`;
+                  <div style="text-align: right;">
+                    <div style="font-size: 1.5rem; font-weight: 800; color: var(--text); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(e.amount)}</div>
+                    <div style="font-size: 11px; color: var(--text3); margin-top: 4px;"><i class="ph-bold ph-arrows-clockwise"></i> Recurring</div>
+                  </div>
+                </div>
+                
+                <!-- Bottom row: Split details -->
+                <div style="background: var(--bg); padding: 12px 16px; border-radius: 8px; margin-bottom: ${actionHtml ? '16px' : '0'};">
+                  <div style="font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 8px;">Split equally among ${e.splitAmong.length} people:</div>
+                  <div style="display:flex; flex-wrap:wrap;">
+                    ${splitHtml}
+                  </div>
+                </div>
+                
+                <!-- Action row -->
+                ${actionHtml ? `<div>${actionHtml}</div>` : ''}
+                
+              </div>`;
             }).join('')}
-          </tbody>
-        </table>
-        `}
           </div>
 
-          <!-- BA Note Alert -->
-          <div style="margin-top: 24px; padding: 16px; background: rgba(11, 165, 236, 0.1); border-left: 4px solid var(--brand-500); border-radius: 4px;">
-            <h4 style="margin-bottom: 8px; color: var(--brand-600); display: flex; align-items: center; gap: 6px;"><i class="ph-bold ph-info"></i> BA Notes: Expense Rules</h4>
-            <ul style="font-size: 13px; color: var(--text2); margin-left: 16px;">
-              <li><strong>Split Rule:</strong> Default is Equal Split among selected members. Custom ratio splits are planned for Phase 2.</li>
-              <li><strong>Confirmation:</strong> 2-way verification required. Payer clicks "I've sent it", Payee clicks "Confirm Receipt" to fully settle.</li>
-              <li><strong>Disputes:</strong> If unconfirmed for >3 days, marked as "Disputed" for group review.</li>
-            </ul>
-          </div>
+          <!-- Collapsible Note -->
+          <details style="margin-top: 32px; background: rgba(11, 165, 236, 0.05); border: 1px solid rgba(11, 165, 236, 0.15); border-radius: 12px; padding: 16px;">
+            <summary style="font-weight: 600; color: var(--brand-700); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; font-size: 14px;">
+              <i class="ph-bold ph-question"></i> How does splitting work?
+            </summary>
+            <div style="padding-top: 12px; font-size: 13px; color: var(--text2); line-height: 1.6; padding-left: 24px;">
+              <p style="margin-bottom: 8px;"><strong>1. Equal Split:</strong> By default, we divide the bill equally among selected roommates. Custom ratios are coming soon!</p>
+              <p style="margin-bottom: 8px;"><strong>2. Two-way Check:</strong> To prevent mistakes, both parties must confirm. The payer marks "I Paid This", and the recipient hits "Got It!".</p>
+              <p style="margin: 0;"><strong>3. Gentle Reminders:</strong> If a payment is pending for more than 3 days, we'll gently nudge the group so you don't have to.</p>
+            </div>
+          </details>
+          
         </div>
       </div>
     </div>
   `;
 }
+
 // -- SETTLE UP VIEW --
 function calculateSimplifications() {
   const balances = {};
