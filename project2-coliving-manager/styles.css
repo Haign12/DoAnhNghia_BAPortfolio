@@ -6,16 +6,16 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* ── Brand / Accent (Terracotta / Warm Earth) ── */
-  --brand-50: #fbf5f3;
-  --brand-100: #f5e6e1;
-  --brand-200: #eccdc3;
-  --brand-300: #e0ac9a;
-  --brand-400: #d3876e;
-  --brand-500: #c56242;
-  --brand-600: #a74d32;
-  --brand-800: #743725;
-  --brand-950: #3f1c12;
+  /* ── Brand / Accent (Teal / Ocean) ── */
+  --brand-50: #f0fdfa;
+  --brand-100: #ccfbf1;
+  --brand-200: #99f6e4;
+  --brand-300: #5eead4;
+  --brand-400: #2dd4bf;
+  --brand-500: #0ea5e9;
+  --brand-600: #0284c7;
+  --brand-800: #075985;
+  --brand-950: #082f49;
 
   /* ── Semantic Colors ── */
   --success-50: #ecfdf3;
@@ -98,7 +98,7 @@
   --text3: var(--gray-400);
   --accent: var(--brand-500);
   --accent-dim: rgba(70, 95, 255, 0.08);
-  --nav-bg: linear-gradient(135deg, #c56242, #a74d32);
+  --nav-bg: linear-gradient(to right, #00f260, #0575e6);
   --nav-text: var(--white);
   --green: var(--success-500);
   --yellow: var(--warning-500);
