@@ -392,19 +392,24 @@ function renderLedger() {
               <th>Paid By</th>
               <th>Split Among</th>
               <th>Amount</th>
-              <th>Status / Action</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             ${expenses.map(e => {
               const payer = getMember(e.paidBy);
+              let statusHtml = '';
               let actionHtml = '';
               if(e.settled === 'false') {
+                statusHtml = `<span class="badge" style="background:var(--gray-100); color:var(--gray-700);">UNPAID</span>`;
                 actionHtml = `<button class="btn-primary" style="background: var(--brand-600); color: white; padding: 6px 12px; font-size: 13px;" onclick="app.markSent('${e.id}')">I've sent it</button>`;
               } else if(e.settled === 'pending') {
+                statusHtml = `<span class="badge badge-unpaid" title="Needs Payee Confirmation">PENDING</span>`;
                 actionHtml = `<button class="btn-small btn-confirm" onclick="app.confirmReceived('${e.id}')">Confirm Receipt</button>`;
               } else {
-                actionHtml = `<span class="badge badge-paid">SETTLED</span>`;
+                statusHtml = `<span class="badge badge-paid">SETTLED</span>`;
+                actionHtml = '';
               }
               
               const splitHtml = (e.splitAmong || ['m1', 'm2', 'm3']).map(mid => {
@@ -423,9 +428,9 @@ function renderLedger() {
                 <td><div style="display:flex;align-items:center;gap:8px;"><div class="nav-avatar" style="background:${payer.color}">${payer.avatar}</div> ${payer.name}</div></td>
                 <td><div style="display:flex; padding-left: 6px;">${splitHtml}</div></td>
                 <td style="font-weight:700;">${formatMoney(e.amount)} <div style="font-size:11px; color:var(--text3); font-weight:normal; display:flex; align-items:center; gap:4px; margin-top:2px;"><i class="ph-bold ph-arrows-clockwise"></i> Recurring</div></td>
+                <td>${statusHtml}</td>
                 <td>
                   <div style="display:flex; align-items:center; gap:8px;">
-                    ${e.settled === 'pending' ? '<span class="badge badge-unpaid" title="Needs Payee Confirmation">PENDING</span>' : ''}
                     ${actionHtml}
                     <button class="nav-icon-btn" style="color:var(--text3); border:none;" onclick="alert('Edit expense')"><i class="ph-bold ph-pencil-simple"></i></button>
                     <button class="nav-icon-btn" style="color:var(--red); border:none;" onclick="alert('Delete expense')"><i class="ph-bold ph-trash"></i></button>
