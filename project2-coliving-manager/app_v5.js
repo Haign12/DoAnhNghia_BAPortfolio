@@ -454,46 +454,51 @@ function renderLedger() {
               if (e.date === '2026-07-31') friendlyDate = 'Friday';
 
               return `
-              <div class="card" style="padding: 24px; transition: all 0.2s; border: 1px solid var(--border); border-radius: 16px;">
-                <div style="display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 2fr) minmax(0, auto); gap: 32px; align-items: start;">
-                  
-                  <!-- Column 1: General Info -->
+              <div class="card" style="padding: 24px; transition: all 0.2s; border: 1px solid var(--border); border-radius: 16px; background: var(--bg-card); display: flex; flex-direction: column; gap: 24px;">
+                
+                <!-- Header -->
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <div style="display: flex; gap: 12px;">
+                    <div class="nav-avatar" style="background:var(--brand-50); width:40px; height:40px; font-size:14px; display:flex; align-items:center; justify-content:center; color:var(--brand-700); font-weight:700; border-radius:10px; border:none; flex-shrink:0;">${payer.avatar}</div>
+                    <div>
+                      <div style="font-size: 1.15rem; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 4px;">${e.description}</div>
+                      <div style="font-size: 13px; color: var(--text3); font-weight: 500;">${friendlyDate} · ${e.category || 'CHUNG'}</div>
+                    </div>
+                  </div>
                   <div>
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom: 8px;">
-                      <div class="nav-avatar" style="background:var(--brand-50); width:40px; height:40px; font-size:14px; display:flex; align-items:center; justify-content:center; color:var(--brand-700); font-weight:700; border-radius:10px; border:none; flex-shrink:0;">${payer.avatar}</div>
-                      <div style="font-size: 1.15rem; font-weight: 700; color: var(--text); line-height: 1.2;">${e.description}</div>
-                    </div>
-                    <div style="display:flex; align-items:center; gap: 8px; padding-left: 52px;">
-                      <span style="font-size: 13px; color: var(--text3); font-weight: 500;">${friendlyDate}</span>
-                      <span style="color: var(--border);">·</span>
-                      <span style="font-size: 11px; font-weight: 700; color: var(--text2); background: var(--gray-100); padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">${e.category || 'CHUNG'}</span>
-                    </div>
+                    ${statusHtml}
                   </div>
+                </div>
 
-                  <!-- Column 2: Split Progress -->
-                  <div style="padding-top: 4px;">
-                    <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; color: var(--text); margin-bottom:2px;">
-                      <span>Chia cho ${e.splitAmong.length} people</span>
-                      <span style="color:var(--text2); font-weight:600;">${formatMoney(splitAmount)} / people</span>
-                    </div>
-                    ${progressHtml}
+                <!-- Amounts -->
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                  <div>
+                    <div style="font-size: 13px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Owes</div>
+                    <div style="font-size: 1.6rem; font-weight: 700; color: var(--warning-700); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(splitAmount)}</div>
                   </div>
-
-                  <!-- Column 3: Amount, Status, Actions -->
-                  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:16px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap: 24px;">
-                       <div style="font-size: 1.6rem; font-weight: 700; color: var(--text); font-family: 'DM Serif Display', serif; line-height: 1; text-align:right;">${formatMoney(e.amount)}</div>
-                       <div>${statusHtml}</div>
-                    </div>
-                    
-                    <div style="display:flex; gap:8px; align-items:center;">
-                      ${actionHtml}
-                      <button style="width:40px; height:40px; border-radius:12px; border:1px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); flex-shrink:0; transition: background 0.2s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="alert('Options')">
-                        <i class="ph-bold ph-dots-three" style="font-size: 20px;"></i>
-                      </button>
-                    </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 13px; color: var(--text2); font-weight: 600; margin-bottom: 4px;">Total · split among ${e.splitAmong.length}</div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--text); font-family: 'DM Serif Display', serif; line-height: 1;">${formatMoney(e.amount)}</div>
                   </div>
+                </div>
 
+                <!-- Pills -->
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  ${e.splitAmong.map(memberId => {
+                    const m = getMember(memberId);
+                    const isPayer = m.id === e.paidBy;
+                    const isSettled = e.settled === 'true' || isPayer; 
+                    const icon = isSettled ? '<i class="ph-bold ph-check"></i>' : '<i class="ph-bold ph-clock"></i>';
+                    return \`<div style="display:flex; align-items:center; gap:6px; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; background: var(--gray-100); color: var(--text2);"><span style="\${isSettled ? 'color: var(--success-600);' : ''}">\${icon}</span> \${m.name}</div>\`;
+                  }).join('')}
+                </div>
+
+                <!-- Actions -->
+                <div style="display: flex; gap: 8px;">
+                  ${actionHtml ? actionHtml.replace('white-space:nowrap;', 'flex: 1; width: 100%;') : `<div style="flex:1"></div>`}
+                  <button style="width:40px; height:40px; border-radius:12px; border:1px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); flex-shrink:0; transition: background 0.2s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='transparent'" onclick="alert('Options')">
+                    <i class="ph-bold ph-dots-three" style="font-size: 20px;"></i>
+                  </button>
                 </div>
               </div>`;
             }).join('')}
