@@ -606,52 +606,7 @@ function renderSettleUp() {
         </div>
 
         <div class="card" style="margin-top:8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3 style="margin: 0;">Who owes whom?</h3>
-            ${transactions.length === 0 ? '<span class="badge badge-paid">ALL CLEAR</span>' : `<span style="font-size: 12px; color: var(--text2);">Smart split: Only ${transactions.length} payments needed</span>`}
-          </div>
-          
-          ${transactions.length === 0 ? '<p style="color:var(--text2); text-align:center; padding: 20px 0;">🎉 Everyone is settled up!</p>' : ''}
-          
-          <div class="settle-list" style="display:flex; flex-direction: column; gap: 12px;">
-            ${transactions.map((t, index) => {
-              const fromM = getMember(t.from);
-              const toM = getMember(t.to);
-              const isLargest = index === 0;
-              const isMe = (fromM.name === 'Nghia' || toM.name === 'Nghia'); // Mock auth user 'Nghia'
-              
-              let actionBtnHtml = '';
-              if (isMe) {
-                 actionBtnHtml = `<button class="inline-flex focus:outline-none items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600" onclick="alert('Proceed to payment')"><i class="ph-bold ph-wallet"></i> Pay Now</button>`;
-              } else {
-                 actionBtnHtml = `<button class="inline-flex focus:outline-none items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03]" onclick="alert('Remind')"><i class="ph-bold ph-bell-ringing"></i> Remind</button>`;
-              }
-
-              return `<div class="group relative shadow-theme-sm rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5 mb-2 hover:border-brand-500 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
-                  <div class="h-10 w-10 overflow-hidden rounded-full border-[0.5px] border-gray-200 dark:border-gray-800 flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-sm" style="background: ${fromM.color}">
-                    ${fromM.avatar}
-                  </div>
-                  <strong class="text-base text-gray-800 dark:text-white/90">${fromM.name}</strong>
-                  <i class="ph-bold ph-arrow-right text-gray-400 mx-1"></i>
-                  <div class="h-10 w-10 overflow-hidden rounded-full border-[0.5px] border-gray-200 dark:border-gray-800 flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-sm" style="background: ${toM.color}">
-                    ${toM.avatar}
-                  </div>
-                  <strong class="text-base text-gray-800 dark:text-white/90">${toM.name}</strong>
-                </div>
-                
-                <div class="flex items-center gap-5 justify-between sm:justify-end">
-                  <div class="flex flex-col items-start sm:items-end">
-                    ${isLargest ? '<span class="inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold text-white mb-1 uppercase tracking-wider" style="background: var(--red);">Largest Debt</span>' : ''}
-                    <div class="font-bold text-gray-900 dark:text-white/90" style="font-size: ${isLargest ? '1.25rem' : '1.1rem'};">${formatMoney(t.amount)}</div>
-                  </div>
-                  ${actionBtnHtml}
-                </div>
-              </div>`;
-            }).join('')}
-          </div>
-          
-          <div style="margin-top: 32px; border-top: 1px dashed var(--border); padding-top: 24px;">
+          <div>
             <h3 style="margin-bottom: 16px; font-size: 16px;">Recent Activity</h3>
             
             <div class="group relative shadow-theme-sm rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4">
