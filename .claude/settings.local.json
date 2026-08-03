@@ -24,7 +24,20 @@
       "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-subscriptions.png http://localhost:8765/index-test.html)",
       "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1400 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-analytics.png http://localhost:8765/index-test.html)",
       "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-cashflow.png http://localhost:8765/index-test.html)",
-      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-budget.png http://localhost:8765/index-test.html)"
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --headless --disable-gpu --no-sandbox --window-size=1440,1200 --virtual-time-budget=4000 --screenshot=C:/Users/LENOVO/Documents/GitHub/DoAnhNghia_BAPortfolio/ss-budget.png http://localhost:8765/index-test.html)",
+      "Bash(node -c \"C:\\\\Users\\\\LENOVO\\\\Documents\\\\GitHub\\\\DoAnhNghia_BAPortfolio\\\\project1-expense-tracker\\\\app.js\")",
+      "Bash(python -c 'from html.parser import HTMLParser *)",
+      "Bash(node -c \"C:\\\\Users\\\\LENOVO\\\\Documents\\\\GitHub\\\\DoAnhNghia_BAPortfolio\\\\project2-coliving-manager\\\\app.js\")",
+      "Bash(node *)",
+      "Bash(python *)",
+      "Bash(C:/Program Files/Google/Chrome/Application/chrome.exe *)",
+      "Bash(cp app.js app.js.bak)",
+      "Bash(diff app.js app.js.bak)",
+      "Bash(rm app.js.bak)",
+      "Bash(python3)",
+      "Bash(python3 -c ' *)",
+      "Bash(rm inline_check.js)",
+      "Bash(grep -n \"translations = {\\\\|^      en: {\\\\|^      vi: {\\\\|^      },\\\\|^    };\" index.html)"
     ]
   }
 }

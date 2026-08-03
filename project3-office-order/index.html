@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -36,7 +36,7 @@
             <path d="M12 21V13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div class="topbar-title" style="cursor:pointer;" onclick="switchView('view-home')">Order<span style="color: var(--teal);">Flow</span></div>
+        <div class="topbar-title" style="cursor:pointer;" onclick="switchView('view-home')">Order<span style="color: var(--orange);">Flow</span></div>
     </div>
     <div class="topbar-right">
       <button class="btn-text" style="font-size: 13px;" onclick="switchView('view-analytics')">
@@ -67,7 +67,7 @@
         </div>
         <div class="card" style="flex: 1; min-width: 200px; padding: 20px;">
           <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600; margin-bottom: 8px;"><i class="ph ph-coins"></i> Total Spent (Month)</div>
-          <div style="font-size: 1.8rem; font-weight: 800; color: var(--teal);">1.45M ₫</div>
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--orange);">1.45M ₫</div>
         </div>
         <div class="card" style="flex: 1; min-width: 200px; padding: 20px;">
           <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600; margin-bottom: 8px;"><i class="ph ph-piggy-bank"></i> Est. Savings (Month)</div>
@@ -214,7 +214,7 @@
               <strong style="display: block; margin-bottom: 2px;">Auto-Cancel Unpaid Items</strong>
               <div style="font-size: 12px; color: var(--text-secondary); font-weight: 400;">Automatically remove participants who haven't paid at cut-off time.</div>
             </div>
-            <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--teal);">
+            <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--orange);">
           </label>
         </div>
         <div class="form-group mt-3">
@@ -223,7 +223,7 @@
               <strong style="display: block; margin-bottom: 2px;">Require Payment Receipt</strong>
               <div style="font-size: 12px; color: var(--text-secondary); font-weight: 400;">People Joined must upload a screenshot of their transfer.</div>
             </div>
-            <input type="checkbox" style="width: 18px; height: 18px; accent-color: var(--teal);">
+            <input type="checkbox" style="width: 18px; height: 18px; accent-color: var(--orange);">
           </label>
         </div>
         <div class="form-actions mt-4">
@@ -294,7 +294,7 @@
 
       <!-- Vendor Info -->
       <div class="card mb-4" style="display: flex; gap: 16px; align-items: center;">
-        <div style="width: 60px; height: 60px; background: var(--bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center;"><i class="ph ph-storefront" style="font-size: 24px; color: var(--teal);"></i></div>
+        <div style="width: 60px; height: 60px; background: var(--bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center;"><i class="ph ph-storefront" style="font-size: 24px; color: var(--orange);"></i></div>
         <div>
           <h3 id="vendorNameTop" style="margin-bottom: 4px;">Highlands Coffee</h3>
           <div style="font-size: 13px; color: var(--text-secondary)"><i class="ph ph-link"></i> shopeefood.vn/highlands &bull; <i class="ph ph-moped"></i> Est. 20-30 mins</div>
@@ -304,10 +304,10 @@
       <div class="stepper-section" style="padding: 24px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
           <div style="font-weight: 700; font-size: 1.1rem;">Funding Progress</div>
-          <div style="font-weight: 700; color: var(--teal); font-size: 1.1rem;" id="fundingProgressText">0 / 0 Paid</div>
+          <div style="font-weight: 700; color: var(--orange); font-size: 1.1rem;" id="fundingProgressText">0 / 0 Paid</div>
         </div>
         <div style="width: 100%; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
-          <div id="fundingProgressBar" style="width: 0%; height: 100%; background: var(--teal); border-radius: 4px; transition: width 0.3s ease;"></div>
+          <div id="fundingProgressBar" style="width: 0%; height: 100%; background: var(--orange); border-radius: 4px; transition: width 0.3s ease;"></div>
         </div>
         <div style="font-size: 0.85rem; color: var(--text-secondary);" id="fundingProgressDesc">Waiting for participants to join.</div>
       </div>
@@ -370,8 +370,8 @@
             <h3 class="card-title mb-3" style="font-size: 14px;">Recent Activity</h3>
             <div style="font-size: 13px; color: var(--text-secondary);">
               <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-light);"><strong style="color: var(--text-dark);">Anh Nghĩa</strong> paid via Momo <span style="float: right; font-size: 11px;">10 mins ago</span></div>
-              <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-light);"><strong style="color: var(--text-dark);">Hương Giang</strong> added <span style="color: var(--teal);">Matcha Latte x1</span> <span style="float: right; font-size: 11px;">15 mins ago</span></div>
-              <div style="margin-bottom: 4px;"><strong style="color: var(--text-dark);">Minh Tuấn</strong> added <span style="color: var(--teal);">Cà Phê Sữa x1</span> <span style="float: right; font-size: 11px;">20 mins ago</span></div>
+              <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-light);"><strong style="color: var(--text-dark);">Hương Giang</strong> added <span style="color: var(--orange);">Matcha Latte x1</span> <span style="float: right; font-size: 11px;">15 mins ago</span></div>
+              <div style="margin-bottom: 4px;"><strong style="color: var(--text-dark);">Minh Tuấn</strong> added <span style="color: var(--orange);">Cà Phê Sữa x1</span> <span style="float: right; font-size: 11px;">20 mins ago</span></div>
             </div>
           </div>
           
@@ -428,7 +428,7 @@
 
         <div class="menu-items">
           <div style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; padding-bottom: 4px;">
-            <span class="badge" style="background: var(--teal); color: white; padding: 6px 16px; cursor:pointer;">All</span>
+            <span class="badge" style="background: var(--orange); color: white; padding: 6px 16px; cursor:pointer;">All</span>
             <span class="badge" style="background: var(--bg-light); color: var(--text-secondary); padding: 6px 16px; cursor:pointer;">Signature</span>
             <span class="badge" style="background: var(--bg-light); color: var(--text-secondary); padding: 6px 16px; cursor:pointer;">Coffee</span>
             <span class="badge" style="background: var(--bg-light); color: var(--text-secondary); padding: 6px 16px; cursor:pointer;">Tea</span>
@@ -648,7 +648,7 @@
 
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=2"></script>
   <script src="../ux-showcase.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {

@@ -103,9 +103,19 @@ function goToOnboardStep(step) {
       ];
       renderOnboardSubList();
     } else if (onboardSubs.length === 0) {
+      onboardSubs = [
+        { name: '', cost: '', cycle: 'Monthly', category: 'Entertainment' }
+      ];
       renderOnboardSubList();
     }
   }
+}
+
+function checkOnboardContinue() {
+  const btn = document.getElementById('onboardContinueBtn');
+  if (!btn) return;
+  const hasValid = onboardSubs.some(s => s.name && s.name.trim() && s.cost !== '' && parseFloat(s.cost) > 0);
+  btn.disabled = !hasValid;
 }
 
 function renderOnboardSubList() {
@@ -113,20 +123,22 @@ function renderOnboardSubList() {
   if (!host) return;
   if (onboardSubs.length === 0) {
     host.innerHTML = '<div style="text-align:center; padding: 30px 20px; color: var(--text-secondary); font-size: 13px; border: 1.5px dashed var(--border-medium); border-radius: 10px;"><i class="ph ph-plus-circle" style="font-size: 28px; display:block; margin-bottom: 8px; color: var(--text-muted);"></i>Click "Add another" below to add your first subscription</div>';
+    checkOnboardContinue();
     return;
   }
   host.innerHTML = onboardSubs.map((s, i) => `
     <div style="display: flex; gap: 8px; align-items: center; padding: 8px; background: var(--bg-main); border-radius: 10px;">
-      <input type="text" placeholder="Name (e.g. Netflix)" value="${s.name}" onchange="updateOnboardSub(${i}, 'name', this.value)" style="flex: 2; padding: 8px 10px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit;">
-      <input type="number" placeholder="Cost" value="${s.cost}" step="0.01" min="0" onchange="updateOnboardSub(${i}, 'cost', this.value)" style="flex: 1; padding: 8px 10px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit; min-width: 0;">
+      <input type="text" placeholder="Name (e.g. Netflix, Gym...)" value="${s.name}" oninput="updateOnboardSub(${i}, 'name', this.value)" style="flex: 3; padding: 8px 10px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit; min-width: 0;">
+      <input type="number" placeholder="Cost (e.g. $15)" value="${s.cost}" step="0.01" min="0" oninput="updateOnboardSub(${i}, 'cost', this.value)" style="flex: 2; padding: 8px 10px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit; min-width: 0;">
       <select onchange="updateOnboardSub(${i}, 'cycle', this.value)" style="padding: 8px 6px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--bg-card); color: var(--text-primary); font-family: inherit;">
         <option ${s.cycle === 'Monthly' ? 'selected' : ''}>Monthly</option>
         <option ${s.cycle === 'Yearly' ? 'selected' : ''}>Yearly</option>
         <option ${s.cycle === 'Weekly' ? 'selected' : ''}>Weekly</option>
       </select>
-      <button onclick="removeOnboardSub(${i})" style="background: none; border: none; color: var(--red); cursor: pointer; padding: 6px; font-size: 18px; line-height: 1;" title="Remove"><i class="ph ph-trash"></i></button>
+      <button onclick="removeOnboardSub(${i})" ${onboardSubs.length === 1 ? 'disabled' : ''} style="background: none; border: none; color: ${onboardSubs.length === 1 ? 'var(--text-muted)' : 'var(--red)'}; cursor: ${onboardSubs.length === 1 ? 'not-allowed' : 'pointer'}; padding: 6px; font-size: 18px; line-height: 1;" title="Remove"><i class="ph ph-trash"></i></button>
     </div>
   `).join('');
+  checkOnboardContinue();
 }
 
 function addOnboardSubRow() {
@@ -136,8 +148,9 @@ function addOnboardSubRow() {
 
 function updateOnboardSub(idx, field, val) {
   if (!onboardSubs[idx]) return;
-  if (field === 'cost') val = parseFloat(val) || 0;
+  if (field === 'cost') val = val === '' ? '' : (parseFloat(val) || 0);
   onboardSubs[idx][field] = val;
+  checkOnboardContinue();
 }
 
 function removeOnboardSub(idx) {

@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    PROJECT 3 – OFFICE GROUP ORDER | MULTI-VIEW LOGIC
    ============================================================ */
 
@@ -48,7 +48,7 @@ function switchView(viewId) {
   }
 }
 
-function showToast(message, icon = '<i class="ph ph-info" style="color: var(--teal);"></i>') {
+function showToast(message, icon = '<i class="ph ph-info" style="color: var(--orange);"></i>') {
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
   toast.className = 'toast';
@@ -177,16 +177,16 @@ function updateHostDashboard() {
   document.getElementById('hostDashCutoff').innerText = `${formattedDate}, ${formattedTime}`;
   document.getElementById('hostDashInviteLink').value = `https://orderflow.app/join/${currentSession.code}`;
 
-  renderPeople Joined();
+  renderParticipants();
   checkHostGates();
 }
 
-function renderPeople Joined() {
+function renderParticipants() {
   const tbody = document.getElementById('participantTableBody');
   if (!tbody) return;
   tbody.innerHTML = '';
   
-  let totalPeople Joined = 0;
+  let totalParticipants = 0;
   let paidCount = 0;
   let subtotal = 0;
 
@@ -194,7 +194,7 @@ function renderPeople Joined() {
     // Ignore canceled
     if (p.status === 'Canceled') return;
 
-    totalPeople Joined++;
+    totalParticipants++;
     const tr = document.createElement('tr');
     
     let statusHtml = '';
@@ -219,7 +219,7 @@ function renderPeople Joined() {
     tr.innerHTML = `
       <td style="font-weight: 600;">${p.name}</td>
       <td style="color: var(--text-secondary); line-height: 1.4;">${p.item}
-        ${p.amount > 0 ? '<span style="display:block; font-size:11px; color:var(--teal); margin-top:2px;">Includes +5.000đ shipping</span>' : ''}
+        ${p.amount > 0 ? '<span style="display:block; font-size:11px; color:var(--orange); margin-top:2px;">Includes +5.000đ shipping</span>' : ''}
       </td>
       <td style="font-weight: 700;">${p.amount > 0 ? p.amount.toLocaleString('vi-VN') + 'đ' : '-'}</td>
       <td>${statusHtml}</td>
@@ -229,11 +229,11 @@ function renderPeople Joined() {
   });
 
   // Update Funding Progress
-  const pct = totalPeople Joined === 0 ? 0 : Math.round((paidCount / totalPeople Joined) * 100);
-  document.getElementById('fundingProgressText').innerText = `${paidCount} / ${totalPeople Joined} Paid`;
+  const pct = totalParticipants === 0 ? 0 : Math.round((paidCount / totalParticipants) * 100);
+  document.getElementById('fundingProgressText').innerText = `${paidCount} / ${totalParticipants} Paid`;
   document.getElementById('fundingProgressBar').style.width = `${pct}%`;
 
-  if (paidCount === totalPeople Joined && totalPeople Joined > 0) {
+  if (paidCount === totalParticipants && totalParticipants > 0) {
     document.getElementById('fundingProgressDesc').innerHTML = '<span style="color:var(--green);">100% funds verified. Ready to send to vendor.</span>';
   } else {
     document.getElementById('fundingProgressDesc').innerText = 'Waiting for all members to complete payment.';
@@ -255,8 +255,8 @@ function confirmPayment(name) {
   if (p) {
     p.status = 'Paid';
     p.method = 'Verified';
-    renderPeople Joined();
-    showToast(`Verified payment for ${name}`, '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
+    renderParticipants();
+    showToast(`Verified payment for ${name}`, '<i class="ph ph-check-circle" style="color: var(--orange);"></i>');
   }
 }
 
@@ -266,12 +266,12 @@ function remindUser(name) {
 
 // --- GATE 6: CLOSE ORDER ---
 function handleSendToVendor() {
-  const validPeople Joined = participants.filter(p => p.status !== 'Canceled');
-  const allPaid = validPeople Joined.length > 0 && validPeople Joined.every(p => p.status === 'Paid');
-  const unpaidPeople Joined = validPeople Joined.filter(p => p.status !== 'Paid');
+  const validParticipants = participants.filter(p => p.status !== 'Canceled');
+  const allPaid = validParticipants.length > 0 && validParticipants.every(p => p.status === 'Paid');
+  const unpaidParticipants = validParticipants.filter(p => p.status !== 'Paid');
 
-  if (!allPaid && unpaidPeople Joined.length > 0) {
-    const confirmMsg = `${unpaidPeople Joined.length} member(s) haven't paid yet. If you close the order now, you will have to cover their deficit.\n\nProceed to close order?`;
+  if (!allPaid && unpaidParticipants.length > 0) {
+    const confirmMsg = `${unpaidParticipants.length} member(s) haven't paid yet. If you close the order now, you will have to cover their deficit.\n\nProceed to close order?`;
     if (!confirm(confirmMsg)) {
       return;
     }
@@ -303,8 +303,8 @@ function simulateCutoff() {
     showToast('Cut-off reached. No unpaid participants to cancel.');
   }
 
-  // Gate recalculation happens in renderPeople Joined
-  renderPeople Joined();
+  // Gate recalculation happens in renderParticipants
+  renderParticipants();
 }
 
 // --- GATE 2: PARTICIPANT PREVIEW & JOIN ---
@@ -336,7 +336,7 @@ function addToCart(name, price) {
   } else {
     cart.push({ name, price, qty: 1 });
   }
-  showToast(`Added ${name} to cart`, '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
+  showToast(`Added ${name} to cart`, '<i class="ph ph-check-circle" style="color: var(--orange);"></i>');
   renderCart();
 }
 
@@ -399,7 +399,7 @@ function proceedToPayment() {
 function markOrderCompleted() {
   currentSession = null;
   participants = [];
-  showToast('Order officially completed!', '<i class="ph ph-check-circle" style="color: var(--teal);"></i>');
+  showToast('Order officially completed!', '<i class="ph ph-check-circle" style="color: var(--orange);"></i>');
   renderHomeSessions();
   switchView('view-home');
 }
@@ -420,7 +420,7 @@ function renderHomeSessions() {
   } else {
     const formattedTime = currentSession.cutoff.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
     container.innerHTML = `
-      <div class="history-card" style="border-color: var(--teal); box-shadow: 0 4px 12px rgba(0,212,170,0.1);" onclick="switchView('view-host-dashboard')">
+      <div class="history-card" style="border-color: var(--orange); box-shadow: 0 4px 12px rgba(245,166,35,0.1);" onclick="switchView('view-host-dashboard')">
         <div class="history-card-header">
           <div class="history-shop">${currentSession.shopName}</div>
           <div class="badge warning" style="font-size: 10px;">Collecting</div>
