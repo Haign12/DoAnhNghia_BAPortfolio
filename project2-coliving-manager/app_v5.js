@@ -489,7 +489,7 @@ function renderLedger() {
                     const isPayer = m.id === e.paidBy;
                     const isSettled = e.settled === 'true' || isPayer; 
                     const icon = isSettled ? '<i class="ph-bold ph-check"></i>' : '<i class="ph-bold ph-clock"></i>';
-                    return \`<div style="display:flex; align-items:center; gap:6px; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; background: var(--gray-100); color: var(--text2);"><span style="\${isSettled ? 'color: var(--success-600);' : ''}">\${icon}</span> \${m.name}</div>\`;
+                    return `<div style="display:flex; align-items:center; gap:6px; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; background: var(--gray-100); color: var(--text2);"><span style="${isSettled ? 'color: var(--success-600);' : ''}">${icon}</span> ${m.name}</div>`;
                   }).join('')}
                 </div>
 
