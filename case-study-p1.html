@@ -21,13 +21,7 @@
     h1, h2, h3, h4, h5, h6, .nav-brand {
       font-family: 'Lora', serif;
     }
-    .theme-toggle {
-      position: fixed; top: 20px; right: 20px; z-index: 100;
-      background: var(--bg-card); border: 1px solid var(--border);
-      color: var(--text); padding: 10px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      width: 44px; height: 44px;
-    }
+
     .sticky-nav {
       position: sticky; top: 5px; z-index: 100; display: flex; justify-content: space-between; align-items: center;
       padding: 12px 24px; margin: 16px auto 0; max-width: 900px; width: calc(100% - 32px);
@@ -150,20 +144,17 @@
     
     .mock-bpmn { display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 20px 0; }
     .mock-node { border: 1px solid var(--border); padding: 12px 16px; border-radius: 8px; background: var(--bg); font-size: 13px; white-space: nowrap; }
-    .mock-node.red { border-color: #ef4444; box-shadow: 0 0 0 1px #ef4444; }
-    .mock-node.green { border-color: #22c55e; }
+    .mock-node.red { border-color: var(--text); }
+    .mock-node.green { border-color: var(--text); }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-  <button class="theme-toggle" id="theme-toggle">
-    <svg id="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    <svg id="theme-icon-light" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-  </button>
+
 
     <nav class="sticky-nav">
     <a href="index.html" class="nav-brand" style="display:flex; align-items:center; gap:8px;">
-      <i class="ph ph-arrow-left"></i> <span data-i18n="nav.back">Portfolio</span>
+      ← <span data-i18n="nav.back">Portfolio</span>
     </a>
     <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
       <div class="lang-switcher" style="display: flex; gap: 6px; font-size: 13px; font-weight: 600;">
@@ -180,11 +171,11 @@
       <div class="toc-container">
         <div class="toc">
           <div class="toc-title">Contents</div>
-          <a href="#problem">1. The Problem</a>
-          <a href="#constraints">2. Constraints</a>
-          <a href="#approach">3. BA Artifacts</a>
+          <a href="#problem">The Problem</a>
+          <a href="#constraints">Constraints</a>
+          <a href="#approach">BA Artifacts</a>
           <a href="#ui-design">4. Core Functions & UI</a>
-          <a href="#deep-dive">5. Deep Dive</a>
+          <a href="#deep-dive">Deep Dive</a>
         </div>
       </div>
 
@@ -206,22 +197,22 @@
       </div>
 
       <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
-        <strong style="color: var(--text);">📌 Personal / Simulated Project:</strong> This is a personal initiative. All impact numbers are estimates based on personal use case (8 subscriptions tracked over 3 months). The project demonstrates professional BA methodologies applied to a real personal finance scenario — not enterprise KPIs.
+        <strong style="color: var(--text);">Personal / Simulated Project:</strong> This is a personal initiative. All impact numbers are estimates based on personal use case (8 subscriptions tracked over 3 months). The project demonstrates professional BA methodologies applied to a real personal finance scenario — not enterprise KPIs.
       </div>
 
       <div class="case-section" id="problem">
-        <h3>1. The Problem</h3>
+        <h3>The Problem</h3>
         <p>Managing personal finances today resembles managing a poorly optimized enterprise. Money flows out through multiple channels: credit cards, e-wallets, and bank transfers. The biggest silent drain is auto-renewing subscriptions (software, streaming, gym memberships) that are rarely used but forgotten.</p>
         <p>Without a centralized view, tracking the actual "Monthly Burn Rate" relies on memory rather than data, leading to budget overruns.</p>
       </div>
       <div class="case-section" id="constraints">
-        <h3>2. Constraints & Trade-offs</h3>
+        <h3>Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> I initially wanted to build a system that auto-syncs transactions in real-time via Bank APIs. However, open banking APIs for personal use in Vietnam are highly restricted and costly.</p>
         <p><strong>The Trade-off:</strong> Instead of over-engineering, I opted for a Manual CSV Export MVP. I export bank statements weekly as CSVs, load them into a local SQL Server database for data cleaning and querying, and feed the results into Power BI.</p>
         <p><strong>Why it works:</strong> Personal finance requires behavioral reflection. A weekly manual update forces me to actually look at the numbers, satisfying the business goal better than a fully automated background process.</p>
       </div>
       <div class="case-section" id="approach">
-        <h3>3. Approach & BA Artifacts</h3>
+        <h3>Approach & BA Artifacts</h3>
         <p><strong>A. Data Cleaning & Standardization</strong><br>Raw bank statements are messy. I built a mapping logic in Excel to categorize transactions. For example, any description containing "NETFLIX" or "SPOTIFY" is automatically tagged as Category: Entertainment and Type: Fixed Recurring.</p>
         <p><strong>B. Data Modeling (Star Schema)</strong><br>To ensure the dashboard loads quickly and can scale if I add years of data, I structured the dataset using a Star Schema:</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
@@ -234,29 +225,29 @@
         <div style="overflow-x: auto; margin-bottom: 24px;">
           <table class="mock-table">
             <tr><th>FR ID</th><th>Description</th><th>Priority</th></tr>
-            <tr><td>FR-01</td><td>CRUD subscription (name, cost, cycle, start date)</td><td style="color: #22c55e;">Must</td></tr>
-            <tr><td>FR-02</td><td>Auto-categorize transactions by keyword</td><td style="color: #22c55e;">Must</td></tr>
-            <tr><td>FR-03</td><td>Ghost Detection: flag subscriptions with no transaction in ≥30 days</td><td style="color: #22c55e;">Must</td></tr>
-            <tr><td>FR-04</td><td>Alert modal with "Cancel Now" / "Snooze 7 days" CTA</td><td style="color: #22c55e;">Must</td></tr>
+            <tr><td>FR-01</td><td>CRUD subscription (name, cost, cycle, start date)</td><td>Must</td></tr>
+            <tr><td>FR-02</td><td>Auto-categorize transactions by keyword</td><td>Must</td></tr>
+            <tr><td>FR-03</td><td>Ghost Detection: flag subscriptions with no transaction in ≥30 days</td><td>Must</td></tr>
+            <tr><td>FR-04</td><td>Alert modal with "Cancel Now" / "Snooze 7 days" CTA</td><td>Must</td></tr>
             <tr><td>FR-05</td><td>Calculate savings if subscription is cancelled</td><td>Should</td></tr>
             <tr><td>FR-06</td><td>Handle expired cards, failed recurring payments</td><td>Should</td></tr>
-            <tr><td>FR-07</td><td>Dashboard KPIs: Utilization Rate, Fixed Cost, Variance</td><td style="color: #22c55e;">Must</td></tr>
+            <tr><td>FR-07</td><td>Dashboard KPIs: Utilization Rate, Fixed Cost, Variance</td><td>Must</td></tr>
             <tr><td>FR-08</td><td>Export monthly report as PDF/CSV</td><td>Could</td></tr>
           </table>
         </div>
 
-        <h4 style="color: var(--text); margin: 24px 0 8px;">D2. Requirements Prioritization (MoSCoW)</h4>
+        <h4 style="color: var(--text); margin: 24px 0 8px;">E. Requirements Prioritization (MoSCoW)</h4>
         <div style="overflow-x: auto; margin-bottom: 24px;">
           <table class="mock-table">
             <tr><th>Priority</th><th>Features</th><th>Rationale</th></tr>
-            <tr><td style="color: #22c55e; font-weight: 700;">Must Have</td><td>CRUD Subscription, Ghost Detection, Dashboard KPIs, Alert Modal</td><td>Core value proposition — without these, the product has no differentiation from a spreadsheet.</td></tr>
-            <tr><td style="color: #eab308; font-weight: 700;">Should Have</td><td>Savings Calculator, Exception Handling (expired cards)</td><td>Enhances decision-making but MVP can function without them initially.</td></tr>
-            <tr><td style="color: #6366f1; font-weight: 700;">Could Have</td><td>PDF/CSV Export, Budget Alerts</td><td>Nice-to-have for power users; not critical for MVP validation.</td></tr>
-            <tr><td style="color: #ef4444; font-weight: 700;">Won't Have (this release)</td><td>Open Banking API sync, AI-powered budget suggestions</td><td>Requires third-party partnerships and ML infrastructure — deferred to v2.</td></tr>
+            <tr><td style="font-weight: 700;">Must Have</td><td>CRUD Subscription, Ghost Detection, Dashboard KPIs, Alert Modal</td><td>Core value proposition — without these, the product has no differentiation from a spreadsheet.</td></tr>
+            <tr><td style="font-weight: 700;">Should Have</td><td>Savings Calculator, Exception Handling (expired cards)</td><td>Enhances decision-making but MVP can function without them initially.</td></tr>
+            <tr><td style="font-weight: 700;">Could Have</td><td>PDF/CSV Export, Budget Alerts</td><td>Nice-to-have for power users; not critical for MVP validation.</td></tr>
+            <tr><td style="font-weight: 700;">Won't Have (this release)</td><td>Open Banking API sync, AI-powered budget suggestions</td><td>Requires third-party partnerships and ML infrastructure — deferred to v2.</td></tr>
           </table>
         </div>
 
-        <h4 style="color: var(--text); margin: 24px 0 8px;">D3. Non-Functional Requirements (NFR)</h4>
+        <h4 style="color: var(--text); margin: 24px 0 8px;">F. Non-Functional Requirements (NFR)</h4>
         <div style="overflow-x: auto; margin-bottom: 24px;">
           <table class="mock-table">
             <tr><th>NFR ID</th><th>Type</th><th>Description</th></tr>
@@ -268,8 +259,8 @@
           </table>
         </div>
 
-        <h4 style="color: var(--text); margin: 24px 0 8px;">D4. Business Case / ROI Analysis</h4>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #6366f1; border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
+        <h4 style="color: var(--text); margin: 24px 0 8px;">G. Business Case / ROI Analysis</h4>
+        <div style="margin-bottom: 24px; font-size: 14px;">
           <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">Why invest in Ghost Detection? (B2C SaaS perspective)</p>
           <ul style="color: var(--text2); list-style: none; margin-top: 8px;">
             <li style="margin-bottom: 8px;"><strong>Problem:</strong> Average consumer has 12 active subscriptions but uses only 8 regularly (industry benchmark). 33% waste rate.</li>
@@ -280,7 +271,7 @@
         </div>
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">E. User Stories & Acceptance Criteria (BDD)</h4>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--text); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 16px;">
+        <div style="margin-bottom: 16px; font-size: 14px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
           <p style="color: var(--text); font-weight: 600;">US-02: Ghost Detection Alert</p>
           <ul style="color: var(--text2); list-style: none; margin-top: 8px;">
             <li><strong>Given</strong> a subscription is active with no transaction in 30 days,</li>
@@ -288,7 +279,7 @@
             <li><strong>Then</strong> the subscription is flagged "Ghost" and an alert modal shows estimated savings.</li>
           </ul>
         </div>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--text); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
+        <div style="margin-bottom: 24px; font-size: 14px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
           <p style="color: var(--text); font-weight: 600;">US-03: Snooze False Positive</p>
           <ul style="color: var(--text2); list-style: none; margin-top: 8px;">
             <li><strong>Given</strong> a subscription flagged as "Ghost",</li>
@@ -298,7 +289,7 @@
         </div>
       </div>
       <div class="case-section" id="ui-design">
-        <h3>4. Core System Functions & UI Design</h3>
+        <h3>Core System Functions & UI Design</h3>
         <p>Beyond the interface, I defined strict functional requirements for the MVP:</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
             <li style="margin-bottom: 8px;"><strong>Subscription CRUD:</strong> Full capabilities to Create, Read, Update, and Delete subscription records, tracking billing cycles natively.</li>
@@ -328,14 +319,14 @@
           </div>
           <table class="mock-table">
             <tr><th>Service</th><th>Cost</th><th>Status</th></tr>
-            <tr><td>Netflix</td><td>$15.99</td><td style="color: #22c55e;">Active</td></tr>
-            <tr><td>Gym Membership</td><td>$30.00</td><td style="color: #ef4444;">Ghost (Unused)</td></tr>
-            <tr><td>Adobe CC</td><td>$52.99</td><td style="color: #22c55e;">Active</td></tr>
+            <tr><td>Netflix</td><td>$15.99</td><td>Active</td></tr>
+            <tr><td>Gym Membership</td><td>$30.00</td><td>Ghost (Unused)</td></tr>
+            <tr><td>Adobe CC</td><td>$52.99</td><td>Active</td></tr>
           </table>
         </div>
       </div>
       <div class="case-section" id="deep-dive">
-        <h3>5. BA Deliverables Deep Dive</h3>
+        <h3>BA Deliverables Deep Dive</h3>
         <p>To ensure technical feasibility, I prepared the following artifacts for the engineering team:</p>
         
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. Database Schema & SQL Query (Ghost Detection)</h4>
@@ -363,33 +354,20 @@
         &bull; A clear CTA (Call to Action) guiding the user to the cancellation page.<br>
         &bull; A "Snooze" or "Keep" option to train the algorithm on false positives.</p>
 
-        <h4 style="color: var(--text); margin: 32px 0 8px;">C. 3-Tier Architecture Diagram</h4>
-        <p>To communicate effectively with developers, I modeled the data flow using a standard 3-tier architecture, showing how the UI interacts with the Ghost Detection logic and the Database.</p>
-        <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=Architecture+Diagram+(Please+upload+Draw.io+PNG)" alt="3-Tier Architecture Diagram" style="width: 100%; display: block;">
-        </div>
-
-        <h4 style="color: var(--text); margin: 16px 0 8px;">D. Entity Relationship Diagram (ERD)</h4>
-        <p>A normalized data structure is required to ensure data integrity across users and transactions.</p>
-        <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=ERD+Diagram+(Please+upload+Draw.io+PNG)" alt="Entity Relationship Diagram" style="width: 100%; display: block;">
-        </div>
-      </div>
-
-      <div class="case-section">
-        <h3>6. Business Impact & Results</h3>
-        <p style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px;">
-          "Applied as a personal experiment on my own spending data for 2 months (May–Jun 2026). The tool detected 4 unused subscriptions (Gym, 1 duplicate streaming service, 2 forgotten trial apps), estimated to save ~5% of monthly fixed costs. This is based on personal data and has not been validated at multi-user scale."
+              <div class="case-section">
+        <h3>Business Impact & Results</h3>
+        <p style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--border); border-radius: 8px; padding: 16px; font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px;">
+          "Applied as a personal experiment on my own spending data for 3 months (Apr–Jun 2026). The tool detected 2 ghost subscriptions (Gym membership and 1 unused cloud storage service), estimated to save ~5% of monthly fixed costs. This is based on personal data and has not been validated at multi-user scale."
         </p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
-            <li style="margin-bottom: 8px;">Detected 4 ghost subscriptions from personal spending data over 2 months.</li>
+            <li style="margin-bottom: 8px;">Detected 2 ghost subscriptions from personal spending data over 3 months.</li>
             <li>Reduced finance review time from 2 hours/month to 15 minutes/week.</li>
         </ul>
         <p><strong>Key Takeaway:</strong> A beautiful dashboard is useless if the underlying data model is messy. Spending 80% of the project time on data cleaning (SQL Server queries + Power BI transforms) ensured the UI was accurate and insightful.</p>
       </div>
 
       <div class="case-section" id="enterprise-scale">
-        <h3>7. Enterprise Scale Considerations</h3>
+        <h3>Enterprise Scale Considerations</h3>
         <p>A critical exercise for any BA: what changes if this B2C FinTech app scales to a B2B SaaS platform managing subscriptions for a 5,000-employee enterprise?</p>
 
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. Architecture & Compliance</h4>

@@ -21,13 +21,7 @@
     h1, h2, h3, h4, h5, h6, .nav-brand {
       font-family: 'Lora', serif;
     }
-    .theme-toggle {
-      position: fixed; top: 20px; right: 20px; z-index: 100;
-      background: var(--bg-card); border: 1px solid var(--border);
-      color: var(--text); padding: 10px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      width: 44px; height: 44px;
-    }
+
     .sticky-nav {
       position: sticky; top: 5px; z-index: 100; display: flex; justify-content: space-between; align-items: center;
       padding: 12px 24px; margin: 16px auto 0; max-width: 900px; width: calc(100% - 32px);
@@ -150,20 +144,17 @@
     
     .mock-bpmn { display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 20px 0; }
     .mock-node { border: 1px solid var(--border); padding: 12px 16px; border-radius: 8px; background: var(--bg); font-size: 13px; white-space: nowrap; }
-    .mock-node.red { border-color: #ef4444; box-shadow: 0 0 0 1px #ef4444; }
-    .mock-node.green { border-color: #22c55e; }
+    .mock-node.red { border-color: var(--text); }
+    .mock-node.green { border-color: var(--text); }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-  <button class="theme-toggle" id="theme-toggle">
-    <svg id="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    <svg id="theme-icon-light" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-  </button>
+
 
     <nav class="sticky-nav">
     <a href="index.html" class="nav-brand" style="display:flex; align-items:center; gap:8px;">
-      <i class="ph ph-arrow-left"></i> <span data-i18n="nav.back">Portfolio</span>
+      ← <span data-i18n="nav.back">Portfolio</span>
     </a>
     <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
       <div class="lang-switcher" style="display: flex; gap: 6px; font-size: 13px; font-weight: 600;">
@@ -180,7 +171,7 @@
       <div class="toc-container">
         <div class="toc">
           <div class="toc-title">Contents</div>
-          <a href="#problem">1. The Problem</a><a href="#constraints">2. Constraints</a><a href="#approach">3. BA Artifacts</a><a href="#ui-design">4. Core Functions &amp; UI</a><a href="#deep-dive">5. Deep Dive</a><a href="#edge-cases">6. Edge Cases</a><a href="#impact">7. Business Impact</a>
+          <a href="#problem">The Problem</a><a href="#constraints">Constraints</a><a href="#approach">BA Artifacts</a><a href="#ui-design">Core Functions &amp; UI</a><a href="#deep-dive">Deep Dive</a><a href="#edge-cases">Edge Cases</a><a href="#impact">Business Impact</a>
         </div>
       </div>
 
@@ -194,6 +185,7 @@
           <div class="metric-chip"><span class="metric-value">1 Week</span><span class="metric-label">Timeline</span></div>
           <div class="metric-chip"><span class="metric-value">Camunda, Draw.io, PlantUML, Figma</span><span class="metric-label">Tools</span></div>
                 </div>
+        </div>
         
         <!-- Hero Image Hook: Show, Don't Tell -->
         <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
@@ -202,27 +194,27 @@
       </div>
 
       <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
-        <strong style="color: var(--text);">📌 Personal / Simulated Project:</strong> This is a personal initiative tested with 5 real group food orders at the office. Impact data is based on manual timing (phone stopwatch) across these 5 trials. Sample size is limited and results should be interpreted as directional, not statistically significant.
+        <strong style="color: var(--text);">Personal / Simulated Project:</strong> This is a personal initiative tested with 5 real group food orders at the office. Impact data is based on manual timing (phone stopwatch) across these 5 trials. Sample size is limited and results should be interpreted as directional, not statistically significant.
       </div>
 
       <div class="case-section" id="problem">
-        <h3>1. The Problem</h3>
+        <h3>The Problem</h3>
         <p>At the office, the daily process of ordering group lunches or milk tea is a logistical nightmare. The process flows through a group chat where people constantly change their minds, forget to pay, and force the Admin to manually reconcile orders and shipping fees.</p>
         <p>This manual coordination results in a high "Payment Deficit" (Admin losing money) and a severe waste of productive work hours.</p>
       </div>
       <div class="case-section" id="constraints">
-        <h3>2. Constraints & Trade-offs</h3>
+        <h3>Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> Third-party food delivery apps (like ShopeeFood or Grab) have group order features, but they often lack flexible payment splitting and don't allow the Admin to collect funds before placing the order.</p>
         <p><strong>The Trade-off:</strong> Instead of relying on rigid third-party apps, I modeled a custom To-Be process using a simple internal form linked to a QR payment gateway. The trade-off was a slight learning curve for staff, but absolute financial security for the Admin.</p>
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">Constraints & Assumptions Log</h4>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #ef4444; border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 16px;">
-          <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">⚠️ C-01: URL Scraper — Terms of Service Risk</p>
+        <div style="font-size: 14px; margin-bottom: 16px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
+          <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">C-01: URL Scraper — Terms of Service Risk</p>
           <p style="color: var(--text2); margin-bottom: 8px;">The "Paste ShopeeFood/GrabFood link" feature relies on web scraping to extract menu data. This approach may violate the Terms of Service (ToS) of these platforms, which typically prohibit automated data extraction.</p>
           <p style="color: var(--text2);"><strong>Mitigation:</strong> For production deployment, this feature should be replaced by official Merchant API partnerships (GrabFood for Business API) or manual menu upload. The scraper is acceptable only for internal prototype/pilot purposes.</p>
         </div>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #eab308; border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 16px;">
-          <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">⚠️ C-02: Internal Wallet — Financial Compliance Risk</p>
+        <div style="font-size: 14px; margin-bottom: 16px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
+          <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">C-02: Internal Wallet — Financial Compliance Risk</p>
           <p style="color: var(--text2); margin-bottom: 8px;">The Internal Wallet feature holds user funds as credits rather than refunding to bank accounts. This raises critical compliance questions:</p>
           <ul style="color: var(--text2); list-style: disc; margin-left: 16px; margin-bottom: 8px;">
             <li>Who bears liability for wallet balances if the operating company ceases operations?</li>
@@ -233,13 +225,13 @@
         </div>
       </div>
       <div class="case-section" id="approach">
-        <h3>3. Approach & BA Artifacts</h3>
+        <h3>Approach & BA Artifacts</h3>
         <p><strong>A. Process Modeling (As-Is)</strong><br>I mapped the current state using BPMN 2.0. The diagram clearly highlighted the "Payment Collection" node as the critical bottleneck. Admin was advancing cash and acting as a debt collector post-delivery.</p>
         <p><strong>B. Bottleneck Detection</strong><br>By timing the process, I found the Admin spent an average of 45 minutes per order just tracing chat messages to match drinks with faces, and calculating the divided shipping fee.</p>
         <p><strong>C. Process Optimization (To-Be)</strong><br>I engineered a new flow: System calculates exact split -> Staff pays via QR -> System verifies 100% funds -> Order placed. No cash advanced, zero risk.</p>
       </div>
       <div class="case-section" id="ui-design">
-        <h3>4. Core System Functions & UI Design</h3>
+        <h3>Core System Functions & UI Design</h3>
         <p>Beyond the interface, I defined strict functional requirements for the MVP:</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
             <li style="margin-bottom: 8px;"><strong>Group Ordering Host:</strong> An initiator creates a session, and the system generates a sharable joining link for team members.</li>
@@ -259,32 +251,21 @@
         <div class="case-visual" style="flex-direction: column; align-items: stretch; overflow: hidden;">
           <h4 style="color: var(--text); margin-bottom: 16px;">BPMN Process Flow Comparison</h4>
           <span style="font-size: 12px; color: var(--text3);">As-Is Flow (Manual)</span>
-          <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
-            <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=BPMN+Diagram+(Please+upload+Draw.io+PNG)" alt="BPMN Process Flow Diagram" style="width: 100%; display: block;">
-          </div>
                 </div>
-        
-        <!-- Hero Image Hook: Show, Don't Tell -->
-        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p3-v2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
-        </div>
       </div>
 
       <div class="case-section" id="deep-dive">
-        <h3>5. BA Deliverables Deep Dive</h3>
+        <h3>BA Deliverables Deep Dive</h3>
         
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. BPMN 2.0 Process Modeling</h4>
         <p>Using professional tools like Draw.io, I rigorously mapped the "As-Is" and "To-Be" states. The analysis revealed that the manual process contained 3 unnecessary intermediate steps (Tracing chat &rarr; Calculating fee &rarr; Debt collection). The "To-Be" automated process cut these out, directly reducing the coordination time from 45 minutes to just 5 minutes.</p>
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">B. Sequence Diagram (UML) - Payment Integration</h4>
         <p>To demonstrate a deep understanding of 3-tier architecture and system integration, I modeled the payment flow logic:</p>
-        <div style="margin-bottom: 24px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="https://placehold.co/800x400/1e1e1e/a0a0a0?text=Sequence+Diagram+(Please+upload+Draw.io+PNG)" alt="Sequence Diagram" style="width: 100%; display: block;">
-        </div>
 
         <h4 style="color: var(--text); margin: 32px 0 8px;">C. Software Requirements Specification (SRS) Excerpt</h4>
         <p>Following IEEE 830 / ISO 29148 standards, I drafted a structured SRS highlighting strict Business Rules for financial accuracy.</p>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--text); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
+        <div style="font-size: 14px; margin-bottom: 24px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
           <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">3.1.2 Business Rules (BR)</p>
           <ul style="color: var(--text2); list-style: none;">
             <li style="margin-bottom: 12px;"><strong>BR-01 (Order Cutoff):</strong> The system SHALL automatically lock the ordering session at the Host-defined cutoff time. Late entries SHALL be rejected to prevent shipping fee recalculation.</li>
@@ -294,7 +275,7 @@
           </ul>
         </div>
 
-        <h4 style="color: var(--text); margin: 24px 0 8px;">C.2 Functional Requirements (FRD)</h4>
+        <h4 style="color: var(--text); margin: 24px 0 8px;">D. Functional Requirements (FRD)</h4>
         <div style="overflow-x: auto; margin-bottom: 24px;">
           <table class="mock-table">
             <thead>
@@ -311,28 +292,28 @@
                 <td><strong>FR-01</strong></td>
                 <td>Group Order Aggregator</td>
                 <td>As a Host, I want to create an order draft so members can join and add items.</td>
-                <td><span style="color: #22c55e;">Must Have</span></td>
+                <td><span>Must Have</span></td>
                 <td>100% item accuracy</td>
               </tr>
               <tr>
                 <td><strong>FR-02</strong></td>
                 <td>Dynamic Split Calculator</td>
                 <td>As a Member, I want my share (item + delivery fee) automatically calculated.</td>
-                <td><span style="color: #22c55e;">Must Have</span></td>
+                <td><span>Must Have</span></td>
                 <td>0% calculation error</td>
               </tr>
               <tr>
                 <td><strong>FR-03</strong></td>
                 <td>Automated QR Payment</td>
                 <td>As a Member, I want to scan a personalized QR to pay instantly.</td>
-                <td><span style="color: #22c55e;">Must Have</span></td>
+                <td><span>Must Have</span></td>
                 <td>-90% collection time</td>
               </tr>
               <tr>
                 <td><strong>FR-04</strong></td>
                 <td>Slack Auto-Reminder</td>
                 <td>As a Host, I want 1-click payment reminders sent to unpaid members.</td>
-                <td><span style="color: #eab308;">Should Have</span></td>
+                <td><span>Should Have</span></td>
                 <td>0% payment deficit</td>
               </tr>
             </tbody>
@@ -362,15 +343,10 @@
             <tr><td>Case 5</td><td>—</td><td>Negative input</td><td>Block input, show validation error</td></tr>
           </table>
                 </div>
-        
-        <!-- Hero Image Hook: Show, Don't Tell -->
-        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p3-v2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
-        </div>
       </div>
 
       <div class="case-section" id="edge-cases">
-        <h3>6. Handling Edge Cases & Exception Flows</h3>
+        <h3>Handling Edge Cases & Exception Flows</h3>
         <p>A "Happy Path" is never enough for a robust enterprise tool. To ensure the system handles real-world friction, I designed logic for the following edge cases:</p>
         
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. The "Unpaid Participant" Scenario (Countdown Timer)</h4>
@@ -387,8 +363,8 @@
       </div>
 
       <div class="case-section" id="impact">
-        <h3>7. Business Impact & Results</h3>
-        <p style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px;">
+        <h3>Business Impact & Results</h3>
+        <p style="font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
           "Applied the To-Be process in 5 real group food orders at the office. Timing was measured manually using a phone stopwatch. Admin coordination time dropped from an average of ~45 minutes to ~5 minutes per order. Zero instances of admin being short-changed across all 5 trials. Note: n=5 is insufficient for statistical significance but demonstrates a clear directional improvement."
         </p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
@@ -400,7 +376,7 @@
       </div>
 
       <div class="case-section" id="enterprise-scale">
-        <h3>8. Enterprise Scale Considerations</h3>
+        <h3>Enterprise Scale Considerations</h3>
         <p>A critical exercise for any BA: what changes if this system scales from 1 office (10 people) to an enterprise with 50 branches and 5,000 employees?</p>
 
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. Stakeholder Conflict Map</h4>
@@ -497,11 +473,7 @@
 
       window.addEventListener('scroll', setActiveTOC, { passive: true });
       setActiveTOC();
-    }); else {
-        iconDark.style.display = 'block';
-        iconLight.style.display = 'none';
-      }
-    }
+    });
   </script>
 
   <script>

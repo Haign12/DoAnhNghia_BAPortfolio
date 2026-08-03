@@ -21,13 +21,7 @@
     h1, h2, h3, h4, h5, h6, .nav-brand {
       font-family: 'Lora', serif;
     }
-    .theme-toggle {
-      position: fixed; top: 20px; right: 20px; z-index: 100;
-      background: var(--bg-card); border: 1px solid var(--border);
-      color: var(--text); padding: 10px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      width: 44px; height: 44px;
-    }
+
     .sticky-nav {
       position: sticky; top: 5px; z-index: 100; display: flex; justify-content: space-between; align-items: center;
       padding: 12px 24px; margin: 16px auto 0; max-width: 900px; width: calc(100% - 32px);
@@ -150,20 +144,17 @@
     
     .mock-bpmn { display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 20px 0; }
     .mock-node { border: 1px solid var(--border); padding: 12px 16px; border-radius: 8px; background: var(--bg); font-size: 13px; white-space: nowrap; }
-    .mock-node.red { border-color: #ef4444; box-shadow: 0 0 0 1px #ef4444; }
-    .mock-node.green { border-color: #22c55e; }
+    .mock-node.red { border-color: var(--text); }
+    .mock-node.green { border-color: var(--text); }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-  <button class="theme-toggle" id="theme-toggle">
-    <svg id="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    <svg id="theme-icon-light" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-  </button>
+
 
     <nav class="sticky-nav">
     <a href="index.html" class="nav-brand" style="display:flex; align-items:center; gap:8px;">
-      <i class="ph ph-arrow-left"></i> <span data-i18n="nav.back">Portfolio</span>
+      ← <span data-i18n="nav.back">Portfolio</span>
     </a>
     <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
       <div class="lang-switcher" style="display: flex; gap: 6px; font-size: 13px; font-weight: 600;">
@@ -180,7 +171,7 @@
       <div class="toc-container">
         <div class="toc">
           <div class="toc-title">Contents</div>
-          <a href="#problem">1. The Problem</a><a href="#constraints">2. Constraints</a><a href="#approach">3. BA Artifacts</a><a href="#ui-design">4. Core Functions &amp; UI</a><a href="#deep-dive">5. Deep Dive</a><a href="#impact">6. Business Impact</a>
+          <a href="#problem">The Problem</a><a href="#constraints">Constraints</a><a href="#approach">BA Artifacts</a><a href="#ui-design">Core Functions &amp; UI</a><a href="#deep-dive">Deep Dive</a><a href="#impact">Business Impact</a>
         </div>
       </div>
 
@@ -194,6 +185,7 @@
           <div class="metric-chip"><span class="metric-value">3 Weeks</span><span class="metric-label">Timeline</span></div>
           <div class="metric-chip"><span class="metric-value">Figma, Draw.io, html2canvas, Zalo API</span><span class="metric-label">Tools</span></div>
                 </div>
+        </div>
         
         <!-- Hero Image Hook: Show, Don't Tell -->
         <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
@@ -202,22 +194,22 @@
       </div>
 
       <div style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border); padding: 16px; border-radius: 8px; margin: -20px 34px 24px; font-size: 14px; color: var(--text2);">
-        <strong style="color: var(--text);">📌 Personal / Simulated Project:</strong> This is a personal initiative tested internally with 2 roommates over 3 weeks. Impact data reflects this small-scale pilot and should not be interpreted as enterprise KPIs. The project demonstrates professional BA methodologies applied to a real co-living scenario.
+        <strong style="color: var(--text);">Personal / Simulated Project:</strong> This is a personal initiative tested internally with 2 roommates over 3 weeks. Impact data reflects this small-scale pilot and should not be interpreted as enterprise KPIs. The project demonstrates professional BA methodologies applied to a real co-living scenario.
       </div>
 
       <div class="case-section" id="problem">
-        <h3>1. The Problem</h3>
+        <h3>The Problem</h3>
         <p>Living with roommates often leads to friction over two common enterprise-scale issues: resource allocation (chores) and financial reconciliation (split bills). Typically, a whiteboard or a messy Zalo group chat is used, which lacks accountability and traceability.</p>
         <p>Without a transparent system, roommates end up arguing over "Who cleaned last?" and "Who paid for the shared groceries?"</p>
       </div>
       <div class="case-section" id="constraints">
-        <h3>2. Constraints & Trade-offs</h3>
+        <h3>Constraints & Trade-offs</h3>
         <p><strong>The Constraint:</strong> Developing a full-stack mobile application with real-time push notifications required significant backend infrastructure (Firebase/AWS) which was overkill for a 3-person apartment.</p>
         <p><strong>The Trade-off:</strong> Instead of building a complex notification engine, I designed a frontend-only MVP where any user can trigger a "Generate Weekly Summary" button, which captures the DOM as an image and posts it to our Zalo group chat via Webhook.</p>
         <p><strong>Why it works:</strong> It leverages the existing habit of checking Zalo, rather than forcing users to download and check a new app daily.</p>
       </div>
       <div class="case-section" id="approach">
-        <h3>3. Approach & BA Artifacts</h3>
+        <h3>Approach & BA Artifacts</h3>
 
         <h4 style="color: var(--text); margin-bottom: 8px;">A. Elicitation — Self-Interview Log</h4>
         <p>Since this is a personal project, I conducted structured interviews with my roommates to transparently document the elicitation process:</p>
@@ -234,8 +226,8 @@
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">A2. Persona Card</h4>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
-          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 13px;">
-            <p style="color: var(--text); font-weight: 700; margin-bottom: 8px;">👤 Persona: Roommate A ("The Organizer")</p>
+          <div style="font-size: 13px; padding: 0;">
+            <p style="color: var(--text); font-weight: 700; margin-bottom: 8px;">Persona: Roommate A ("The Organizer")</p>
             <ul style="color: var(--text2); list-style: none;">
               <li style="margin-bottom: 4px;"><strong>Age:</strong> 24 | <strong>Occupation:</strong> Junior Developer</li>
               <li style="margin-bottom: 4px;"><strong>Pain Point:</strong> Always the one who pays upfront, then struggles to collect. Feels exploited.</li>
@@ -243,8 +235,8 @@
               <li><strong>Tech Comfort:</strong> High — prefers web apps over manual notes.</li>
             </ul>
           </div>
-          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 13px;">
-            <p style="color: var(--text); font-weight: 700; margin-bottom: 8px;">👤 Persona: Roommate B ("The Passive User")</p>
+          <div style="font-size: 13px; padding: 0;">
+            <p style="color: var(--text); font-weight: 700; margin-bottom: 8px;">Persona: Roommate B ("The Passive User")</p>
             <ul style="color: var(--text2); list-style: none;">
               <li style="margin-bottom: 4px;"><strong>Age:</strong> 23 | <strong>Occupation:</strong> Marketing Intern</li>
               <li style="margin-bottom: 4px;"><strong>Pain Point:</strong> Feels accused unfairly about not cleaning. No proof either way.</li>
@@ -258,15 +250,15 @@
         <div style="overflow-x: auto; margin-bottom: 24px;">
           <table class="mock-table">
             <tr><th>Risk ID</th><th>Risk Description</th><th>Likelihood</th><th>Impact</th><th>Mitigation Strategy</th></tr>
-            <tr><td>R-01</td><td>Adoption Risk: Not all roommates consistently use the app, causing data gaps.</td><td style="color: #ef4444;">High</td><td style="color: #ef4444;">High</td><td>Integrate with Zalo (existing habit) instead of forcing a new app. Weekly summary auto-posted to group chat.</td></tr>
-            <tr><td>R-02</td><td>Mid-cycle Departure: A roommate leaves the group while debts are outstanding.</td><td>Medium</td><td style="color: #ef4444;">High</td><td>System blocks "Leave Group" action if balance ≠ 0 (US-109). Debt must be settled first.</td></tr>
+            <tr><td>R-01</td><td>Adoption Risk: Not all roommates consistently use the app, causing data gaps.</td><td>High</td><td>High</td><td>Integrate with Zalo (existing habit) instead of forcing a new app. Weekly summary auto-posted to group chat.</td></tr>
+            <tr><td>R-02</td><td>Mid-cycle Departure: A roommate leaves the group while debts are outstanding.</td><td>Medium</td><td>High</td><td>System blocks "Leave Group" action if balance ≠ 0 (US-109). Debt must be settled first.</td></tr>
             <tr><td>R-03</td><td>Data Integrity: Manual entry errors in expense amounts.</td><td>Medium</td><td>Medium</td><td>Input validation (no negative values, max cap). Edit history with audit trail.</td></tr>
             <tr><td>R-04</td><td>Fairness Perception: Users disagree with auto-assign algorithm output.</td><td>Low</td><td>Medium</td><td>Transparent 4-week history visible to all. Manual override option available.</td></tr>
           </table>
         </div>
 
         <h4 style="color: var(--text); margin: 24px 0 8px;">B. User Story Map (2 Epics, 9 Stories)</h4>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
+        <div style="font-size: 14px; margin-bottom: 24px;">
           <p style="color: var(--text); font-weight: 700; margin-bottom: 8px;">Epic 1 — Chore Management</p>
           <ul style="color: var(--text2); list-style: none; margin-bottom: 16px;">
             <li style="margin-bottom: 4px;">US-101: View chores by status (To Do/In Progress/Done)</li>
@@ -288,7 +280,7 @@
         <p>I designed wireframes in Figma focusing on a dual-panel layout: a Kanban board for chores, and a Ledger table for transparent bill tracking.</p>
       </div>
       <div class="case-section" id="ui-design">
-        <h3>4. Core System Functions & UI Design</h3>
+        <h3>Core System Functions & UI Design</h3>
         <p>Beyond the interface, I defined strict functional requirements for the MVP:</p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 24px; font-size: 14px;">
             <li style="margin-bottom: 8px;"><strong>Chore Kanban Board:</strong> Visual task management with To Do, In Progress, and Done states.</li>
@@ -315,24 +307,19 @@
             </div>
             <div class="mock-k-col">
               <span style="color: var(--text3); font-size: 12px; font-weight: 700;">SPLIT LEDGER</span>
-              <div class="mock-card" style="border-color: #ef4444;">John owes Nghia: <strong>$15.00</strong></div>
-              <div class="mock-card" style="border-color: #22c55e;">Nghia receives: <strong>$15.00</strong></div>
+              <div class="mock-card">John owes Nghia: <strong>$15.00</strong></div>
+              <div class="mock-card">Nghia receives: <strong>$15.00</strong></div>
             </div>
           </div>
                 </div>
-        
-        <!-- Hero Image Hook: Show, Don't Tell -->
-        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p2-v2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
-        </div>
       </div>
 
       <div class="case-section" id="deep-dive">
-        <h3>5. BA Deliverables Deep Dive</h3>
+        <h3>BA Deliverables Deep Dive</h3>
         
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. User Stories & Acceptance Criteria</h4>
         <p>I utilized standard Agile documentation formats to ensure development alignment for the "Auto-Assign" feature.</p>
-        <div style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--text); border-radius: 8px; padding: 16px; font-size: 14px; margin-bottom: 24px;">
+        <div style="margin-bottom: 24px; font-size: 14px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
           <p style="color: var(--text); font-weight: 600; margin-bottom: 8px;">User Story:</p>
           <p style="font-style: italic; color: var(--text2); margin-bottom: 16px;">"As a Roommate, I want the system to auto-assign weekly chores so that responsibilities are shared fairly without manual arguments."</p>
           
@@ -377,30 +364,25 @@
             <tr>
               <td style="color: var(--text);">Infinite Decimal Split</td>
               <td>Input $10.00 split among 3 people.</td>
-              <td style="color: #22c55e;">System rounds to 2 decimals ($3.33) and assigns the remaining $0.01 to the payer.</td>
+              <td>System rounds to 2 decimals ($3.33) and assigns the remaining $0.01 to the payer.</td>
             </tr>
             <tr>
               <td style="color: var(--text);">Negative Value (Exception)</td>
               <td>User inputs "-50" as an expense amount.</td>
-              <td style="color: #22c55e;">System blocks input, triggers validation error: "Amount must be greater than zero."</td>
+              <td>System blocks input, triggers validation error: "Amount must be greater than zero."</td>
             </tr>
             <tr>
               <td style="color: var(--text);">Leave While in Debt (Edge Case)</td>
               <td>User attempts to "Leave Group" while owing $15.00.</td>
-              <td style="color: #22c55e;">System blocks action, prompts: "Please settle outstanding debts before leaving."</td>
+              <td>System blocks action, prompts: "Please settle outstanding debts before leaving."</td>
             </tr>
           </table>
                 </div>
-        
-        <!-- Hero Image Hook: Show, Don't Tell -->
-        <div style="margin-top: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="thumb-p2-v2.png" alt="Dashboard Mockup" style="width: 100%; display: block; object-fit: cover;">
-        </div>
       </div>
 
       <div class="case-section" id="impact">
-        <h3>6. Business Impact & Results</h3>
-        <p style="background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px;">
+        <h3>Business Impact & Results</h3>
+        <p style="font-size: 14px; font-style: italic; color: var(--text2); margin-bottom: 16px; padding: 0 0 0 16px; border-left: 2px solid var(--border);">
           "Applied internally for 3 weeks with 2 roommates (n=3 total users). During the pilot period, the transparent ledger helped prevent misunderstandings about shared expenses. Members reported subjectively that disputes decreased significantly compared to the prior month — though the sample size is too small for statistical conclusions."
         </p>
         <ul style="color: var(--text2); margin-left: 20px; margin-bottom: 16px; font-size: 14px;">
@@ -412,7 +394,7 @@
       </div>
 
       <div class="case-section" id="enterprise-scale">
-        <h3>7. Enterprise Scale Considerations</h3>
+        <h3>Enterprise Scale Considerations</h3>
         <p>What changes if this Co-living Task Manager scales from a 3-person apartment to a Property Management Company handling 5,000 tenants across 50 buildings?</p>
 
         <h4 style="color: var(--text); margin: 16px 0 8px;">A. Core System Scaling</h4>
@@ -500,11 +482,7 @@
 
       window.addEventListener('scroll', setActiveTOC, { passive: true });
       setActiveTOC();
-    }); else {
-        iconDark.style.display = 'block';
-        iconLight.style.display = 'none';
-      }
-    }
+    });
   </script>
 
   <script>
