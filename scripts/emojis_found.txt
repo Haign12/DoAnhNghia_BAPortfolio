@@ -1,4 +1,0 @@
-.\project2-coliving-manager\dashboard.html:42: ['📊'] -> <div class="page-greeting">📊 Overview Dashboard</div>
-.\project2-coliving-manager\history.html:42: ['📋'] -> <div class="page-greeting">📋 Chore History (Last 4 Weeks)</div>
-.\project2-coliving-manager\index.html:54: ['🏠'] -> <div class="page-greeting">🏠 Chore Kanban Board</div>
-.\project2-coliving-manager\ledger.html:54: ['💰'] -> <div class="page-greeting">💰 Split Bill Ledger</div>
