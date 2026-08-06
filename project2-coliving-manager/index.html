@@ -87,6 +87,12 @@
         <a href="#" class="nav-link" data-target="settle">Balances</a>
       </div>
       <div class="nav-right">
+        <button class="nav-icon-btn" title="4-Week History" onclick="app.showHistory()" style="font-size: 13px; display: flex; align-items: center; gap: 4px; padding: 6px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--text2); font-weight: 600;">
+          <i class="ph-bold ph-clock-counter-clockwise"></i> History
+        </button>
+        <button class="nav-icon-btn" title="Leave Group" onclick="app.leaveGroup('m1')" style="font-size: 13px; display: flex; align-items: center; gap: 4px; padding: 6px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--text2); font-weight: 600;">
+          <i class="ph-bold ph-sign-out"></i> Leave
+        </button>
         <button class="nav-icon-btn"><i class="ph-bold ph-bell"></i></button>
         <div class="nav-avatar">AN</div>
       </div>
@@ -101,6 +107,23 @@
 <!-- Modals -->
 <div class="modal-overlay" id="modal-overlay"></div>
 
-<script src="app_v5.js?v=2"></script>
+<script src="app_v5.js?v=3"></script>
+<script src="../ux-showcase.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    initUXShowcase({
+      projectId: 'p2_cospace',
+      role: 'Chore/Expense SPA',
+      title: 'CoSpace Architecture',
+      desc: 'Full SPA with Auto-Assign algorithm, 2-way expense confirmation, 4-week history tracking, and leave group debt-blocking logic.',
+      tasks: [
+        'Use Auto-Assign on unassigned tasks to see the fairness algorithm.',
+        'Add an expense and verify 2-way confirmation flow.',
+        'Click "History" to see 4-week completion stats.',
+        'Click "Leave" to test the debt-blocking gate.'
+      ]
+    });
+  });
+</script>
 </body>
 </html>

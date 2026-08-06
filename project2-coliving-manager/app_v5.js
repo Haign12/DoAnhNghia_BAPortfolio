@@ -727,7 +727,19 @@ window.app = {
         </div>
         <div style="margin-bottom:16px;">
           <label style="display:block;margin-bottom:8px;font-weight:600">Amount (VND)</label>
-          <input type="number" id="new-exp-amt" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;">
+          <input type="number" id="new-exp-amt" min="1" step="1000" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;">
+          <div id="exp-amt-error" style="color: var(--warning-700); font-size: 12px; margin-top: 4px; display: none;">Amount must be greater than zero.</div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="display:block;margin-bottom:8px;font-weight:600">Category</label>
+          <select id="new-exp-category" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;">
+            <option value="Utilities">Utilities</option>
+            <option value="Supplies">Supplies</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Rent">Rent</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
         <div style="margin-bottom:16px;">
           <label style="display:block;margin-bottom:8px;font-weight:600">Paid By</label>
@@ -746,13 +758,146 @@ window.app = {
     const desc = document.getElementById('new-exp-desc').value;
     const amt = parseInt(document.getElementById('new-exp-amt').value);
     const payer = document.getElementById('new-exp-payer').value;
+    const category = document.getElementById('new-exp-category').value;
+    const errorEl = document.getElementById('exp-amt-error');
+    
     if(!desc || !amt) return alert('Fill all fields');
+    
+    // FR: Negative value validation (Test Case from case study)
+    if (amt <= 0) {
+      if (errorEl) errorEl.style.display = 'block';
+      document.getElementById('new-exp-amt').style.borderColor = 'var(--warning-700)';
+      return;
+    }
+    
     expenses.push({
-      id: uid(), description: desc, amount: amt, paidBy: payer, splitAmong: ['m1','m2','m3'], date: new Date().toISOString().split('T')[0], settled: 'false'
+      id: uid(), description: desc, category: category, amount: amt, paidBy: payer, splitAmong: members.map(m => m.id), date: new Date().toISOString().split('T')[0], settled: 'false'
     });
     persist();
     document.getElementById('modal-overlay').classList.remove('active');
     renderView('ledger');
+  },
+
+  // --- US-104: 4-WEEK COMPLETION HISTORY ---
+  showHistory: function() {
+    const weeks = [];
+    const today = new Date();
+    
+    for (let w = 0; w < 4; w++) {
+      const weekStart = new Date(today);
+      weekStart.setDate(today.getDate() - (w * 7) - today.getDay());
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      
+      const weekLabel = w === 0 ? 'This Week' : w === 1 ? 'Last Week' : `${w} Weeks Ago`;
+      
+      const completedInWeek = chores.filter(c => {
+        if (c.status !== 'done') return false;
+        const d = new Date(c.dueDate || c.createdAt);
+        return d >= weekStart && d <= weekEnd;
+      });
+      
+      const memberStats = members.map(m => {
+        const count = completedInWeek.filter(c => c.assignee === m.id).length;
+        return { ...m, count };
+      });
+      
+      weeks.push({ label: weekLabel, start: weekStart, end: weekEnd, total: completedInWeek.length, members: memberStats });
+    }
+    
+    const totalAll = chores.filter(c => c.status === 'done').length;
+    
+    const modalHtml = `
+      <div class="modal-card" style="max-width: 640px;">
+        <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('active')">&times;</button>
+        <h2 style="margin-bottom: 4px;">4-Week Completion History</h2>
+        <p style="color: var(--text2); font-size: 13px; margin-bottom: 24px;">Transparent chore tracking for fairness accountability. Total completed: <strong>${totalAll}</strong></p>
+        
+        ${weeks.map(w => `
+          <div style="margin-bottom: 20px; padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h4 style="font-size: 14px; margin: 0;">${w.label}</h4>
+              <span style="font-size: 12px; color: var(--text2); font-weight: 600;">${w.total} tasks done</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              ${w.members.map(m => `
+                <div style="flex: 1; padding: 10px; background: ${m.count > 0 ? 'var(--success-50, rgba(16,185,129,0.1))' : 'var(--bg-main, #f8f9fa)'}; border-radius: 8px; text-align: center; border: 1px solid ${m.count > 0 ? 'var(--success-200, rgba(16,185,129,0.2))' : 'var(--border)'};">
+                  <div style="width: 32px; height: 32px; border-radius: 50%; background: ${m.color}; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin: 0 auto 6px;">${m.avatar}</div>
+                  <div style="font-size: 12px; font-weight: 600; color: var(--text);">${m.name}</div>
+                  <div style="font-size: 18px; font-weight: 800; color: ${m.count > 0 ? 'var(--success-700, #059669)' : 'var(--text2)'}; margin-top: 2px;">${m.count}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+        
+        <div style="margin-top: 16px; padding: 12px; background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 8px; font-size: 12px; color: var(--text2);">
+          <strong style="color: var(--brand-700);">Fairness Check:</strong> The Auto-Assign algorithm uses this history to distribute chores to the member with the lowest completion count.
+        </div>
+      </div>
+    `;
+    
+    const overlay = document.getElementById('modal-overlay');
+    overlay.innerHTML = modalHtml;
+    overlay.classList.add('active');
+  },
+
+  // --- US-109: LEAVE GROUP BLOCKING WHILE DEBTS OUTSTANDING ---
+  leaveGroup: function(memberId) {
+    const m = getMember(memberId);
+    
+    // Calculate outstanding balance
+    const balances = {};
+    members.forEach(mem => balances[mem.id] = 0);
+    
+    expenses.filter(e => e.settled !== 'true').forEach(e => {
+      const share = Math.floor(e.amount / e.splitAmong.length);
+      e.splitAmong.forEach(mid => {
+        if(mid === e.paidBy) balances[mid] += (e.amount - share);
+        else balances[mid] -= share;
+      });
+    });
+    
+    const debt = balances[memberId] || 0;
+    
+    if (debt < 0) {
+      // Block leaving - member owes money
+      const overlay = document.getElementById('modal-overlay');
+      overlay.innerHTML = `
+        <div class="modal-card" style="max-width: 420px;">
+          <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('active')">&times;</button>
+          <div style="text-align: center; margin-bottom: 20px;">
+            <div style="width: 56px; height: 56px; background: rgba(239, 68, 68, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <i class="ph-bold ph-warning-circle" style="font-size: 24px; color: var(--warning-700);"></i>
+            </div>
+            <h3 style="margin: 0 0 8px;">Cannot Leave Group</h3>
+            <p style="color: var(--text2); font-size: 13px;">Please settle outstanding debts before leaving.</p>
+          </div>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+              <span style="color: var(--text2);">Member</span>
+              <span style="font-weight: 600;">${m.name}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span style="color: var(--text2);">Outstanding Debt</span>
+              <span style="font-weight: 700; color: var(--warning-700);">${formatMoney(Math.abs(debt))}</span>
+            </div>
+          </div>
+          <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="document.getElementById('modal-overlay').classList.remove('active'); renderView('settle')">
+            Settle Debts First
+          </button>
+        </div>
+      `;
+      overlay.classList.add('active');
+    } else {
+      // Allow leaving
+      if (confirm(`${m.name} has no outstanding debts. Proceed to leave the group?`)) {
+        members = members.filter(mem => mem.id !== memberId);
+        persist();
+        renderView('kanban');
+        alert(`${m.name} has left the group.`);
+      }
+    }
   }
 };
 

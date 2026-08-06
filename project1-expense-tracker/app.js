@@ -1351,6 +1351,290 @@ function openAddIncomeModal() {
   showToast('Income tracking coming soon', '<i class="ph ph-info" style="color:#3C50E0;"></i>');
 }
 
+// --- FR-08: EXPORT MONTHLY REPORT AS PDF/CSV ---
+function exportMonthlyReport(format) {
+  if (format === 'csv') {
+    exportCSV();
+  } else {
+    exportPDF();
+  }
+}
+
+function exportCSV() {
+  const today = new Date();
+  const monthName = today.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+  // Header
+  let csv = 'FinTrack Monthly Report - ' + monthName + '\n\n';
+
+  // Subscriptions Summary
+  csv += 'SUBSCRIPTIONS\n';
+  csv += 'Name,Category,Cost,Cycle,Status,Days Unused,Last Transaction\n';
+  state.subscriptions.forEach(s => {
+    csv += `"${s.name}","${s.category}",${s.cost},"${s.cycle}","${s.status}",${s.daysUnused || 0},"${s.lastTxDate || s.added}"\n`;
+  });
+
+  // Ghost Detection Summary
+  const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
+  csv += '\nGHOST DETECTION SUMMARY\n';
+  csv += 'Total Ghost Subscriptions,' + ghosts.length + '\n';
+  csv += 'Monthly Ghost Cost,' + ghosts.reduce((s, g) => s + g.cost, 0).toFixed(2) + '\n';
+  csv += 'Annual Potential Savings,' + (ghosts.reduce((s, g) => s + g.cost, 0) * 12).toFixed(2) + '\n';
+
+  // Recent Transactions
+  csv += '\nRECENT TRANSACTIONS\n';
+  csv += 'Date,Subscription,Category,Amount\n';
+  const sortedTx = [...state.purchases].sort((a, b) => new Date(b.date) - new Date(a.date));
+  sortedTx.forEach(t => {
+    const sub = state.subscriptions.find(s => s.id === t.subId);
+    csv += `"${t.date}","${sub ? sub.name : 'Unknown'}","${t.category}",${t.amount}\n`;
+  });
+
+  // Budget Summary
+  csv += '\nBUDGET SUMMARY\n';
+  csv += 'Category,Limit,Spent,Remaining,Status\n';
+  state.budgets.forEach(b => {
+    const spent = state.purchases.filter(t => t.category === b.category).reduce((s, t) => s + t.amount, 0);
+    const remaining = b.limit - spent;
+    csv += `"${b.category}",${b.limit},${spent.toFixed(2)},${remaining.toFixed(2)},"${spent > b.limit ? 'OVER BUDGET' : 'On Track'}"\n`;
+  });
+
+  // KPIs
+  const totalCost = state.subscriptions.filter(s => s.status !== 'Cancelled').reduce((s, x) => s + x.cost, 0);
+  csv += '\nKEY METRICS\n';
+  csv += 'Total Monthly Cost,' + totalCost.toFixed(2) + '\n';
+  csv += 'Total Annual Cost,' + (totalCost * 12).toFixed(2) + '\n';
+  csv += 'Active Subscriptions,' + state.subscriptions.filter(s => s.status === 'Active').length + '\n';
+  csv += 'Ghost Subscriptions,' + ghosts.length + '\n';
+  const utilRate = state.subscriptions.length > 0 ? Math.round(((state.subscriptions.length - ghosts.length) / state.subscriptions.length) * 100) : 0;
+  csv += 'Utilization Rate,' + utilRate + '%\n';
+
+  // Download
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `FinTrack_Report_${today.toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  showToast('CSV Report exported successfully!', '<i class="ph ph-file-csv" style="color:#10B981;"></i>');
+}
+
+function exportPDF() {
+  // Generate a printable HTML report and trigger browser print dialog
+  const today = new Date();
+  const monthName = today.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
+  const totalCost = state.subscriptions.filter(s => s.status !== 'Cancelled').reduce((s, x) => s + x.cost, 0);
+  const utilRate = state.subscriptions.length > 0 ? Math.round(((state.subscriptions.length - ghosts.length) / state.subscriptions.length) * 100) : 0;
+
+  const printContent = `
+    <html>
+    <head>
+      <title>FinTrack Report - ${monthName}</title>
+      <style>
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; padding: 40px; color: #1C2434; max-width: 800px; margin: 0 auto; }
+        h1 { font-size: 24px; border-bottom: 2px solid #3C50E0; padding-bottom: 12px; margin-bottom: 24px; }
+        h2 { font-size: 16px; color: #3C50E0; margin-top: 32px; margin-bottom: 12px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
+        th, td { padding: 10px 12px; border: 1px solid #E2E8F0; text-align: left; }
+        th { background: #F8FAFC; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+        .kpi-row { display: flex; gap: 16px; margin-bottom: 24px; }
+        .kpi-box { flex: 1; padding: 16px; border: 1px solid #E2E8F0; border-radius: 8px; text-align: center; }
+        .kpi-value { font-size: 24px; font-weight: 700; }
+        .kpi-label { font-size: 12px; color: #64748B; margin-top: 4px; }
+        .ghost { color: #EF4444; font-weight: 600; }
+        .active { color: #10B981; font-weight: 600; }
+        .footer { margin-top: 40px; font-size: 11px; color: #94A3B8; text-align: center; border-top: 1px solid #E2E8F0; padding-top: 12px; }
+      </style>
+    </head>
+    <body>
+      <h1>📊 FinTrack Monthly Report</h1>
+      <p style="color: #64748B;">${monthName} · Generated on ${today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+
+      <div class="kpi-row">
+        <div class="kpi-box"><div class="kpi-value">${formatMoney(totalCost)}</div><div class="kpi-label">Monthly Cost</div></div>
+        <div class="kpi-box"><div class="kpi-value">${state.subscriptions.filter(s => s.status === 'Active').length}</div><div class="kpi-label">Active Subs</div></div>
+        <div class="kpi-box"><div class="kpi-value" style="color:#EF4444;">${ghosts.length}</div><div class="kpi-label">Ghost Alerts</div></div>
+        <div class="kpi-box"><div class="kpi-value">${utilRate}%</div><div class="kpi-label">Utilization Rate</div></div>
+      </div>
+
+      <h2>Subscriptions</h2>
+      <table>
+        <tr><th>Name</th><th>Category</th><th>Cost</th><th>Cycle</th><th>Status</th><th>Unused Days</th></tr>
+        ${state.subscriptions.map(s => `<tr><td>${s.name}</td><td>${s.category}</td><td>${formatMoney(s.cost)}</td><td>${s.cycle}</td><td class="${s.status === 'Ghost' ? 'ghost' : 'active'}">${s.status}</td><td>${s.daysUnused || 0}</td></tr>`).join('')}
+      </table>
+
+      ${ghosts.length > 0 ? `
+      <h2>⚠️ Ghost Detection Report</h2>
+      <table>
+        <tr><th>Service</th><th>Monthly Cost</th><th>Annual Savings if Cancelled</th><th>Days Unused</th></tr>
+        ${ghosts.map(g => `<tr><td>${g.name}</td><td>${formatMoney(g.cost)}</td><td style="color:#10B981; font-weight:600;">${formatMoney(g.cost * 12)}</td><td>${g.daysUnused || 0}</td></tr>`).join('')}
+      </table>
+      <p><strong>Total Potential Savings:</strong> <span style="color:#10B981; font-weight:700;">${formatMoney(ghosts.reduce((s, g) => s + g.cost, 0) * 12)}/year</span></p>
+      ` : '<p style="color:#10B981;">✅ No ghost subscriptions detected. All subscriptions are actively used.</p>'}
+
+      <h2>Recent Transactions</h2>
+      <table>
+        <tr><th>Date</th><th>Service</th><th>Category</th><th>Amount</th></tr>
+        ${[...state.purchases].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10).map(t => {
+          const sub = state.subscriptions.find(s => s.id === t.subId);
+          return `<tr><td>${t.date}</td><td>${sub ? sub.name : 'Unknown'}</td><td>${t.category}</td><td>${formatMoney(t.amount)}</td></tr>`;
+        }).join('')}
+      </table>
+
+      <div class="footer">Generated by FinTrack · Personal Subscription & Expense Analytics · ${today.getFullYear()}</div>
+    </body>
+    </html>
+  `;
+
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(printContent);
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(() => printWindow.print(), 500);
+
+  showToast('PDF Report ready for print/save!', '<i class="ph ph-file-pdf" style="color:#EF4444;"></i>');
+}
+
+function openExportModal() {
+  const modal = document.getElementById('modal-export');
+  if (!modal) {
+    // Create the modal dynamically
+    const overlay = document.createElement('div');
+    overlay.id = 'modal-export';
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+      <div class="modal-card" style="max-width: 420px;">
+        <button class="modal-close" onclick="closeModal('modal-export')">&times;</button>
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="width: 56px; height: 56px; background: var(--primary-light); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+            <i class="ph ph-download-simple" style="font-size: 24px; color: var(--primary);"></i>
+          </div>
+          <h3 style="margin: 0 0 8px; font-size: 18px;">Export Monthly Report</h3>
+          <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">Download your subscription data, ghost detection results, and budget analysis.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px;" onclick="exportCSV(); closeModal('modal-export')">
+            <i class="ph ph-file-csv" style="font-size: 18px;"></i> Export as CSV
+            <span style="font-size: 11px; opacity: 0.7; margin-left: auto;">Spreadsheet</span>
+          </button>
+          <button class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px;" onclick="exportPDF(); closeModal('modal-export')">
+            <i class="ph ph-file-pdf" style="font-size: 18px;"></i> Export as PDF
+            <span style="font-size: 11px; opacity: 0.7; margin-left: auto;">Print / Save</span>
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.classList.add('active');
+  } else {
+    modal.classList.add('active');
+  }
+}
+
+// --- FR-06: HANDLE EXPIRED CARDS / FAILED RECURRING PAYMENTS ---
+function simulateExpiredCard(subId) {
+  const sub = state.subscriptions.find(s => s.id === subId);
+  if (!sub) return;
+
+  // Create expired card exception modal
+  const existingModal = document.getElementById('modal-expired-card');
+  if (existingModal) existingModal.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'modal-expired-card';
+  overlay.className = 'modal-overlay active';
+  overlay.innerHTML = `
+    <div class="modal-card" style="max-width: 480px;">
+      <button class="modal-close" onclick="closeModal('modal-expired-card')">&times;</button>
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="width: 56px; height: 56px; background: var(--red-light, rgba(239,68,68,0.1)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+          <i class="ph ph-credit-card" style="font-size: 24px; color: var(--red);"></i>
+        </div>
+        <h3 style="margin: 0 0 8px; font-size: 18px; color: var(--red);">⚠️ Payment Failed</h3>
+        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">The recurring payment for <strong>${sub.name}</strong> failed due to an expired linked card.</p>
+      </div>
+
+      <div style="background: var(--bg-main); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
+          <span style="color: var(--text-secondary);">Service</span>
+          <span style="font-weight: 600;">${sub.name}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
+          <span style="color: var(--text-secondary);">Amount</span>
+          <span style="font-weight: 600;">${formatMoney(sub.cost)}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
+          <span style="color: var(--text-secondary);">Card</span>
+          <span style="font-weight: 600; color: var(--red);">**** 4242 (Expired)</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;">
+          <span style="color: var(--text-secondary);">Retry Attempts</span>
+          <span style="font-weight: 600;">3 of 3 Failed</span>
+        </div>
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 20px; padding: 12px; background: rgba(245, 158, 11, 0.08); border-radius: 8px; border-left: 3px solid #F59E0B;">
+        <strong>Grace Period:</strong> Your subscription remains active for 7 days. Update your payment method before the grace period ends to avoid service interruption.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="btn-primary" style="padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="handleUpdatePaymentMethod('${sub.id}'); closeModal('modal-expired-card')">
+          <i class="ph ph-credit-card"></i> Update Payment Method
+        </button>
+        <button class="btn-secondary" style="padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="handleSnoozeExpiredCard('${sub.id}'); closeModal('modal-expired-card')">
+          <i class="ph ph-clock"></i> Remind Me in 3 Days
+        </button>
+        <button style="background: none; border: 1px solid var(--red); color: var(--red); padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="handleCancelExpiredSub('${sub.id}'); closeModal('modal-expired-card')">
+          <i class="ph ph-x-circle"></i> Cancel Subscription
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+function handleUpdatePaymentMethod(subId) {
+  showToast('Payment method updated successfully! Retry scheduled.', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
+  // Simulate a successful payment retry
+  const sub = state.subscriptions.find(s => s.id === subId);
+  if (sub) {
+    const today = new Date().toISOString().split('T')[0];
+    state.purchases.push({
+      id: 't' + Date.now(),
+      subId: sub.id,
+      date: today,
+      category: sub.category,
+      amount: sub.cost
+    });
+    sub.status = 'Active';
+    runGhostDetection();
+    renderAll('view-subscriptions');
+  }
+}
+
+function handleSnoozeExpiredCard(subId) {
+  const sub = state.subscriptions.find(s => s.id === subId);
+  if (sub) {
+    const snoozeDate = new Date();
+    snoozeDate.setDate(snoozeDate.getDate() + 3);
+    sub.cardReminderDate = snoozeDate.toISOString().split('T')[0];
+  }
+  showToast('Reminder set for 3 days. Update your card before the grace period ends.', '<i class="ph ph-clock" style="color:#F59E0B;"></i>');
+}
+
+function handleCancelExpiredSub(subId) {
+  const sub = state.subscriptions.find(s => s.id === subId);
+  if (sub) {
+    sub.status = 'Cancelled';
+    runGhostDetection();
+    renderAll('view-subscriptions');
+    showToast(`${sub.name} has been cancelled. You saved ${formatMoney(sub.cost * 12)}/year.`, '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
+  }
+}
+
 // --- 6. BOOT ---
 document.addEventListener('DOMContentLoaded', () => {
   const sidebarNav = document.getElementById('sidebarNav');
