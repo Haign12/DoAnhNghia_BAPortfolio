@@ -71,29 +71,105 @@
     <!-- GLOBAL TOPBAR (always visible across views) -->
     <header class="topbar">
       <div class="topbar-left">
-        <div class="search-box">
+        <div class="search-box" id="topbarSearchContainer">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" placeholder="Search for a recent purchase...">
-          <span class="cmd-k"><span>⌘</span><span>K</span></span>
+          <input type="text" id="topbarSearchInput" placeholder="Search for a recent purchase..." autocomplete="off">
+          <span class="cmd-k" id="topbarCmdK" title="Press Cmd+K or Ctrl+K to search"><span>⌘</span><span>K</span></span>
+
+          <!-- Search Results Dropdown -->
+          <div class="search-results-dropdown" id="searchResultsDropdown" style="display: none;">
+            <div id="searchResultsContent"></div>
+          </div>
         </div>
       </div>
       <div class="topbar-right">
-        <button class="action-btn" aria-label="Notifications">
-          <i class="ph ph-bell"></i>
-          <span class="ping-dot"></span>
-        </button>
-        <button class="action-btn" aria-label="Messages">
-          <i class="ph ph-chat-circle-dots"></i>
-        </button>
-        <div class="user-profile">
-          <div class="user-avatar">
-            <img src="https://ui-avatars.com/api/?name=Alex+Smith&background=3C50E0&color=fff" alt="Alex Smith">
+        <!-- Notification Dropdown Wrapper -->
+        <div class="topbar-dropdown-wrapper" id="notifDropdownWrapper">
+          <button class="action-btn" id="notifToggleBtn" aria-label="Notifications" title="Notifications">
+            <i class="ph ph-bell"></i>
+            <span class="ping-dot" id="notifPingDot"></span>
+          </button>
+          <div class="topbar-dropdown notif-dropdown" id="notifDropdown" style="display: none;">
+            <div class="dropdown-header">
+              <span style="font-weight: 700; font-size: 14px; color: var(--text-primary);">Notifications</span>
+              <button class="btn-text-sm" onclick="markAllNotifsRead()" style="background: none; border: none; color: var(--primary); font-size: 12px; font-weight: 600; cursor: pointer;">Mark all read</button>
+            </div>
+            <div class="dropdown-body" id="notifList">
+              <!-- Rendered by JS -->
+            </div>
           </div>
-          <div class="user-info">
-            <span class="user-name">Alex Smith <i class="ph ph-caret-down"></i></span>
+        </div>
+
+        <!-- Chat / Assistant Dropdown Wrapper -->
+        <div class="topbar-dropdown-wrapper" id="chatDropdownWrapper">
+          <button class="action-btn" id="chatToggleBtn" aria-label="FinTrack Assistant" title="FinTrack Assistant">
+            <i class="ph ph-chat-circle-dots"></i>
+            <span class="chat-dot-badge" id="chatPingDot"></span>
+          </button>
+          <div class="topbar-dropdown chat-dropdown" id="chatDropdown" style="display: none;">
+            <div class="dropdown-header chat-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="assistant-icon-badge"><i class="ph ph-sparkle"></i></div>
+                <div>
+                  <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">FinTrack Assistant</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Smart Financial Insights</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-body" id="chatMessagesBody">
+              <!-- Rendered by JS -->
+            </div>
+            <div class="chat-suggestions">
+              <button class="chat-chip" onclick="sendAssistantQuery('ghosts')">👻 Ghosts</button>
+              <button class="chat-chip" onclick="sendAssistantQuery('savings')">💰 Savings</button>
+              <button class="chat-chip" onclick="sendAssistantQuery('budgets')">🎯 Budgets</button>
+            </div>
+            <div class="chat-input-row">
+              <input type="text" id="chatInput" placeholder="Ask FinTrack Assistant..." onkeydown="if(event.key==='Enter') submitAssistantChat()">
+              <button class="chat-send-btn" onclick="submitAssistantChat()"><i class="ph ph-paper-plane-tilt"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Profile Dropdown Wrapper -->
+        <div class="topbar-dropdown-wrapper" id="profileDropdownWrapper">
+          <div class="user-profile" id="profileToggleBtn" title="Account Menu">
+            <div class="user-avatar">
+              <img id="topbarAvatarImg" src="https://ui-avatars.com/api/?name=Alex+Smith&background=3C50E0&color=fff" alt="Alex Smith">
+            </div>
+            <div class="user-info">
+              <span class="user-name"><span id="topbarUserName">Alex Smith</span> <i class="ph ph-caret-down"></i></span>
+            </div>
+          </div>
+          <div class="topbar-dropdown profile-dropdown" id="profileDropdown" style="display: none;">
+            <div class="profile-dropdown-header">
+              <div class="user-avatar-lg">
+                <img id="dropdownAvatarImg" src="https://ui-avatars.com/api/?name=Alex+Smith&background=3C50E0&color=fff" alt="Alex Smith">
+              </div>
+              <div style="overflow: hidden;">
+                <div style="font-weight:700; font-size:14px; color:var(--text-primary); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" id="dropdownUserName">Alex Smith</div>
+                <div style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px; margin-top:2px;">
+                  alex.smith@fintrack.io <span class="badge-pro-chip">PRO</span>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-menu-item" onclick="openProfileSettingsModal()">
+              <i class="ph ph-user-gear"></i> Profile & Preferences
+            </div>
+            <div class="dropdown-menu-item" onclick="openExportModal()">
+              <i class="ph ph-download-simple"></i> Export Financial Report
+            </div>
+            <div class="dropdown-menu-item" onclick="restartOnboardingWizard()">
+              <i class="ph ph-arrow-counter-clockwise"></i> Re-run Setup Wizard
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-menu-item danger" onclick="simulateLogout()">
+              <i class="ph ph-sign-out"></i> Sign Out (Demo)
+            </div>
           </div>
         </div>
       </div>
@@ -593,6 +669,45 @@
       <input type="number" id="editBudgetLimit" step="0.01" min="0">
     </div>
     <button class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="saveBudget()">Save Budget</button>
+<!-- ============ MODAL: PROFILE & PREFERENCES ============ -->
+<div class="modal-overlay" id="modal-profile-settings">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal('modal-profile-settings')"><i class="ph ph-x"></i></button>
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+      <div style="width:40px; height:40px; border-radius:10px; background:var(--primary-light); display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:22px;">
+        <i class="ph ph-user-gear"></i>
+      </div>
+      <div>
+        <h2 style="font-size:1.2rem; margin:0;">Account & Preferences</h2>
+        <div style="font-size:12px; color:var(--text-secondary);">Manage profile details and tracking thresholds</div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--text-primary);">Display Name</label>
+      <input type="text" id="prefUserNameInput" value="Alex Smith" style="width:100%; padding:10px 12px; border:1px solid var(--border-medium); border-radius:8px; font-size:14px; font-family:inherit; background:var(--bg-card); color:var(--text-primary); outline:none;">
+    </div>
+
+    <div class="form-group" style="margin-bottom: 16px;">
+      <label style="display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--text-primary);">Base Currency</label>
+      <select id="prefCurrencySelect" style="width:100%; padding:10px 12px; border:1px solid var(--border-medium); border-radius:8px; font-size:14px; font-family:inherit; background:var(--bg-card); color:var(--text-primary); outline:none;">
+        <option value="USD">USD ($)</option>
+        <option value="VND">VND (đ)</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 24px;">
+      <label style="display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--text-primary);">Ghost Threshold <span style="font-size:12px; font-weight:400; color:var(--text-secondary);">(days inactive)</span></label>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="pref-threshold-chip" data-t="7" onclick="selectPrefThreshold(7)">7d</button>
+        <button type="button" class="pref-threshold-chip" data-t="14" onclick="selectPrefThreshold(14)">14d</button>
+        <button type="button" class="pref-threshold-chip active" data-t="30" onclick="selectPrefThreshold(30)">30d</button>
+        <button type="button" class="pref-threshold-chip" data-t="60" onclick="selectPrefThreshold(60)">60d</button>
+      </div>
+      <input type="hidden" id="prefThresholdVal" value="30">
+    </div>
+
+    <button class="btn-primary" style="width:100%; padding:12px;" onclick="saveProfilePreferences()">Save Preferences</button>
   </div>
 </div>
 

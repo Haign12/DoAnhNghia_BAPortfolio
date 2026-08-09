@@ -4,6 +4,11 @@
 
 // --- 1. GLOBAL STATE (Single Source of Truth) ---
 let state = {
+  user: {
+    name: 'Alex Smith',
+    email: 'alex.smith@fintrack.io'
+  },
+  notificationsRead: false,
   settings: {
     setupCompleted: false,
     currency: 'USD',
@@ -1674,4 +1679,471 @@ document.addEventListener('DOMContentLoaded', () => {
       onboardDataSource = value;
     });
   });
+
+  // Init Topbar Interactive Dropdowns & Search
+  initTopbarHandlers();
 });
+
+// --- 7. TOPBAR INTERACTIVE HANDLERS (Search, Notifications, Assistant Chat, Profile) ---
+function initTopbarHandlers() {
+  const searchInput = document.getElementById('topbarSearchInput');
+  
+  if (searchInput) {
+    searchInput.addEventListener('input', handleGlobalSearch);
+    searchInput.addEventListener('focus', handleGlobalSearch);
+  }
+
+  // Keyboard Shortcut: Cmd+K or Ctrl+K
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (searchInput) {
+        searchInput.focus();
+        handleGlobalSearch();
+      }
+    }
+  });
+
+  // Topbar Dropdown Toggles
+  const notifBtn = document.getElementById('notifToggleBtn');
+  if (notifBtn) {
+    notifBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleTopbarDropdown('notifDropdown');
+      renderNotificationsDropdown();
+    });
+  }
+
+  const chatBtn = document.getElementById('chatToggleBtn');
+  if (chatBtn) {
+    chatBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleTopbarDropdown('chatDropdown');
+      initAssistantChat();
+    });
+  }
+
+  const profileBtn = document.getElementById('profileToggleBtn');
+  if (profileBtn) {
+    profileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleTopbarDropdown('profileDropdown');
+    });
+  }
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#topbarSearchContainer')) {
+      const searchDropdown = document.getElementById('searchResultsDropdown');
+      if (searchDropdown) searchDropdown.style.display = 'none';
+    }
+    if (!e.target.closest('.topbar-dropdown-wrapper')) {
+      closeAllTopbarDropdowns();
+    }
+  });
+}
+
+function toggleTopbarDropdown(dropdownId) {
+  const dropdowns = ['notifDropdown', 'chatDropdown', 'profileDropdown'];
+  dropdowns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (id === dropdownId) {
+        const isShown = el.style.display === 'block';
+        el.style.display = isShown ? 'none' : 'block';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+  });
+  const searchDropdown = document.getElementById('searchResultsDropdown');
+  if (searchDropdown) searchDropdown.style.display = 'none';
+}
+
+function closeAllTopbarDropdowns() {
+  ['notifDropdown', 'chatDropdown', 'profileDropdown'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+// Global Search Handler
+function handleGlobalSearch() {
+  const input = document.getElementById('topbarSearchInput');
+  const dropdown = document.getElementById('searchResultsDropdown');
+  const content = document.getElementById('searchResultsContent');
+  if (!input || !dropdown || !content) return;
+
+  const query = input.value.trim().toLowerCase();
+  if (!query) {
+    dropdown.style.display = 'none';
+    return;
+  }
+
+  // Search Subscriptions
+  const matchedSubs = state.subscriptions.filter(s =>
+    s.name.toLowerCase().includes(query) ||
+    (s.category && s.category.toLowerCase().includes(query)) ||
+    (s.status && s.status.toLowerCase().includes(query))
+  );
+
+  // Search Purchases / Transactions
+  const matchedPurchases = state.purchases.filter(p => {
+    const sub = state.subscriptions.find(s => s.id === p.subId);
+    const subName = sub ? sub.name.toLowerCase() : '';
+    const cat = p.category ? p.category.toLowerCase() : '';
+    return subName.includes(query) || cat.includes(query) || (p.date && p.date.includes(query));
+  });
+
+  let html = '';
+
+  if (matchedSubs.length > 0) {
+    html += `<div class="search-section-header">Subscriptions (${matchedSubs.length})</div>`;
+    html += matchedSubs.slice(0, 5).map(s => {
+      const isGhost = s.status === 'Ghost';
+      return `
+        <div class="search-item" onclick="selectSearchResult('sub', '${s.id}')">
+          <div class="search-item-left">
+            <div class="search-item-icon" style="background: ${isGhost ? 'rgba(239, 68, 68, 0.1)' : 'var(--primary-light)'}; color: ${isGhost ? 'var(--red)' : 'var(--primary)'};">
+              <i class="ph ${isGhost ? 'ph-ghost' : 'ph-repeat'}"></i>
+            </div>
+            <div>
+              <div class="search-item-title">${s.name}</div>
+              <div class="search-item-sub">${s.category || 'Subscription'} • ${s.cycle}</div>
+            </div>
+          </div>
+          <div class="search-item-right">
+            <div class="search-item-amount">${formatMoney(s.cost)}</div>
+            <span class="badge ${isGhost ? 'badge-ghost' : 'badge-active'}" style="font-size: 10px; padding: 2px 6px;">${s.status}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (matchedPurchases.length > 0) {
+    html += `<div class="search-section-header" style="margin-top: 8px;">Recent Transactions (${matchedPurchases.length})</div>`;
+    html += matchedPurchases.slice(0, 5).map(p => {
+      const sub = state.subscriptions.find(s => s.id === p.subId);
+      const title = sub ? sub.name : (p.category || 'Transaction');
+      return `
+        <div class="search-item" onclick="selectSearchResult('purchase', '${p.id}')">
+          <div class="search-item-left">
+            <div class="search-item-icon" style="background: var(--bg-main); color: var(--text-secondary);">
+              <i class="ph ph-receipt"></i>
+            </div>
+            <div>
+              <div class="search-item-title">${title}</div>
+              <div class="search-item-sub">${p.date} • ${p.category || 'Expense'}</div>
+            </div>
+          </div>
+          <div class="search-item-right">
+            <div class="search-item-amount">${formatMoney(p.amount)}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (matchedSubs.length === 0 && matchedPurchases.length === 0) {
+    html = `
+      <div style="padding: 24px 16px; text-align: center; color: var(--text-secondary); font-size: 13px;">
+        <i class="ph ph-magnifying-glass" style="font-size: 24px; display: block; margin-bottom: 6px; color: var(--text-muted);"></i>
+        No subscriptions or transactions found for "<strong>${escapeHtml(query)}</strong>"
+      </div>
+    `;
+  }
+
+  content.innerHTML = html;
+  dropdown.style.display = 'block';
+}
+
+function selectSearchResult(type, id) {
+  const searchDropdown = document.getElementById('searchResultsDropdown');
+  if (searchDropdown) searchDropdown.style.display = 'none';
+
+  if (type === 'sub') {
+    const sub = state.subscriptions.find(s => s.id === id);
+    if (sub && sub.status === 'Ghost') {
+      openGhostDrilldown(id);
+    } else {
+      const subNav = document.querySelector('.sidebar-nav a[onclick*="view-subscriptions"]');
+      switchView('view-subscriptions', subNav);
+    }
+  } else if (type === 'purchase') {
+    const cashNav = document.querySelector('.sidebar-nav a[onclick*="view-cashflow"]');
+    switchView('view-cashflow', cashNav);
+  }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Notifications Handler
+function renderNotificationsDropdown() {
+  const notifList = document.getElementById('notifList');
+  if (!notifList) return;
+
+  const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
+  let notifs = [];
+
+  if (ghosts.length > 0) {
+    const ghostTotal = ghosts.reduce((acc, g) => acc + (Number(g.cost) || 0), 0);
+    notifs.push({
+      id: 'n-ghost',
+      type: 'warning',
+      icon: 'ph-ghost',
+      title: `${ghosts.length} Ghost Subscription${ghosts.length > 1 ? 's' : ''} Flagged`,
+      desc: `Inactive services bleeding ${formatMoney(ghostTotal)}/mo. Action required.`,
+      time: 'Just now',
+      action: () => openGhostDrawer()
+    });
+  }
+
+  state.budgets.forEach(b => {
+    const pct = b.limit > 0 ? (b.spent / b.limit) * 100 : 0;
+    if (pct >= 80) {
+      notifs.push({
+        id: 'n-budget-' + b.category,
+        type: 'warning',
+        icon: 'ph-target',
+        title: `${b.category} Budget Alert`,
+        desc: `Spent ${formatMoney(b.spent)} of ${formatMoney(b.limit)} (${Math.round(pct)}% utilized).`,
+        time: '2 hours ago',
+        action: () => switchView('view-budget', document.querySelector('.sidebar-nav a[onclick*="view-budget"]'))
+      });
+    }
+  });
+
+  const activeSubs = state.subscriptions.filter(s => s.status === 'Active');
+  if (activeSubs.length > 0) {
+    const nextSub = activeSubs[0];
+    notifs.push({
+      id: 'n-renewal',
+      type: 'info',
+      icon: 'ph-calendar-blank',
+      title: `Upcoming Renewal: ${nextSub.name}`,
+      desc: `Scheduled renewal of ${formatMoney(nextSub.cost)} coming up next week.`,
+      time: '1 day ago',
+      action: () => switchView('view-subscriptions', document.querySelector('.sidebar-nav a[onclick*="view-subscriptions"]'))
+    });
+  }
+
+  notifs.push({
+    id: 'n-card',
+    type: 'danger',
+    icon: 'ph-credit-card',
+    title: 'Payment Method Expiry Notice',
+    desc: 'Visa ending in 4242 expires soon. Update card to avoid service interruption.',
+    time: '2 days ago',
+    action: () => simulateExpiredCard(state.subscriptions.length > 0 ? state.subscriptions[0].id : null)
+  });
+
+  if (notifs.length === 0) {
+    notifList.innerHTML = `
+      <div style="padding: 30px 16px; text-align: center; color: var(--text-secondary); font-size: 13px;">
+        <i class="ph ph-check-circle" style="font-size: 28px; display: block; margin-bottom: 8px; color: var(--teal);"></i>
+        All caught up! No unread notifications.
+      </div>
+    `;
+    return;
+  }
+
+  notifList.innerHTML = notifs.map(n => `
+    <div class="notif-item ${state.notificationsRead ? '' : 'unread'}" onclick="handleNotifClick('${n.id}')">
+      <div class="notif-icon ${n.type}">
+        <i class="ph ${n.icon}"></i>
+      </div>
+      <div style="flex: 1;">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-desc">${n.desc}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+    </div>
+  `).join('');
+
+  window._topbarNotifActions = {};
+  notifs.forEach(n => { window._topbarNotifActions[n.id] = n.action; });
+}
+
+function handleNotifClick(notifId) {
+  closeAllTopbarDropdowns();
+  if (window._topbarNotifActions && window._topbarNotifActions[notifId]) {
+    window._topbarNotifActions[notifId]();
+  }
+}
+
+function markAllNotifsRead() {
+  state.notificationsRead = true;
+  const pingDot = document.getElementById('notifPingDot');
+  if (pingDot) pingDot.style.display = 'none';
+  renderNotificationsDropdown();
+  showToast('All notifications marked as read.', '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
+}
+
+// FinTrack Assistant Chat Handler
+let assistantChatMessages = [
+  { sender: 'assistant', text: '👋 Hello! I am your FinTrack Assistant. How can I help you analyze your subscriptions, ghost burn rate, or budgets today?' }
+];
+
+function initAssistantChat() {
+  renderAssistantChat();
+}
+
+function renderAssistantChat() {
+  const chatBody = document.getElementById('chatMessagesBody');
+  if (!chatBody) return;
+
+  chatBody.innerHTML = assistantChatMessages.map(m => `
+    <div class="chat-msg ${m.sender}">
+      ${m.text}
+    </div>
+  `).join('');
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function sendAssistantQuery(type) {
+  if (type === 'ghosts') {
+    const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
+    const totalBleed = ghosts.reduce((sum, g) => sum + (Number(g.cost) || 0), 0);
+    assistantChatMessages.push({ sender: 'user', text: '👻 Check Ghost Subscriptions' });
+    if (ghosts.length > 0) {
+      assistantChatMessages.push({
+        sender: 'assistant',
+        text: `Found <strong>${ghosts.length} ghost subscription${ghosts.length > 1 ? 's' : ''}</strong> (${ghosts.map(g => g.name).join(', ')}) bleeding <strong>${formatMoney(totalBleed)}/mo</strong>. Would you like to cancel them?`
+      });
+    } else {
+      assistantChatMessages.push({ sender: 'assistant', text: '🎉 Great news! Zero ghost subscriptions detected. All your active subscriptions are being regularly used.' });
+    }
+  } else if (type === 'savings') {
+    const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
+    const totalBleed = ghosts.reduce((sum, g) => sum + (Number(g.cost) || 0), 0);
+    assistantChatMessages.push({ sender: 'user', text: '💰 Monthly Savings Summary' });
+    assistantChatMessages.push({
+      sender: 'assistant',
+      text: `Your current subscription total is <strong>${formatMoney(state.subscriptions.reduce((a, s) => a + (Number(s.cost) || 0), 0))}/mo</strong>. By canceling inactive ghosts, your potential yearly savings is <strong>${formatMoney(totalBleed * 12)}</strong>!`
+    });
+  } else if (type === 'budgets') {
+    assistantChatMessages.push({ sender: 'user', text: '🎯 Check Budget Limits' });
+    const bSummary = state.budgets.map(b => `${b.category}: ${formatMoney(b.spent)} / ${formatMoney(b.limit)}`).join('<br>');
+    assistantChatMessages.push({
+      sender: 'assistant',
+      text: `Here is your current budget status:<br><strong>${bSummary}</strong>`
+    });
+  }
+  renderAssistantChat();
+}
+
+function submitAssistantChat() {
+  const input = document.getElementById('chatInput');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+
+  assistantChatMessages.push({ sender: 'user', text: escapeHtml(text) });
+  input.value = '';
+  renderAssistantChat();
+
+  setTimeout(() => {
+    const q = text.toLowerCase();
+    let reply = "I'm analyzing your request. You can manage all subscriptions in the Subscriptions tab or adjust spending limits in Spending Limits.";
+
+    if (q.includes('ghost') || q.includes('inactive') || q.includes('unused')) {
+      const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
+      reply = ghosts.length > 0
+        ? `You have ${ghosts.length} ghost subscription(s): ${ghosts.map(g => g.name).join(', ')}. Click the Subscriptions menu to review.`
+        : `No ghost subscriptions detected right now!`;
+    } else if (q.includes('save') || q.includes('cost') || q.includes('spend')) {
+      const total = state.subscriptions.reduce((a, s) => a + (Number(s.cost) || 0), 0);
+      reply = `Your total active subscription expenditure is ${formatMoney(total)}/month (${formatMoney(total * 12)}/year).`;
+    } else if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
+      reply = `Hello ${state.user ? state.user.name : 'there'}! Ask me any financial question or query about your tracked subscriptions.`;
+    } else if (q.includes('help')) {
+      reply = `I can help you identify ghost subscriptions, check your category budgets, or export financial reports. Try clicking the quick buttons below!`;
+    }
+
+    assistantChatMessages.push({ sender: 'assistant', text: reply });
+    renderAssistantChat();
+  }, 400);
+}
+
+// User Profile & Preferences Handlers
+function openProfileSettingsModal() {
+  closeAllTopbarDropdowns();
+  const userNameInput = document.getElementById('prefUserNameInput');
+  const currencySelect = document.getElementById('prefCurrencySelect');
+  const thresholdVal = document.getElementById('prefThresholdVal');
+
+  if (userNameInput) userNameInput.value = state.user ? state.user.name : 'Alex Smith';
+  if (currencySelect) currencySelect.value = state.settings.currency || 'USD';
+  if (thresholdVal) thresholdVal.value = state.settings.ghostThreshold || 30;
+
+  selectPrefThreshold(state.settings.ghostThreshold || 30);
+  openModal('modal-profile-settings');
+}
+
+function selectPrefThreshold(val) {
+  const hidden = document.getElementById('prefThresholdVal');
+  if (hidden) hidden.value = val;
+  document.querySelectorAll('.pref-threshold-chip').forEach(chip => {
+    const chipVal = Number(chip.getAttribute('data-t'));
+    chip.classList.toggle('active', chipVal === Number(val));
+  });
+}
+
+function saveProfilePreferences() {
+  const nameInput = document.getElementById('prefUserNameInput');
+  const currencySelect = document.getElementById('prefCurrencySelect');
+  const thresholdVal = document.getElementById('prefThresholdVal');
+
+  const newName = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Alex Smith';
+  const newCurrency = currencySelect ? currencySelect.value : 'USD';
+  const newThreshold = thresholdVal ? Number(thresholdVal.value) : 30;
+
+  state.user = state.user || {};
+  state.user.name = newName;
+  state.settings.currency = newCurrency;
+  state.settings.ghostThreshold = newThreshold;
+
+  const topbarName = document.getElementById('topbarUserName');
+  const dropdownName = document.getElementById('dropdownUserName');
+  if (topbarName) topbarName.textContent = newName;
+  if (dropdownName) dropdownName.textContent = newName;
+
+  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(newName)}&background=3C50E0&color=fff`;
+  const topbarAvatar = document.getElementById('topbarAvatarImg');
+  const dropdownAvatar = document.getElementById('dropdownAvatarImg');
+  if (topbarAvatar) topbarAvatar.src = avatarUrl;
+  if (dropdownAvatar) dropdownAvatar.src = avatarUrl;
+
+  closeModal('modal-profile-settings');
+  runGhostDetection();
+
+  const activeView = document.querySelector('.view-section.active');
+  const viewId = activeView ? activeView.id : 'view-overview';
+  renderAll(viewId);
+
+  showToast(`Profile preferences updated (${newCurrency}, ${newThreshold}d ghost threshold).`, '<i class="ph ph-check-circle" style="color:#10B981;"></i>');
+}
+
+function restartOnboardingWizard() {
+  closeAllTopbarDropdowns();
+  state.settings.setupCompleted = false;
+  const sidebarNav = document.getElementById('sidebarNav');
+  if (sidebarNav) {
+    sidebarNav.style.pointerEvents = 'none';
+    sidebarNav.style.opacity = '0.5';
+  }
+  goToOnboardStep(1);
+  switchView('view-onboarding');
+  showToast('Setup wizard restarted.', '<i class="ph ph-arrow-counter-clockwise" style="color:#3B82F6;"></i>');
+}
+
+function simulateLogout() {
+  closeAllTopbarDropdowns();
+  showToast('Signing out of demo session...', '<i class="ph ph-sign-out" style="color:#EF4444;"></i>');
+  setTimeout(() => {
+    restartOnboardingWizard();
+  }, 1000);
+}
