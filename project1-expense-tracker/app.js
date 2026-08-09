@@ -1984,7 +1984,7 @@ function markAllNotifsRead() {
 
 // FinTrack Assistant Chat Handler
 let assistantChatMessages = [
-  { sender: 'assistant', text: '👋 Hello! I am your FinTrack Assistant. How can I help you analyze your subscriptions, ghost burn rate, or budgets today?' }
+  { sender: 'assistant', text: 'Hello! I am your FinTrack Assistant. How can I help you analyze your subscriptions, ghost burn rate, or budgets today?' }
 ];
 
 function initAssistantChat() {
@@ -2007,25 +2007,25 @@ function sendAssistantQuery(type) {
   if (type === 'ghosts') {
     const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
     const totalBleed = ghosts.reduce((sum, g) => sum + (Number(g.cost) || 0), 0);
-    assistantChatMessages.push({ sender: 'user', text: '👻 Check Ghost Subscriptions' });
+    assistantChatMessages.push({ sender: 'user', text: 'Check Ghost Subscriptions' });
     if (ghosts.length > 0) {
       assistantChatMessages.push({
         sender: 'assistant',
         text: `Found <strong>${ghosts.length} ghost subscription${ghosts.length > 1 ? 's' : ''}</strong> (${ghosts.map(g => g.name).join(', ')}) bleeding <strong>${formatMoney(totalBleed)}/mo</strong>. Would you like to cancel them?`
       });
     } else {
-      assistantChatMessages.push({ sender: 'assistant', text: '🎉 Great news! Zero ghost subscriptions detected. All your active subscriptions are being regularly used.' });
+      assistantChatMessages.push({ sender: 'assistant', text: 'Great news! Zero ghost subscriptions detected. All your active subscriptions are being regularly used.' });
     }
   } else if (type === 'savings') {
     const ghosts = state.subscriptions.filter(s => s.status === 'Ghost');
     const totalBleed = ghosts.reduce((sum, g) => sum + (Number(g.cost) || 0), 0);
-    assistantChatMessages.push({ sender: 'user', text: '💰 Monthly Savings Summary' });
+    assistantChatMessages.push({ sender: 'user', text: 'Monthly Savings Summary' });
     assistantChatMessages.push({
       sender: 'assistant',
       text: `Your current subscription total is <strong>${formatMoney(state.subscriptions.reduce((a, s) => a + (Number(s.cost) || 0), 0))}/mo</strong>. By canceling inactive ghosts, your potential yearly savings is <strong>${formatMoney(totalBleed * 12)}</strong>!`
     });
   } else if (type === 'budgets') {
-    assistantChatMessages.push({ sender: 'user', text: '🎯 Check Budget Limits' });
+    assistantChatMessages.push({ sender: 'user', text: 'Check Budget Limits' });
     const bSummary = state.budgets.map(b => `${b.category}: ${formatMoney(b.spent)} / ${formatMoney(b.limit)}`).join('<br>');
     assistantChatMessages.push({
       sender: 'assistant',

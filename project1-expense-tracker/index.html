@@ -111,21 +111,18 @@
           </button>
           <div class="topbar-dropdown chat-dropdown" id="chatDropdown" style="display: none;">
             <div class="dropdown-header chat-header">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <div class="assistant-icon-badge"><i class="ph ph-sparkle"></i></div>
-                <div>
-                  <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">FinTrack Assistant</div>
-                  <div style="font-size: 11px; color: var(--text-muted);">Smart Financial Insights</div>
-                </div>
+              <div>
+                <div style="font-weight: 700; font-size: 14px; color: var(--text-primary);">FinTrack Assistant</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Smart Financial Insights</div>
               </div>
             </div>
             <div class="chat-body" id="chatMessagesBody">
               <!-- Rendered by JS -->
             </div>
             <div class="chat-suggestions">
-              <button class="chat-chip" onclick="sendAssistantQuery('ghosts')">👻 Ghosts</button>
-              <button class="chat-chip" onclick="sendAssistantQuery('savings')">💰 Savings</button>
-              <button class="chat-chip" onclick="sendAssistantQuery('budgets')">🎯 Budgets</button>
+              <button class="chat-chip" onclick="sendAssistantQuery('ghosts')">Ghosts</button>
+              <button class="chat-chip" onclick="sendAssistantQuery('savings')">Savings</button>
+              <button class="chat-chip" onclick="sendAssistantQuery('budgets')">Budgets</button>
             </div>
             <div class="chat-input-row">
               <input type="text" id="chatInput" placeholder="Ask FinTrack Assistant..." onkeydown="if(event.key==='Enter') submitAssistantChat()">
