@@ -192,6 +192,8 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 .project-link:first-child { border-color: var(--button-bg); background: var(--button-bg); color: var(--button-text); }
 .project-link:hover, .project-link:focus-visible { transform: translateY(-2px); border-color: var(--button-bg); background: var(--button-bg); color: var(--button-text); }
 .project-link:focus-visible { outline: 3px solid var(--line-strong); outline-offset: 3px; }
+.project-link-pending { cursor: not-allowed; opacity: .58; }
+.project-link-pending:hover { transform: none; }
 .project-compact { display: grid; grid-template-columns: minmax(260px, .9fr) 1.1fr; min-height: 280px; }
 .compact-image { position: relative; overflow: hidden; background: var(--surface-2); }
 .compact-content { display: flex; flex-direction: column; justify-content: space-between; padding: 28px 38px; }
