@@ -214,6 +214,11 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 .contact-panel .eyebrow { color: color-mix(in srgb, var(--button-text) 64%, transparent); }
 .contact-panel h2 { max-width: 600px; margin-bottom: 0; font-size: clamp(2.5rem, 5vw, 5.2rem); }
 .contact-copy p { margin-bottom: 28px; color: color-mix(in srgb, var(--button-text) 72%, transparent); font-size: 14px; line-height: 1.7; }
+.contact-phone { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 14px; width: fit-content; margin-top: 26px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, var(--button-text) 28%, transparent); color: var(--button-text); font-size: 13px; text-decoration: none; }
+.contact-phone span:first-child { color: color-mix(in srgb, var(--button-text) 68%, transparent); font: 500 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.contact-phone strong { font-size: 18px; letter-spacing: -.02em; }
+.contact-phone:hover { opacity: .72; }
+.contact-phone:focus-visible { outline: 3px solid color-mix(in srgb, var(--button-text) 60%, transparent); outline-offset: 5px; }
 .contact-details { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-top: 22px; color: color-mix(in srgb, var(--button-text) 68%, transparent); font: 500 12px var(--mono); }
 .contact-details a { color: var(--button-text); text-decoration: none; }
 .contact-details a:hover { opacity: .72; }
