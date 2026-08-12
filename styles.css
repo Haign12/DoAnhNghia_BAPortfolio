@@ -134,9 +134,11 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 .visual-note strong { color: var(--text); font: 400 clamp(2rem, 4vw, 3.8rem) var(--serif); letter-spacing: -.06em; }
 
 .marquee { overflow: hidden; border-block: 1px solid var(--line); background: var(--text); color: var(--bg); }
-.marquee-inner { display: flex; align-items: center; gap: 28px; width: max-content; padding: 16px 0; animation: marquee 24s linear infinite; font: 500 11px var(--mono); letter-spacing: .12em; }
+.marquee-track { display: flex; width: max-content; animation: marquee 24s linear infinite; will-change: transform; }
+.marquee-group { display: flex; align-items: center; gap: 28px; min-width: 50vw; padding: 16px 0; white-space: nowrap; font: 500 11px var(--mono); letter-spacing: .12em; }
 .marquee i { color: var(--accent-strong); font-style: normal; }
-@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
 
 .about { border-bottom: 1px solid var(--line); }
 .section-intro { max-width: 850px; margin-bottom: 76px; }

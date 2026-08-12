@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Analytics | BA Portfolio</title>
+  <title>FinTrack — Business Analysis Case Study | Do Anh Nghia</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png?v=3">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -148,22 +148,21 @@
     .mock-node.green { border-color: var(--text); }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="case-study.css">
+  <script src="case-study.js" defer></script>
 </head>
-<body>
+<body class="case-study-page">
 
 
-    <nav class="sticky-nav">
-    <a href="index.html" class="nav-brand" style="display:flex; align-items:center; gap:8px;">
-      ← <span data-i18n="nav.back">Portfolio</span>
-    </a>
-    <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
-      <div class="lang-switcher" style="display: flex; gap: 6px; font-size: 13px; font-weight: 600;">
-        <span id="lang-vi" style="cursor: pointer; opacity: 0.5;">VI</span>
-        <span style="opacity: 0.3;">|</span>
-        <span id="lang-en" style="cursor: pointer; font-weight: bold;">EN</span>
-      </div>
-    </div>
-  </nav>
+    <nav class="sticky-nav" aria-label="Case study navigation">
+  <a href="index.html" class="nav-brand"><span class="nav-arrow" aria-hidden="true">←</span><span>Portfolio</span></a>
+  <div class="case-nav-actions">
+    <a href="index.html#work">Work</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">Resume ↗</a>
+    <button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" aria-pressed="false"><span id="theme-icon" aria-hidden="true">◐</span><span>Theme</span></button>
+  </div>
+</nav>
 
   <section class="uiux-project">
     <div class="uiux-case">
@@ -402,212 +401,8 @@
       &copy; 2026 Do Anh Nghia. Designed & Coded from scratch.
     </div>
   </footer>
-
-  <script>
-    const themeToggle = document.getElementById('theme-toggle');
-    const iconDark = document.getElementById('theme-icon-dark');
-    const iconLight = document.getElementById('theme-icon-light');
-    
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-    if (currentTheme) {
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      updateIcons(currentTheme);
-    }
-
-    themeToggle.addEventListener('click', () => {
-      let theme = document.documentElement.getAttribute('data-theme');
-      let targetTheme = theme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', targetTheme);
-      localStorage.setItem('theme', targetTheme);
-      updateIcons(targetTheme);
-    });
-
-    function updateIcons(theme) {
-      if (theme === 'light') {
-        iconDark.style.display = 'none';
-        iconLight.style.display = 'block';
-      } else {
-        iconDark.style.display = 'block';
-        iconLight.style.display = 'none';
-      }
-    }
-
-    // TOC Scrollspy
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('.case-section');
-      const navLinks = document.querySelectorAll('.toc a');
-
-      function setActiveTOC() {
-        let currentId = '';
-        sections.forEach(section => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 150) {
-            currentId = section.getAttribute('id');
-          }
-        });
-        
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${currentId}`) {
-            link.classList.add('active');
-          }
-        });
-      }
-
-      window.addEventListener('scroll', setActiveTOC, { passive: true });
-      setActiveTOC();
-    });
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({startOnLoad:true, theme: 'base'});</script>
-
-  <script>
-    const caseDict = {
-      "en": {},
-      "vi": {
-        "Portfolio": "Trang chủ",
-        "Contents": "Nội dung",
-        "Role": "Vai trò",
-        "Timeline": "Thời gian",
-        "Tools": "Công cụ",
-        "Project 01": "Dự án 01",
-        "Project 02": "Dự án 02",
-        "Project 03": "Dự án 03",
-        "Personal Subscription & Expense Analytics": "Phân tích & Theo dõi Chi tiêu",
-        "Centralizing fragmented financial data to identify \"ghost subscriptions\" and optimize monthly burn rate.": "Tập trung dữ liệu tài chính phân mảnh để phát hiện các gói đăng ký vô ích và tối ưu chi tiêu hàng tháng.",
-        "Co-living Task & Split Bill Manager": "Quản lý Co-living & Chia sẻ Hóa đơn",
-        "Designing a co-living management app to resolve roommate conflicts through automated chore scheduling and transparent bill splitting.": "Thiết kế ứng dụng quản lý co-living nhằm giải quyết xung đột qua tự động hóa việc nhà và chia sẻ hóa đơn.",
-        "Office Group Ordering & Split Payment": "Đặt Đồ Ăn Nhóm & Chia Tiền Tự Động",
-        "Mapping the 'As-Is' and 'To-Be' processes for group food ordering to eliminate manual cost calculations and payment friction.": "Mô hình hóa quy trình 'As-Is' và 'To-Be' cho đặt đồ ăn nhóm nhằm loại bỏ tính toán chi phí thủ công.",
-        "1. The Problem": "1. Vấn đề",
-        "2. Constraints & Trade-offs": "2. Ràng buộc & Đánh đổi",
-        "2. Constraints": "2. Ràng buộc",
-        "3. Approach & BA Artifacts": "3. Phương pháp & Tài liệu BA",
-        "4. Core System Functions & UI Design": "4. Chức năng cốt lõi & Thiết kế UI",
-        "4. Core Functions & UI": "4. Chức năng cốt lõi & UI",
-        "5. Deep Dive": "5. Đi sâu vào chi tiết",
-        "Data Analyst / BA": "Phân tích dữ liệu / BA",
-        "2 Weeks": "2 Tuần",
-        "3 Weeks": "3 Tuần",
-        "Business Analyst": "Phân tích nghiệp vụ",
-        "Dashboard Mockup": "Giao diện Dashboard",
-        'Managing personal finances today resembles managing a poorly optimized enterprise. Money flows out through multiple channels: credit cards, e-wallets, and bank transfers. The biggest silent drain is auto-renewing subscriptions (software, streaming, gym memberships) that are rarely used but forgotten.': 'Quản lý tài chính cá nhân ngày nay giống như việc quản lý một doanh nghiệp thiếu tối ưu. Tiền chảy ra qua nhiều kênh: thẻ tín dụng, ví điện tử và chuyển khoản ngân hàng. Sự rò rỉ âm thầm lớn nhất là các gói đăng ký tự động gia hạn (phần mềm, phát trực tuyến, thẻ tập gym) hiếm khi được sử dụng nhưng lại bị lãng quên.',
-        'Without a centralized view, tracking the actual "Monthly Burn Rate" relies on memory rather than data, leading to budget overruns.': 'Nếu không có một cái nhìn tập trung, việc theo dõi "Tốc độ đốt tiền hàng tháng" thực tế sẽ phải dựa vào trí nhớ thay vì dữ liệu, dẫn đến vượt quá ngân sách.',
-        'I initially wanted to build a system that auto-syncs transactions in real-time via Bank APIs. However, open banking APIs for personal use in Vietnam are highly restricted and costly.': 'Ban đầu, em muốn xây dựng một hệ thống tự động đồng bộ hóa các giao dịch theo thời gian thực thông qua API Ngân hàng. Tuy nhiên, các API ngân hàng mở dành cho cá nhân ở Việt Nam bị hạn chế rất nhiều và có chi phí cao.',
-        'Instead of over-engineering, I opted for a Manual CSV Export MVP. I export bank statements weekly, run them through a standardized Power Query script to clean the data, and feed it into the dashboard.': 'Thay vì làm phức tạp hóa vấn đề (over-engineering), em đã chọn MVP là Xuất file CSV Thủ công. Em xuất sao kê ngân hàng hàng tuần, chạy chúng qua kịch bản Power Query chuẩn hóa để làm sạch dữ liệu và đưa vào dashboard.',
-        'Personal finance requires behavioral reflection. A weekly manual update forces me to actually look at the numbers, satisfying the business goal better than a fully automated background process.': 'Tài chính cá nhân đòi hỏi sự phản ánh hành vi. Việc cập nhật thủ công hàng tuần buộc em phải thực sự nhìn vào các con số, đáp ứng mục tiêu nghiệp vụ tốt hơn là một quy trình ngầm tự động hoàn toàn.',
-        'A. Data Cleaning & Standardization': 'A. Làm sạch & Chuẩn hóa dữ liệu',
-        'Raw bank statements are messy. I built a mapping logic in Excel to categorize transactions. For example, any description containing "NETFLIX" or "SPOTIFY" is automatically tagged as Category: Entertainment and Type: Fixed Recurring.': 'Sao kê ngân hàng thô rất lộn xộn. Em đã xây dựng một logic ánh xạ trong Excel để phân loại các giao dịch. Ví dụ: bất kỳ mô tả nào chứa "NETFLIX" hoặc "SPOTIFY" sẽ tự động được gắn thẻ là Danh mục: Giải trí và Loại: Cố định định kỳ.',
-        'B. Data Modeling (Star Schema)': 'B. Mô hình hóa dữ liệu (Star Schema)',
-        'To ensure the dashboard loads quickly and can scale if I add years of data, I structured the dataset using a Star Schema:': 'Để đảm bảo dashboard tải nhanh và có thể mở rộng nếu em thêm dữ liệu của nhiều năm, em đã cấu trúc tập dữ liệu bằng Mô hình Star Schema:',
-        'Transaction records (Amount, Date, ID).': 'Bản ghi giao dịch (Số tiền, Ngày, ID).',
-        'Dim_Category (Needs vs. Wants), Dim_Date (Month, Year, Quarter).': 'Dim_Category (Cần thiết vs. Mong muốn), Dim_Date (Tháng, Năm, Quý).',
-        'C. Defining KPIs': 'C. Xác định KPIs',
-        'Before opening the visualization tool, I defined what metrics actually drive decisions: Subscription Utilization Rate, True Fixed Costs, and Variance to Budget.': 'Trước khi mở công cụ trực quan hóa, em đã xác định những số liệu nào thực sự thúc đẩy quyết định: Tỷ lệ sử dụng gói đăng ký, Chi phí cố định thực tế và Mức chênh lệch so với Ngân sách.',
-        'Beyond the interface, I defined strict functional requirements for the MVP:': 'Ngoài giao diện, em đã xác định các yêu cầu chức năng nghiêm ngặt cho MVP:',
-        'Full capabilities to Create, Read, Update, and Delete subscription records, tracking billing cycles natively.': 'Đầy đủ các khả năng Tạo, Đọc, Cập nhật và Xóa (CRUD) các bản ghi gói đăng ký, theo dõi chu kỳ thanh toán một cách nguyên bản.',
-        'Automatically scans for services with zero transactions over 30+ days.': 'Tự động quét các dịch vụ không có giao dịch nào trong hơn 30 ngày.',
-        'Calculates precise annual/monthly savings upon potential cancellation.': 'Tính toán chính xác số tiền tiết kiệm hàng năm/hàng tháng khi có khả năng hủy bỏ dịch vụ.',
-        'Explicit flows for expired linked cards, failed recurring transactions, and a "Snooze" action for false positive ghost alerts.': 'Các luồng xử lý rõ ràng cho thẻ liên kết hết hạn, giao dịch định kỳ không thành công và hành động "Bỏ qua tạm thời" đối với các cảnh báo bóng ma sai.',
-        'The final product is a single-page interactive dashboard. As a UI/UX designer, I applied visual hierarchy principles and ': 'Sản phẩm cuối cùng là một bảng điều khiển (dashboard) tương tác trên một trang duy nhất. Với vai trò là một nhà thiết kế UI/UX, em đã áp dụng các nguyên tắc phân cấp thị giác và ',
-        ' to the data.': ' cho dữ liệu.',
-        'Real-world UI/UX Benchmark': 'Đánh giá UI/UX từ thực tế (Benchmark)',
-        'Fintech interfaces often cause anxiety due to financial deficits. To counteract this, I benchmarked industry leaders in ': 'Giao diện Fintech thường gây lo lắng do thâm hụt tài chính. Để khắc phục điều này, em đã tham khảo các sản phẩm hàng đầu trong ngành về ',
-        ' and ': ' và ',
-        ':': ':',
-        ' Inspired the tactile, 3D soft-shadow buttons that feel like popping bubble wrap, using light/shadow to guide the user naturally without overwhelming colors.': ' Truyền cảm hứng cho các nút bấm xúc giác, đổ bóng mềm 3D mang lại cảm giác như đang bóp xốp bong bóng, sử dụng ánh sáng/bóng tối để hướng dẫn người dùng một cách tự nhiên mà không lạm dụng màu sắc.',
-        ' Influenced the dual-layer box-shadow techniques to ensure the Neumorphic UI remains accessible and distinct across both light and dark themes.': ' Ảnh hưởng đến kỹ thuật đổ bóng hộp hai lớp để đảm bảo giao diện Neumorphic vẫn dễ tiếp cận và khác biệt rõ ràng trên cả hai nền sáng và tối.',
-        ' Heavily influenced the minimalist approach, utilizing generous whitespace and neutral tones to reduce cognitive load to the absolute minimum.': ' Ảnh hưởng sâu sắc đến cách tiếp cận tối giản, sử dụng nhiều khoảng trắng và tông màu trung tính để giảm thiểu tối đa gánh nặng nhận thức cho người dùng.',
-        'To ensure technical feasibility, I prepared the following artifacts for the engineering team:': 'Để đảm bảo tính khả thi về mặt kỹ thuật, em đã chuẩn bị các tài liệu (artifacts) sau cho đội ngũ kỹ sư:',
-        'A. Database Schema & SQL Query (Ghost Detection)': 'A. Lược đồ Cơ sở dữ liệu & Truy vấn SQL (Phát hiện Bóng ma)',
-        'This query drives the core logic, identifying subscriptions with no transactions in the past 30 days. It demonstrates an understanding of relational databases and handling edge cases with ': 'Truy vấn này thúc đẩy logic cốt lõi, xác định các gói đăng ký không có giao dịch trong 30 ngày qua. Nó thể hiện sự am hiểu về cơ sở dữ liệu quan hệ và xử lý các trường hợp ngoại lệ với ',
-        '.': '.',
-        'B. UI Wireframe Flow': 'B. Luồng Giao diện (UI Wireframe Flow)',
-        'I mapped out the user experience flow using Figma. When the backend flags a "Ghost", the UI triggers a non-intrusive alert modal containing:': 'Em đã lập bản đồ luồng trải nghiệm người dùng bằng Figma. Khi backend gắn cờ "Bóng ma", UI sẽ kích hoạt một hộp thoại cảnh báo (modal) không gây khó chịu chứa:',
-        '• The specific service name and potential monthly savings.': '• Tên dịch vụ cụ thể và khoản tiết kiệm hàng tháng tiềm năng.',
-        '• A clear CTA (Call to Action) guiding the user to the cancellation page.': '• Lời kêu gọi hành động (CTA) rõ ràng hướng dẫn người dùng đến trang hủy dịch vụ.',
-        '• A "Snooze" or "Keep" option to train the algorithm on false positives.': '• Tùy chọn "Bỏ qua tạm thời" hoặc "Giữ lại" để huấn luyện thuật toán trên các trường hợp cảnh báo sai.',
-        'C. 3-Tier Architecture Diagram': 'C. Sơ đồ Kiến trúc 3 Lớp (3-Tier Architecture)',
-        'To communicate effectively with developers, I modeled the data flow using a standard 3-tier architecture, showing how the UI interacts with the Ghost Detection logic and the Database.': 'Để giao tiếp hiệu quả với các lập trình viên, em đã mô hình hóa luồng dữ liệu bằng kiến trúc 3 lớp tiêu chuẩn, cho thấy cách giao diện người dùng tương tác với logic Phát hiện Bóng ma và Cơ sở dữ liệu.',
-        'Presentation Tier': 'Lớp Giao diện (Presentation Tier)',
-        'Application Tier': 'Lớp Ứng dụng (Application Tier)',
-        'Data Tier': 'Lớp Dữ liệu (Data Tier)',
-        'Data Source': 'Nguồn Dữ liệu (Data Source)',
-        'The Constraint:': 'Ràng buộc:',
-        'The Trade-off:': 'Đánh đổi:',
-        'Why it works:': 'Tại sao nó hiệu quả:',
-        'Subscription CRUD:': 'CRUD Gói đăng ký:',
-        '"Ghost Detection" Algorithm:': 'Thuật toán "Phát hiện bóng ma":',
-        'Savings Calculator:': 'Công cụ tính toán tiết kiệm:',
-        'Exception Handling:': 'Xử lý ngoại lệ:',
-        'Fact Table:': 'Bảng Fact:',
-        'Dimension Tables:': 'Bảng Dimension:',
-        'Cred App:': 'Ứng dụng Cred:',
-        'Neumorphism Day and Night:': 'Neumorphism Ngày và Đêm:',
-        'Medium:': 'Medium:',
-        'The Problem': 'Vấn đề',
-        'Constraints & Trade-offs': 'Ràng buộc & Đánh đổi',
-        'Approach & BA Artifacts': 'Phương pháp & Tài liệu BA',
-        'Core System Functions & UI Design': 'Chức năng cốt lõi & Thiết kế UI',
-        'BA Deliverables Deep Dive': 'Đi sâu vào Tài liệu bàn giao của BA',
-      }
-    };
-
-    const langViBtn = document.getElementById('lang-vi');
-    const langEnBtn = document.getElementById('lang-en');
-
-    // Simple text-node translation walker
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-    const textNodes = [];
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      // skip scripts and styles
-      if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE')) continue;
-      
-      const trimmed = node.nodeValue.trim();
-      if (trimmed !== '') {
-        textNodes.push({
-          node: node,
-          original: trimmed,
-          fullText: node.nodeValue
-        });
-      }
-    }
-
-    function setLanguage(lang) {
-      localStorage.setItem('lang', lang);
-      
-      textNodes.forEach(item => {
-        let dict = caseDict[lang];
-        if (lang === 'vi' && dict[item.original]) {
-          item.node.nodeValue = item.fullText.replace(item.original, dict[item.original]);
-        } else if (lang === 'en') {
-          item.node.nodeValue = item.fullText;
-        }
-      });
-      
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (key === 'nav.back') {
-          el.innerText = lang === 'vi' ? 'Trang chủ' : 'Portfolio';
-        }
-      });
-
-      if (lang === 'vi') {
-        if(langViBtn) { langViBtn.style.opacity = '1'; langViBtn.style.fontWeight = 'bold'; }
-        if(langEnBtn) { langEnBtn.style.opacity = '0.5'; langEnBtn.style.fontWeight = 'normal'; }
-      } else {
-        if(langEnBtn) { langEnBtn.style.opacity = '1'; langEnBtn.style.fontWeight = 'bold'; }
-        if(langViBtn) { langViBtn.style.opacity = '0.5'; langViBtn.style.fontWeight = 'normal'; }
-      }
-    }
-
-    const savedLang = localStorage.getItem('lang') || 'en';
-    setLanguage(savedLang);
-
-    if (langViBtn) langViBtn.addEventListener('click', () => setLanguage('vi'));
-    if (langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
-  </script>
 </body>
 
 </html>

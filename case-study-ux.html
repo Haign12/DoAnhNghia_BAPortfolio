@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DoAnhNghia_Portfollio</title>
+  <title>FlowCRM — UI/UX Case Study | Do Anh Nghia</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png?v=3">
   <link rel="shortcut icon" href="assets/images/logo.png?v=3">
   <link rel="apple-touch-icon" href="assets/images/logo.png?v=3">
   <meta name="description" content="Professional Business Analyst portfolio showcasing Manufacturing KPI Dashboard, Requirements Management Tool, Business Process Analyzer, and UI/UX case study work.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
@@ -256,23 +256,25 @@
 
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="case-study.css">
+  <script src="case-study.js" defer></script>
 </head>
-<body>
-  <nav class="sticky-nav">
-    <a href="#" class="nav-brand">Do Anh Nghia.</a>
-    <div class="nav-links">
-      <a href="index.html#ba-projects">Work</a>
-      <a href="index.html#about">About</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="Do_Anh_Nghia_CV.pdf" target="_blank" class="nav-resume">Resume ↗</a>
-    </div>
-  </nav>
+<body class="case-study-page">
+  <nav class="sticky-nav" aria-label="Case study navigation">
+  <a href="index.html" class="nav-brand"><span class="nav-arrow" aria-hidden="true">←</span><span>Portfolio</span></a>
+  <div class="case-nav-actions">
+    <a href="index.html#work">Work</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">Resume ↗</a>
+    <button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" aria-pressed="false"><span id="theme-icon" aria-hidden="true">◐</span><span>Theme</span></button>
+  </div>
+</nav>
 
   <section class="uiux-project" style="max-width: 900px; margin: 40px auto; padding: 24px;">
     <div class="uiux-case">
       <div class="case-hero">
         <div>
-          <a href="index.html#uiux-projects" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
+          <a href="index.html#work" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
           <div class="case-kicker">FlowCRM</div>
           <h1 class="case-title">B2B CRM System Design</h1>
           <p class="case-copy">Designing a streamlined interface for a B2B CRM system to reduce data entry fatigue.</p>
@@ -349,38 +351,9 @@
       <a href="mailto:anhnghia9a633@gmail.com" style="color: var(--text); text-decoration: none; font-weight: 600;">Email</a>
       <a href="tel:+84798876074" style="color: var(--text); text-decoration: none; font-weight: 600;">Phone</a>
       <a href="https://github.com/Ngh1aa" target="_blank" style="color: var(--text); text-decoration: none; font-weight: 600;">GitHub</a>
-      <a href="https://linkedin.com/" target="_blank" style="color: var(--text); text-decoration: none; font-weight: 600;">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/ginan12/" target="_blank" style="color: var(--text); text-decoration: none; font-weight: 600;">LinkedIn</a>
     </div>
   </footer>
-<script>
-    const themeToggle = document.getElementById('theme-toggle');
-    const iconDark = document.getElementById('theme-icon-dark');
-    const iconLight = document.getElementById('theme-icon-light');
-    
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-    if (currentTheme) {
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      updateIcons(currentTheme);
-    }
-
-    themeToggle.addEventListener('click', () => {
-      let theme = document.documentElement.getAttribute('data-theme');
-      let targetTheme = theme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', targetTheme);
-      localStorage.setItem('theme', targetTheme);
-      updateIcons(targetTheme);
-    });
-
-    function updateIcons(theme) {
-      if (theme === 'light') {
-        iconDark.style.display = 'none';
-        iconLight.style.display = 'block';
-      } else {
-        iconDark.style.display = 'block';
-        iconLight.style.display = 'none';
-      }
-    }
-  </script>
 </body>
 </html>
 

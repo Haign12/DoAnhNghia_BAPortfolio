@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Co-living Manager | BA Portfolio</title>
+  <title>CoSpace — Business Analysis Case Study | Do Anh Nghia</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png?v=3">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -148,22 +148,21 @@
     .mock-node.green { border-color: var(--text); }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="case-study.css">
+  <script src="case-study.js" defer></script>
 </head>
-<body>
+<body class="case-study-page">
 
 
-    <nav class="sticky-nav">
-    <a href="index.html" class="nav-brand" style="display:flex; align-items:center; gap:8px;">
-      ← <span data-i18n="nav.back">Portfolio</span>
-    </a>
-    <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
-      <div class="lang-switcher" style="display: flex; gap: 6px; font-size: 13px; font-weight: 600;">
-        <span id="lang-vi" style="cursor: pointer; opacity: 0.5;">VI</span>
-        <span style="opacity: 0.3;">|</span>
-        <span id="lang-en" style="cursor: pointer; font-weight: bold;">EN</span>
-      </div>
-    </div>
-  </nav>
+    <nav class="sticky-nav" aria-label="Case study navigation">
+  <a href="index.html" class="nav-brand"><span class="nav-arrow" aria-hidden="true">←</span><span>Portfolio</span></a>
+  <div class="case-nav-actions">
+    <a href="index.html#work">Work</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">Resume ↗</a>
+    <button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" aria-pressed="false"><span id="theme-icon" aria-hidden="true">◐</span><span>Theme</span></button>
+  </div>
+</nav>
 
   <section class="uiux-project">
     <div class="uiux-case">
@@ -428,222 +427,6 @@
       &copy; 2026 Do Anh Nghia. Designed & Coded from scratch.
     </div>
   </footer>
-
-  <script>
-    const themeToggle = document.getElementById('theme-toggle');
-    const iconDark = document.getElementById('theme-icon-dark');
-    const iconLight = document.getElementById('theme-icon-light');
-    
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-    if (currentTheme) {
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      updateIcons(currentTheme);
-    }
-
-    themeToggle.addEventListener('click', () => {
-      let theme = document.documentElement.getAttribute('data-theme');
-      let targetTheme = theme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', targetTheme);
-      localStorage.setItem('theme', targetTheme);
-      updateIcons(targetTheme);
-    });
-
-        function updateIcons(theme) {
-      if (theme === 'light') {
-        iconDark.style.display = 'none';
-        iconLight.style.display = 'block';
-      } else {
-        iconDark.style.display = 'block';
-        iconLight.style.display = 'none';
-      }
-    }
-
-    // TOC Scrollspy
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('.case-section');
-      const navLinks = document.querySelectorAll('.toc a');
-
-      function setActiveTOC() {
-        let currentId = '';
-        sections.forEach(section => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 150) {
-            currentId = section.getAttribute('id');
-          }
-        });
-        
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${currentId}`) {
-            link.classList.add('active');
-          }
-        });
-      }
-
-      window.addEventListener('scroll', setActiveTOC, { passive: true });
-      setActiveTOC();
-    });
-  </script>
-
-  <script>
-    const caseDict = {
-      "en": {},
-      "vi": {
-        "Portfolio": "Trang chủ",
-        "Contents": "Nội dung",
-        "Role": "Vai trò",
-        "Timeline": "Thời gian",
-        "Tools": "Công cụ",
-        "Project 01": "Dự án 01",
-        "Project 02": "Dự án 02",
-        "Project 03": "Dự án 03",
-        "Personal Subscription & Expense Analytics": "Phân tích & Theo dõi Chi tiêu",
-        "Centralizing fragmented financial data to identify \"ghost subscriptions\" and optimize monthly burn rate.": "Tập trung dữ liệu tài chính phân mảnh để phát hiện các gói đăng ký vô ích và tối ưu chi tiêu hàng tháng.",
-        "Co-living Task & Split Bill Manager": "Quản lý Co-living & Chia sẻ Hóa đơn",
-        "Designing a co-living management app to resolve roommate conflicts through automated chore scheduling and transparent bill splitting.": "Thiết kế ứng dụng quản lý co-living nhằm giải quyết xung đột qua tự động hóa việc nhà và chia sẻ hóa đơn.",
-        "Office Group Ordering & Split Payment": "Đặt Đồ Ăn Nhóm & Chia Tiền Tự Động",
-        "Mapping the 'As-Is' and 'To-Be' processes for group food ordering to eliminate manual cost calculations and payment friction.": "Mô hình hóa quy trình 'As-Is' và 'To-Be' cho đặt đồ ăn nhóm nhằm loại bỏ tính toán chi phí thủ công.",
-        "1. The Problem": "1. Vấn đề",
-        "2. Constraints & Trade-offs": "2. Ràng buộc & Đánh đổi",
-        "2. Constraints": "2. Ràng buộc",
-        "3. Approach & BA Artifacts": "3. Phương pháp & Tài liệu BA",
-        "4. Core System Functions & UI Design": "4. Chức năng cốt lõi & Thiết kế UI",
-        "4. Core Functions & UI": "4. Chức năng cốt lõi & UI",
-        "5. Deep Dive": "5. Đi sâu vào chi tiết",
-        "Data Analyst / BA": "Phân tích dữ liệu / BA",
-        "2 Weeks": "2 Tuần",
-        "3 Weeks": "3 Tuần",
-        "Business Analyst": "Phân tích nghiệp vụ",
-        "Dashboard Mockup": "Giao diện Dashboard",
-        'Living with roommates often leads to friction over two common enterprise-scale issues: resource allocation (chores) and financial reconciliation (split bills). Typically, a whiteboard or a messy Zalo group chat is used, which lacks accountability and traceability.': 'Sống chung với bạn cùng phòng thường dẫn đến ma sát về hai vấn đề phổ biến mang quy mô doanh nghiệp: phân bổ nguồn lực (việc nhà) và đối soát tài chính (chia hóa đơn). Thông thường, người ta sử dụng bảng trắng hoặc nhóm chat Zalo lộn xộn, thiếu tính minh bạch và không thể truy xuất nguồn gốc.',
-        'Without a transparent system, roommates end up arguing over "Who cleaned last?" and "Who paid for the shared groceries?"': 'Nếu không có một hệ thống minh bạch, những người bạn cùng phòng cuối cùng sẽ tranh cãi về việc "Ai đã dọn dẹp lần trước?" và "Ai đã trả tiền cho số đồ tạp hóa dùng chung?"',
-        'The Constraint:': 'Ràng buộc:',
-        'Developing a full-stack mobile application with real-time push notifications required significant backend infrastructure (Firebase/AWS) which was overkill for a 3-person apartment.': 'Việc phát triển một ứng dụng di động full-stack với thông báo đẩy theo thời gian thực đòi hỏi cơ sở hạ tầng backend đáng kể (Firebase/AWS), điều này là quá mức cần thiết cho một căn hộ 3 người.',
-        'The Trade-off:': 'Đánh đổi:',
-        'Instead of building a complex notification engine, I designed a frontend-only MVP where any user can trigger a "Generate Weekly Summary" button, which captures the DOM as an image and posts it to our Zalo group chat via Webhook.': 'Thay vì xây dựng một công cụ thông báo phức tạp, em đã thiết kế một MVP chỉ có frontend, nơi bất kỳ người dùng nào cũng có thể nhấn nút "Tạo Tóm tắt Hàng tuần", nút này sẽ chụp lại DOM dưới dạng hình ảnh và đăng lên nhóm Zalo của chúng em thông qua Webhook.',
-        'Why it works:': 'Tại sao nó hiệu quả:',
-        'It leverages the existing habit of checking Zalo, rather than forcing users to download and check a new app daily.': 'Nó tận dụng thói quen kiểm tra Zalo hiện có, thay vì buộc người dùng tải xuống và kiểm tra một ứng dụng mới hàng ngày.',
-        'A. Requirements Elicitation': 'A. Khơi gợi yêu cầu (Requirements Elicitation)',
-        'I interviewed my roommates to gather requirements, identifying two distinct personas: The "Clean Freak" (wants strict schedules) and the "Forgetful Payer" (needs auto-calculated debts).': 'Em đã phỏng vấn những người bạn cùng phòng để thu thập yêu cầu, xác định hai chân dung (personas) riêng biệt: "Kẻ cuồng sạch sẽ" (muốn lịch trình nghiêm ngặt) và "Người thanh toán hay quên" (cần tính toán nợ tự động).',
-        'B. User Stories': 'B. User Stories (Câu chuyện người dùng)',
-        'I mapped out Epics and User Stories. Example: "As a user, I want to add a shared grocery receipt so that the cost is automatically split 3-ways and added to the monthly ledger."': 'Em đã vạch ra các Epic và User Story. Ví dụ: "Là một người dùng, em muốn thêm một biên lai tạp hóa dùng chung để chi phí tự động được chia 3 và được thêm vào sổ cái hàng tháng."',
-        'C. UI/UX Prototyping': 'C. Tạo nguyên mẫu UI/UX (Prototyping)',
-        'I designed wireframes in Figma focusing on a dual-panel layout: a Kanban board for chores, and a Ledger table for transparent bill tracking.': 'Em đã thiết kế các wireframe trong Figma tập trung vào bố cục bảng điều khiển kép: bảng Kanban cho việc nhà và bảng Sổ cái để theo dõi hóa đơn minh bạch.',
-        'Beyond the interface, I defined strict functional requirements for the MVP:': 'Ngoài giao diện, em đã xác định các yêu cầu chức năng nghiêm ngặt cho MVP:',
-        'Chore Kanban Board:': 'Bảng Kanban Việc nhà:',
-        ' Visual task management with To Do, In Progress, and Done states.': ' Quản lý công việc trực quan với các trạng thái Cần làm (To Do), Đang làm (In Progress) và Hoàn thành (Done).',
-        '"Auto-Assign" Algorithm:': 'Thuật toán "Tự động phân công":',
-        ' Fairly distributes tasks based on historical completion and availability constraints.': ' Phân phối nhiệm vụ một cách công bằng dựa trên lịch sử hoàn thành và các ràng buộc về thời gian rảnh.',
-        'Split Bill Ledger:': 'Sổ cái Chia hóa đơn:',
-        ' Centralized expense input and auto-calculated inter-personal debts.': ' Đầu vào chi phí tập trung và tính toán tự động các khoản nợ giữa các cá nhân.',
-        'Decimal & State Handling:': 'Xử lý thập phân & Trạng thái:',
-        ' System automatically rounds infinite decimals (e.g., $10/3 = $3.33 + $0.01 to payer) and securely tracks "Paid/Unpaid" statuses.': ' Hệ thống tự động làm tròn các số thập phân vô hạn (ví dụ: $10/3 = $3.33 + $0.01 cho người thanh toán) và theo dõi trạng thái "Đã thanh toán/Chưa thanh toán" một cách an toàn.',
-        'The solution is a clean, single-page web app tailored for mobile views but scalable to desktop, utilizing ': 'Giải pháp này là một ứng dụng web một trang gọn gàng, được điều chỉnh cho chế độ xem trên thiết bị di động nhưng có khả năng mở rộng sang máy tính để bàn, sử dụng các nguyên tắc bố cục ',
-        ' layout principles.': '.',
-        'Bento Grid 2.0': 'Bento Grid 2.0',
-        'A co-living app must manage complex, disparate data streams (chores, ledgers, schedules). To maximize scanability, I adopted the ': 'Một ứng dụng sống chung (co-living) phải quản lý các luồng dữ liệu phức tạp, khác biệt (việc nhà, sổ cái, lịch trình). Để tối đa hóa khả năng quét nhanh bằng mắt, em đã áp dụng bố cục ',
-        ' layout, inspired by top-tier tech companies:': ', lấy cảm hứng từ các công ty công nghệ hàng đầu:',
-        'Ramp & Apple (iOS 17):': 'Ramp & Apple (iOS 17):',
-        ' Influenced the clear modular grid and bento block layout, making data easy to scan.': ' Ảnh hưởng đến lưới mô-đun rõ ràng và bố cục khối bento, giúp dữ liệu dễ dàng được quét (scan) qua.',
-        'WhatsApp (by Koto Studio):': 'WhatsApp (bởi Koto Studio):',
-        ' Inspired the compartmentalization of features into distinct, flexible modules, making dense roommate data visually harmonious.': ' Truyền cảm hứng cho việc phân chia các tính năng thành các mô-đun riêng biệt, linh hoạt, làm cho dữ liệu dày đặc của những người bạn cùng phòng trở nên hài hòa về mặt trực quan.',
-        'A. User Stories & Acceptance Criteria': 'A. Câu chuyện Người dùng & Tiêu chí Chấp nhận (Acceptance Criteria)',
-        'I utilized standard Agile documentation formats to ensure development alignment for the "Auto-Assign" feature.': 'Em đã sử dụng các định dạng tài liệu Agile tiêu chuẩn để đảm bảo sự thống nhất trong quá trình phát triển cho tính năng "Tự động phân công".',
-        'User Story:': 'Câu chuyện người dùng:',
-        '"As a Roommate, I want the system to auto-assign weekly chores so that responsibilities are shared fairly without manual arguments."': '"Là một Người bạn cùng phòng, em muốn hệ thống tự động phân công việc nhà hàng tuần để trách nhiệm được chia sẻ công bằng mà không cần phải tranh cãi."',
-        'Acceptance Criteria (BDD Format):': 'Tiêu chí Chấp nhận (Định dạng BDD):',
-        'Given': 'Given (Cho trước)',
-        ' the chore "Clean Bathroom" has not been assigned this week,': ' công việc "Dọn phòng tắm" chưa được giao trong tuần này,',
-        'When': 'When (Khi)',
-        ' the user clicks the "Auto-Assign" button,': ' người dùng nhấp vào nút "Tự động phân công",',
-        'Then': 'Then (Thì)',
-        ' the system assigns the chore to the roommate with the lowest historical completion count,': ' hệ thống sẽ giao công việc cho người có số lần hoàn thành thấp nhất trong lịch sử,',
-        'And': 'And (Và)',
-        ' updates the Kanban board to reflect the new assignee immediately.': ' cập nhật ngay lập tức bảng Kanban để hiển thị người được phân công mới.',
-        'B. Requirements Traceability Matrix (RTM)': 'B. Ma trận Truy xuất Yêu cầu (RTM)',
-        'To ensure no requirement was missed during development and testing, I mapped the business needs directly to test scenarios.': 'Để đảm bảo không có yêu cầu nào bị bỏ sót trong quá trình phát triển và kiểm thử, em đã lập bản đồ nhu cầu nghiệp vụ trực tiếp với các kịch bản kiểm thử (test scenarios).',
-        'C. Test Case Design (Split Bill Ledger)': 'C. Thiết kế Kịch bản kiểm thử (Test Case)',
-        'To demonstrate Requirement-Based Testing, I designed edge-case scenarios for the bill splitting algorithm to prevent logic failures.': 'Để chứng minh phương pháp Kiểm thử dựa trên Yêu cầu, em đã thiết kế các kịch bản ngoại lệ (edge-case) cho thuật toán chia hóa đơn để ngăn chặn các lỗi logic.',
-        'Req ID': 'Mã Yêu cầu',
-        'Business Requirement': 'Yêu cầu Nghiệp vụ',
-        'Test Case ID': 'Mã Test Case',
-        'System must split bills equally': 'Hệ thống phải chia hóa đơn đều',
-        'US-101: As a Roommate, I want to split a bill...': 'US-101: Là người dùng, em muốn chia hóa đơn...',
-        'System must handle fractional cents': 'Hệ thống phải xử lý xu lẻ',
-        'US-102: As a Payer, I want exact rounding...': 'US-102: Là người thanh toán, em muốn làm tròn chính xác...',
-        'Scenario': 'Kịch bản (Scenario)',
-        'Test Steps': 'Các bước Kiểm thử',
-        'Expected Result': 'Kết quả Mong đợi',
-        'Infinite Decimal Split': 'Chia số thập phân vô hạn',
-        'Input $10.00 split among 3 people.': 'Nhập 10,00 đô la chia cho 3 người.',
-        'System rounds to 2 decimals ($3.33) and assigns the remaining $0.01 to the payer.': 'Hệ thống làm tròn thành 2 chữ số thập phân ($3,33) và gán $0,01 còn lại cho người thanh toán.',
-        'Negative Value (Exception)': 'Giá trị âm (Ngoại lệ)',
-        'User inputs "-50" as an expense amount.': 'Người dùng nhập "-50" làm số tiền chi phí.',
-        'The Problem': 'Vấn đề',
-        'Constraints & Trade-offs': 'Ràng buộc & Đánh đổi',
-        'Approach & BA Artifacts': 'Phương pháp & Tài liệu BA',
-        'Core System Functions & UI Design': 'Chức năng cốt lõi & Thiết kế UI',
-        'BA Deliverables Deep Dive': 'Đi sâu vào Tài liệu bàn giao của BA',
-        'Real-world UI/UX Benchmark': 'Đánh giá UI/UX từ thực tế (Benchmark)',
-        'Coliving Manager Mockup': 'Bản Mockup Quản lý Coliving',
-      }
-    };
-
-    const langViBtn = document.getElementById('lang-vi');
-    const langEnBtn = document.getElementById('lang-en');
-
-    // Simple text-node translation walker
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-    const textNodes = [];
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      // skip scripts and styles
-      if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE')) continue;
-      
-      const trimmed = node.nodeValue.trim();
-      if (trimmed !== '') {
-        textNodes.push({
-          node: node,
-          original: trimmed,
-          fullText: node.nodeValue
-        });
-      }
-    }
-
-    function setLanguage(lang) {
-      localStorage.setItem('lang', lang);
-      
-      textNodes.forEach(item => {
-        let dict = caseDict[lang];
-        if (lang === 'vi' && dict[item.original]) {
-          item.node.nodeValue = item.fullText.replace(item.original, dict[item.original]);
-        } else if (lang === 'en') {
-          item.node.nodeValue = item.fullText;
-        }
-      });
-      
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (key === 'nav.back') {
-          el.innerText = lang === 'vi' ? 'Trang chủ' : 'Portfolio';
-        }
-      });
-
-      if (lang === 'vi') {
-        if(langViBtn) { langViBtn.style.opacity = '1'; langViBtn.style.fontWeight = 'bold'; }
-        if(langEnBtn) { langEnBtn.style.opacity = '0.5'; langEnBtn.style.fontWeight = 'normal'; }
-      } else {
-        if(langEnBtn) { langEnBtn.style.opacity = '1'; langEnBtn.style.fontWeight = 'bold'; }
-        if(langViBtn) { langViBtn.style.opacity = '0.5'; langViBtn.style.fontWeight = 'normal'; }
-      }
-    }
-
-    const savedLang = localStorage.getItem('lang') || 'en';
-    setLanguage(savedLang);
-
-    if (langViBtn) langViBtn.addEventListener('click', () => setLanguage('vi'));
-    if (langEnBtn) langEnBtn.addEventListener('click', () => setLanguage('en'));
-  </script>
 </body>
 
 </html>
