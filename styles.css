@@ -183,7 +183,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 .actions-inline .project-footer { align-items: center; }
 .actions-inline .tag-list { min-width: 0; flex-wrap: nowrap; gap: 4px; }
 .actions-inline .tag-list span { padding: 5px 7px; font-size: 9px; }
-.actions-inline .project-links { flex-shrink: 0; flex-direction: column; align-items: stretch; gap: 8px; }
+.actions-inline .project-links { flex-shrink: 0; flex-direction: row; align-items: center; gap: 10px; }
 .actions-inline .project-link { justify-content: center; min-width: 132px; }
 .project-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -281,7 +281,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
   .project-topline { margin-bottom: 24px; }
   .project-footer, .actions-inline .project-footer { align-items: start; flex-direction: column; gap: 18px; }
   .actions-inline .tag-list { width: 100%; flex-wrap: wrap; }
-  .actions-inline .project-links { width: 100%; flex-direction: row; align-items: center; }
+  .actions-inline .project-links { width: fit-content; flex-direction: row; align-items: center; }
   .actions-inline .project-link { min-width: 0; }
   .project-links { justify-content: flex-start; gap: 10px; }
   .project-result { margin-top: 26px; }
