@@ -26,10 +26,12 @@
   themeToggle?.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
 
   const closeMenu = () => {
+    const wasOpen = navMenu?.classList.contains('is-open');
     navMenu?.classList.remove('is-open');
     menuToggle?.classList.remove('is-open');
     body.classList.remove('menu-open');
     menuToggle?.setAttribute('aria-expanded', 'false');
+    if (wasOpen) menuToggle?.focus();
   };
   menuToggle?.addEventListener('click', () => {
     const open = navMenu.classList.toggle('is-open');

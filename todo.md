@@ -81,3 +81,10 @@
 - [x] Audit tài nguyên tải trang, font, ảnh, JavaScript, CSS và các request bên thứ ba.
 - [x] Áp dụng các tối ưu SEO/tốc độ an toàn mà không làm thay đổi định hướng UI/UX hoặc nội dung xác thực.
 - [x] Kiểm tra lại performance, accessibility, responsive, route status và production sau khi deploy.
+
+## Sticky mobile navigation bug follow-up
+
+- [ ] Xác định nguyên nhân header mobile bị ẩn hoặc bị đẩy khỏi viewport khi cuộn.
+- [ ] Sửa CSS/JavaScript để thanh menu mobile luôn hiển thị, không phá trạng thái menu mở/đóng.
+- [ ] Kiểm tra viewport iPhone 12 Pro, keyboard focus, reduced motion và anchor navigation.
+- [ ] Commit, deploy và xác nhận production sau khi sửa lỗi.
