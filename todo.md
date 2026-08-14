@@ -84,14 +84,14 @@
 
 ## Sticky mobile navigation bug follow-up
 
-- [ ] Xác định nguyên nhân header mobile bị ẩn hoặc bị đẩy khỏi viewport khi cuộn.
-- [ ] Sửa CSS/JavaScript để thanh menu mobile luôn hiển thị, không phá trạng thái menu mở/đóng.
-- [ ] Kiểm tra viewport iPhone 12 Pro, keyboard focus, reduced motion và anchor navigation.
-- [ ] Commit, deploy và xác nhận production sau khi sửa lỗi.
+- [x] Xác định nguyên nhân header mobile bị ẩn hoặc bị đẩy khỏi viewport khi cuộn.
+- [x] Sửa CSS/JavaScript để thanh menu mobile luôn hiển thị, không phá trạng thái menu mở/đóng.
+- [x] Kiểm tra viewport iPhone 12 Pro, keyboard focus, reduced motion và anchor navigation.
+- [x] Commit, deploy và xác nhận production sau khi sửa lỗi.
 
 ## Mobile menu default-state follow-up
 
-- [ ] Xác định vì sao `navMenu` hiển thị khi trang vừa tải hoặc khi reload.
-- [ ] Bảo đảm menu mặc định đóng và chỉ mở sau thao tác `menuToggle`.
-- [ ] Kiểm tra nút X, Escape, focus return, reduced-motion và anchor navigation.
-- [ ] Commit, deploy và xác nhận production trên viewport iPhone 12 Pro.
+- [x] Xác định vì sao `navMenu` hiển thị khi trang vừa tải hoặc khi reload.
+- [x] Bảo đảm menu mặc định đóng và chỉ mở sau thao tác `menuToggle`.
+- [x] Kiểm tra nút X, Escape, focus return, reduced-motion và anchor navigation.
+- [x] Commit, deploy và xác nhận production trên viewport iPhone 12 Pro.
