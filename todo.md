@@ -65,3 +65,12 @@
 
 - [x] Cố định header/navigation ở phía trên khi cuộn trên mobile.
 - [x] Kiểm tra menu mở/đóng, anchor offset, responsive và deploy bản sửa.
+
+## UI/UX-only profile and mobile menu follow-up
+
+- [x] Thêm nút X đóng menu mobile với trạng thái aria và keyboard rõ ràng.
+- [x] Cập nhật Experience: Tikera thành UI/UX Designer, Trésor thành Intern UI/UX Designer.
+- [x] Xóa các mô tả và metadata liên quan đến Business Analysis khỏi portfolio và CV.
+- [x] Kiểm tra, cập nhật CV PDF/source, deploy portfolio và xác nhận production.
+- [x] Tạo lại CV một trang A4 theo hướng Visual portfolio CV, đồng bộ role và Experience mới.
+- [x] Kiểm tra text extraction, bố cục PDF và link Resume trên production.

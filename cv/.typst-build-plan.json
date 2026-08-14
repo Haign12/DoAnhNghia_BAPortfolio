@@ -1,0 +1,29 @@
+{
+  "base": {
+    "adoption": "A",
+    "auto_apply": false,
+    "conflict_group": "document-base",
+    "id": "basic-resume",
+    "init_command": "typst init @preview/basic-resume:0.2.9 <output-dir>",
+    "kind": "universe-template",
+    "ownership": "global",
+    "reason": "Explicit template or publication-format signal.",
+    "status": "ready",
+    "universe_ref": "@preview/basic-resume:0.2.9",
+    "version": "0.2.9"
+  },
+  "catalog_version": "2026-07-17-affiliated-formats-v3",
+  "channel": "typst-pdf",
+  "confirmation_candidates": [],
+  "enhancements": [],
+  "exclusions": [],
+  "fingerprint": "sha256:a173648365d614e8ff15c68e24036d56f50a84dad519d11461f488bff39cc3ec",
+  "next_action": "minimal-compile-preflight",
+  "optional_idea": null,
+  "question": null,
+  "reused": false,
+  "schema_version": 1,
+  "state": "ready",
+  "style_owner": "basic-resume",
+  "typst_version": "typst 0.15.1 (9dfd3a08)"
+}

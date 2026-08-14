@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "pdf": "/home/ubuntu/DoAnhNghia_BAPortfolio/cv/main.pdf",
+  "mode": "standard",
+  "page_count": 1,
+  "selected_pages": [
+    1
+  ],
+  "rendered_pages": [
+    "/home/ubuntu/DoAnhNghia_BAPortfolio/cv/review/pages/page-0001.png"
+  ],
+  "contact_sheets": [
+    "/home/ubuntu/DoAnhNghia_BAPortfolio/cv/review/sheets/sheet-01.jpg"
+  ],
+  "settings": {
+    "dpi": 150,
+    "columns": 3,
+    "max_sheet_pages": 12,
+    "thumbnail_width": 320
+  }
+}

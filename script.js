@@ -4,6 +4,7 @@
   const header = document.querySelector('.site-header');
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
+  const menuClose = document.getElementById('menuClose');
   const themeToggle = document.getElementById('themeToggle');
   const progressBar = document.getElementById('progressBar');
   const year = document.getElementById('year');
@@ -35,7 +36,9 @@
     menuToggle.classList.toggle('is-open', open);
     body.classList.toggle('menu-open', open);
     menuToggle.setAttribute('aria-expanded', String(open));
+    if (open) menuClose?.focus();
   });
+  menuClose?.addEventListener('click', closeMenu);
   navMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeMenu();

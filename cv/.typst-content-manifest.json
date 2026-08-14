@@ -1,0 +1,11 @@
+{
+  "task_kind": "new-document",
+  "output": "pdf",
+  "signals": ["basic-resume"],
+  "hard_constraints": ["A4 portrait", "one page", "UI/UX-only profile", "editorial visual hierarchy"],
+  "content_features": {
+    "code_blocks": 0,
+    "defined_terms": 0,
+    "portrait_images": 0
+  }
+}
