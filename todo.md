@@ -26,4 +26,4 @@
 
 - [x] Xóa `uiux-portfolio.html` và loại bỏ các tham chiếu trực tiếp tới trang này.
 - [x] Sửa các CTA/back links trong case study để quay về đúng homepage portfolio.
-- [ ] Kiểm tra link nội bộ, sitemap, production routes và deploy bản sửa.
+- [x] Kiểm tra link nội bộ, sitemap, production routes và deploy bản sửa.
