@@ -21,3 +21,9 @@
 - [x] Audit content gap và benchmark case study UI/UX bằng nguồn web công khai.
 - [x] Hoàn thiện nội dung case study cho Atelier, LuxRoom và StudioOS dựa trên dữ liệu có thật.
 - [x] Triển khai SEO, điều hướng, responsive/accessibility và deploy ba case study.
+
+## Navigation cleanup follow-up
+
+- [x] Xóa `uiux-portfolio.html` và loại bỏ các tham chiếu trực tiếp tới trang này.
+- [x] Sửa các CTA/back links trong case study để quay về đúng homepage portfolio.
+- [ ] Kiểm tra link nội bộ, sitemap, production routes và deploy bản sửa.
