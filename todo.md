@@ -48,3 +48,9 @@
 
 - [x] Chuẩn hóa chiều cao card và vùng ảnh CoSpace theo hai BA cards còn lại.
 - [x] Kiểm tra desktop/mobile và deploy lại production sau khi sửa ratio.
+
+## UI/UX-only portfolio follow-up
+
+- [x] Gỡ section và card của FinTrack, CoSpace, OrderFlow khỏi portfolio.
+- [x] Xóa route, link, sitemap và metadata của ba case study BA không còn dùng.
+- [x] Kiểm tra lại bộ đếm, điều hướng, production routes và deploy portfolio UI/UX-only.

@@ -296,33 +296,3 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   .reveal { opacity: 1; transform: none; }
 }
-
-/* BA support cards: quieter scale so UI/UX work remains the primary portfolio signal. */
-.ba-projects .project-list { gap: 14px; }
-.ba-projects .project-feature { grid-template-columns: minmax(220px, .72fr) 1.28fr; min-height: 280px; }
-/* Keep portrait BA covers from defining the row height through their intrinsic 4:5 ratio. */
-.ba-projects .project-image { height: 280px; min-height: 280px; }
-.ba-projects .project-content { padding: 28px 34px; }
-.ba-projects .project-number { top: 14px; left: 14px; padding: 6px 8px; font-size: 10px; }
-.ba-projects .project-topline { margin-bottom: 20px; font-size: 9px; }
-.ba-projects .project-content h4 { margin-bottom: 14px; font-size: clamp(1.75rem, 3vw, 2.8rem); }
-.ba-projects .project-content p { max-width: 390px; font-size: 13px; line-height: 1.6; }
-.ba-projects .project-result { margin-top: 22px; padding-top: 12px; }
-.ba-projects .project-result strong { font-size: clamp(1.75rem, 3vw, 2.6rem); }
-.ba-projects .project-result span { font-size: 10px; }
-.ba-projects .project-footer { margin-top: 26px; }
-.ba-projects .project-link { min-height: 34px; padding: 8px 11px; font-size: 11px; }
-.ba-projects .actions-inline .project-footer { flex-direction: row; align-items: center; gap: 14px; }
-.ba-projects .actions-inline .tag-list { width: auto; flex: 1 1 auto; flex-wrap: wrap; gap: 4px; }
-.ba-projects .actions-inline .project-links { width: auto; flex: 0 0 auto; gap: 8px; }
-.ba-projects .actions-inline .project-link { min-width: 0; }
-
-@media (max-width: 720px) {
-  .ba-projects .project-feature,
-  .ba-projects .project-feature.reverse { grid-template-columns: 1fr; min-height: 0; }
-  .ba-projects .project-image { height: 220px; min-height: 220px; max-height: 220px; }
-  .ba-projects .project-content { padding: 24px 20px 26px; }
-  .ba-projects .project-content h4 { font-size: 2rem; }
-  .ba-projects .actions-inline .project-footer { align-items: flex-start; flex-direction: column; gap: 14px; }
-  .ba-projects .actions-inline .tag-list, .ba-projects .actions-inline .project-links { width: 100%; }
-}
