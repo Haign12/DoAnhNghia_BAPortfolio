@@ -30,5 +30,5 @@
 
 ## Case study spacing follow-up
 
-- [ ] Giảm khoảng cách giữa nhóm CTA và khung Role / Platform / Focus.
-- [ ] Kiểm tra responsive, cache-busting và deploy bản spacing mới.
+- [x] Giảm khoảng cách giữa nhóm CTA và khung Role / Platform / Focus.
+- [x] Kiểm tra responsive, cache-busting và deploy bản spacing mới.
