@@ -22,3 +22,10 @@ The live portfolio uses a `UI/UX / 02 PROJECTS` group label, a `UI/UX Design` he
 - Homepage desktop now leads with the UI/UX hero, routes Work to the UI/UX section, and places the three UI/UX cards before the supporting BA case studies.
 - Homepage mobile collapses to the existing single-column navigation and hero layout. The direct headless capture was taken during the existing entrance animation, so its low-opacity frame is not treated as a contrast defect; the source keeps the established reveal behavior.
 - The standalone UI/UX page now uses UI/UX Designer-first metadata, hero copy, About copy, tools label, selected-work heading, contact CTA and EN/VI navigation labels.
+
+## Case study CTA verification
+
+- Homepage UI/UX cards now use `View case study` links for Atelier and LuxRoom instead of Figma destinations; `View website` remains available as the external product CTA.
+- The dedicated UI/UX page uses internal case study links for FlowCRM, Atelier and LuxRoom, with EN/VI `View case study` labels.
+- New Atelier and LuxRoom case study pages reuse the existing case study theme, navigation, responsive behavior and motion preferences. The metric labels were checked after adding an explicit block display rule so Role, Platform and Focus remain readable on separate lines.
+- Mobile inspection at 390px shows Atelier's hero title wrapping cleanly, the two CTAs stacking full-width, and Role/Platform/Focus remaining readable without horizontal overflow.

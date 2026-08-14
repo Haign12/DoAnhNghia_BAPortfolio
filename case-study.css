@@ -184,7 +184,8 @@
 .metric-chip + .metric-chip { padding-left: 18px !important; }
 .metric-chip:last-child { border-right: 0 !important; }
 .metric-value { color: var(--text) !important; font: 500 14px var(--sans) !important; line-height: 1.35; }
-.metric-label { margin-top: 7px !important; color: var(--muted) !important; font: 500 10px var(--mono) !important; letter-spacing: .08em; text-transform: uppercase; }
+.metric-label { display: block; margin-top: 7px !important; color: var(--muted) !important; font: 500 10px var(--mono) !important; letter-spacing: .08em; text-transform: uppercase; }
+.metric-value { display: block; }
 
 .case-hero > div[style*="margin-top"] {
   margin: 58px 0 0 !important;
