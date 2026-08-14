@@ -311,6 +311,10 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 .ba-projects .project-result span { font-size: 10px; }
 .ba-projects .project-footer { margin-top: 26px; }
 .ba-projects .project-link { min-height: 34px; padding: 8px 11px; font-size: 11px; }
+.ba-projects .actions-inline .project-footer { flex-direction: row; align-items: center; gap: 14px; }
+.ba-projects .actions-inline .tag-list { width: auto; flex: 1 1 auto; flex-wrap: wrap; gap: 4px; }
+.ba-projects .actions-inline .project-links { width: auto; flex: 0 0 auto; gap: 8px; }
+.ba-projects .actions-inline .project-link { min-width: 0; }
 
 @media (max-width: 720px) {
   .ba-projects .project-feature,
@@ -318,4 +322,6 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
   .ba-projects .project-image { min-height: 220px; max-height: 280px; }
   .ba-projects .project-content { padding: 24px 20px 26px; }
   .ba-projects .project-content h4 { font-size: 2rem; }
+  .ba-projects .actions-inline .project-footer { align-items: flex-start; flex-direction: column; gap: 14px; }
+  .ba-projects .actions-inline .tag-list, .ba-projects .actions-inline .project-links { width: 100%; }
 }

@@ -38,3 +38,8 @@
 - [x] Thu nhỏ visual hierarchy của ba project BA trên homepage portfolio.
 - [x] Chuyển StudioOS sang palette trắng–đen và tăng kích thước typography có kiểm soát.
 - [x] Kiểm tra responsive, regenerate minified assets, commit và deploy hai repository.
+
+## CoSpace compact card follow-up
+
+- [x] Kiểm tra nguyên nhân CoSpace chưa nhận rule compact card.
+- [ ] Sửa selector/cache-busting và xác minh lại production.
