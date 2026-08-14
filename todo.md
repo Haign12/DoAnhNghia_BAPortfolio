@@ -42,4 +42,4 @@
 ## CoSpace compact card follow-up
 
 - [x] Kiểm tra nguyên nhân CoSpace chưa nhận rule compact card.
-- [ ] Sửa selector/cache-busting và xác minh lại production.
+- [x] Sửa selector/cache-busting và xác minh lại production.
