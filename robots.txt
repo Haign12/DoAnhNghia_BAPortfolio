@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /docs/
+Disallow: /cv/
 
 Sitemap: https://haign12.github.io/DoAnhNghia_BAPortfolio/sitemap.xml

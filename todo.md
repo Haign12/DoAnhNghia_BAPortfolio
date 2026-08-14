@@ -74,3 +74,10 @@
 - [x] Kiểm tra, cập nhật CV PDF/source, deploy portfolio và xác nhận production.
 - [x] Tạo lại CV một trang A4 theo hướng Visual portfolio CV, đồng bộ role và Experience mới.
 - [x] Kiểm tra text extraction, bố cục PDF và link Resume trên production.
+
+## SEO and performance optimization follow-up
+
+- [ ] Audit technical SEO, metadata, canonical, sitemap, robots và structured data trên toàn bộ portfolio.
+- [ ] Audit tài nguyên tải trang, font, ảnh, JavaScript, CSS và các request bên thứ ba.
+- [ ] Áp dụng các tối ưu SEO/tốc độ an toàn mà không làm thay đổi định hướng UI/UX hoặc nội dung xác thực.
+- [ ] Kiểm tra lại performance, accessibility, responsive, route status và production sau khi deploy.
