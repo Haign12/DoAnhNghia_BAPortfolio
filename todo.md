@@ -35,6 +35,6 @@
 
 ## BA cards and StudioOS visual follow-up
 
-- [ ] Thu nhỏ visual hierarchy của ba project BA trên homepage portfolio.
-- [ ] Chuyển StudioOS sang palette trắng–đen và tăng kích thước typography có kiểm soát.
-- [ ] Kiểm tra responsive, regenerate minified assets, commit và deploy hai repository.
+- [x] Thu nhỏ visual hierarchy của ba project BA trên homepage portfolio.
+- [x] Chuyển StudioOS sang palette trắng–đen và tăng kích thước typography có kiểm soát.
+- [x] Kiểm tra responsive, regenerate minified assets, commit và deploy hai repository.
