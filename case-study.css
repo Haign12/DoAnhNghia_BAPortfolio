@@ -170,7 +170,7 @@
   max-width: 760px;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 0 !important;
-  margin-top: 0 !important;
+  margin-top: 22px !important;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }

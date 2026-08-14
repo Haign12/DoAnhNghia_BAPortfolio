@@ -27,3 +27,8 @@
 - [x] Xóa `uiux-portfolio.html` và loại bỏ các tham chiếu trực tiếp tới trang này.
 - [x] Sửa các CTA/back links trong case study để quay về đúng homepage portfolio.
 - [x] Kiểm tra link nội bộ, sitemap, production routes và deploy bản sửa.
+
+## Case study spacing follow-up
+
+- [ ] Giảm khoảng cách giữa nhóm CTA và khung Role / Platform / Focus.
+- [ ] Kiểm tra responsive, cache-busting và deploy bản spacing mới.
