@@ -88,3 +88,10 @@
 - [ ] Sửa CSS/JavaScript để thanh menu mobile luôn hiển thị, không phá trạng thái menu mở/đóng.
 - [ ] Kiểm tra viewport iPhone 12 Pro, keyboard focus, reduced motion và anchor navigation.
 - [ ] Commit, deploy và xác nhận production sau khi sửa lỗi.
+
+## Mobile menu default-state follow-up
+
+- [ ] Xác định vì sao `navMenu` hiển thị khi trang vừa tải hoặc khi reload.
+- [ ] Bảo đảm menu mặc định đóng và chỉ mở sau thao tác `menuToggle`.
+- [ ] Kiểm tra nút X, Escape, focus return, reduced-motion và anchor navigation.
+- [ ] Commit, deploy và xác nhận production trên viewport iPhone 12 Pro.
