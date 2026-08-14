@@ -166,6 +166,7 @@
   line-height: 1.7 !important;
 }
 .case-metrics {
+  display: grid;
   max-width: 760px;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 0 !important;
