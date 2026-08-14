@@ -46,5 +46,5 @@
 
 ## CoSpace image-ratio follow-up
 
-- [ ] Chuẩn hóa chiều cao card và vùng ảnh CoSpace theo hai BA cards còn lại.
-- [ ] Kiểm tra desktop/mobile và deploy lại production sau khi sửa ratio.
+- [x] Chuẩn hóa chiều cao card và vùng ảnh CoSpace theo hai BA cards còn lại.
+- [x] Kiểm tra desktop/mobile và deploy lại production sau khi sửa ratio.
