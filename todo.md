@@ -77,7 +77,7 @@
 
 ## SEO and performance optimization follow-up
 
-- [ ] Audit technical SEO, metadata, canonical, sitemap, robots và structured data trên toàn bộ portfolio.
-- [ ] Audit tài nguyên tải trang, font, ảnh, JavaScript, CSS và các request bên thứ ba.
-- [ ] Áp dụng các tối ưu SEO/tốc độ an toàn mà không làm thay đổi định hướng UI/UX hoặc nội dung xác thực.
-- [ ] Kiểm tra lại performance, accessibility, responsive, route status và production sau khi deploy.
+- [x] Audit technical SEO, metadata, canonical, sitemap, robots và structured data trên toàn bộ portfolio.
+- [x] Audit tài nguyên tải trang, font, ảnh, JavaScript, CSS và các request bên thứ ba.
+- [x] Áp dụng các tối ưu SEO/tốc độ an toàn mà không làm thay đổi định hướng UI/UX hoặc nội dung xác thực.
+- [x] Kiểm tra lại performance, accessibility, responsive, route status và production sau khi deploy.
