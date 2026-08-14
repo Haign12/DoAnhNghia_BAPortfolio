@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "pdf": "/home/ubuntu/DoAnhNghia_BAPortfolio/cv/main.pdf",
-  "profile": "text-document",
+  "profile": "general",
   "overall": "PASS",
   "checks": [
     {
@@ -29,7 +29,7 @@
     {
       "name": "text-presence",
       "status": "PASS",
-      "message": "characters=2134",
+      "message": "characters=2401",
       "evidence": {}
     },
     {

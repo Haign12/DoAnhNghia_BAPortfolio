@@ -95,3 +95,10 @@
 - [x] Bảo đảm menu mặc định đóng và chỉ mở sau thao tác `menuToggle`.
 - [x] Kiểm tra nút X, Escape, focus return, reduced-motion và anchor navigation.
 - [x] Commit, deploy và xác nhận production trên viewport iPhone 12 Pro.
+
+## Experience update follow-up
+
+- [x] Thêm MangoAds — UI/UX Designer, 08/2025–now, với mô tả công ty theo thông tin người dùng cung cấp.
+- [x] Điều chỉnh Tikera thành 02/2025–07/2025 trên homepage và CV.
+- [x] Kiểm tra CV PDF/source, nội dung UI/UX-only và production.
+- [ ] Commit, deploy và xác nhận các mốc Experience mới.

@@ -30,9 +30,18 @@ UI/UX Designer focused on turning complex product ideas into clear, calm and usa
 
 #work(
   title: "UI/UX Designer",
+  location: "Vietnam",
+  company: "MangoAds — Vietnam SEO Optimization and Web Design Agency",
+  dates: dates-helper(start-date: "Aug 2025", end-date: "Present"),
+)
+- Designed user flows, wireframes and responsive interfaces for web experiences.
+- Contributed to visual systems and interaction details across digital design work.
+
+#work(
+  title: "UI/UX Designer",
   location: "Ho Chi Minh City",
   company: "Tikera Technology and Brand Development Company",
-  dates: dates-helper(start-date: "Feb 2026", end-date: "May 2026"),
+  dates: dates-helper(start-date: "Feb 2025", end-date: "Jul 2025"),
 )
 - Designed and refined product flows, screen structures and interface patterns for digital products.
 - Translated product requirements into user flows, wireframes and high-fidelity interface directions.
