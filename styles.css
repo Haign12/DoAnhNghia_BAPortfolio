@@ -300,7 +300,8 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 /* BA support cards: quieter scale so UI/UX work remains the primary portfolio signal. */
 .ba-projects .project-list { gap: 14px; }
 .ba-projects .project-feature { grid-template-columns: minmax(220px, .72fr) 1.28fr; min-height: 280px; }
-.ba-projects .project-image { min-height: 280px; }
+/* Keep portrait BA covers from defining the row height through their intrinsic 4:5 ratio. */
+.ba-projects .project-image { height: 280px; min-height: 280px; }
 .ba-projects .project-content { padding: 28px 34px; }
 .ba-projects .project-number { top: 14px; left: 14px; padding: 6px 8px; font-size: 10px; }
 .ba-projects .project-topline { margin-bottom: 20px; font-size: 9px; }
@@ -319,7 +320,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 @media (max-width: 720px) {
   .ba-projects .project-feature,
   .ba-projects .project-feature.reverse { grid-template-columns: 1fr; min-height: 0; }
-  .ba-projects .project-image { min-height: 220px; max-height: 280px; }
+  .ba-projects .project-image { height: 220px; min-height: 220px; max-height: 220px; }
   .ba-projects .project-content { padding: 24px 20px 26px; }
   .ba-projects .project-content h4 { font-size: 2rem; }
   .ba-projects .actions-inline .project-footer { align-items: flex-start; flex-direction: column; gap: 14px; }

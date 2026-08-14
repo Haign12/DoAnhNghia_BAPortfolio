@@ -43,3 +43,8 @@
 
 - [x] Kiểm tra nguyên nhân CoSpace chưa nhận rule compact card.
 - [x] Sửa selector/cache-busting và xác minh lại production.
+
+## CoSpace image-ratio follow-up
+
+- [ ] Chuẩn hóa chiều cao card và vùng ảnh CoSpace theo hai BA cards còn lại.
+- [ ] Kiểm tra desktop/mobile và deploy lại production sau khi sửa ratio.
