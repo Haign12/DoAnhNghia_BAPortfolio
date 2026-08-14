@@ -250,6 +250,8 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
 
 @media (max-width: 720px) {
   .shell { width: min(100% - 32px, 1180px); }
+  /* Mobile keeps every section readable even when the deferred reveal observer is slow or unavailable. */
+  .reveal { opacity: 1; transform: none; transition: none; }
   .site-header { padding-top: 8px; }
   .nav { width: calc(100% - 16px); padding: 0 14px 0 18px; }
   .menu-toggle { display: block; }

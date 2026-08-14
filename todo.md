@@ -54,3 +54,9 @@
 - [x] Gỡ section và card của FinTrack, CoSpace, OrderFlow khỏi portfolio.
 - [x] Xóa route, link, sitemap và metadata của ba case study BA không còn dùng.
 - [x] Kiểm tra lại bộ đếm, điều hướng, production routes và deploy portfolio UI/UX-only.
+
+## Full mobile portfolio follow-up
+
+- [x] Audit các section/project đang bị ẩn hoặc thay đổi quá nhiều trên mobile.
+- [ ] Điều chỉnh responsive để mobile giữ đầy đủ nội dung chính như desktop mà không tràn ngang.
+- [ ] Kiểm tra mobile/desktop, accessibility, cache-busting và deploy bản responsive mới.
