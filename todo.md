@@ -58,5 +58,10 @@
 ## Full mobile portfolio follow-up
 
 - [x] Audit các section/project đang bị ẩn hoặc thay đổi quá nhiều trên mobile.
-- [ ] Điều chỉnh responsive để mobile giữ đầy đủ nội dung chính như desktop mà không tràn ngang.
-- [ ] Kiểm tra mobile/desktop, accessibility, cache-busting và deploy bản responsive mới.
+- [x] Điều chỉnh responsive để mobile giữ đầy đủ nội dung chính như desktop mà không tràn ngang.
+- [x] Kiểm tra mobile/desktop, accessibility, cache-busting và deploy bản responsive mới.
+
+## Sticky mobile navigation follow-up
+
+- [ ] Cố định header/navigation ở phía trên khi cuộn trên mobile.
+- [ ] Kiểm tra menu mở/đóng, anchor offset, responsive và deploy bản sửa.

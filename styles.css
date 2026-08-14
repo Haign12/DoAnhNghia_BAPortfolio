@@ -47,6 +47,7 @@ body {
   overflow-x: hidden;
   transition: background .35s ease, color .35s ease;
 }
+body.menu-open { overflow: hidden; }
 body::before {
   content: "";
   position: fixed;
@@ -66,6 +67,7 @@ button { font: inherit; }
 
 .shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
 .section-pad { padding-block: 116px; }
+#about, #work, #experience, #contact { scroll-margin-top: 96px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 .grain { position: fixed; inset: 0; z-index: 10; pointer-events: none; opacity: .035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E"); mix-blend-mode: multiply; }
@@ -252,8 +254,9 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
   .shell { width: min(100% - 32px, 1180px); }
   /* Mobile keeps every section readable even when the deferred reveal observer is slow or unavailable. */
   .reveal { opacity: 1; transform: none; transition: none; }
-  .site-header { padding-top: 8px; }
+  .site-header { position: sticky; top: 0; z-index: 120; padding: 8px 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(18px); }
   .nav { width: calc(100% - 16px); padding: 0 14px 0 18px; }
+  .site-header .nav { background: var(--surface); border-color: var(--line); box-shadow: 0 10px 28px rgba(0,0,0,.08); }
   .menu-toggle { display: block; }
   .nav-menu { position: fixed; top: 8px; right: 8px; z-index: 60; display: flex; align-items: stretch; flex-direction: column; width: min(310px, calc(100vw - 16px)); padding: 85px 28px 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); transform: translateX(calc(100% + 18px)); transition: transform .4s var(--ease); }
   .nav-menu.is-open { transform: translateX(0); }
@@ -261,6 +264,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.65rem, 3vw, 2.35rem); line-height: 
   .nav-menu > a::after { bottom: 2px; right: 100%; }
   .nav-menu .nav-resume { padding: 13px 15px; text-align: center; margin-top: 10px; }
   .nav-tools { justify-content: space-between; margin-top: 16px; margin-left: 0; padding: 18px 0 0; border-top: 1px solid var(--line); border-left: 0; }
+  #about, #work, #experience, #contact { scroll-margin-top: 84px; }
   .section-pad { padding-block: 82px; }
   .project-group-heading { display: block; }
   .project-group-copy { margin-top: 18px; }
