@@ -63,5 +63,5 @@
 
 ## Sticky mobile navigation follow-up
 
-- [ ] Cố định header/navigation ở phía trên khi cuộn trên mobile.
-- [ ] Kiểm tra menu mở/đóng, anchor offset, responsive và deploy bản sửa.
+- [x] Cố định header/navigation ở phía trên khi cuộn trên mobile.
+- [x] Kiểm tra menu mở/đóng, anchor offset, responsive và deploy bản sửa.
