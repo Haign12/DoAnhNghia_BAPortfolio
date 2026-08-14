@@ -32,3 +32,9 @@
 
 - [x] Giảm khoảng cách giữa nhóm CTA và khung Role / Platform / Focus.
 - [x] Kiểm tra responsive, cache-busting và deploy bản spacing mới.
+
+## BA cards and StudioOS visual follow-up
+
+- [ ] Thu nhỏ visual hierarchy của ba project BA trên homepage portfolio.
+- [ ] Chuyển StudioOS sang palette trắng–đen và tăng kích thước typography có kiểm soát.
+- [ ] Kiểm tra responsive, regenerate minified assets, commit và deploy hai repository.
