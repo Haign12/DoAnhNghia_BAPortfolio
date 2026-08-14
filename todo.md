@@ -15,3 +15,9 @@
 - [x] Thay các CTA Figma bằng View case study/Xem case study.
 - [x] Kiểm tra modal, responsive, accessibility và bản dịch EN/VI.
 - [x] Commit và deploy portfolio sau khi thay CTA.
+
+## UI/UX case study content follow-up
+
+- [x] Audit content gap và benchmark case study UI/UX bằng nguồn web công khai.
+- [x] Hoàn thiện nội dung case study cho Atelier, LuxRoom và StudioOS dựa trên dữ liệu có thật.
+- [x] Triển khai SEO, điều hướng, responsive/accessibility và deploy ba case study.
