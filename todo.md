@@ -101,4 +101,4 @@
 - [x] Thêm MangoAds — UI/UX Designer, 08/2025–now, với mô tả công ty theo thông tin người dùng cung cấp.
 - [x] Điều chỉnh Tikera thành 02/2025–07/2025 trên homepage và CV.
 - [x] Kiểm tra CV PDF/source, nội dung UI/UX-only và production.
-- [ ] Commit, deploy và xác nhận các mốc Experience mới.
+- [x] Commit, deploy và xác nhận các mốc Experience mới.
