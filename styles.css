@@ -220,13 +220,13 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 
 /* Hero — Family A / Editorial Identity */
 .hero {
-  min-height: calc(100vh - 74px);
-  padding-block: clamp(72px, 7vw, 116px) 84px;
+  min-height: 0;
+  padding-block: clamp(46px, 4.8vw, 72px) clamp(54px, 5.2vw, 78px);
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: 24px;
-  row-gap: 38px;
-  align-items: end;
+  row-gap: 28px;
+  align-items: start;
 }
 .hero-index {
   grid-column: 1 / 13;
@@ -235,9 +235,9 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
   color: var(--muted);
 }
 .hero-copy {
-  grid-column: 1 / 9;
-  align-self: center;
-  padding-top: 24px;
+  grid-column: 1 / 8;
+  align-self: start;
+  padding-top: 0;
 }
 .hero-copy h1 {
   max-width: 980px;
@@ -260,8 +260,8 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 26px; }
 .hero-portrait {
-  grid-column: 10 / 13;
-  align-self: end;
+  grid-column: 9 / 13;
+  align-self: start;
   margin: 0;
 }
 .hero-portrait img {
@@ -282,18 +282,7 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
   letter-spacing: .06em;
   text-transform: uppercase;
 }
-.hero-note {
-  grid-column: 1 / 6;
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 18px;
-  align-items: start;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.55;
-}
+.hero-note { display: none; }
 .note-number {
   color: var(--text);
   font: 500 26px var(--serif);
@@ -301,6 +290,7 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 
 /* Selected work — evidence first */
 .work { border-top: 1px solid var(--line); }
+#work.section-pad { padding-top: clamp(82px, 7vw, 110px); }
 .section-head { margin-bottom: 74px; }
 .section-heading-grid {
   display: grid;
@@ -581,10 +571,11 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 /* Desktop pressure points */
 @media (max-width: 1280px) {
   .shell { width: min(var(--shell), calc(100% - 56px)); }
-  .hero { column-gap: 20px; }
-  .hero-copy { grid-column: 1 / 9; }
-  .hero-portrait { grid-column: 10 / 13; }
-  .hero-copy h1 { font-size: clamp(4.4rem, 7.1vw, 6.9rem); }
+  .hero { column-gap: 20px; padding-block: 42px 54px; row-gap: 24px; }
+  .hero-copy { grid-column: 1 / 8; }
+  .hero-portrait { grid-column: 9 / 13; }
+  .hero-copy h1 { margin-bottom: 24px; font-size: clamp(3.9rem, 5.8vw, 5.25rem); }
+  .hero-lead { margin-bottom: 26px; font-size: 1rem; line-height: 1.62; }
   .section-heading-grid h2 { grid-column: 1 / 9; }
   .section-heading-grid > p { grid-column: 9 / 13; }
 }
