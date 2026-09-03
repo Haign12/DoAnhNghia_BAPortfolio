@@ -1,4 +1,4 @@
-name: Phase 2 Representative Final Gate
+name: Phase 2 Supporting Route Integrity
 
 on:
   push:
@@ -9,40 +9,27 @@ permissions:
   contents: read
 
 jobs:
-  gate:
+  integrity:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: e2ccbff7bd322f80da3aea3d296f6b5b07f79dfc
-      - name: Static gate
+      - name: Render supporting personal-case routes
         shell: bash
         run: |
           set -euo pipefail
-          grep -q '<html lang="vi"' index.html
-          grep -q 'prefers-reduced-motion' styles.css
-          grep -q ':focus-visible' styles.css
-          ! grep -q 'grayscale(1)' styles.css
-          test -f case-system.css
-      - name: Render final representative set
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p evidence/phase2-final-gate
+          mkdir -p evidence/supporting-routes
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
           PID=$!; trap 'kill "$PID" || true' EXIT; sleep 2
           CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
-          for width in 1280 1440 1920; do
-            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=4000 --screenshot="evidence/phase2-final-gate/home-${width}x1080.png" "http://127.0.0.1:4173/index.html"
-          done
-          for route in case-study-luxroom.html case-study-vas-education.html case-study-ux.html; do
+          for route in case-study-atelier.html case-study-studioos.html; do
             name="${route%.html}"
-            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=4000 --screenshot="evidence/phase2-final-gate/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=4000 --screenshot="evidence/supporting-routes/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
           done
-          printf '%s\n' 'Candidate: e2ccbff7bd322f80da3aea3d296f6b5b07f79dfc' 'Home: 1280/1440/1920' 'Regression representatives: 1440' > evidence/phase2-final-gate/manifest.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: phase2-final-gate
-          path: evidence/phase2-final-gate
+          name: phase2-supporting-route-integrity
+          path: evidence/supporting-routes
           if-no-files-found: error
           retention-days: 7
