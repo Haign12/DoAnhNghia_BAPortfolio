@@ -1,0 +1,79 @@
+name: Phase 1 Baseline Capture
+
+on:
+  push:
+    branches:
+      - qa/phase1-baseline-20260903
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact OLD baseline
+        uses: actions/checkout@v4
+        with:
+          ref: 2c7c6ee7cbe82be98c42257854ca28a725e7ba8b
+
+      - name: Capture Chromium OLD baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/old-baseline
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 2
+
+          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          if [ -z "$CHROME" ]; then
+            echo "Chromium executable not found" >&2
+            exit 1
+          fi
+          echo "Using $CHROME"
+
+          routes=(
+            "home|index.html"
+            "personal-case|case-study-luxroom.html"
+            "redesign-case|case-study-vas-education.html"
+            "archive-case|case-study-ux.html"
+          )
+          widths=(1280 1440 1920)
+
+          for route in "${routes[@]}"; do
+            name="${route%%|*}"
+            path="${route#*|}"
+            for width in "${widths[@]}"; do
+              out="evidence/old-baseline/${name}-${width}x1080.png"
+              "$CHROME" \
+                --headless=new \
+                --no-sandbox \
+                --disable-gpu \
+                --hide-scrollbars \
+                --force-device-scale-factor=1 \
+                --window-size="${width},1080" \
+                --virtual-time-budget=2500 \
+                --screenshot="$out" \
+                "http://127.0.0.1:4173/${path}"
+              test -s "$out"
+            done
+          done
+
+          cat > evidence/old-baseline/manifest.txt <<'EOF'
+          Source commit: 2c7c6ee7cbe82be98c42257854ca28a725e7ba8b
+          Browser: Chromium headless on ubuntu-latest
+          DPR: 1
+          Height: 1080
+          Widths: 1280, 1440, 1920
+          Routes: home, case-study-luxroom, case-study-vas-education, case-study-ux
+          EOF
+
+      - name: Upload OLD baseline evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-old-baseline
+          path: evidence/old-baseline
+          if-no-files-found: error
+          retention-days: 7
