@@ -1,4 +1,4 @@
-name: Patch Phase 2 Home Scale
+name: Phase 2 Representative Final Gate
 
 on:
   push:
@@ -6,48 +6,43 @@ on:
       - qa/phase1-baseline-20260903
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  patch:
+  gate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: phase2/luxury-minimalism-implementation-20260903
-          fetch-depth: 0
-      - name: Patch hierarchy in root stylesheet
+          ref: e2ccbff7bd322f80da3aea3d296f6b5b07f79dfc
+      - name: Static gate
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('styles.css'); s=p.read_text()
-          pairs=[
-          ('font-size: clamp(4.75rem, 7.3vw, 8.2rem);','font-size: clamp(4.35rem, 5.8vw, 6.8rem);'),
-          ('''  grid-column: 9 / 13;
-            align-self: start;
-            margin: 0;
-          }''','''  grid-column: 9 / 13;
-            align-self: start;
-            justify-self: end;
-            width: 100%;
-            max-width: 390px;
-            margin: 0;
-          }'''),
-          ('''  width: 100%;
-            aspect-ratio: 3 / 4.1;
-            object-fit: cover;''','''  width: 100%;
-            height: clamp(480px, 40vw, 620px);
-            object-fit: cover;''')]
-          for old,new in pairs:
-              if old not in s: raise SystemExit('expected block not found: '+old[:80])
-              s=s.replace(old,new,1)
-          p.write_text(s)
-          PY
-          git config user.name "Nghĩaaaa"
-          git config user.email "93433772+Haign12@users.noreply.github.com"
-          git add styles.css
-          git diff --cached --check
-          git commit -m "fix: rebalance home display scale and portrait"
-          git push origin HEAD:phase2/luxury-minimalism-implementation-20260903
+          grep -q '<html lang="vi"' index.html
+          grep -q 'prefers-reduced-motion' styles.css
+          grep -q ':focus-visible' styles.css
+          ! grep -q 'grayscale(1)' styles.css
+          test -f case-system.css
+      - name: Render final representative set
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/phase2-final-gate
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
+          PID=$!; trap 'kill "$PID" || true' EXIT; sleep 2
+          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          for width in 1280 1440 1920; do
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=4000 --screenshot="evidence/phase2-final-gate/home-${width}x1080.png" "http://127.0.0.1:4173/index.html"
+          done
+          for route in case-study-luxroom.html case-study-vas-education.html case-study-ux.html; do
+            name="${route%.html}"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=4000 --screenshot="evidence/phase2-final-gate/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
+          done
+          printf '%s\n' 'Candidate: e2ccbff7bd322f80da3aea3d296f6b5b07f79dfc' 'Home: 1280/1440/1920' 'Regression representatives: 1440' > evidence/phase2-final-gate/manifest.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase2-final-gate
+          path: evidence/phase2-final-gate
+          if-no-files-found: error
+          retention-days: 7
