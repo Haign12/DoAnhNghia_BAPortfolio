@@ -2,26 +2,28 @@
   const root = document.documentElement;
   const themeButton = document.getElementById('theme-toggle');
   const icon = document.getElementById('theme-icon');
+  const label = themeButton?.querySelector('[data-theme-label]');
   const themeKey = 'portfolio-theme';
+
+  const readTheme = () => {
+    try { return localStorage.getItem(themeKey) || localStorage.getItem('theme'); }
+    catch (_) { return null; }
+  };
 
   const setTheme = (theme) => {
     const nextTheme = theme === 'dark' ? 'dark' : 'light';
     root.dataset.theme = nextTheme;
-    localStorage.setItem(themeKey, nextTheme);
+    try { localStorage.setItem(themeKey, nextTheme); } catch (_) { /* persistence is optional */ }
     if (themeButton) {
       themeButton.setAttribute('aria-pressed', String(nextTheme === 'dark'));
-      themeButton.setAttribute('aria-label', nextTheme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+      themeButton.setAttribute('aria-label', nextTheme === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối');
     }
     if (icon) icon.textContent = nextTheme === 'dark' ? '☼' : '◐';
+    if (label) label.textContent = nextTheme === 'dark' ? 'Sáng' : 'Tối';
   };
 
-  setTheme(localStorage.getItem(themeKey) || localStorage.getItem('theme') || 'light');
+  setTheme(readTheme() || 'light');
   themeButton?.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
-  document.addEventListener('keydown', (event) => {
-    if (event.key.toLowerCase() === 't' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-      setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
-    }
-  });
 
   const sections = [...document.querySelectorAll('.case-section[id]')];
   const tocLinks = [...document.querySelectorAll('.toc a')];
