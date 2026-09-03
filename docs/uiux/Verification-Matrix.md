@@ -1,37 +1,40 @@
 # Verification Matrix
 
-## Phase 1
-Phase 1 research/design gates remain `DONE_VERIFIED`; see `Phase-1-Handoff.md` and `Old-Baseline.md`. Phase 1 result: PASSED.
+Phase 1: PASSED.  
+Phase 2: PASSED on candidate branch; see `Phase-2-Handoff.md`.
 
-## Phase 2 — implementation verification
+## Phase 3 Final QA — requested target main/live
 
 | Change / requirement | Expected outcome | Method | Pass condition | Result |
 |---|---|---|---|---|
-| Home structural redesign | portfolio proof and CTA arrive earlier; not a reskin | OLD vs NEW renders + DOM order | obvious hierarchy/composition/journey delta | DONE_VERIFIED |
-| Home first-screen hierarchy | portrait supports identity rather than dominating; proof follows immediately | 1280/1440/1920 Chromium visual inspection | no P1 dead space/delayed CTA; Work enters next beat | DONE_VERIFIED |
-| Luxury-minimal grammar | warm editorial restraint, not card/pill soup | cross-page rendered review | coherent type/rule/spacing/token system | DONE_VERIFIED |
-| Shared case shell regression | linked local routes remain usable after shared CSS changes | 1440 Chromium route rechecks | no collapsed metadata/legacy visual break | DONE_VERIFIED |
-| FlowCRM Family D | system artifact is primary evidence | rendered fix/recheck | model object visibly leads case | DONE_VERIFIED |
-| Native-color project media | portfolio proof not globally neutralized | source + render review | no blanket grayscale; project identity retained | DONE_VERIFIED |
-| Vietnamese UI | primary portfolio language matches config | source/render inspection | primary UI and local case shell render Vietnamese without broken glyphs | DONE_VERIFIED |
-| Desktop scope | stable declared Chromium widths | 1280/1440/1920 Home + representative/regression captures | no material collision/overflow/crop | DONE_VERIFIED |
-| Focus/reduced-motion baseline | UI not animation-gated; visible keyboard style exists | source checks + rendered default states | `:focus-visible`, reduced-motion path, semantic controls present | DONE_VERIFIED baseline; no formal conformance claim |
-| Theme/client interactions | truthful client-only behavior | source review | no backend implication; localStorage failure non-critical | DONE_VERIFIED source-level |
-| Contact/CV/external links | truthful handoffs | source/link contract review | no fake submit/success state | DONE_VERIFIED |
-| SEO route preservation | no local route loss; sitemap matches routes | source/canonical/sitemap review | VAS + all local cases in sitemap; canonicals preserved | DONE_VERIFIED |
-| Static performance architecture | redesign adds no 3D/video/framework or heavy runtime dependency | source/resource review | static HTML/CSS/JS preserved | DONE_VERIFIED for implementation architecture; lab perf deferred to Final QA |
-| Supporting external project UX | no project-specific redesign work required | current user scope clarification | external project sites excluded | N/A_JUSTIFIED |
-| Mobile/tablet | excluded by declared scope | scope review | no responsive claim required | N/A_JUSTIFIED |
+| Exact QA target | inspect user-requested main/live, not a substitute | GitHub branch API + live HTML hash | exact SHA/state resolved | DONE_VERIFIED — main `2c7c6ee...`; live Home hash matches main |
+| OLD → NEW | prove redesign is structural | same-width 1280/1440/1920 side-by-side inspection | hierarchy/composition/journey delta obvious | DONE_VERIFIED comparison; candidate is structural |
+| NEW deployed to target | main/live contains PASSED Phase 2 implementation | source/live compare | target equals intended NEW | **BLOCKED** — target is OLD |
+| Home → Design Contract | proof-first Vietnamese luxury-minimal Home | rendered target + source | contract hierarchy/locale/visual grammar present | **BLOCKED** |
+| NEW candidate → Design Contract | candidate matches contract | Phase 2 renders/source | no material deviation | DONE_VERIFIED |
+| NEW → NEW cross-page | no unjustified drift/legacy break | candidate montage + supporting route recheck | portfolio chrome coherent, supporting routes intact | DONE_VERIFIED candidate |
+| Route coverage | all in-scope local public routes load | live curl + Chromium | Home/5 cases/CV resolve | DONE_VERIFIED — all 200 |
+| Desktop visual matrix | declared widths inspected | live/local Chromium | Home 1280/1440/1920; support routes 1440 | DONE_VERIFIED |
+| Navigation/critical links | actions reachable and truthful | Selenium/source/status | Work/contact/CV/project links available | DONE_VERIFIED functional smoke |
+| Theme | real client state | Selenium | light→dark, aria state updates | DONE_VERIFIED |
+| Reduced motion | user preference recognized | CDP media emulation + source | reduce signal true; nonessential marquee disabled | DONE_VERIFIED signal |
+| Accessibility desktop nav | visible nav exposed to accessibility tree | markup/script inspection | visible desktop nav not `aria-hidden` | **BLOCKED** — main parent `aria-hidden=true` |
+| Formal accessibility conformance | formal WCAG/AT certification | scope review | only if explicitly evaluated | N/A_JUSTIFIED — no formal conformance claim requested/performed |
+| Media/crop | evidence slots inspected | rendered screenshots + Phase 2 media contract | no accepted NEW crop defect | DONE_VERIFIED candidate; main portrait blank capture logged as evidence risk |
+| System Reality | no fake integration/success | source + interaction contract | STATIC/REAL/UNKNOWN truthful | DONE_VERIFIED |
+| Performance | avoid unsupported performance claims; gather bounded evidence | file sizes + single live network sample | architecture/network evidence separated from field CWV | DONE_VERIFIED; field CWV not claimed |
+| Security/privacy | evaluate applicable data surfaces | source reality review | no unreviewed sensitive flow | N/A_JUSTIFIED — no form/auth/API/payment/upload/analytics |
+| SEO crawl/route coverage | metadata/canonical/robots/sitemap cover public routes | source + live status | sitemap includes all local public pages | **BLOCKED** — VAS omitted on main |
+| Mobile/tablet QA | follow declared scope | scope check | N/A with rationale | N/A_JUSTIFIED |
+| Release safety | no unauthorized merge/deploy | git/ref review | main unchanged under no_release | DONE_VERIFIED |
+| Two-stage review | Stage A spec + Stage B quality explicitly run | Final QA report | both pass for target | **BLOCKED** — Stage A target compliance fails |
 
-## Visual evidence
-- OLD: run `33773806896`, artifact `9900765034`.
-- Representative NEW final gate: run `33776795104`, artifact `9901910428`.
-- Supporting route fixed recheck: run `33777139422`, artifact `9902042011`.
-- Screenshots were opened and visually inspected; file existence alone was not used as a pass.
+## Evidence
+- Phase 3 run `33777846380`, artifact `9902336889`.
+- Live route status: Home + five local cases + CV = 200.
+- Live Home HTML source hash equals exact main source hash.
+- Selenium live smoke: theme switch works, mailto/CV found, reduced-motion media true, no captured severe/warning console logs.
+- All screenshot evidence cited in `Visual-Evidence-Index.md` was opened/inspected.
 
-## Two-stage review
-A. Spec/intent compliance: PASSED — portfolio UI is the primary upgraded experience; structural delta is visible; no release performed.  
-B. Code/experience quality: PASSED for Phase 2 — root owners used, regressions fixed, static architecture/system reality preserved.
-
-Phase 2 BLOCKED: 0  
-Phase 2 UNACCOUNTED: 0
+## Final gate state
+BLOCKED > 0; P0/P1 remain on requested target. Final QA cannot pass.
