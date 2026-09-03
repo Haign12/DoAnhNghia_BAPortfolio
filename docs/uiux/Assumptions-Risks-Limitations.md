@@ -1,82 +1,50 @@
-# Assumptions, Risks and Limitations
+# Assumptions, Risks and Limitations — Final QA
 
-## Assumptions
+## Current assumptions / evidence boundaries
+| ID | Statement | Label | Final handling |
+|---|---|---|---|
+| A-01 | Portfolio opportunity/hiring conversation is the primary business outcome | EVIDENCE_BACKED_INFERENCE | no conversion uplift claim; retain proof/CV/contact journey |
+| A-02 | Recruiter/design lead is the primary audience | EVIDENCE_BACKED_INFERENCE | no claim that direct user interviews were conducted |
+| A-03 | Official brand guideline does not exist in supplied project truth | UNKNOWN / Brand Status C | digital visual direction remains proposed, not official corporate guidance |
+| A-04 | Field performance/user analytics are unavailable | FACT from inspected source/evidence | no field CWV/conversion claim |
 
-| ID | Assumption | Label | Risk | Mitigation |
-|---|---|---|---|---|
-| A-01 | Primary portfolio outcome is UI/UX hiring/opportunity conversation | EVIDENCE_BACKED_INFERENCE | medium | trace to current open-to-opportunities/resume/email structure; validate later with real review sessions |
-| A-02 | Recruiter + design/product lead are primary audiences | EVIDENCE_BACKED_INFERENCE | medium | use current career positioning + hiring research; do not call it user research |
-| A-03 | Potential client/collaborator is secondary | PROFESSIONAL_HYPOTHESIS | low | keep contact generic enough; do not let freelance sales needs distort hiring proof |
-| A-04 | Current public URLs may have SEO/share equity | PROFESSIONAL_HYPOTHESIS due absent analytics | medium | preserve routes/canonicals by default |
-| A-05 | Existing fonts can support Vietnamese luxury-editorial direction | PROFESSIONAL_HYPOTHESIS | low/medium | rendered glyph/wrap verification required before final token lock |
+## Active risks / blockers
 
-## Risks
+### R-01 — Requested target does not contain PASSED implementation — P0 / BLOCKED
+FACT: `main@2c7c6ee...` and live Home are exact OLD state. Phase 2 PASSED candidate is `aef6a7c...` on a safe branch.
 
-### R-01 — Rendered baseline unavailable — P1 / BLOCKER
-Actual OLD pixels at 1280/1440/1920 are unavailable in the current tool environment. Source structure is known, but crop/wrap/silhouette cannot be accepted as rendered evidence.
+Unblock: authorized release phase must merge/deploy the accepted candidate (or an explicitly approved successor), then Final QA must rerun production/live smoke and visual comparison on the deployed SHA.
 
-Mitigation/unblock: capture Chromium screenshots for the representative page-family matrix and visually inspect them.
+### R-02 — Primary Home target fails approved contract — P1 / BLOCKED
+Main/live remains English, About-first and decorative OLD composition rather than the approved Vietnamese proof-first luxury-minimal Home.
 
-### R-02 — Media focal points not visually verified — P1 tied to R-01
-Asset roles/ratios are known, but exact focal/safe-crop coordinates cannot be finalized without visual inspection.
+Unblock: same authorized release as R-01, followed by rerender/inspection.
 
-Mitigation: inspect source assets/rendered slots and record focal/safe zones before implementation.
+### R-03 — Visible desktop nav is `aria-hidden` — P1 / BLOCKED
+Main markup sets the visible `.nav-menu` to `aria-hidden="true"`; OLD script only toggles it in mobile-menu behavior and does not synchronize desktop visible state.
 
-### R-03 — No portfolio analytics/user research — P2
-No real funnel, recruiter task success or contact data exists.
+Candidate implementation already addresses desktop ARIA synchronization. Unblock requires authorized release plus keyboard/accessibility regression smoke.
 
-Mitigation: redesign claims remain hypothesis/evidence-based; no “conversion improved” claim. Future usability review with recruiters/design leads is recommended.
+### R-04 — Main sitemap omits VAS — material P2 / BLOCKED
+VAS route is live 200 but absent from main sitemap. Candidate includes it.
 
-### R-04 — Language shift English → Vietnamese — P2
-Current copy is English while config declares Vietnamese. Vietnamese headings can be longer and change composition pressure.
+Unblock requires authorized release and live sitemap verification.
 
-Mitigation: treat actual Vietnamese copy as design content; verify 1280/1366 wrapping before propagating layout.
-
-### R-05 — Over-stylizing luxury — P2
-Luxury can become cliché or harm portfolio scanning.
-
-Mitigation: design contract defines luxury as restraint, warm materiality, typography and proof dominance; no gold/glass/animation dependency.
-
-### R-06 — Page-family over-unification — P1 if ignored
-Shared CSS can encourage every case study to use the same shell.
-
-Mitigation: four required composition families with cross-page montage gate.
-
-### R-07 — FlowCRM legacy CSS island — P2
-Inline legacy styling can create drift or tempt CSS override stacking.
-
-Mitigation: future implementation must identify shared foundations and refactor ownership rather than patch over it.
-
-### R-08 — SEO evidence absent — P2
-Search Console/backlink data not supplied.
-
-Mitigation: preserve routes/canonicals/content intent; only repair known sitemap omission.
-
-### R-09 — External links can change — P3
-Live project destinations are outside this repo.
-
-Mitigation: verify before release; do not represent availability as guaranteed.
+## Resolved prior risks
+- Phase 1 rendered OLD baseline: resolved with Chromium evidence.
+- Phase 1 media/focal evidence: resolved.
+- Phase 2 Home first-screen hierarchy: resolved on candidate and re-rendered.
+- Phase 2 FlowCRM model hierarchy: resolved on candidate and re-rendered.
+- Atelier/StudioOS shared-shell regression: resolved on candidate and re-rendered.
 
 ## Limitations
-
-- No rendered live-site screenshot capture succeeded in available environment.
+- Release authorization remains `no_release`; Final QA cannot mutate main or deploy GitHub Pages.
+- No formal screen-reader/WCAG conformance evaluation; only scoped keyboard/semantics/motion baseline was performed.
+- No field CrUX/RUM/performance data.
 - No analytics/Search Console/heatmaps/session recordings.
-- No direct recruiter/hiring-lead interviews.
-- No official brand book.
-- No formal accessibility conformance test.
-- No field performance data.
-- No production release authorization.
-- Mobile/tablet intentionally outside scope, not a limitation to be fixed in this Phase 1.
+- No direct recruiter/hiring-lead research participants.
+- Mobile/tablet intentionally outside declared QA scope.
+- Headless main/live captures showed blank portrait media; because source asset is valid and candidate renders it, this remains an evidence-render risk unless reproduced in normal interactive Chromium.
 
-## Claims explicitly prohibited
-
-Until evidence exists, do not claim:
-- UX improved;
-- conversion increased;
-- recruiter preference validated;
-- fully responsive;
-- WCAG conformant;
-- production-ready;
-- secure/compliant;
-- live analytics integration;
-- successful message delivery from `mailto:`.
+## Claims prohibited by current evidence
+Do not claim: Final QA passed, redesign live, fully responsive, WCAG conformant, field CWV passed, conversion improved, analytics integrated, secure/compliant certification, or successful site-owned email delivery.
