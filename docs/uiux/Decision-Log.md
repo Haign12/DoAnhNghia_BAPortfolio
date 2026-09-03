@@ -26,8 +26,8 @@ Email is a `mailto:` external handoff; no fake form/backend/success state.
 ## D-008 — Rendered evidence is mandatory
 Screenshots must be opened/inspected; source/CI alone does not pass visual QA.
 
-## D-009 — No release
-`release_authorization=no_release`; no merge/main update/Pages deploy/release is allowed in these phases.
+## D-009 — No unauthorized release
+No merge/main update/Pages deploy/release occurs without a later explicit release authorization.
 
 ## D-010 — User scope narrows project-specific case depth
 FACT: user clarified the objective is upgrading the portfolio interface, not redesigning individual personal projects. Home is the primary design target; local case pages are supporting linked evidence and only need portfolio-shell/route integrity. External project UX is N/A_JUSTIFIED.
@@ -38,15 +38,21 @@ Shared CSS visibly broke Atelier/StudioOS, so those routes were restored to a co
 ## D-012 — Home first-screen P1 fixed in root owner
 `100vh`/end alignment/display dominance delayed proof. Candidate root `styles.css` was corrected and re-rendered at 1280/1440/1920.
 
-## D-013 — Phase 3 target cannot be silently substituted
-User explicitly specified `main` + GitHub Pages for Final QA. Candidate remains on a safe branch and release authority is `no_release`; therefore Final QA must inspect main/live rather than treat candidate as deployed.
+## D-013 — Previous Phase 3 main/live target was a lifecycle conflict
+- FACT: previous Phase 3 used `main@2c7c6ee...` + GitHub Pages as Final QA target while Phase 2 candidate remained unreleased.
+- FACT: that made pre-release Final QA depend on a release action, while Phase 4 is the explicitly separate release/production-verification phase.
+- Current request: fix Phase 3, then run Phase 4.
+- Decision: supersede the previous target choice. Final QA must validate the immutable release candidate; main/live becomes the Phase 4 production baseline and post-release smoke target.
+- Impact: this is a process correction, not a silent production claim. Previous main/live evidence is retained for Phase 4 comparison.
 
-## D-014 — Final QA target mismatch is confirmed, not assumed
-- FACT: `main` is `2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`.
-- FACT: downloaded live Home HTML SHA-256 equals exact main Home source SHA-256 (`64c164efca6433b8e105dd348f2393f38f5a3c93663f093b6fe03806900f4738`).
-- FACT: Phase 2 PASSED candidate is `aef6a7c7299e607058fb6e84aaa86062553194f1` and is 49 commits ahead of main.
-- Decision: classify unreleased NEW as P0 target/release blocker; do not merge/deploy in Final QA.
-- Impact: Final QA must remain BLOCKED until an authorized release puts approved NEW on the requested production source and live QA is rerun.
+## D-014 — Exact Phase 3 candidate is frozen
+- Candidate: `aef6a7c7299e607058fb6e84aaa86062553194f1`.
+- QA run: `33779853151`.
+- Artifact: `9903113470`.
+- Decision: no implementation changes after this SHA without reopening Final QA.
 
-## D-015 — Headless portrait blank is evidence risk, not an invented product failure
-Main/live headless screenshots show a blank portrait region, but the same valid asset renders in the candidate and source references are correct. Without normal interactive/GPU reproduction, log this as `[evidence]` uncertainty rather than adding an unsupported product blocker.
+## D-015 — Candidate Final QA passes
+FACT: exact-candidate static, runtime, route and rendered checks all passed; screenshots were opened/inspected. P0/P1/material-P2 = 0, BLOCKED = 0, UNACCOUNTED = 0.
+
+## D-016 — Production remains unverified until authorized Phase 4 release
+`main` and GitHub Pages still represent the pre-release baseline at the time of this decision. Final QA PASSED does not mean production is updated. Production verification requires authorized release plus post-deploy smoke.
