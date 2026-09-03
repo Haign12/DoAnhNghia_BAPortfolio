@@ -1,4 +1,4 @@
-name: Phase 1 Baseline Capture
+name: Phase 2 Representative Capture
 
 on:
   push:
@@ -12,28 +12,22 @@ jobs:
   capture:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact OLD baseline
+      - name: Checkout Phase 2 representative commit
         uses: actions/checkout@v4
         with:
-          ref: 2c7c6ee7cbe82be98c42257854ca28a725e7ba8b
+          ref: 298298f3a45cd0614c74e373ef622fc5d21170eb
 
-      - name: Capture Chromium OLD baseline
+      - name: Capture Chromium representative pages
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p evidence/old-baseline
+          mkdir -p evidence/phase2-representative
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-http.log 2>&1 &
           SERVER_PID=$!
           trap 'kill "$SERVER_PID" || true' EXIT
           sleep 2
-
           CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
-          if [ -z "$CHROME" ]; then
-            echo "Chromium executable not found" >&2
-            exit 1
-          fi
-          echo "Using $CHROME"
-
+          test -n "$CHROME"
           routes=(
             "home|index.html"
             "personal-case|case-study-luxroom.html"
@@ -41,39 +35,20 @@ jobs:
             "archive-case|case-study-ux.html"
           )
           widths=(1280 1440 1920)
-
           for route in "${routes[@]}"; do
-            name="${route%%|*}"
-            path="${route#*|}"
+            name="${route%%|*}"; path="${route#*|}"
             for width in "${widths[@]}"; do
-              out="evidence/old-baseline/${name}-${width}x1080.png"
-              "$CHROME" \
-                --headless=new \
-                --no-sandbox \
-                --disable-gpu \
-                --hide-scrollbars \
-                --force-device-scale-factor=1 \
-                --window-size="${width},1080" \
-                --virtual-time-budget=2500 \
-                --screenshot="$out" \
-                "http://127.0.0.1:4173/${path}"
+              out="evidence/phase2-representative/${name}-${width}x1080.png"
+              "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=4000 --screenshot="$out" "http://127.0.0.1:4173/${path}"
               test -s "$out"
             done
           done
+          printf '%s\n' 'Source commit: 298298f3a45cd0614c74e373ef622fc5d21170eb' 'Browser: Chromium headless / ubuntu-latest / DPR 1' 'Widths: 1280,1440,1920; height 1080' > evidence/phase2-representative/manifest.txt
 
-          cat > evidence/old-baseline/manifest.txt <<'EOF'
-          Source commit: 2c7c6ee7cbe82be98c42257854ca28a725e7ba8b
-          Browser: Chromium headless on ubuntu-latest
-          DPR: 1
-          Height: 1080
-          Widths: 1280, 1440, 1920
-          Routes: home, case-study-luxroom, case-study-vas-education, case-study-ux
-          EOF
-
-      - name: Upload OLD baseline evidence
+      - name: Upload Phase 2 representative evidence
         uses: actions/upload-artifact@v4
         with:
-          name: phase1-old-baseline
-          path: evidence/old-baseline
+          name: phase2-representative-new
+          path: evidence/phase2-representative
           if-no-files-found: error
           retention-days: 7
