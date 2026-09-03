@@ -1,375 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="vi" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlowCRM — UI/UX Case Study | Do Anh Nghia</title>
-  <link rel="icon" type="image/png" href="assets/images/logo.png?v=20260814-seo-perf-v1">
-  <link rel="shortcut icon" href="assets/images/logo.png?v=20260814-seo-perf-v1">
-  <link rel="apple-touch-icon" href="assets/images/logo.png?v=20260814-seo-perf-v1">
-  <meta name="description" content="UI/UX design case study portfolio by Do Anh Nghia, showcasing product interfaces, user flows, responsive experiences and thoughtful interaction design.">
-  <meta name="author" content="Do Anh Nghia">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowCRM — Case study Product UX | Do Anh Nghia</title>
+  <meta name="description" content="Case study FlowCRM của Do Anh Nghia: một concept B2B CRM tập trung vào workflow, trạng thái và giảm ma sát nhập liệu.">
+  <link rel="icon" type="image/png" href="assets/images/logo.png?v=20260903-luxury-editorial-v1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="assets/images/FLOW.png" fetchpriority="high">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+Display:ital,wght@0,500;1,500&display=swap">
+  <link rel="stylesheet" href="case-study.css?v=20260903-luxury-editorial-v1">
+  <script src="case-study.js?v=20260903-luxury-editorial-v1" defer></script>
   <link rel="canonical" href="https://haign12.github.io/DoAnhNghia_BAPortfolio/case-study-ux.html">
-  <meta property="og:title" content="FlowCRM — UI/UX Case Study | Do Anh Nghia">
-  <meta property="og:description" content="A B2B CRM interface concept focused on clear user flows, responsive product screens and thoughtful interaction design.">
+  <meta property="og:title" content="FlowCRM — Product UX Case Study | Do Anh Nghia">
+  <meta property="og:description" content="Một concept B2B CRM tập trung vào workflow, trạng thái và giảm ma sát nhập liệu.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://haign12.github.io/DoAnhNghia_BAPortfolio/case-study-ux.html">
   <meta property="og:site_name" content="Do Anh Nghia — UI/UX Designer">
   <meta property="og:image" content="https://haign12.github.io/DoAnhNghia_BAPortfolio/assets/images/FLOW.png">
-  <meta property="og:image:alt" content="FlowCRM B2B CRM interface preview">
+  <meta property="og:image:alt" content="Sơ đồ và giao diện FlowCRM">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FlowCRM — UI/UX Case Study | Do Anh Nghia">
-  <meta name="twitter:description" content="A B2B CRM interface concept focused on clear user flows, responsive product screens and thoughtful interaction design.">
+  <meta name="twitter:title" content="FlowCRM — Product UX Case Study | Do Anh Nghia">
+  <meta name="twitter:description" content="Một concept B2B CRM tập trung vào workflow, trạng thái và giảm ma sát nhập liệu.">
   <meta name="twitter:image" content="https://haign12.github.io/DoAnhNghia_BAPortfolio/assets/images/FLOW.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"CreativeWork","name":"FlowCRM UI/UX Case Study","url":"https://haign12.github.io/DoAnhNghia_BAPortfolio/case-study-ux.html","description":"A B2B CRM interface concept focused on clear user flows, responsive product screens and thoughtful interaction design.","author":{"@type":"Person","name":"Do Anh Nghia"},"keywords":"UI/UX design, B2B CRM, user flows, responsive interface, interaction design"}
+  {"@context":"https://schema.org","@type":"CreativeWork","name":"FlowCRM Product UX Case Study","url":"https://haign12.github.io/DoAnhNghia_BAPortfolio/case-study-ux.html","description":"A B2B CRM concept focused on workflow clarity, state modeling and reducing data-entry friction.","author":{"@type":"Person","name":"Do Anh Nghia"}}
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    /* Default: Dark Theme */
-    :root {
-      --bg: #111111; 
-      --bg-card: #1a1a1a; 
-      --border: #333333;
-      --text: #ffffff; 
-      --text2: #cccccc; 
-      --text3: #999999;
-      --accent: #ffffff;
-      --badge-bg: rgba(255, 255, 255, 0.1);
-      --badge-border: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Light Theme */
-    [data-theme="light"] {
-      --bg: #ffffff; 
-      --bg-card: #f9f9f9; 
-      --border: #e0e0e0;
-      --text: #111111; 
-      --text2: #555555; 
-      --text3: #888888;
-      --accent: #111111;
-      --badge-bg: rgba(0, 0, 0, 0.05);
-      --badge-border: rgba(0, 0, 0, 0.1);
-    }
-
-    html { font-size: 16px; scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      position: fixed; top: 20px; right: 20px; z-index: 100;
-      background: var(--bg-card); border: 1px solid var(--border);
-      color: var(--text); padding: 10px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s; width: 44px; height: 44px;
-    }
-    .theme-toggle:hover { border-color: var(--text); }
-    .theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
-
-    /* Hero */
-    .hero {
-      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 40px 20px; position: relative; overflow: hidden;
-    }
-
-    .hero-content { position: relative; z-index: 1; max-width: 800px; }
-    .site-logo { max-width: 140px; height: auto; margin-bottom: 24px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
-      background: var(--badge-bg); border: 1px solid var(--badge-border);
-      border-radius: 24px; font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 24px;
-    }
-    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text); }
-
-    h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 16px; color: var(--text); }
-    .hero-sub { font-size: 1.2rem; color: var(--text2); max-width: 600px; margin: 0 auto 40px; }
-
-    .hero-skills {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px;
-    }
-    .skill-tag {
-      padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
-      border: 1px solid var(--border); background: var(--bg-card); color: var(--text2);
-      transition: all 0.2s;
-    }
-    .skill-tag:hover { border-color: var(--text); color: var(--text); transform: translateY(-2px); }
-
-    .hero-cta {
-      display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px;
-      background: var(--accent); color: var(--bg);
-      border: 1px solid var(--accent); border-radius: 12px; font-size: 16px; font-weight: 700;
-      cursor: pointer; text-decoration: none; transition: all 0.3s;
-    }
-    .hero-cta:hover { background: var(--bg); color: var(--accent); }
-
-    /* Projects Section */
-    .projects, .uiux-project { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
-    .section-title { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 12px; }
-    .section-sub { text-align: center; color: var(--text2); margin-bottom: 48px; font-size: 1rem; }
-
-    .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-
-    .project-card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
-      overflow: hidden; transition: all 0.3s; position: relative;
-    }
-    .project-card:hover { transform: translateY(-4px); border-color: var(--text3); }
-
-    .card-gradient { height: 4px; width: 100%; background: var(--text); opacity: 0.1; }
-
-    .card-body { padding: 28px; }
-    .card-number { font-size: 12px; color: var(--text3); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-    .card-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; }
-    .card-desc { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 20px; }
-
-    .card-features { list-style: none; margin-bottom: 24px; }
-    .card-features li {
-      font-size: 13px; color: var(--text2); padding: 6px 0;
-      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
-    }
-    .card-features li:last-child { border-bottom: none; }
-
-    .card-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-    .card-skill {
-      font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 600;
-      border: 1px solid var(--border); color: var(--text2); background: transparent !important;
-    }
-
-    .card-link {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 12px; border: 1px solid var(--border); border-radius: 10px;
-      color: var(--text); text-decoration: none; font-weight: 600; font-size: 14px;
-      transition: all 0.2s;
-    }
-    .card-link:hover { background: var(--text); color: var(--bg); }
-
-    /* UI/UX Case Study */
-    .uiux-project { padding-top: 20px; }
-    .uiux-case {
-      border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); overflow: hidden;
-    }
-    .case-hero {
-      display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 32px; align-items: center; padding: 34px;
-      border-bottom: 1px solid var(--border);
-    }
-    .case-kicker { font-size: 12px; color: var(--text3); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-    .case-title { font-size: 2rem; font-weight: 850; line-height: 1.15; margin-bottom: 14px; }
-    .case-copy { color: var(--text2); font-size: 15px; max-width: 620px; }
-    .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
-    .metric-chip { border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
-    .metric-value { display: block; color: var(--text); font-weight: 800; font-size: 1.15rem; }
-    .metric-label { display: block; color: var(--text3); font-size: 12px; margin-top: 2px; }
-    .case-visual { min-height: 330px; border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); }
-    .case-visual img { width: 100%; height: 100%; min-height: 330px; display: block; object-fit: cover; filter: grayscale(20%); opacity: 0.9; }
-    .case-section { padding: 34px; border-bottom: 1px solid var(--border); }
-    .case-section:last-child { border-bottom: none; }
-    .case-section h3 { font-size: 1.35rem; margin-bottom: 18px; }
-    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .process-step, .deliverable-card {
-      border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: var(--bg);
-    }
-    .step-number { display: block; color: var(--text3); font-size: 12px; font-weight: 800; margin-bottom: 10px; }
-    .step-title, .deliverable-title { display: block; color: var(--text); font-weight: 750; margin-bottom: 8px; }
-    .step-desc, .deliverable-desc { color: var(--text2); font-size: 13px; line-height: 1.55; }
-    .deliverables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-
-    /* About & Resume */
-    .about-me { max-width: 800px; margin: 60px auto; padding: 0 24px; text-align: left; }
-    .about-me p { font-size: 15px; color: var(--text2); margin-bottom: 16px; line-height: 1.8; }
-    .about-me .core-comp { font-weight: 700; color: var(--text); }
-
-    .resume { max-width: 800px; margin: 60px auto 80px; padding: 0 24px; text-align: left; }
-    .resume-section { margin-bottom: 40px; }
-    .resume-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
-    .resume-item { margin-bottom: 32px; }
-    .resume-item-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
-    .resume-role { font-size: 1.1rem; font-weight: 700; color: var(--text); }
-    .resume-meta { font-size: 13px; color: var(--text3); font-weight: 600; }
-    .resume-desc { list-style: none; }
-    .resume-desc li { font-size: 14px; color: var(--text2); margin-bottom: 8px; position: relative; padding-left: 16px; line-height: 1.6; }
-    .resume-desc li::before { content: "•"; position: absolute; left: 0; color: var(--text3); }
-
-    /* Footer */
-
-
-    @media (max-width: 900px) {
-      .project-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
-      h1 { font-size: 2.5rem; }
-      .case-hero { grid-template-columns: 1fr; padding: 24px; }
-      .case-title { font-size: 1.55rem; }
-      .case-metrics, .process-grid, .deliverables-grid { grid-template-columns: 1fr; }
-      .case-section { padding: 24px; }
-      .case-visual, .case-visual img { min-height: 240px; }
-    }
-
-    /* Sticky Navbar */
-    .sticky-nav {
-      position: sticky;
-      top: 5px;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 24px;
-      margin: 16px auto 0;
-      max-width: 900px;
-      width: calc(100% - 32px);
-      background: rgba(26, 26, 26, 0.85);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-    }
-    [data-theme="light"] .sticky-nav {
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-    }
-    .nav-brand {
-      color: var(--text);
-      font-weight: 800 !important;
-      font-size: 15px !important;
-      letter-spacing: -0.5px !important;
-      text-transform: none !important;
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
-    .sticky-nav a {
-      color: var(--text2);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: all 0.2s ease;
-    }
-    .sticky-nav a:hover {
-      color: var(--text);
-    }
-    .nav-resume {
-      background: var(--text);
-      color: var(--bg) !important;
-      padding: 8px 16px;
-      border-radius: 30px;
-    }
-    .nav-resume:hover {
-      opacity: 0.9;
-    }
-    @media (max-width: 768px) {
-      .nav-links { gap: 16px; }
-      .sticky-nav a { font-size: 11px; }
-      .nav-resume { padding: 6px 12px; }
-      .nav-brand { display: none; } /* Hide brand on very small screens to fit links */
-    }
-  
-        footer { text-align: center; padding: 60px 20px; border-top: 1px solid var(--border); color: var(--text3); font-size: 13px; background: var(--bg-card); }
-    footer strong { color: var(--text2); }
-
-  </style>
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <link rel="stylesheet" href="case-study.css?v=20260814-case-study-spacing-v2">
-  <script src="case-study.js" defer></script>
 </head>
-<body class="case-study-page">
-  <nav class="sticky-nav" aria-label="Case study navigation">
-  <a href="index.html" class="nav-brand"><span class="nav-arrow" aria-hidden="true">←</span><span>Portfolio</span></a>
-  <div class="case-nav-actions">
-    <a href="index.html#work">Work</a>
-    <a href="index.html#contact">Contact</a>
-    <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">Resume ↗</a>
-    <button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" aria-pressed="false"><span id="theme-icon" aria-hidden="true">◐</span><span>Theme</span></button>
-  </div>
-</nav>
-
-  <section class="uiux-project" style="max-width: 900px; margin: 40px auto; padding: 24px;">
-    <div class="uiux-case">
-      <div class="case-hero">
-        <div>
-          <a href="index.html#work" style="display: inline-block; margin-bottom: 16px; color: var(--text2); text-decoration: none; font-size: 14px;">← Back to Projects</a>
-          <div class="case-kicker">FlowCRM</div>
-          <h1 class="case-title">B2B CRM System Design</h1>
-          <p class="case-copy">Designing a streamlined interface for a B2B CRM system to reduce data entry fatigue.</p>
-          <div class="case-metrics">
-            <div class="metric-chip">
-              <span class="metric-value">Role</span>
-              <span class="metric-label">UI/UX Designer</span>
-            </div>
-            <div class="metric-chip">
-              <span class="metric-value">Platform</span>
-              <span class="metric-label">Web Application</span>
-            </div>
-            <div class="metric-chip">
-              <span class="metric-value">Tools</span>
-              <span class="metric-label">Figma</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="case-section">
-        <h3>User Pain-points</h3>
-        <p style="color: var(--text2); margin-bottom: 24px;">Sales representatives were abandoning the legacy CRM because logging a single phone call took 7 clicks across 3 different screens.</p>
-        <div style="padding: 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px;">
-          <h4 style="margin-bottom: 8px;">Persona: The Busy Sales Rep</h4>
-          <p style="color: var(--text2); font-size: 14px;">"I need to log my interactions quickly so I can move on to the next prospect. If the CRM is too complex, I just write it in my notebook."</p>
-        </div>
-      </div>
-      <div class="case-section">
-        <h3>User Flow</h3>
-        <p style="color: var(--text2); margin-bottom: 16px;">Streamlined the 'Log a Call' flow from 7 clicks down to 2 clicks using a quick-action modal.</p>
-        <div class="case-visual" style="display: flex; align-items: center; justify-content: center; min-height: 200px; background: var(--bg); border: 1px dashed var(--border); margin-bottom: 24px;">
-          <p style="color: var(--text3); font-size: 14px;">[Insert User Flow Image Here]</p>
-        </div>
-        <h3>Wireframes</h3>
-        <div class="case-visual" style="display: flex; align-items: center; justify-content: center; min-height: 300px; background: var(--bg); border: 1px dashed var(--border);">
-          <p style="color: var(--text3); font-size: 14px;">[Insert Wireframe Image Here]</p>
-        </div>
-      </div>
-      <div class="case-section">
-        <h3>High-Fidelity UI</h3>
-        <p style="color: var(--text2); margin-bottom: 16px;">Final design utilizing a minimalist layout to minimize cognitive load.</p>
-        <div class="case-visual" style="display: flex; align-items: center; justify-content: center; min-height: 400px; background: var(--bg); border: 1px dashed var(--border);">
-          <p style="color: var(--text3); font-size: 14px;">[Insert High-Fidelity Screen 1]</p>
-        </div>
-        <div class="case-visual" style="display: flex; align-items: center; justify-content: center; min-height: 400px; background: var(--bg); border: 1px dashed var(--border); margin-top: 16px;">
-          <p style="color: var(--text3); font-size: 14px;">[Insert High-Fidelity Screen 2]</p>
-        </div>
-      </div>
-      <div class="case-section">
-        <h3>Design System & Accessibility</h3>
-        <p style="color: var(--text2); margin-bottom: 24px;">Established a foundational UI Kit to ensure consistency across the application.</p>
-        <div class="deliverables-grid">
-          <div class="deliverable-card">
-            <span class="deliverable-title">Typography</span>
-            <span class="deliverable-desc">Inter - focusing on readability for data-heavy tables.</span>
-          </div>
-          <div class="deliverable-card">
-            <span class="deliverable-title">Color Palette</span>
-            <span class="deliverable-desc">High contrast neutral tones to reduce eye strain.</span>
-          </div>
-          <div class="deliverable-card">
-            <span class="deliverable-title">Accessibility</span>
-            <span class="deliverable-desc">All text and button contrasts meet WCAG AA standards.</span>
-          </div>
-        </div>
-      </div>
+<body class="case-study-page case-archive">
+  <nav class="sticky-nav" aria-label="Điều hướng case study">
+    <a href="index.html#work" class="nav-brand"><span class="nav-arrow" aria-hidden="true">←</span><span>Dự án chọn lọc</span></a>
+    <div class="case-nav-actions">
+      <a href="index.html#work">Dự án</a>
+      <a href="index.html#contact">Liên hệ</a>
+      <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">CV ↗</a>
+      <button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Chuyển sang giao diện tối" aria-pressed="false"><span id="theme-icon" aria-hidden="true">◐</span><span data-theme-label>Tối</span></button>
     </div>
-  </section>
+  </nav>
 
-  <footer id="contact">
-    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px;">LET'S MAKE COMPLEXITY USABLE.</h2>
-    <p style="margin-bottom: 24px; color: var(--text2); font-size: 14px;">Looking for a UI/UX designer with systems thinking and a clear product perspective? Let's connect.</p>
-    <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
-      <a href="mailto:anhnghia9a633@gmail.com" style="color: var(--text); text-decoration: none; font-weight: 600;">Email</a>
-      <a href="tel:+84798876074" style="color: var(--text); text-decoration: none; font-weight: 600;">Phone</a>
-      <a href="https://github.com/Ngh1aa" target="_blank" style="color: var(--text); text-decoration: none; font-weight: 600;">GitHub</a>
-      <a href="https://www.linkedin.com/in/ginan12/" target="_blank" style="color: var(--text); text-decoration: none; font-weight: 600;">LinkedIn</a>
+  <main class="uiux-project">
+    <article class="uiux-case">
+      <header class="archive-hero">
+        <div class="archive-hero-copy">
+          <span class="archive-status">PRODUCT SYSTEM · SECONDARY CASE</span>
+          <p class="case-kicker">B2B CRM · WORKFLOW DESIGN</p>
+          <h1>FlowCRM</h1>
+          <p>Thay vì trình bày CRM như một tập hợp màn hình, case này tập trung vào <strong>chuỗi công việc, trạng thái và quyết định</strong> mà sales rep cần xử lý để ghi nhận tương tác mà không bị kéo khỏi nhịp làm việc.</p>
+        </div>
+        <figure class="archive-hero-media">
+          <img src="assets/images/FLOW.png" alt="Sơ đồ và giao diện concept FlowCRM" width="1200" height="900" fetchpriority="high" decoding="async" style="object-fit:contain">
+          <figcaption>FlowCRM · system artifact · full model preserved</figcaption>
+        </figure>
+      </header>
+
+      <section class="case-section" id="context">
+        <header class="case-section-head">
+          <span class="case-section-label">01 / BỐI CẢNH</span>
+          <h2>Một tác vụ nhỏ nhưng bị chia thành quá nhiều bước</h2>
+        </header>
+        <div class="case-section-body">
+          <p>Concept bắt đầu từ một vấn đề sản phẩm: việc ghi lại một cuộc gọi hoặc cập nhật trạng thái khách hàng không nên buộc người dùng chuyển qua nhiều màn hình và nhớ nhiều bước trung gian.</p>
+          <div class="case-detail-grid">
+            <div class="case-detail-card"><h4>Vai trò</h4><p>UI/UX Designer — product flow, information hierarchy và interface direction.</p></div>
+            <div class="case-detail-card"><h4>Nền tảng</h4><p>Web application concept cho workflow B2B CRM.</p></div>
+            <div class="case-detail-card"><h4>Trọng tâm</h4><p>Giảm context switching, làm rõ trạng thái và đưa next action gần đối tượng đang xử lý.</p></div>
+            <div class="case-detail-card"><h4>Reality</h4><p>Đây là concept tĩnh; không có backend CRM, dữ liệu live hay analytics được xác minh trong portfolio này.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section" id="model">
+        <header class="case-section-head">
+          <span class="case-section-label">02 / MÔ HÌNH HỆ THỐNG</span>
+          <h2>Đặt workflow trước giao diện</h2>
+        </header>
+        <div class="case-section-body">
+          <p>Decision object chính là flow: người dùng cần biết mình đang xử lý account nào, interaction gần nhất là gì, trạng thái hiện tại ra sao và hành động tiếp theo nào có thể thực hiện ngay. UI chỉ là lớp biểu diễn của mô hình này.</p>
+          <div class="case-detail-grid">
+            <div class="case-detail-card"><h4>01 / Context stays visible</h4><p>Account, contact và recent activity nên được giữ trong cùng ngữ cảnh để giảm việc quay lại tìm thông tin.</p></div>
+            <div class="case-detail-card"><h4>02 / State before decoration</h4><p>Stage, owner, activity và next step cần có hierarchy rõ hơn các surface trang trí.</p></div>
+            <div class="case-detail-card"><h4>03 / Fast interaction logging</h4><p>Ghi chú tương tác được thiết kế như một hành động gần đối tượng, tránh một luồng nhiều màn hình nếu không cần thiết.</p></div>
+            <div class="case-detail-card"><h4>04 / Recovery remains explicit</h4><p>Một hệ CRM thực tế phải có error, retry, stale và permission states; concept portfolio này không giả lập chúng như integration thật.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section" id="decisions">
+        <header class="case-section-head">
+          <span class="case-section-label">03 / QUYẾT ĐỊNH</span>
+          <h2>Mật độ cao nhưng vẫn phải đọc được thứ tự</h2>
+        </header>
+        <div class="case-section-body">
+          <p>CRM không thể chỉ “tối giản” bằng cách bỏ thông tin. Hướng thiết kế giữ mật độ cần thiết nhưng dùng grouping, alignment và trạng thái để người dùng thấy được điều quan trọng trước, sau đó mới đi vào chi tiết.</p>
+          <ul>
+            <li>Giữ đối tượng đang xử lý và next action trong cùng vùng quyết định.</li>
+            <li>Dùng label/state có ý nghĩa thay cho nhiều card độc lập.</li>
+            <li>Ưu tiên scan theo hàng/cột cho dữ liệu có cấu trúc.</li>
+            <li>Không dùng success UI để ám chỉ dữ liệu đã được lưu khi không có API thật.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="case-section" id="limits">
+        <header class="case-section-head">
+          <span class="case-section-label">04 / GIỚI HẠN</span>
+          <h2>Điều portfolio này chưa chứng minh</h2>
+        </header>
+        <div class="case-section-body">
+          <p>Không có dữ liệu usage, thời gian hoàn thành task, CRM backend hoặc usability study được cung cấp. Vì vậy case chỉ chứng minh cách tổ chức workflow và visual hierarchy ở mức concept — không tuyên bố giảm click, tăng productivity hay cải thiện conversion bằng số liệu.</p>
+          <div class="case-callout">
+            <span class="case-callout-label">NEXT VALIDATION</span>
+            <p>Prototype tiếp theo nên kiểm tra time-on-task khi log interaction, khả năng nhận biết stage/owner, recovery khi save thất bại và mức độ scan được của màn hình khi dữ liệu dài hoặc thiếu.</p>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="case-footer" id="contact">
+    <div class="case-footer-inner">
+      <div class="case-footer-copy"><p>TIẾP THEO</p><h2>Xem một case có chiều sâu hệ thống hơn?<br><em>Tiếp tục với StudioOS.</em></h2></div>
+      <div class="case-footer-actions"><a href="case-study-studioos.html">StudioOS ↗</a><a href="mailto:anhnghia9a633@gmail.com">Gửi email ↗</a></div>
     </div>
   </footer>
 </body>
