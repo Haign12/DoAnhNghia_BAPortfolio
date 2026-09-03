@@ -1,52 +1,52 @@
 # Decision Log
 
-Prior Phase 1 decisions remain effective unless superseded below.
+Prior decisions remain effective unless superseded below.
 
 ## D-001 — Safe phase isolation
 Phase work stays on dedicated branches; no destructive reset and no merge/deploy without authorization.
 
 ## D-002 — Desktop-only scope
-User/project truth declares desktop-only. Chromium 1280/1440/1920 is active; mobile/tablet `N/A_JUSTIFIED`. No fully-responsive claim.
+Chromium 1280/1440/1920 is active; mobile/tablet `N/A_JUSTIFIED`. No fully-responsive claim.
 
 ## D-003 — Portfolio opportunity goal
 EVIDENCE_BACKED_INFERENCE: portfolio should help recruiters/hiring leads/qualified collaborators judge UI/UX relevance, proof, experience and contact path quickly.
 
 ## D-004 — Preserve public URLs
-All existing public local slugs/canonicals are retained; VAS is added to sitemap rather than creating URL churn.
+Existing public local slugs/canonicals remain stable; candidate repairs VAS sitemap inclusion rather than URL churn.
 
 ## D-005 — Luxury minimalism = structural restraint
-Warm neutral materiality, strong editorial hierarchy, hairlines, native project media and restrained umber accent. No faux-gold gradient/glass/marble/card soup.
+Warm neutral materiality, editorial hierarchy, hairlines, native project media and restrained accent; no faux-luxury effect stack.
 
 ## D-006 — Proof before biography
-Home sequence remains positioning → selected work → experience/profile → contact; work is not delayed by decorative intro content.
+Home target sequence is positioning → selected work → experience/profile → contact.
 
 ## D-007 — Truthful contact/system reality
-No backend exists; email is `mailto:` external handoff. No fake form/success state.
+Email is a `mailto:` external handoff; no fake form/backend/success state.
 
-## D-008 — Native project media
-Global grayscale is removed; media acts as supporting proof.
+## D-008 — Rendered evidence is mandatory
+Screenshots must be opened/inspected; source/CI alone does not pass visual QA.
 
-## D-009 — Rendered evidence is mandatory
-Screenshots must be opened/inspected. Source/build checks do not substitute visual QA.
+## D-009 — No release
+`release_authorization=no_release`; no merge/main update/Pages deploy/release is allowed in these phases.
 
-## D-010 — No release
-`release_authorization=no_release`; no PR merge, main update, Pages deploy or release action in Phase 2.
+## D-010 — User scope narrows project-specific case depth
+FACT: user clarified the objective is upgrading the portfolio interface, not redesigning individual personal projects. Home is the primary design target; local case pages are supporting linked evidence and only need portfolio-shell/route integrity. External project UX is N/A_JUSTIFIED.
 
-## D-011 — Current user scope supersedes project-specific case redesign depth
-- FACT: user clarified the purpose is **upgrading the portfolio interface**, and individual personal projects do not need attention.
-- Decision: Home is the primary design target. Local case-study routes are supporting linked evidence and are only required to preserve route/layout integrity and coherent portfolio chrome. External project sites are outside scope.
-- Impact: project-specific content perfection, independent case redesign depth and external personal-project UX are `N/A_JUSTIFIED`; linked routes may still be fixed when shared portfolio CSS visibly breaks them.
+## D-011 — Supporting-route regressions remain portfolio defects
+Shared CSS visibly broke Atelier/StudioOS, so those routes were restored to a compatible shared shell without expanding into independent project redesign.
 
-## D-012 — Supporting route regressions are still portfolio defects
-- FACT: shared `case-study.css` caused Atelier/StudioOS legacy HTML to render collapsed metadata/English drift.
-- Decision: fix those routes only enough to restore the shared portfolio shell; do not expand into redesigning those products.
-- Evidence: Chromium 1440 before/fix/recheck.
+## D-012 — Home first-screen P1 fixed in root owner
+`100vh`/end alignment/display dominance delayed proof. Candidate root `styles.css` was corrected and re-rendered at 1280/1440/1920.
 
-## D-013 — Home first-screen P1 fixed at root owner
-- FACT: `100vh` + end alignment + hero-note delayed CTA/proof at 1280.
-- Decision: fix `styles.css` hero layout directly, reduce display/portrait dominance and remove the count note from the first-screen composition.
-- Evidence: final 1280/1440/1920 renders opened/inspected.
+## D-013 — Phase 3 target cannot be silently substituted
+User explicitly specified `main` + GitHub Pages for Final QA. Candidate remains on a safe branch and release authority is `no_release`; therefore Final QA must inspect main/live rather than treat candidate as deployed.
 
-## D-014 — Phase 3 cannot silently substitute candidate for requested main target
-- Current release authority remains `no_release`.
-- If Phase 3 explicitly targets `main`/live while the PASSED candidate remains on a safe branch, QA must record that mismatch rather than merge/deploy automatically or pretend main contains the redesign.
+## D-014 — Final QA target mismatch is confirmed, not assumed
+- FACT: `main` is `2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`.
+- FACT: downloaded live Home HTML SHA-256 equals exact main Home source SHA-256 (`64c164efca6433b8e105dd348f2393f38f5a3c93663f093b6fe03806900f4738`).
+- FACT: Phase 2 PASSED candidate is `aef6a7c7299e607058fb6e84aaa86062553194f1` and is 49 commits ahead of main.
+- Decision: classify unreleased NEW as P0 target/release blocker; do not merge/deploy in Final QA.
+- Impact: Final QA must remain BLOCKED until an authorized release puts approved NEW on the requested production source and live QA is rerun.
+
+## D-015 — Headless portrait blank is evidence risk, not an invented product failure
+Main/live headless screenshots show a blank portrait region, but the same valid asset renders in the candidate and source references are correct. Without normal interactive/GPU reproduction, log this as `[evidence]` uncertainty rather than adding an unsupported product blocker.
