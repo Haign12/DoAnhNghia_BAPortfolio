@@ -1,4 +1,4 @@
-name: Phase 2 Supporting Route Recheck
+name: Phase 3 Main Live Final QA
 
 on:
   push:
@@ -9,27 +9,130 @@ permissions:
   contents: read
 
 jobs:
-  recheck:
+  final-qa:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout exact main target
+        uses: actions/checkout@v4
         with:
-          ref: a73c39625155208f1263c479a5a7609e17f3d60b
-      - name: Render fixed supporting routes
+          ref: 2c7c6ee7cbe82be98c42257854ca28a725e7ba8b
+          fetch-depth: 0
+
+      - name: Start local main mirror
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/portfolio-http.log 2>&1 &
+          echo $! > /tmp/server.pid
+          sleep 2
+
+      - name: Source, route, SEO and resource audit
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p evidence/supporting-routes-fixed
-          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
-          PID=$!; trap 'kill "$PID" || true' EXIT; sleep 2
-          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
-          for route in case-study-atelier.html case-study-studioos.html; do
-            name="${route%.html}"
-            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=4000 --screenshot="evidence/supporting-routes-fixed/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
+          mkdir -p evidence/phase3-main-live
+          {
+            echo 'QA_TARGET_MAIN=2c7c6ee7cbe82be98c42257854ca28a725e7ba8b'
+            echo 'PHASE2_CANDIDATE=aef6a7c7299e607058fb6e84aaa86062553194f1'
+            echo -n 'main_html_lang='; grep -o '<html[^>]*lang="[^"]*"' index.html | head -1 || true
+            echo -n 'main_title='; grep -o '<title>[^<]*' index.html | head -1 || true
+            echo -n 'sitemap_has_vas='; if grep -q 'case-study-vas-education.html' sitemap.xml; then echo yes; else echo no; fi
+            echo -n 'robots_sitemap='; grep -E '^Sitemap:' robots.txt || true
+            echo 'local_file_bytes:'
+            wc -c index.html styles.css script.js case-study.css case-study.js assets/images/avatar.webp assets/images/luxroom.webp assets/images/altelier.webp assets/images/studioos.webp assets/images/FLOW.png | sed 's/^/  /'
+          } > evidence/phase3-main-live/source-audit.txt
+
+          routes=(index.html case-study-luxroom.html case-study-atelier.html case-study-studioos.html case-study-vas-education.html case-study-ux.html Do_Anh_Nghia_CV.pdf)
+          : > evidence/phase3-main-live/route-status.txt
+          for route in "${routes[@]}"; do
+            local_status=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:4173/${route}")
+            live_status=$(curl -L -s -o /dev/null -w '%{http_code}' "https://haign12.github.io/DoAnhNghia_BAPortfolio/${route}")
+            printf '%-38s local=%s live=%s\n' "$route" "$local_status" "$live_status" >> evidence/phase3-main-live/route-status.txt
           done
-      - uses: actions/upload-artifact@v4
+
+          curl -L -sS -o evidence/phase3-main-live/live-index.html -w 'live_html_http=%{http_code}\nlive_html_bytes=%{size_download}\nlive_html_total_time=%{time_total}\nlive_html_ttfb=%{time_starttransfer}\n' https://haign12.github.io/DoAnhNghia_BAPortfolio/ > evidence/phase3-main-live/live-network.txt
+          sha256sum index.html evidence/phase3-main-live/live-index.html > evidence/phase3-main-live/index-hashes.txt
+
+      - name: Chromium render local main and live preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME"
+          mkdir -p evidence/phase3-main-live/local evidence/phase3-main-live/live
+          for width in 1280 1440 1920; do
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=4500 --screenshot="evidence/phase3-main-live/local/home-${width}x1080.png" "http://127.0.0.1:4173/index.html"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=6500 --screenshot="evidence/phase3-main-live/live/home-${width}x1080.png" "https://haign12.github.io/DoAnhNghia_BAPortfolio/"
+          done
+          for route in case-study-luxroom.html case-study-atelier.html case-study-studioos.html case-study-vas-education.html case-study-ux.html; do
+            name="${route%.html}"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=4500 --screenshot="evidence/phase3-main-live/local/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=6500 --screenshot="evidence/phase3-main-live/live/${name}-1440x1080.png" "https://haign12.github.io/DoAnhNghia_BAPortfolio/${route}"
+          done
+
+      - name: Keyboard, interaction and console smoke on live Home
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet selenium
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.common.keys import Keys
+          from selenium.webdriver.chrome.options import Options
+          import json, time
+
+          opts=Options()
+          opts.add_argument('--headless=new')
+          opts.add_argument('--no-sandbox')
+          opts.add_argument('--disable-gpu')
+          opts.add_argument('--window-size=1440,1080')
+          opts.set_capability('goog:loggingPrefs', {'browser':'ALL'})
+          d=webdriver.Chrome(options=opts)
+          out={}
+          try:
+            url='https://haign12.github.io/DoAnhNghia_BAPortfolio/'
+            d.get(url); time.sleep(2)
+            out['title']=d.title
+            out['lang']=d.find_element(By.TAG_NAME,'html').get_attribute('lang')
+            out['mailto']=[a.get_attribute('href') for a in d.find_elements(By.CSS_SELECTOR,'a[href^="mailto:"]')]
+            out['cv']=[a.get_attribute('href') for a in d.find_elements(By.CSS_SELECTOR,'a[href$=".pdf"]')]
+            body=d.find_element(By.TAG_NAME,'body')
+            body.click()
+            seq=[]
+            for _ in range(12):
+              body.send_keys(Keys.TAB); time.sleep(.08)
+              e=d.switch_to.active_element
+              seq.append({'tag':e.tag_name,'text':(e.text or '')[:80],'href':e.get_attribute('href'),'id':e.get_attribute('id')})
+            out['tab_sequence']=seq
+            theme=None
+            for sel in ['#themeToggle','#theme-toggle','.theme-button','.case-theme-toggle']:
+              els=d.find_elements(By.CSS_SELECTOR,sel)
+              if els:
+                theme=els[0]; break
+            if theme:
+              before=d.find_element(By.TAG_NAME,'html').get_attribute('data-theme')
+              d.execute_script('arguments[0].click()', theme); time.sleep(.2)
+              after=d.find_element(By.TAG_NAME,'html').get_attribute('data-theme')
+              out['theme_toggle']={'before':before,'after':after,'aria_pressed':theme.get_attribute('aria-pressed')}
+            else:
+              out['theme_toggle']='not_found'
+            d.execute_cdp_cmd('Emulation.setEmulatedMedia', {'features':[{'name':'prefers-reduced-motion','value':'reduce'}]})
+            out['reduced_motion_media']=d.execute_script("return matchMedia('(prefers-reduced-motion: reduce)').matches")
+            out['console']=[x for x in d.get_log('browser') if x.get('level') in ('SEVERE','WARNING')]
+          finally:
+            d.quit()
+          with open('evidence/phase3-main-live/live-interaction.json','w') as f: json.dump(out,f,ensure_ascii=False,indent=2)
+          PY
+
+      - name: Upload Phase 3 evidence
+        uses: actions/upload-artifact@v4
         with:
-          name: phase2-supporting-routes-fixed
-          path: evidence/supporting-routes-fixed
+          name: phase3-main-live-final-qa
+          path: evidence/phase3-main-live
           if-no-files-found: error
           retention-days: 7
+
+      - name: Stop local server
+        if: always()
+        shell: bash
+        run: kill "$(cat /tmp/server.pid)" || true
