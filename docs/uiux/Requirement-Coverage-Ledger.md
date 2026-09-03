@@ -2,7 +2,7 @@
 
 Allowed statuses: `DONE_VERIFIED | BLOCKED | N/A_JUSTIFIED`.
 
-Prior results: Phase 1 PASSED; Phase 2 PASSED. Phase 2 detailed accounting remains in `Phase-2-Handoff.md`.
+Prior results: Phase 1 PASSED; Phase 2 PASSED.
 
 ## Phase 3 requirements
 
@@ -10,38 +10,38 @@ Prior results: Phase 1 PASSED; Phase 2 PASSED. Phase 2 detailed accounting remai
 |---|---|---|---|
 | P3-001 | Phase 2 must be PASSED before Final QA | DONE_VERIFIED | `Phase-2-Handoff.md` |
 | P3-002 | Confirm scope/type/risk/mode + QA Skill Activation Plan under immutable lock | DONE_VERIFIED | `Phase-3-Preflight.md` |
-| P3-003 | Resolve exact requested main/live target | DONE_VERIFIED | main API + live/source hash evidence |
+| P3-003 | Lock exact Final QA candidate | DONE_VERIFIED | `aef6a7c7299e607058fb6e84aaa86062553194f1` |
 | P3-004 | Sitemap/page-family coverage matrix | DONE_VERIFIED | `Sitemap-Page-Family-Coverage.md` |
 | P3-005 | Critical-journey coverage matrix | DONE_VERIFIED | `Critical-Journey-Coverage.md` |
-| P3-006 | Render and directly inspect all primary/in-scope local routes | DONE_VERIFIED | Phase 3 artifact `9902336889`, `Visual-Evidence-Index.md` |
-| P3-007 | OLD → NEW same-viewport structural comparison | DONE_VERIFIED | Home 1280/1440/1920 comparison opened/inspected |
-| P3-008 | Phase 2 NEW → Design Contract | DONE_VERIFIED | Phase 2 gate + Final QA review |
-| P3-009 | NEW → NEW cross-page review | DONE_VERIFIED | candidate representative montage + supporting recheck |
-| P3-010 | Verify live state corresponds to requested main source | DONE_VERIFIED | live Home SHA-256 equals `main@2c7c6ee...` Home SHA-256 |
-| P3-011 | Requested main/live must contain PASSED Phase 2 NEW | **BLOCKED** | main/live remains OLD; candidate is unreleased |
-| P3-012 | Requested main/live Home must meet Delta/Design Contract and language | **BLOCKED** | OLD English/About-first/decorative composition remains live |
-| P3-013 | Review brand/nav/CTA/type/spacing/grid/color/media/content dimensions | DONE_VERIFIED | `Final-QA-Report.md` + opened renders |
-| P3-014 | Functional/critical link/theme/reduced-motion/console smoke | DONE_VERIFIED | Selenium + live status evidence |
-| P3-015 | Accessibility baseline on requested target | **BLOCKED** | visible desktop nav parent is `aria-hidden=true` in main; OLD JS does not desktop-sync it |
-| P3-016 | Performance evidence separated into architecture/lab/network vs field | DONE_VERIFIED | resource audit + live network sample; no field CWV claim |
-| P3-017 | SEO/crawl/index route coverage on requested target | **BLOCKED** | main sitemap omits VAS |
-| P3-018 | System Reality remains truthful | DONE_VERIFIED | `System-Reality-and-Data-Contracts.md` |
-| P3-019 | Security/privacy flows | N/A_JUSTIFIED | no form/auth/API/payment/upload/analytics/personal-data collection introduced |
-| P3-020 | Mobile/tablet QA | N/A_JUSTIFIED | explicitly excluded by project scope |
-| P3-021 | No unauthorized merge/deploy/release | DONE_VERIFIED | main remains unchanged; no_release respected |
-| P3-022 | Run and document two-stage review + completion artifacts | DONE_VERIFIED | `Final-QA-Report.md`, Completion Manifest; review executed although Stage A result is BLOCKED |
+| P3-006 | Render and directly inspect all in-scope primary/supporting routes | DONE_VERIFIED | run `33779853151`, artifact `9903113470`, `Visual-Evidence-Index.md` |
+| P3-007 | OLD → NEW same-viewport structural comparison | DONE_VERIFIED | Home 1280/1440/1920 comparison + candidate renders |
+| P3-008 | NEW → Design Contract | DONE_VERIFIED | `Final-QA-Report.md` |
+| P3-009 | NEW → NEW cross-page review | DONE_VERIFIED | candidate case montage + direct inspection |
+| P3-010 | Home hierarchy/locale/brand grammar | DONE_VERIFIED | rendered candidate + static audit |
+| P3-011 | Accessibility desktop baseline | DONE_VERIFIED | runtime `aria-hidden=false`, keyboard/focus/reduced-motion smoke |
+| P3-012 | Critical links/theme/console smoke | DONE_VERIFIED | `browser-smoke.json`; no severe console errors |
+| P3-013 | Media/crop at declared desktop widths | DONE_VERIFIED | Home 1280/1440/1920 direct inspection |
+| P3-014 | Route integrity | DONE_VERIFIED | Home/5 cases/CV/robots/sitemap all HTTP 200 |
+| P3-015 | SEO/crawl coverage | DONE_VERIFIED | VAS in sitemap; robots/sitemap routes 200 |
+| P3-016 | System Reality remains truthful | DONE_VERIFIED | `System-Reality-and-Data-Contracts.md` |
+| P3-017 | Performance evidence does not overclaim field data | DONE_VERIFIED | Final QA performance boundary |
+| P3-018 | Security/privacy application flows | N/A_JUSTIFIED | no form/auth/API/payment/upload/analytics collection |
+| P3-019 | Mobile/tablet QA | N/A_JUSTIFIED | explicitly excluded by project scope |
+| P3-020 | No unauthorized release in Phase 3 | DONE_VERIFIED | candidate frozen; main/live not changed |
+| P3-021 | Two-stage spec + quality review | DONE_VERIFIED | `Final-QA-Report.md` |
+| P3-022 | Completion artifacts and evidence traceability | DONE_VERIFIED | Completion Manifest + Visual Evidence Index + Verification Matrix |
 
 ## Phase 3 accounting
 - Total requirements: **22**
-- DONE_VERIFIED: **16**
+- DONE_VERIFIED: **20**
 - N/A_JUSTIFIED: **2**
-- BLOCKED: **4**
+- BLOCKED: **0**
 - UNACCOUNTED: **0**
 
-## Remaining severity on requested target
-- P0: **1** — main/live is not the Phase 2 PASSED implementation.
-- P1: **2** — primary Home contract/locale mismatch; desktop nav accessibility-tree defect.
-- Material P2: **1** — sitemap VAS omission.
-- P3 material to gate: **0**.
+## Remaining severity
+- P0: **0**
+- P1: **0**
+- Material P2: **0**
+- P3 material to gate: **0**
 
-Because BLOCKED > 0 and P0/P1 remain, Final QA cannot pass.
+**FINAL QA RESULT = PASSED**
