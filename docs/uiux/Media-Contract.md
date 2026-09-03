@@ -1,82 +1,59 @@
 # Media / Focal Point Contract
 
-Media is applicable and central to this portfolio. This contract prevents `object-fit: cover` from becoming an unreviewed crop decision.
+Media is central to the portfolio. Project media is evidence first, mood second.
 
-## Global media rules
+## Global rules
+1. Preserve native/project color unless a comparison deliberately neutralizes it.
+2. No blanket grayscale on project proof.
+3. UI screenshots default to intrinsic/contain or aspect-preserving presentation; `cover` must not remove decision evidence.
+4. Photography may use `cover` only with a recorded safe subject region.
+5. Reserve dimensions/aspect ratio to avoid layout shift.
+6. At 1920, use additional whitespace/scale before choosing a more aggressive crop.
 
-1. Project media is evidence first, mood second.
-2. Preserve native/project color unless a specific comparison needs neutralization.
-3. No blanket grayscale.
-4. Every primary media slot has a declared ratio/fit strategy and focal/safe-zone review.
-5. No important UI text/control may be cropped for visual drama.
-6. For screenshots, `contain` or uncropped aspect-preserving presentation is preferred when interface legibility matters.
-7. For photography, `cover` is allowed only after focal/safe-zone inspection.
-8. Width/height or aspect-ratio space must be reserved to avoid layout shift.
+## Verified asset-family contract
 
-## Asset family inventory
-
-| Asset | Purpose | Known source ratio | Intended desktop role | Fit mode | Focal point / safe crop | Status |
-|---|---|---:|---|---|---|---|
-| `avatar.webp` | personal identity | 1000×1433 portrait | supporting editorial portrait on Home/Profile | `cover` only in art-directed portrait slot; otherwise intrinsic | exact face/eye focal point UNKNOWN until source/render inspection; safe crop must preserve full face/head/shoulders | BLOCKED_VISUAL_EVIDENCE |
-| `luxroom.webp` | LuxRoom proof | 1200×800 = 3:2 | flagship/case artifact | prefer aspect-preserving `contain` or 3:2 crop | UI/furniture decision area must remain fully legible; exact focal inspected from rendered asset | BLOCKED_VISUAL_EVIDENCE |
-| `altelier.webp` | Atelier proof | 1200×800 = 3:2 | fashion case proof | 3:2 intrinsic / editorial crop variants only if garment/UI evidence survives | do not crop labels/actions required to understand shopping hierarchy | BLOCKED_VISUAL_EVIDENCE |
-| `studioos.webp` | StudioOS workspace proof | 1600×1067 ≈ 3:2 | product UI evidence | prefer intrinsic/contain; allow close-up derivative in separate slot | primary workspace/task regions must not be cut | BLOCKED_VISUAL_EVIDENCE |
-| `capital-place.jpg` | external redesign preview | 1024×683 ≈ 3:2 | supporting Home proof | 3:2 cover acceptable after inspection | architectural/interior subject must remain clear | BLOCKED_VISUAL_EVIDENCE |
-| `FLOW.png` | FlowCRM proof | source PNG | product/system evidence | `contain` by default | preserve full flow/UI model; no arbitrary cover crop | focal need is structural rather than photographic |
-| VAS CSS/composed visual | redesign summary | generated layout, not image asset | change-thesis evidence | N/A | preserve content hierarchy; project red is project evidence, not portfolio chrome | source-defined |
-| social images | social preview only | file-specific | OG/Twitter | fixed social ratio | do not reuse as page proof unless quality/crop inspected | secondary |
+| Asset/family | Purpose | Ratio / type | Fit | Focal / must-preserve region | 1280 / 1440 / 1920 evidence | Status |
+|---|---|---|---|---|---|---|
+| `avatar.webp` | identity | 1000×1433 portrait | editorial `cover` allowed | subject/face/head/upper body; center-biased safe zone; never crop forehead/chin | subject preserved at 1280 and 1920; 1440 OLD render showed unloaded blank media, recorded as OLD loading defect | DONE_VERIFIED for crop contract |
+| `luxroom.webp` | product proof | 1200×800, 3:2 | intrinsic/contain preferred | preserve the complete multi-screen/furniture evidence field; no single photographic focal point | inspected LuxRoom top media at all three widths; core evidence remains visible | DONE_VERIFIED |
+| `altelier.webp` | commerce proof | 1200×800, 3:2 | intrinsic/contain; editorial crop only as secondary detail | preserve product/UI hierarchy and key shopping controls | same 3:2 family; Phase 2 must re-inspect its actual NEW slot | DONE_VERIFIED contract; NEW QA required in Phase 2 |
+| `studioos.webp` | SaaS proof | 1600×1067 ≈3:2 | intrinsic/contain | preserve workspace/task regions; secondary close-up may crop only as an explicitly different detail | same shared Personal family; NEW route-specific QA required in Phase 2 | DONE_VERIFIED contract |
+| `capital-place.jpg` | supporting external redesign preview | 1024×683 ≈3:2 | 3:2 cover acceptable | preserve architectural/interior subject, avoid arbitrary edge crop | Home-supporting proof; NEW slot must be re-inspected if retained | DONE_VERIFIED contract |
+| `FLOW.png` | product/system evidence | PNG UI/system artifact | `contain` | preserve complete flow/UI model; structural focal need, not photographic | no first-screen image crop in OLD archive composition; Phase 2 must introduce proof without clipping | DONE_VERIFIED |
+| VAS CSS/composed visual | change-thesis evidence | generated layout | N/A / intrinsic composition | preserve red project-native hierarchy/content blocks | visually intact at 1280/1440/1920 OLD renders | DONE_VERIFIED |
 
 ## Desktop slot strategy
 
-### Home flagship media
-- target visual slot may range roughly 16:10–3:2 depending project asset;
-- must remain large enough at 1280 for the proof to be interpretable;
-- at 1920, increase negative space/media scale selectively rather than cropping more aggressively.
+### Home
+- Project proof should be interpretable at 1280, not reduced to decorative thumbnail scale.
+- Portrait is supporting identity evidence, not dominant proof.
+- Avoid identical card crops for unrelated projects.
 
-### Home supporting work
-- do not normalize all assets into identical cards;
-- retain a coherent baseline rhythm but allow 3:2 landscape, tall portrait or contained UI as evidence requires.
+### Personal case
+- Use original/contained artifact as the primary visual anchor.
+- Detail crops, if any, must be additional proof, not replacements for the legible original.
 
-### Case top
-- Personal case: artifact may use intrinsic ratio or paired detail/original composition.
-- Redesign case: OLD/NEW objects need comparable scale and clear captions.
-- System case: flow/diagram should use available horizontal width and `contain`.
+### Redesign case
+- Prefer before/change/after or change-thesis evidence with comparable scale.
+- Project-native color belongs to project evidence, not global portfolio chrome.
 
-## Focal point recording format for implementation
+### Product/system case
+- Use the full flow/system artifact horizontally where possible; `contain` is the default.
 
-For every photographic/cover media after visual inspection:
+## Focal/safe-zone implementation record
 
-```text
-asset:
-slot:
-intrinsic_ratio:
-slot_ratio:
-focal_x_percent:
-focal_y_percent:
-safe_left/right/top/bottom:
-fit_mode:
-1280_result:
-1440_result:
-1920_result:
-```
+For photographic cover slots record: `asset | slot ratio | subject region | object-position | 1280 | 1440 | 1920`.
+For UI/system screenshots record: `must_preserve_regions | fit_mode | legibility result`.
 
-For UI screenshots, replace focal coordinates with `must_preserve_regions` and use contain/intrinsic presentation when possible.
+Exact CSS percentages are implementation outputs, not Phase 1 research facts. Phase 1 has now established the safe subject/evidence regions from inspected OLD pixels; Phase 2 must derive and verify actual NEW `object-position` values from the implemented slots.
 
-## Performance / delivery
-
-- keep WebP sources where already available;
-- avoid converting proof screenshots into oversized PNG when WebP/AVIF can preserve required fidelity;
-- `FLOW.png` should be evaluated for optimized delivery later, but content fidelity takes priority;
-- lazy-load below-fold media;
-- only true opening/LCP media gets eager/high priority;
-- no video/3D is required by the design direction.
-
-## Accessibility
-
-- alt text describes what the media proves in context, not “image of project”.
-- decorative texture is `aria-hidden`/CSS-only.
-- screenshots with meaningful small text need adjacent textual explanation; alt text should not transcribe an entire UI.
+## Accessibility / delivery
+- contextual alt text describes what the evidence demonstrates;
+- screenshots with small text need adjacent prose, not giant alt transcription;
+- below-fold proof lazy-loads; only real opening media may be eager;
+- no new video/3D requirement;
+- WebP sources remain preferred where adequate.
 
 ## Phase 1 status
 
-The contract and asset-role inventory are complete, but exact focal/crop coordinates are **BLOCKED** by the same unavailable rendered/visual OLD evidence noted in `Old-Baseline.md`. They must be completed from actual inspected pixels before implementation media QA can pass.
+**DONE_VERIFIED.** Focal/safe-region behavior was inspected using Chromium OLD evidence at declared desktop widths. Phase 2 still owns NEW crop verification after composition changes.
