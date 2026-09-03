@@ -1,0 +1,76 @@
+/* Family D — product/system case composition.
+   Separate semantic family owner, loaded only by system-model cases. */
+.case-system .uiux-project {
+  width: min(1280px, calc(100% - 80px));
+  padding-top: clamp(54px, 6vw, 86px);
+}
+
+.case-system .archive-hero {
+  min-height: calc(100vh - 72px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: stretch;
+  padding: 0 0 clamp(64px, 7vw, 96px);
+}
+
+.case-system .archive-hero-copy {
+  grid-column: 1 / 6;
+  align-self: center;
+  padding: 44px 0;
+}
+
+.case-system .archive-hero-copy strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.case-system .archive-hero h1 {
+  margin-bottom: 28px;
+  font-size: clamp(4.8rem, 7.3vw, 8.6rem);
+}
+
+.case-system .archive-hero-media {
+  grid-column: 6 / 13;
+  min-width: 0;
+  margin: 0;
+  padding: clamp(20px, 2.2vw, 34px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #11110f;
+  border: 1px solid var(--line);
+}
+
+.case-system .archive-hero-media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: #fff;
+}
+
+.case-system .archive-hero-media figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 14px;
+  color: #c9c2b7;
+}
+
+.case-system .case-section-body .case-detail-grid {
+  margin-top: 34px;
+}
+
+@media (max-width: 1350px) {
+  .case-system .archive-hero-copy { grid-column: 1 / 6; }
+  .case-system .archive-hero-media { grid-column: 6 / 13; }
+  .case-system .archive-hero h1 { font-size: clamp(4.6rem, 7vw, 7rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-system *, .case-system *::before, .case-system *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
