@@ -5,31 +5,32 @@ Phase 2 Result: **PASSED** — `Phase-2-Handoff.md`.
 
 ## Classification
 - Scope: whole portfolio surface with Home as primary design target; local cases are supporting linked routes.
-- Type: QA + remediation + release-readiness assessment.
-- Risk: high because requested QA target is `main`/live but Phase 2 candidate is unreleased.
+- Type: final QA + remediation.
+- Risk: medium/high because this is the release-candidate gate before production release.
 - Mode: production_candidate.
 - Browser/device: Chromium desktop 1280/1440/1920; mobile/tablet `N/A_JUSTIFIED`.
-- Release authorization: `no_release`.
+- Release authorization: Phase 3 performs no release action.
 
-## Exact targets
-- User-requested branch target: `main@2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`.
-- Preview: `https://haign12.github.io/DoAnhNghia_BAPortfolio/`.
-- Phase 2 PASSED candidate/handoff: `phase2/luxury-minimalism-implementation-20260903@aef6a7c7299e607058fb6e84aaa86062553194f1`.
+## Corrected exact target
+Current request to fix Phase 3 and proceed to a separate Phase 4 release makes the lifecycle boundary explicit:
+- Final QA target: `phase2/luxury-minimalism-implementation-20260903@aef6a7c7299e607058fb6e84aaa86062553194f1`.
+- Production/main baseline remains `main@2c7c6ee7cbe82be98c42257854ca28a725e7ba8b` and is reserved for Phase 4 release/production verification.
+- Production URL: `https://haign12.github.io/DoAnhNghia_BAPortfolio/`.
 
-## Material conflict
-FACT: `main` is still the original baseline SHA; it is not the PASSED Phase 2 candidate. User asked Final QA against `main` and live preview while release authority remains `no_release`.
+## Decision correction
+FACT: the earlier Phase 3 run treated `main/live` as the Final QA target. That conflated pre-release candidate QA with post-release production verification and made Phase 3 impossible to pass under `no_release` even though the candidate itself had already closed the defects.
 
-Decision: do not auto-merge/deploy or silently change QA target. Final QA will inspect exact main/live and use the PASSED Phase 2 candidate as NEW comparison evidence. If main/live remains OLD, target-state compliance is BLOCKED until release authorization changes and the candidate is released through an authorized phase.
+Decision: Final QA is rerun on the immutable Phase 2 candidate. `main/live` evidence from the previous run is retained as release baseline evidence for Phase 4 and is not used to falsely claim production verification.
 
 ## QA Skill Activation Plan
 | Task | Trigger/risk | Skill | Material impact | Verification |
 |---|---|---|---|---|
-| rendered cross-page QA | redesign + visual release gate | `ui-craft-and-visual-qa` | actual pixels required; macro→micro; cross-page drift | Chromium evidence opened/inspected |
-| accessibility baseline | keyboard/focus/motion/semantics | `accessibility` | manual keyboard signal required; no conformance overclaim | Selenium/tab + source + visual checks |
-| performance | static portfolio media/fonts/runtime | `web-quality-and-performance` | distinguish lab/network/architecture from field data | resource/network evidence; no CWV field claim |
-| SEO | public portfolio/canonicals/sitemap | `seo-strategy` | route/indexability metadata checked | source + live status audit |
+| rendered cross-page QA | visual release candidate | `ui-craft-and-visual-qa` | actual pixels required; cross-page regression gate | Chromium evidence opened/inspected |
+| accessibility baseline | keyboard/focus/motion/semantics | `accessibility` | runtime desktop ARIA/focus/motion check; no formal conformance claim | browser smoke + source |
+| performance | static portfolio media/fonts/runtime | `web-quality-and-performance` | bounded architecture/resource evidence only; no field overclaim | source/resource review |
+| SEO | public portfolio/canonicals/sitemap | `seo-strategy` | route/indexability/sitemap coverage | source + route audit |
 | system truth | static site/external handoffs | `system-reality-and-production-readiness` | no fake integration/success claim | System Reality matrix |
 | verification | final multi-dimension QA | `testing-strategy` | requirement→method→pass→result evidence | Verification Matrix |
-| release-readiness | main/live mismatch + no_release | `code-review-and-release` | Stage A/B split; target mismatch blocks release-quality pass | Final QA report + Completion Manifest |
+| release boundary | handoff to Phase 4 | `code-review-and-release` | exact candidate is frozen; production smoke deferred to authorized release | Completion Manifest |
 
-Skill lock remains `Ngh1aa/skills_UIUX@e74849fd23ddb2fa062bb0e1e1101c84b6cfc1c0`; no skill ref change.
+Skill lock remains `Ngh1aa/skills_UIUX@e74849fd23ddb2fa062bb0e1e1101c84b6cfc1c0`.
