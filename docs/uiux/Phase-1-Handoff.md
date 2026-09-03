@@ -2,82 +2,45 @@
 
 ## Phase status
 
-**BLOCKED**
+**PASSED**
 
-Reason: Design research/contracts are complete, but the user-defined hard gate requires OLD rendered baseline inspection at the declared desktop viewports. Exact focal/crop evidence is also incomplete because the same rendered/visual evidence is unavailable.
+Phase 1 hard blockers were resolved with actual Chromium OLD renders from `main@2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`.
 
-## Completed handoff package
+Evidence:
+- GitHub Actions run `33773806896` — success;
+- artifact `phase1-old-baseline` / id `9900765034`;
+- 12 screenshots: Home, LuxRoom representative Personal Case, VAS Redesign Case, FlowCRM Product/System Case × 1280/1440/1920;
+- screenshots opened and visually inspected;
+- media/focal safe-region findings recorded in `Media-Contract.md`.
 
-- immutable V5 skill lock;
-- project/source truth at clean main baseline SHA;
-- business/conversion + audience/top-task model with evidence labels;
-- current source audit and preserve decisions;
-- IA/sitemap/content strategy;
-- production/reference benchmark with typed roles and adaptations;
-- proposed luxury-minimal brand/visual grammar;
-- shared design-system ownership contract;
-- four page composition families;
-- structural Redesign Delta Contract;
-- media role/ratio/fit contract;
-- system reality/data contract;
-- desktop-only Chromium strategy;
-- Design Contract with page experience table;
-- verification matrix;
-- requirement/skill/decision/risk ledgers.
+QA automation was isolated on `qa/phase1-baseline-20260903`; Phase 1 branch remains documentation-only relative to source truth and nothing was merged/deployed.
 
-## Design direction summary
+## Phase 2 source-of-truth package
+- `Design-Contract.md`
+- `Requirement-Coverage-Ledger.md`
+- `Skill-Execution-Ledger.md`
+- `System-Reality-and-Data-Contracts.md`
+- `Verification-Matrix.md`
+- this handoff
+- current source/git state
 
-`proof-first portfolio → editorial luxury restraint → project-native media → page-role-specific compositions → honest evidence → low-friction contact`
+Do not re-open Phase 1 research unless a material source/contract conflict is discovered.
 
-Primary structural decisions:
-1. Home changes from identity/decorative/About-first to positioning → selected work → profile/experience → contact.
-2. Project media becomes evidence and retains native color by default.
-3. Universal case-study hero is prohibited.
-4. Personal, redesign and product/system cases get materially different first compositions.
-5. Luxury is expressed through quiet materiality, typography, hairline structure and spacing — not gold/glass/3D effects.
-6. Vietnamese is the redesign content language.
-7. Current URLs/canonicals are preserved; VAS sitemap omission is repaired later.
-8. Static system reality remains truthful; no fake contact form/backend.
+## Implementation constraints carried forward
+1. Scope is desktop-only: 1280/1440/1920 plus desktop pressure widths; mobile/tablet `N/A_JUSTIFIED`.
+2. Production-candidate; no merge/deploy (`release_authorization=no_release`).
+3. Structural sequence: composition → hierarchy → media → decision objects → interaction/states → desktop behavior → shared system → polish.
+4. Representative families before rollout: Home, Personal Case, Redesign/Change Thesis, Product/System Archive.
+5. Preserve existing public URLs/canonicals; include VAS in sitemap during implementation.
+6. Keep system reality truthful: static content, real external/mailto/resume handoffs, no fake form/backend/success state.
+7. Vietnamese is the redesign UI/content language.
+8. Shared tokens/components may be reused; top-of-page composition must remain page-role-specific.
+9. NEW media crops must be re-rendered at declared widths; Phase 1 OLD crop evidence does not automatically pass NEW slots.
+10. OLD 1440 Home produced one blank portrait media render while 1280/1920 rendered the portrait; treat media loading robustness as a Phase 2 verification concern.
 
-## Unresolved blocker B-01 — OLD rendered baseline
+## Phase 1 accounting
+- UNACCOUNTED = 0
+- BLOCKED = 0
+- unresolved P0/P1 research/design blockers = 0
 
-Missing evidence:
-- Chromium screenshots opened/inspected for Home, representative Personal case, VAS redesign case and FlowCRM system case;
-- widths: 1280 / 1440 / 1920;
-- preferred additional pressure sample: StudioOS personal case.
-
-Unblock condition:
-- actual renders captured from `main@2c7c6ee...` or equivalent deployed OLD state;
-- screenshots opened and inspected;
-- findings recorded in `Old-Baseline.md`;
-- requirement `P1-003` changed to DONE_VERIFIED.
-
-## Unresolved blocker B-02 — focal/crop visual evidence
-
-Missing evidence:
-- visual inspection of avatar + project proof slots/assets to finalize focal/safe crop behavior.
-
-Unblock condition:
-- source assets/OLD render visually inspected;
-- per-asset focal/safe regions recorded in `Media-Contract.md` for cover/crop slots;
-- UI screenshot assets explicitly confirmed as contain/intrinsic when crop would remove evidence;
-- `P1-011` changed to DONE_VERIFIED.
-
-## What must NOT happen while Phase 1 is BLOCKED
-
-- do not start or resume source implementation based on this handoff;
-- do not call the redesign validated/production-ready/visually finished;
-- do not merge/deploy;
-- do not silently waive the baseline because source code is inspectable;
-- do not introduce mobile/tablet scope; they are N/A_JUSTIFIED.
-
-## After unblock
-
-Re-run only the affected baseline/media verification, update `Verification-Matrix.md` + `Requirement-Coverage-Ledger.md`, and if BLOCKED=0, record `PHASE 1 RESULT = PASSED`. Only then should implementation planning/code begin under the same locked skill SHA.
-
-## Branch/release state
-
-- Phase 1 docs branch: `phase1/luxury-minimalism-research-20260903`
-- Source baseline: `main@2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`
-- Release authorization: `no_release`
-- Code changes in this Phase 1 branch: **none outside `docs/uiux/`**
+**PHASE 1 RESULT = PASSED**
