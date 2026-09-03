@@ -242,7 +242,7 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 .hero-copy h1 {
   max-width: 980px;
   margin: 0 0 32px;
-  font-size: clamp(4.75rem, 7.3vw, 8.2rem);
+  font-size: clamp(4.35rem, 5.8vw, 6.8rem);
   font-weight: 500;
   line-height: .88;
 }
@@ -262,11 +262,14 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 .hero-portrait {
   grid-column: 9 / 13;
   align-self: start;
+  justify-self: end;
+  width: 100%;
+  max-width: 390px;
   margin: 0;
 }
 .hero-portrait img {
   width: 100%;
-  aspect-ratio: 3 / 4.1;
+  height: clamp(480px, 40vw, 620px);
   object-fit: cover;
   object-position: 50% 22%;
   background: var(--surface);
