@@ -1,4 +1,4 @@
-name: Phase 2 Supporting Route Integrity
+name: Phase 2 Supporting Route Recheck
 
 on:
   push:
@@ -9,27 +9,27 @@ permissions:
   contents: read
 
 jobs:
-  integrity:
+  recheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: e2ccbff7bd322f80da3aea3d296f6b5b07f79dfc
-      - name: Render supporting personal-case routes
+          ref: a73c39625155208f1263c479a5a7609e17f3d60b
+      - name: Render fixed supporting routes
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p evidence/supporting-routes
+          mkdir -p evidence/supporting-routes-fixed
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
           PID=$!; trap 'kill "$PID" || true' EXIT; sleep 2
           CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
           for route in case-study-atelier.html case-study-studioos.html; do
             name="${route%.html}"
-            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=4000 --screenshot="evidence/supporting-routes/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=4000 --screenshot="evidence/supporting-routes-fixed/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
           done
       - uses: actions/upload-artifact@v4
         with:
-          name: phase2-supporting-route-integrity
-          path: evidence/supporting-routes
+          name: phase2-supporting-routes-fixed
+          path: evidence/supporting-routes-fixed
           if-no-files-found: error
           retention-days: 7
