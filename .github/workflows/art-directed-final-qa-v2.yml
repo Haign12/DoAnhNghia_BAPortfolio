@@ -1,0 +1,191 @@
+name: Art Directed Portfolio Final QA v2
+
+on:
+  push:
+    branches:
+      - qa/art-directed-final-20260904
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static contract checks
+        run: |
+          set -euo pipefail
+          grep -q '<html lang="en"' index.html
+          grep -q 'DM+Mono' index.html
+          grep -q 'DM+Sans' index.html
+          grep -q 'Instrument+Serif' index.html
+          grep -q 'styles.css?v=20260904-art-directed-v1' index.html
+          grep -q 'Designing clear products.' index.html
+          grep -q 'Grounded in systems thinking.' index.html
+          grep -q 'project-explorer' index.html
+          grep -q 'data-project="Atelier"' index.html
+          grep -q -- '--serif: "Instrument Serif"' styles.css
+          grep -q -- '--sans: "DM Sans"' styles.css
+          grep -q -- '--mono: "DM Mono"' styles.css
+          ! grep -q 'font-family: "Inter"' styles.css
+          ! grep -q -- '--serif: "Inter"' case-study.css
+          for f in case-study-luxroom.html case-study-atelier.html case-study-studioos.html case-study-vas-education.html case-study-ux.html; do
+            grep -q 'DM+Mono' "$f"
+            grep -q 'DM+Sans' "$f"
+            grep -q 'Instrument+Serif' "$f"
+            grep -q 'case-study.css?v=20260904-art-directed-v1' "$f"
+          done
+          node --check script.js
+      - name: Install browser smoke dependency
+        run: python3 -m pip install --quiet selenium
+      - name: Start local server
+        run: |
+          python3 -m http.server 4173 > /tmp/portfolio-server.log 2>&1 &
+          echo $! > /tmp/portfolio-server.pid
+          sleep 2
+      - name: Render, interact and capture evidence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          import json, os, time
+
+          base='http://127.0.0.1:4173/'
+          out='evidence/art-directed-v2'
+          os.makedirs(out, exist_ok=True)
+          results={'base':base,'home':{},'interaction':{},'cases':{}}
+
+          def driver(width, height=1080, reduce_motion=False):
+              o=Options()
+              o.add_argument('--headless=new')
+              o.add_argument('--no-sandbox')
+              o.add_argument('--disable-gpu')
+              o.add_argument('--hide-scrollbars')
+              o.add_argument('--force-device-scale-factor=1')
+              o.add_argument(f'--window-size={width},{height}')
+              o.set_capability('goog:loggingPrefs', {'browser':'ALL'})
+              d=webdriver.Chrome(options=o)
+              if reduce_motion:
+                  d.execute_cdp_cmd('Emulation.setEmulatedMedia', {'features':[{'name':'prefers-reduced-motion','value':'reduce'}]})
+              return d
+
+          for width in (1280,1440,1920):
+              d=driver(width)
+              try:
+                  d.get(base)
+                  time.sleep(1.5)
+                  d.save_screenshot(f'{out}/home-{width}x1080.png')
+                  h1=d.find_element(By.ID,'hero-title')
+                  sans=d.find_element(By.CSS_SELECTOR,'.hero-sans')
+                  serif=d.find_element(By.CSS_SELECTOR,'#hero-title em')
+                  cta=d.find_element(By.CSS_SELECTOR,'.primary-link')
+                  preview=d.find_element(By.ID,'projectPreview')
+                  checks={
+                      'lang': d.execute_script('return document.documentElement.lang'),
+                      'body_font': d.execute_script('return getComputedStyle(document.body).fontFamily'),
+                      'sans_font': d.execute_script('return getComputedStyle(arguments[0]).fontFamily', sans),
+                      'serif_font': d.execute_script('return getComputedStyle(arguments[0]).fontFamily', serif),
+                      'h1_text': h1.text,
+                      'cta_displayed': cta.is_displayed(),
+                      'cta_bottom': cta.rect['y'] + cta.rect['height'],
+                      'viewport_height': d.execute_script('return innerHeight'),
+                      'preview_width': preview.rect['width'],
+                      'overflow_x': d.execute_script('return document.documentElement.scrollWidth > document.documentElement.clientWidth'),
+                      'broken_images': d.execute_script('return [...document.images].filter(i=>i.complete && i.naturalWidth===0).map(i=>i.src)'),
+                      'severe_console': [x for x in d.get_log('browser') if x.get('level')=='SEVERE'],
+                  }
+                  results['home'][str(width)]=checks
+                  assert checks['lang']=='en'
+                  assert 'DM Sans' in checks['body_font']
+                  assert 'DM Sans' in checks['sans_font']
+                  assert 'Instrument Serif' in checks['serif_font']
+                  assert 'Designing clear products.' in checks['h1_text']
+                  assert 'Grounded in systems thinking.' in checks['h1_text']
+                  assert checks['cta_displayed']
+                  assert checks['cta_bottom'] <= checks['viewport_height'] + 1
+                  assert checks['preview_width'] < 700
+                  assert checks['overflow_x'] is False
+                  assert checks['broken_images']==[]
+                  assert checks['severe_console']==[]
+              finally:
+                  d.quit()
+
+          d=driver(1440)
+          try:
+              d.get(base)
+              time.sleep(1.2)
+              work=d.find_element(By.ID,'work')
+              d.execute_script('arguments[0].scrollIntoView({block:"start"})', work)
+              time.sleep(.8)
+              d.save_screenshot(f'{out}/work-default-1440x1080.png')
+              rows=d.find_elements(By.CSS_SELECTOR,'.project-row')
+              assert len(rows)==5
+              interaction={}
+              for name, idx in [('Atelier',1),('VAS Education',3),('FlowCRM',4)]:
+                  row=rows[idx]
+                  d.execute_script('arguments[0].focus()', row)
+                  time.sleep(.35)
+                  title=d.find_element(By.ID,'projectPreviewTitle').text
+                  active=d.execute_script('return arguments[0].classList.contains("is-active")', row)
+                  interaction[name]={'title':title,'active':active}
+                  assert title==name and active is True
+                  if name=='VAS Education':
+                      vas=d.find_element(By.ID,'projectPreviewVas')
+                      assert d.execute_script('return arguments[0].hidden',vas) is False
+                  if name=='FlowCRM':
+                      preview=d.find_element(By.ID,'projectPreview')
+                      assert d.execute_script('return arguments[0].classList.contains("is-contain")',preview) is True
+                  d.save_screenshot(f'{out}/work-{idx+1}-{name.lower().replace(" ","-")}-1440x1080.png')
+              results['interaction']=interaction
+          finally:
+              d.quit()
+
+          d=driver(1440, reduce_motion=True)
+          try:
+              d.get(base)
+              time.sleep(.6)
+              hidden_reveals=d.execute_script('return [...document.querySelectorAll(".reveal")].filter(el=>getComputedStyle(el).opacity==="0").length')
+              row=d.find_elements(By.CSS_SELECTOR,'.project-row')[1]
+              d.execute_script('arguments[0].focus()',row)
+              time.sleep(.1)
+              title=d.find_element(By.ID,'projectPreviewTitle').text
+              results['interaction']['reduced_motion']={'hidden_reveals':hidden_reveals,'preview_title':title}
+              assert hidden_reveals==0 and title=='Atelier'
+          finally:
+              d.quit()
+
+          cases={
+              'luxroom':'case-study-luxroom.html','atelier':'case-study-atelier.html','studioos':'case-study-studioos.html',
+              'vas':'case-study-vas-education.html','flowcrm':'case-study-ux.html'
+          }
+          for name,path in cases.items():
+              d=driver(1440)
+              try:
+                  d.get(base+path)
+                  time.sleep(1.1)
+                  d.save_screenshot(f'{out}/case-{name}-1440x1080.png')
+                  body_font=d.execute_script('return getComputedStyle(document.body).fontFamily')
+                  mono_font=d.execute_script('return getComputedStyle(document.querySelector(".case-index, .archive-status")).fontFamily')
+                  checks={
+                      'body_font':body_font,'mono_font':mono_font,
+                      'overflow_x':d.execute_script('return document.documentElement.scrollWidth > document.documentElement.clientWidth'),
+                      'broken_images':d.execute_script('return [...document.images].filter(i=>i.complete && i.naturalWidth===0).map(i=>i.src)'),
+                      'severe_console':[x for x in d.get_log('browser') if x.get('level')=='SEVERE']}
+                  results['cases'][name]=checks
+                  assert 'DM Sans' in body_font and 'DM Mono' in mono_font
+                  assert checks['overflow_x'] is False and checks['broken_images']==[] and checks['severe_console']==[]
+              finally:
+                  d.quit()
+
+          with open(f'{out}/qa.json','w',encoding='utf-8') as f:
+              json.dump(results,f,ensure_ascii=False,indent=2)
+          print(json.dumps(results,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: art-directed-final-evidence-v2
+          path: evidence/art-directed-v2
+          retention-days: 7
