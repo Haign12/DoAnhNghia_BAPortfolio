@@ -50,3 +50,19 @@ Screenshots must be opened/inspected. Source/build checks do not substitute visu
 ## D-014 — Phase 3 cannot silently substitute candidate for requested main target
 - Current release authority remains `no_release`.
 - If Phase 3 explicitly targets `main`/live while the PASSED candidate remains on a safe branch, QA must record that mismatch rather than merge/deploy automatically or pretend main contains the redesign.
+
+## D-015 — Current minimalism directive supersedes the warm/serif/bronze visual layer
+- FACT: current user request explicitly requires smaller project thumbnails, sans-serif titles, Inter content, white background, black `#111111` buttons, black `#111111` highlights and a minimalism direction.
+- Conflict: this contradicts the prior warm-ivory / serif-display / bronze-accent portions of the earlier Design Contract.
+- Decision: current user request wins. The proof-first information hierarchy, content, routes, system reality and interaction behavior remain preserved; only the visual-system layer is remediated.
+- Evidence: `Minimalism-Remediation-Contract.md` + exact-candidate rendered/runtime QA.
+
+## D-016 — Reference websites are craft input, not UX proof
+- FACT: web research included monochrome/minimal portfolio references emphasizing strict grids, sans typography, whitespace and restrained presentation.
+- Reference label: `MOOD_REFERENCE`.
+- Decision: transfer principles only; do not copy layouts and do not claim conversion/usability outcomes from gallery/template references.
+
+## D-017 — Thumbnail size is owned by the Home project-media system
+- FACT: first remediation at 1040px remained visually oversized on a 1440px viewport; StudioOS also expanded vertically because intrinsic image ratio remained active.
+- Decision: fix the root owner in `styles.css`: default project thumbnail frame max width `880px`, Atelier `780px`, fixed 16:9 / 4:3 frames, and image `height:100%; object-fit:cover`.
+- Verification: exact candidate `4cdf70d1c55bb134ea111ad6a0c959504c4c2e85`; final QA run `33840185528`; rendered thumbnail geometry 880×495 / 780×585 / 880×495 / 880×495, all directly inspected.
