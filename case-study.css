@@ -1,32 +1,32 @@
 :root {
-  --bg: #f5f1e8;
-  --surface: #fbf8f2;
-  --text: #151412;
-  --muted: #6f6a61;
-  --line: #d8d0c3;
-  --line-strong: #aaa093;
-  --accent-soft: #c6a978;
-  --accent: #7a5e3b;
-  --inverse-bg: #151412;
-  --inverse-text: #f5f1e8;
-  --serif: "Noto Serif Display", Georgia, serif;
-  --sans: "DM Sans", Arial, sans-serif;
-  --mono: "DM Mono", monospace;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #111111;
+  --muted: #666666;
+  --line: #e6e6e6;
+  --line-strong: #b8b8b8;
+  --accent-soft: #111111;
+  --accent: #111111;
+  --inverse-bg: #ffffff;
+  --inverse-text: #111111;
+  --serif: "Inter", Arial, sans-serif;
+  --sans: "Inter", Arial, sans-serif;
+  --mono: "Inter", Arial, sans-serif;
   --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: light;
 }
 
 [data-theme="dark"] {
-  --bg: #171512;
-  --surface: #201d18;
-  --text: #f2ecdf;
-  --muted: #aaa296;
-  --line: #39342d;
-  --line-strong: #645c51;
-  --accent-soft: #c6a978;
-  --accent: #d1b27d;
-  --inverse-bg: #f2ecdf;
-  --inverse-text: #171512;
+  --bg: #111111;
+  --surface: #171717;
+  --text: #f5f5f5;
+  --muted: #b5b5b5;
+  --line: #303030;
+  --line-strong: #555555;
+  --accent-soft: #f5f5f5;
+  --accent: #f5f5f5;
+  --inverse-bg: #111111;
+  --inverse-text: #f5f5f5;
   color-scheme: dark;
 }
 
@@ -136,7 +136,7 @@ button { font: inherit; }
   font-weight: 600;
   text-decoration: none;
 }
-.case-action:hover { color: var(--accent); }
+.case-action:hover { color: var(--text); opacity: .58; }
 .case-action-primary {
   padding: 0 14px;
   color: var(--bg);
@@ -162,7 +162,7 @@ button { font: inherit; }
   font-size: clamp(1.2rem, 1.7vw, 1.55rem);
   line-height: 1.58;
 }
-.case-thesis em { color: var(--accent); font-family: var(--serif); font-weight: 500; }
+.case-thesis em { color: var(--text); font-family: var(--sans); font-weight: 600; font-style: normal; }
 .case-cover { margin: 0; }
 .case-cover-frame {
   overflow: hidden;
@@ -260,7 +260,7 @@ button { font: inherit; }
   font-size: clamp(1.25rem, 1.9vw, 1.7rem);
   line-height: 1.55;
 }
-.change-thesis em { color: var(--accent); font-family: var(--serif); }
+.change-thesis em { color: var(--text); font-family: var(--sans); font-weight: 600; font-style: normal; }
 .vas-case-visual {
   min-height: 600px;
   position: relative;
