@@ -1,199 +1,225 @@
 <!doctype html>
-<html lang="vi" data-theme="light">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Do Anh Nghia — UI/UX Designer</title>
-  <meta name="description" content="Portfolio UI/UX của Do Anh Nghia — thiết kế sản phẩm số rõ ràng, có hệ thống, với user flow, visual hierarchy và interaction được cân nhắc kỹ.">
+  <meta name="description" content="UI/UX portfolio of Do Anh Nghia — designing clear interfaces, purposeful flows and product systems with thoughtful visual hierarchy.">
   <meta name="author" content="Do Anh Nghia">
-  <meta name="theme-color" content="#F5F1E8">
+  <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://haign12.github.io/DoAnhNghia_BAPortfolio/">
-  <link rel="icon" type="image/png" href="assets/images/logo.png?v=20260903-luxury-editorial-v1">
-  <link rel="apple-touch-icon" href="assets/images/logo.png?v=20260903-luxury-editorial-v1">
+  <link rel="icon" type="image/png" href="assets/images/logo.png?v=20260904-art-directed-v1">
+  <link rel="apple-touch-icon" href="assets/images/logo.png?v=20260904-art-directed-v1">
   <meta property="og:title" content="Do Anh Nghia — UI/UX Designer">
-  <meta property="og:description" content="Thiết kế sản phẩm số rõ ràng, có hệ thống và có chiều sâu — qua những case study về product UX, web và design systems.">
+  <meta property="og:description" content="Designing clear interfaces, purposeful flows and product systems with thoughtful visual hierarchy.">
   <meta property="og:image" content="https://haign12.github.io/DoAnhNghia_BAPortfolio/assets/images/cap.png">
-  <meta property="og:image:alt" content="Portfolio UI/UX của Do Anh Nghia">
+  <meta property="og:image:alt" content="Do Anh Nghia UI/UX portfolio preview">
   <meta property="og:url" content="https://haign12.github.io/DoAnhNghia_BAPortfolio/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Do Anh Nghia — UI/UX Designer">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Do Anh Nghia — UI/UX Designer">
-  <meta name="twitter:description" content="Thiết kế sản phẩm số rõ ràng, có hệ thống và có chiều sâu.">
+  <meta name="twitter:description" content="Designing clear interfaces, purposeful flows and product systems with thoughtful visual hierarchy.">
   <meta name="twitter:image" content="https://haign12.github.io/DoAnhNghia_BAPortfolio/assets/images/cap.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/images/avatar.webp" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20260904-minimal-v1">
+  <link rel="preload" as="image" href="assets/images/luxroom.webp" type="image/webp">
+  <link rel="stylesheet" href="styles.css?v=20260904-art-directed-v1">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Do Anh Nghia","url":"https://haign12.github.io/DoAnhNghia_BAPortfolio/","jobTitle":"UI/UX Designer","sameAs":["https://github.com/Ngh1aa","https://www.linkedin.com/in/ginan12/"]}
   </script>
 </head>
 <body>
   <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+  <div class="page-grid" aria-hidden="true"></div>
 
   <header class="site-header" id="top">
-    <nav class="nav shell" aria-label="Điều hướng chính">
-      <a class="brand" href="#top" aria-label="Về đầu trang">Do Anh Nghia<span aria-hidden="true">.</span></a>
+    <nav class="nav shell" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Back to top">Do Anh Nghia<span aria-hidden="true">.</span></a>
       <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navMenu">
-        <span></span><span></span><span class="sr-only">Mở menu</span>
+        <span></span><span></span><span class="sr-only">Open menu</span>
       </button>
       <div class="nav-menu" id="navMenu" aria-hidden="false">
-        <button class="menu-close" id="menuClose" type="button" aria-label="Đóng menu"><span aria-hidden="true">×</span></button>
-        <a href="#work" data-nav="work">Dự án</a>
-        <a href="#experience" data-nav="experience">Kinh nghiệm</a>
-        <a href="#contact" data-nav="contact">Liên hệ</a>
-        <a class="nav-resume" href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">Mở CV ↗</a>
-        <button class="theme-button" id="themeToggle" type="button" aria-label="Chuyển sang giao diện tối" aria-pressed="false"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Tối</span></button>
+        <button class="menu-close" id="menuClose" type="button" aria-label="Close menu"><span aria-hidden="true">×</span></button>
+        <a href="#work" data-nav="work">Work</a>
+        <a href="#experience" data-nav="experience">Experience</a>
+        <a href="#contact" data-nav="contact">Contact</a>
+        <a class="nav-resume" href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">View resume ↗</a>
+        <button class="theme-button" id="themeToggle" type="button" aria-label="Switch to dark theme" aria-pressed="false"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark</span></button>
       </div>
     </nav>
   </header>
 
   <main>
     <section class="hero shell" aria-labelledby="hero-title">
-      <div class="hero-index reveal" aria-hidden="true">01 / PORTFOLIO · 2026</div>
+      <div class="hero-index reveal"><span>01 / PORTFOLIO · 2026</span><span>UI/UX · PRODUCT · WEB</span></div>
+
       <div class="hero-copy reveal">
-        <p class="kicker">UI/UX DESIGNER · PRODUCT & WEB EXPERIENCE</p>
-        <h1 id="hero-title">Tôi thiết kế sản phẩm số <em>rõ ràng, có hệ thống và có chiều sâu.</em></h1>
-        <p class="hero-lead">Tôi biến những yêu cầu phức tạp thành luồng sử dụng dễ hiểu, hierarchy mạch lạc và giao diện đủ tinh tế để người dùng biết điều gì cần làm tiếp theo.</p>
+        <p class="kicker"><span class="kicker-line" aria-hidden="true"></span>UI/UX DESIGNER × SYSTEMS THINKER</p>
+        <h1 id="hero-title"><span class="hero-sans">Designing clear products.</span><em>Grounded in systems thinking.</em></h1>
+        <p class="hero-lead">I design thoughtful interfaces, purposeful flows and product systems that help people understand what to do next.</p>
         <div class="hero-actions">
-          <a class="primary-link" href="#work">Xem dự án chọn lọc <span aria-hidden="true">↓</span></a>
-          <a class="secondary-link" href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">Mở CV ↗</a>
+          <a class="primary-link" href="#work">Explore the work <span aria-hidden="true">↘</span></a>
+          <a class="secondary-link" href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">View resume ↗</a>
         </div>
       </div>
-      <figure class="hero-portrait reveal reveal-delay">
-        <img src="assets/images/avatar.webp" width="1000" height="1433" alt="Chân dung Do Anh Nghia" fetchpriority="high" decoding="async">
-        <figcaption><span>Do Anh Nghia</span><span>UI/UX Designer · Vietnam</span></figcaption>
+
+      <figure class="hero-art reveal reveal-delay" data-parallax-root>
+        <div class="hero-orbit hero-orbit-a" aria-hidden="true"></div>
+        <div class="hero-orbit hero-orbit-b" aria-hidden="true"></div>
+        <div class="hero-coordinate" aria-hidden="true">X 10.8231° N<br>Y 106.6297° E</div>
+        <div class="hero-photo-wrap" data-parallax-layer="0.55">
+          <img src="assets/images/avatar.webp" width="1000" height="1433" alt="Portrait of Do Anh Nghia" fetchpriority="high" decoding="async">
+          <span class="hero-photo-index">01 / PORTRAIT</span>
+        </div>
+        <figcaption class="hero-note-card" data-parallax-layer="0.9">
+          <span>UI / UX</span>
+          <strong>Logic<br>meets<br><em>empathy.</em></strong>
+          <small>Open to thoughtful product & web opportunities.</small>
+        </figcaption>
       </figure>
-      <div class="hero-note reveal reveal-delay">
-        <span class="note-number">05</span>
-        <span>Dự án UI/UX được chọn lọc<br>và các case study có giải thích quyết định.</span>
-      </div>
     </section>
 
     <section class="work section-pad" id="work" aria-labelledby="work-title">
-      <div class="shell section-head reveal">
-        <div class="section-label"><span>02</span><span>DỰ ÁN CHỌN LỌC</span></div>
-        <div class="section-heading-grid">
-          <h2 id="work-title">Để sản phẩm tự <em>chứng minh năng lực.</em></h2>
-          <p>Mỗi dự án bên dưới tập trung vào một kiểu quyết định khác nhau: discovery, product structure, interaction system hoặc redesign một trải nghiệm có nhiều thông tin.</p>
+      <div class="shell work-intro reveal">
+        <div class="section-index"><span>02</span><span>SELECTED WORK</span></div>
+        <div class="work-heading">
+          <h2 id="work-title">Move through the index.<br><em>Find the work that pulls you in.</em></h2>
+          <div class="work-guide">
+            <p>Each project exposes a different part of my practice — hierarchy, systems, product structure or redesign thinking.</p>
+            <span>Hover or focus to preview · Click to open</span>
+          </div>
         </div>
       </div>
 
-      <div class="project-folio shell">
-        <article class="folio-item reveal">
-          <a class="folio-media" href="case-study-luxroom.html" aria-label="Mở case study LuxRoom">
-            <img src="assets/images/luxroom.webp" width="1200" height="800" alt="Giao diện dự án LuxRoom" loading="lazy" decoding="async">
-          </a>
-          <div class="folio-meta">
-            <span>01 / PERSONAL PROJECT</span><span>Responsive web · Furniture</span>
+      <div class="project-explorer shell">
+        <div class="project-preview-wrap reveal" aria-hidden="true">
+          <div class="project-preview" id="projectPreview">
+            <div class="preview-corner preview-corner-a"></div>
+            <div class="preview-corner preview-corner-b"></div>
+            <div class="preview-media" id="projectPreviewMedia">
+              <img id="projectPreviewImage" src="assets/images/luxroom.webp" width="1200" height="800" alt="" decoding="async">
+              <div class="preview-vas" id="projectPreviewVas" hidden>
+                <span>VAS EDUCATION</span>
+                <strong>From dense information<br><em>to a guided decision.</em></strong>
+                <div><i>Discover</i><i>Programs</i><i>Campus</i><i>Admissions</i></div>
+              </div>
+            </div>
+            <div class="preview-meta">
+              <span id="projectPreviewIndex">01 / 05</span>
+              <span id="projectPreviewType">Furniture · Responsive Web</span>
+            </div>
+            <div class="preview-title" id="projectPreviewTitle">LuxRoom</div>
           </div>
-          <div class="folio-caption">
-            <div><h3>LuxRoom</h3><p>Một trải nghiệm nội thất cao cấp được tổ chức theo không gian sống, chất liệu và nhịp khám phá sản phẩm thay vì một catalog dày đặc.</p></div>
-            <div class="folio-actions"><a href="case-study-luxroom.html">Case study ↗</a><a href="https://ngh1aa.github.io/LuxRoom/" target="_blank" rel="noopener noreferrer">Website ↗</a></div>
-          </div>
-        </article>
+        </div>
 
-        <article class="folio-item reveal">
-          <a class="folio-media folio-media-tall" href="case-study-atelier.html" aria-label="Mở case study Atelier">
-            <img src="assets/images/altelier.webp" width="1200" height="800" alt="Giao diện dự án Atelier" loading="lazy" decoding="async">
+        <div class="project-index-list reveal reveal-delay" aria-label="Selected projects">
+          <a class="project-row is-active" href="case-study-luxroom.html"
+             data-project="LuxRoom" data-index="01 / 05" data-type="Furniture · Responsive Web"
+             data-preview="assets/images/luxroom.webp" data-kind="image">
+            <span class="project-row-number">01</span>
+            <span class="project-row-main"><strong>LuxRoom</strong><small>Personal project · Visual hierarchy</small></span>
+            <span class="project-row-year">2026</span><span class="project-row-arrow" aria-hidden="true">↗</span>
           </a>
-          <div class="folio-meta">
-            <span>02 / PERSONAL PROJECT</span><span>Mobile-first · Fashion commerce</span>
-          </div>
-          <div class="folio-caption">
-            <div><h3>Atelier</h3><p>Một concept commerce đặt editorial mood cạnh hành trình mua sắm rõ ràng, để hình ảnh tạo cảm xúc nhưng không che mất đường đi của người dùng.</p></div>
-            <div class="folio-actions"><a href="case-study-atelier.html">Case study ↗</a><a href="https://ngh1aa.github.io/Atelier/" target="_blank" rel="noopener noreferrer">Website ↗</a></div>
-          </div>
-        </article>
 
-        <article class="folio-item reveal">
-          <a class="folio-media folio-media-wide" href="case-study-studioos.html" aria-label="Mở case study StudioOS">
-            <img src="assets/images/studioos.webp" width="1600" height="1067" alt="Giao diện workspace StudioOS" loading="lazy" decoding="async">
+          <a class="project-row" href="case-study-atelier.html"
+             data-project="Atelier" data-index="02 / 05" data-type="Fashion · Mobile-first Commerce"
+             data-preview="assets/images/altelier.webp" data-kind="image">
+            <span class="project-row-number">02</span>
+            <span class="project-row-main"><strong>Atelier</strong><small>Personal project · Editorial commerce</small></span>
+            <span class="project-row-year">2026</span><span class="project-row-arrow" aria-hidden="true">↗</span>
           </a>
-          <div class="folio-meta">
-            <span>03 / PERSONAL PROJECT</span><span>SaaS workspace · Product UX</span>
-          </div>
-          <div class="folio-caption">
-            <div><h3>StudioOS</h3><p>Một workspace cho team sáng tạo nhỏ, cân bằng task clarity, project context, feedback và trạng thái giao việc trong cùng một hệ thống.</p></div>
-            <div class="folio-actions"><a href="case-study-studioos.html">Case study ↗</a><a href="https://ngh1aa.github.io/StudioOS/" target="_blank" rel="noopener noreferrer">Website ↗</a></div>
-          </div>
-        </article>
 
-        <article class="folio-item folio-item-redesign reveal">
-          <a class="vas-preview" href="case-study-vas-education.html" aria-label="Mở case study VAS Education">
-            <span class="vas-preview-top"><b>VAS EDUCATION</b><i>REDESIGN / 04</i></span>
-            <span class="vas-preview-title">Từ một hệ thống thông tin lớn<br><em>thành hành trình dễ định hướng.</em></span>
-            <span class="vas-preview-flow"><i>Khám phá</i><i>Hiểu chương trình</i><i>Tìm cơ sở</i><i>Tuyển sinh</i></span>
+          <a class="project-row" href="case-study-studioos.html"
+             data-project="StudioOS" data-index="03 / 05" data-type="SaaS Workspace · Product UX"
+             data-preview="assets/images/studioos.webp" data-kind="image">
+            <span class="project-row-number">03</span>
+            <span class="project-row-main"><strong>StudioOS</strong><small>Personal product · Systems thinking</small></span>
+            <span class="project-row-year">2026</span><span class="project-row-arrow" aria-hidden="true">↗</span>
           </a>
-          <div class="folio-meta">
-            <span>04 / REDESIGN</span><span>Education · Information architecture</span>
+
+          <a class="project-row" href="case-study-vas-education.html"
+             data-project="VAS Education" data-index="04 / 05" data-type="Education · IA / Redesign"
+             data-kind="vas">
+            <span class="project-row-number">04</span>
+            <span class="project-row-main"><strong>VAS Education</strong><small>Redesign · Information architecture</small></span>
+            <span class="project-row-year">2026</span><span class="project-row-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a class="project-row" href="case-study-ux.html"
+             data-project="FlowCRM" data-index="05 / 05" data-type="B2B CRM · Product System"
+             data-preview="assets/images/FLOW.png" data-kind="contain">
+            <span class="project-row-number">05</span>
+            <span class="project-row-main"><strong>FlowCRM</strong><small>Product system · Workflow model</small></span>
+            <span class="project-row-year">2026</span><span class="project-row-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <div class="project-index-footer">
+            <span>OTHER WORK</span>
+            <a href="https://ngh1aa.github.io/Capital/" target="_blank" rel="noopener noreferrer">Capital Place ↗</a>
+            <a href="https://ngh1aa.github.io/RedesignVAS/" target="_blank" rel="noopener noreferrer">VAS live concept ↗</a>
           </div>
-          <div class="folio-caption">
-            <div><h3>VAS Education</h3><p>Redesign website trường học theo hành trình quyết định của phụ huynh: hiểu lời hứa, tìm chương trình phù hợp, kiểm tra trải nghiệm thực tế rồi tiến đến bước tuyển sinh.</p></div>
-            <div class="folio-actions"><a href="case-study-vas-education.html">Case study ↗</a><a href="https://ngh1aa.github.io/RedesignVAS/" target="_blank" rel="noopener noreferrer">Website ↗</a></div>
-          </div>
-        </article>
+        </div>
       </div>
     </section>
 
-    <section class="experience section-pad shell" id="experience" aria-labelledby="experience-title">
-      <div class="section-head reveal">
-        <div class="section-label"><span>03</span><span>KINH NGHIỆM & CÁCH LÀM VIỆC</span></div>
-        <div class="section-heading-grid">
-          <h2 id="experience-title">Thiết kế bằng <em>cấu trúc trước, bề mặt sau.</em></h2>
-          <p>Tôi làm việc từ problem framing, user flow và information hierarchy trước khi khóa high-fidelity UI — sau đó tiếp tục tinh chỉnh interaction và handoff theo ràng buộc thực tế.</p>
+    <section class="practice section-pad shell" aria-labelledby="practice-title">
+      <div class="section-index reveal"><span>03</span><span>DESIGN PRACTICE</span></div>
+      <div class="practice-grid">
+        <h2 id="practice-title" class="reveal">Structure first.<br><em>Surface with intention.</em></h2>
+        <div class="practice-copy reveal reveal-delay">
+          <p>I move from problem framing, user flows and information hierarchy into high-fidelity UI — then refine interaction details around the constraints of the real product.</p>
+          <div class="practice-tags" aria-label="Capabilities"><span>Information Architecture</span><span>User Flows</span><span>Wireframing</span><span>High-fidelity UI</span><span>Design Systems</span><span>Interaction Design</span></div>
         </div>
-      </div>
-
-      <div class="experience-grid">
-        <div class="career-list reveal">
-          <article class="career-row"><time>08 / 2025 — nay</time><div><h3>UI/UX Designer</h3><p>MangoAds · Vietnam SEO Optimization and Web Design Agency</p><ul><li>Thiết kế user flow, wireframe và giao diện responsive cho các trải nghiệm web.</li><li>Đóng góp vào visual system và interaction detail trong các dự án digital.</li></ul></div></article>
-          <article class="career-row"><time>02 — 07 / 2025</time><div><h3>UI/UX Designer</h3><p>Tikera Technology and Brand Development Company · Ho Chi Minh City</p><ul><li>Thiết kế và tinh chỉnh product flow, screen structure và interface pattern.</li><li>Chuyển yêu cầu sản phẩm thành user flow, wireframe và high-fidelity direction.</li><li>Phối hợp với team để làm rõ interaction behavior và consistency.</li></ul></div></article>
-          <article class="career-row"><time>06 — 12 / 2025</time><div><h3>Intern UI/UX Designer</h3><p>Trésor Solution Company · Remote</p><ul><li>Hỗ trợ wireframe, user flow và các vòng lặp giao diện responsive.</li><li>Hỗ trợ cấu trúc screen behavior, edge case và reusable pattern cùng product team.</li></ul></div></article>
-        </div>
-
-        <aside class="profile-rail reveal reveal-delay">
-          <div><span class="rail-label">Năng lực</span><p>Information Architecture<br>User Flows<br>Wireframing<br>High-fidelity UI<br>Design Systems<br>Interaction Design</p></div>
-          <div><span class="rail-label">Công cụ</span><p>Figma<br>HTML / CSS / JavaScript<br>GitHub<br>Google UX Design foundations</p></div>
-          <div><span class="rail-label">Học vấn</span><p>University of Science — HCMUS<br><small>Information Technology · 2021–2026</small></p><p>Claude Bernard University Lyon 1<br><small>Information Technology · 2021–2025</small></p></div>
-        </aside>
       </div>
     </section>
 
-    <section class="more-work section-pad" aria-labelledby="more-work-title">
+    <section class="experience section-pad" id="experience" aria-labelledby="experience-title">
       <div class="shell">
-        <div class="section-label reveal"><span>04</span><span>DỰ ÁN KHÁC</span></div>
-        <h2 id="more-work-title" class="more-work-title reveal">Thêm một vài góc nhìn<br><em>về web và product UX.</em></h2>
-        <div class="archive-list">
-          <article class="archive-row reveal">
-            <span class="archive-number">05</span>
-            <div class="archive-thumb"><img src="assets/images/capital-place.jpg" width="1024" height="683" alt="Không gian dự án Capital Place" loading="lazy" decoding="async"></div>
-            <div class="archive-copy"><span>REDESIGN · PROPERTY WEBSITE</span><h3>Capital Place</h3><p>Website giới thiệu tòa nhà premium, cân bằng storytelling về landmark với các đường dẫn rõ ràng để khám phá công trình và liên hệ.</p></div>
-            <a class="archive-link" href="https://ngh1aa.github.io/Capital/" target="_blank" rel="noopener noreferrer">Website ↗</a>
+        <div class="section-index reveal"><span>04</span><span>EXPERIENCE</span></div>
+        <div class="experience-head reveal">
+          <h2 id="experience-title">A design practice<br><em>built on structure.</em></h2>
+          <p>Verified background, role progression and the environments where I have been shaping web and product experiences.</p>
+        </div>
+
+        <div class="career-list reveal">
+          <article class="career-row">
+            <time>08 / 2025 — NOW</time>
+            <div class="career-role"><h3>UI/UX Designer</h3><p>MangoAds · Vietnam SEO Optimization and Web Design Agency</p></div>
+            <ul><li>Designing user flows, wireframes and responsive interfaces for web experiences.</li><li>Contributing to visual systems and interaction details across digital design work.</li></ul>
           </article>
-          <article class="archive-row reveal">
-            <span class="archive-number">06</span>
-            <div class="archive-thumb"><img src="assets/images/FLOW.png" width="1200" height="800" alt="Giao diện FlowCRM" loading="lazy" decoding="async"></div>
-            <div class="archive-copy"><span>PRODUCT UX · B2B CRM</span><h3>FlowCRM</h3><p>Một case study tập trung vào user flow, screen structure và interaction trong bối cảnh CRM B2B.</p></div>
-            <a class="archive-link" href="case-study-ux.html">Case study ↗</a>
+          <article class="career-row">
+            <time>02 — 07 / 2025</time>
+            <div class="career-role"><h3>UI/UX Designer</h3><p>Tikera Technology and Brand Development Company · Ho Chi Minh City</p></div>
+            <ul><li>Translated product goals into clear user flows, screen structures and interface directions.</li><li>Worked with developers to clarify interaction behavior, states and handoff details.</li></ul>
           </article>
+          <article class="career-row">
+            <time>06 — 12 / 2025</time>
+            <div class="career-role"><h3>Intern UI/UX Designer</h3><p>Trésor Solution Company · Remote</p></div>
+            <ul><li>Supported wireframes, user flows and responsive interface iterations.</li><li>Helped structure screen behavior, edge cases and reusable patterns with the product team.</li></ul>
+          </article>
+        </div>
+
+        <div class="experience-rail reveal">
+          <div><span>TOOLS</span><p>Figma · HTML/CSS/JS · GitHub</p></div>
+          <div><span>EDUCATION</span><p>University of Science — HCMUS · Information Technology · 2021–2026</p></div>
+          <div><span>SECONDARY</span><p>Claude Bernard University Lyon 1 · Information Technology · 2021–2025</p></div>
         </div>
       </div>
     </section>
 
     <section class="contact section-pad" id="contact" aria-labelledby="contact-title">
       <div class="shell contact-grid">
-        <div class="section-label reveal"><span>05</span><span>LIÊN HỆ</span></div>
         <div class="contact-copy reveal">
-          <p class="kicker">MỘT SẢN PHẨM CẦN ĐƯỢC LÀM RÕ?</p>
-          <h2 id="contact-title">Bắt đầu bằng<br><em>một cuộc trao đổi.</em></h2>
-          <p>Nếu bạn đang tuyển UI/UX Designer hoặc có một bài toán product/web cần cấu trúc lại, hãy gửi cho tôi bối cảnh và điều bạn đang cố giải quyết.</p>
+          <p class="kicker"><span class="kicker-line" aria-hidden="true"></span>OPEN TO THE RIGHT CONVERSATION</p>
+          <h2 id="contact-title">Have a product that needs<br><em>more clarity, rhythm or point of view?</em></h2>
+          <p>If you are hiring a UI/UX Designer or shaping a product/web experience that needs stronger structure, send me the context and what you are trying to solve.</p>
           <a class="contact-email" href="mailto:anhnghia9a633@gmail.com">anhnghia9a633@gmail.com <span aria-hidden="true">↗</span></a>
         </div>
         <div class="contact-links reveal reveal-delay">
-          <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener"><span>CV</span><span>↗</span></a>
+          <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener"><span>Resume</span><span>↗</span></a>
           <a href="https://www.linkedin.com/in/ginan12/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><span>↗</span></a>
           <a href="https://github.com/Ngh1aa" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span>↗</span></a>
         </div>
@@ -205,6 +231,6 @@
     <div class="shell"><span>Do Anh Nghia · UI/UX Designer</span><span>© <span id="year">2026</span></span></div>
   </footer>
 
-  <script src="script.js?v=20260903-luxury-editorial-v1" defer></script>
+  <script src="script.js?v=20260904-art-directed-v1" defer></script>
 </body>
 </html>
