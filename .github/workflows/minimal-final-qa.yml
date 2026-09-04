@@ -1,0 +1,91 @@
+name: Minimal Portfolio Final QA
+
+on:
+  push:
+    branches:
+      - qa/minimal-white-final-20260904
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 4cdf70d1c55bb134ea111ad6a0c959504c4c2e85
+      - name: Static assertions
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "4cdf70d1c55bb134ea111ad6a0c959504c4c2e85"
+          grep -q -- '--bg: #ffffff' styles.css
+          grep -q -- '--accent: #111111' styles.css
+          grep -q -- '--sans: "Inter"' styles.css
+          grep -q 'width: min(100%, 880px)' styles.css
+          grep -q 'height: 100%' styles.css
+          grep -q 'aspect-ratio: 16 / 9' styles.css
+          grep -q 'family=Inter' index.html
+      - name: Start server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
+          echo $! > /tmp/http.pid
+          sleep 2
+      - name: Capture evidence
+        run: |
+          python3 -m pip install --quiet selenium
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          import json,time,os
+          os.makedirs('evidence/final/screens',exist_ok=True)
+          def driver(width=1440,height=1080):
+            o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-gpu'); o.add_argument(f'--window-size={width},{height}')
+            o.set_capability('goog:loggingPrefs', {'browser':'ALL'})
+            return webdriver.Chrome(options=o)
+          for w in (1280,1440,1920):
+            d=driver(w)
+            try:
+              d.get('http://127.0.0.1:4173/'); time.sleep(1)
+              d.save_screenshot(f'evidence/final/screens/home-{w}x1080.png')
+            finally:d.quit()
+          d=driver(1440)
+          out={}
+          try:
+            d.get('http://127.0.0.1:4173/'); time.sleep(1)
+            body=d.find_element(By.TAG_NAME,'body'); h1=d.find_element(By.TAG_NAME,'h1'); btn=d.find_element(By.CSS_SELECTOR,'.primary-link')
+            out['body_font']=d.execute_script('return getComputedStyle(arguments[0]).fontFamily',body)
+            out['heading_font']=d.execute_script('return getComputedStyle(arguments[0]).fontFamily',h1)
+            out['body_bg']=d.execute_script('return getComputedStyle(arguments[0]).backgroundColor',body)
+            out['button_bg']=d.execute_script('return getComputedStyle(arguments[0]).backgroundColor',btn)
+            out['overflow']=d.execute_script('return document.documentElement.scrollWidth > innerWidth')
+            out['console_severe']=[x for x in d.get_log('browser') if x.get('level')=='SEVERE']
+            thumbs=d.find_elements(By.CSS_SELECTOR,'.folio-media, .vas-preview')[:4]
+            out['thumbs']=[]
+            for i,el in enumerate(thumbs,1):
+              d.execute_script("arguments[0].scrollIntoView({block:'center'});",el); time.sleep(.25)
+              r=d.execute_script('const r=arguments[0].getBoundingClientRect(); return {w:r.width,h:r.height,left:r.left,top:r.top}',el)
+              out['thumbs'].append(r)
+              d.save_screenshot(f'evidence/final/screens/thumb-{i}-viewport.png')
+              el.screenshot(f'evidence/final/screens/thumb-{i}-element.png')
+            assert 'Inter' in out['body_font'] and 'Inter' in out['heading_font']
+            assert out['body_bg']=='rgb(255, 255, 255)'
+            assert out['button_bg']=='rgb(17, 17, 17)'
+            assert max(x['w'] for x in out['thumbs']) <= 881
+            assert max(x['h'] for x in out['thumbs']) <= 590
+            assert not out['overflow'] and not out['console_severe']
+          finally:d.quit()
+          open('evidence/final/runtime.json','w').write(json.dumps(out,indent=2,ensure_ascii=False))
+          for route in ['case-study-luxroom.html','case-study-vas-education.html','case-study-ux.html']:
+            d=driver(1440)
+            try:
+              d.get('http://127.0.0.1:4173/'+route); time.sleep(1)
+              d.save_screenshot('evidence/final/screens/'+route.replace('.html','')+'-1440x1080.png')
+            finally:d.quit()
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minimal-white-final-evidence
+          path: evidence/final
+          retention-days: 7
