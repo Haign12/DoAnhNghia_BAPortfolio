@@ -394,10 +394,10 @@ h1 em, h2 em { font-family: var(--serif); font-weight: 400; font-style: italic; 
   transform: translateY(-45%);
 }
 .hero-orbit-b {
-  width: 245px;
-  height: 520px;
-  right: 4%;
-  top: 10%;
+  width: 232px;
+  height: 496px;
+  right: 12%;
+  top: 11%;
   transform: rotate(24deg);
 }
 .hero-art::before,
