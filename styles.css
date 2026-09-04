@@ -322,7 +322,7 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 .folio-media,
 .vas-preview {
   position: relative;
-  width: min(100%, 1040px);
+  width: min(100%, 880px);
   margin-inline: auto;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -331,19 +331,21 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 }
 .folio-meta,
 .folio-caption {
-  width: min(100%, 1040px);
+  width: min(100%, 880px);
   margin-inline: auto;
 }
+.folio-media { aspect-ratio: 16 / 9; }
 .folio-media img {
   width: 100%;
-  aspect-ratio: 16 / 8.8;
+  height: 100%;
+  aspect-ratio: auto;
   object-fit: cover;
   transition: transform .55s var(--ease);
 }
 .folio-media:hover img { transform: scale(1.012); }
-.folio-media-tall { width: min(100%, 920px); margin-inline: auto; }
-.folio-media-tall img { aspect-ratio: 14 / 9.5; }
-.folio-media-wide { width: min(100%, 1040px); margin-inline: auto; }
+.folio-media-tall { width: min(100%, 780px); margin-inline: auto; aspect-ratio: 4 / 3; }
+.folio-media-tall img { aspect-ratio: auto; }
+.folio-media-wide { width: min(100%, 880px); margin-inline: auto; aspect-ratio: 16 / 9; }
 .folio-meta {
   display: flex;
   justify-content: space-between;
@@ -384,7 +386,8 @@ h1 em, h2 em, .more-work-title em, .contact-copy h2 em {
 }
 
 .vas-preview {
-  min-height: 430px;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
   padding: clamp(30px, 4vw, 58px);
   display: grid;
   grid-template-rows: auto 1fr auto;
