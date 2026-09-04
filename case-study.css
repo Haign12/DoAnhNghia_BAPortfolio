@@ -1,17 +1,17 @@
 :root {
-  --bg: #ffffff;
-  --surface: #ffffff;
+  --bg: #f7f6f2;
+  --surface: #fbfaf7;
   --text: #111111;
-  --muted: #666666;
-  --line: #e6e6e6;
-  --line-strong: #b8b8b8;
+  --muted: #6f6d67;
+  --line: rgba(17, 17, 17, .15);
+  --line-strong: rgba(17, 17, 17, .35);
   --accent-soft: #111111;
   --accent: #111111;
-  --inverse-bg: #ffffff;
-  --inverse-text: #111111;
-  --serif: "Inter", Arial, sans-serif;
-  --sans: "Inter", Arial, sans-serif;
-  --mono: "Inter", Arial, sans-serif;
+  --inverse-bg: #111111;
+  --inverse-text: #f5f3ec;
+  --serif: "Instrument Serif", Georgia, serif;
+  --sans: "DM Sans", Arial, sans-serif;
+  --mono: "DM Mono", ui-monospace, monospace;
   --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: light;
 }
@@ -19,14 +19,14 @@
 [data-theme="dark"] {
   --bg: #111111;
   --surface: #171717;
-  --text: #f5f5f5;
-  --muted: #b5b5b5;
-  --line: #303030;
-  --line-strong: #555555;
-  --accent-soft: #f5f5f5;
-  --accent: #f5f5f5;
-  --inverse-bg: #111111;
-  --inverse-text: #f5f5f5;
+  --text: #f5f3ec;
+  --muted: #aaa79f;
+  --line: rgba(245, 243, 236, .14);
+  --line-strong: rgba(245, 243, 236, .34);
+  --accent-soft: #f5f3ec;
+  --accent: #f5f3ec;
+  --inverse-bg: #f5f3ec;
+  --inverse-text: #111111;
   color-scheme: dark;
 }
 
@@ -162,7 +162,7 @@ button { font: inherit; }
   font-size: clamp(1.2rem, 1.7vw, 1.55rem);
   line-height: 1.58;
 }
-.case-thesis em { color: var(--text); font-family: var(--sans); font-weight: 600; font-style: normal; }
+.case-thesis em { color: var(--text); font-family: var(--serif); font-weight: 400; font-style: italic; }
 .case-cover { margin: 0; }
 .case-cover-frame {
   overflow: hidden;
@@ -260,7 +260,7 @@ button { font: inherit; }
   font-size: clamp(1.25rem, 1.9vw, 1.7rem);
   line-height: 1.55;
 }
-.change-thesis em { color: var(--text); font-family: var(--sans); font-weight: 600; font-style: normal; }
+.change-thesis em { color: var(--text); font-family: var(--serif); font-weight: 400; font-style: italic; }
 .vas-case-visual {
   min-height: 600px;
   position: relative;
@@ -305,7 +305,7 @@ button { font: inherit; }
 .vas-visual-copy { align-self: center; }
 .vas-visual-eyebrow { color: #e4c979; font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .vas-visual-copy strong { display: block; margin: 22px 0 28px; font-size: clamp(4.2rem, 7vw, 7.8rem); font-weight: 500; line-height: .84; letter-spacing: -.06em; }
-.vas-visual-copy strong em { color: #e4c979; font-family: var(--serif); font-weight: 500; }
+.vas-visual-copy strong em { color: #e4c979; font-family: var(--serif); font-weight: 400; font-style: italic; }
 .vas-visual-cta { display: inline-flex; gap: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(247,240,231,.54); font: 500 11px var(--mono); }
 .vas-visual-panel { min-height: 290px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(247,240,231,.35); background: rgba(71,13,19,.25); }
 .vas-panel-index,
