@@ -1,0 +1,39 @@
+name: Tighten Project Thumbnail Frames
+
+on:
+  push:
+    branches:
+      - qa/minimal-thumbnail-tighten-20260904
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: remediation/minimal-white-20260904
+          fetch-depth: 0
+      - name: Fix shared project thumbnail owner
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('styles.css')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('  width: min(100%, 1040px);\n  margin-inline: auto;\n  overflow: hidden;', '  width: min(100%, 880px);\n  margin-inline: auto;\n  overflow: hidden;', 1)
+          s=s.replace('  width: min(100%, 1040px);\n  margin-inline: auto;\n}\n.folio-media img {', '  width: min(100%, 880px);\n  margin-inline: auto;\n}\n.folio-media { aspect-ratio: 16 / 9; }\n.folio-media img {', 1)
+          s=s.replace('  width: 100%;\n  aspect-ratio: 16 / 8.8;\n  object-fit: cover;', '  width: 100%;\n  height: 100%;\n  aspect-ratio: auto;\n  object-fit: cover;', 1)
+          s=s.replace('.folio-media-tall { width: min(100%, 920px); margin-inline: auto; }\n.folio-media-tall img { aspect-ratio: 14 / 9.5; }', '.folio-media-tall { width: min(100%, 780px); margin-inline: auto; aspect-ratio: 4 / 3; }\n.folio-media-tall img { aspect-ratio: auto; }')
+          s=s.replace('.folio-media-wide { width: min(100%, 1040px); margin-inline: auto; }', '.folio-media-wide { width: min(100%, 880px); margin-inline: auto; aspect-ratio: 16 / 9; }')
+          s=s.replace('  min-height: 430px;\n', '  min-height: 0;\n  aspect-ratio: 16 / 9;\n', 1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'Nghĩaaaa'
+          git config user.email '93433772+Haign12@users.noreply.github.com'
+          git add styles.css
+          git commit -m 'style: apply monochrome minimal portfolio system'
+          git push origin HEAD:remediation/minimal-white-20260904
