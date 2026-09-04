@@ -1,0 +1,77 @@
+name: Art Directed Case Regression
+
+on:
+  push:
+    branches:
+      - qa/art-directed-cases-20260904
+
+permissions:
+  contents: read
+
+jobs:
+  cases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: e02c86838fe26bf588a41e5a1e3d386ff1f3b4bc
+      - run: python3 -m pip install --quiet selenium
+      - run: |
+          python3 -m http.server 4173 > /tmp/server.log 2>&1 &
+          sleep 2
+      - name: Verify all supporting case routes
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          import json, os, time
+
+          base='http://127.0.0.1:4173/'
+          out='evidence/art-directed-cases'
+          os.makedirs(out,exist_ok=True)
+          routes={
+            'luxroom':'case-study-luxroom.html',
+            'atelier':'case-study-atelier.html',
+            'studioos':'case-study-studioos.html',
+            'vas':'case-study-vas-education.html',
+            'flowcrm':'case-study-ux.html'
+          }
+          results={}
+          def make():
+              o=Options()
+              for a in ('--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--force-device-scale-factor=1'):
+                  o.add_argument(a)
+              o.add_argument('--window-size=1440,1080')
+              o.set_capability('goog:loggingPrefs',{'browser':'ALL'})
+              return webdriver.Chrome(options=o)
+          for name,path in routes.items():
+              d=make()
+              try:
+                  d.get(base+path); time.sleep(1.1)
+                  d.save_screenshot(f'{out}/{name}-1440x1080.png')
+                  checks={
+                    'body_font':d.execute_script('return getComputedStyle(document.body).fontFamily'),
+                    'mono_elements':d.execute_script('return [...document.querySelectorAll("body *")].filter(el=>getComputedStyle(el).fontFamily.includes("DM Mono")).length'),
+                    'serif_elements':d.execute_script('return [...document.querySelectorAll("body *")].filter(el=>getComputedStyle(el).fontFamily.includes("Instrument Serif")).length'),
+                    'overflow':d.execute_script('return document.documentElement.scrollWidth>document.documentElement.clientWidth'),
+                    'broken_images':d.execute_script('return [...document.images].filter(i=>i.complete&&i.naturalWidth===0).map(i=>i.src)'),
+                    'severe_console':[x for x in d.get_log('browser') if x.get('level')=='SEVERE']
+                  }
+                  results[name]=checks
+                  assert 'DM Sans' in checks['body_font']
+                  assert checks['mono_elements']>0
+                  assert checks['overflow'] is False
+                  assert checks['broken_images']==[]
+                  assert checks['severe_console']==[]
+              finally:
+                  d.quit()
+          with open(f'{out}/cases.json','w') as f: json.dump(results,f,indent=2)
+          print(json.dumps(results,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: art-directed-case-regression-evidence
+          path: evidence/art-directed-cases
+          retention-days: 7
