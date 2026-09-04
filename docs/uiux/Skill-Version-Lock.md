@@ -6,16 +6,14 @@
 - Locked commit SHA: `e74849fd23ddb2fa062bb0e1e1101c84b6cfc1c0`
 - Commit message: `feat: gate perceived crop consistency`
 - Commit timestamp: 2026-09-01T16:50:25Z
-- Checked on: **2026-09-03**
-- Phase branch: `phase1/luxury-minimalism-research-20260903`
-- Baseline project SHA: `2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`
+- Checked on: **2026-09-04**
+- Current phase branch: `remediation/css-ux-project-groups-motion-20260904`
+- Current phase baseline project SHA: `86e71679a8e709d95882250f753a8ff2d56bbd60`
 
 ## Lock policy
-
 All subsequent phases for this redesign must use the same immutable skills commit unless a conflict/migration review is recorded in `Decision-Log.md` and this file is intentionally updated.
 
 ## Minimum startup files read
-
 - `README.md`
 - `SKILL-CATALOG.md`
 - `website-delivery-pipeline/SKILL.md`
@@ -23,7 +21,6 @@ All subsequent phases for this redesign must use the same immutable skills commi
 - `project-context/SKILL.md`
 
 ## Phase 1 routed skills read and applied
-
 - `website-audit-and-redesign/SKILL.md`
 - `portfolio-website/SKILL.md`
 - `audience-intent-and-top-tasks/SKILL.md`
@@ -37,5 +34,18 @@ All subsequent phases for this redesign must use the same immutable skills commi
 - `responsive-and-device-strategy/SKILL.md`
 - `accessibility/SKILL.md`
 - `testing-strategy/SKILL.md`
+
+## 2026-09-04 Home UI remediation routed skills read and applied
+- `ui-improvement/SKILL.md`
+- `portfolio-website/SKILL.md`
+- `ui-craft-and-visual-qa/SKILL.md`
+- `asset-media-and-art-direction/SKILL.md`
+- `motion-and-microinteractions/SKILL.md`
+- `responsive-and-device-strategy/SKILL.md`
+- `design-reference-research-and-benchmark/SKILL.md`
+- `frontend-implementation/SKILL.md`
+- `ai-agent-coding-guardrails/SKILL.md`
+
+The immutable V5 SHA did **not** change. Only the check date, phase baseline and routed-skill record were updated.
 
 Status: **LOCKED**
