@@ -1,0 +1,125 @@
+name: Post-main Production Smoke
+
+on:
+  push:
+    branches:
+      - qa/post-main-smoke-20260904
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install browser smoke dependency
+        run: python3 -m pip install --quiet selenium
+
+      - name: Render and inspect production
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          import json, os, time
+
+          base='https://haign12.github.io/DoAnhNghia_BAPortfolio/'
+          outdir='evidence/post-main-smoke'
+          os.makedirs(outdir, exist_ok=True)
+          routes={
+            'home':'',
+            'luxroom':'case-study-luxroom.html',
+            'vas':'case-study-vas-education.html',
+            'flowcrm':'case-study-ux.html',
+          }
+          results={'base':base,'routes':{},'checks':{}}
+
+          def driver(width, height=1080):
+            o=Options()
+            o.add_argument('--headless=new')
+            o.add_argument('--no-sandbox')
+            o.add_argument('--disable-gpu')
+            o.add_argument('--hide-scrollbars')
+            o.add_argument(f'--window-size={width},{height}')
+            o.set_capability('goog:loggingPrefs', {'browser':'ALL'})
+            return webdriver.Chrome(options=o)
+
+          # Required desktop widths on Home
+          for width in (1280,1440,1920):
+            d=driver(width)
+            try:
+              d.get(base)
+              time.sleep(2)
+              d.save_screenshot(f'{outdir}/home-{width}x1080.png')
+              body=d.find_element(By.TAG_NAME,'body')
+              h1=d.find_element(By.TAG_NAME,'h1')
+              btn=d.find_element(By.CSS_SELECTOR,'.primary-link')
+              checks={
+                'url':d.current_url,
+                'title':d.title,
+                'body_font':d.execute_script('return getComputedStyle(arguments[0]).fontFamily', body),
+                'heading_font':d.execute_script('return getComputedStyle(arguments[0]).fontFamily', h1),
+                'body_bg':d.execute_script('return getComputedStyle(arguments[0]).backgroundColor', body),
+                'button_bg':d.execute_script('return getComputedStyle(arguments[0]).backgroundColor', btn),
+                'has_minimal_stylesheet':d.execute_script("return !!document.querySelector('link[href*=\"styles.css?v=20260904-minimal-v1\"]')"),
+                'overflow_x':d.execute_script('return document.documentElement.scrollWidth > document.documentElement.clientWidth'),
+                'broken_images':d.execute_script('return [...document.images].filter(i => i.complete && i.naturalWidth===0).map(i=>i.src)'),
+                'severe_console': [x for x in d.get_log('browser') if x.get('level')=='SEVERE'],
+              }
+              results['routes'][f'home-{width}']=checks
+              assert 'Inter' in checks['body_font']
+              assert 'Inter' in checks['heading_font']
+              assert checks['body_bg']=='rgb(255, 255, 255)'
+              assert checks['button_bg']=='rgb(17, 17, 17)'
+              assert checks['has_minimal_stylesheet'] is True
+              assert checks['overflow_x'] is False
+              assert checks['broken_images']==[]
+              assert checks['severe_console']==[]
+            finally:
+              d.quit()
+
+          # Representative page families at 1440
+          for name,path in routes.items():
+            if name=='home':
+              continue
+            d=driver(1440)
+            try:
+              d.get(base+path)
+              time.sleep(2)
+              d.save_screenshot(f'{outdir}/{name}-1440x1080.png')
+              body=d.find_element(By.TAG_NAME,'body')
+              checks={
+                'url':d.current_url,
+                'title':d.title,
+                'body_font':d.execute_script('return getComputedStyle(arguments[0]).fontFamily', body),
+                'body_bg':d.execute_script('return getComputedStyle(arguments[0]).backgroundColor', body),
+                'has_case_minimal_stylesheet':d.execute_script("return !!document.querySelector('link[href*=\"case-study.css?v=20260904-minimal-v1\"]')"),
+                'overflow_x':d.execute_script('return document.documentElement.scrollWidth > document.documentElement.clientWidth'),
+                'broken_images':d.execute_script('return [...document.images].filter(i => i.complete && i.naturalWidth===0).map(i=>i.src)'),
+                'severe_console': [x for x in d.get_log('browser') if x.get('level')=='SEVERE'],
+              }
+              results['routes'][name]=checks
+              assert 'Inter' in checks['body_font']
+              assert checks['body_bg']=='rgb(255, 255, 255)'
+              assert checks['has_case_minimal_stylesheet'] is True
+              assert checks['overflow_x'] is False
+              assert checks['broken_images']==[]
+              assert checks['severe_console']==[]
+            finally:
+              d.quit()
+
+          with open(f'{outdir}/smoke.json','w',encoding='utf-8') as f:
+            json.dump(results,f,ensure_ascii=False,indent=2)
+          print(json.dumps(results, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload production smoke evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-main-production-smoke
+          path: evidence/post-main-smoke
+          retention-days: 7
