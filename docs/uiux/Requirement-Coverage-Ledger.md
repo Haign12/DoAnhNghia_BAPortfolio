@@ -25,7 +25,7 @@ Phase 1: PASSED, UNACCOUNTED=0, BLOCKED=0. Detailed evidence remains in `Phase-1
 | P2-014 | Desktop-only Chromium 1280/1440/1920 | DONE_VERIFIED | final representative evidence |
 | P2-015 | Mobile/tablet redesign | N/A_JUSTIFIED | explicitly excluded scope |
 | P2-016 | Truthful System Reality; no fake form/backend/success | DONE_VERIFIED | `System-Reality-and-Data-Contracts.md` |
-| P2-017 | Keyboard/focus/reduced-motion baseline | DONE_VERIFIED | source checks + rendered UI baseline; no formal WCAG claim |
+| P2-017 | Keyboard/focus/reduced-motion baseline | DONE_VERIFIED | source checks + rendered UI baseline; no formal conformance claim |
 | P2-018 | Preserve URLs/canonicals and repair sitemap coverage | DONE_VERIFIED | `sitemap.xml` includes VAS/all local case routes |
 | P2-019 | Two-stage spec + code/experience review | DONE_VERIFIED | `Verification-Matrix.md` |
 | P2-020 | No merge/deploy/release | DONE_VERIFIED | safe branch only; `release_authorization=no_release` |
@@ -69,3 +69,31 @@ Phase 1: PASSED, UNACCOUNTED=0, BLOCKED=0. Detailed evidence remains in `Phase-1
 - BLOCKED: **0**
 - UNACCOUNTED: **0**
 - P0/P1/material-P2 remaining: **0 / 0 / 0**
+
+## Home UI Remediation + Release — 2026-09-04
+
+| ID | Requirement | Status | Evidence |
+|---|---|---|---|
+| HUI-001 | Use locked `Ngh1aa/skills_UIUX` V5 without changing the locked SHA | DONE_VERIFIED | `Skill-Version-Lock.md` remains `e74849fd23ddb2fa062bb0e1e1101c84b6cfc1c0` |
+| HUI-002 | Fix Hero portrait/evidence-plate overlap and unreasonable crop at desktop pressure states | DONE_VERIFIED | Chromium final run `33849430138`; Hero 1280×720 / 1881×782 / 1920 inspected |
+| HUI-003 | Correct heading/font size hierarchy and keep Contact/email inside the safe canvas | DONE_VERIFIED | final run `33849430138`; Practice/Experience/Contact 1268×642 and 1440 inspected |
+| HUI-004 | Split projects into self-initiated original concepts and website redesigns | DONE_VERIFIED | Work DOM labels + row counts `[4,2]`; Work 1440 capture |
+| HUI-005 | Add moving text/image animation without blocking browsing | DONE_VERIFIED | one-pass reveal/rail implementation; final rendered inspection |
+| HUI-006 | Preserve reduced-motion behavior and content visibility | DONE_VERIFIED | `prefers-reduced-motion` runtime check in final QA |
+| HUI-007 | Preserve direct links and keyboard/focus project preview parity | DONE_VERIFIED | Capital Place keyboard-focus preview check |
+| HUI-008 | No horizontal overflow or severe console regression across declared/pressure widths | DONE_VERIFIED | 37/37 final Chromium checks passed; failed=0 |
+| HUI-009 | Remove temporary remediation and QA helper files before release | DONE_VERIFIED | final pre-merge compare contains only `index.html`, `styles.css` and persistent `docs/uiux/*` artifacts |
+| HUI-010 | Final candidate review has no P0/P1 visual blocker | DONE_VERIFIED | `UI-Improvement-20260904.md`; P0=0, P1=0 |
+| HUI-011 | Merge verified remediation to `main` under standing authorization | DONE_VERIFIED | PR #2 merged; merge commit `88428efe27db823d62e0ca3823edb4aa9fbf1aa7` |
+| HUI-012 | GitHub Pages build and deployment for merged UI succeeds | DONE_VERIFIED | Pages run `33850230370`; build/report/deploy all `success` |
+| HUI-013 | Mobile/tablet redesign | N/A_JUSTIFIED | active project scope remains desktop-only |
+
+### Home UI remediation accounting
+- Total: **13**
+- DONE_VERIFIED: **12**
+- N/A_JUSTIFIED: **1**
+- BLOCKED: **0**
+- UNACCOUNTED: **0**
+- P0/P1 remaining: **0 / 0**
+
+**HOME UI REMEDIATION + RELEASE RESULT = PASSED**
