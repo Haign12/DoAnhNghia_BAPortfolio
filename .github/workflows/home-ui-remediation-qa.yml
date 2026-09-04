@@ -6,6 +6,7 @@ on:
       - remediation/css-ux-project-groups-motion-20260904
     paths:
       - .github/workflows/home-ui-remediation-qa.yml
+      - tools/home_ui_qa.mjs
 
 permissions:
   contents: write
@@ -20,8 +21,13 @@ jobs:
           ref: remediation/css-ux-project-groups-motion-20260904
           fetch-depth: 0
 
-      - name: Apply deterministic Home remediation
-        run: python3 tools/apply_home_ui_remediation.py
+      - name: Apply deterministic Home remediation when needed
+        run: |
+          if grep -q "20260904-ui-remediation-v2" index.html; then
+            echo "Implementation marker already present; keeping the current candidate."
+          else
+            python3 tools/apply_home_ui_remediation.py
+          fi
 
       - name: Verify patch cleanliness
         run: git diff --check
