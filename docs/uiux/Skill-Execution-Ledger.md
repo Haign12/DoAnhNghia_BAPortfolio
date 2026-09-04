@@ -25,3 +25,16 @@ Phase 1 usage remains evidenced in prior artifacts. The following Phase 2 skills
 - Personal-project-specific redesign specialists: not required after current user clarified the goal is the portfolio interface.
 
 Every Phase 2 USED entry above has code/artifact/evidence impact; no skill is credited by name alone.
+
+## Minimalism Remediation — 2026-09-04
+
+| Skill | Trigger | Requirement applied | Material impact | Verification / evidence |
+|---|---|---|---|---|
+| `ui-improvement` | user requested visual cleanup of an existing implemented portfolio | inspect actual source first; preserve behavior; repair root owner instead of patching individual pages | visual changes stay in shared `styles.css` / `case-study.css`; project content and routes preserved | source diff + final rendered inspection |
+| `design-reference-research-and-benchmark` | user explicitly requested web research + minimalism direction | references have explicit roles; production/gallery references do not prove conversion; transfer principles rather than clone layouts | web examples treated as `MOOD_REFERENCE`; extracted monochrome/grid/type/whitespace principles only | `Minimalism-Remediation-Contract.md` + cited web sources |
+| `design-system-and-components` | color/type/media rules change site-wide | modify semantic tokens/shared owners rather than scattering raw per-page overrides | white/#111/Inter shared token layer across Home + cases; project-native evidence color remains content | computed styles + source inspection |
+| `frontend-implementation` | implement approved visual remediation in static HTML/CSS | reuse current architecture; keep semantic content/interaction/URLs; no framework/dependency migration | Inter font imports, cache-bust CSS references, shared thumbnail frame behavior | exact candidate source + browser smoke |
+| `ui-craft-and-visual-qa` | user explicitly identified thumbnail scale problem | actual rendered pixels required; media sizing/crop/cross-page regression must be inspected | first 1040px attempt rejected after direct inspection; root frame tightened to 880px/780px and fixed aspect ratios | final run `33840185528`, artifact `9924644190`, Home 1280/1440/1920 + four thumbnails + case reps directly inspected |
+
+### Material skill impact
+The most consequential QA decision was to **reject the first 1040px thumbnail implementation despite green automated checks**. Direct screenshot inspection showed it still dominated the 1440px viewport and StudioOS remained excessively tall; the media owner was corrected and re-rendered before the candidate was accepted.
