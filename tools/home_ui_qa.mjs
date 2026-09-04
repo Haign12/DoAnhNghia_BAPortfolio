@@ -48,6 +48,9 @@ const matrices = [
   { name: 'hero-pressure-1881x782', width: 1881, height: 782, section: '.hero' },
   { name: 'hero-pressure-1280x720', width: 1280, height: 720, section: '.hero' },
   { name: 'work-1440x1080', width: 1440, height: 1080, section: '#work' },
+  { name: 'practice-1440x900', width: 1440, height: 900, section: '.practice' },
+  { name: 'experience-1440x900', width: 1440, height: 900, section: '#experience' },
+  { name: 'motion-rail-1440x600', width: 1440, height: 600, section: '.motion-rail' },
   { name: 'contact-pressure-1268x642', width: 1268, height: 642, section: '#contact' },
   { name: 'contact-1440x900', width: 1440, height: 900, section: '#contact' },
 ];
