@@ -73,3 +73,9 @@ Screenshots must be opened/inspected. Source/build checks do not substitute visu
 - Decision: current user instruction wins. Restore the OLD typography logic (`DM Sans + Instrument Serif + DM Mono`) and English primary Home chrome/headline, then redesign Selected Work into an exploratory project index while retaining recruiter clarity, direct links, project-native media and proof-first order.
 - Reference evidence: `Design-Reference-Benchmark-Art-Directed.md`; references are labelled `MOOD_REFERENCE` / `CASE_STUDY` where appropriate and are not treated as UX/conversion proof.
 - Implementation boundary: individual personal-project product UX remains outside redesign depth; only shared portfolio presentation and route integrity are in scope.
+
+## D-019 — Standing authorization to update `main`
+- FACT: user explicitly instructed: “từ nay về sau tự động cập nhật lên main”.
+- Decision: for this Project, a candidate that has completed the applicable QA/release gate may be merged/updated to `main` automatically without asking for a second release confirmation.
+- Safety boundary: this standing authorization does not permit bypassing P0/P1 blockers, destructive history rewrite, force-push rollback, or shipping an unverified candidate. A later explicit “không release / không cập nhật main” instruction overrides this standing rule for that task.
+- Immediate impact: the current art-directed candidate is authorized for release after the release-readiness check and production smoke.
