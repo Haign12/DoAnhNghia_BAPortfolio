@@ -131,7 +131,7 @@ for (const item of matrices) {
   if (item.section) {
     const locator = page.locator(item.section);
     await locator.scrollIntoViewIfNeeded();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(1100);
     await locator.screenshot({ path: file });
   } else {
     await page.screenshot({ path: file, fullPage: Boolean(item.fullPage) });
@@ -145,7 +145,7 @@ for (const item of matrices) {
   const { context, page, severe } = await openPage({ width: 1440, height: 1080 });
   const capital = page.locator('.project-row[data-project="Capital Place"]');
   await capital.focus();
-  await page.waitForTimeout(230);
+  await page.waitForTimeout(1050);
   const title = (await page.locator('#projectPreviewTitle').textContent())?.trim();
   record('keyboard focus updates Capital Place preview', title === 'Capital Place', { title });
   record('keyboard preview check has no severe console error', severe.length === 0, severe);
