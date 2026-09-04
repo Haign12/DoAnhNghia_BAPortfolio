@@ -1,0 +1,52 @@
+name: Minimal Thumbnail Inspect
+
+on:
+  push:
+    branches:
+      - qa/minimal-white-thumbnail-20260904
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 95bcfc123bc76437ca6817d64a8c4fcbd1fa9427
+      - name: Start server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
+          echo $! > /tmp/http.pid
+          sleep 2
+      - name: Capture project thumbnails
+        run: |
+          python3 -m pip install --quiet selenium
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          import json,time,os
+          o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-gpu'); o.add_argument('--window-size=1440,1080')
+          d=webdriver.Chrome(options=o)
+          os.makedirs('evidence/thumbs',exist_ok=True)
+          out=[]
+          try:
+            d.get('http://127.0.0.1:4173/'); time.sleep(1)
+            items=d.find_elements(By.CSS_SELECTOR,'.folio-media, .vas-preview')
+            for i,el in enumerate(items[:4],1):
+              d.execute_script("arguments[0].scrollIntoView({block:'center'});",el); time.sleep(.3)
+              r=d.execute_script('const r=arguments[0].getBoundingClientRect(); return {w:r.width,h:r.height,left:r.left,top:r.top}',el)
+              out.append({'index':i,**r})
+              d.save_screenshot(f'evidence/thumbs/project-{i}-viewport.png')
+              el.screenshot(f'evidence/thumbs/project-{i}-element.png')
+          finally:
+            d.quit()
+          open('evidence/thumbs/geometry.json','w').write(json.dumps(out,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minimal-thumbnail-evidence
+          path: evidence/thumbs
+          retention-days: 7
