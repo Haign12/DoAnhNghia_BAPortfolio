@@ -1,29 +1,76 @@
 # Production Smoke Evidence
 
 ## Status
-**BLOCKED — NOT RUN**
-
-Production smoke is mandatory only after an authorized production-changing action. No such action is currently authorized.
+**DONE_VERIFIED**
 
 ## Production URL
 `https://haign12.github.io/DoAnhNghia_BAPortfolio/`
 
-## Pre-release baseline already known
-Prior evidence showed production/main still on the OLD baseline before release. That evidence must not be reused as proof of a successful new deployment.
+## Released identity
+- `main`: `aef6a7c7299e607058fb6e84aaa86062553194f1`
+- GitHub Pages deploy run: `33837927222` — success
+- Production smoke run: `33838057673` — success
+- Artifact: `9923950707` / `phase4-production-smoke`
+- Digest: `sha256:0f95d439ced33da7c88a8e430dd8d8a51f6574b8bbbef436424601084aefa0ae`
 
-## Required post-deploy smoke when authorized
-1. Confirm production source/version corresponds to the released commit/merge result.
-2. Open Home in Chromium at 1280×1080, 1440×1080 and 1920×1080.
-3. Render/inspect representative supporting routes at 1440.
-4. Verify Work navigation, CV and `mailto:` contact handoff.
-5. Verify theme and reduced-motion behavior.
-6. Verify nav is exposed to accessibility tree and focus-visible remains usable.
-7. Verify stylesheet/font/image/media resources load without 404/mixed-content/network failure.
-8. Capture console severe errors and critical network failures.
-9. Verify `robots.txt` and `sitemap.xml`, including VAS sitemap entry.
-10. Compare production pixels to the Final-QA candidate evidence; any material mismatch = FAIL.
+## Version identity
+Production returned the expected NEW markers immediately during smoke:
+- `<html lang="vi">`;
+- redesigned Vietnamese Home heading;
+- VAS entry present in production sitemap.
 
-## Pass condition
-Production smoke can become DONE_VERIFIED only when an authorized deploy/update has occurred and all applicable checks above have been rendered/inspected on the real production URL.
+`main` itself resolves to the exact Final-QA commit, so release source identity is preserved.
 
-No production-verified claim is made at this time.
+## Rendered production evidence inspected
+### Home
+- 1280×1080 — inspected, no material overflow/crop/hierarchy regression.
+- 1440×1080 — inspected, no material overflow/crop/hierarchy regression.
+- 1920×1080 — inspected, no material overflow/crop/hierarchy regression.
+
+The proof-first editorial Home, portrait, CTA group and beginning of Selected Work remain visually stable across the declared desktop matrix.
+
+### Supporting routes at 1440×1080
+Opened/inspected:
+- LuxRoom
+- Atelier
+- StudioOS
+- VAS Education
+- FlowCRM
+
+No material shared-shell break, unexpected clipping or legacy layout regression was observed.
+
+## Runtime smoke
+Selenium result on production:
+- `lang = vi`
+- desktop nav `aria-hidden = false`
+- `mailto` present
+- CV links present
+- theme transition `light->dark`
+- keyboard Tab activates an anchor
+- reduced-motion media query = true
+- captured severe console errors = 0
+
+## Route / asset smoke
+HTTP 200 verified for:
+- Home
+- five local case-study routes
+- CV PDF
+- `robots.txt`
+- `sitemap.xml`
+- `styles.css`
+- `script.js`
+- `assets/images/avatar.webp`
+
+## SEO / system reality
+- VAS is present in production sitemap.
+- No URL migration was introduced.
+- Site remains STATIC; email/external links remain REAL browser handoffs.
+- No form/API/auth/payment/analytics integration was added or falsely claimed.
+
+## Accessibility / performance boundary
+This smoke verifies runtime semantics/signals relevant to release, but does not claim formal WCAG conformance. No field CWV claim is made.
+
+## Result
+P0 = 0; P1 = 0; material P2 = 0.
+
+**PRODUCTION SMOKE = PASSED**
