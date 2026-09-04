@@ -79,3 +79,28 @@ Screenshots must be opened/inspected. Source/build checks do not substitute visu
 - Decision: for this Project, a candidate that has completed the applicable QA/release gate may be merged/updated to `main` automatically without asking for a second release confirmation.
 - Safety boundary: this standing authorization does not permit bypassing P0/P1 blockers, destructive history rewrite, force-push rollback, or shipping an unverified candidate. A later explicit “không release / không cập nhật main” instruction overrides this standing rule for that task.
 - Immediate impact: the current art-directed candidate is authorized for release after the release-readiness check and production smoke.
+
+## D-020 — Latest user screenshot feedback overrides oversized Contact/Hero composition, not the art-directed identity
+- FACT: the 2026-09-04 user screenshots explicitly identify the portrait/evidence-plate bleed, unreasonable crop/overlap, incorrect font sizing/hierarchy and oversized Contact display/email as defects.
+- Conflict: `Art-Directed-Discovery-Contract.md` previously allowed an intentionally oversized editorial Contact close.
+- Decision: current user feedback wins on **scale and containment**. Preserve `DM Sans + Instrument Serif + DM Mono`, English copy, asymmetry and evidence-plate language, but reduce/contain Hero and Contact typography/media so the composition stays inside the safe canvas at short desktop heights.
+- Implementation evidence: viewport-height-aware `.hero-art`, portrait source-ratio frame, smaller note card, rebalanced H1/H2/contact/email scales.
+- Verification: final run `33849430138`; Hero 1280×720 / 1881×782 / 1920 top and Contact 1268×642 / 1440×900 directly inspected.
+
+## D-021 — Portfolio projects use two explicit recruiter-facing tracks
+- FACT: latest user request explicitly requires personal projects to be divided into self-designed original ideas and website redesigns.
+- Decision: `A / ORIGINAL CONCEPTS` contains LuxRoom, Atelier, StudioOS and FlowCRM; `B / WEBSITE REDESIGNS` contains VAS Education and Capital Place. VAS live concept remains `LIVE / SUPPORTING` rather than a duplicate project row.
+- Rationale: keeps all current work reachable while making the type of authorship/problem visible before opening a case.
+- Evidence: final Work 1440 capture + DOM row counts `[4,2]`; keyboard focus on Capital Place updates the preview.
+
+## D-022 — Moving text/image animation is one-pass and non-essential
+- FACT: user explicitly asked for running text and image animation.
+- Constraint: the active visual signature rejects continuous decorative loops, and `prefers-reduced-motion` is mandatory.
+- Decision: add one-time line/portrait reveals and a thin running-type rail that begins on intersection and runs once. Keep project preview transitions on existing pointer/focus behavior; do not add a motion dependency.
+- Reduced-motion decision: disable the rail/reveal travel while preserving all content and the portrait's required layout transform.
+- Verification: final run `33849430138`; reduced-motion state passed and was directly inspected.
+
+## D-023 — Stable post-animation screenshots are the visual QA evidence
+- FACT: QA run 1 passed automated geometry checks but its below-fold section screenshots were captured ~100ms after scrolling and therefore showed reveal transitions mid-state.
+- Decision: those screenshots are not accepted as final visual evidence. Update the harness to wait for the intended reveal transition to settle, recapture, open/inspect the final states, and extend coverage to Practice/Experience/motion rail.
+- Evidence: final run `33849430138`, artifact `9927779919`, 37/37 checks passed; P0/P1 = 0 after direct inspection.
