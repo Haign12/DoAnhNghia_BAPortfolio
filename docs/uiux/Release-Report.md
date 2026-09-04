@@ -1,34 +1,62 @@
 # Release Report — Phase 4
 
 ## Result
-**BLOCKED**
+**PASSED**
 
-## Reason
-Release authorization was not explicitly supplied in the current Phase 4 request. The prompt contains the placeholder `[create_pr_only | merge_only | merge_and_deploy]`, while the previously effective authority was `no_release`.
+## Authorization and action
+Latest user instruction explicitly authorized updating the accepted release candidate onto `main`. This was treated as `merge_only` authority.
 
-Under the supplied release rules, no action beyond current authority is allowed. Therefore:
-- PR creation: NOT_PERFORMED;
-- merge: NOT_PERFORMED;
-- deploy: NOT_PERFORMED;
-- production version change: NOT_PERFORMED.
+Performed:
+- non-force fast-forward of `main`;
+- from `2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`;
+- to exact Final-QA commit `aef6a7c7299e607058fb6e84aaa86062553194f1`.
 
-## Pre-release evidence completed
-- Phase 3 Final QA: PASSED.
-- Exact release candidate: `aef6a7c7299e607058fb6e84aaa86062553194f1`.
-- Candidate vs main: 49 commits ahead, 0 behind.
-- Current main: `2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`.
+Not performed:
+- no force push/reset;
+- no manual deployment command;
+- no unrelated source edit after the Final-QA commit.
+
+## Protection / checks
 - Branch protection: disabled.
 - Repository rulesets: none.
-- Matching PR: none found.
-- Candidate P0/P1/material P2: 0.
-- BLOCKED/UNACCOUNTED in Phase 3: 0/0.
-- Env/secrets/migrations: N/A_JUSTIFIED for static site.
-- Rollback plan: prepared.
+- Required status checks: none configured.
+- Final-QA evidence existed independently for the exact release commit.
 
-## Required next authority
-Provide exactly one value:
-`create_pr_only`, `merge_only`, or `merge_and_deploy`.
+## Automatic GitHub Pages deployment
+The `main` update automatically triggered GitHub Pages.
+- Pages workflow run: `33837927222`
+- Head: `aef6a7c7299e607058fb6e84aaa86062553194f1`
+- Conclusion: success
 
-After authority is explicit, continue from this exact candidate. If the candidate SHA changes, Phase 3 Final QA must be reopened for the new SHA before release.
+## Production verification
+Production smoke was executed because production changed automatically.
+- Run: `33838057673`
+- Artifact: `9923950707`
+- Digest: `sha256:0f95d439ced33da7c88a8e430dd8d8a51f6574b8bbbef436424601084aefa0ae`
 
-**FINAL RESULT = BLOCKED**
+Verified on real production URL:
+- expected Vietnamese Home identity present;
+- Home screenshots rendered at 1280/1440/1920 and opened/inspected;
+- five supporting case routes rendered at 1440 and opened/inspected;
+- Home, five cases, CV, robots, sitemap, CSS, JS and avatar asset return HTTP 200;
+- VAS exists in production sitemap;
+- desktop nav runtime `aria-hidden=false`;
+- theme changes `light->dark`;
+- reduced-motion preference detected;
+- keyboard Tab reaches an interactive element;
+- no captured severe browser console errors.
+
+## System reality
+The release remains a static portfolio. `mailto:` and external links are browser handoffs; no form/backend/auth/payment/API/analytics success claim was introduced.
+
+## Rollback
+Primary rollback target is the previous production source `2c7c6ee7cbe82be98c42257854ca28a725e7ba8b`, using safe revert/platform recovery rather than force reset.
+
+## Remaining defects
+- P0: 0
+- P1: 0
+- material P2: 0
+- BLOCKED: 0
+- UNACCOUNTED: 0
+
+**FINAL RESULT = PASSED**
