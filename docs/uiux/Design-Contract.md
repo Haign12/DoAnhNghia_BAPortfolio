@@ -1,7 +1,9 @@
-# Design Contract — Luxury Minimal Portfolio Redesign
+# Design Contract — Portfolio Redesign
 
-Status: **APPROVED FOR PHASE 2 IMPLEMENTATION**
+Status: **APPROVED — CURRENT VISUAL LAYER: STRICT MINIMALISM**
 Phase 1 evidence gate: **PASSED** — see `Old-Baseline.md`, `Media-Contract.md`, `Requirement-Coverage-Ledger.md`, and `Phase-1-Handoff.md`.
+
+Current visual addendum: the 2026-09-04 user directive supersedes the earlier warm-ivory / serif-display / bronze-accent layer. See `Minimalism-Remediation-Contract.md` and Decision Log D-015–D-017. Structural hierarchy, content priority, routes, page roles and system reality below remain in force.
 
 ## 1. Owner / business goal
 
@@ -34,7 +36,7 @@ No page should require consuming an About narrative before reaching work proof.
 - useful project media;
 - honest limitation language;
 - semantic HTML/focus/reduced-motion intent;
-- existing font families as first reuse candidates.
+- current proof-first journey and page-role differentiation.
 
 ### Change
 - proof order and homepage silhouette;
@@ -43,22 +45,25 @@ No page should require consuming an About narrative before reaching work proof.
 - pill/card/grid/orbit/marquee dominance;
 - FlowCRM visual drift;
 - Vietnamese primary content alignment;
-- sitemap coverage for VAS.
+- sitemap coverage for VAS;
+- current visual-system layer to strict monochrome minimalism;
+- oversized Home project thumbnails.
 
 ## 5. Brand / visual roles
-Brand Source Status C: logo asset exists, no official guideline. Visual system is **PROPOSED_FOR_DIGITAL**:
-- warm ivory/paper canvas;
-- near-black ink;
-- muted warm gray secondary text;
-- restrained bronze/umber wayfinding accent;
-- native project colors;
-- inverse dark surface only when composition needs it.
-No faux-luxury gold gradients, marble, glass or invented logo meaning.
+Brand Source Status C: logo asset exists, no official guideline. Current digital visual system is **PROPOSED_FOR_DIGITAL**:
+- pure white primary canvas `#FFFFFF`;
+- primary ink / button / highlight `#111111`;
+- neutral gray secondary text and hairline rules;
+- no portfolio-level color accent beyond black/white/neutral gray;
+- project-native colors are allowed inside project evidence/media, not as portfolio chrome;
+- dark theme, if retained, is monochrome and does not change the light theme source of truth.
+No faux-luxury gold gradients, marble, glass, decorative color effects or invented logo meaning.
 
 ## 6. Typography
-- editorial serif display role;
-- DM Sans body/navigation/actions;
-- DM Mono sparse metadata;
+- all title/display roles use sans-serif;
+- Inter is the portfolio body/content family and current shared UI family;
+- metadata may use Inter with weight/letter-spacing rather than a separate mono family;
+- no editorial serif emphasis in portfolio chrome;
 - Vietnamese glyph/wrap proof required in Chromium;
 - long copy stays in readable columns.
 
@@ -68,12 +73,14 @@ No faux-luxury gold gradients, marble, glass or invented logo meaning.
 - hairline rules/tonal surfaces instead of repeated bordered cards;
 - section rhythm varies by decision stage;
 - page-role-specific media/content order;
+- Home project media reads as thumbnail/proof, not a full-bleed hero;
 - no universal hero.
 
 ## 8. Media
 - project screens are evidence and remain legible/native-color;
 - portrait supports identity but is not the primary proof object;
-- prominent media follows `Media-Contract.md` safe-region rules;
+- prominent case media follows `Media-Contract.md` safe-region rules;
+- Home project thumbnails use controlled frame dimensions/aspect ratios so source-image intrinsic dimensions cannot dominate the page;
 - no new stock media by default;
 - no blanket grayscale.
 
@@ -88,16 +95,16 @@ No faux-luxury gold gradients, marble, glass or invented logo meaning.
 
 | PAGE / ROLE | AUDIENCE | ENTRY | USER GOAL | OWNER GOAL | PRIMARY QUESTION | DECISION / PROOF | CTA / NEXT | CONTENT PRIORITY | VISUAL STRATEGY | INTERACTION | DESKTOP PRIORITY |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Home / orientation + work hub | recruiter/hiring lead/client hypothesis | application/CV/shared link | decide relevance and choose proof | establish role/craft/range | Is this designer worth deeper review? | selected work + role/experience | Case/Resume; Contact secondary | positioning → flagship/supporting work → approach/experience → contact | Family A editorial proof index | restrained hover/focus/reveal | proof visible early; stable 1280–1920 |
-| LuxRoom / Personal Case | hiring lead | home/deep link | judge hierarchy/discovery | prove commerce craft | How did room/material context shape discovery? | screens + decision narrative | Live/next case | context/role → decisions → output → limits | Family B artifact-led | proof inspection | large media/crop verified |
+| Home / orientation + work hub | recruiter/hiring lead/client hypothesis | application/CV/shared link | decide relevance and choose proof | establish role/craft/range | Is this designer worth deeper review? | selected work + role/experience | Case/Resume; Contact secondary | positioning → flagship/supporting work → approach/experience → contact | Family A minimal proof index | restrained hover/focus/reveal | proof visible early; stable 1280–1920 |
+| LuxRoom / Personal Case | hiring lead | home/deep link | judge hierarchy/discovery | prove commerce craft | How did room/material context shape discovery? | screens + decision narrative | Live/next case | context/role → decisions → output → limits | Family B artifact-led | proof inspection | large case media/crop verified |
 | Atelier / Personal Case | hiring lead | home/deep link | judge editorial commerce | prove hierarchy range | How is mood separated from shopping action? | screens + action/content decisions | Live/next case | challenge → decisions → proof → learning | Family B with distinct sequencing | restrained reveal | no forced identical hero |
 | StudioOS / Personal Product | product/hiring lead | home/deep link | judge systems thinking | prove product depth | Can complexity become actionable? | workspace/task/state evidence | Live/next case | problem → system → decisions/states → limits | Family B with denser system evidence | annotations/state cues | density pressure at 1280/1366 |
 | VAS / Redesign | hiring/design lead | home/deep link | understand what changed/why | prove redesign/IA | What was structurally wrong and what changed? | OLD issue + IA/journey + NEW proof | Live/source/next | baseline → thesis → IA → decisions → limits | Family C change-thesis | compare/orient | comparison legible |
 | FlowCRM / Product-System | product/design lead | deep/secondary | judge workflow/system modelling | prove structured product thinking | What system/workflow decisions were made? | flow/model/state/UI evidence | Next/contact | context → flow/system → states → UI → limits | Family D model-led | anchored chapters optional | wide artifact must not overflow |
-| Profile/Experience/Contact | recruiter/client hypothesis | home/case utility | verify background/connect | credibility/availability | Who is this person/how contact? | verified CV/experience | Email/Resume | concise verified facts | quiet editorial utility | native links | sticky UI must not cover content |
+| Profile/Experience/Contact | recruiter/client hypothesis | home/case utility | verify background/connect | credibility/availability | Who is this person/how contact? | verified CV/experience | Email/Resume | concise verified facts | quiet minimal utility | native links | sticky UI must not cover content |
 
 ## 11. Composition families
-- **Family A — Editorial Proof Index:** text-led positioning + immediate project-proof cue; work enters the first narrative beat.
+- **Family A — Minimal Proof Index:** text-led positioning + immediate project-proof cue; work enters the first narrative beat and thumbnail scale is controlled.
 - **Family B — Artifact-Led Case:** project artifact/screen is the first evidence anchor; commerce/product stories may vary media sequencing.
 - **Family C — Change-Thesis Redesign:** OLD problem/change statement and NEW proof are visible in tension before generic process chronology.
 - **Family D — System-Model Case:** workflow/model/state object is the primary anchor, not a beauty-shot hero.
@@ -110,9 +117,9 @@ No faux-luxury gold gradients, marble, glass or invented logo meaning.
 [POSITIONING 2–3 lines]       [portrait / supporting identity]
 [short value sentence]
 ---------------- SELECTED WORK ----------------
-[01 FLAGSHIP proof ----------------------------]
+      [01 CONTROLLED THUMBNAIL / proof]
                 [title / role / challenge / case →]
-[02 supporting]                         [03 supporting]
+      [02 thumbnail]                    [03 thumbnail]
 ```
 
 ### B / Personal Case
@@ -160,8 +167,8 @@ Preserve static/lightweight architecture; avoid unnecessary dependencies/3D/vide
 Preserve URLs/canonicals/meaningful metadata/schema; align primary locale; add VAS to sitemap; no route/content deletion without evidence.
 
 ## 18. Do / Do not
-Do: proof-first, page-role differentiation, native project color, explicit design decisions, warm restraint, honest limits.
-Do not: universal hero, pill/card soup, blanket grayscale, faux luxury, invented outcomes, fake integration, motion-gated content, framework migration.
+Do: proof-first, page-role differentiation, white canvas, black `#111111` UI chrome, Inter/sans typography, controlled Home thumbnail scale, native project evidence color, explicit design decisions, honest limits.
+Do not: universal hero, pill/card soup, blanket grayscale, serif portfolio chrome, colored highlight system, faux luxury, invented outcomes, fake integration, motion-gated content, framework migration.
 
 ## Gate
-**PASSED for Phase 2 implementation.** Structural implementation must be proven on the four representative families before whole-site rollout.
+**PASSED for the current production-candidate remediation.** Final evidence: exact visual implementation `4cdf70d1c55bb134ea111ad6a0c959504c4c2e85`, QA run `33840185528`, artifact `9924644190`; Home 1280/1440/1920, four project thumbnail states, LuxRoom/VAS/FlowCRM representatives directly inspected. Release remains a separate authorization step.
