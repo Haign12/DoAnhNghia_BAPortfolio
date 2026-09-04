@@ -1,4 +1,4 @@
-name: Phase 3 Candidate Final QA
+name: Phase 4 Production Smoke
 
 on:
   push:
@@ -9,54 +9,51 @@ permissions:
   contents: read
 
 jobs:
-  final-qa:
+  production-smoke:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact Phase 2 candidate
+      - name: Checkout exact released source for reference
         uses: actions/checkout@v4
         with:
           ref: aef6a7c7299e607058fb6e84aaa86062553194f1
 
-      - name: Static contract and route audit
+      - name: Wait for production version identity
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p evidence/phase3-candidate
-          test "$(git rev-parse HEAD)" = "aef6a7c7299e607058fb6e84aaa86062553194f1"
-          grep -q '<html lang="vi"' index.html
-          grep -q 'id="work"' index.html
+          mkdir -p evidence/phase4-production
+          url='https://haign12.github.io/DoAnhNghia_BAPortfolio/'
+          ok=0
+          for i in $(seq 1 24); do
+            html=$(curl -fsSL --max-time 20 "$url" || true)
+            if printf '%s' "$html" | grep -q '<html lang="vi"' && printf '%s' "$html" | grep -q 'Tôi thiết kế sản phẩm số'; then
+              printf '%s' "$html" > evidence/phase4-production/live-index.html
+              ok=1
+              break
+            fi
+            sleep 5
+          done
+          test "$ok" = 1
+          sha256sum index.html evidence/phase4-production/live-index.html > evidence/phase4-production/version-hashes.txt
           grep -q 'case-study-vas-education.html' sitemap.xml
-          grep -q 'prefers-reduced-motion' styles.css
-          grep -q ':focus-visible' styles.css
-          ! grep -q 'marquee-track' index.html
-          ! grep -q 'orbit-one' index.html
-          for f in index.html case-study-luxroom.html case-study-atelier.html case-study-studioos.html case-study-vas-education.html case-study-ux.html Do_Anh_Nghia_CV.pdf; do test -f "$f"; done
-          printf 'candidate_sha=%s\n' "$(git rev-parse HEAD)" > evidence/phase3-candidate/static-audit.txt
-          printf 'html=vi\nwork_anchor=present\nvas_sitemap=present\nreduced_motion=present\nfocus_visible=present\nlegacy_home_motifs=absent\n' >> evidence/phase3-candidate/static-audit.txt
+          curl -fsSL 'https://haign12.github.io/DoAnhNghia_BAPortfolio/sitemap.xml' | grep -q 'case-study-vas-education.html'
 
-      - name: Start local candidate server
-        shell: bash
-        run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/phase3-http.log 2>&1 &
-          echo $! > /tmp/phase3-http.pid
-          sleep 2
-          curl -fsS http://127.0.0.1:4173/ >/dev/null
-
-      - name: Render declared desktop matrix
+      - name: Render production desktop matrix
         shell: bash
         run: |
           set -euo pipefail
           CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
-          mkdir -p evidence/phase3-candidate/screens
+          base='https://haign12.github.io/DoAnhNghia_BAPortfolio/'
+          mkdir -p evidence/phase4-production/screens
           for width in 1280 1440 1920; do
-            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=5000 --screenshot="evidence/phase3-candidate/screens/home-${width}x1080.png" "http://127.0.0.1:4173/"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=6000 --screenshot="evidence/phase4-production/screens/home-${width}x1080.png" "$base"
           done
           for route in case-study-luxroom.html case-study-atelier.html case-study-studioos.html case-study-vas-education.html case-study-ux.html; do
             name="${route%.html}"
-            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=5000 --screenshot="evidence/phase3-candidate/screens/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=6000 --screenshot="evidence/phase4-production/screens/${name}-1440x1080.png" "${base}${route}"
           done
 
-      - name: Browser interaction and accessibility smoke
+      - name: Production interaction and accessibility smoke
         shell: bash
         run: |
           set -euo pipefail
@@ -67,68 +64,55 @@ jobs:
           from selenium.webdriver.common.by import By
           from selenium.webdriver.common.keys import Keys
           import json, time
-
-          o = Options()
-          o.add_argument('--headless=new')
-          o.add_argument('--no-sandbox')
-          o.add_argument('--disable-gpu')
-          o.add_argument('--window-size=1440,1080')
+          base='https://haign12.github.io/DoAnhNghia_BAPortfolio/'
+          o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-gpu'); o.add_argument('--window-size=1440,1080')
           o.set_capability('goog:loggingPrefs', {'browser':'ALL'})
-          d = webdriver.Chrome(options=o)
-          out = {}
+          d=webdriver.Chrome(options=o); out={}
           try:
-              d.get('http://127.0.0.1:4173/')
-              time.sleep(1)
-              out['lang'] = d.find_element(By.TAG_NAME,'html').get_attribute('lang')
-              nav = d.find_element(By.ID,'navMenu')
-              out['desktop_nav_aria_hidden'] = nav.get_attribute('aria-hidden')
-              out['mailto_count'] = len(d.find_elements(By.CSS_SELECTOR,'a[href^="mailto:"]'))
-              out['cv_href'] = d.find_element(By.CSS_SELECTOR,'a[href*="Do_Anh_Nghia_CV.pdf"]').get_attribute('href')
-              theme = d.find_element(By.ID,'themeToggle')
-              before = d.find_element(By.TAG_NAME,'html').get_attribute('data-theme')
-              theme.click(); time.sleep(.2)
-              after = d.find_element(By.TAG_NAME,'html').get_attribute('data-theme')
-              out['theme_transition'] = f'{before}->{after}'
-              out['theme_pressed'] = theme.get_attribute('aria-pressed')
-              body = d.find_element(By.TAG_NAME,'body')
-              body.send_keys(Keys.TAB)
-              out['active_after_tab'] = d.switch_to.active_element.tag_name
-              out['console_severe'] = [x for x in d.get_log('browser') if x.get('level') == 'SEVERE']
+              d.get(base); time.sleep(2)
+              out['url']=d.current_url
+              out['lang']=d.find_element(By.TAG_NAME,'html').get_attribute('lang')
+              out['nav_aria_hidden']=d.find_element(By.ID,'navMenu').get_attribute('aria-hidden')
+              out['mailto_count']=len(d.find_elements(By.CSS_SELECTOR,'a[href^="mailto:"]'))
+              out['cv_count']=len(d.find_elements(By.CSS_SELECTOR,'a[href*="Do_Anh_Nghia_CV.pdf"]'))
+              theme=d.find_element(By.ID,'themeToggle')
+              before=d.find_element(By.TAG_NAME,'html').get_attribute('data-theme')
+              theme.click(); time.sleep(.3)
+              after=d.find_element(By.TAG_NAME,'html').get_attribute('data-theme')
+              out['theme_transition']=f'{before}->{after}'
+              d.find_element(By.TAG_NAME,'body').send_keys(Keys.TAB)
+              out['active_after_tab']=d.switch_to.active_element.tag_name
               d.execute_cdp_cmd('Emulation.setEmulatedMedia', {'features':[{'name':'prefers-reduced-motion','value':'reduce'}]})
-              out['reduced_motion_matches'] = d.execute_script("return matchMedia('(prefers-reduced-motion: reduce)').matches")
-              assert out['lang'] == 'vi'
-              assert out['desktop_nav_aria_hidden'] in (None, 'false')
-              assert out['mailto_count'] >= 1
+              out['reduced_motion_matches']=d.execute_script("return matchMedia('(prefers-reduced-motion: reduce)').matches")
+              logs=d.get_log('browser')
+              out['console_severe']=[x for x in logs if x.get('level')=='SEVERE']
+              assert out['lang']=='vi'
+              assert out['nav_aria_hidden'] in (None,'false')
+              assert out['mailto_count']>=1 and out['cv_count']>=1
               assert before != after
               assert out['reduced_motion_matches'] is True
               assert not out['console_severe']
           finally:
               d.quit()
-          with open('evidence/phase3-candidate/browser-smoke.json','w',encoding='utf-8') as f:
-              json.dump(out,f,ensure_ascii=False,indent=2)
+          with open('evidence/phase4-production/browser-smoke.json','w',encoding='utf-8') as f: json.dump(out,f,ensure_ascii=False,indent=2)
           PY
 
-      - name: HTTP route smoke
+      - name: Production route and asset smoke
         shell: bash
         run: |
           set -euo pipefail
-          : > evidence/phase3-candidate/routes.txt
-          for path in / /case-study-luxroom.html /case-study-atelier.html /case-study-studioos.html /case-study-vas-education.html /case-study-ux.html /Do_Anh_Nghia_CV.pdf /robots.txt /sitemap.xml; do
-            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://127.0.0.1:4173${path}")
-            printf '%s %s\n' "$code" "$path" | tee -a evidence/phase3-candidate/routes.txt
-            test "$code" = "200"
+          base='https://haign12.github.io/DoAnhNghia_BAPortfolio'
+          : > evidence/phase4-production/routes.txt
+          for path in / /case-study-luxroom.html /case-study-atelier.html /case-study-studioos.html /case-study-vas-education.html /case-study-ux.html /Do_Anh_Nghia_CV.pdf /robots.txt /sitemap.xml /styles.css /script.js /assets/images/avatar.webp; do
+            code=$(curl -sS -L -o /dev/null -w '%{http_code}' "${base}${path}")
+            printf '%s %s\n' "$code" "$path" | tee -a evidence/phase4-production/routes.txt
+            test "$code" = '200'
           done
 
-      - name: Upload Phase 3 candidate evidence
+      - name: Upload production smoke evidence
         uses: actions/upload-artifact@v4
         with:
-          name: phase3-candidate-final-qa
-          path: evidence/phase3-candidate
+          name: phase4-production-smoke
+          path: evidence/phase4-production
           if-no-files-found: error
           retention-days: 7
-
-      - name: Stop server
-        if: always()
-        shell: bash
-        run: |
-          if [ -f /tmp/phase3-http.pid ]; then kill "$(cat /tmp/phase3-http.pid)" || true; fi
