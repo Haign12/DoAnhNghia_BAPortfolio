@@ -1,0 +1,166 @@
+name: Minimalism Remediation QA
+
+on:
+  push:
+    branches:
+      - remediation/minimal-white-20260904
+
+permissions:
+  contents: write
+
+jobs:
+  remediate-and-qa:
+    if: github.event.head_commit.message != 'style: apply monochrome minimal portfolio system'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: remediation/minimal-white-20260904
+
+      - name: Apply shared-owner remediation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          inter_url = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+          htmls = [Path('index.html'), *sorted(Path('.').glob('case-study-*.html'))]
+          for p in htmls:
+              s = p.read_text(encoding='utf-8')
+              s = re.sub(r'https://fonts.googleapis.com/css2\?family=DM\+Mono[^"\']+display=swap', inter_url, s)
+              s = s.replace('styles.css?v=20260903-luxury-editorial-v1', 'styles.css?v=20260904-minimal-v1')
+              s = s.replace('case-study.css?v=20260903-luxury-editorial-v1', 'case-study.css?v=20260904-minimal-v1')
+              p.write_text(s, encoding='utf-8')
+
+          def replace_once(text, old, new, label):
+              if old not in text:
+                  raise SystemExit(f'missing replacement target: {label}')
+              return text.replace(old, new, 1)
+
+          p = Path('styles.css')
+          s = p.read_text(encoding='utf-8')
+          old = ''':root {\n  --bg: #f5f1e8;\n  --surface: #fbf8f2;\n  --text: #151412;\n  --muted: #6f6a61;\n  --line: #d8d0c3;\n  --line-strong: #aaa093;\n  --accent-soft: #c6a978;\n  --accent: #7a5e3b;\n  --inverse-bg: #151412;\n  --inverse-text: #f5f1e8;\n  --serif: "Noto Serif Display", Georgia, serif;\n  --sans: "DM Sans", Arial, sans-serif;\n  --mono: "DM Mono", monospace;'''
+          new = ''':root {\n  --bg: #ffffff;\n  --surface: #ffffff;\n  --text: #111111;\n  --muted: #666666;\n  --line: #e6e6e6;\n  --line-strong: #b8b8b8;\n  --accent-soft: #111111;\n  --accent: #111111;\n  --inverse-bg: #ffffff;\n  --inverse-text: #111111;\n  --serif: "Inter", Arial, sans-serif;\n  --sans: "Inter", Arial, sans-serif;\n  --mono: "Inter", Arial, sans-serif;'''
+          s = replace_once(s, old, new, 'home light tokens')
+          old = '''[data-theme="dark"] {\n  --bg: #171512;\n  --surface: #201d18;\n  --text: #f2ecdf;\n  --muted: #aaa296;\n  --line: #39342d;\n  --line-strong: #645c51;\n  --accent-soft: #c6a978;\n  --accent: #d1b27d;\n  --inverse-bg: #f2ecdf;\n  --inverse-text: #171512;'''
+          new = '''[data-theme="dark"] {\n  --bg: #111111;\n  --surface: #171717;\n  --text: #f5f5f5;\n  --muted: #b5b5b5;\n  --line: #303030;\n  --line-strong: #555555;\n  --accent-soft: #f5f5f5;\n  --accent: #f5f5f5;\n  --inverse-bg: #111111;\n  --inverse-text: #f5f5f5;'''
+          s = replace_once(s, old, new, 'home dark tokens')
+          old = '''h1 em, h2 em, .more-work-title em, .contact-copy h2 em {\n  font-family: var(--serif);\n  font-weight: 500;\n  font-style: italic;\n}'''
+          new = '''h1 em, h2 em, .more-work-title em, .contact-copy h2 em {\n  font-family: var(--sans);\n  font-weight: 600;\n  font-style: normal;\n}'''
+          s = replace_once(s, old, new, 'sans headings')
+          old = '''.project-folio { display: grid; gap: clamp(92px, 10vw, 148px); }\n.folio-item { display: grid; }\n.folio-media,\n.vas-preview {\n  position: relative;\n  overflow: hidden;\n  border: 1px solid var(--line);\n  background: var(--surface);\n  text-decoration: none;\n}'''
+          new = '''.project-folio { display: grid; gap: clamp(78px, 7vw, 108px); }\n.folio-item { display: grid; }\n.folio-media,\n.vas-preview {\n  position: relative;\n  width: min(100%, 1040px);\n  margin-inline: auto;\n  overflow: hidden;\n  border: 1px solid var(--line);\n  background: var(--surface);\n  text-decoration: none;\n}\n.folio-meta,\n.folio-caption {\n  width: min(100%, 1040px);\n  margin-inline: auto;\n}'''
+          s = replace_once(s, old, new, 'thumbnail frame scale')
+          s = s.replace('.folio-media-tall { width: 82%; margin-left: auto; }', '.folio-media-tall { width: min(100%, 920px); margin-inline: auto; }')
+          s = s.replace('.folio-media-wide { width: 91%; }', '.folio-media-wide { width: min(100%, 1040px); margin-inline: auto; }')
+          s = s.replace('  min-height: 540px;\n', '  min-height: 430px;\n', 1)
+          s = s.replace('  color: #f7f0e7;\n  background: #8f2028;\n  border-color: #7b1a2b;\n', '  color: #111111;\n  background: #ffffff;\n  border-color: var(--line);\n', 1)
+          s = s.replace('  border: 1px solid rgba(247, 240, 231, .22);', '  border: 1px solid rgba(17, 17, 17, .12);', 1)
+          s = s.replace('  box-shadow: 0 0 0 70px rgba(247, 240, 231, .05), 0 0 0 140px rgba(247, 240, 231, .03);', '  box-shadow: 0 0 0 70px rgba(17, 17, 17, .025), 0 0 0 140px rgba(17, 17, 17, .015);', 1)
+          s = s.replace('color: rgba(247, 240, 231, .72)', 'color: rgba(17, 17, 17, .58)', 1)
+          s = s.replace('.vas-preview-title em { color: #e4c979; font-family: var(--serif); font-weight: 500; }', '.vas-preview-title em { color: #111111; font-family: var(--sans); font-weight: 600; font-style: normal; }')
+          s = s.replace('border-top: 1px solid rgba(247, 240, 231, .28)', 'border-top: 1px solid rgba(17, 17, 17, .16)', 1)
+          s = s.replace('.secondary-link:hover,\n.folio-actions a:hover,\n.archive-link:hover { color: var(--accent); }', '.secondary-link:hover,\n.folio-actions a:hover,\n.archive-link:hover { color: var(--text); opacity: .58; }')
+          s = s.replace('.contact-email:hover { color: var(--accent-soft); }', '.contact-email:hover { color: var(--inverse-text); opacity: .58; }')
+          s = s.replace('.contact-links a:hover { color: var(--accent-soft); }', '.contact-links a:hover { color: var(--inverse-text); opacity: .58; }')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('case-study.css')
+          s = p.read_text(encoding='utf-8')
+          old = ''':root {\n  --bg: #f5f1e8;\n  --surface: #fbf8f2;\n  --text: #151412;\n  --muted: #6f6a61;\n  --line: #d8d0c3;\n  --line-strong: #aaa093;\n  --accent-soft: #c6a978;\n  --accent: #7a5e3b;\n  --inverse-bg: #151412;\n  --inverse-text: #f5f1e8;\n  --serif: "Noto Serif Display", Georgia, serif;\n  --sans: "DM Sans", Arial, sans-serif;\n  --mono: "DM Mono", monospace;'''
+          new = ''':root {\n  --bg: #ffffff;\n  --surface: #ffffff;\n  --text: #111111;\n  --muted: #666666;\n  --line: #e6e6e6;\n  --line-strong: #b8b8b8;\n  --accent-soft: #111111;\n  --accent: #111111;\n  --inverse-bg: #ffffff;\n  --inverse-text: #111111;\n  --serif: "Inter", Arial, sans-serif;\n  --sans: "Inter", Arial, sans-serif;\n  --mono: "Inter", Arial, sans-serif;'''
+          s = replace_once(s, old, new, 'case light tokens')
+          old = '''[data-theme="dark"] {\n  --bg: #171512;\n  --surface: #201d18;\n  --text: #f2ecdf;\n  --muted: #aaa296;\n  --line: #39342d;\n  --line-strong: #645c51;\n  --accent-soft: #c6a978;\n  --accent: #d1b27d;\n  --inverse-bg: #f2ecdf;\n  --inverse-text: #171512;'''
+          new = '''[data-theme="dark"] {\n  --bg: #111111;\n  --surface: #171717;\n  --text: #f5f5f5;\n  --muted: #b5b5b5;\n  --line: #303030;\n  --line-strong: #555555;\n  --accent-soft: #f5f5f5;\n  --accent: #f5f5f5;\n  --inverse-bg: #111111;\n  --inverse-text: #f5f5f5;'''
+          s = replace_once(s, old, new, 'case dark tokens')
+          s = s.replace('.case-thesis em { color: var(--accent); font-family: var(--serif); font-weight: 500; }', '.case-thesis em { color: var(--text); font-family: var(--sans); font-weight: 600; font-style: normal; }')
+          s = s.replace('.change-thesis em { color: var(--accent); font-family: var(--serif); }', '.change-thesis em { color: var(--text); font-family: var(--sans); font-weight: 600; font-style: normal; }')
+          s = s.replace('.case-action:hover { color: var(--accent); }', '.case-action:hover { color: var(--text); opacity: .58; }')
+          p.write_text(s, encoding='utf-8')
+          PY
+
+          git config user.name 'Nghĩaaaa'
+          git config user.email '93433772+Haign12@users.noreply.github.com'
+          git add index.html case-study-*.html styles.css case-study.css
+          git commit -m 'style: apply monochrome minimal portfolio system'
+          git push origin HEAD:remediation/minimal-white-20260904
+
+      - name: Static assertions
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q -- '--bg: #ffffff' styles.css
+          grep -q -- '--text: #111111' styles.css
+          grep -q -- '--accent: #111111' styles.css
+          grep -q -- '--sans: "Inter"' styles.css
+          grep -q 'width: min(100%, 1040px)' styles.css
+          grep -q 'family=Inter' index.html
+          grep -q -- '--bg: #ffffff' case-study.css
+          grep -q -- '--sans: "Inter"' case-study.css
+
+      - name: Start local server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/minimal-http.log 2>&1 &
+          echo $! > /tmp/minimal-http.pid
+          sleep 2
+
+      - name: Render desktop and work evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          mkdir -p evidence/minimal/screens
+          for width in 1280 1440 1920; do
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="${width},1080" --virtual-time-budget=5000 --screenshot="evidence/minimal/screens/home-${width}x1080.png" "http://127.0.0.1:4173/"
+          done
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=5000 --screenshot="evidence/minimal/screens/work-1440x1080.png" "http://127.0.0.1:4173/#work"
+          for route in case-study-luxroom.html case-study-vas-education.html case-study-ux.html; do
+            name="${route%.html}"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size="1440,1080" --virtual-time-budget=5000 --screenshot="evidence/minimal/screens/${name}-1440x1080.png" "http://127.0.0.1:4173/${route}"
+          done
+
+      - name: Runtime style and behavior smoke
+        shell: bash
+        run: |
+          python3 -m pip install --quiet selenium
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          import json, time
+          o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-gpu'); o.add_argument('--window-size=1440,1080')
+          o.set_capability('goog:loggingPrefs', {'browser':'ALL'})
+          d=webdriver.Chrome(options=o); out={}
+          try:
+              d.get('http://127.0.0.1:4173/'); time.sleep(1)
+              body=d.find_element(By.TAG_NAME,'body'); h1=d.find_element(By.TAG_NAME,'h1'); btn=d.find_element(By.CSS_SELECTOR,'.primary-link'); media=d.find_element(By.CSS_SELECTOR,'.folio-media')
+              out['body_font']=d.execute_script('return getComputedStyle(arguments[0]).fontFamily', body)
+              out['h1_font']=d.execute_script('return getComputedStyle(arguments[0]).fontFamily', h1)
+              out['body_bg']=d.execute_script('return getComputedStyle(arguments[0]).backgroundColor', body)
+              out['button_bg']=d.execute_script('return getComputedStyle(arguments[0]).backgroundColor', btn)
+              out['media_width']=d.execute_script('return arguments[0].getBoundingClientRect().width', media)
+              out['viewport_width']=d.execute_script('return innerWidth')
+              out['overflow']=d.execute_script('return document.documentElement.scrollWidth > innerWidth')
+              out['console_severe']=[x for x in d.get_log('browser') if x.get('level')=='SEVERE']
+              assert 'Inter' in out['body_font']
+              assert 'Inter' in out['h1_font']
+              assert out['body_bg']=='rgb(255, 255, 255)'
+              assert out['button_bg']=='rgb(17, 17, 17)'
+              assert out['media_width'] <= 1041
+              assert not out['overflow']
+              assert not out['console_severe']
+          finally: d.quit()
+          open('evidence/minimal/runtime.json','w').write(json.dumps(out,indent=2,ensure_ascii=False))
+          PY
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: minimalism-remediation-evidence
+          path: evidence/minimal
+          retention-days: 7
+
+      - name: Stop server
+        if: always()
+        run: if [ -f /tmp/minimal-http.pid ]; then kill "$(cat /tmp/minimal-http.pid)" || true; fi
