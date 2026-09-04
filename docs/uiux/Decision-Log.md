@@ -66,3 +66,10 @@ Screenshots must be opened/inspected. Source/build checks do not substitute visu
 - FACT: first remediation at 1040px remained visually oversized on a 1440px viewport; StudioOS also expanded vertically because intrinsic image ratio remained active.
 - Decision: fix the root owner in `styles.css`: default project thumbnail frame max width `880px`, Atelier `780px`, fixed 16:9 / 4:3 frames, and image `height:100%; object-fit:cover`.
 - Verification: exact candidate `4cdf70d1c55bb134ea111ad6a0c959504c4c2e85`; final QA run `33840185528`; rendered thumbnail geometry 880×495 / 780×585 / 880×495 / 880×495, all directly inspected.
+
+## D-018 — Art-directed discovery supersedes universal-Inter minimalism
+- FACT: latest user feedback explicitly says the all-Inter minimal version is visually much weaker than the old portfolio, asks to keep English title content and the old font character, and requires a more artistic sense of discovery for recruiters.
+- Conflict: this directly contradicts D-015's universal Inter / strict-minimal visual layer.
+- Decision: current user instruction wins. Restore the OLD typography logic (`DM Sans + Instrument Serif + DM Mono`) and English primary Home chrome/headline, then redesign Selected Work into an exploratory project index while retaining recruiter clarity, direct links, project-native media and proof-first order.
+- Reference evidence: `Design-Reference-Benchmark-Art-Directed.md`; references are labelled `MOOD_REFERENCE` / `CASE_STUDY` where appropriate and are not treated as UX/conversion proof.
+- Implementation boundary: individual personal-project product UX remains outside redesign depth; only shared portfolio presentation and route integrity are in scope.
