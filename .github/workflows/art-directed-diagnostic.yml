@@ -1,0 +1,55 @@
+name: Art Directed Overflow Diagnostic
+
+on:
+  push:
+    branches:
+      - qa/art-directed-final-20260904
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --quiet selenium
+      - run: |
+          python3 -m http.server 4173 > /tmp/server.log 2>&1 &
+          sleep 2
+      - name: Capture diagnostic evidence
+        run: |
+          python3 - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          import json, os, time
+          base='http://127.0.0.1:4173/'
+          out='evidence/diagnostic'
+          os.makedirs(out,exist_ok=True)
+          result={}
+          def make(w):
+              o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-gpu'); o.add_argument('--hide-scrollbars'); o.add_argument('--force-device-scale-factor=1'); o.add_argument(f'--window-size={w},1080'); o.set_capability('goog:loggingPrefs',{'browser':'ALL'}); return webdriver.Chrome(options=o)
+          for w in (1280,1440,1920):
+              d=make(w)
+              try:
+                  d.get(base); time.sleep(1.2)
+                  dims=d.execute_script('''
+                    const all=[...document.querySelectorAll('body *')];
+                    const vw=document.documentElement.clientWidth;
+                    const offenders=all.map(el=>{const r=el.getBoundingClientRect();return {tag:el.tagName,cls:el.className||'',id:el.id||'',left:r.left,right:r.right,width:r.width}}).filter(x=>x.right>vw+1||x.left<-1).sort((a,b)=>(b.right-vw)-(a.right-vw)).slice(0,20);
+                    return {vw,scrollWidth:document.documentElement.scrollWidth,bodyScrollWidth:document.body.scrollWidth,offenders};
+                  ''')
+                  result[str(w)]=dims
+                  d.save_screenshot(f'{out}/home-{w}.png')
+                  work=d.find_element(By.ID,'work'); d.execute_script('arguments[0].scrollIntoView({block:"start"})',work); time.sleep(.5); d.save_screenshot(f'{out}/work-{w}.png')
+              finally: d.quit()
+          with open(f'{out}/diagnostic.json','w') as f: json.dump(result,f,indent=2)
+          print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: art-directed-overflow-diagnostic
+          path: evidence/diagnostic
+          retention-days: 7
