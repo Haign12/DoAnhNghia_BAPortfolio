@@ -42,3 +42,30 @@ Phase 1: PASSED, UNACCOUNTED=0, BLOCKED=0. Detailed evidence remains in `Phase-1
 - material P2 remaining: **0**
 
 **PHASE 2 RESULT = PASSED**
+
+## Post-release Minimalism Remediation — 2026-09-04
+
+| ID | Requirement | Status | Evidence |
+|---|---|---|---|
+| MR-001 | Search current web references for strict minimalist portfolio craft | DONE_VERIFIED | `Minimalism-Remediation-Contract.md`; references labeled MOOD_REFERENCE |
+| MR-002 | Reduce oversized Home project thumbnail frames | DONE_VERIFIED | exact candidate `4cdf70d...`; final run `33840185528`; 880×495 / 780×585 / 880×495 / 880×495 inspected |
+| MR-003 | Prevent project source-image intrinsic ratio from making thumbnail frames excessively tall | DONE_VERIFIED | fixed frame ratios + `height:100%; object-fit:cover`; StudioOS final thumbnail inspected |
+| MR-004 | Heading typography is sans-serif | DONE_VERIFIED | computed `heading_font = Inter, Arial, sans-serif`; rendered Home/cases inspected |
+| MR-005 | Content/body typography uses Inter | DONE_VERIFIED | Google Fonts Inter import + computed `body_font = Inter, Arial, sans-serif` |
+| MR-006 | Default portfolio background is white | DONE_VERIFIED | computed `rgb(255,255,255)` + rendered desktop matrix |
+| MR-007 | Primary button is black `#111111` | DONE_VERIFIED | computed `rgb(17,17,17)` |
+| MR-008 | Portfolio highlight/accent token is `#111111` | DONE_VERIFIED | shared `--accent: #111111`; project-native evidence colors preserved as content |
+| MR-009 | Preserve routes/content/system behavior outside visual remediation | DONE_VERIFIED | shared-owner CSS/type edit only; case representative regression inspection |
+| MR-010 | Desktop Chromium 1280/1440/1920 visual QA | DONE_VERIFIED | final run `33840185528`; Home all three widths directly inspected |
+| MR-011 | Representative supporting routes remain visually coherent | DONE_VERIFIED | LuxRoom/VAS/FlowCRM 1440 directly inspected |
+| MR-012 | No overflow or severe browser console regression | DONE_VERIFIED | final runtime evidence: overflow=false; console_severe=[] |
+| MR-013 | Mobile/tablet remediation | N/A_JUSTIFIED | project scope remains desktop-only |
+| MR-014 | Do not release new remediation without separate release authorization | DONE_VERIFIED | work remains on `remediation/minimal-white-20260904`; main not updated by this task |
+
+### Remediation accounting
+- Total: **14**
+- DONE_VERIFIED: **13**
+- N/A_JUSTIFIED: **1**
+- BLOCKED: **0**
+- UNACCOUNTED: **0**
+- P0/P1/material-P2 remaining: **0 / 0 / 0**
