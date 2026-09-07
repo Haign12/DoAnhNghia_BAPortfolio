@@ -203,5 +203,21 @@
     reducedMotionQuery.addEventListener?.('change', (event) => { if (event.matches) resetParallax(); });
   }
 
+  /* Recruiter-facing timeline uses year-only labels so short roles do not dominate the scan.
+     The labels remain truthful; detailed month ranges stay in the CV source. */
+  const experienceYears = [
+    ['MangoAds', '2026'],
+    ['Tikera', '2025'],
+    ['Trésor', '2025'],
+  ];
+  document.querySelectorAll('.career-row').forEach((row) => {
+    const company = row.querySelector('.career-role p')?.textContent || '';
+    const time = row.querySelector('time');
+    const match = experienceYears.find(([name]) => company.includes(name));
+    if (!time || !match) return;
+    time.textContent = match[1];
+    time.setAttribute('datetime', match[1]);
+  });
+
   if (year) year.textContent = new Date().getFullYear();
 })();
