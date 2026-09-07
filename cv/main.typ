@@ -32,7 +32,7 @@ UI/UX Designer focused on turning complex product ideas into clear, calm and usa
   title: "UI/UX Designer",
   location: "Vietnam",
   company: "MangoAds — Vietnam SEO Optimization and Web Design Agency",
-  dates: dates-helper(start-date: "Aug 2025", end-date: "Present"),
+  dates: dates-helper(start-date: "Aug 2026", end-date: "Sep 2026"),
 )
 - Designed user flows, wireframes and responsive interfaces for web experiences.
 - Contributed to visual systems and interaction details across digital design work.
