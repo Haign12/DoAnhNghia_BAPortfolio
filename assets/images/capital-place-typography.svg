@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Capital Place typography thumbnail</title>
+  <desc id="desc">Architectural editorial typography artwork for the Capital Place redesign.</desc>
+  <defs><pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse"><path d="M72 0H0V72" fill="none" stroke="#211d1d" stroke-opacity=".055" stroke-width="1"/></pattern></defs>
+  <rect width="1600" height="1000" fill="#211d1d"/>
+  <rect x="42" y="42" width="1516" height="916" fill="#f3f0e9"/>
+  <rect x="42" y="42" width="1516" height="916" fill="url(#grid)"/>
+  <text x="82" y="105" fill="#706862" font-family="Courier New, monospace" font-size="26" font-weight="700" letter-spacing="8">03 / 09</text>
+  <text x="1515" y="105" text-anchor="end" fill="#706862" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="6">REAL ESTATE · LEASING</text>
+  <rect x="82" y="144" width="1436" height="688" fill="#ffffff" stroke="#211d1d" stroke-opacity=".16"/>
+  <text x="126" y="405" fill="#211d1d" font-family="Arial, Helvetica, sans-serif" font-size="170" font-weight="700" letter-spacing="-11">CAPITAL</text>
+  <text x="126" y="605" fill="#211d1d" font-family="Arial, Helvetica, sans-serif" font-size="178" font-weight="700" letter-spacing="-12">PLACE</text>
+  <rect x="126" y="641" width="410" height="9" fill="#f15f22"/>
+  <text x="700" y="565" fill="#706862" font-family="Courier New, monospace" font-size="27" letter-spacing="2">Space finding, floor logic,<tspan x="700" dy="40">and contextual leasing.</tspan></text>
+  <text x="1250" y="303" fill="#211d1d" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">SPACE</text>
+  <text x="1250" y="349" fill="#f15f22" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">FLOORS</text>
+  <text x="1250" y="395" fill="#211d1d" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">LEASING</text>
+  <line x1="1250" y1="428" x2="1462" y2="428" stroke="#f15f22" stroke-width="8"/>
+  <rect x="108" y="720" width="246" height="68" fill="#211d1d"/>
+  <text x="231" y="763" text-anchor="middle" fill="#ffffff" font-family="Courier New, monospace" font-size="21" font-weight="700" letter-spacing="3">INTERACTIVE PROTOTYPE</text>
+  <text x="82" y="902" fill="#706862" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">INDEPENDENT REDESIGN · ARCHITECTURAL UX</text>
+  <text x="1518" y="902" text-anchor="end" fill="#706862" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">2026</text>
+</svg>
