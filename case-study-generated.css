@@ -1,0 +1,75 @@
+/* Shared visual supplement for generated portfolio case studies. */
+.case-generated-cover {
+  min-height: clamp(340px, 46vw, 620px);
+  padding: clamp(28px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: end;
+  overflow: hidden;
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--case-accent, #111) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--case-accent, #111) 7%, transparent) 1px, transparent 1px),
+    var(--case-surface, #f4f1e8);
+  background-size: 72px 72px;
+  color: var(--case-ink, #111);
+}
+.case-generated-cover-copy > span {
+  display: block;
+  margin-bottom: 14px;
+  font: 500 10px var(--mono, ui-monospace, monospace);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .58;
+}
+.case-generated-cover-copy strong {
+  display: block;
+  max-width: 780px;
+  font: 600 clamp(3.1rem, 7vw, 7.5rem)/.78 var(--sans, Arial, sans-serif);
+  letter-spacing: -.075em;
+}
+.case-generated-cover-copy strong em {
+  display: block;
+  margin-top: .08em;
+  font-family: var(--serif, Georgia, serif);
+  font-weight: 400;
+  font-style: italic;
+}
+.case-generated-object {
+  position: relative;
+  min-height: 260px;
+  border: 1px solid color-mix(in srgb, var(--case-ink, #111) 22%, transparent);
+  background: color-mix(in srgb, var(--case-surface, #fff) 86%, white 14%);
+  box-shadow: 0 22px 60px color-mix(in srgb, var(--case-ink, #111) 12%, transparent);
+}
+.case-generated-object::before,
+.case-generated-object::after {
+  content: "";
+  position: absolute;
+  border: 1px solid color-mix(in srgb, var(--case-accent, #111) 58%, transparent);
+}
+.case-generated-object::before { inset: 12% 11% 42% 15%; }
+.case-generated-object::after { inset: 50% 30% 14% 15%; background: color-mix(in srgb, var(--case-accent, #111) 16%, transparent); }
+.case-generated-object i {
+  position: absolute;
+  display: block;
+  background: var(--case-accent, #111);
+  opacity: .8;
+}
+.case-generated-object i:nth-child(1) { width: 18%; height: 9px; right: 13%; top: 18%; }
+.case-generated-object i:nth-child(2) { width: 9px; height: 32%; right: 18%; bottom: 12%; }
+.case-generated-object i:nth-child(3) { width: 28%; height: 1px; left: 13%; bottom: 9%; }
+.case-capital { --case-surface:#f0efe9; --case-ink:#231f20; --case-accent:#f15f22; }
+.case-vietbank { --case-surface:#eef4fb; --case-ink:#0a315e; --case-accent:#0a53a3; }
+.case-qtsc { --case-surface:#f3e9e3; --case-ink:#3a2018; --case-accent:#ee5a2c; }
+.case-feedback { --case-surface:#f2f2ee; --case-ink:#121212; --case-accent:#6d6d6d; }
+.case-skills { --case-surface:#e8ece9; --case-ink:#163126; --case-accent:#6d8c79; }
+.case-skills .case-generated-object::before { inset: 14% 14% 58% 14%; }
+.case-skills .case-generated-object::after { inset: 50% 14% 16% 46%; }
+@media (max-width: 760px) {
+  .case-generated-cover { grid-template-columns: 1fr; min-height: auto; }
+  .case-generated-object { min-height: 220px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-generated-cover *, .case-generated-object * { animation: none !important; transition: none !important; }
+}
