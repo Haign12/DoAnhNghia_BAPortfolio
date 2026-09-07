@@ -1,81 +1,82 @@
-# Portfolio V2 — Work Index Design Direction
+# Portfolio V3 — Curated Work Index Direction
 
 ## Goal
 
-Turn the portfolio homepage from a small preview list into a recruiter-readable work index that can show the full UI/UX practice without becoming a generic card gallery.
+Keep the homepage recruiter-readable by showing only the requested nine projects/systems, while making every thumbnail feel more intentional and project-specific.
 
 ## Skill routing used
 
-- `portfolio-website` — prioritize relevant work, role/process evidence and contact path over gallery-only presentation.
-- `visual-design-direction` — define a repeatable layout grammar with controlled variation by project role/domain.
-- `asset-media-and-art-direction` — avoid arbitrary screenshot crops; thumbnails are purpose-built responsive compositions.
-- `design-system-and-components` — one thumbnail/card anatomy, semantic project tokens and shared responsive states.
-- `brand-distinctiveness-and-visual-signature` — preserve one portfolio identity while giving each project a recognizable domain cue.
-- `ui-craft-and-visual-qa` — keep contrast, hover/focus, mobile density and reduced motion reviewable.
+- `portfolio-website` — prioritize relevant work and scannable case-study hierarchy.
+- `visual-design-direction` — define one reusable composition grammar with meaningful domain variation.
+- `asset-media-and-art-direction` — use purpose-built thumbnail compositions instead of risky arbitrary crops.
+- `design-system-and-components` — keep one card/thumbnail anatomy, responsive behavior and interaction contract.
+- `brand-distinctiveness-and-visual-signature` — let each project remain recognizable without breaking portfolio consistency.
+- `ui-craft-and-visual-qa` — preserve readable states, mobile density and reduced-motion behavior.
 
 ## Information architecture
 
 ```text
-Selected Work
+Selected Work (9)
 ├── Featured Case Studies (4)
 │   ├── Atelier
-│   ├── Vietbank Redesign
+│   ├── LuxRoom
 │   ├── Capital Place
 │   └── VAS Education
-├── Project Archive (6)
+├── Project Archive (3)
+│   ├── Vietbank Redesign
 │   ├── QTSC
-│   ├── HireFlow
-│   ├── LuxRoom
-│   ├── FlowCRM
-│   ├── StudioOS
-│   └── Veil
+│   └── StudioOS
 └── Tools & Systems (2)
     ├── UI Feedback Tool
     └── skills_UIUX
 ```
 
-## Thumbnail system
+## Thumbnail system V3
 
-Every project uses the same outer contract:
+All thumbnails share the same outer contract:
 
-`index/category → 16:10 stage → browser frame → project label/title → domain geometry → project meta/tags/actions`
+`index/category → 16:10 stage → framed UI surface → project thesis → signature domain object → project meta/tags/actions`
 
-Consistency comes from anatomy, type, spacing, border and motion. Distinctiveness comes from a small semantic palette plus a domain composition family.
+The new system deliberately avoids making every project look like the same generic browser mockup. Each project receives a signature object:
 
-### Composition families
+- Atelier — editorial fashion spread.
+- LuxRoom — room-plan/material composition.
+- Capital Place — tower/floor stack.
+- VAS Education — guided pathway sequence.
+- Vietbank — bank card + financial bars.
+- QTSC — connected ecosystem nodes.
+- StudioOS — modular dashboard panels.
+- UI Feedback Tool — inspector panel + selected target.
+- skills_UIUX — skill/flow graph.
 
-- `commerce` — editorial/product decision surface.
-- `finance` — structured financial/dashboard bars.
-- `property` — architectural vertical/floor-plan cue.
-- `education` — pathway/progression pills.
-- `ecosystem` — connected directory/service blocks.
-- `workspace` — modular task/dashboard panels.
-- `editorial` — asymmetric editorial/product mood.
-- `tool` — dark utility/system interface.
+No project thumbnail relies on `object-fit: cover`, so focal-point crop risk is removed from the work index.
 
-No thumbnail depends on `object-fit: cover`, so project comparison stays stable across desktop and mobile without focal-subject crop risk.
+## External reference synthesis
+
+Current 2026 portfolio examples reviewed online reinforce three useful principles: keep a coherent grid/system, let case studies communicate challenge/solution rather than behaving as a pure gallery, and use typography/spacing consistently so the work remains the main visual content. These principles were adapted rather than copied as surface styling.
 
 ## Visual signature
 
-If the logo/header is removed, the portfolio should still be recognizable through:
+If the logo/header is removed, the portfolio remains recognizable through:
 
-- warm paper + near-black editorial system;
+- warm paper + near-black editorial shell;
 - DM Sans + Instrument Serif contrast;
-- mono indexing and metadata;
-- thin technical grid/line language;
-- large structured typography;
-- restrained motion and project-specific browser compositions.
+- mono indexing/metadata;
+- technical line/grid language;
+- large project typography;
+- restrained motion;
+- project-specific signature objects inside one shared thumbnail frame.
 
 ## Responsive rules
 
 - Featured: 2 columns desktop → 1 column tablet/mobile.
 - Archive: 3 columns desktop → 2 columns medium → 1 column mobile.
 - Tools: 2 columns desktop → 1 column mobile.
-- Thumbnail remains 16:10 on all viewports.
-- Motion never blocks navigation and is disabled/reduced under `prefers-reduced-motion`.
+- Thumbnail stays 16:10 on larger layouts and shifts to 4:3 on narrow mobile for readability.
+- Motion does not block navigation and is disabled/reduced under `prefers-reduced-motion`.
 
 ## Truth boundary
 
-- `StudioOS` is labeled as a first product slice rather than a completed SaaS platform.
-- Prototype/redesign work is not described as production deployment unless the repository itself supports that claim.
-- External project links should only be labelled `Live` when a published site is verified; otherwise use `Source`.
+- `StudioOS` remains explicitly labeled `Product Concept · First Slice`.
+- QTSC is linked as `Source` unless a live deployment is independently verified.
+- Prototype/redesign work is not described as production deployment without repository evidence.
