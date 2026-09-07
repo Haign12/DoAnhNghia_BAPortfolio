@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">StudioOS typography thumbnail</title>
+  <desc id="desc">Product workspace typography artwork for the StudioOS concept.</desc>
+  <defs><pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse"><path d="M72 0H0V72" fill="none" stroke="#171715" stroke-opacity=".05" stroke-width="1"/></pattern></defs>
+  <rect width="1600" height="1000" fill="#171715"/>
+  <rect x="42" y="42" width="1516" height="916" fill="#f5f5f2"/>
+  <rect x="42" y="42" width="1516" height="916" fill="url(#grid)"/>
+  <text x="82" y="105" fill="#6f6f68" font-family="Courier New, monospace" font-size="26" font-weight="700" letter-spacing="8">07 / 09</text>
+  <text x="1515" y="105" text-anchor="end" fill="#6f6f68" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="6">PRODUCT CONCEPT · SAAS</text>
+  <rect x="82" y="144" width="1436" height="688" fill="#ffffff" stroke="#171715" stroke-opacity=".14"/>
+  <text x="126" y="410" fill="#171715" font-family="Arial, Helvetica, sans-serif" font-size="178" font-weight="700" letter-spacing="-12">STUDIO</text>
+  <text x="126" y="610" fill="#2563eb" font-family="Arial, Helvetica, sans-serif" font-size="198" font-weight="700" letter-spacing="-13">OS</text>
+  <rect x="392" y="448" width="8" height="160" fill="#208a4b"/>
+  <text x="600" y="540" fill="#6f6f68" font-family="Courier New, monospace" font-size="27" letter-spacing="2">Projects, tasks and reviews<tspan x="600" dy="40">in one calm operating space.</tspan></text>
+  <text x="1240" y="303" fill="#171715" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">PROJECTS</text>
+  <text x="1240" y="349" fill="#2563eb" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">TASKS</text>
+  <text x="1240" y="395" fill="#208a4b" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">REVIEWS</text>
+  <line x1="1240" y1="430" x2="1462" y2="430" stroke="#2563eb" stroke-width="8"/>
+  <rect x="108" y="720" width="220" height="68" fill="#171715"/>
+  <text x="218" y="763" text-anchor="middle" fill="#ffffff" font-family="Courier New, monospace" font-size="21" font-weight="700" letter-spacing="3">FIRST SLICE</text>
+  <text x="82" y="902" fill="#6f6f68" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">PRODUCT CONCEPT · CREATIVE TEAM WORKSPACE</text>
+  <text x="1518" y="902" text-anchor="end" fill="#6f6f68" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">2026</text>
+</svg>

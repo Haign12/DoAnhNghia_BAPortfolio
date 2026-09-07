@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Atelier typography thumbnail</title>
+  <desc id="desc">Editorial typography artwork for the Atelier ecommerce case study.</desc>
+  <defs>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse"><path d="M72 0H0V72" fill="none" stroke="#11110f" stroke-opacity=".065" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="#11110f"/>
+  <rect x="42" y="42" width="1516" height="916" fill="#f4f1eb"/>
+  <rect x="42" y="42" width="1516" height="916" fill="url(#grid)"/>
+  <text x="82" y="105" fill="#706d67" font-family="Courier New, monospace" font-size="26" font-weight="700" letter-spacing="8">01 / 09</text>
+  <text x="1515" y="105" text-anchor="end" fill="#706d67" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="6">COMMERCE · FASHION</text>
+  <rect x="82" y="144" width="1436" height="688" fill="#ffffff" stroke="#11110f" stroke-opacity=".16"/>
+  <text x="126" y="490" fill="#11110f" font-family="Arial, Helvetica, sans-serif" font-size="230" font-weight="700" letter-spacing="-14">ATELIER</text>
+  <rect x="128" y="525" width="290" height="8" fill="#e9e3d8"/>
+  <text x="128" y="590" fill="#706d67" font-family="Courier New, monospace" font-size="28" letter-spacing="2">Editorial commerce, made actionable.</text>
+  <text x="1235" y="328" fill="#11110f" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">DISCOVER</text>
+  <text x="1235" y="374" fill="#706d67" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">DECIDE</text>
+  <text x="1235" y="420" fill="#11110f" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">BUY</text>
+  <line x1="1235" y1="452" x2="1458" y2="452" stroke="#e9e3d8" stroke-width="8"/>
+  <rect x="108" y="720" width="230" height="68" fill="#11110f"/>
+  <text x="223" y="763" text-anchor="middle" fill="#ffffff" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="3">IMPLEMENTED UI</text>
+  <text x="82" y="902" fill="#706d67" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">INDEPENDENT CONCEPT · RESPONSIVE COMMERCE</text>
+  <text x="1518" y="902" text-anchor="end" fill="#706d67" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">2026</text>
+</svg>

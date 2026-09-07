@@ -1,17 +1,44 @@
 @import url("./portfolio-work-v4-base.css");
 
-/* Typography-first thumbnails for the two Tools & Systems projects. */
-.project-proof-card--feedback .project-proof-topline,
-.project-proof-card--skills .project-proof-topline,
-.project-proof-card--feedback .tool-preview,
-.project-proof-card--skills .flow-preview,
-.project-proof-card--feedback .project-proof-caption,
-.project-proof-card--skills .project-proof-caption {
-  display: none;
+/* Typography-first thumbnail system.
+   Each project keeps the same editorial anatomy while borrowing the actual
+   project palette so the archive feels related without becoming monochrome. */
+.project-proof-card:is(
+  .project-proof-card--atelier,
+  .project-proof-card--luxroom,
+  .project-proof-card--capital,
+  .project-proof-card--vas,
+  .project-proof-card--vietbank,
+  .project-proof-card--qtsc,
+  .project-proof-card--studioos,
+  .project-proof-card--feedback,
+  .project-proof-card--skills
+) .project-proof-topline,
+.project-proof-card:is(
+  .project-proof-card--atelier,
+  .project-proof-card--luxroom,
+  .project-proof-card--capital,
+  .project-proof-card--vas,
+  .project-proof-card--vietbank,
+  .project-proof-card--qtsc,
+  .project-proof-card--studioos,
+  .project-proof-card--feedback,
+  .project-proof-card--skills
+) .project-proof-canvas > * {
+  display: none !important;
 }
 
-.project-proof-card--feedback .project-proof-canvas,
-.project-proof-card--skills .project-proof-canvas {
+.project-proof-card:is(
+  .project-proof-card--atelier,
+  .project-proof-card--luxroom,
+  .project-proof-card--capital,
+  .project-proof-card--vas,
+  .project-proof-card--vietbank,
+  .project-proof-card--qtsc,
+  .project-proof-card--studioos,
+  .project-proof-card--feedback,
+  .project-proof-card--skills
+) .project-proof-canvas {
   inset: 18px;
   border: 0;
   background-color: #080808;
@@ -21,17 +48,60 @@
   box-shadow: none;
 }
 
+.project-proof-card:is(
+  .project-proof-card--atelier,
+  .project-proof-card--luxroom,
+  .project-proof-card--capital,
+  .project-proof-card--vas,
+  .project-proof-card--vietbank,
+  .project-proof-card--qtsc,
+  .project-proof-card--studioos,
+  .project-proof-card--feedback,
+  .project-proof-card--skills
+) .project-proof-canvas::before {
+  display: none;
+}
+
+.project-proof-card--atelier .project-proof-canvas {
+  background-image: url("assets/images/atelier-typography.svg");
+}
+.project-proof-card--luxroom .project-proof-canvas {
+  background-image: url("assets/images/luxroom-typography.svg");
+}
+.project-proof-card--capital .project-proof-canvas {
+  background-image: url("assets/images/capital-place-typography.svg");
+}
+.project-proof-card--vas .project-proof-canvas {
+  background-image: url("assets/images/vas-education-typography.svg");
+}
+.project-proof-card--vietbank .project-proof-canvas {
+  background-image: url("assets/images/vietbank-typography.svg");
+}
+.project-proof-card--qtsc .project-proof-canvas {
+  background-image: url("assets/images/qtsc-typography.svg");
+}
+.project-proof-card--studioos .project-proof-canvas {
+  background-image: url("assets/images/studioos-typography.svg");
+}
 .project-proof-card--feedback .project-proof-canvas {
   background-image: url("assets/images/ui-feedback-tool-typography.webp");
 }
-
 .project-proof-card--skills .project-proof-canvas {
   background-image: url("assets/images/skills-uiux-typography.webp");
 }
 
 @media (max-width: 640px) {
-  .project-proof-card--feedback .project-proof-canvas,
-  .project-proof-card--skills .project-proof-canvas {
+  .project-proof-card:is(
+    .project-proof-card--atelier,
+    .project-proof-card--luxroom,
+    .project-proof-card--capital,
+    .project-proof-card--vas,
+    .project-proof-card--vietbank,
+    .project-proof-card--qtsc,
+    .project-proof-card--studioos,
+    .project-proof-card--feedback,
+    .project-proof-card--skills
+  ) .project-proof-canvas {
     inset: 12px;
   }
 }

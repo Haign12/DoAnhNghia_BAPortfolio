@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">VAS Education typography thumbnail</title>
+  <desc id="desc">Academic editorial typography artwork for the VAS Education redesign.</desc>
+  <defs><pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse"><path d="M72 0H0V72" fill="none" stroke="#2a1a17" stroke-opacity=".05" stroke-width="1"/></pattern></defs>
+  <rect width="1600" height="1000" fill="#2a1a17"/>
+  <rect x="42" y="42" width="1516" height="916" fill="#ffffff"/>
+  <rect x="42" y="42" width="1516" height="916" fill="url(#grid)"/>
+  <text x="82" y="105" fill="#6b5a52" font-family="Courier New, monospace" font-size="26" font-weight="700" letter-spacing="8">04 / 09</text>
+  <text x="1515" y="105" text-anchor="end" fill="#6b5a52" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="6">EDUCATION · REDESIGN</text>
+  <rect x="82" y="144" width="1436" height="688" fill="#fff" stroke="#2a1a17" stroke-opacity=".14"/>
+  <text x="126" y="390" fill="#B51F1F" font-family="Arial, Helvetica, sans-serif" font-size="184" font-weight="700" letter-spacing="-12">VAS</text>
+  <rect x="515" y="236" width="8" height="170" fill="#c69a4c"/>
+  <text x="126" y="610" fill="#2a1a17" font-family="Arial, Helvetica, sans-serif" font-size="170" font-weight="700" letter-spacing="-11">EDUCATION</text>
+  <text x="715" y="500" fill="#6b5a52" font-family="Courier New, monospace" font-size="27" letter-spacing="2">Programs, campuses and admissions<tspan x="715" dy="40">organized around family decisions.</tspan></text>
+  <text x="1250" y="305" fill="#2a1a17" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">PROGRAM</text>
+  <text x="1250" y="351" fill="#B51F1F" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">CAMPUS</text>
+  <text x="1250" y="397" fill="#c69a4c" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">ADMISSIONS</text>
+  <line x1="1250" y1="430" x2="1462" y2="430" stroke="#B51F1F" stroke-width="8"/>
+  <rect x="108" y="720" width="226" height="68" fill="#B51F1F"/>
+  <text x="221" y="763" text-anchor="middle" fill="#ffffff" font-family="Courier New, monospace" font-size="21" font-weight="700" letter-spacing="3">PARENT JOURNEY</text>
+  <text x="82" y="902" fill="#6b5a52" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">INDEPENDENT REDESIGN · RESPONSIVE EDUCATION UX</text>
+  <text x="1518" y="902" text-anchor="end" fill="#6b5a52" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">2026</text>
+</svg>
