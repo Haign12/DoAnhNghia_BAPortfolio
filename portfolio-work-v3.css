@@ -244,9 +244,42 @@
 .portfolio-card p { max-width:62ch; margin:0 0 15px; color:var(--work-muted); font-size:12.5px; line-height:1.7; }
 .portfolio-card-tags { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:17px; }
 .portfolio-card-tags span { padding:6px 8px; border:1px solid rgba(244,241,232,.18); color:rgba(244,241,232,.7); font:500 8px var(--mono); letter-spacing:.05em; text-transform:uppercase; }
-.portfolio-actions { display:flex; flex-wrap:wrap; gap:17px; }
-.portfolio-actions a { padding-bottom:3px; color:var(--work-paper); text-decoration:none; border-bottom:1px solid rgba(244,241,232,.35); transition:opacity .18s ease,border-color .18s ease; }
-.portfolio-actions a:hover { opacity:.58; border-color:transparent; }
+
+/* Every project exposes exactly two clear paths: try it, or read the reasoning. */
+.portfolio-actions {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  max-width:430px;
+}
+.portfolio-actions a {
+  min-height:44px;
+  padding:0 13px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:var(--work-paper);
+  text-decoration:none;
+  border:1px solid rgba(244,241,232,.3);
+  background:transparent;
+  transition:transform .2s var(--ease), background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+.portfolio-actions a:first-child {
+  background:var(--work-paper);
+  color:#111;
+  border-color:var(--work-paper);
+}
+.portfolio-actions a:hover,
+.portfolio-actions a:focus-visible {
+  transform:translateY(-2px);
+  border-color:var(--work-paper);
+}
+.portfolio-actions a:first-child:hover,
+.portfolio-actions a:first-child:focus-visible {
+  background:transparent;
+  color:var(--work-paper);
+}
 
 .portfolio-closing-note { display:flex; justify-content:space-between; gap:30px; align-items:flex-end; margin-top:clamp(70px,7vw,110px); padding-top:20px; border-top:1px solid var(--work-line); }
 .portfolio-closing-note p { max-width:720px; margin:0; color:var(--work-muted); font-size:13px; line-height:1.75; }
@@ -271,10 +304,12 @@
   .thumb-v3-window { inset:3% 1% 1%; }
   .thumb-v3-title { max-width:68%; font-size:clamp(1.75rem,9.5vw,3rem); }
   .portfolio-card h3 { font-size:2.1rem; }
+  .portfolio-actions { max-width:none; }
+  .portfolio-actions a { min-height:46px; padding-inline:8px; }
   .portfolio-closing-note { align-items:flex-start; flex-direction:column; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .project-thumb-v3,.project-thumb-v3::after,.thumb-v3-window { transition:none !important; }
-  .project-thumb-v3:hover,.project-thumb-v3:focus-visible { transform:none; }
+  .project-thumb-v3,.project-thumb-v3::after,.thumb-v3-window,.portfolio-actions a { transition:none !important; }
+  .project-thumb-v3:hover,.project-thumb-v3:focus-visible,.portfolio-actions a:hover,.portfolio-actions a:focus-visible { transform:none; }
   .project-thumb-v3:hover .thumb-v3-window,.project-thumb-v3:focus-visible .thumb-v3-window { transform:rotate(-.8deg); }
 }
