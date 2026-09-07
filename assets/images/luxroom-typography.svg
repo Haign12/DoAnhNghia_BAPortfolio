@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">LuxRoom typography thumbnail</title>
+  <desc id="desc">Material-led typography artwork for the LuxRoom furniture ecommerce case study.</desc>
+  <defs>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse"><path d="M72 0H0V72" fill="none" stroke="#252A24" stroke-opacity=".055" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="#252A24"/>
+  <rect x="42" y="42" width="1516" height="916" fill="#F3F0E9"/>
+  <rect x="42" y="42" width="1516" height="916" fill="url(#grid)"/>
+  <text x="82" y="105" fill="#716b62" font-family="Courier New, monospace" font-size="26" font-weight="700" letter-spacing="8">02 / 09</text>
+  <text x="1515" y="105" text-anchor="end" fill="#716b62" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="6">COMMERCE · INTERIORS</text>
+  <rect x="82" y="144" width="1436" height="688" fill="#F8F5EF" stroke="#252A24" stroke-opacity=".16"/>
+  <text x="126" y="405" fill="#252A24" font-family="Arial, Helvetica, sans-serif" font-size="166" font-weight="700" letter-spacing="-10">LUX</text>
+  <rect x="476" y="250" width="7" height="166" fill="#A55B3A"/>
+  <text x="126" y="610" fill="#252A24" font-family="Arial, Helvetica, sans-serif" font-size="188" font-weight="700" letter-spacing="-12">ROOM</text>
+  <text x="760" y="585" fill="#716b62" font-family="Courier New, monospace" font-size="28" letter-spacing="2">Material, context and confidence<br/>before checkout.</text>
+  <text x="1250" y="305" fill="#252A24" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">MATERIAL</text>
+  <text x="1250" y="351" fill="#A55B3A" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">CONTEXT</text>
+  <text x="1250" y="397" fill="#252A24" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">COMMERCE</text>
+  <line x1="1250" y1="430" x2="1462" y2="430" stroke="#A55B3A" stroke-width="8"/>
+  <rect x="108" y="720" width="206" height="68" fill="#252A24"/>
+  <text x="211" y="763" text-anchor="middle" fill="#F3F0E9" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="3">DECISION UX</text>
+  <text x="82" y="902" fill="#716b62" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">INDEPENDENT CONCEPT · MATERIAL-LED COMMERCE</text>
+  <text x="1518" y="902" text-anchor="end" fill="#716b62" font-family="Courier New, monospace" font-size="22" font-weight="700" letter-spacing="4">2026</text>
+</svg>
