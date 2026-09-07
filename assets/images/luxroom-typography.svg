@@ -13,7 +13,7 @@
   <text x="126" y="405" fill="#252A24" font-family="Arial, Helvetica, sans-serif" font-size="166" font-weight="700" letter-spacing="-10">LUX</text>
   <rect x="476" y="250" width="7" height="166" fill="#A55B3A"/>
   <text x="126" y="610" fill="#252A24" font-family="Arial, Helvetica, sans-serif" font-size="188" font-weight="700" letter-spacing="-12">ROOM</text>
-  <text x="760" y="585" fill="#716b62" font-family="Courier New, monospace" font-size="28" letter-spacing="2">Material, context and confidence<br/>before checkout.</text>
+  <text x="760" y="565" fill="#716b62" font-family="Courier New, monospace" font-size="28" letter-spacing="2">Material, context and confidence<tspan x="760" dy="40">before checkout.</tspan></text>
   <text x="1250" y="305" fill="#252A24" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">MATERIAL</text>
   <text x="1250" y="351" fill="#A55B3A" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">CONTEXT</text>
   <text x="1250" y="397" fill="#252A24" font-family="Courier New, monospace" font-size="24" font-weight="700" letter-spacing="5">COMMERCE</text>
