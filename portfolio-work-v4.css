@@ -4,6 +4,8 @@
    Real implemented UI is the default proof whenever a local screenshot exists.
    Typography art stays as a fallback only for projects without a local rendered asset
    and for Tools & Systems, where the system identity is the primary visual. */
+.project-proof-card { position:relative; }
+
 .project-proof-card:is(
   .project-proof-card--vas,
   .project-proof-card--vietbank,
@@ -114,20 +116,20 @@
 }
 
 /* Live, read-only interface proof for redesign projects without a local screenshot asset.
-   The existing typography artwork remains underneath as a resilient fallback. */
-.project-proof-card:is(
-  .project-proof-card--vas,
-  .project-proof-card--vietbank,
-  .project-proof-card--qtsc
-) .project-proof-canvas--live > .project-live-frame {
-  display: block !important;
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  overflow: hidden;
-  background: var(--p-bg);
+   It is a sibling overlay rather than a child of the card link, preserving valid interaction semantics.
+   Typography artwork remains visible until the remote interface finishes loading. */
+.project-live-frame {
+  display:block;
+  position:absolute;
+  z-index:4;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  background:transparent;
+  transition:opacity .24s ease;
 }
-.project-proof-canvas--live > .project-live-frame::after {
+.project-live-frame.is-loaded { opacity:1; background:var(--p-bg); }
+.project-live-frame::after {
   content: "LIVE IMPLEMENTED UI";
   position: absolute;
   left: 10px;
@@ -141,20 +143,20 @@
   text-transform: uppercase;
   pointer-events: none;
 }
-.project-proof-canvas--live iframe {
-  display: block !important;
-  width: 238%;
-  height: 238%;
-  border: 0;
-  transform: scale(.42);
-  transform-origin: 0 0;
-  pointer-events: none;
-  background: #fff;
+.project-live-frame iframe {
+  display:block;
+  width:238%;
+  height:238%;
+  border:0;
+  transform:scale(.42);
+  transform-origin:0 0;
+  pointer-events:none;
+  background:#fff;
 }
-.portfolio-proof-grid--archive .project-proof-canvas--live iframe {
-  width: 333.34%;
-  height: 333.34%;
-  transform: scale(.3);
+.portfolio-proof-grid--archive .project-live-frame iframe {
+  width:333.34%;
+  height:333.34%;
+  transform:scale(.3);
 }
 
 /* Professional role-level proof sits between concept work and capability framing. */
@@ -212,13 +214,7 @@
   ) .project-proof-canvas {
     inset: 42px 12px 12px;
   }
-  .project-proof-card:is(
-    .project-proof-card--vas,
-    .project-proof-card--vietbank,
-    .project-proof-card--qtsc
-  ) .project-proof-canvas--live > .project-live-frame {
-    display:none !important;
-  }
+  .project-live-frame { display:none !important; }
   .professional-proof__head,
   .professional-proof__facts > div { padding:20px; }
   .professional-proof__actions { padding:14px; }
@@ -226,6 +222,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-proof-canvas--live iframe { transform:scale(.42); }
-  .portfolio-proof-grid--archive .project-proof-canvas--live iframe { transform:scale(.3); }
+  .project-live-frame { transition:none; }
+  .project-live-frame iframe { transform:scale(.42); }
+  .portfolio-proof-grid--archive .project-live-frame iframe { transform:scale(.3); }
 }
