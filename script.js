@@ -203,20 +203,95 @@
     reducedMotionQuery.addEventListener?.('change', (event) => { if (event.matches) resetParallax(); });
   }
 
-  /* Recruiter-facing timeline uses year-only labels so short roles do not dominate the scan.
-     The labels remain truthful; detailed month ranges stay in the CV source. */
-  const experienceYears = [
-    ['MangoAds', '2026'],
-    ['Tikera', '2025'],
-    ['Trésor', '2025'],
+  /* Recruiter upgrade: make positioning and evidence clearer without overstating project reality. */
+  const heroSans = document.querySelector('.hero-sans');
+  if (heroSans) heroSans.textContent = 'Designing complex web & product experiences.';
+
+  const workGuideMode = document.querySelector('.work-guide > span');
+  if (workGuideMode) workGuideMode.textContent = 'Each project · Live Demo or Source Code + Case Study';
+
+  const realityLabels = new Map([
+    ['Independent concept', 'Concept'],
+    ['Independent redesign', 'Website redesign'],
+  ]);
+  document.querySelectorAll('.project-reality strong').forEach((labelNode) => {
+    const replacement = realityLabels.get(labelNode.textContent.trim());
+    if (replacement) labelNode.textContent = replacement;
+  });
+
+  const portfolioTruthNote = document.querySelector('.portfolio-proof-note p');
+  if (portfolioTruthNote) {
+    portfolioTruthNote.textContent = 'Project labels distinguish concept work, redesigns, product slices and tooling so each case can be evaluated against the proof that is actually available.';
+  }
+
+  const liveProjectPreviews = [
+    ['.project-proof-card--vas', 'https://ngh1aa.github.io/RedesignVAS/', 'VAS Education implemented interface'],
+    ['.project-proof-card--vietbank', 'https://ngh1aa.github.io/Redesign-Vietbank-Website/', 'Vietbank redesign implemented interface'],
+    ['.project-proof-card--qtsc', 'https://ngh1aa.github.io/QTSC/', 'QTSC implemented interface'],
+  ];
+
+  liveProjectPreviews.forEach(([selector, src, title]) => {
+    const canvas = document.querySelector(`${selector} .project-proof-canvas`);
+    if (!canvas || canvas.querySelector('.project-live-frame')) return;
+    canvas.classList.add('project-proof-canvas--live');
+
+    const frameWrap = document.createElement('div');
+    frameWrap.className = 'project-live-frame';
+    const frame = document.createElement('iframe');
+    frame.src = src;
+    frame.title = title;
+    frame.loading = 'lazy';
+    frame.tabIndex = -1;
+    frame.setAttribute('aria-hidden', 'true');
+    frame.setAttribute('referrerpolicy', 'no-referrer');
+    frameWrap.append(frame);
+    canvas.append(frameWrap);
+  });
+
+  /* Professional experience is surfaced next to concept work without inventing a named client case. */
+  const recruiterStrip = document.querySelector('.recruiter-proof-strip');
+  if (recruiterStrip && !document.querySelector('.professional-proof')) {
+    const professionalProof = document.createElement('section');
+    professionalProof.className = 'professional-proof';
+    professionalProof.setAttribute('aria-labelledby', 'professional-proof-title');
+    professionalProof.innerHTML = `
+      <div class="professional-proof__head">
+        <span>PROFESSIONAL DELIVERY · 2026</span>
+        <h3 id="professional-proof-title">Client-facing web work at MangoAds.</h3>
+        <p>Ongoing UI/UX delivery across information architecture, responsive interfaces, visual systems, interaction behavior and implementation detail.</p>
+      </div>
+      <div class="professional-proof__facts" aria-label="Professional delivery scope">
+        <div><span>ROLE</span><strong>UI/UX Designer</strong><small>MangoAds · Vietnam</small></div>
+        <div><span>SCOPE</span><strong>Structure → Interface</strong><small>User flows, hierarchy, responsive UI and visual systems.</small></div>
+        <div><span>DELIVERY</span><strong>Implementation-aware</strong><small>Interaction states, responsive decisions and developer-facing detail.</small></div>
+      </div>
+      <div class="professional-proof__actions">
+        <a href="#experience">See experience ↘</a>
+        <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">View resume ↗</a>
+      </div>
+      <p class="professional-proof__boundary">Named client case studies are shown only when public proof can be shared; this section represents verified role and delivery scope rather than a fabricated client outcome.</p>
+    `;
+    recruiterStrip.before(professionalProof);
+  }
+
+  /* Keep chronology explicit rather than compressing short roles into year-only labels. */
+  const experienceRanges = [
+    ['MangoAds', 'AUG 2026 — NOW', '2026-08'],
+    ['Tikera', 'FEB — JUL 2025', '2025-02'],
+    ['Trésor', 'JUN — DEC 2025 · REMOTE', '2025-06'],
   ];
   document.querySelectorAll('.career-row').forEach((row) => {
     const company = row.querySelector('.career-role p')?.textContent || '';
     const time = row.querySelector('time');
-    const match = experienceYears.find(([name]) => company.includes(name));
+    const match = experienceRanges.find(([name]) => company.includes(name));
     if (!time || !match) return;
     time.textContent = match[1];
-    time.setAttribute('datetime', match[1]);
+    time.setAttribute('datetime', match[2]);
+  });
+
+  document.querySelectorAll('.experience-rail > div').forEach((item) => {
+    const labelNode = item.querySelector('span');
+    if (labelNode?.textContent.trim() === 'SECONDARY') labelNode.textContent = 'ADDITIONAL EDUCATION';
   });
 
   if (year) year.textContent = new Date().getFullYear();
