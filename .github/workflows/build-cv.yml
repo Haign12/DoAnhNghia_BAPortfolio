@@ -28,6 +28,15 @@ jobs:
           typst compile cv/main.typ cv/main.pdf
           cp cv/main.pdf Do_Anh_Nghia_CV.pdf
 
+      - name: Verify recruiter PDF
+        run: |
+          pages="$(pdfinfo cv/main.pdf | awk '/^Pages:/ {print $2}')"
+          echo "CV page count: ${pages}"
+          test "${pages}" = "1"
+          pdftotext cv/main.pdf - | grep -q "Design Process"
+          pdftotext cv/main.pdf - | grep -q "Product outcome"
+          pdftotext cv/main.pdf - | grep -q "Outcome:"
+
       - name: Commit generated PDFs
         run: |
           if git diff --quiet -- cv/main.pdf Do_Anh_Nghia_CV.pdf; then
