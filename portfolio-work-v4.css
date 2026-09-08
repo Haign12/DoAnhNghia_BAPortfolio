@@ -115,7 +115,11 @@
 
 /* Live, read-only interface proof for redesign projects without a local screenshot asset.
    The existing typography artwork remains underneath as a resilient fallback. */
-.project-proof-canvas--live > .project-live-frame {
+.project-proof-card:is(
+  .project-proof-card--vas,
+  .project-proof-card--vietbank,
+  .project-proof-card--qtsc
+) .project-proof-canvas--live > .project-live-frame {
   display: block !important;
   position: absolute;
   inset: 0;
@@ -208,7 +212,13 @@
   ) .project-proof-canvas {
     inset: 42px 12px 12px;
   }
-  .project-live-frame { display:none !important; }
+  .project-proof-card:is(
+    .project-proof-card--vas,
+    .project-proof-card--vietbank,
+    .project-proof-card--qtsc
+  ) .project-proof-canvas--live > .project-live-frame {
+    display:none !important;
+  }
   .professional-proof__head,
   .professional-proof__facts > div { padding:20px; }
   .professional-proof__actions { padding:14px; }
