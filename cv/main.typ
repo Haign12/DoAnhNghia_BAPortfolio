@@ -1,6 +1,5 @@
 #import "@preview/basic-resume:0.2.9": *
 
-// Recruiter-facing UI/UX CV based on portfolio evidence.
 #let name = "Do Anh Nghia"
 #let location = "Ho Chi Minh City, Vietnam"
 #let email = "anhnghia9a633@gmail.com"
@@ -24,11 +23,11 @@
 
 == Profile
 
-UI/UX Designer focused on complex web and product experiences. I turn ambiguous business requirements, dense content and multi-step workflows into clear information architecture, responsive interfaces and working front-end prototypes — connecting structure, visual craft and interaction in one design process.
+UI/UX Designer focused on complex web and product experiences. I turn dense content, ambiguous requirements and multi-step workflows into clear information architecture, responsive interfaces and working front-end prototypes.
 
-== Design Approach
+== Design Process
 
-*Business / user problem* → *Evidence* → *UX hypothesis* → *User flow* → *Interaction* → *UI* → *Prototype* → *Validation* → *Iteration* → *Product outcome*
+*Business problem* → *User problem* → *Evidence* → *UX hypothesis* → *User flow* → *Interaction* → *UI* → *Prototype* → *Validation* → *Iteration* → *Product outcome*
 
 == Experience
 
@@ -38,8 +37,7 @@ UI/UX Designer focused on complex web and product experiences. I turn ambiguous 
   company: "MangoAds — SEO Optimization & Web Design Agency",
   dates: dates-helper(start-date: "Aug 2025", end-date: "Present"),
 )
-- Shape client-facing web experiences from business goals and content requirements into IA, user flows, responsive page systems, interaction states and implementation-ready UI.
-- Work with an implementation-aware mindset: define hierarchy, reusable patterns, responsive behavior and developer-facing details so design decisions survive handoff.
+- Translate business goals and content requirements into IA, user flows, responsive page systems, interaction states and implementation-ready UI. *Outcome:* clearer structure, reusable patterns and developer-facing handoff details across client web work.
 
 #work(
   title: "UI/UX Designer",
@@ -47,7 +45,7 @@ UI/UX Designer focused on complex web and product experiences. I turn ambiguous 
   company: "Tikera Technology & Brand Development",
   dates: dates-helper(start-date: "Feb 2025", end-date: "Jul 2025"),
 )
-- Translated product requirements into user flows, wireframes and high-fidelity interfaces; clarified interaction behavior, edge cases and reusable patterns before development.
+- Turned product requirements into flows, wireframes and high-fidelity interfaces, clarifying edge cases and interaction behavior before development. *Outcome:* more consistent interface decisions and handoff inputs.
 
 #work(
   title: "Intern UI/UX Designer",
@@ -55,7 +53,7 @@ UI/UX Designer focused on complex web and product experiences. I turn ambiguous 
   company: "Trésor Solution Company",
   dates: dates-helper(start-date: "Jun 2025", end-date: "Dec 2025"),
 )
-- Supported responsive product flows, screen states and iterative UI refinement, producing clearer interaction models and handoff inputs for team review.
+- Supported responsive flows, screen states and reusable UI patterns for product iterations. *Outcome:* clearer interaction models for team review and implementation.
 
 == Selected Case Studies
 
@@ -65,15 +63,15 @@ UI/UX Designer focused on complex web and product experiences. I turn ambiguous 
   dates: "2026",
   url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-capital-place.html",
 )
-- *Problem:* brochure-style property content did not help prospective occupiers make a space decision. *Solution:* reframed the journey around place → requirement → floor context → enquiry, with Space Finder and truthful non-live availability states. *Outcome:* interactive prototype demonstrating a clearer high-consideration decision model.
+- For prospective occupiers, reframed brochure-style property content around place → requirement → floor context → enquiry, including Space Finder and truthful non-live availability states. *Outcome:* interactive prototype demonstrating a clearer high-consideration decision model.
 
 #project(
   name: "VAS Education",
-  role: "Education / information architecture / parent journey",
+  role: "Education / IA / parent journey",
   dates: "2026",
   url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-vas-education.html",
 )
-- *Problem:* useful school content existed without a clear path for prospective families. *Solution:* reorganized the experience around trust → fit → daily reality → action. *Outcome:* implemented responsive prototype connecting brand proof, learning pathways, campus context and admissions in one continuous journey.
+- For prospective families, reorganized a broad content ecosystem around trust → fit → daily reality → action. *Outcome:* responsive prototype connecting brand proof, learning pathways, campus context and admissions in one continuous journey.
 
 #project(
   name: "StudioOS",
@@ -81,31 +79,10 @@ UI/UX Designer focused on complex web and product experiences. I turn ambiguous 
   dates: "2026",
   url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-studioos.html",
 )
-- *Problem:* creative-team dashboards can either overload attention or remove project context. *Solution:* prioritized project health → focus → context → quiet feedback. *Outcome:* implemented first vertical slice covering overview, search, task completion, project creation, reviews and notifications.
-
-#project(
-  name: "Atelier",
-  role: "Mobile-first fashion commerce",
-  dates: "2026",
-  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-atelier.html",
-)
-- *Problem:* editorial fashion experiences can create desire while hiding practical shopping actions. *Solution:* increased information density with intent across discover → evaluate → buy. *Outcome:* implemented mobile-first commerce prototype preserving brand expression through product and checkout flows.
+- For small creative teams, reduced dashboard overload with project health → focus → context → quiet feedback. *Outcome:* implemented first vertical slice covering overview, search, task completion, project creation, reviews and notifications.
 
 == Education & Skills
 
-#edu(
-  institution: "University of Science — HCMUS",
-  location: "Ho Chi Minh City",
-  dates: dates-helper(start-date: "2021", end-date: "2026"),
-  degree: "Information Technology",
-)
+*Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025).
 
-#edu(
-  institution: "Claude Bernard University Lyon 1",
-  location: "Lyon, France",
-  dates: dates-helper(start-date: "2021", end-date: "2025"),
-  degree: "Information Technology",
-)
-
-- *UX / Product:* problem framing, information architecture, research synthesis, user flows, interaction design, responsive strategy, validation planning.
-- *UI / Prototype:* Figma, design systems, high-fidelity prototyping, HTML, CSS, JavaScript, GitHub.
+*UX / Product:* problem framing, information architecture, research synthesis, user flows, interaction design, responsive strategy, validation planning. *UI / Prototype:* Figma, design systems, high-fidelity prototyping, HTML, CSS, JavaScript, GitHub.
