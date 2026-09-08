@@ -1,6 +1,6 @@
 #import "@preview/basic-resume:0.2.9": *
 
-// Visual portfolio CV: UI/UX-led hierarchy, concise evidence, no BA positioning.
+// UI/UX portfolio CV: problem framing -> design decisions -> implemented outcome.
 #let name = "Do Anh Nghia"
 #let location = "Ho Chi Minh City, Vietnam"
 #let email = "anhnghia9a633@gmail.com"
@@ -24,28 +24,31 @@
 
 == Profile
 
-UI/UX Designer focused on turning complex product ideas into clear, calm and usable digital experiences. I work across information architecture, user flows, wireframes, high-fidelity interfaces and design systems, with a strong interest in thoughtful interaction details.
+UI/UX Designer who turns business and user problems into structured flows, responsive interfaces and working prototypes. I connect design decisions to evidence, implementation constraints and clearly bounded product outcomes rather than treating UI as decoration.
+
+== Design Process
+
+*Business problem* → *User problem* → *Research / evidence* → *UX hypothesis* → *User flow* → *Interaction* → *UI* → *Prototype* → *Validation* → *Iteration* → *Product outcome*
 
 == Experience
 
 #work(
   title: "UI/UX Designer",
   location: "Vietnam",
-  company: "MangoAds — Vietnam SEO Optimization and Web Design Agency",
-  dates: dates-helper(start-date: "Aug 2026", end-date: "Sep 2026"),
+  company: "MangoAds",
+  dates: dates-helper(start-date: "Aug 2026", end-date: "Present"),
 )
-- Designed user flows, wireframes and responsive interfaces for web experiences.
-- Contributed to visual systems and interaction details across digital design work.
+- Translate business goals and content-heavy requirements into information architecture, user flows, responsive UI, visual systems and interaction states for client-facing web work.
+- *Outcome:* implementation-ready interface directions that connect structure, hierarchy and developer handoff; client impact is only claimed when verified.
 
 #work(
   title: "UI/UX Designer",
   location: "Ho Chi Minh City",
-  company: "Tikera Technology and Brand Development Company",
+  company: "Tikera Technology & Brand Development",
   dates: dates-helper(start-date: "Feb 2025", end-date: "Jul 2025"),
 )
-- Designed and refined product flows, screen structures and interface patterns for digital products.
-- Translated product requirements into user flows, wireframes and high-fidelity interface directions.
-- Collaborated with team members to clarify interaction behavior and improve design consistency.
+- Turned product requirements into user flows, wireframes and high-fidelity screens, clarifying edge cases and interaction behavior before development.
+- *Outcome:* more consistent interface patterns and clearer implementation decisions across product work.
 
 #work(
   title: "Intern UI/UX Designer",
@@ -53,10 +56,19 @@ UI/UX Designer focused on turning complex product ideas into clear, calm and usa
   company: "Trésor Solution Company",
   dates: dates-helper(start-date: "Jun 2025", end-date: "Dec 2025"),
 )
-- Supported wireframes, user flows and interface iterations across responsive product experiences.
-- Helped structure screen behavior, edge cases and reusable interface patterns with the product team.
+- Supported responsive product flows, screen states and reusable interface patterns, with attention to edge cases and iteration feedback.
+- *Outcome:* reviewable interaction models and clearer handoff inputs for the product team.
 
 == Selected UI/UX Work
+
+#project(
+  name: "VAS Education",
+  role: "Information architecture / responsive education experience",
+  dates: "2026",
+  url: "ngh1aa.github.io/RedesignVAS",
+)
+- *For / problem / why:* prospective families choosing a school; a broad content ecosystem existed without a clear decision path, so I reorganized the experience around changing family questions: trust → fit → daily reality → action.
+- *Outcome:* implemented responsive prototype connecting brand proof, learning pathways, campus context and admissions in one continuous journey; no conversion outcome claimed.
 
 #project(
   name: "StudioOS",
@@ -64,25 +76,19 @@ UI/UX Designer focused on turning complex product ideas into clear, calm and usa
   dates: "2026",
   url: "ngh1aa.github.io/StudioOS",
 )
-- Designed a calm project workspace for small creative teams, bringing projects, tasks, reviews, calendar and notes into one structured interface.
+- *For / problem / why:* small creative teams; dashboards can overload attention or remove project context, so I shaped the interaction model around project health → focus → context → quiet feedback.
+- *Outcome:* implemented first vertical slice with overview, search, task completion, project creation, reviews and notifications; next validation is real-team information-architecture testing.
 
 #project(
   name: "Atelier",
-  role: "Mobile-first commerce concept",
+  role: "Mobile-first fashion commerce",
   dates: "2025–2026",
   url: "ngh1aa.github.io/Atelier",
 )
-- Shaped a mobile-first fashion experience around product discovery, editorial hierarchy and a focused path from browsing to purchase.
+- *For / problem / why:* fashion shoppers; editorial storytelling can create desire while hiding practical product decisions, so information density increases with intent across discover → evaluate → buy.
+- *Outcome:* implemented mobile-first prototype preserving editorial identity across product discovery, product decisions and checkout; no commercial-performance claim.
 
-#project(
-  name: "LuxRoom",
-  role: "Responsive furniture experience",
-  dates: "2025–2026",
-  url: "ngh1aa.github.io/LuxRoom",
-)
-- Designed a responsive furniture experience centered on room context, material language, product detail and intentional exploration.
-
-== Education & Skills
+== Education
 
 #edu(
   institution: "University of Science — HCMUS",
@@ -98,5 +104,7 @@ UI/UX Designer focused on turning complex product ideas into clear, calm and usa
   degree: "Information Technology",
 )
 
-- *Design*: Figma, wireframing, high-fidelity prototyping, user flows, design systems, responsive UI, interaction design.
-- *Tools*: HTML, CSS, JavaScript, GitHub, Google UX Design foundations.
+== Skills
+
+- *UX / Product*: problem framing, research synthesis, information architecture, UX hypotheses, user flows, interaction design, validation planning, responsive strategy.
+- *UI / Prototyping*: Figma, design systems, high-fidelity prototyping, HTML, CSS, JavaScript, GitHub.
