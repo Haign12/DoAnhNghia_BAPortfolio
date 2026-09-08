@@ -25,6 +25,49 @@
   setTheme(readTheme() || 'light');
   themeButton?.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
 
+  const pageName = window.location.pathname.split('/').pop() || '';
+
+  /* Repository-first tools use Source Code as the primary proof action. */
+  const repositoryFirstProjects = {
+    'case-study-ui-feedback-tool.html': {
+      repository: 'https://github.com/Ngh1aa/ui-feedback-tool',
+      demo: 'https://ngh1aa.github.io/ui-feedback-tool/'
+    },
+    'case-study-skills-uiux.html': {
+      repository: 'https://github.com/Ngh1aa/skills_UIUX',
+      demo: 'demo-skills-uiux.html'
+    }
+  };
+  const repositoryFirst = repositoryFirstProjects[pageName];
+  if (repositoryFirst) {
+    const navPrimary = document.querySelector('.case-nav-actions a:first-child');
+    if (navPrimary) {
+      navPrimary.href = repositoryFirst.repository;
+      navPrimary.target = '_blank';
+      navPrimary.rel = 'noopener noreferrer';
+      navPrimary.textContent = 'Source code ↗';
+    }
+
+    const heroActions = document.querySelector('.case-hero-actions');
+    const heroPrimary = heroActions?.querySelector('.case-action-primary');
+    if (heroPrimary) {
+      heroPrimary.href = repositoryFirst.repository;
+      heroPrimary.target = '_blank';
+      heroPrimary.rel = 'noopener noreferrer';
+      heroPrimary.textContent = 'Source code ↗';
+    }
+
+    if (pageName === 'case-study-skills-uiux.html' && heroActions) {
+      const secondary = heroActions.querySelector('.case-action:not(.case-action-primary)');
+      if (secondary) {
+        secondary.href = repositoryFirst.demo;
+        secondary.removeAttribute('target');
+        secondary.removeAttribute('rel');
+        secondary.textContent = 'Live demo ↗';
+      }
+    }
+  }
+
   /* Keep project reality explicit, but frame it as context rather than a warning. */
   const caseIndex = document.querySelector('.case-index');
   if (caseIndex) {
@@ -60,7 +103,6 @@
     },
   };
 
-  const pageName = window.location.pathname.split('/').pop() || '';
   const liveProof = liveProofByPage[pageName];
   if (liveProof && !document.querySelector('.case-live-evidence')) {
     const interfaceSection = [...document.querySelectorAll('.case-section')].find((section) => {
