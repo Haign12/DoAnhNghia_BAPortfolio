@@ -38,9 +38,13 @@ jobs:
           pages="$(pdfinfo cv/main.pdf | awk '/^Pages:/ {print $2}')"
           echo "CV page count: ${pages}"
           test "${pages}" = "1"
-          pdftotext cv/main.pdf - | grep -q "Design Process"
-          pdftotext cv/main.pdf - | grep -q "Product outcome"
-          pdftotext cv/main.pdf - | grep -q "Outcome:"
+          text="$(pdftotext cv/main.pdf -)"
+          printf '%s' "$text" | grep -q "Selected Personal Projects"
+          printf '%s' "$text" | grep -q "LuxRoom"
+          printf '%s' "$text" | grep -q "Atelier"
+          printf '%s' "$text" | grep -q "VAS Education"
+          printf '%s' "$text" | grep -q "Capital Place"
+          printf '%s' "$text" | grep -q "Outcome:"
 
       - name: Commit generated PDFs
         run: |
