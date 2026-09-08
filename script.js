@@ -224,19 +224,25 @@
     portfolioTruthNote.textContent = 'Project labels distinguish concept work, redesigns, product slices and tooling so each case can be evaluated against the proof that is actually available.';
   }
 
+  /* Use real deployed interfaces as non-interactive visual proof without nesting iframes inside links. */
   const liveProjectPreviews = [
     ['.project-proof-card--vas', 'https://ngh1aa.github.io/RedesignVAS/', 'VAS Education implemented interface'],
     ['.project-proof-card--vietbank', 'https://ngh1aa.github.io/Redesign-Vietbank-Website/', 'Vietbank redesign implemented interface'],
     ['.project-proof-card--qtsc', 'https://ngh1aa.github.io/QTSC/', 'QTSC implemented interface'],
   ];
+  const livePreviewSync = [];
 
   liveProjectPreviews.forEach(([selector, src, title]) => {
-    const canvas = document.querySelector(`${selector} .project-proof-canvas`);
-    if (!canvas || canvas.querySelector('.project-live-frame')) return;
-    canvas.classList.add('project-proof-canvas--live');
+    const card = document.querySelector(selector);
+    const media = card?.querySelector('.project-proof-media');
+    const canvas = media?.querySelector('.project-proof-canvas');
+    if (!card || !media || !canvas || card.querySelector('.project-live-frame')) return;
 
+    card.classList.add('has-live-project-proof');
     const frameWrap = document.createElement('div');
     frameWrap.className = 'project-live-frame';
+    frameWrap.setAttribute('aria-hidden', 'true');
+
     const frame = document.createElement('iframe');
     frame.src = src;
     frame.title = title;
@@ -244,9 +250,28 @@
     frame.tabIndex = -1;
     frame.setAttribute('aria-hidden', 'true');
     frame.setAttribute('referrerpolicy', 'no-referrer');
+    frame.addEventListener('load', () => frameWrap.classList.add('is-loaded'), { once: true });
+
     frameWrap.append(frame);
-    canvas.append(frameWrap);
+    card.append(frameWrap);
+
+    const syncFrame = () => {
+      frameWrap.style.left = `${media.offsetLeft + canvas.offsetLeft}px`;
+      frameWrap.style.top = `${media.offsetTop + canvas.offsetTop}px`;
+      frameWrap.style.width = `${canvas.clientWidth}px`;
+      frameWrap.style.height = `${canvas.clientHeight}px`;
+    };
+    livePreviewSync.push(syncFrame);
+    requestAnimationFrame(syncFrame);
   });
+
+  if (livePreviewSync.length) {
+    let resizeFrame = 0;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => livePreviewSync.forEach((sync) => sync()));
+    }, { passive: true });
+  }
 
   /* Professional experience is surfaced next to concept work without inventing a named client case. */
   const recruiterStrip = document.querySelector('.recruiter-proof-strip');
