@@ -21,68 +21,68 @@
 
 #show heading: set text(font: "Libertinus Serif")
 
-== Profile
-
-UI/UX Designer focused on complex web and product experiences. I turn dense content, ambiguous requirements and multi-step workflows into clear information architecture, responsive interfaces and working front-end prototypes.
-
-== Design Process
-
-*Business problem* → *User problem* → *Evidence* → *UX hypothesis* → *User flow* → *Interaction* → *UI* → *Prototype* → *Validation* → *Iteration* → *Product outcome*
-
 == Experience
 
 #work(
   title: "UI/UX Designer",
-  location: "Vietnam",
+  location: "Full-time",
   company: "MangoAds — SEO Optimization & Web Design Agency",
-  dates: dates-helper(start-date: "Aug 2025", end-date: "Present"),
+  dates: dates-helper(start-date: "May 2026", end-date: "Sep 2026"),
 )
-- Translate business goals and content requirements into IA, user flows, responsive page systems, interaction states and implementation-ready UI. *Outcome:* clearer structure, reusable patterns and developer-facing handoff details across client web work.
+- Translate business requirements into information architecture, user flows, responsive UI systems and interaction states for client-facing web projects. *Outcome:* clearer content structures, more consistent interface patterns and implementation-ready handoff.
 
 #work(
   title: "UI/UX Designer",
-  location: "Ho Chi Minh City",
+  location: "Full-time",
   company: "Tikera Technology & Brand Development",
-  dates: dates-helper(start-date: "Feb 2025", end-date: "Jul 2025"),
+  dates: dates-helper(start-date: "Dec 2025", end-date: "Apr 2026"),
 )
-- Turned product requirements into flows, wireframes and high-fidelity interfaces, clarifying edge cases and interaction behavior before development. *Outcome:* more consistent interface decisions and handoff inputs.
+- Designed user flows, wireframes and high-fidelity interfaces while defining interaction states and edge cases. *Outcome:* improved UI consistency and clearer implementation decisions.
 
 #work(
   title: "Intern UI/UX Designer",
   location: "Remote",
   company: "Trésor Solution Company",
-  dates: dates-helper(start-date: "Jun 2025", end-date: "Dec 2025"),
+  dates: dates-helper(start-date: "Sep 2025", end-date: "Dec 2025"),
 )
-- Supported responsive flows, screen states and reusable UI patterns for product iterations. *Outcome:* clearer interaction models for team review and implementation.
+- Supported responsive product flows, reusable UI patterns and developer handoff. *Outcome:* clearer interaction models for product iterations.
 
-== Selected Case Studies
+== Selected Personal Projects
 
 #project(
-  name: "Capital Place",
-  role: "Commercial real-estate / leasing decision support",
+  name: "LuxRoom — Furniture E-commerce Website",
+  role: "UI/UX Design · Responsive Prototype",
   dates: "2026",
-  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-capital-place.html",
+  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-luxroom.html",
 )
-- For prospective occupiers, reframed brochure-style property content around place → requirement → floor context → enquiry, including Space Finder and truthful non-live availability states. *Outcome:* interactive prototype demonstrating a clearer high-consideration decision model.
+- *Problem:* premium furniture shopping can hide the practical information users need to judge fit, material, dimensions and delivery. *Solution:* room context → material preference → product evaluation → save / checkout. *Outcome:* responsive prototype connecting contextual discovery, product specifications, Saved Room and checkout.
 
 #project(
-  name: "VAS Education",
-  role: "Education / IA / parent journey",
+  name: "Atelier — Fashion E-commerce Website",
+  role: "UI/UX Design · Mobile-first Prototype",
+  dates: "2026",
+  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-atelier.html",
+)
+- *Problem:* editorial fashion experiences can create desire while making product decisions harder. *Solution:* discover → evaluate → buy, with information density increasing as purchase intent grows. *Outcome:* mobile-first prototype covering collection discovery, product decisions, variants and checkout.
+
+#project(
+  name: "VAS Education — Website Redesign",
+  role: "Information Architecture · Responsive Prototype",
   dates: "2026",
   url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-vas-education.html",
 )
-- For prospective families, reorganized a broad content ecosystem around trust → fit → daily reality → action. *Outcome:* responsive prototype connecting brand proof, learning pathways, campus context and admissions in one continuous journey.
+- *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Solution:* trust → fit → daily reality → action. *Outcome:* responsive prototype connecting brand proof, learning pathways, campus context and admissions into one parent journey.
 
 #project(
-  name: "StudioOS",
-  role: "SaaS workspace / project health / next action",
+  name: "Capital Place — Website Redesign",
+  role: "Decision-support UX · Interactive Prototype",
   dates: "2026",
-  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-studioos.html",
+  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-capital-place.html",
 )
-- For small creative teams, reduced dashboard overload with project health → focus → context → quiet feedback. *Outcome:* implemented first vertical slice covering overview, search, task completion, project creation, reviews and notifications.
+- *Problem:* brochure-style property content did not support practical leasing decisions. *Solution:* place → space requirement → floor context → enquiry, including Space Finder and contextual enquiry flows. *Outcome:* interactive responsive prototype demonstrating a clearer leasing decision-support experience.
 
 == Education & Skills
 
-*Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025).
+*Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025) · Foundations of Google UX Design (2026).
 
-*UX / Product:* problem framing, information architecture, research synthesis, user flows, interaction design, responsive strategy, validation planning. *UI / Prototype:* Figma, design systems, high-fidelity prototyping, HTML, CSS, JavaScript, GitHub.
+*UI/UX Design:* wireframing, high-fidelity prototyping, user research, design systems, information architecture, user flows, interaction design, responsive design. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling, MVP definition.
