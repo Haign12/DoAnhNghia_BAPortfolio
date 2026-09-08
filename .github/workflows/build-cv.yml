@@ -1,0 +1,41 @@
+name: Build CV PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cv/main.typ"
+      - ".github/workflows/build-cv.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          typst-version: "0.15.1"
+
+      - name: Compile CV
+        run: |
+          typst compile cv/main.typ cv/main.pdf
+          cp cv/main.pdf Do_Anh_Nghia_CV.pdf
+
+      - name: Commit generated PDFs
+        run: |
+          if git diff --quiet -- cv/main.pdf Do_Anh_Nghia_CV.pdf; then
+            echo "CV PDFs are already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cv/main.pdf Do_Anh_Nghia_CV.pdf
+          git commit -m "Build updated UI UX CV PDF"
+          git push
