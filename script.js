@@ -210,6 +210,54 @@
   const workGuideMode = document.querySelector('.work-guide > span');
   if (workGuideMode) workGuideMode.textContent = 'Each project · Live Demo or Source Code + View Figma';
 
+  const workGuideCount = document.querySelector('.work-guide > strong');
+  if (workGuideCount) workGuideCount.textContent = '11 projects / systems';
+
+  /* Extend the archive with the two newest independent web projects. */
+  const archiveGroup = document.querySelector('[aria-labelledby="archive-projects-title"]');
+  const archiveGrid = archiveGroup?.querySelector('.portfolio-proof-grid--archive');
+  const archiveIndex = archiveGroup?.querySelector('.portfolio-proof-index');
+  const archiveIntro = archiveGroup?.querySelector('.portfolio-proof-head p');
+
+  if (archiveIndex) archiveIndex.textContent = 'B / 05';
+  if (archiveIntro) {
+    archiveIntro.textContent = 'Supporting projects extend the range into electric mobility, B2B industrial services, banking, public digital ecosystems and SaaS workspace design without competing with the main cases.';
+  }
+
+  if (archiveGrid && !archiveGrid.querySelector('.project-proof-card--voltis')) {
+    const extraProjects = document.createElement('template');
+    extraProjects.innerHTML = `
+      <article class="project-proof-card project-proof-card--voltis reveal is-visible" style="--p-bg:#101713;--p-ink:#edf5ed;--p-accent:#69cf4d;--p-dark:#090d0a">
+        <a class="project-proof-media" href="https://ngh1aa.github.io/Voltis/" target="_blank" rel="noopener noreferrer" aria-label="Open Voltis live demo">
+          <div class="project-proof-topline"><span>05 / 11</span><span>EV · BRAND EXPERIENCE</span></div>
+          <div class="project-proof-canvas">
+            <div class="ui-preview" aria-hidden="true"><div class="ui-preview__nav"><i></i><i></i><i></i><i></i></div><div class="ui-preview__hero"><div class="ui-preview__copy"><span></span><strong>Pure electric.<br>Human centered.</strong><p></p><b></b></div><div class="ui-preview__object"></div></div></div>
+            <span class="project-proof-caption">LIVE BRAND PROTOTYPE</span><span class="project-proof-badge">VI / EN</span>
+          </div>
+        </a>
+        <div class="project-proof-body"><div class="project-proof-meta"><span class="project-reality"><strong>Independent concept</strong> · Responsive prototype</span><span class="project-year">2026</span></div><h3>Voltis</h3><p>Electric mobility brand concept combining model storytelling, bilingual navigation, energy-system visuals and responsive interaction across a company and product showcase.</p><div class="project-proof-tags"><span>Brand experience</span><span>Automotive UX</span><span>Responsive</span></div><div class="project-actions"><a href="https://ngh1aa.github.io/Voltis/" target="_blank" rel="noopener noreferrer">Live Demo ↗</a><a aria-disabled="true" title="Figma link coming soon" class="figma-link-pending">View Figma ↗</a></div></div>
+      </article>
+
+      <article class="project-proof-card project-proof-card--cennext reveal is-visible" style="--p-bg:#e8eef2;--p-ink:#102734;--p-accent:#ef842b;--p-dark:#0a1d2a">
+        <a class="project-proof-media" href="https://ngh1aa.github.io/cennext-b2b-prototype/" target="_blank" rel="noopener noreferrer" aria-label="Open CENNEXT B2B prototype live demo">
+          <div class="project-proof-topline"><span>06 / 11</span><span>B2B · INDUSTRIAL WEB</span></div>
+          <div class="project-proof-canvas">
+            <div class="ui-preview" aria-hidden="true"><div class="ui-preview__nav"><i></i><i></i><i></i><i></i></div><div class="ui-preview__hero"><div class="ui-preview__copy"><span></span><strong>Repair clarity.<br>Built for action.</strong><p></p><b></b></div><div class="ui-preview__object"></div></div></div>
+            <span class="project-proof-caption">B2B WEB PROTOTYPE</span><span class="project-proof-badge">EN</span>
+          </div>
+        </a>
+        <div class="project-proof-body"><div class="project-proof-meta"><span class="project-reality"><strong>Independent prototype</strong> · Brief-driven landing page</span><span class="project-year">2026</span></div><h3>CENNEXT B2B Prototype</h3><p>Industrial service landing page turning a dense technical brief into scan-friendly capability proof, repair-vs-replace decision support and a clear quote path.</p><div class="project-proof-tags"><span>B2B web</span><span>Long-form UX</span><span>Conversion hierarchy</span></div><div class="project-actions"><a href="https://ngh1aa.github.io/cennext-b2b-prototype/" target="_blank" rel="noopener noreferrer">Live Demo ↗</a><a aria-disabled="true" title="Figma link coming soon" class="figma-link-pending">View Figma ↗</a></div></div>
+      </article>
+    `;
+    archiveGrid.prepend(extraProjects.content);
+  }
+
+  /* Keep project numbering truthful after the archive grows from 9 to 11 items. */
+  [...document.querySelectorAll('.project-proof-card')].forEach((card, index) => {
+    const indexNode = card.querySelector('.project-proof-topline span:first-child');
+    if (indexNode) indexNode.textContent = `${String(index + 1).padStart(2, '0')} / 11`;
+  });
+
   /* Personal project cards now surface Figma as the secondary proof.
      Until the user supplies each Figma URL, keep these buttons visibly present but non-navigating
      so the label never sends visitors to the old Case Study destination by mistake. */
@@ -227,6 +275,7 @@
   const realityLabels = new Map([
     ['Independent concept', 'Concept'],
     ['Independent redesign', 'Website redesign'],
+    ['Independent prototype', 'Prototype'],
   ]);
   document.querySelectorAll('.project-reality strong').forEach((labelNode) => {
     const replacement = realityLabels.get(labelNode.textContent.trim());
@@ -241,6 +290,8 @@
   /* Use real deployed interfaces as non-interactive visual proof without nesting iframes inside links. */
   const liveProjectPreviews = [
     ['.project-proof-card--vas', 'https://ngh1aa.github.io/RedesignVAS/', 'VAS Education implemented interface'],
+    ['.project-proof-card--voltis', 'https://ngh1aa.github.io/Voltis/', 'Voltis electric mobility interface'],
+    ['.project-proof-card--cennext', 'https://ngh1aa.github.io/cennext-b2b-prototype/', 'CENNEXT B2B industrial service interface'],
     ['.project-proof-card--vietbank', 'https://ngh1aa.github.io/Redesign-Vietbank-Website/', 'Vietbank redesign implemented interface'],
     ['.project-proof-card--qtsc', 'https://ngh1aa.github.io/QTSC/', 'QTSC implemented interface'],
   ];
