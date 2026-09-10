@@ -208,7 +208,21 @@
   if (heroSans) heroSans.textContent = 'Designing complex web & product experiences.';
 
   const workGuideMode = document.querySelector('.work-guide > span');
-  if (workGuideMode) workGuideMode.textContent = 'Each project · Live Demo or Source Code + Case Study';
+  if (workGuideMode) workGuideMode.textContent = 'Each project · Live Demo or Source Code + View Figma';
+
+  /* Personal project cards now surface Figma as the secondary proof.
+     Until the user supplies each Figma URL, keep these buttons visibly present but non-navigating
+     so the label never sends visitors to the old Case Study destination by mistake. */
+  document.querySelectorAll('.project-actions a').forEach((link) => {
+    if (!/^Case Study/i.test(link.textContent.trim())) return;
+    link.textContent = 'View Figma ↗';
+    link.removeAttribute('href');
+    link.removeAttribute('target');
+    link.removeAttribute('rel');
+    link.setAttribute('aria-disabled', 'true');
+    link.setAttribute('title', 'Figma link coming soon');
+    link.classList.add('figma-link-pending');
+  });
 
   const realityLabels = new Map([
     ['Independent concept', 'Concept'],
