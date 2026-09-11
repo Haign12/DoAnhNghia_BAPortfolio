@@ -272,6 +272,33 @@
     link.classList.add('figma-link-pending');
   });
 
+  /* Connect supplied Figma files to their matching portfolio projects. */
+  const figmaProjectLinks = new Map([
+    ['.project-proof-card--atelier', 'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1'],
+    ['.project-proof-card--capital', 'https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1'],
+    ['.project-proof-card--vas', 'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1'],
+    ['.project-proof-card--voltis', 'https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1'],
+    ['.project-proof-card--cennext', 'https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1'],
+    ['.project-proof-card--vietbank', 'https://www.figma.com/design/a76mFeNL97daVeVfs8UsRW/VietBank?node-id=0-1&t=rXhD2IcSTPLQDEhI-1'],
+    ['.project-proof-card--qtsc', 'https://www.figma.com/design/wugoCyDEEfzSgu0gQoyum5/QTSC?node-id=0-1&t=LykADgxvJ62WCIu7-1'],
+    ['.project-proof-card--violet', 'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1'],
+  ]);
+
+  figmaProjectLinks.forEach((url, selector) => {
+    const card = document.querySelector(selector);
+    if (!card) return;
+    const figmaLink = [...card.querySelectorAll('.project-actions a')]
+      .find((link) => /^View Figma/i.test(link.textContent.trim()));
+    if (!figmaLink) return;
+
+    figmaLink.href = url;
+    figmaLink.target = '_blank';
+    figmaLink.rel = 'noopener noreferrer';
+    figmaLink.removeAttribute('aria-disabled');
+    figmaLink.removeAttribute('title');
+    figmaLink.classList.remove('figma-link-pending');
+  });
+
   const realityLabels = new Map([
     ['Independent concept', 'Concept'],
     ['Independent redesign', 'Website redesign'],
