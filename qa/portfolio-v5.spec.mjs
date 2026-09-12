@@ -21,6 +21,20 @@ test.describe('Portfolio v5 cloud gate', () => {
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
   });
 
+  test('core recruiter narrative remains visible without JavaScript', async ({ browser }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      viewport: { width: 1440, height: 1000 },
+    });
+    const page = await context.newPage();
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: 'Not a gallery. A decision record.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Show the leverage. Not the tool list.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Decide → make → inspect → repair.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Learning fast. Shipping deliberately.' })).toBeVisible();
+    await context.close();
+  });
+
   test('capability tabs work with keyboard semantics', async ({ page }) => {
     await page.goto(`${baseURL}/#signals`, { waitUntil: 'domcontentloaded' });
     const firstTab = page.getByRole('tab', { name: /Product framing/ });
