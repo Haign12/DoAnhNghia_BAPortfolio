@@ -9,6 +9,13 @@ const viewports = [
   { name: 'mobile-390', width: 390, height: 844 },
 ];
 
+const waitForSelectedWorkMedia = async page => {
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll('#work .case-media img')];
+    return images.length === 3 && images.every(img => img.complete && img.naturalWidth > 0);
+  }, null, { timeout: 10000 });
+};
+
 test.describe('Portfolio v5 cloud gate', () => {
   test('recruiter-critical content and truth labels are present', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
@@ -33,6 +40,21 @@ test.describe('Portfolio v5 cloud gate', () => {
     await expect(page.getByRole('heading', { name: 'Decide → make → inspect → repair.' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Learning fast. Shipping deliberately.' })).toBeVisible();
     await context.close();
+  });
+
+  test('selected-work project media renders before release', async ({ page }) => {
+    await page.goto(baseURL, { waitUntil: 'networkidle' });
+    await waitForSelectedWorkMedia(page);
+    const media = await page.locator('#work .case-media img').evaluateAll(images =>
+      images.map(img => ({
+        src: img.getAttribute('src'),
+        complete: img.complete,
+        naturalWidth: img.naturalWidth,
+        naturalHeight: img.naturalHeight,
+      }))
+    );
+    const broken = media.filter(item => !item.complete || item.naturalWidth === 0 || item.naturalHeight === 0);
+    expect(broken, JSON.stringify(media, null, 2)).toEqual([]);
   });
 
   test('capability tabs work with keyboard semantics', async ({ page }) => {
@@ -77,6 +99,7 @@ test.describe('Portfolio v5 cloud gate', () => {
     test(`no horizontal overflow and visual artifact: ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto(baseURL, { waitUntil: 'networkidle' });
+      await waitForSelectedWorkMedia(page);
       const overflow = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
