@@ -1,4 +1,4 @@
-name: Capture live prototype thumbnails
+name: Apply captured prototype thumbnails
 
 on:
   push:
@@ -9,49 +9,44 @@ permissions:
   contents: write
 
 jobs:
-  capture:
+  apply:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install Playwright
+      - name: Replace portfolio thumbnails with live captures
         run: |
-          npm init -y >/dev/null 2>&1
-          npm install playwright@1.55.0 --no-save
-          npx playwright install --with-deps chromium
-      - name: Capture live prototypes
-        run: |
-          node <<'EOF'
-          const { chromium } = require('playwright');
-          const fs = require('fs');
-          const path = require('path');
-          const projects = [
-            ['vas','https://ngh1aa.github.io/RedesignVAS/'],
-            ['capital','https://ngh1aa.github.io/Capital/'],
-            ['luxroom','https://ngh1aa.github.io/LuxRoom/'],
-            ['atelier','https://ngh1aa.github.io/Atelier/']
-          ];
-          (async () => {
-            fs.mkdirSync('assets/images/prototype-captures', { recursive: true });
-            const browser = await chromium.launch({ headless: true });
-            for (const [name, url] of projects) {
-              const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
-              await page.goto(url, { waitUntil: 'networkidle', timeout: 90000 });
-              await page.waitForTimeout(2500);
-              await page.addStyleTag({ content: 'html{scroll-behavior:auto!important} *{animation:none!important;transition:none!important} ::-webkit-scrollbar{display:none!important}' }).catch(()=>{});
-              await page.screenshot({ path: `assets/images/prototype-captures/${name}.png`, fullPage: false });
-              await page.close();
-            }
-            await browser.close();
-          })().catch(err => { console.error(err); process.exit(1); });
-          EOF
-      - name: Commit captures
+          python3 <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          old_vas = '''          <a class="case-media media-vas" href="case-study-vas-education.html" aria-label="Read VAS Education redesign case study">
+            <div class="case-media-ui" aria-hidden="true">
+              <div class="mock-browser"><span></span><span></span><span></span></div>
+              <div class="mock-vas-layout"><div><small>PROGRAM FINDER</small><strong>Find the path<br>that fits.</strong><i></i></div><b>VAS</b></div>
+            </div>
+            <span class="media-label">IA / REDESIGN / RESPONSIVE</span>'''
+          new_vas = '''          <a class="case-media" href="case-study-vas-education.html" aria-label="Read VAS Education redesign case study">
+            <img src="assets/images/prototype-captures/vas.png" width="1440" height="900" alt="Live VAS Education redesign prototype homepage" loading="lazy" decoding="async">
+            <span class="media-label">IA / REDESIGN / RESPONSIVE</span>'''
+          if old_vas not in s:
+              raise SystemExit('VAS thumbnail block not found')
+          s = s.replace(old_vas, new_vas)
+          replacements = {
+            '<img src="assets/images/capital-place.jpg" width="1200" height="800" alt="Capital Place commercial real estate website interface" loading="lazy" decoding="async">': '<img src="assets/images/prototype-captures/capital.png" width="1440" height="900" alt="Live Capital Place commercial real estate prototype homepage" loading="lazy" decoding="async">',
+            '<img src="assets/images/luxroom-social.jpg" width="1200" height="800" alt="LuxRoom furniture ecommerce interface" loading="lazy" decoding="async">': '<img src="assets/images/prototype-captures/luxroom.png" width="1440" height="900" alt="Live LuxRoom furniture ecommerce prototype homepage" loading="lazy" decoding="async">',
+            '<img src="assets/images/altelier-social.jpg" width="1200" height="800" alt="Atelier fashion ecommerce interface" loading="lazy" decoding="async">': '<img src="assets/images/prototype-captures/atelier.png" width="1440" height="900" alt="Live Atelier fashion ecommerce prototype homepage" loading="lazy" decoding="async">'
+          }
+          for old, new in replacements.items():
+              if old not in s:
+                  raise SystemExit(f'Thumbnail line not found: {old[:60]}')
+              s = s.replace(old, new)
+          p.write_text(s)
+          PY
+      - name: Commit thumbnail integration and remove temporary workflow
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/images/prototype-captures/*.png
-          git diff --cached --quiet && exit 0
-          git commit -m 'Add live prototype screenshot thumbnails'
+          git rm .github/workflows/capture-project-thumbnails.yml
+          git add index.html
+          git commit -m 'Use live prototype captures for all project thumbnails'
           git push
