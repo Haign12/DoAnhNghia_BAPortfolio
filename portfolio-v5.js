@@ -3,6 +3,19 @@
   const body = document.body;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const accentStyle = document.createElement('style');
+  accentStyle.textContent = `
+    :root,
+    html[data-theme="dark"] {
+      --signal:#ff7043;
+      --signal-ink:#0b0d10;
+    }
+    .cursor-glow {
+      background:radial-gradient(circle,rgba(255,112,67,.20),rgba(255,112,67,0) 68%) !important;
+    }
+  `;
+  document.head.appendChild(accentStyle);
+
   // Recruiter-priority CTAs: make Live Prototype / Live Site / Figma visually explicit.
   // The links remain usable without JS; this layer only strengthens hierarchy.
   const actionStyle = document.createElement('style');
