@@ -35,6 +35,12 @@
     if (window.innerWidth > 900) closeMenu();
   }, {passive:true});
 
+  // Selected-work media is recruiter-critical proof. Promote it once JS is available so
+  // fast scans, automated full-page capture and immediate scrolls do not show placeholders.
+  document.querySelectorAll('#work .case-media img').forEach(img => {
+    img.loading = 'eager';
+  });
+
   // Reveal is enhancement only: content is visible immediately when motion is reduced or JS fails to observe.
   const revealItems = [...document.querySelectorAll('.reveal')];
   if (reduceMotion || !('IntersectionObserver' in window)) {
