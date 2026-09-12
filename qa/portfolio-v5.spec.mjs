@@ -9,11 +9,25 @@ const viewports = [
   { name: 'mobile-390', width: 390, height: 844 },
 ];
 
-const waitForSelectedWorkMedia = async page => {
-  await page.waitForFunction(() => {
-    const images = [...document.querySelectorAll('#work .case-media img')];
-    return images.length === 3 && images.every(img => img.complete && img.naturalWidth > 0);
-  }, null, { timeout: 10000 });
+const primeSelectedWorkMedia = async page => {
+  const media = page.locator('#work .case-media img');
+  await expect(media).toHaveCount(3);
+
+  for (let index = 0; index < 3; index += 1) {
+    const image = media.nth(index);
+    await image.scrollIntoViewIfNeeded();
+    await image.evaluate(async img => {
+      if (!img.complete) {
+        await new Promise((resolve, reject) => {
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', reject, { once: true });
+        });
+      }
+      if (typeof img.decode === 'function') await img.decode();
+    });
+  }
+
+  await page.evaluate(() => window.scrollTo(0, 0));
 };
 
 test.describe('Portfolio v5 cloud gate', () => {
@@ -44,7 +58,7 @@ test.describe('Portfolio v5 cloud gate', () => {
 
   test('selected-work project media renders before release', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await waitForSelectedWorkMedia(page);
+    await primeSelectedWorkMedia(page);
     const media = await page.locator('#work .case-media img').evaluateAll(images =>
       images.map(img => ({
         src: img.getAttribute('src'),
@@ -99,7 +113,7 @@ test.describe('Portfolio v5 cloud gate', () => {
     test(`no horizontal overflow and visual artifact: ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto(baseURL, { waitUntil: 'networkidle' });
-      await waitForSelectedWorkMedia(page);
+      await primeSelectedWorkMedia(page);
       const overflow = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
