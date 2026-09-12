@@ -19,30 +19,32 @@ jobs:
           from pathlib import Path
           p = Path('index.html')
           s = p.read_text()
-          old_vas = '''          <a class="case-media media-vas" href="case-study-vas-education.html" aria-label="Read VAS Education redesign case study">
-            <div class="case-media-ui" aria-hidden="true">
-              <div class="mock-browser"><span></span><span></span><span></span></div>
-              <div class="mock-vas-layout"><div><small>PROGRAM FINDER</small><strong>Find the path<br>that fits.</strong><i></i></div><b>VAS</b></div>
-            </div>
-            <span class="media-label">IA / REDESIGN / RESPONSIVE</span>'''
-          new_vas = '''          <a class="case-media" href="case-study-vas-education.html" aria-label="Read VAS Education redesign case study">
+
+          start_marker = '<a class="case-media media-vas" href="case-study-vas-education.html" aria-label="Read VAS Education redesign case study">'
+          label_marker = '<span class="media-label">IA / REDESIGN / RESPONSIVE</span>'
+          start = s.index(start_marker)
+          label_end = s.index(label_marker, start) + len(label_marker)
+          new_vas = '''<a class="case-media" href="case-study-vas-education.html" aria-label="Read VAS Education redesign case study">
             <img src="assets/images/prototype-captures/vas.png" width="1440" height="900" alt="Live VAS Education redesign prototype homepage" loading="lazy" decoding="async">
             <span class="media-label">IA / REDESIGN / RESPONSIVE</span>'''
-          if old_vas not in s:
-              raise SystemExit('VAS thumbnail block not found')
-          s = s.replace(old_vas, new_vas)
+          s = s[:start] + new_vas + s[label_end:]
+
           replacements = {
-            '<img src="assets/images/capital-place.jpg" width="1200" height="800" alt="Capital Place commercial real estate website interface" loading="lazy" decoding="async">': '<img src="assets/images/prototype-captures/capital.png" width="1440" height="900" alt="Live Capital Place commercial real estate prototype homepage" loading="lazy" decoding="async">',
-            '<img src="assets/images/luxroom-social.jpg" width="1200" height="800" alt="LuxRoom furniture ecommerce interface" loading="lazy" decoding="async">': '<img src="assets/images/prototype-captures/luxroom.png" width="1440" height="900" alt="Live LuxRoom furniture ecommerce prototype homepage" loading="lazy" decoding="async">',
-            '<img src="assets/images/altelier-social.jpg" width="1200" height="800" alt="Atelier fashion ecommerce interface" loading="lazy" decoding="async">': '<img src="assets/images/prototype-captures/atelier.png" width="1440" height="900" alt="Live Atelier fashion ecommerce prototype homepage" loading="lazy" decoding="async">'
+            'assets/images/capital-place.jpg': 'assets/images/prototype-captures/capital.png',
+            'assets/images/luxroom-social.jpg': 'assets/images/prototype-captures/luxroom.png',
+            'assets/images/altelier-social.jpg': 'assets/images/prototype-captures/atelier.png',
           }
           for old, new in replacements.items():
               if old not in s:
-                  raise SystemExit(f'Thumbnail line not found: {old[:60]}')
-              s = s.replace(old, new)
+                  raise SystemExit(f'Thumbnail source not found: {old}')
+              s = s.replace(old, new, 1)
+
+          s = s.replace('width="1200" height="800" alt="Capital Place commercial real estate website interface"', 'width="1440" height="900" alt="Live Capital Place commercial real estate prototype homepage"', 1)
+          s = s.replace('width="1200" height="800" alt="LuxRoom furniture ecommerce interface"', 'width="1440" height="900" alt="Live LuxRoom furniture ecommerce prototype homepage"', 1)
+          s = s.replace('width="1200" height="800" alt="Atelier fashion ecommerce interface"', 'width="1440" height="900" alt="Live Atelier fashion ecommerce prototype homepage"', 1)
           p.write_text(s)
           PY
-      - name: Commit thumbnail integration and remove temporary workflow
+      - name: Commit integration and remove one-time workflow
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
