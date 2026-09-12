@@ -49,7 +49,14 @@ test.describe('Portfolio v5 cloud gate', () => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     const results = await new AxeBuilder({ page }).analyze();
     const blockers = results.violations.filter(v => ['serious', 'critical'].includes(v.impact));
-    expect(blockers, JSON.stringify(blockers, null, 2)).toEqual([]);
+    const detail = blockers.flatMap(violation =>
+      violation.nodes.map(node => {
+        const target = Array.isArray(node.target) ? node.target.join(' ') : String(node.target);
+        const summary = (node.failureSummary || '').replace(/\s+/g, ' ').trim();
+        return `${violation.id} @ ${target}${summary ? ` — ${summary}` : ''}`;
+      })
+    ).join('\n');
+    expect(blockers, detail || 'Serious/critical Axe violation detected').toEqual([]);
   });
 
   for (const viewport of viewports) {
