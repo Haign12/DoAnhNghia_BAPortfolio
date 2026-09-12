@@ -1,0 +1,168 @@
+name: Portfolio Cloud QA v5
+
+on:
+  push:
+    branches:
+      - redesign/uiux-factory-senior-signal-v5
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  browser-gate:
+    name: Chromium / accessibility / responsive gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install cloud QA dependencies
+        run: npm install --no-save @playwright/test@1.55.0 @axe-core/playwright@4.10.2
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start ephemeral GitHub runner web server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-v5-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/portfolio-v5-http.log
+          exit 1
+
+      - name: Run Playwright + Axe gate
+        id: playwright
+        continue-on-error: true
+        env:
+          PORTFOLIO_BASE_URL: http://127.0.0.1:4173
+        run: |
+          mkdir -p qa-artifacts
+          set +e
+          npx playwright test qa/portfolio-v5.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Summarize browser gate evidence
+        if: always()
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'qa-artifacts/playwright-results.json';
+          const report = JSON.parse(fs.readFileSync(path, 'utf8'));
+          const rows = [];
+          const visit = (suite, prefix = []) => {
+            const here = [...prefix, suite.title].filter(Boolean);
+            for (const spec of suite.specs || []) {
+              const tests = spec.tests || [];
+              const failed = tests.some(t => (t.results || []).some(r => !['passed','skipped'].includes(r.status)));
+              const skippedOnly = tests.length > 0 && tests.every(t => (t.results || []).every(r => r.status === 'skipped'));
+              let status = failed ? 'FAIL' : (skippedOnly ? 'SKIP' : 'PASS');
+              const errors = [];
+              for (const t of tests) for (const r of (t.results || [])) {
+                if (r.error?.message) errors.push(r.error.message.split('\n').slice(0,4).join(' '));
+              }
+              rows.push({status, title:[...here, spec.title].filter(Boolean).join(' › '), error:errors[0] || ''});
+            }
+            for (const child of suite.suites || []) visit(child, here);
+          };
+          for (const suite of report.suites || []) visit(suite);
+          const passed = rows.filter(r => r.status === 'PASS').length;
+          const failed = rows.filter(r => r.status === 'FAIL').length;
+          let md = `## UIUX Factory — Browser QA evidence\n\n**${passed} passed · ${failed} failed**\n\n`;
+          md += rows.map(r => `- **${r.status}** — ${r.title}${r.error ? `\n  - ${r.error.replace(/\s+/g,' ').slice(0,420)}` : ''}`).join('\n');
+          md += `\n\nArtifacts: full-page screenshots at 1440, 1280 and 390 px when those tests execute.`;
+          fs.writeFileSync('qa-artifacts/browser-summary.md', md);
+          console.log(md);
+          NODE
+
+      - name: Post browser evidence to draft PR
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- uiux-factory-v5-browser-gate -->';
+            const body = `${marker}\n${fs.readFileSync('qa-artifacts/browser-summary.md', 'utf8')}`;
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.rest.issues.listComments({ owner, repo, issue_number, per_page: 100 });
+            const existing = comments.data.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+      - name: Upload rendered QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-v5-rendered-screens
+          path: qa-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Enforce browser gate
+        if: always()
+        run: |
+          test "${{ steps.playwright.outputs.exit_code }}" = "0"
+
+  lighthouse-diagnostic:
+    name: Lighthouse diagnostic
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Start ephemeral GitHub runner web server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-v5-lh-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+
+      - name: Install Lighthouse CI
+        run: npm install --no-save @lhci/cli@0.15.1
+
+      - name: Run Lighthouse
+        run: |
+          npx lhci autorun \
+            --collect.url=http://127.0.0.1:4173/ \
+            --collect.numberOfRuns=1 \
+            --upload.target=filesystem \
+            --upload.outputDir=./lhci-report \
+            --assert.assertions.categories:accessibility='[error,{"minScore":0.9}]' \
+            --assert.assertions.categories:best-practices='[error,{"minScore":0.9}]' \
+            --assert.assertions.categories:seo='[warn,{"minScore":0.9}]' \
+            --assert.assertions.categories:performance='[warn,{"minScore":0.75}]'
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-v5-lighthouse
+          path: lhci-report/
+          if-no-files-found: warn
+          retention-days: 14
