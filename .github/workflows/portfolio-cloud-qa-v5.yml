@@ -45,7 +45,7 @@ jobs:
       - name: Run Playwright + Axe gate
         env:
           PORTFOLIO_BASE_URL: http://127.0.0.1:4173
-        run: npx playwright test qa/portfolio-v5.spec.mjs --project=chromium --reporter=line
+        run: npx playwright test qa/portfolio-v5.spec.mjs --browser=chromium --workers=1 --reporter=line
 
       - name: Upload rendered QA screenshots
         if: always()
