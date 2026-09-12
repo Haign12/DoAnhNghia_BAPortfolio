@@ -1,0 +1,57 @@
+name: Capture live prototype thumbnails
+
+on:
+  push:
+    paths:
+      - '.github/workflows/capture-project-thumbnails.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install playwright@1.55.0 --no-save
+          npx playwright install --with-deps chromium
+      - name: Capture live prototypes
+        run: |
+          node <<'EOF'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const path = require('path');
+          const projects = [
+            ['vas','https://ngh1aa.github.io/RedesignVAS/'],
+            ['capital','https://ngh1aa.github.io/Capital/'],
+            ['luxroom','https://ngh1aa.github.io/LuxRoom/'],
+            ['atelier','https://ngh1aa.github.io/Atelier/']
+          ];
+          (async () => {
+            fs.mkdirSync('assets/images/prototype-captures', { recursive: true });
+            const browser = await chromium.launch({ headless: true });
+            for (const [name, url] of projects) {
+              const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+              await page.goto(url, { waitUntil: 'networkidle', timeout: 90000 });
+              await page.waitForTimeout(2500);
+              await page.addStyleTag({ content: 'html{scroll-behavior:auto!important} *{animation:none!important;transition:none!important} ::-webkit-scrollbar{display:none!important}' }).catch(()=>{});
+              await page.screenshot({ path: `assets/images/prototype-captures/${name}.png`, fullPage: false });
+              await page.close();
+            }
+            await browser.close();
+          })().catch(err => { console.error(err); process.exit(1); });
+          EOF
+      - name: Commit captures
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/images/prototype-captures/*.png
+          git diff --cached --quiet && exit 0
+          git commit -m 'Add live prototype screenshot thumbnails'
+          git push
