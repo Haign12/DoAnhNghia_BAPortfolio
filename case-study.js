@@ -5,6 +5,25 @@
   const label = themeButton?.querySelector('[data-theme-label]');
   const themeKey = 'portfolio-theme';
 
+  // Keep every case-study surface monochrome, including project media and embedded live proof.
+  const monochromeStyle = document.createElement('style');
+  monochromeStyle.textContent = `
+    body.case-study-page {
+      --case-surface:var(--surface) !important;
+      --case-ink:var(--text) !important;
+      --case-accent:var(--text) !important;
+    }
+    body.case-study-page img,
+    body.case-study-page iframe {
+      filter:grayscale(1) contrast(1.03) !important;
+    }
+    body.case-study-page ::selection {
+      background:var(--text) !important;
+      color:var(--bg) !important;
+    }
+  `;
+  document.head.appendChild(monochromeStyle);
+
   const readTheme = () => {
     try { return localStorage.getItem(themeKey) || localStorage.getItem('theme'); }
     catch (_) { return null; }
