@@ -156,7 +156,9 @@ test.describe('Portfolio v5 cloud gate', () => {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${baseURL}/${caseStudy.path}`, { waitUntil: 'networkidle' });
       await expect(page.getByRole('heading', { level: 1, name: caseStudy.heading })).toBeVisible();
-      await expect(page.getByText('NOT CLAIMED')).toBeVisible();
+      const boundaryLabel = page.getByText('NOT CLAIMED');
+      await boundaryLabel.scrollIntoViewIfNeeded();
+      await expect(boundaryLabel).toBeVisible();
       const overflow = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
