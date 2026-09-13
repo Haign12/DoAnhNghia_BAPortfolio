@@ -9,11 +9,30 @@ const viewports = [
   { name: 'mobile-390', width: 390, height: 844 },
 ];
 
+const newCaseStudies = [
+  { path: 'case-study-violet-marketplace.html', heading: 'Violet Marketplace' },
+  { path: 'case-study-cennext.html', heading: 'CENNEXT' },
+  { path: 'case-study-voltis.html', heading: 'VOLTIS' },
+];
+
+const seriousAxeViolations = async page => {
+  const results = await new AxeBuilder({ page }).analyze();
+  return results.violations.filter(v => ['serious', 'critical'].includes(v.impact));
+};
+
+const formatAxeViolations = blockers => blockers.flatMap(violation =>
+  violation.nodes.map(node => {
+    const target = Array.isArray(node.target) ? node.target.join(' ') : String(node.target);
+    const summary = (node.failureSummary || '').replace(/\s+/g, ' ').trim();
+    return `${violation.id} @ ${target}${summary ? ` — ${summary}` : ''}`;
+  })
+).join('\n');
+
 const primeSelectedWorkMedia = async page => {
   const media = page.locator('#work .case-media img');
-  await expect(media).toHaveCount(3);
+  await expect(media).toHaveCount(4);
 
-  for (let index = 0; index < 3; index += 1) {
+  for (let index = 0; index < 4; index += 1) {
     const image = media.nth(index);
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(async img => {
@@ -31,14 +50,17 @@ const primeSelectedWorkMedia = async page => {
 };
 
 test.describe('Portfolio v5 cloud gate', () => {
-  test('recruiter-critical content and truth labels are present', async ({ page }) => {
+  test('recruiter-critical content, grouped work and truth labels are present', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await expect(page).toHaveTitle(/Do Anh Nghia/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('messy middle');
-    await expect(page.getByRole('heading', { name: 'Not a gallery. A decision record.' })).toBeVisible();
+    await expect(page.locator('#workTitle')).toContainText('Projects by practice.');
     await expect(page.getByText('TRUTH LABEL')).toBeVisible();
     await expect(page.getByText('INDEPENDENT REDESIGN').first()).toBeVisible();
     await expect(page.getByRole('link', { name: /Read VAS Education redesign case study/i })).toBeVisible();
+    await expect(page.locator('a[href="case-study-violet-marketplace.html"]')).toBeVisible();
+    await expect(page.locator('a[href="case-study-cennext.html"]')).toBeVisible();
+    await expect(page.locator('a[href="case-study-voltis.html"]')).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
   });
 
@@ -97,16 +119,8 @@ test.describe('Portfolio v5 cloud gate', () => {
 
   test('homepage has no serious or critical axe violations', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    const results = await new AxeBuilder({ page }).analyze();
-    const blockers = results.violations.filter(v => ['serious', 'critical'].includes(v.impact));
-    const detail = blockers.flatMap(violation =>
-      violation.nodes.map(node => {
-        const target = Array.isArray(node.target) ? node.target.join(' ') : String(node.target);
-        const summary = (node.failureSummary || '').replace(/\s+/g, ' ').trim();
-        return `${violation.id} @ ${target}${summary ? ` — ${summary}` : ''}`;
-      })
-    ).join('\n');
-    expect(blockers, detail || 'Serious/critical Axe violation detected').toEqual([]);
+    const blockers = await seriousAxeViolations(page);
+    expect(blockers, formatAxeViolations(blockers) || 'Serious/critical Axe violation detected').toEqual([]);
   });
 
   for (const viewport of viewports) {
@@ -125,16 +139,33 @@ test.describe('Portfolio v5 cloud gate', () => {
   }
 
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
-    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    await page.goto(baseURL, { waitUntil: 'networkidle' });
+    await expect(page.locator('a[href="case-study-voltis.html"]')).toBeVisible();
     const paths = await page.locator('a[href$=".html"]').evaluateAll(links =>
       [...new Set(links.map(link => link.getAttribute('href')).filter(Boolean))]
     );
-    expect(paths.length).toBeGreaterThanOrEqual(4);
+    expect(paths.length).toBeGreaterThanOrEqual(7);
     for (const path of paths) {
       const response = await request.get(`${baseURL}/${path}`);
       expect(response.status(), `${path} should resolve`).toBeLessThan(400);
     }
   });
+
+  for (const caseStudy of newCaseStudies) {
+    test(`${caseStudy.heading} case study renders accessibly without horizontal overflow`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${baseURL}/${caseStudy.path}`, { waitUntil: 'networkidle' });
+      await expect(page.getByRole('heading', { level: 1, name: caseStudy.heading })).toBeVisible();
+      await expect(page.getByText('NOT CLAIMED')).toBeVisible();
+      const overflow = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+      }));
+      expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
+      const blockers = await seriousAxeViolations(page);
+      expect(blockers, formatAxeViolations(blockers) || `${caseStudy.heading}: serious/critical Axe violation detected`).toEqual([]);
+    });
+  }
 
   test('theme preference is a working enhancement', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
