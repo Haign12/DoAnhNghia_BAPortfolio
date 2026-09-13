@@ -154,7 +154,7 @@ test.describe('Portfolio v5 cloud gate', () => {
   for (const caseStudy of newCaseStudies) {
     test(`${caseStudy.heading} case study renders accessibly without horizontal overflow`, async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto(`${baseURL}/${caseStudy.path}`, { waitUntil: 'networkidle' });
+      await page.goto(`${baseURL}/${caseStudy.path}`, { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { level: 1, name: caseStudy.heading })).toBeVisible();
       const boundaryLabel = page.getByText('NOT CLAIMED');
       await boundaryLabel.scrollIntoViewIfNeeded();
