@@ -1,0 +1,1 @@
+Color restoration QA note: removed monochrome overrides from homepage and case studies while preserving grouped project taxonomy and LuxRoom/Atelier priority order. The restored accent is the previous coral signal color and project-native media colors are visible again.
