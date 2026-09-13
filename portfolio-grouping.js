@@ -26,6 +26,7 @@
     .system-card-copy>a,.system-card-copy>div{margin-top:auto;padding-top:28px}
     .system-card-copy a{color:var(--paper)}
     .system-card.project-violet .project-poster{background:#bba5c5;color:#201827;border-color:#7d6787}
+    .system-card.project-violet .project-poster span{opacity:1}
     .system-card.project-cennext .project-poster{background:#e9e5dc;color:#0b0d10;border-color:#c9c5bc}
     .system-card.project-voltis .project-poster{background:#c8f04a;color:#07110d;border-color:#94b62d}
     .system-card.project-factory .project-poster{background:#0b0d10;color:#f3f0e9}
