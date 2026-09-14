@@ -9,7 +9,7 @@
     .project-groups{display:grid;gap:clamp(74px,9vw,130px)}
     .project-group{display:grid;gap:30px}
     .project-group-head{display:grid;grid-template-columns:minmax(220px,.62fr) minmax(0,1fr);gap:30px;align-items:end;padding-top:18px;border-top:1px solid rgba(255,255,255,.24)}
-    .project-group-index{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a9aaab}
+    .project-group-index{font-family:var(--font-mono);font-size:9px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;color:var(--signal)}
     .project-group-head h3{margin:0;color:var(--paper);font-size:clamp(30px,4vw,58px);line-height:.95;letter-spacing:-.055em;font-weight:620}
     .project-group-head p{grid-column:2;max-width:720px;margin:0;color:#a9aaab;font-size:13px;line-height:1.65}
     .project-group-grid{display:grid;gap:clamp(42px,5vw,72px)}
@@ -32,7 +32,7 @@
     .system-card.project-factory .project-poster{background:#0b0d10;color:#f3f0e9}
     .system-card-copy>div{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
     .system-card-copy .case-actions>a:not(.action-highlight){align-self:center;text-decoration:underline;text-underline-offset:4px;opacity:.78}
-    .system-card-copy .case-actions>a:not(.action-highlight):hover,.system-card-copy .case-actions>a:not(.action-highlight):focus-visible{opacity:1}
+    .system-card-copy .case-actions>a:not(.action-highlight):hover,.system-card-copy .case-actions>a:not(.action-highlight):focus-visible{color:var(--signal);opacity:1}
     .system-work{display:none!important}
 
     @media(max-width:900px){
@@ -51,9 +51,9 @@
   const kicker = workSection.querySelector('.section-kicker');
   const title = workSection.querySelector('#workTitle');
   const summary = workSection.querySelector('.section-summary');
-  if (kicker) kicker.textContent = 'Grouped by problem space, not by status or project size.';
-  if (title) title.innerHTML = 'Projects by practice.<br><em>Equal weight, clearer context.</em>';
-  if (summary) summary.textContent = 'Projects are grouped by the kind of design problem they solve. Each personal design project exposes the same three proof paths: case study, live prototype and Figma.';
+  if (kicker) kicker.textContent = 'Industry-based UI/UX practice — grouped by the product context each project solves.';
+  if (title) title.innerHTML = 'Work across industries.<br><em>Different domains, one product mindset.</em>';
+  if (summary) summary.textContent = 'Projects are organized by industry so recruiters can scan relevant experience quickly. Every personal project keeps the same proof paths: case study, live prototype and Figma.';
 
   if (systemWork && ![...systemWork.querySelectorAll('h3')].some(title => title.textContent.trim() === 'VOLTIS')) {
     const voltisCard = document.createElement('article');
@@ -147,39 +147,60 @@
     );
   });
 
+  // Canonical portfolio taxonomy. Fintech & Banking is intentionally reserved until a real case exists;
+  // empty domains are not rendered publicly, so the portfolio never mislabels an unrelated project.
   const groups = [
     {
-      label:'01 / COMMERCE & RETAIL EXPERIENCE',
-      title:'Commerce & Retail Experience',
-      description:'Discovery, product confidence, visual storytelling and conversion across considered ecommerce journeys.',
+      domain:'FINTECH & BANKING',
+      title:'Fintech & Banking',
+      description:'Trust-heavy financial journeys, account experiences, decision support and data-dense interfaces.',
+      projects:[]
+    },
+    {
+      domain:'E-COMMERCE & RETAIL',
+      title:'E-Commerce & Retail',
+      description:'Discovery, product confidence, editorial storytelling and conversion for high-consideration commerce.',
       projects:['LuxRoom','Atelier','Violet Marketplace']
     },
     {
-      label:'02 / INFORMATION & DECISION PLATFORMS',
-      title:'Information & Decision Platforms',
-      description:'Information architecture and interface systems that help people compare, understand and act on complex choices.',
-      projects:['VAS Education','Capital Place']
+      domain:'B2B SAAS & ENTERPRISE',
+      title:'B2B SaaS & Enterprise',
+      description:'Enterprise information architecture, complex decision support and business-facing digital experiences.',
+      projects:['CENNEXT','Capital Place']
     },
     {
-      label:'03 / SYSTEMS & WEB DESIGN',
-      title:'Systems & Web Design',
-      description:'Reusable design logic, responsive web composition, localization and implementation-oriented systems.',
-      projects:['CENNEXT','VOLTIS','UIUX Factory']
+      domain:'AI & AUTOMATION',
+      title:'AI & Automation',
+      description:'AI-assisted design operations, reusable workflows and systems that turn design intent into repeatable execution.',
+      projects:['UIUX Factory']
+    },
+    {
+      domain:'LOGISTICS & MOBILITY',
+      title:'Logistics & Mobility',
+      description:'Mobility product storytelling, technical information, localization and connected brand-to-product journeys.',
+      projects:['VOLTIS']
+    },
+    {
+      domain:'EDTECH',
+      title:'EdTech',
+      description:'Education information architecture, institutional trust and clearer journeys for students, parents and schools.',
+      projects:['VAS Education']
     }
   ];
 
+  const visibleGroups = groups.filter(group => group.projects.some(projectName => cardByName.has(projectName)));
   const projectGroups = document.createElement('div');
   projectGroups.className = 'project-groups';
   let projectIndex = 0;
 
-  groups.forEach((group, groupIndex) => {
+  visibleGroups.forEach((group, groupIndex) => {
     const section = document.createElement('section');
     section.className = 'project-group reveal';
     const headingId = `project-group-${groupIndex + 1}`;
     section.setAttribute('aria-labelledby', headingId);
     section.innerHTML = `
       <header class="project-group-head">
-        <span class="project-group-index">${group.label}</span>
+        <span class="project-group-index">${String(groupIndex + 1).padStart(2,'0')} / ${group.domain}</span>
         <h3 id="${headingId}">${group.title}</h3>
         <p>${group.description}</p>
       </header>
