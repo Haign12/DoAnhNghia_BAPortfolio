@@ -1,0 +1,208 @@
+/* Portfolio Motion System v6
+   Purpose: editorial/product motion that reinforces hierarchy without becoming decorative noise.
+   Performance rule: motion relies on transform + opacity. Reduced-motion users get the static experience. */
+
+:root{
+  --motion-ease-out:cubic-bezier(.16,1,.3,1);
+  --motion-ease-soft:cubic-bezier(.22,.61,.36,1);
+  --motion-fast:220ms;
+  --motion-mid:620ms;
+  --motion-slow:900ms;
+}
+
+@media (prefers-reduced-motion:no-preference){
+  html.motion-ready .motion-reveal{
+    opacity:0;
+    transform:translate3d(0,28px,0);
+    transition:
+      opacity var(--motion-mid) var(--motion-ease-out),
+      transform var(--motion-mid) var(--motion-ease-out);
+    transition-delay:var(--motion-delay,0ms);
+  }
+
+  html.motion-ready .motion-reveal[data-motion="left"]{
+    transform:translate3d(-24px,10px,0);
+  }
+
+  html.motion-ready .motion-reveal[data-motion="right"]{
+    transform:translate3d(24px,10px,0);
+  }
+
+  html.motion-ready .motion-reveal[data-motion="soft"]{
+    transform:translate3d(0,16px,0) scale(.992);
+  }
+
+  html.motion-ready .motion-reveal.motion-in{
+    opacity:1;
+    transform:translate3d(0,0,0) scale(1);
+  }
+
+  /* Hero enters like an editorial spread, not a splash-screen animation. */
+  html.motion-ready .hero-meta.motion-reveal{--motion-delay:40ms}
+  html.motion-ready .hero-copy.motion-reveal{--motion-delay:90ms}
+  html.motion-ready .hero-evidence.motion-reveal{--motion-delay:170ms}
+  html.motion-ready .hero-ledger>*.motion-reveal:nth-child(1){--motion-delay:220ms}
+  html.motion-ready .hero-ledger>*.motion-reveal:nth-child(2){--motion-delay:280ms}
+  html.motion-ready .hero-ledger>*.motion-reveal:nth-child(3){--motion-delay:340ms}
+  html.motion-ready .hero-ledger>*.motion-reveal:nth-child(4){--motion-delay:400ms}
+
+  /* Section headings: line grows first, content follows. */
+  .project-group-head{
+    position:relative;
+    border-top-color:transparent!important;
+  }
+
+  .project-group-head::before{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    height:1px;
+    background:currentColor;
+    opacity:.24;
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform var(--motion-slow) var(--motion-ease-out);
+  }
+
+  .project-group.motion-in .project-group-head::before{
+    transform:scaleX(1);
+  }
+
+  /* Project cards: subtle physical response, never a 3D gimmick. */
+  .case-card,
+  .system-card.project-item{
+    transform:translateZ(0);
+    transition:
+      transform 420ms var(--motion-ease-out),
+      border-color 260ms ease,
+      box-shadow 420ms var(--motion-ease-out);
+  }
+
+  .case-media,
+  .project-poster{
+    overflow:hidden;
+  }
+
+  .case-media img{
+    transform:scale(1.001);
+    transition:transform 850ms var(--motion-ease-out),opacity 300ms ease;
+  }
+
+  .project-poster strong{
+    transform:translate3d(0,0,0);
+    transition:transform 620ms var(--motion-ease-out),letter-spacing 620ms var(--motion-ease-out);
+  }
+
+  .case-actions a,
+  .system-card-copy a,
+  .button,
+  .nav-links a{
+    transition:
+      transform var(--motion-fast) var(--motion-ease-out),
+      opacity var(--motion-fast) ease,
+      background-color var(--motion-fast) ease,
+      color var(--motion-fast) ease,
+      border-color var(--motion-fast) ease,
+      box-shadow var(--motion-fast) ease;
+  }
+
+  .case-actions a span,
+  .button span,
+  .contact-email span{
+    display:inline-block;
+    transition:transform 260ms var(--motion-ease-out);
+  }
+
+  .signal-tabs button{
+    transition:
+      transform 280ms var(--motion-ease-out),
+      background-color 220ms ease,
+      color 220ms ease,
+      border-color 220ms ease;
+  }
+
+  @media (hover:hover) and (pointer:fine){
+    .case-card:hover,
+    .system-card.project-item:hover{
+      transform:translate3d(0,-5px,0);
+      box-shadow:0 18px 50px rgba(0,0,0,.12);
+    }
+
+    .case-card:hover .case-media img{
+      transform:scale(1.026);
+    }
+
+    .system-card.project-item:hover .project-poster strong{
+      transform:translate3d(8px,0,0);
+      letter-spacing:-.055em;
+    }
+
+    .case-actions a:hover span,
+    .button:hover span,
+    .contact-email:hover span{
+      transform:translate3d(4px,-2px,0);
+    }
+
+    .signal-tabs button:hover{
+      transform:translate3d(4px,0,0);
+    }
+
+    .nav-links>a:not(.nav-resume):hover{
+      transform:translate3d(0,-1px,0);
+    }
+  }
+
+  /* Active capability panel gets a short, local transition when the tab changes. */
+  .signal-panel.is-active{
+    animation:signal-panel-in 420ms var(--motion-ease-out) both;
+  }
+
+  @keyframes signal-panel-in{
+    from{opacity:0;transform:translate3d(0,10px,0)}
+    to{opacity:1;transform:translate3d(0,0,0)}
+  }
+}
+
+@media (max-width:700px) and (prefers-reduced-motion:no-preference){
+  html.motion-ready .motion-reveal,
+  html.motion-ready .motion-reveal[data-motion="left"],
+  html.motion-ready .motion-reveal[data-motion="right"]{
+    transform:translate3d(0,16px,0);
+  }
+
+  html.motion-ready .motion-reveal.motion-in{
+    transform:translate3d(0,0,0);
+  }
+
+  .case-card:hover,
+  .system-card.project-item:hover{
+    transform:none;
+    box-shadow:none;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html .motion-reveal,
+  html .motion-reveal.motion-in{
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+    animation:none!important;
+  }
+
+  .case-card,
+  .system-card.project-item,
+  .case-media img,
+  .project-poster strong,
+  .case-actions a,
+  .system-card-copy a,
+  .button,
+  .nav-links a,
+  .signal-tabs button,
+  .signal-panel{
+    transition:none!important;
+    animation:none!important;
+  }
+}
