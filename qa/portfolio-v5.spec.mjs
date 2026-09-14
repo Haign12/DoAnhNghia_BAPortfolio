@@ -10,6 +10,7 @@ const viewports = [
 ];
 
 const newCaseStudies = [
+  { path: 'case-study-vas-education.html', heading: 'VAS Education' },
   { path: 'case-study-violet-marketplace.html', heading: 'Violet Marketplace' },
   { path: 'case-study-cennext.html', heading: 'CENNEXT' },
   { path: 'case-study-voltis.html', heading: 'VOLTIS' },
