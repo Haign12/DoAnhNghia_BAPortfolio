@@ -3,15 +3,20 @@
   const body = document.body;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Portfolio signature accent: cobalt blue. Keep surfaces neutral and use blue only for hierarchy,
+  // interaction, status and recruiter-priority proof paths.
   const accentStyle = document.createElement('style');
   accentStyle.textContent = `
     :root,
     html[data-theme="dark"] {
-      --signal:#ff7043;
-      --signal-ink:#0b0d10;
+      --signal:#2563EB;
+      --signal-ink:#ffffff;
     }
     .cursor-glow {
-      background:radial-gradient(circle,rgba(255,112,67,.20),rgba(255,112,67,0) 68%) !important;
+      background:radial-gradient(circle,rgba(37,99,235,.22),rgba(37,99,235,0) 68%) !important;
+    }
+    :focus-visible {
+      outline-color:#2563EB;
     }
   `;
   document.head.appendChild(accentStyle);
@@ -26,20 +31,20 @@
       justify-content:center;
       min-height:44px;
       padding:11px 15px !important;
-      background:#fff !important;
-      color:#0b0d10 !important;
-      border:1px solid #0b0d10 !important;
-      box-shadow:3px 3px 0 #0b0d10;
+      background:var(--signal) !important;
+      color:var(--signal-ink) !important;
+      border:1px solid var(--signal) !important;
+      box-shadow:3px 3px 0 rgba(255,255,255,.78);
       text-decoration:none !important;
       font-weight:750 !important;
       transition:transform .18s ease,background .18s ease,color .18s ease,box-shadow .18s ease !important;
     }
     .action-highlight:hover,
     .action-highlight:focus-visible {
-      background:#0b0d10 !important;
-      color:#fff !important;
+      background:#fff !important;
+      color:#0b0d10 !important;
       border-color:#fff !important;
-      box-shadow:3px 3px 0 #fff;
+      box-shadow:3px 3px 0 var(--signal);
       transform:translate(-1px,-1px);
     }
     .case-actions > a:not(.action-highlight) {
@@ -50,6 +55,7 @@
     }
     .case-actions > a:not(.action-highlight):hover,
     .case-actions > a:not(.action-highlight):focus-visible {
+      color:var(--signal);
       opacity:1;
     }
     @media (max-width:640px) {
@@ -182,8 +188,8 @@
     }
   });
 
-  // Keep the newer project taxonomy/order while restoring the original color direction.
+  // Load the industry taxonomy after the source project cards are available.
   const groupingScript = document.createElement('script');
-  groupingScript.src = 'portfolio-grouping.js?v=20260913-color-restored';
+  groupingScript.src = 'portfolio-grouping.js?v=20260915-industry-taxonomy';
   document.head.appendChild(groupingScript);
 })();
