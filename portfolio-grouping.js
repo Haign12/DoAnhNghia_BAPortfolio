@@ -12,7 +12,7 @@
     .project-group-index{font-family:var(--font-mono);font-size:9px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;color:var(--signal)}
     .project-group-head h3{margin:0;color:var(--paper);font-size:clamp(30px,4vw,58px);line-height:.95;letter-spacing:-.055em;font-weight:620}
     .project-group-head p{grid-column:2;max-width:720px;margin:0;color:#a9aaab;font-size:13px;line-height:1.65}
-    .project-group-grid{display:grid;gap:clamp(42px,5vw,72px)}
+    .project-group-grid{display:grid;gap:clamp(24px,4vw,72px)}
     .project-item{width:100%}
 
     .system-card.project-item{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(380px,.98fr);min-height:580px;padding:0;overflow:hidden;border:1px solid rgba(255,255,255,.18);background:#151719;color:var(--paper)}
@@ -33,6 +33,10 @@
     .system-card-copy>div{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
     .system-card-copy .case-actions>a:not(.action-highlight){align-self:center;text-decoration:underline;text-underline-offset:4px;opacity:.78}
     .system-card-copy .case-actions>a:not(.action-highlight):hover,.system-card-copy .case-actions>a:not(.action-highlight):focus-visible{color:var(--signal);opacity:1}
+
+    .coming-soon-card{min-height:190px;border:1px dashed rgba(255,255,255,.28);background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(255,255,255,.025));display:grid;place-items:center;padding:28px;color:var(--paper)}
+    .coming-soon-card span{font-family:var(--font-mono);font-size:11px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:var(--signal)}
+    .coming-soon-card::before{content:"";position:absolute;pointer-events:none}
     .system-work{display:none!important}
 
     @media(max-width:900px){
@@ -44,6 +48,7 @@
     @media(max-width:640px){
       .project-poster{min-height:290px}
       .system-card-copy .case-actions .action-highlight{width:100%}
+      .coming-soon-card{min-height:150px}
     }
   `;
   document.head.appendChild(groupingStyle);
@@ -53,7 +58,7 @@
   const summary = workSection.querySelector('.section-summary');
   if (kicker) kicker.textContent = 'Industry-based UI/UX practice — grouped by the product context each project solves.';
   if (title) title.innerHTML = 'Work across industries.<br><em>Different domains, one product mindset.</em>';
-  if (summary) summary.textContent = 'Projects are organized by industry so recruiters can scan relevant experience quickly. Every personal project keeps the same proof paths: case study, live prototype and Figma.';
+  if (summary) summary.textContent = 'Each industry keeps three project slots. Finished work shows the full case-study / prototype / Figma proof path; open slots stay intentionally blank as Coming soon.';
 
   if (systemWork && ![...systemWork.querySelectorAll('h3')].some(title => title.textContent.trim() === 'VOLTIS')) {
     const voltisCard = document.createElement('article');
@@ -73,8 +78,6 @@
   ];
   const cardByName = new Map(cards.map(card => [card.querySelector('h3')?.textContent.trim(), card]));
 
-  // Personal projects use one consistent proof contract: case study + live prototype + Figma.
-  // UIUX Factory is intentionally excluded because it is a tooling/system proof rather than a UI project.
   const personalProjectActions = new Map([
     ['LuxRoom', {
       caseStudy:'case-study-luxroom.html',
@@ -147,8 +150,6 @@
     );
   });
 
-  // Canonical portfolio taxonomy. Fintech & Banking is intentionally reserved until a real case exists;
-  // empty domains are not rendered publicly, so the portfolio never mislabels an unrelated project.
   const groups = [
     {
       domain:'FINTECH & BANKING',
@@ -188,12 +189,12 @@
     }
   ];
 
-  const visibleGroups = groups.filter(group => group.projects.some(projectName => cardByName.has(projectName)));
+  const slotsPerGroup = 3;
   const projectGroups = document.createElement('div');
   projectGroups.className = 'project-groups';
   let projectIndex = 0;
 
-  visibleGroups.forEach((group, groupIndex) => {
+  groups.forEach((group, groupIndex) => {
     const section = document.createElement('section');
     section.className = 'project-group reveal';
     const headingId = `project-group-${groupIndex + 1}`;
@@ -208,9 +209,12 @@
     `;
 
     const grid = section.querySelector('.project-group-grid');
+    let renderedProjects = 0;
+
     group.projects.forEach(projectName => {
       const card = cardByName.get(projectName);
       if (!card) return;
+      renderedProjects += 1;
       projectIndex += 1;
       card.classList.remove('case-card-featured','case-card-reverse');
       card.classList.add('project-item');
@@ -239,12 +243,21 @@
 
       grid.appendChild(card);
     });
+
+    const emptySlots = Math.max(0, slotsPerGroup - renderedProjects);
+    for (let slot = 0; slot < emptySlots; slot += 1) {
+      const placeholder = document.createElement('article');
+      placeholder.className = 'coming-soon-card';
+      placeholder.setAttribute('aria-label', `${group.title} project coming soon`);
+      placeholder.innerHTML = '<span>Coming soon</span>';
+      grid.appendChild(placeholder);
+    }
+
     projectGroups.appendChild(section);
   });
 
   caseStack.replaceChildren(projectGroups);
   systemWork?.remove();
 
-  // Group wrappers are inserted after the original reveal observer is created.
   document.querySelectorAll('.project-group.reveal').forEach(group => group.classList.add('is-visible'));
 })();
