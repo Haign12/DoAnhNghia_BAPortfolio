@@ -31,6 +31,8 @@
     .system-card.project-voltis .project-poster{background:#c8f04a;color:#07110d;border-color:#94b62d}
     .system-card.project-factory .project-poster{background:#0b0d10;color:#f3f0e9}
     .system-card-copy>div{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .system-card-copy .case-actions>a:not(.action-highlight){align-self:center;text-decoration:underline;text-underline-offset:4px;opacity:.78}
+    .system-card-copy .case-actions>a:not(.action-highlight):hover,.system-card-copy .case-actions>a:not(.action-highlight):focus-visible{opacity:1}
     .system-work{display:none!important}
 
     @media(max-width:900px){
@@ -39,7 +41,10 @@
       .system-card.project-item{grid-template-columns:1fr;min-height:0}
       .project-poster{min-height:360px;border-right:0;border-bottom:1px solid rgba(255,255,255,.16)}
     }
-    @media(max-width:640px){.project-poster{min-height:290px}}
+    @media(max-width:640px){
+      .project-poster{min-height:290px}
+      .system-card-copy .case-actions .action-highlight{width:100%}
+    }
   `;
   document.head.appendChild(groupingStyle);
 
@@ -48,22 +53,7 @@
   const summary = workSection.querySelector('.section-summary');
   if (kicker) kicker.textContent = 'Grouped by problem space, not by status or project size.';
   if (title) title.innerHTML = 'Projects by practice.<br><em>Equal weight, clearer context.</em>';
-  if (summary) summary.textContent = 'Projects are grouped by the kind of design problem they solve. Each project connects the design decision to the strongest proof available: case study, live prototype, source or system evidence.';
-
-  const ensureCaseLink = (projectName, href) => {
-    const card = [...(systemWork?.querySelectorAll('.system-card') || [])]
-      .find(item => item.querySelector('h3')?.textContent.trim() === projectName);
-    if (!card || card.querySelector(`a[href="${href}"]`)) return;
-    const actions = card.querySelector(':scope > div');
-    if (!actions) return;
-    const link = document.createElement('a');
-    link.href = href;
-    link.textContent = 'Read case study ↗';
-    actions.prepend(link);
-  };
-
-  ensureCaseLink('Violet Marketplace', 'case-study-violet-marketplace.html');
-  ensureCaseLink('CENNEXT', 'case-study-cennext.html');
+  if (summary) summary.textContent = 'Projects are grouped by the kind of design problem they solve. Each personal design project exposes the same three proof paths: case study, live prototype and Figma.';
 
   if (systemWork && ![...systemWork.querySelectorAll('h3')].some(title => title.textContent.trim() === 'VOLTIS')) {
     const voltisCard = document.createElement('article');
@@ -72,11 +62,7 @@
       <span>AUTOMOTIVE / PRODUCT + CORPORATE</span>
       <h3>VOLTIS</h3>
       <p>A bilingual electric-mobility concept connecting product storytelling, corporate information architecture, localization and implementation-ready interaction states.</p>
-      <div>
-        <a href="case-study-voltis.html">Read case study ↗</a>
-        <a class="action-highlight" href="https://ngh1aa.github.io/Voltis/" target="_blank" rel="noopener noreferrer">Live site ↗</a>
-        <a href="https://github.com/Ngh1aa/Voltis" target="_blank" rel="noopener noreferrer">Source ↗</a>
-      </div>
+      <div></div>
     `;
     systemWork.appendChild(voltisCard);
   }
@@ -86,6 +72,80 @@
     ...(systemWork ? systemWork.querySelectorAll('.system-card') : [])
   ];
   const cardByName = new Map(cards.map(card => [card.querySelector('h3')?.textContent.trim(), card]));
+
+  // Personal projects use one consistent proof contract: case study + live prototype + Figma.
+  // UIUX Factory is intentionally excluded because it is a tooling/system proof rather than a UI project.
+  const personalProjectActions = new Map([
+    ['LuxRoom', {
+      caseStudy:'case-study-luxroom.html',
+      live:'https://ngh1aa.github.io/LuxRoom/',
+      figma:'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1'
+    }],
+    ['Atelier', {
+      caseStudy:'case-study-atelier.html',
+      live:'https://ngh1aa.github.io/Atelier/',
+      figma:'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1'
+    }],
+    ['Violet Marketplace', {
+      caseStudy:'case-study-violet-marketplace.html',
+      live:'https://ngh1aa.github.io/VioletMarketplace/',
+      figma:'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1'
+    }],
+    ['VAS Education', {
+      caseStudy:'case-study-vas-education.html',
+      live:'https://ngh1aa.github.io/RedesignVAS/',
+      figma:'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1'
+    }],
+    ['Capital Place', {
+      caseStudy:'case-study-capital-place.html',
+      live:'https://ngh1aa.github.io/Capital/',
+      figma:'https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1'
+    }],
+    ['CENNEXT', {
+      caseStudy:'case-study-cennext.html',
+      live:'https://ngh1aa.github.io/cennext-b2b-prototype/',
+      figma:'https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1'
+    }],
+    ['VOLTIS', {
+      caseStudy:'case-study-voltis.html',
+      live:'https://ngh1aa.github.io/Voltis/',
+      figma:'https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1'
+    }]
+  ]);
+
+  const makeActionLink = (href, label, highlighted = false) => {
+    const link = document.createElement('a');
+    link.href = href;
+    link.textContent = label;
+    if (highlighted) link.classList.add('action-highlight');
+    if (/^https?:/i.test(href)) {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+    return link;
+  };
+
+  personalProjectActions.forEach((links, projectName) => {
+    const card = cardByName.get(projectName);
+    if (!card) return;
+
+    let actions = card.querySelector('.case-actions');
+    if (!actions && card.classList.contains('system-card')) {
+      actions = [...card.children].find(child => child.tagName === 'DIV' && !child.classList.contains('project-poster'));
+      if (!actions) {
+        actions = document.createElement('div');
+        card.appendChild(actions);
+      }
+    }
+    if (!actions) return;
+
+    actions.classList.add('case-actions', 'personal-project-actions');
+    actions.replaceChildren(
+      makeActionLink(links.caseStudy, 'Read case study ↗'),
+      makeActionLink(links.live, 'Live prototype ↗', true),
+      makeActionLink(links.figma, 'Figma ↗', true)
+    );
+  });
 
   const groups = [
     {
