@@ -182,8 +182,31 @@
     }
   });
 
+  const loadMotionLayer = () => {
+    if (document.querySelector('link[data-portfolio-motion]')) return;
+
+    const motionStyle = document.createElement('link');
+    motionStyle.rel = 'stylesheet';
+    motionStyle.href = 'portfolio-motion-v6.css?v=20260914-professional-motion';
+    motionStyle.dataset.portfolioMotion = 'true';
+
+    const bootMotion = () => {
+      if (document.querySelector('script[data-portfolio-motion]')) return;
+      const motionScript = document.createElement('script');
+      motionScript.src = 'portfolio-motion-v6.js?v=20260914-professional-motion';
+      motionScript.dataset.portfolioMotion = 'true';
+      document.head.appendChild(motionScript);
+    };
+
+    motionStyle.addEventListener('load', bootMotion, {once:true});
+    motionStyle.addEventListener('error', bootMotion, {once:true});
+    document.head.appendChild(motionStyle);
+  };
+
   // Keep the newer project taxonomy/order while restoring the original color direction.
   const groupingScript = document.createElement('script');
   groupingScript.src = 'portfolio-grouping.js?v=20260913-color-restored';
+  groupingScript.addEventListener('load', loadMotionLayer, {once:true});
+  groupingScript.addEventListener('error', loadMotionLayer, {once:true});
   document.head.appendChild(groupingScript);
 })();
