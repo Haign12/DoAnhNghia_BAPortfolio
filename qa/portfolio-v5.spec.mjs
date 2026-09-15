@@ -31,9 +31,9 @@ const formatAxeViolations = blockers => blockers.flatMap(violation =>
 
 const primeSelectedWorkMedia = async page => {
   const media = page.locator('#work .case-media img');
-  await expect(media).toHaveCount(4);
+  await expect(media).toHaveCount(8);
 
-  for (let index = 0; index < 4; index += 1) {
+  for (let index = 0; index < 8; index += 1) {
     const image = media.nth(index);
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(async img => {
@@ -55,21 +55,22 @@ test.describe('Portfolio v5 cloud gate', () => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await expect(page).toHaveTitle(/Do Anh Nghia/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('messy middle');
-    await expect(page.locator('#workTitle')).toContainText('Projects by practice.');
+    await expect(page.locator('#workTitle')).toContainText('Work across industries.');
     await expect(page.getByText('TRUTH LABEL')).toBeVisible();
     await expect(page.getByText('INDEPENDENT REDESIGN').first()).toBeVisible();
     await expect(page.getByRole('link', { name: /Read VAS Education redesign case study/i })).toBeVisible();
     await expect(page.locator('a[href="case-study-violet-marketplace.html"]')).toBeVisible();
     await expect(page.locator('a[href="case-study-cennext.html"]')).toBeVisible();
     await expect(page.locator('a[href="case-study-voltis.html"]')).toBeVisible();
+    await expect(page.locator('a[href="https://ngh1aa.github.io/Nova/"]')).toBeVisible();
+    await expect(page.locator('a[href="https://ngh1aa.github.io/Flux/"]')).toBeVisible();
+    await expect(page.locator('a[href="https://ngh1aa.github.io/Sentry/"]')).toBeVisible();
+    await expect(page.locator('a[href="https://ngh1aa.github.io/Access/"]')).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
   });
 
   test('core recruiter narrative remains visible without JavaScript', async ({ browser }) => {
-    const context = await browser.newContext({
-      javaScriptEnabled: false,
-      viewport: { width: 1440, height: 1000 },
-    });
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
     const page = await context.newPage();
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { name: 'Not a gallery. A decision record.' })).toBeVisible();
@@ -82,14 +83,9 @@ test.describe('Portfolio v5 cloud gate', () => {
   test('selected-work project media renders before release', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await primeSelectedWorkMedia(page);
-    const media = await page.locator('#work .case-media img').evaluateAll(images =>
-      images.map(img => ({
-        src: img.getAttribute('src'),
-        complete: img.complete,
-        naturalWidth: img.naturalWidth,
-        naturalHeight: img.naturalHeight,
-      }))
-    );
+    const media = await page.locator('#work .case-media img').evaluateAll(images => images.map(img => ({
+      src: img.getAttribute('src'), complete: img.complete, naturalWidth: img.naturalWidth, naturalHeight: img.naturalHeight,
+    })));
     const broken = media.filter(item => !item.complete || item.naturalWidth === 0 || item.naturalHeight === 0);
     expect(broken, JSON.stringify(media, null, 2)).toEqual([]);
   });
@@ -129,10 +125,7 @@ test.describe('Portfolio v5 cloud gate', () => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto(baseURL, { waitUntil: 'networkidle' });
       await primeSelectedWorkMedia(page);
-      const overflow = await page.evaluate(() => ({
-        scrollWidth: document.documentElement.scrollWidth,
-        clientWidth: document.documentElement.clientWidth,
-      }));
+      const overflow = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
       expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
       await fs.mkdir('qa-artifacts', { recursive: true });
       await page.screenshot({ path: `qa-artifacts/${viewport.name}.png`, fullPage: true });
@@ -142,9 +135,7 @@ test.describe('Portfolio v5 cloud gate', () => {
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await expect(page.locator('a[href="case-study-voltis.html"]')).toBeVisible();
-    const paths = await page.locator('a[href$=".html"]').evaluateAll(links =>
-      [...new Set(links.map(link => link.getAttribute('href')).filter(Boolean))]
-    );
+    const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(links.map(link => link.getAttribute('href')).filter(Boolean))]);
     expect(paths.length).toBeGreaterThanOrEqual(7);
     for (const path of paths) {
       const response = await request.get(`${baseURL}/${path}`);
@@ -160,10 +151,7 @@ test.describe('Portfolio v5 cloud gate', () => {
       const boundaryLabel = page.getByText('EVIDENCE BOUNDARY');
       await boundaryLabel.scrollIntoViewIfNeeded();
       await expect(boundaryLabel).toBeVisible();
-      const overflow = await page.evaluate(() => ({
-        scrollWidth: document.documentElement.scrollWidth,
-        clientWidth: document.documentElement.clientWidth,
-      }));
+      const overflow = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
       expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
       const blockers = await seriousAxeViolations(page);
       expect(blockers, formatAxeViolations(blockers) || `${caseStudy.heading}: serious/critical Axe violation detected`).toEqual([]);
