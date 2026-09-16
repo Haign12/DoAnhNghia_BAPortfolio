@@ -384,7 +384,7 @@
       </div>
       <div class="professional-proof__actions">
         <a href="#experience">See experience ↘</a>
-        <a href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">View resume ↗</a>
+        <a href="Do_Anh_Nghia_UIUXDesigner_CV.pdf" target="_blank" rel="noopener">View resume ↗</a>
       </div>
       <p class="professional-proof__boundary">Named client case studies are shown only when public proof can be shared; this section represents verified role and delivery scope rather than a fabricated client outcome.</p>
     `;
