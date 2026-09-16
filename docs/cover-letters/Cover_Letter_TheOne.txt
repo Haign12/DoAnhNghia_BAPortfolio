@@ -17,7 +17,7 @@ Nhờ nền tảng CNTT, em chủ động phân tích Data Flow end-to-end, đ�
 - Với Dev: Em truyền đạt yêu cầu rõ ràng, đồng hành giải đáp thắc mắc trong suốt quá trình sprint build và chủ động cập nhật spec khi có thay đổi từ phía PM.
 
 Em đã hệ thống hóa các sản phẩm thực tế của mình (bao gồm các hệ thống SaaS quản lý đơn hàng/POS, quản trị hệ thống và theo dõi dòng tiền) thành một Portfolio tương tác. Kính mời Quý công ty tham khảo hồ sơ chi tiết tại:
-- Interactive Portfolio: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+- Interactive Portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
 - LinkedIn: https://www.linkedin.com/in/ginan12/
 
 Em rất mong có cơ hội được trao đổi trực tiếp với Quý công ty trong một buổi phỏng vấn để chia sẻ chi tiết hơn về cách em phân tích spec và đóng góp vào sự phát triển của các sản phẩm POS/SaaS tại The One LLC.

@@ -13,7 +13,7 @@ Về bản thân, em tốt nghiệp chuyên ngành Công nghệ Thông tin tại
 Em rất mong muốn có cơ hội được tham gia vào đội ngũ WATATECH để học hỏi, rèn luyện và đóng góp giá trị lâu dài cho công ty.
 
 Kính mời Quý công ty tham khảo hồ sơ chi tiết và Portfolio sản phẩm tương tác của em tại:
-- Portfolio: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+- Portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
 - LinkedIn: https://www.linkedin.com/in/ginan12/
 
 Em xin chân thành cảm ơn Quý công ty đã dành thời gian xem xét hồ sơ và rất mong nhận được phản hồi để trao đổi chi tiết hơn trong một buổi phỏng vấn.

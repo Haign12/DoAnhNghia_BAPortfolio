@@ -12,7 +12,7 @@ Your job description highlights the need for a candidate who can gather business
 
 I am particularly drawn to VNResource's core value of “Your Trust, Our Success” and the opportunity to work in a dynamic, technology-driven environment. I am confident that my analytical mindset, dedication to product quality, and collaborative nature make me a strong fit for your team.
 
-I have attached my resume for your review and encourage you to explore my interactive portfolio at: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+I have attached my resume for your review and encourage you to explore my interactive portfolio at: https://do-anh-nghia-uiux-portfolio.vercel.app/
 
 I would welcome the opportunity to discuss how my background, skills, and enthusiasm can contribute to the continued success and growth of VNResource. Thank you for your time and consideration.
 
@@ -21,5 +21,5 @@ Sincerely,
 Do Anh Nghia
 Phone: +84 798 876 074
 Email: anhnghia9a633@gmail.com
-Portfolio: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+Portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
 LinkedIn: https://www.linkedin.com/in/ginan12/

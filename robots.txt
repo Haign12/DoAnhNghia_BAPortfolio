@@ -3,4 +3,4 @@ Allow: /
 Disallow: /docs/
 Disallow: /cv/
 
-Sitemap: https://haign12.github.io/DoAnhNghia_BAPortfolio/sitemap.xml
+Sitemap: https://do-anh-nghia-uiux-portfolio.vercel.app/sitemap.xml

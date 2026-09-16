@@ -4,7 +4,7 @@
 #let location = "Ho Chi Minh City, Vietnam"
 #let email = "anhnghia9a633@gmail.com"
 #let phone = "+84 7988 760 74"
-#let personal-site = "haign12.github.io/DoAnhNghia_BAPortfolio"
+#let personal-site = "do-anh-nghia-uiux-portfolio.vercel.app"
 
 #show: resume.with(
   author: name,
@@ -53,7 +53,7 @@
   name: "LuxRoom — Furniture E-commerce Website",
   role: "UI/UX Design · Responsive Prototype",
   dates: "2026",
-  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-luxroom.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-luxroom.html",
 )
 - *Problem:* premium furniture shopping can hide the practical information users need to judge fit, material, dimensions and delivery. *Solution:* room context → material preference → product evaluation → save / checkout. *Outcome:* responsive prototype connecting contextual discovery, product specifications, Saved Room and checkout.
 
@@ -61,7 +61,7 @@
   name: "Atelier — Fashion E-commerce Website",
   role: "UI/UX Design · Mobile-first Prototype",
   dates: "2026",
-  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-atelier.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-atelier.html",
 )
 - *Problem:* editorial fashion experiences can create desire while making product decisions harder. *Solution:* discover → evaluate → buy, with information density increasing as purchase intent grows. *Outcome:* mobile-first prototype covering collection discovery, product decisions, variants and checkout.
 
@@ -69,7 +69,7 @@
   name: "VAS Education — Website Redesign",
   role: "Information Architecture · Responsive Prototype",
   dates: "2026",
-  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-vas-education.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-vas-education.html",
 )
 - *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Solution:* trust → fit → daily reality → action. *Outcome:* responsive prototype connecting brand proof, learning pathways, campus context and admissions into one parent journey.
 
@@ -77,7 +77,7 @@
   name: "Capital Place — Website Redesign",
   role: "Decision-support UX · Interactive Prototype",
   dates: "2026",
-  url: "haign12.github.io/DoAnhNghia_BAPortfolio/case-study-capital-place.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-capital-place.html",
 )
 - *Problem:* brochure-style property content did not support practical leasing decisions. *Solution:* place → space requirement → floor context → enquiry, including Space Finder and contextual enquiry flows. *Outcome:* interactive responsive prototype demonstrating a clearer leasing decision-support experience.
 

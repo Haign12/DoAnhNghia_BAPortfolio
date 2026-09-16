@@ -10,7 +10,7 @@ Về mức độ đáp ứng các yêu cầu của EOS Solutions, em tự tin v�
 - Nền tảng chuyên môn & Kỹ năng BA: Em đang theo học chuyên ngành CNTT (ĐH Khoa học Tự nhiên - HCMUS & ĐH Claude Bernard Lyon 1). Em nắm vững các kỹ năng lấy yêu cầu (Requirement Gathering), viết User Stories, Acceptance Criteria, và mô hình hóa quy trình (BPMN 2.0, UML Sequence).
 - Thái độ làm việc chuyên nghiệp: Trải qua các dự án cá nhân và công việc trước đây, em luôn đề cao sự cẩn thận, biết lắng nghe để phân tích chính xác "pain points" của người dùng. Em học hỏi nhanh và luôn tập trung cao độ để bám sát tiến độ dự án.
 
-Em có đính kèm CV chi tiết cùng Portfolio cá nhân (hiển thị trực quan các dự án phân tích nghiệp vụ và hệ thống em từng thực hiện) tại link: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+Em có đính kèm CV chi tiết cùng Portfolio cá nhân (hiển thị trực quan các dự án phân tích nghiệp vụ và hệ thống em từng thực hiện) tại link: https://do-anh-nghia-uiux-portfolio.vercel.app/
 
 Em rất mong có cơ hội được phỏng vấn để trao đổi rõ hơn về định hướng cũng như mức độ phù hợp của em với đội ngũ EOS Solutions. Cảm ơn Anh/Chị đã dành thời gian xem xét hồ sơ của em.
 
@@ -19,4 +19,4 @@ Trân trọng,
 Đỗ Anh Nghĩa
 SĐT: +84 798 876 074
 Email: anhnghia9a633@gmail.com
-Portfolio: https://haign12.github.io/DoAnhNghia_BAPortfolio/
+Portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
