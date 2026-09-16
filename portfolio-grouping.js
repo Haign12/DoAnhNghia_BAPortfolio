@@ -162,8 +162,8 @@
   });
 
   const groups = [
-    {domain:'FINTECH & BANKING',title:'Fintech & Banking',description:'Trust-heavy financial journeys, treasury operations, fraud investigation and data-dense decision interfaces.',projects:['Nova','Flux','Sentry']},
     {domain:'E-COMMERCE & RETAIL',title:'E-Commerce & Retail',description:'Discovery, product confidence, editorial storytelling and conversion for high-consideration commerce.',projects:['LuxRoom','Atelier','Violet Marketplace']},
+    {domain:'FINTECH & BANKING',title:'Fintech & Banking',description:'Trust-heavy financial journeys, treasury operations, fraud investigation and data-dense decision interfaces.',projects:['Nova','Flux','Sentry']},
     {domain:'B2B SAAS & ENTERPRISE',title:'B2B SaaS & Enterprise',description:'Enterprise information architecture, access governance, complex decision support and business-facing digital experiences.',projects:['CENNEXT','Capital Place','Access']},
     {domain:'AI & AUTOMATION',title:'AI & Automation',description:'AI-assisted design operations, reusable workflows and systems that turn design intent into repeatable execution.',projects:['UIUX Factory']},
     {domain:'LOGISTICS & MOBILITY',title:'Logistics & Mobility',description:'Mobility product storytelling, technical information, localization and connected brand-to-product journeys.',projects:['VOLTIS']},
