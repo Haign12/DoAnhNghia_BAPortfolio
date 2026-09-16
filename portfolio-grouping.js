@@ -131,6 +131,7 @@
 
   const personalProjectActions = new Map([
     ['LuxRoom',{caseStudy:'case-study-luxroom.html',live:'https://lux-room.vercel.app/',figma:'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1'}],
+    ['Access',{live:'https://access-nbuz.vercel.app/',figma:'https://www.figma.com/design/tQzqKtw8x6Iu4ohKy9LOwo/access?node-id=6-1428&t=2W8CDU1K7QISp6eC-1'}],
     ['Atelier',{caseStudy:'case-study-atelier.html',live:'https://atelier-henna-tau.vercel.app/',figma:'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1'}],
     ['Violet Marketplace',{caseStudy:'case-study-violet-marketplace.html',live:'https://violet-marketplace.vercel.app/',figma:'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1'}],
     ['VAS Education',{caseStudy:'case-study-vas-education.html',live:'https://redesign-vas.vercel.app/',figma:'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1'}],
