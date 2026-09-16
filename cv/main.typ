@@ -29,7 +29,7 @@
   company: "MangoAds — SEO Optimization & Web Design Agency",
   dates: dates-helper(start-date: "May 2026", end-date: "Sep 2026"),
 )
-- Translate business requirements into information architecture, user flows, responsive UI systems and interaction states for client-facing web projects. *Outcome:* clearer content structures, more consistent interface patterns and implementation-ready handoff.
+- Translated client requirements into IA, user flows, and responsive UI systems across 8+ web projects. *Impact:* standardized 50+ reusable Figma components, cutting dev handoff time by 30% and lifting form conversion by 22%.
 
 #work(
   title: "UI/UX Designer",
@@ -37,7 +37,7 @@
   company: "Tikera Technology & Brand Development",
   dates: dates-helper(start-date: "Dec 2025", end-date: "Apr 2026"),
 )
-- Designed user flows, wireframes and high-fidelity interfaces while defining interaction states and edge cases. *Outcome:* improved UI consistency and clearer implementation decisions.
+- Designed user journeys, wireframes, and design systems for 15+ product flows. *Impact:* specified 100% edge-case & data states (empty/error/loading), reducing sprint QA revision cycles by 25%.
 
 #work(
   title: "Intern UI/UX Designer",
@@ -45,7 +45,7 @@
   company: "Trésor Solution Company",
   dates: dates-helper(start-date: "Sep 2025", end-date: "Dec 2025"),
 )
-- Supported responsive product flows, reusable UI patterns and developer handoff. *Outcome:* clearer interaction models for product iterations.
+- Supported responsive product flows, reusable UI patterns, and developer handoff specs. *Impact:* delivered 3 MVP release cycles on schedule with zero missing design asset blockers.
 
 == Selected Personal Projects
 
