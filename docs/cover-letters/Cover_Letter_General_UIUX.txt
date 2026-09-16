@@ -1,0 +1,82 @@
+================================================================================
+BẢN 1: TIẾNG VIỆT (DÀNH CHO CÁC DOANH NGHIỆP TẠI VIỆT NAM / CÔNG TY CÔNG NGHỆ)
+================================================================================
+
+Tiêu đề email: [Họ và tên] - Ứng tuyển vị trí [UI/UX Designer / Product Designer / Web Designer]
+Ví dụ: Đỗ Anh Nghĩa - Ứng tuyển vị trí UI/UX Designer
+
+Kính gửi: Quý Công ty / Bộ phận Tuyển dụng [Tên Công ty],
+
+Em tên là Đỗ Anh Nghĩa. Qua tìm hiểu, em được biết Quý công ty đang tìm kiếm vị trí [UI/UX Designer / Product Designer]. Với nền tảng đào tạo chính quy về Công nghệ Thông tin (ĐH Khoa học Tự nhiên - HCMUS & ĐH Claude Bernard Lyon 1) cùng kinh nghiệm thực tế thiết kế giao diện và hệ thống sản phẩm số, em viết thư này với mong muốn được đồng hành và đóng góp giá trị cho các dự án tại [Tên Công ty].
+
+Triết lý thiết kế của em là “Clarity before decoration” — thiết kế để làm rõ quyết định sản phẩm và tối ưu hành vi người dùng, chứ không chỉ dừng lại ở mặt thẩm mỹ thị giác. Những thế mạnh cốt lõi em có thể mang lại cho đội ngũ bao gồm:
+
+1. Tư duy sản phẩm & Cấu trúc thông tin (Product Thinking & IA):
+Em không vẽ màn hình rời rạc mà luôn bắt đầu từ việc bóc tách yêu cầu nghiệp vụ, xác định đối tượng người dùng, lập luồng thao tác (User Journey / Task Flow) và phân cấp cấu trúc thông tin (Information Architecture) mạch lạc, đảm bảo mỗi màn hình đều có mục tiêu rõ ràng.
+
+2. Xây dựng Design System & Quy chuẩn tái sử dụng (Design Systems & Tokens):
+Em có kinh nghiệm xây dựng thư viện thành phần (Figma Components, Variants, Design Tokens) đồng bộ với mã nguồn thực tế. Điều này giúp tối ưu tốc độ triển khai, đảm bảo tính nhất quán của sản phẩm và hạn chế sai lệch khi bàn giao (handoff) cho đội ngũ Lập trình viên.
+
+3. Khả năng Prototype thực tế & Bao quát trạng thái biên (Interactive Prototype & Edge Cases):
+Từng thực hiện 12 dự án thuộc 6 lĩnh vực (Fintech & Banking, E-Commerce & Retail, B2B SaaS, EdTech, Mobility), em luôn chủ động thiết kế đầy đủ các trạng thái khuyết (Loading, Empty data, Error, Success) cũng như tạo các bản Prototype tương tác có độ chân thực cao để kiểm chứng trải nghiệm trước khi code.
+
+4. Nền tảng Kỹ thuật & Cầu nối Design - Tech - Business:
+Nhờ nền tảng công nghệ và kinh nghiệm phân tích yêu cầu (BA), em hiểu rõ các ràng buộc kỹ thuật (responsive layout, database state, accessibility WCAG), giúp việc trao đổi với Product Manager và Developer luôn diễn ra nhanh chóng, gãy gọn và tiết kiệm thời gian chỉnh sửa.
+
+Kính mời Quý công ty xem chi tiết hồ sơ năng lực và trải nghiệm trực tiếp các sản phẩm thực tế của em tại:
+• Portfolio cá nhân: https://do-anh-nghia-uiux-portfolio.vercel.app/
+• CV đính kèm: Do_Anh_Nghia_UIUXDesigner_CV.pdf
+• LinkedIn: https://www.linkedin.com/in/ginan12/
+• GitHub: https://github.com/Ngh1aa
+
+Em rất mong có cơ hội được tham gia buổi phỏng vấn trực tiếp để lắng nghe chia sẻ từ Quý công ty và trình bày chi tiết hơn về các giải pháp em có thể đóng góp cho [Tên Công ty].
+
+Em xin chân thành cảm ơn Quý công ty đã dành thời gian xem xét hồ sơ của em.
+
+Trân trọng,
+
+Đỗ Anh Nghĩa
+Số điện thoại: (+84) 798 876 074
+Email: anhnghia9a633@gmail.com
+Portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
+
+
+================================================================================
+BẢN 2: TIẾNG ANH (DÀNH CHO CÔNG TY ĐA QUỐC GIA, PRODUCT LAB, OUTSOURCING GLOBAL)
+================================================================================
+
+Subject: [Job Application] UI/UX Designer - Do Anh Nghia
+Example: [Job Application] Product Designer / UI/UX Designer - Do Anh Nghia
+
+Dear [Hiring Team / Company Name],
+
+My name is Do Anh Nghia. I am writing to express my strong interest in the [UI/UX Designer / Product Designer] position at [Company Name]. With a solid foundation in Information Technology (University of Science - HCMUS & Claude Bernard University Lyon 1) and practical hands-on experience designing responsive web platforms and product systems, I am excited about the opportunity to contribute to your team.
+
+My design approach centers on “Clarity before decoration” — using visual craft to make product decisions understandable and usable, rather than just decorating screens. Across 12 projects in 6 industries (Fintech, E-Commerce, B2B SaaS, EdTech, Mobility), I consistently focus on:
+
+1. Product Thinking & Information Architecture:
+Translating complex business briefs into user-friendly journeys, clear task hierarchies, and scalable page structures where every route has a defined purpose.
+
+2. Scalable Design Systems:
+Creating reusable component architectures, tokens, and responsive behavior contracts that bridge design intent with front-end implementation, dramatically reducing handoff friction.
+
+3. Realistic Prototyping & Edge-Case Coverage:
+Designing beyond happy paths by proactively addressing states (loading, empty data, network errors, form validation) and building interactive prototypes that teams can test and inspect in realistic browser contexts.
+
+4. Engineering-Minded Collaboration:
+With a computer science background, I collaborate seamlessly with Product Managers and Developers, ensuring feasible technical execution, web accessibility (WCAG), and consistent release quality.
+
+I invite you to explore my verified case studies and live interactive prototypes:
+• Portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
+• Resume: Attached as Do_Anh_Nghia_UIUXDesigner_CV.pdf
+• LinkedIn: https://www.linkedin.com/in/ginan12/
+• GitHub: https://github.com/Ngh1aa
+
+I would welcome the opportunity to discuss how my skill set and proactive mindset can support [Company Name]’s product goals. Thank you very much for your time and consideration.
+
+Sincerely,
+
+Do Anh Nghia
+Phone: (+84) 798 876 074
+Email: anhnghia9a633@gmail.com
+Portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
