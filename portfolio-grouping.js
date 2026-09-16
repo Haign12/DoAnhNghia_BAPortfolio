@@ -130,7 +130,7 @@
   const cardByName = new Map(cards.map(card => [card.querySelector('h3')?.textContent.trim(), card]));
 
   const personalProjectActions = new Map([
-    ['LuxRoom',{caseStudy:'case-study-luxroom.html',live:'https://ngh1aa.github.io/LuxRoom/',figma:'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1'}],
+    ['LuxRoom',{caseStudy:'case-study-luxroom.html',live:'https://lux-room.vercel.app/',figma:'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1'}],
     ['Atelier',{caseStudy:'case-study-atelier.html',live:'https://ngh1aa.github.io/Atelier/',figma:'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1'}],
     ['Violet Marketplace',{caseStudy:'case-study-violet-marketplace.html',live:'https://ngh1aa.github.io/VioletMarketplace/',figma:'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1'}],
     ['VAS Education',{caseStudy:'case-study-vas-education.html',live:'https://ngh1aa.github.io/RedesignVAS/',figma:'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1'}],

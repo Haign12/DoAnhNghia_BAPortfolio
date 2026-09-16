@@ -88,7 +88,7 @@
     },
     'case-study-luxroom.html': {
       name: 'LuxRoom',
-      url: 'https://ngh1aa.github.io/LuxRoom/',
+      url: 'https://lux-room.vercel.app/',
       note: 'The public prototype is loaded directly to show how the interface carries product detail and hierarchy across viewport sizes.'
     },
     'case-study-capital-place.html': {
