@@ -26,6 +26,39 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
 @media(max-width:1024px){.project-grid{grid-template-columns:repeat(2,1fr)}.group-header{grid-template-columns:1fr auto}.group-desc{grid-column:1 / -1;max-width:100%}.project-featured{grid-template-columns:1fr}.project-featured .project-media{aspect-ratio:16/10;min-height:auto}.hero-name{font-size:22vw}.portrait-wrap{width:min(50vw,620px)}.hero-side{display:none}.story-copy{grid-column:span 5}.principles{grid-column:6/span 7}}
 @media(max-width:720px){.nav-links{display:none;position:absolute;top:72px;left:0;right:0;background:#fff;border-bottom:1px solid #111;padding:20px var(--gutter);flex-direction:column;align-items:flex-start}.nav-links.open{display:flex}.menu{display:grid}.hero{min-height:920px}.hero-top{padding-top:42px;display:block}.hero-roles{font-size:48px}.hero-intro{margin-top:24px;text-align:left;max-width:360px}.hero-name{bottom:55px;font-size:28vw;line-height:.78}.portrait-wrap{width:92vw;height:600px;bottom:0;transform:translateX(-47%)}.hero-note{bottom:18px;max-width:210px;font-size:9px}.hero-base{height:150px}.story-grid,.factory-grid,.contact-grid{grid-template-columns:1fr}.story-copy,.principles{grid-column:auto}.principles{margin-top:50px}.project-grid{grid-template-columns:1fr}.group-header{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.group-count-badge{align-self:flex-start}.project-highlights{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.metric:nth-child(3){border-left:0;border-top:1px solid #cfcfc9}.metric:nth-child(4){border-top:1px solid #cfcfc9}.terminal{margin-top:42px}.contact-side{margin-top:28px}.footer{flex-direction:column}.marquee-track{animation-duration:18s}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.preloader{display:none}.marquee-track{animation:none}.role-line b,.letter,.reveal,.hero-intro{transform:none!important;opacity:1!important;transition:none!important}.project,.project-media img{transition:none!important}}
+
+/* Premium UX Enhancements */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #111;
+  z-index: 1000;
+  transition: width 0.1s ease-out;
+}
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+.brand-logo {
+  border-radius: 50%;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand:hover .brand-logo {
+  transform: rotate(90deg) scale(1.05);
+}
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s, color 0.25s, opacity 0.25s !important;
+}
 </style>
 </head>
 <body>
@@ -33,7 +66,7 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
 <div class="preloader" aria-hidden="true"><div class="pre-brand">Do Anh Nghia<br>Portfolio / 2026</div><div class="pre-count"><b id="preCount">0</b><span>%</span></div></div>
 <header class="site-nav">
   <nav class="nav-inner" aria-label="Primary navigation">
-    <a class="brand" href="#top" aria-label="Do Anh Nghia"><span class="brand-name">DO ANH NGHIA</span></a>
+    <a class="brand" href="#top" aria-label="Do Anh Nghia"><svg class="brand-logo" width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="#111" /><text x="50%" y="54%" font-family="var(--display)" font-size="16" fill="#fff" text-anchor="middle" dominant-baseline="middle" letter-spacing="1">DN</text></svg><span class="brand-name">DO ANH NGHIA</span></a>
     <div class="nav-links" id="navLinks"><a href="#story">About</a><a href="#work">Projects</a><a href="#factory">Factory</a><a href="#contact">Contact</a><a class="nav-cta" href="Do_Anh_Nghia_CV.pdf" target="_blank" rel="noopener">Resume ↗</a></div>
     <button class="menu" id="menuBtn" aria-label="Open navigation" aria-expanded="false"><i></i></button>
   </nav>
@@ -437,6 +470,37 @@ filters.forEach(btn=>btn.addEventListener('click',()=>{
 }));
 const menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');menuBtn.addEventListener('click',()=>{const open=navLinks.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(open))});navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
 if(!reduce){window.addEventListener('scroll',()=>{const y=window.scrollY;document.querySelector('.hero-name').style.transform=`translateY(${Math.min(46,y*.045)}px)`;document.querySelector('.portrait-wrap').style.transform=`translate(-48%,${Math.min(20,y*.02)}px)`},{passive:true})}
+
+// --- Premium UX Scripts ---
+// Scroll progress
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.appendChild(progressBar);
+window.addEventListener('scroll', () => {
+  const scrollPx = document.documentElement.scrollTop;
+  const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progressBar.style.width = `${(scrollPx / winHeightPx) * 100}%`;
+}, {passive: true});
+
+// Subtle Grain Texture
+const noise = document.createElement('div');
+noise.className = 'noise-overlay';
+document.body.appendChild(noise);
+
+// Magnetic Buttons
+document.querySelectorAll('.link-primary, .button').forEach(el => {
+  el.classList.add('magnetic');
+  el.addEventListener('mousemove', (e) => {
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) * 0.25;
+    const y = (e.clientY - rect.top - rect.height / 2) * 0.25;
+    el.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  el.addEventListener('mouseleave', () => {
+    el.style.transform = `translate(0px, 0px)`;
+  });
+});
+
 </script>
 </body>
 </html>
