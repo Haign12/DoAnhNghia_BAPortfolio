@@ -50,7 +50,7 @@
   const liveProjects = [
     {
       name:'Nova',
-      live:'https://ngh1aa.github.io/Nova/',
+      live:'https://nova-gamma-eosin.vercel.app/',
       source:'https://github.com/Ngh1aa/Nova',
       image:'assets/images/prototype-captures/nova.webp',
       label:'CONSUMER FINTECH / MONEY HEALTH',
@@ -61,7 +61,7 @@
     },
     {
       name:'Flux',
-      live:'https://ngh1aa.github.io/Flux/',
+      live:'https://flux-six-liard.vercel.app/',
       source:'https://github.com/Ngh1aa/Flux',
       image:'assets/images/prototype-captures/flux.svg',
       label:'B2B FINTECH / TREASURY',
@@ -72,7 +72,7 @@
     },
     {
       name:'Sentry',
-      live:'https://ngh1aa.github.io/Sentry/',
+      live:'https://sentry-9bqs.vercel.app/',
       source:'https://github.com/Ngh1aa/Sentry',
       image:'assets/images/prototype-captures/sentry.svg',
       label:'FRAUD & RISK OPS / FINTECH',
@@ -83,7 +83,7 @@
     },
     {
       name:'Access',
-      live:'https://ngh1aa.github.io/Access/',
+      live:'https://access-nbuz.vercel.app/',
       source:'https://github.com/Ngh1aa/Access',
       image:'assets/images/prototype-captures/access.svg',
       label:'IDENTITY / PERMISSIONS / ENTERPRISE',
@@ -131,12 +131,12 @@
 
   const personalProjectActions = new Map([
     ['LuxRoom',{caseStudy:'case-study-luxroom.html',live:'https://lux-room.vercel.app/',figma:'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1'}],
-    ['Atelier',{caseStudy:'case-study-atelier.html',live:'https://ngh1aa.github.io/Atelier/',figma:'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1'}],
-    ['Violet Marketplace',{caseStudy:'case-study-violet-marketplace.html',live:'https://ngh1aa.github.io/VioletMarketplace/',figma:'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1'}],
-    ['VAS Education',{caseStudy:'case-study-vas-education.html',live:'https://ngh1aa.github.io/RedesignVAS/',figma:'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1'}],
-    ['Capital Place',{caseStudy:'case-study-capital-place.html',live:'https://ngh1aa.github.io/Capital/',figma:'https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1'}],
-    ['CENNEXT',{caseStudy:'case-study-cennext.html',live:'https://ngh1aa.github.io/cennext-b2b-prototype/',figma:'https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1'}],
-    ['VOLTIS',{caseStudy:'case-study-voltis.html',live:'https://ngh1aa.github.io/Voltis/',figma:'https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1'}]
+    ['Atelier',{caseStudy:'case-study-atelier.html',live:'https://atelier-henna-tau.vercel.app/',figma:'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1'}],
+    ['Violet Marketplace',{caseStudy:'case-study-violet-marketplace.html',live:'https://violet-marketplace.vercel.app/',figma:'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1'}],
+    ['VAS Education',{caseStudy:'case-study-vas-education.html',live:'https://redesign-vas.vercel.app/',figma:'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1'}],
+    ['Capital Place',{caseStudy:'case-study-capital-place.html',live:'https://capital-weld.vercel.app/',figma:'https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1'}],
+    ['CENNEXT',{caseStudy:'case-study-cennext.html',live:'https://cennext-b2b-prototype.vercel.app/',figma:'https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1'}],
+    ['VOLTIS',{caseStudy:'case-study-voltis.html',live:'https://voltis-one.vercel.app/',figma:'https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1'}]
   ]);
 
   const makeActionLink = (href,label,highlighted=false) => {

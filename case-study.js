@@ -83,7 +83,7 @@
   const liveProofByPage = {
     'case-study-atelier.html': {
       name: 'Atelier',
-      url: 'https://ngh1aa.github.io/Atelier/',
+      url: 'https://atelier-henna-tau.vercel.app/',
       note: 'The public prototype is loaded directly so responsive behavior can be inspected rather than inferred from a static mockup.'
     },
     'case-study-luxroom.html': {
@@ -93,12 +93,12 @@
     },
     'case-study-capital-place.html': {
       name: 'Capital Place',
-      url: 'https://ngh1aa.github.io/Capital/',
+      url: 'https://capital-weld.vercel.app/',
       note: 'The public prototype is loaded directly to make the leasing hierarchy, navigation and responsive behavior inspectable.'
     },
     'case-study-vas-education.html': {
       name: 'VAS Education',
-      url: 'https://ngh1aa.github.io/RedesignVAS/',
+      url: 'https://redesign-vas.vercel.app/',
       note: 'The public prototype is loaded directly to show how admissions, programs and campus context behave as a responsive system.'
     },
   };

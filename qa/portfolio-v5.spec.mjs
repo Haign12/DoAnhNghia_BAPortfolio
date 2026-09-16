@@ -62,10 +62,10 @@ test.describe('Portfolio v5 cloud gate', () => {
     await expect(page.locator('a[href="case-study-violet-marketplace.html"]')).toBeVisible();
     await expect(page.locator('a[href="case-study-cennext.html"]')).toBeVisible();
     await expect(page.locator('a[href="case-study-voltis.html"]')).toBeVisible();
-    await expect(page.locator('a[href="https://ngh1aa.github.io/Nova/"]')).toBeVisible();
-    await expect(page.locator('a[href="https://ngh1aa.github.io/Flux/"]')).toBeVisible();
-    await expect(page.locator('a[href="https://ngh1aa.github.io/Sentry/"]')).toBeVisible();
-    await expect(page.locator('a[href="https://ngh1aa.github.io/Access/"]')).toBeVisible();
+    await expect(page.locator('a[href="https://nova-gamma-eosin.vercel.app/"]')).toBeVisible();
+    await expect(page.locator('a[href="https://flux-six-liard.vercel.app/"]')).toBeVisible();
+    await expect(page.locator('a[href="https://sentry-9bqs.vercel.app/"]')).toBeVisible();
+    await expect(page.locator('a[href="https://access-nbuz.vercel.app/"]')).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
   });
 

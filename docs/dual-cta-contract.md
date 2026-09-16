@@ -9,10 +9,10 @@ Every project card on the homepage exposes exactly two actions:
 
 | Project | Primary proof | Case Study |
 |---|---|---|
-| Atelier | https://ngh1aa.github.io/Atelier/ — `Live Demo` | `case-study-atelier.html` |
-| LuxRoom | https://ngh1aa.github.io/LuxRoom/ — `Live Demo` | `case-study-luxroom.html` |
-| Capital Place | https://ngh1aa.github.io/Capital/ — `Live Demo` | `case-study-capital-place.html` |
-| VAS Education | https://ngh1aa.github.io/RedesignVAS/ — `Live Demo` | `case-study-vas-education.html` |
+| Atelier | https://atelier-henna-tau.vercel.app/ — `Live Demo` | `case-study-atelier.html` |
+| LuxRoom | https://lux-room.vercel.app/ — `Live Demo` | `case-study-luxroom.html` |
+| Capital Place | https://capital-weld.vercel.app/ — `Live Demo` | `case-study-capital-place.html` |
+| VAS Education | https://redesign-vas.vercel.app/ — `Live Demo` | `case-study-vas-education.html` |
 | Vietbank Redesign | https://ngh1aa.github.io/Redesign-Vietbank-Website/ — `Live Demo` | `case-study-vietbank.html` |
 | QTSC | https://ngh1aa.github.io/QTSC/ — `Live Demo` | `case-study-qtsc.html` |
 | StudioOS | https://ngh1aa.github.io/StudioOS/ — `Live Demo` | `case-study-studioos.html` |
