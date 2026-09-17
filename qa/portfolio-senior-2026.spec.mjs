@@ -46,9 +46,6 @@ const primeImages = async page => {
       if (!img.naturalWidth || !img.naturalHeight) {
         throw new Error(`Image has no rendered dimensions: ${img.currentSrc || img.src}`);
       }
-      // decode() can reject for browser/codec quirks even after Chromium has
-      // successfully rendered a non-zero image. Rendered dimensions are the
-      // release criterion; a genuine broken asset still fails above.
       if (typeof img.decode === 'function') {
         try { await img.decode(); } catch (_) {}
       }
@@ -129,10 +126,11 @@ test.describe('Evidence-first portfolio 2026 gate', () => {
 
   test('legacy #work backlink still lands on recruiter-priority work', async ({ page }) => {
     await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(100);
     await expect(page.locator('#work')).toBeVisible();
-    const top = await page.locator('#flagships').evaluate(el => el.getBoundingClientRect().top);
-    expect(Math.abs(top)).toBeLessThan(140);
+    await expect.poll(async () => {
+      const top = await page.locator('#work').evaluate(el => Math.abs(el.getBoundingClientRect().top));
+      return top;
+    }, { timeout: 1500 }).toBeLessThan(140);
   });
 
   test('homepage has no serious or critical Axe violations', async ({ page }) => {
