@@ -29,7 +29,7 @@
   company: "MangoAds — SEO Optimization & Web Design Agency",
   dates: dates-helper(start-date: "May 2026", end-date: "Sep 2026"),
 )
-- Translated client requirements into IA, user flows, and responsive UI systems across 8+ web projects. *Impact:* standardized 50+ reusable Figma components, cutting dev handoff time by 30% and lifting form conversion by 22%.
+- Translated client requirements into information architecture, user flows, responsive UI systems and interaction states for client-facing web projects. *Outcome:* clearer content structures, more consistent interface patterns and implementation-ready handoff.
 
 #work(
   title: "UI/UX Designer",
@@ -37,7 +37,7 @@
   company: "Tikera Technology & Brand Development",
   dates: dates-helper(start-date: "Dec 2025", end-date: "Apr 2026"),
 )
-- Designed user journeys, wireframes, and design systems for 15+ product flows. *Impact:* specified 100% edge-case & data states (empty/error/loading), reducing sprint QA revision cycles by 25%.
+- Designed user journeys, wireframes, high-fidelity interfaces and reusable patterns while defining loading, empty, error and recovery states. *Outcome:* stronger UI consistency and clearer implementation decisions across product flows.
 
 #work(
   title: "Intern UI/UX Designer",
@@ -45,44 +45,44 @@
   company: "Trésor Solution Company",
   dates: dates-helper(start-date: "Sep 2025", end-date: "Dec 2025"),
 )
-- Supported responsive product flows, reusable UI patterns, and developer handoff specs. *Impact:* delivered 3 MVP release cycles on schedule with zero missing design asset blockers.
+- Supported responsive product flows, reusable UI patterns and developer handoff specifications. *Outcome:* clearer interaction models and more complete design references for product iteration.
 
 == Selected Personal Projects
 
 #project(
-  name: "LuxRoom — Furniture E-commerce Website",
-  role: "UI/UX Design · Responsive Prototype",
+  name: "Nova — Personal Banking & Money Planning",
+  role: "Product Thinking · UX/UI · Interactive Prototype",
   dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-luxroom.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-nova.html",
 )
-- *Problem:* premium furniture shopping can hide the practical information users need to judge fit, material, dimensions and delivery. *Solution:* room context → material preference → product evaluation → save / checkout. *Outcome:* responsive prototype connecting contextual discovery, product specifications, Saved Room and checkout.
+- *Problem:* account balance alone does not explain what is safe to spend once upcoming obligations and savings plans are considered. *Hypothesis:* combining current balance, known commitments and a protected buffer can support clearer day-to-day money decisions. *Evidence state:* independent concept with validation metrics defined but not yet measured.
 
 #project(
-  name: "Atelier — Fashion E-commerce Website",
-  role: "UI/UX Design · Mobile-first Prototype",
+  name: "Sentry — Fraud & Risk Operations Console",
+  role: "Complex Workflows · Systems Thinking · Prototype",
+  dates: "2026",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-sentry.html",
+)
+- *Problem:* fraud decisions require analysts to compare multiple risk signals before taking high-consequence actions. *Hypothesis:* a unified queue, evidence workspace and decision dock can reduce context switching while preserving rationale and auditability. *Evidence state:* benchmark-informed independent concept; usability and operational metrics remain a validation plan.
+
+#project(
+  name: "Atelier — Luxury Fashion Commerce",
+  role: "Art Direction · Interaction Design · Responsive Prototype",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-atelier.html",
 )
-- *Problem:* editorial fashion experiences can create desire while making product decisions harder. *Solution:* discover → evaluate → buy, with information density increasing as purchase intent grows. *Outcome:* mobile-first prototype covering collection discovery, product decisions, variants and checkout.
+- *Problem:* editorial expression can build desire while obscuring fit, variant and purchase information. *Design response:* increase information density as purchase intent rises, keeping brand expression distinct from task-critical commerce states.
 
 #project(
-  name: "VAS Education — Website Redesign",
-  role: "Information Architecture · Responsive Prototype",
+  name: "LuxRoom — High-consideration Furniture Commerce",
+  role: "Product Detail UX · Decision Support · Responsive Prototype",
   dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-vas-education.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-luxroom.html",
 )
-- *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Solution:* trust → fit → daily reality → action. *Outcome:* responsive prototype connecting brand proof, learning pathways, campus context and admissions into one parent journey.
-
-#project(
-  name: "Capital Place — Website Redesign",
-  role: "Decision-support UX · Interactive Prototype",
-  dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-capital-place.html",
-)
-- *Problem:* brochure-style property content did not support practical leasing decisions. *Solution:* place → space requirement → floor context → enquiry, including Space Finder and contextual enquiry flows. *Outcome:* interactive responsive prototype demonstrating a clearer leasing decision-support experience.
+- *Problem:* premium furniture decisions depend on practical fit, material, dimensions, context and delivery information. *Design response:* connect room context and editorial discovery to technical product evaluation, saving and checkout.
 
 == Education & Skills
 
 *Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025) · Foundations of Google UX Design (2026).
 
-*UI/UX Design:* wireframing, high-fidelity prototyping, user research, design systems, information architecture, user flows, interaction design, responsive design. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling, MVP definition.
+*UI/UX Design:* wireframing, high-fidelity prototyping, research planning, design systems, information architecture, user flows, interaction design, responsive design and accessibility. *Product & Delivery:* problem framing, hypotheses, success metrics, acceptance criteria, design QA and design-to-code collaboration.
