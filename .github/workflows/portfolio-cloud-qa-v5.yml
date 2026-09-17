@@ -1,9 +1,9 @@
-name: Portfolio Cloud QA v5
+name: Portfolio Cloud QA — Senior 2026
 
 on:
   push:
     branches:
-      - redesign/uiux-factory-senior-signal-v5
+      - feat/senior-portfolio-upgrade
   pull_request:
     branches:
       - main
@@ -35,12 +35,12 @@ jobs:
 
       - name: Start ephemeral GitHub runner web server
         run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-v5-http.log 2>&1 &
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-senior-http.log 2>&1 &
           for i in {1..30}; do
             if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
             sleep 1
           done
-          cat /tmp/portfolio-v5-http.log
+          cat /tmp/portfolio-senior-http.log
           exit 1
 
       - name: Run Playwright + Axe gate
@@ -51,7 +51,7 @@ jobs:
         run: |
           mkdir -p qa-artifacts
           set +e
-          npx playwright test qa/portfolio-v5.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
+          npx playwright test qa/portfolio-senior-2026.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
@@ -70,7 +70,7 @@ jobs:
               const tests = spec.tests || [];
               const failed = tests.some(t => (t.results || []).some(r => !['passed','skipped'].includes(r.status)));
               const skippedOnly = tests.length > 0 && tests.every(t => (t.results || []).every(r => r.status === 'skipped'));
-              let status = failed ? 'FAIL' : (skippedOnly ? 'SKIP' : 'PASS');
+              const status = failed ? 'FAIL' : (skippedOnly ? 'SKIP' : 'PASS');
               const errors = [];
               for (const t of tests) for (const r of (t.results || [])) {
                 if (r.error?.message) errors.push(r.error.message.split('\n').slice(0,4).join(' '));
@@ -82,20 +82,20 @@ jobs:
           for (const suite of report.suites || []) visit(suite);
           const passed = rows.filter(r => r.status === 'PASS').length;
           const failed = rows.filter(r => r.status === 'FAIL').length;
-          let md = `## UIUX Factory — Browser QA evidence\n\n**${passed} passed · ${failed} failed**\n\n`;
+          let md = `## Evidence-first portfolio — Browser QA\n\n**${passed} passed · ${failed} failed**\n\n`;
           md += rows.map(r => `- **${r.status}** — ${r.title}${r.error ? `\n  - ${r.error.replace(/\s+/g,' ').slice(0,420)}` : ''}`).join('\n');
-          md += `\n\nArtifacts: full-page screenshots at 1440, 1280 and 390 px when those tests execute.`;
+          md += `\n\nArtifacts: full-page screenshots at 1440, 1280, 1024, 768 and 390 px.`;
           fs.writeFileSync('qa-artifacts/browser-summary.md', md);
           console.log(md);
           NODE
 
-      - name: Post browser evidence to draft PR
+      - name: Post browser evidence to PR
         if: always() && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const marker = '<!-- uiux-factory-v5-browser-gate -->';
+            const marker = '<!-- evidence-first-portfolio-browser-gate -->';
             const body = `${marker}\n${fs.readFileSync('qa-artifacts/browser-summary.md', 'utf8')}`;
             const { owner, repo } = context.repo;
             const issue_number = context.issue.number;
@@ -111,7 +111,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: portfolio-v5-rendered-screens
+          name: portfolio-senior-2026-rendered-screens
           path: qa-artifacts/
           if-no-files-found: error
           retention-days: 14
@@ -136,7 +136,7 @@ jobs:
 
       - name: Start ephemeral GitHub runner web server
         run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-v5-lh-http.log 2>&1 &
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-senior-lh-http.log 2>&1 &
           for i in {1..30}; do
             if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
             sleep 1
@@ -162,7 +162,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: portfolio-v5-lighthouse
+          name: portfolio-senior-2026-lighthouse
           path: lhci-report/
           if-no-files-found: warn
           retention-days: 14
