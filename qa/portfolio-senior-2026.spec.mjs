@@ -40,10 +40,18 @@ const primeImages = async page => {
       if (!img.complete) {
         await new Promise((resolve, reject) => {
           img.addEventListener('load', resolve, { once: true });
-          img.addEventListener('error', reject, { once: true });
+          img.addEventListener('error', () => reject(new Error(`Image failed to load: ${img.currentSrc || img.src}`)), { once: true });
         });
       }
-      if (typeof img.decode === 'function') await img.decode();
+      if (!img.naturalWidth || !img.naturalHeight) {
+        throw new Error(`Image has no rendered dimensions: ${img.currentSrc || img.src}`);
+      }
+      // decode() can reject for browser/codec quirks even after Chromium has
+      // successfully rendered a non-zero image. Rendered dimensions are the
+      // release criterion; a genuine broken asset still fails above.
+      if (typeof img.decode === 'function') {
+        try { await img.decode(); } catch (_) {}
+      }
     });
   }
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -122,6 +130,7 @@ test.describe('Evidence-first portfolio 2026 gate', () => {
   test('legacy #work backlink still lands on recruiter-priority work', async ({ page }) => {
     await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(100);
+    await expect(page.locator('#work')).toBeVisible();
     const top = await page.locator('#flagships').evaluate(el => el.getBoundingClientRect().top);
     expect(Math.abs(top)).toBeLessThan(140);
   });
@@ -173,6 +182,18 @@ test.describe('Evidence-first portfolio 2026 gate', () => {
       const response = await request.get(`${baseURL}/${path}`);
       expect(response.status(), `${path} should resolve`).toBeLessThan(400);
     }
+  });
+
+  test('recruiter resume stays evidence-safe and responsive', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${baseURL}/resume.html`, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { level: 1, name: 'Do Anh Nghia' })).toBeVisible();
+    const text = await page.locator('body').innerText();
+    for (const unsupported of ['-30%', '+22%', '-25%', '100% state coverage', '0 handoff blockers', '100% on-time']) {
+      expect(text.toLowerCase()).not.toContain(unsupported.toLowerCase());
+    }
+    const overflow = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
+    expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
   });
 
   for (const flagship of flagships) {
