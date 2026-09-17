@@ -15,6 +15,12 @@
   nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
   window.addEventListener('resize', () => { if (window.innerWidth > 760) closeNav(); }, {passive:true});
 
+  // Older case studies link back to #work. Preserve that deep link while the new
+  // homepage uses #flagships as the recruiter-priority destination.
+  if (window.location.hash === '#work') {
+    requestAnimationFrame(() => document.getElementById('flagships')?.scrollIntoView({block:'start'}));
+  }
+
   const items = [...document.querySelectorAll('.reveal')];
   if (reduceMotion || !('IntersectionObserver' in window)) {
     items.forEach(item => item.classList.add('is-visible'));
