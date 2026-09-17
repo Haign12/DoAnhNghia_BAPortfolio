@@ -11,6 +11,17 @@
     link.removeAttribute('rel');
   });
 
+  // Preserve old case-study deep links structurally. The outer section owns the
+  // legacy #work anchor; the inner wrapper keeps the new #flagships destination.
+  const flagshipSection = document.getElementById('flagships');
+  if (flagshipSection && flagshipSection.tagName === 'SECTION') {
+    const flagshipInner = document.createElement('div');
+    flagshipInner.id = 'flagships';
+    while (flagshipSection.firstChild) flagshipInner.appendChild(flagshipSection.firstChild);
+    flagshipSection.id = 'work';
+    flagshipSection.appendChild(flagshipInner);
+  }
+
   const menu = document.getElementById('menuToggle');
   const nav = document.getElementById('navLinks');
   const closeNav = () => {
@@ -27,7 +38,7 @@
 
   const alignLegacyWork = () => {
     if (window.location.hash !== '#work') return;
-    const target = document.getElementById('flagships');
+    const target = document.getElementById('work');
     if (!target) return;
     const header = document.querySelector('.site-header');
     const offset = (header?.getBoundingClientRect().height || 0) + 8;
