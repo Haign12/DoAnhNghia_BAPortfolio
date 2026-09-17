@@ -1,6 +1,12 @@
 (() => {
   document.documentElement.classList.add('js');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Content must never depend on animation/observer timing. Keep motion as an
+  // optional enhancement, not a visibility gate.
+  const visibilityRepair = document.createElement('style');
+  visibilityRepair.textContent = `.js .reveal{opacity:1!important;transform:none!important;transition:none!important}`;
+  document.head.appendChild(visibilityRepair);
+
   const menu = document.getElementById('menuToggle');
   const nav = document.getElementById('navLinks');
   const closeNav = () => {
@@ -30,18 +36,4 @@
   window.addEventListener('load', alignLegacyWork, {once:true});
   document.fonts?.ready?.then(alignLegacyWork).catch(() => {});
   window.addEventListener('hashchange', alignLegacyWork);
-
-  const items = [...document.querySelectorAll('.reveal')];
-  if (reduceMotion || !('IntersectionObserver' in window)) {
-    items.forEach(item => item.classList.add('is-visible'));
-  } else {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    }, {threshold:.08, rootMargin:'0px 0px -7% 0px'});
-    items.forEach(item => observer.observe(item));
-  }
 })();
