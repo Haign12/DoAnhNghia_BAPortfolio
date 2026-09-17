@@ -43,8 +43,13 @@
     const header = document.querySelector('.site-header');
     const offset = (header?.getBoundingClientRect().height || 0) + 8;
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({top: Math.max(0, top), behavior: 'auto'});
+    const root = document.documentElement;
+    const previousBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, Math.max(0, top));
+    requestAnimationFrame(() => { root.style.scrollBehavior = previousBehavior; });
   };
+  alignLegacyWork();
   requestAnimationFrame(alignLegacyWork);
   window.addEventListener('load', alignLegacyWork, {once:true});
   document.fonts?.ready?.then(alignLegacyWork).catch(() => {});
