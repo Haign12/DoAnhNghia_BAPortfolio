@@ -15,11 +15,21 @@
   nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
   window.addEventListener('resize', () => { if (window.innerWidth > 760) closeNav(); }, {passive:true});
 
-  // Older case studies link back to #work. Preserve that deep link while the new
-  // homepage uses #flagships as the recruiter-priority destination.
-  if (window.location.hash === '#work') {
-    requestAnimationFrame(() => document.getElementById('flagships')?.scrollIntoView({block:'start'}));
-  }
+  // Older case studies link back to #work. Re-align after layout/font settling so
+  // the compatibility hash reliably lands on the recruiter-priority flagship section.
+  const alignLegacyWork = () => {
+    if (window.location.hash !== '#work') return;
+    const target = document.getElementById('flagships');
+    if (!target) return;
+    const header = document.querySelector('.site-header');
+    const offset = (header?.getBoundingClientRect().height || 0) + 8;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({top: Math.max(0, top), behavior: 'auto'});
+  };
+  requestAnimationFrame(alignLegacyWork);
+  window.addEventListener('load', alignLegacyWork, {once:true});
+  document.fonts?.ready?.then(alignLegacyWork).catch(() => {});
+  window.addEventListener('hashchange', alignLegacyWork);
 
   const items = [...document.querySelectorAll('.reveal')];
   if (reduceMotion || !('IntersectionObserver' in window)) {
