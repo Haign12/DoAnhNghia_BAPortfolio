@@ -1,11 +1,15 @@
 (() => {
   document.documentElement.classList.add('js');
 
-  // Content must never depend on animation/observer timing. Keep motion as an
-  // optional enhancement, not a visibility gate.
   const visibilityRepair = document.createElement('style');
   visibilityRepair.textContent = `.js .reveal{opacity:1!important;transform:none!important;transition:none!important}`;
   document.head.appendChild(visibilityRepair);
+
+  document.querySelectorAll('a[href="Do_Anh_Nghia_UIUXDesigner_CV.pdf"]').forEach(link => {
+    link.href = 'resume.html';
+    link.removeAttribute('target');
+    link.removeAttribute('rel');
+  });
 
   const menu = document.getElementById('menuToggle');
   const nav = document.getElementById('navLinks');
@@ -21,8 +25,6 @@
   nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
   window.addEventListener('resize', () => { if (window.innerWidth > 760) closeNav(); }, {passive:true});
 
-  // Older case studies link back to #work. Re-align after layout/font settling so
-  // the compatibility hash reliably lands on the recruiter-priority flagship section.
   const alignLegacyWork = () => {
     if (window.location.hash !== '#work') return;
     const target = document.getElementById('flagships');
