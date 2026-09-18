@@ -9,7 +9,10 @@ const viewports = [
   { name: 'mobile-390', width: 390, height: 844 },
 ];
 
-const newCaseStudies = [
+const criticalCaseStudies = [
+  { path: 'case-study-nova.html', heading: 'Nova' },
+  { path: 'case-study-sentry.html', heading: 'Sentry' },
+  { path: 'case-study-atelier.html', heading: 'Atelier' },
   { path: 'case-study-vas-education.html', heading: 'VAS Education' },
   { path: 'case-study-violet-marketplace.html', heading: 'Violet Marketplace' },
   { path: 'case-study-cennext.html', heading: 'CENNEXT' },
@@ -29,11 +32,21 @@ const formatAxeViolations = blockers => blockers.flatMap(violation =>
   })
 ).join('\n');
 
-const primeSelectedWorkMedia = async page => {
-  const media = page.locator('#work .case-media img');
-  await expect(media).toHaveCount(8);
+const primeRevealContent = async page => {
+  const reveals = page.locator('.reveal');
+  const count = await reveals.count();
+  for (let index = 0; index < count; index += 1) {
+    await reveals.nth(index).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(40);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+};
 
-  for (let index = 0; index < 8; index += 1) {
+const primePortfolioMedia = async page => {
+  const media = page.locator('#flagships .flagship-media img, #work .project-media img');
+  await expect(media).toHaveCount(14);
+
+  for (let index = 0; index < 14; index += 1) {
     const image = media.nth(index);
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(async img => {
@@ -50,22 +63,18 @@ const primeSelectedWorkMedia = async page => {
   await page.evaluate(() => window.scrollTo(0, 0));
 };
 
-test.describe('Portfolio v5 cloud gate', () => {
-  test('recruiter-critical content, grouped work and truth labels are present', async ({ page }) => {
+test.describe('Product Designer portfolio cloud gate', () => {
+  test('recruiter-critical product positioning and flagship proof are present', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await expect(page).toHaveTitle(/Do Anh Nghia/);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('messy middle');
-    await expect(page.locator('#workTitle')).toContainText('Work across industries.');
-    await expect(page.getByText('TRUTH LABEL')).toBeVisible();
-    await expect(page.getByText('INDEPENDENT REDESIGN').first()).toBeVisible();
-    await expect(page.getByRole('link', { name: /Read VAS Education redesign case study/i })).toBeVisible();
-    await expect(page.locator('a[href="case-study-violet-marketplace.html"]')).toBeVisible();
-    await expect(page.locator('a[href="case-study-cennext.html"]')).toBeVisible();
-    await expect(page.locator('a[href="case-study-voltis.html"]')).toBeVisible();
-    await expect(page.locator('a[href="https://nova-gamma-eosin.vercel.app/"]')).toBeVisible();
-    await expect(page.locator('a[href="https://flux-six-liard.vercel.app/"]')).toBeVisible();
-    await expect(page.locator('a[href="https://sentry-9bqs.vercel.app/"]')).toBeVisible();
-    await expect(page.locator('a[href="https://access-nbuz.vercel.app/"]')).toBeVisible();
+    await expect(page).toHaveTitle(/Product Designer/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/PRODUCT/);
+    await expect(page.locator('#flagships')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
+    await expect(page.locator('#flagships a[href="case-study-nova.html"]').first()).toBeVisible();
+    await expect(page.locator('#flagships a[href="case-study-sentry.html"]').first()).toBeVisible();
+    await expect(page.locator('#flagships a[href="case-study-atelier.html"]').first()).toBeVisible();
+    await expect(page.getByText(/Evidence boundary:/).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Range across domains.' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
   });
 
@@ -73,45 +82,54 @@ test.describe('Portfolio v5 cloud gate', () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
     const page = await context.newPage();
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    await expect(page.getByRole('heading', { name: 'Not a gallery. A decision record.' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Show the leverage. Not the tool list.' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Decide → make → inspect → repair.' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Learning fast. Shipping deliberately.' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Decisions before screens.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Range across domains.' })).toBeVisible();
+    await expect(page.getByText(/Independent concept/).first()).toBeVisible();
     await context.close();
   });
 
-  test('selected-work project media renders before release', async ({ page }) => {
+  test('flagship and supporting project media render before release', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await primeSelectedWorkMedia(page);
-    const media = await page.locator('#work .case-media img').evaluateAll(images => images.map(img => ({
+    await primePortfolioMedia(page);
+    const media = await page.locator('#flagships .flagship-media img, #work .project-media img').evaluateAll(images => images.map(img => ({
       src: img.getAttribute('src'), complete: img.complete, naturalWidth: img.naturalWidth, naturalHeight: img.naturalHeight,
     })));
     const broken = media.filter(item => !item.complete || item.naturalWidth === 0 || item.naturalHeight === 0);
     expect(broken, JSON.stringify(media, null, 2)).toEqual([]);
   });
 
-  test('capability tabs work with keyboard semantics', async ({ page }) => {
-    await page.goto(`${baseURL}/#signals`, { waitUntil: 'domcontentloaded' });
-    const firstTab = page.getByRole('tab', { name: /Product framing/ });
-    await firstTab.focus();
-    await expect(firstTab).toHaveAttribute('aria-selected', 'true');
-    await page.keyboard.press('ArrowRight');
-    const systemsTab = page.getByRole('tab', { name: /Systems thinking/ });
-    await expect(systemsTab).toBeFocused();
-    await expect(systemsTab).toHaveAttribute('aria-selected', 'true');
-    await expect(page.getByRole('tabpanel', { name: /Systems thinking/ })).toBeVisible();
+  test('industry filters expose clear programmatic state', async ({ page }) => {
+    await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
+    const all = page.getByRole('button', { name: /All 12/ });
+    const fintech = page.getByRole('button', { name: /Fintech 3/ });
+    await expect(all).toHaveAttribute('aria-pressed', 'true');
+    await expect(fintech).toHaveAttribute('aria-pressed', 'false');
+
+    await fintech.click();
+    await expect(fintech).toHaveAttribute('aria-pressed', 'true');
+    await expect(all).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.locator('#group-fintech')).toBeVisible();
+    await expect(page.locator('#group-commerce')).toBeHidden();
+
+    await all.click();
+    await expect(all).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#group-commerce')).toBeVisible();
   });
 
-  test('mobile navigation exposes real links', async ({ page }) => {
+  test('mobile navigation exposes real links and resets expanded state', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    const menu = page.getByRole('button', { name: 'Menu' });
+    const menu = page.getByRole('button', { name: 'Open navigation' });
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await menu.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByRole('link', { name: 'Work', exact: true })).toBeVisible();
-    await page.getByRole('link', { name: 'Work', exact: true }).click();
+    const work = page.getByRole('link', { name: 'Work', exact: true });
+    await expect(work).toBeVisible();
+    await work.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.locator('#flagships')).toBeVisible();
   });
 
   test('homepage has no serious or critical axe violations', async ({ page }) => {
@@ -124,8 +142,12 @@ test.describe('Portfolio v5 cloud gate', () => {
     test(`no horizontal overflow and visual artifact: ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto(baseURL, { waitUntil: 'networkidle' });
-      await primeSelectedWorkMedia(page);
-      const overflow = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
+      await primePortfolioMedia(page);
+      await primeRevealContent(page);
+      const overflow = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+      }));
       expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
       await fs.mkdir('qa-artifacts', { recursive: true });
       await page.screenshot({ path: `qa-artifacts/${viewport.name}.png`, fullPage: true });
@@ -134,38 +156,43 @@ test.describe('Portfolio v5 cloud gate', () => {
 
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await expect(page.locator('a[href="case-study-voltis.html"]')).toBeVisible();
-    const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(links.map(link => link.getAttribute('href')).filter(Boolean))]);
-    expect(paths.length).toBeGreaterThanOrEqual(7);
+    const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(
+      links.map(link => link.getAttribute('href')).filter(Boolean)
+    )]);
+    expect(paths.length).toBeGreaterThanOrEqual(9);
+    expect(paths).toContain('case-study-nova.html');
+    expect(paths).toContain('case-study-sentry.html');
+    expect(paths).toContain('case-study-atelier.html');
     for (const path of paths) {
       const response = await request.get(`${baseURL}/${path}`);
       expect(response.status(), `${path} should resolve`).toBeLessThan(400);
     }
   });
 
-  for (const caseStudy of newCaseStudies) {
+  for (const caseStudy of criticalCaseStudies) {
     test(`${caseStudy.heading} case study renders accessibly without horizontal overflow`, async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${baseURL}/${caseStudy.path}`, { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { level: 1, name: caseStudy.heading })).toBeVisible();
-      const boundaryLabel = page.getByText('EVIDENCE BOUNDARY');
-      await boundaryLabel.scrollIntoViewIfNeeded();
-      await expect(boundaryLabel).toBeVisible();
-      const overflow = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
+      await expect(page.locator('.case-evidence-strip').first()).toBeVisible();
+      const overflow = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+      }));
       expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
       const blockers = await seriousAxeViolations(page);
       expect(blockers, formatAxeViolations(blockers) || `${caseStudy.heading}: serious/critical Axe violation detected`).toEqual([]);
     });
   }
 
-  test('theme preference is a working enhancement', async ({ page }) => {
-    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    const toggle = page.getByRole('button', { name: 'Switch color theme' });
+  test('Nova case-study theme preference is a working enhancement', async ({ page }) => {
+    await page.goto(`${baseURL}/case-study-nova.html`, { waitUntil: 'domcontentloaded' });
+    const toggle = page.locator('#theme-toggle');
     const before = await page.locator('html').getAttribute('data-theme');
     await toggle.click();
     const after = await page.locator('html').getAttribute('data-theme');
     expect(after).not.toBe(before);
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('html')).toHaveAttribute('data-theme', after);
   });
 });
