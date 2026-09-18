@@ -62,6 +62,7 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
 }
 </style>
 <link rel="stylesheet" href="portfolio-product-upgrade.css?v=20260918-product-designer-v1">
+<noscript><style>.role-line b,.hero-intro,.reveal{transform:none!important;opacity:1!important}</style></noscript>
 </head>
 <body>
 <a class="skip" href="#work">Skip to projects</a>
@@ -69,16 +70,16 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
 <header class="site-nav">
   <nav class="nav-inner" aria-label="Primary navigation">
     <a class="brand" href="#top" aria-label="Do Anh Nghia"><svg class="brand-logo" width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="#111" /><text x="50%" y="54%" font-family="var(--display)" font-size="16" fill="#fff" text-anchor="middle" dominant-baseline="middle" letter-spacing="1">DN</text></svg><span class="brand-name">DO ANH NGHIA</span></a>
-    <div class="nav-links" id="navLinks"><a href="#story">About</a><a href="#work">Projects</a><a href="#experience">Experience</a><a href="#factory">Factory</a><a href="#contact">Contact</a><a class="nav-cta" href="Do_Anh_Nghia_UIUXDesigner_CV.pdf" target="_blank" rel="noopener">Resume ↗</a></div>
+    <div class="nav-links" id="navLinks"><a href="#story">About</a><a href="#flagships">Work</a><a href="#experience">Experience</a><a href="#factory">Factory</a><a href="#contact">Contact</a><a class="nav-cta" href="Do_Anh_Nghia_UIUXDesigner_CV.pdf" target="_blank" rel="noopener">Resume ↗</a></div>
     <button class="menu" id="menuBtn" aria-label="Open navigation" aria-expanded="false"><i></i></button>
   </nav>
 </header>
 <main id="top">
 <section class="hero" id="hero">
   <div class="hero-top">
-    <div class="hero-roles" aria-label="Design disciplines">
+    <h1 class="hero-roles" aria-label="Product Designer — UI UX, systems, AI and code">
       <span class="role-line"><b>PRODUCT</b></span><span class="role-line"><b>UI / UX</b></span><span class="role-line"><b>SYSTEMS</b></span><span class="role-line"><b>AI + CODE</b></span>
-    </div>
+    </h1>
     <div class="hero-intro"><span class="status"><i></i> Open to Product Designer · UI/UX · Web Design</span>I turn ambiguous product problems into <strong>clear decisions, usable flows and scalable interface systems</strong> — then carry them into working prototypes teams can inspect.<span class="hero-positioning">Strongest at complex workflows, design systems, interaction craft and AI-assisted design-to-code.</span></div>
   </div>
   <div class="hero-name" aria-hidden="true"><span class="name-line"><span class="name-letters" data-name="DO ANH"></span></span><span class="name-line"><span class="name-letters" data-name="NGHIA"></span></span></div>
@@ -90,7 +91,7 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
 <section class="marquee" aria-label="Capabilities"><div class="marquee-track"><div class="marquee-set"><span class="marquee-item">Product thinking</span><span class="marquee-item">Interface systems</span><span class="marquee-item">Responsive UI</span><span class="marquee-item">Design to code</span><span class="marquee-item">Visual QA</span></div><div class="marquee-set" aria-hidden="true"><span class="marquee-item">Product thinking</span><span class="marquee-item">Interface systems</span><span class="marquee-item">Responsive UI</span><span class="marquee-item">Design to code</span><span class="marquee-item">Visual QA</span></div></div></section>
 <section class="section" id="story">
   <div class="story-grid">
-    <div class="story-copy reveal"><p class="eyebrow">Design thesis</p><h2 class="section-title">Clarity before decoration.</h2><p class="section-lead">I use visual craft to make decisions easier to understand — not to hide weak UX. The work moves from <strong>research → structure → system → prototype → critique → repair.</strong></p></div>
+    <div class="story-copy reveal"><p class="eyebrow">Design thesis</p><h2 class="section-title">Decisions before screens.</h2><p class="section-lead">I use visual craft to make product decisions easier to understand — not to hide weak reasoning. The work moves from <strong>problem → evidence → flow → system → prototype → validation plan → repair.</strong></p></div>
     <div class="principles reveal">
       <article class="principle"><span class="principle-index">01</span><div><h3>Frame the real decision</h3><p>Translate the brief into users, tasks, risks, page roles and the questions the interface must answer.</p></div></article>
       <article class="principle"><span class="principle-index">02</span><div><h3>Make systems, not screenshots</h3><p>Design tokens, component states, responsive behavior and content rules as one reusable contract.</p></div></article>
@@ -99,16 +100,79 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
     </div>
   </div>
 </section>
+<section class="section flagship-section" id="flagships" aria-labelledby="flagship-title">
+  <div class="flagship-head reveal">
+    <div>
+      <p class="eyebrow">Flagship product work</p>
+      <h2 class="section-title" id="flagship-title">Three cases.<br>Three design muscles.</h2>
+      <p class="section-lead">A recruiter-first selection showing <strong>consumer product reasoning, complex operational systems and high-craft commerce.</strong></p>
+    </div>
+    <p class="flagship-meta"><strong>Selection logic:</strong> not the three prettiest screens. These are the cases that best expose how I frame a problem, make trade-offs, build a system and carry design intent into a working interface.</p>
+  </div>
+  <div class="flagship-grid">
+    <article class="flagship-card reveal">
+      <a class="flagship-media" href="case-study-nova.html" aria-label="Read Nova Product Design case study">
+        <img src="thumbnail/nova.png" alt="Nova consumer finance product interface" loading="lazy" decoding="async">
+        <span class="flagship-proof">Product reasoning</span>
+      </a>
+      <div class="flagship-copy">
+        <div class="flagship-index"><span>01 / Consumer fintech</span><span>Independent concept</span></div>
+        <h3>Nova</h3>
+        <p class="flagship-thesis">Personal finance organized around a harder question than “what is my balance?” — what is actually safe to spend after known obligations and a protected buffer?</p>
+        <div class="flagship-evidence">
+          <div><span>Decision</span><p>Bring future obligations into the primary money-decision surface without turning home into a spreadsheet.</p></div>
+          <div><span>Proof</span><p>Working responsive prototype with transfer, risk, planning and recovery states.</p></div>
+        </div>
+        <div class="flagship-actions"><a class="flagship-primary" href="case-study-nova.html">Read case ↗</a><a href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&t=83Wo9YlCjxLTFzxv-1" target="_blank" rel="noopener">Figma ↗</a></div>
+      </div>
+    </article>
+
+    <article class="flagship-card reveal">
+      <a class="flagship-media" href="case-study-sentry.html" aria-label="Read Sentry Product Design case study">
+        <img src="thumbnail/sentry.png" alt="Sentry fraud operations investigation interface" loading="lazy" decoding="async">
+        <span class="flagship-proof">Systems thinking</span>
+      </a>
+      <div class="flagship-copy">
+        <div class="flagship-index"><span>02 / Risk operations</span><span>Independent concept</span></div>
+        <h3>Sentry</h3>
+        <p class="flagship-thesis">A high-density investigation workspace designed around one operating decision: correlate evidence, understand conflicts and record a defensible action without context switching.</p>
+        <div class="flagship-evidence">
+          <div><span>Decision</span><p>Keep alert priority, forensic evidence and consequence visible inside one stable split workspace.</p></div>
+          <div><span>Proof</span><p>Implemented fraud-operations console with queue, evidence, decisions and recovery paths.</p></div>
+        </div>
+        <div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read case ↗</a><a href="https://sentry-9bqs.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&t=BvIxuJu3KrFWy5Lg-1" target="_blank" rel="noopener">Figma ↗</a></div>
+      </div>
+    </article>
+
+    <article class="flagship-card reveal">
+      <a class="flagship-media" href="case-study-atelier.html" aria-label="Read Atelier case study">
+        <img src="thumbnail/atelier.png" alt="Atelier luxury fashion commerce interface" loading="lazy" decoding="async">
+        <span class="flagship-proof">Visual + interaction craft</span>
+      </a>
+      <div class="flagship-copy">
+        <div class="flagship-index"><span>03 / Luxury commerce</span><span>Independent concept</span></div>
+        <h3>Atelier</h3>
+        <p class="flagship-thesis">Luxury fashion commerce balancing editorial expression with shopping clarity, product-detail confidence and purposeful interaction rather than decorative motion.</p>
+        <div class="flagship-evidence">
+          <div><span>Decision</span><p>Let visual expression grow around the buying journey without weakening navigation, PDP comprehension or conversion actions.</p></div>
+          <div><span>Proof</span><p>Figma system + working responsive prototype + product-detail and commerce flows.</p></div>
+        </div>
+        <div class="flagship-actions"><a class="flagship-primary" href="case-study-atelier.html">Read case ↗</a><a href="https://atelier-henna-tau.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1" target="_blank" rel="noopener">Figma ↗</a></div>
+      </div>
+    </article>
+  </div>
+  <p class="flagship-boundary"><span><strong>Evidence boundary:</strong> independent concepts are labeled as such. Planned validation and target metrics are not presented as measured product outcomes.</span></p>
+</section>
 <section class="section work" id="work">
-  <div class="work-head reveal"><div><p class="eyebrow">Personal projects</p><h2 class="section-title">Selected work.</h2></div><p class="work-count">12 projects · 6 industry domains</p></div>
+  <div class="work-head reveal"><div><p class="eyebrow">Supporting work</p><h2 class="section-title">Range across domains.</h2></div><p class="work-count">12 projects · 6 industry domains · supporting breadth</p></div>
   <div class="filter-row reveal" role="group" aria-label="Filter projects by industry">
-    <button class="filter active" data-filter="all">All <b>12</b></button>
-    <button class="filter" data-filter="commerce">E-Commerce <b>3</b></button>
-    <button class="filter" data-filter="fintech">Fintech <b>3</b></button>
-    <button class="filter" data-filter="enterprise">B2B SaaS <b>3</b></button>
-    <button class="filter" data-filter="education">EdTech <b>1</b></button>
-    <button class="filter" data-filter="mobility">Mobility <b>1</b></button>
-    <button class="filter" data-filter="systems">Design Systems <b>1</b></button>
+    <button class="filter active" data-filter="all" aria-pressed="true">All <b>12</b></button>
+    <button class="filter" aria-pressed="false" data-filter="commerce">E-Commerce <b>3</b></button>
+    <button class="filter" aria-pressed="false" data-filter="fintech">Fintech <b>3</b></button>
+    <button class="filter" aria-pressed="false" data-filter="enterprise">B2B SaaS <b>3</b></button>
+    <button class="filter" aria-pressed="false" data-filter="education">EdTech <b>1</b></button>
+    <button class="filter" aria-pressed="false" data-filter="mobility">Mobility <b>1</b></button>
+    <button class="filter" aria-pressed="false" data-filter="systems">Design Systems <b>1</b></button>
   </div>
   <div class="project-groups">
     <!-- Group 1: E-Commerce & Retail -->
@@ -440,10 +504,11 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
 <section class="section experience-sec" id="experience">
   <div class="experience-head reveal">
     <div>
-      <p class="eyebrow">Track record</p>
-      <h2 class="section-title">Verified impact.</h2>
+      <p class="eyebrow">Professional experience</p>
+      <h2 class="section-title">Delivery, not vanity metrics.</h2>
+      <p class="experience-evidence-note"><strong>Portfolio principle:</strong> measured business impact belongs here only when the source and context are available. Otherwise I show the work, decisions and delivery responsibility directly.</p>
     </div>
-    <p class="section-lead" style="margin-top:0">Translating complex business requirements into measurable engineering speed, conversion lifts, and reusable systems.</p>
+    <p class="section-lead" style="margin-top:0">Roles, responsibilities and collaboration scope — kept evidence-safe instead of inflating outcomes that cannot be independently verified.</p>
   </div>
   <div class="experience-grid reveal">
     <article class="exp-card">
@@ -454,11 +519,6 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
       <div class="exp-body">
         <h3>UI/UX Designer</h3>
         <p>Led UI/UX redesigns and information architecture across 8+ client-facing web platforms. Standardized component architectures and responsive contracts for direct developer handoff.</p>
-        <div class="exp-metrics">
-          <div class="exp-pill"><strong>-30%</strong><span>Handoff time</span></div>
-          <div class="exp-pill"><strong>50+</strong><span>Figma components</span></div>
-          <div class="exp-pill"><strong>+22%</strong><span>Form conversion</span></div>
-        </div>
       </div>
     </article>
 
@@ -470,11 +530,6 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
       <div class="exp-body">
         <h3>UI/UX Designer</h3>
         <p>Structured user flows, wireframes, and design systems for 15+ product journeys. Built comprehensive state specifications covering edge cases and error states prior to development.</p>
-        <div class="exp-metrics">
-          <div class="exp-pill"><strong>15+</strong><span>Product flows</span></div>
-          <div class="exp-pill"><strong>100%</strong><span>State coverage</span></div>
-          <div class="exp-pill"><strong>-25%</strong><span>Sprint QA loops</span></div>
-        </div>
       </div>
     </article>
 
@@ -486,11 +541,6 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
       <div class="exp-body">
         <h3>Intern UI/UX Designer</h3>
         <p>Partnered with engineering teams to design responsive product flows and reusable UI pattern libraries, establishing strict design-to-code specifications for MVP builds.</p>
-        <div class="exp-metrics">
-          <div class="exp-pill"><strong>3</strong><span>MVP cycles</span></div>
-          <div class="exp-pill"><strong>0</strong><span>Handoff blockers</span></div>
-          <div class="exp-pill"><strong>100%</strong><span>On-time releases</span></div>
-        </div>
       </div>
     </article>
   </div>
@@ -501,7 +551,7 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
     <div class="terminal reveal" aria-label="UIUX Factory workflow"><div class="terminal-top"><span>UIUX FACTORY / EXTERNAL BRAIN</span><span>VERIFIABLE WORKFLOW</span></div><div class="terminal-line"><span>01</span><div><strong>GROUND IN PROJECT TRUTH</strong><em>Source, routes, content, constraints and existing behavior before redesign.</em></div></div><div class="terminal-line"><span>02</span><div><strong>RESEARCH + DESIGN CONTRACT</strong><em>References become ADOPT / ADAPT / REJECT decisions, not copied decoration.</em></div></div><div class="terminal-line"><span>03</span><div><strong>STRUCTURAL IMPLEMENTATION</strong><em>Hierarchy, composition, states and responsive rules move together.</em></div></div><div class="terminal-line"><span>04</span><div><strong>RENDERED QA</strong><em>Real browser screenshots, crop integrity, accessibility and interaction evidence.</em></div></div><div class="terminal-line"><span>05</span><div><strong>ROOT-CAUSE REPAIR</strong><em>Visual failures loop back to the stage that owns the problem.</em></div></div></div>
   </div>
 </section>
-<section class="contact" id="contact"><div class="contact-grid"><div class="reveal"><p class="eyebrow">Contact</p><h2>Let’s make<br><span>it clear.</span></h2></div><div class="contact-side reveal"><p>If you are looking for a designer who can move from ambiguous requirements to structured UX, strong visual systems and working prototypes, I’d love to talk.</p><a class="contact-email" href="mailto:anhnghia9a633@gmail.com"><span>anhnghia9a633@gmail.com</span> <span class="arrow" aria-hidden="true">↗</span></a><div class="factory-actions"><a class="button black" href="https://www.linkedin.com/in/ginan12/" target="_blank" rel="noopener">LinkedIn ↗</a><a class="button" href="https://github.com/Ngh1aa" target="_blank" rel="noopener">GitHub ↗</a></div></div></div></section>
+<section class="contact" id="contact"><div class="contact-grid"><div class="reveal"><p class="eyebrow">Contact</p><h2>Let’s make<br><span>it clear.</span></h2></div><div class="contact-side reveal"><p>If you are looking for a designer who can move from an ambiguous product problem to structured UX, strong interface systems and a working prototype — while staying honest about evidence and constraints — I’d love to talk.</p><a class="contact-email" href="mailto:anhnghia9a633@gmail.com"><span>anhnghia9a633@gmail.com</span> <span class="arrow" aria-hidden="true">↗</span></a><div class="factory-actions"><a class="button black" href="https://www.linkedin.com/in/ginan12/" target="_blank" rel="noopener">LinkedIn ↗</a><a class="button" href="https://github.com/Ngh1aa" target="_blank" rel="noopener">GitHub ↗</a></div></div></div></section>
 </main>
 <footer class="footer"><span>© 2026 DO ANH NGHIA</span><span>WHITE / BLACK GETLAYERS CONCEPT · REAL PROJECTS ONLY</span></footer>
 <script>
@@ -560,8 +610,9 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 // Project filtering with smooth transitions
 const filters = document.querySelectorAll('.filter');
 filters.forEach(btn => btn.addEventListener('click', () => {
-  filters.forEach(x => x.classList.remove('active'));
+  filters.forEach(x => { x.classList.remove('active'); x.setAttribute('aria-pressed', 'false'); });
   btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
   const f = btn.dataset.filter;
   document.querySelectorAll('.project-group').forEach(group => {
     const match = f === 'all' || group.dataset.group === f;
@@ -593,7 +644,10 @@ if (menuBtn && navLinks) {
     const open = navLinks.classList.toggle('open');
     menuBtn.setAttribute('aria-expanded', String(open));
   });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }));
 }
 
 // Parallax on scroll (safe check for existing elements)
