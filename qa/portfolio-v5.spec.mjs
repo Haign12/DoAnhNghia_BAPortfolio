@@ -32,6 +32,16 @@ const formatAxeViolations = blockers => blockers.flatMap(violation =>
   })
 ).join('\n');
 
+const primeRevealContent = async page => {
+  const reveals = page.locator('.reveal');
+  const count = await reveals.count();
+  for (let index = 0; index < count; index += 1) {
+    await reveals.nth(index).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(40);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+};
+
 const primePortfolioMedia = async page => {
   const media = page.locator('#flagships .flagship-media img, #work .project-media img');
   await expect(media).toHaveCount(14);
@@ -133,6 +143,7 @@ test.describe('Product Designer portfolio cloud gate', () => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto(baseURL, { waitUntil: 'networkidle' });
       await primePortfolioMedia(page);
+      await primeRevealContent(page);
       const overflow = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
@@ -176,12 +187,12 @@ test.describe('Product Designer portfolio cloud gate', () => {
 
   test('Nova case-study theme preference is a working enhancement', async ({ page }) => {
     await page.goto(`${baseURL}/case-study-nova.html`, { waitUntil: 'domcontentloaded' });
-    const toggle = page.getByRole('button', { name: 'Switch theme' });
+    const toggle = page.locator('#theme-toggle');
     const before = await page.locator('html').getAttribute('data-theme');
     await toggle.click();
     const after = await page.locator('html').getAttribute('data-theme');
     expect(after).not.toBe(before);
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('html')).toHaveAttribute('data-theme', after);
   });
 });
