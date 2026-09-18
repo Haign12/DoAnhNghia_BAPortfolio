@@ -69,19 +69,19 @@
           </article>
 
           <article class="flagship-card reveal">
-            <a class="flagship-media" href="case-study-sentry.html" aria-label="Read Sentry Product Design case study">
-              <img src="thumbnail/sentry.png" alt="Sentry fraud operations investigation interface" loading="lazy" decoding="async">
-              <span class="flagship-proof">Systems thinking</span>
+            <a class="flagship-media" href="case-study-vas-education.html" aria-label="Read VAS Education redesign case study">
+              <img src="thumbnail/vas.png" alt="VAS Education responsive school website redesign" loading="lazy" decoding="async">
+              <span class="flagship-proof">Evidence-driven redesign</span>
             </a>
             <div class="flagship-copy">
-              <div class="flagship-index"><span>02 / Risk operations</span><span>Independent concept</span></div>
-              <h3>Sentry</h3>
-              <p class="flagship-thesis">A high-density investigation workspace designed around one operating decision: correlate evidence, understand conflicts and record a defensible action without context switching.</p>
+              <div class="flagship-index"><span>02 / Education redesign</span><span>Website redesign</span></div>
+              <h3>VAS Education</h3>
+              <p class="flagship-thesis">A redesign of a complex school website around the questions families actually need answered while comparing programmes, campuses and the path to admission.</p>
               <div class="flagship-evidence">
-                <div><span>Decision</span><p>Keep alert priority, forensic evidence and consequence visible inside one stable split workspace.</p></div>
-                <div><span>Proof</span><p>Implemented fraud-operations console with queue, evidence, decisions and recovery paths.</p></div>
+                <div><span>Decision</span><p>Reframe institutional content into a parent-first journey from programme understanding to campus choice and visit planning.</p></div>
+                <div><span>Proof</span><p>Responsive redesign prototype + IA and user-flow case showing programme, campus, admissions and visit-booking structure.</p></div>
               </div>
-              <div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read case ↗</a><a href="https://sentry-9bqs.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&t=BvIxuJu3KrFWy5Lg-1" target="_blank" rel="noopener">Figma ↗</a></div>
+              <div class="flagship-actions"><a class="flagship-primary" href="case-study-vas-education.html">Read case ↗</a><a href="https://redesign-vas.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1" target="_blank" rel="noopener">Figma ↗</a></div>
             </div>
           </article>
 
