@@ -13,6 +13,7 @@
 .flagship-section .section-title{
   max-width:10ch;
   color:#fff;
+  line-height:.92;
 }
 .flagship-section .section-lead{color:#b7b7b1;max-width:760px}
 .flagship-section .section-lead strong{color:#fff}
@@ -184,7 +185,7 @@
   background:#fff;
 }
 .flagship-boundary strong{color:#fff}
-#work .work-head .section-title{max-width:11ch}
+#work .work-head .section-title{max-width:11ch;line-height:.92}
 .experience-evidence-note{
   margin-top:16px;
   max-width:650px;
