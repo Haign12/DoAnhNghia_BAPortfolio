@@ -219,3 +219,7 @@
   .flagship-card,.flagship-media img{transition:none!important}
   .flagship-card:hover{transform:none}
 }
+
+/* Accessibility contrast repair */
+.hero-intro{color:#666}
+.footer{color:#666}
