@@ -45,65 +45,65 @@
         <div class="flagship-head reveal">
           <div>
             <p class="eyebrow">Flagship product work</p>
-            <h2 class="section-title" id="flagship-title">Three cases.<br>Three design muscles.</h2>
-            <p class="section-lead">A recruiter-first selection showing <strong>consumer product reasoning, complex operational systems and high-craft commerce.</strong></p>
+            <h2 class="section-title" id="flagship-title">Three cases.<br>Three distinct styles.</h2>
+            <p class="section-lead">A deliberately varied trio showing <strong>editorial commerce, trust-led education UX and data-dense B2B fintech systems.</strong></p>
           </div>
-          <p class="flagship-meta"><strong>Selection logic:</strong> not the three prettiest screens. These are the cases that best expose how I frame a problem, make trade-offs, build a system and carry design intent into a working interface.</p>
+          <p class="flagship-meta"><strong>Selection logic:</strong> each case represents a different visual and product-design muscle — so the section shows range rather than three projects with the same design language.</p>
         </div>
         <div class="flagship-grid">
           <article class="flagship-card reveal">
-            <a class="flagship-media" href="case-study-nova.html" aria-label="Read Nova Product Design case study">
-              <img src="thumbnail/nova.png" alt="Nova consumer finance product interface" loading="lazy" decoding="async">
-              <span class="flagship-proof">Product reasoning</span>
+            <a class="flagship-media" href="case-study-luxroom.html" aria-label="Read LuxRoom case study">
+              <img src="thumbnail/luxroom.png" alt="LuxRoom luxury furniture commerce interface" loading="lazy" decoding="async">
+              <span class="flagship-proof">Editorial luxury commerce</span>
             </a>
             <div class="flagship-copy">
-              <div class="flagship-index"><span>01 / Consumer fintech</span><span>Independent concept</span></div>
-              <h3>Nova</h3>
-              <p class="flagship-thesis">Personal finance organized around a harder question than “what is my balance?” — what is actually safe to spend after known obligations and a protected buffer?</p>
+              <div class="flagship-index"><span>01 / Furniture commerce</span><span>Independent concept</span></div>
+              <h3>LuxRoom</h3>
+              <p class="flagship-thesis">A desktop-first furniture experience where architectural imagery, dimensions, materials and room context support a high-consideration purchase instead of behaving like a generic product grid.</p>
               <div class="flagship-evidence">
-                <div><span>Decision</span><p>Bring future obligations into the primary money-decision surface without turning home into a spreadsheet.</p></div>
-                <div><span>Proof</span><p>Working responsive prototype with transfer, risk, planning and recovery states.</p></div>
+                <div><span>Design style</span><p>Image-led, architectural and editorial — restrained typography, generous space and product storytelling built around confidence.</p></div>
+                <div><span>Proof</span><p>Case study + working responsive prototype + Figma system covering discovery, product detail and consultation-oriented commerce.</p></div>
               </div>
-              <div class="flagship-actions"><a class="flagship-primary" href="case-study-nova.html">Read case ↗</a><a href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&t=83Wo9YlCjxLTFzxv-1" target="_blank" rel="noopener">Figma ↗</a></div>
+              <div class="flagship-actions"><a class="flagship-primary" href="case-study-luxroom.html">Read case ↗</a><a href="https://lux-room.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1" target="_blank" rel="noopener">Figma ↗</a></div>
             </div>
           </article>
 
           <article class="flagship-card reveal">
-            <a class="flagship-media" href="case-study-sentry.html" aria-label="Read Sentry Product Design case study">
-              <img src="thumbnail/sentry.png" alt="Sentry fraud operations investigation interface" loading="lazy" decoding="async">
-              <span class="flagship-proof">Systems thinking</span>
+            <a class="flagship-media" href="case-study-vas-education.html" aria-label="Read VAS Education case study">
+              <img src="thumbnail/vas.png" alt="VAS Education school website redesign" loading="lazy" decoding="async">
+              <span class="flagship-proof">Trust + information architecture</span>
             </a>
             <div class="flagship-copy">
-              <div class="flagship-index"><span>02 / Risk operations</span><span>Independent concept</span></div>
-              <h3>Sentry</h3>
-              <p class="flagship-thesis">A high-density investigation workspace designed around one operating decision: correlate evidence, understand conflicts and record a defensible action without context switching.</p>
+              <div class="flagship-index"><span>02 / Education</span><span>Redesign concept</span></div>
+              <h3>VAS</h3>
+              <p class="flagship-thesis">A parent-facing education journey that turns complex programs, campuses and admissions information into a clearer trust → fit → action path.</p>
               <div class="flagship-evidence">
-                <div><span>Decision</span><p>Keep alert priority, forensic evidence and consequence visible inside one stable split workspace.</p></div>
-                <div><span>Proof</span><p>Implemented fraud-operations console with queue, evidence, decisions and recovery paths.</p></div>
+                <div><span>Design style</span><p>Warm, credible and content-led — stronger hierarchy, structured curriculum comparison and decision support rather than decorative marketing.</p></div>
+                <div><span>Proof</span><p>Case study + working redesign + Figma covering program discovery, campus context, admissions and campus-tour conversion.</p></div>
               </div>
-              <div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read case ↗</a><a href="https://sentry-9bqs.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&t=BvIxuJu3KrFWy5Lg-1" target="_blank" rel="noopener">Figma ↗</a></div>
+              <div class="flagship-actions"><a class="flagship-primary" href="case-study-vas-education.html">Read case ↗</a><a href="https://redesign-vas.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1" target="_blank" rel="noopener">Figma ↗</a></div>
             </div>
           </article>
 
           <article class="flagship-card reveal">
-            <a class="flagship-media" href="case-study-atelier.html" aria-label="Read Atelier case study">
-              <img src="thumbnail/atelier.png" alt="Atelier luxury fashion commerce interface" loading="lazy" decoding="async">
-              <span class="flagship-proof">Visual + interaction craft</span>
+            <a class="flagship-media" href="https://flux-six-liard.vercel.app/" target="_blank" rel="noopener" aria-label="Open Flux live prototype">
+              <img src="thumbnail/flux.png" alt="Flux B2B treasury product interface" loading="lazy" decoding="async">
+              <span class="flagship-proof">Data-dense B2B systems</span>
             </a>
             <div class="flagship-copy">
-              <div class="flagship-index"><span>03 / Luxury commerce</span><span>Independent concept</span></div>
-              <h3>Atelier</h3>
-              <p class="flagship-thesis">Luxury fashion commerce balancing editorial expression with shopping clarity, product-detail confidence and purposeful interaction rather than decorative motion.</p>
+              <div class="flagship-index"><span>03 / B2B fintech</span><span>Independent concept</span></div>
+              <h3>Flux</h3>
+              <p class="flagship-thesis">A multi-currency treasury cockpit that keeps liquidity, reserves, incoming cash, FX exposure and settlement context visible without turning the interface into an unreadable spreadsheet.</p>
               <div class="flagship-evidence">
-                <div><span>Decision</span><p>Let visual expression grow around the buying journey without weakening navigation, PDP comprehension or conversion actions.</p></div>
-                <div><span>Proof</span><p>Figma system + working responsive prototype + product-detail and commerce flows.</p></div>
+                <div><span>Design style</span><p>Dense, operational and system-first — compact information hierarchy, dashboard logic and clear action states for financial workflows.</p></div>
+                <div><span>Proof</span><p>Working treasury prototype + Figma system covering currency accounts, money movement and operational liquidity detail.</p></div>
               </div>
-              <div class="flagship-actions"><a class="flagship-primary" href="case-study-atelier.html">Read case ↗</a><a href="https://atelier-henna-tau.vercel.app/" target="_blank" rel="noopener">Live ↗</a><a href="https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1" target="_blank" rel="noopener">Figma ↗</a></div>
+              <div class="flagship-actions"><a class="flagship-primary" href="https://flux-six-liard.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://www.figma.com/design/bZIqaMK97vwzBuSdD8risu/Flux?node-id=1-3427&t=BvIxuJu3KrFWy5Lg-1" target="_blank" rel="noopener">Figma ↗</a><a href="https://github.com/Ngh1aa/Flux" target="_blank" rel="noopener">Source ↗</a></div>
             </div>
           </article>
         </div>
-        <p class="flagship-boundary"><span><strong>Evidence boundary:</strong> independent concepts are labeled as such. Planned validation and target metrics are not presented as measured product outcomes.</span></p>
-      `;
+        <p class="flagship-boundary"><span><strong>Evidence boundary:</strong> independent concepts and redesign work are labeled as such. Planned validation and target metrics are not presented as measured product outcomes.</span></p>
+`
       work.before(flagships);
 
       const observer = new IntersectionObserver(entries => {
