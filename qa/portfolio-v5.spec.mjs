@@ -102,7 +102,7 @@ test.describe('Product Designer portfolio cloud gate', () => {
 
   test('industry filters expose clear programmatic state', async ({ page }) => {
     await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
-    const all = page.getByRole('button', { name: /All 12/ });
+    const all = page.getByRole('button', { name: /All 13/ });
     const fintech = page.getByRole('button', { name: /Fintech 3/ });
     await expect(all).toHaveAttribute('aria-pressed', 'true');
     await expect(fintech).toHaveAttribute('aria-pressed', 'false');

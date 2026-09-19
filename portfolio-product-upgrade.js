@@ -123,7 +123,7 @@
       const count = work.querySelector('.work-count');
       if (eyebrow) eyebrow.textContent = 'Supporting work';
       if (title) title.textContent = 'Range across domains.';
-      if (count) count.textContent = '12 projects · 6 industry domains · supporting breadth';
+      if (count) count.textContent = '13 projects · 7 domains · supporting breadth';
     }
 
     const experience = document.getElementById('experience');
