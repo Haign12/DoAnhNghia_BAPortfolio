@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">UIUX Factory — Design Operating System</title>
+  <desc id="desc">A monochrome technical editorial thumbnail showing the UIUX Factory workflow from project truth through research, structure, art direction, build and QA.</desc>
+
+  <rect width="1600" height="1000" fill="#0a0a0a"/>
+  <g stroke="#202020" stroke-width="1">
+    <path d="M0 100H1600M0 200H1600M0 300H1600M0 400H1600M0 500H1600M0 600H1600M0 700H1600M0 800H1600M0 900H1600"/>
+    <path d="M100 0V1000M200 0V1000M300 0V1000M400 0V1000M500 0V1000M600 0V1000M700 0V1000M800 0V1000M900 0V1000M1000 0V1000M1100 0V1000M1200 0V1000M1300 0V1000M1400 0V1000M1500 0V1000"/>
+  </g>
+
+  <rect x="44" y="44" width="1512" height="912" fill="none" stroke="#383838"/>
+  <line x1="772" y1="44" x2="772" y2="956" stroke="#383838"/>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="82" y="102" fill="#9a9a9a" font-size="18" letter-spacing="4">DESIGN OPERATING SYSTEM</text>
+    <text x="1518" y="102" fill="#9a9a9a" font-size="18" letter-spacing="3" text-anchor="end">SYSTEM / 13</text>
+
+    <text x="82" y="310" fill="#f4f4ef" font-size="170" font-weight="700" letter-spacing="-10">UIUX</text>
+    <text x="82" y="472" fill="#f4f4ef" font-size="170" font-weight="700" letter-spacing="-10">FACTORY</text>
+
+    <line x1="82" y1="536" x2="686" y2="536" stroke="#f4f4ef" stroke-width="3"/>
+    <text x="82" y="585" fill="#b8b8b2" font-size="22" letter-spacing="2">RESEARCH → IA → ART DIRECTION → BUILD → QA</text>
+
+    <text x="82" y="700" fill="#f4f4ef" font-size="28" font-weight="700">MAKE DESIGN DECISIONS INSPECTABLE.</text>
+    <text x="82" y="742" fill="#8d8d88" font-size="20">A reusable workflow that turns design intent into</text>
+    <text x="82" y="774" fill="#8d8d88" font-size="20">implementation, rendered evidence and root-cause repair.</text>
+
+    <text x="82" y="900" fill="#777772" font-size="16" letter-spacing="3">Ngh1aa / UIUX-AI-WORKSPACE / v5</text>
+  </g>
+
+  <g transform="translate(828 150)" font-family="Arial, Helvetica, sans-serif">
+    <text x="0" y="0" fill="#8f8f8a" font-size="16" letter-spacing="3">PIPELINE / VERIFIABLE WORKFLOW</text>
+
+    <g transform="translate(0 54)">
+      <rect width="646" height="104" fill="#111111" stroke="#5a5a57"/>
+      <rect width="8" height="104" fill="#f4f4ef"/>
+      <text x="34" y="36" fill="#8b8b87" font-size="14" letter-spacing="2">01 / INPUT</text>
+      <text x="34" y="71" fill="#f4f4ef" font-size="25" font-weight="700">PROJECT TRUTH</text>
+      <text x="610" y="62" fill="#777772" font-size="16" text-anchor="end">SOURCE + CONSTRAINTS</text>
+    </g>
+
+    <path d="M323 158V196" stroke="#70706b" stroke-width="2"/>
+    <path d="M316 187L323 197L330 187" fill="none" stroke="#70706b" stroke-width="2"/>
+
+    <g transform="translate(0 196)">
+      <rect width="646" height="104" fill="#111111" stroke="#5a5a57"/>
+      <rect width="8" height="104" fill="#f4f4ef"/>
+      <text x="34" y="36" fill="#8b8b87" font-size="14" letter-spacing="2">02 / DECIDE</text>
+      <text x="34" y="71" fill="#f4f4ef" font-size="25" font-weight="700">RESEARCH + CONTRACT</text>
+      <text x="610" y="62" fill="#777772" font-size="16" text-anchor="end">ADOPT / ADAPT / REJECT</text>
+    </g>
+
+    <path d="M323 300V338" stroke="#70706b" stroke-width="2"/>
+    <path d="M316 329L323 339L330 329" fill="none" stroke="#70706b" stroke-width="2"/>
+
+    <g transform="translate(0 338)">
+      <rect width="646" height="104" fill="#111111" stroke="#5a5a57"/>
+      <rect width="8" height="104" fill="#f4f4ef"/>
+      <text x="34" y="36" fill="#8b8b87" font-size="14" letter-spacing="2">03 / SHAPE</text>
+      <text x="34" y="71" fill="#f4f4ef" font-size="25" font-weight="700">STRUCTURE + VISUAL</text>
+      <text x="610" y="62" fill="#777772" font-size="16" text-anchor="end">IA / UI / STATES</text>
+    </g>
+
+    <path d="M323 442V480" stroke="#70706b" stroke-width="2"/>
+    <path d="M316 471L323 481L330 471" fill="none" stroke="#70706b" stroke-width="2"/>
+
+    <g transform="translate(0 480)">
+      <rect width="646" height="104" fill="#111111" stroke="#5a5a57"/>
+      <rect width="8" height="104" fill="#f4f4ef"/>
+      <text x="34" y="36" fill="#8b8b87" font-size="14" letter-spacing="2">04 / EXECUTE</text>
+      <text x="34" y="71" fill="#f4f4ef" font-size="25" font-weight="700">IMPLEMENT + RENDER</text>
+      <text x="610" y="62" fill="#777772" font-size="16" text-anchor="end">REAL BROWSER EVIDENCE</text>
+    </g>
+
+    <path d="M323 584V622" stroke="#70706b" stroke-width="2"/>
+    <path d="M316 613L323 623L330 613" fill="none" stroke="#70706b" stroke-width="2"/>
+
+    <g transform="translate(0 622)">
+      <rect width="646" height="104" fill="#f4f4ef"/>
+      <text x="34" y="36" fill="#555550" font-size="14" letter-spacing="2">05 / VERIFY</text>
+      <text x="34" y="71" fill="#0a0a0a" font-size="25" font-weight="700">QA + ROOT-CAUSE REPAIR</text>
+      <text x="610" y="62" fill="#5f5f5a" font-size="16" text-anchor="end">PASS → SHIP</text>
+    </g>
+  </g>
+</svg>
