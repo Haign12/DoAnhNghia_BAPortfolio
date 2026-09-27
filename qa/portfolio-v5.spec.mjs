@@ -43,10 +43,14 @@ const primeRevealContent = async page => {
 };
 
 const primePortfolioMedia = async page => {
-  const media = page.locator('#flagships .flagship-media img, #work .project-media img');
-  await expect(media).toHaveCount(15);
+  const flagshipMedia = page.locator('#flagships .flagship-media img');
+  const supportingMedia = page.locator('#work .project-media img');
+  await expect(flagshipMedia).toHaveCount(3);
+  await expect(supportingMedia).toHaveCount(14);
 
-  for (let index = 0; index < 15; index += 1) {
+  const media = page.locator('#flagships .flagship-media img, #work .project-media img');
+  const count = await media.count();
+  for (let index = 0; index < count; index += 1) {
     const image = media.nth(index);
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(async img => {
