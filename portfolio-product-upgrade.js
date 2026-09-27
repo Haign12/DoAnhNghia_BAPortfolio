@@ -132,34 +132,34 @@
 
         const cultureGrid = cultureGroup.querySelector('.project-grid');
         const lumenCard = cultureGrid?.querySelector('.project-featured');
-        if (cultureGrid && lumenCard && !cultureGrid.querySelector('[data-project="mostar-guide"]')) {
-          const mostarCard = document.createElement('article');
-          mostarCard.className = 'project-featured reveal';
-          mostarCard.dataset.cat = 'culture';
-          mostarCard.dataset.project = 'mostar-guide';
-          mostarCard.innerHTML = `
-            <a class="project-media" href="https://ngh1aa.github.io/Mostar-Guide/" target="_blank" rel="noopener" aria-label="Open Mostar Guide cinematic city experience">
+        if (cultureGrid && lumenCard && !cultureGrid.querySelector('[data-project="hue-between-river-citadel"]')) {
+          const hueCard = document.createElement('article');
+          hueCard.className = 'project-featured reveal';
+          hueCard.dataset.cat = 'culture';
+          hueCard.dataset.project = 'hue-between-river-citadel';
+          hueCard.innerHTML = `
+            <a class="project-media" href="https://ngh1aa.github.io/Mostar-Guide/" target="_blank" rel="noopener" aria-label="Open HUẾ — Between River & Citadel cinematic cultural experience">
               <span class="project-no">02</span>
-              <img src="https://raft-blast-61784561.figma.site/_assets/v11/ba75252bab2b1c510987b74837770f7bc8a6b2d4.png" alt="Mostar cinematic city guide featuring the Old Bridge and historic city layers" loading="lazy" decoding="async">
+              <img src="https://ngh1aa.github.io/Mostar-Guide/assets/hue/scenes/02-citadel-backdrop.webp" alt="Huế cinematic cultural experience featuring Ngọ Môn and the Imperial City" loading="lazy" decoding="async">
             </a>
             <div class="project-copy">
               <div>
                 <div class="project-top">
                   <div>
-                    <span class="status" style="margin-bottom:8px"><i></i> Cinematic cultural city guide</span>
-                    <h3>Mostar Guide</h3>
+                    <span class="status" style="margin-bottom:8px"><i></i> Independent cultural experience</span>
+                    <h3>HUẾ — Between River & Citadel</h3>
                   </div>
-                  <span class="project-type">City experience</span>
+                  <span class="project-type">Cultural experience</span>
                 </div>
-                <p class="project-summary">A cinematic guide to Mostar that turns the Old Bridge, bazaar and Neretva into a scroll-led journey, then carries visitors into an interactive sights carousel and compact walking routes.</p>
+                <p class="project-summary">A cinematic study of Huế that follows the Perfume River through imperial thresholds, living streets and royal landscapes — combining scroll-led storytelling with an infinite places carousel and thematic routes.</p>
                 <div class="project-highlights">
                   <div class="highlight-item">
-                    <span>Experience model</span>
-                    <p>Layered scroll story → landmark context → infinite sights slider → suggested walking routes for morning, heritage and golden hour.</p>
+                    <span>Transformation</span>
+                    <p>Re-authored a borrowed cinematic interaction pattern into a Huế-specific experience by replacing destination identity, imagery, typography, route narrative and ornamental language while preserving the strongest motion mechanics.</p>
                   </div>
                   <div class="highlight-item">
                     <span>Design direction</span>
-                    <p>Cinematic, editorial and place-led — layered imagery, deliberate motion choreography, warm historic tones and accessible static delivery.</p>
+                    <p>Poetic, imperial and atmospheric — Vietnamese-capable editorial typography, restrained ceremonial geometry, licensed local imagery and deliberate scroll choreography.</p>
                   </div>
                 </div>
               </div>
@@ -168,20 +168,20 @@
                 <a href="https://github.com/Ngh1aa/Mostar-Guide" target="_blank" rel="noopener">Source ↗</a>
               </div>
             </div>`;
-          lumenCard.insertAdjacentElement('afterend', mostarCard);
+          lumenCard.insertAdjacentElement('afterend', hueCard);
 
           if ('IntersectionObserver' in window) {
-            const mostarObserver = new IntersectionObserver(entries => {
+            const hueObserver = new IntersectionObserver(entries => {
               entries.forEach(entry => {
                 if (entry.isIntersecting) {
                   entry.target.classList.add('in-view');
-                  mostarObserver.unobserve(entry.target);
+                  hueObserver.unobserve(entry.target);
                 }
               });
             }, { threshold:.08, rootMargin:'0px 0px -40px 0px' });
-            mostarObserver.observe(mostarCard);
+            hueObserver.observe(hueCard);
           } else {
-            mostarCard.classList.add('in-view');
+            hueCard.classList.add('in-view');
           }
         }
 

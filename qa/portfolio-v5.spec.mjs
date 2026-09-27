@@ -104,12 +104,13 @@ test.describe('Product Designer portfolio cloud gate', () => {
     expect(broken, JSON.stringify(media, null, 2)).toEqual([]);
   });
 
-  test('Mostar Guide joins Cultural & Experimental with working live proof', async ({ page }) => {
+  test('HUẾ — Between River & Citadel joins Cultural & Experimental with working live proof', async ({ page }) => {
     await page.goto(`${baseURL}/#group-culture`, { waitUntil: 'networkidle' });
-    await expect(page.locator('#group-culture [data-project="mostar-guide"]')).toHaveCount(1);
-    await expect(page.getByRole('heading', { name: 'Mostar Guide', exact: true })).toBeVisible();
+    await expect(page.locator('#group-culture [data-project="hue-between-river-citadel"]')).toHaveCount(1);
+    await expect(page.getByRole('heading', { name: 'HUẾ — Between River & Citadel', exact: true })).toBeVisible();
     await expect(page.locator('#group-culture .group-count-badge')).toHaveText('02 Projects');
     await expect(page.locator('#group-culture a[href="https://ngh1aa.github.io/Mostar-Guide/"]').first()).toBeVisible();
+    await expect(page.locator('#group-culture [data-project="hue-between-river-citadel"] img')).toHaveAttribute('src', /\/assets\/hue\/scenes\/02-citadel-backdrop\.webp$/);
   });
 
   test('industry filters expose clear programmatic state', async ({ page }) => {
