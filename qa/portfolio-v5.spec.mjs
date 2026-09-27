@@ -12,6 +12,7 @@ const viewports = [
 const criticalCaseStudies = [
   { path: 'case-study-nova.html', heading: 'Nova' },
   { path: 'case-study-sentry.html', heading: 'Sentry' },
+  { path: 'case-study-uiux-factory.html', heading: 'UIUX Factory' },
   { path: 'case-study-atelier.html', heading: 'Atelier' },
   { path: 'case-study-vas-education.html', heading: 'VAS Education' },
   { path: 'case-study-violet-marketplace.html', heading: 'Violet Marketplace' },
@@ -37,7 +38,7 @@ const primeRevealContent = async page => {
   const count = await reveals.count();
   for (let index = 0; index < count; index += 1) {
     await reveals.nth(index).scrollIntoViewIfNeeded();
-    await page.waitForTimeout(40);
+    await page.waitForTimeout(35);
   }
   await page.evaluate(() => window.scrollTo(0, 0));
 };
@@ -63,22 +64,28 @@ const primePortfolioMedia = async page => {
       if (typeof img.decode === 'function') await img.decode();
     });
   }
-
   await page.evaluate(() => window.scrollTo(0, 0));
 };
 
-test.describe('Product Designer portfolio cloud gate', () => {
-  test('recruiter-critical product positioning and flagship proof are present', async ({ page }) => {
+test.describe('Product Designer leadership-track portfolio cloud gate', () => {
+  test('recruiter-critical product leadership narrative and flagship proof are present', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await expect(page).toHaveTitle(/Product Designer/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/PRODUCT/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/LEADERSHIP/);
     await expect(page.locator('#flagships')).toBeVisible();
     await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
     await expect(page.locator('#flagships a[href="case-study-nova.html"]').first()).toBeVisible();
     await expect(page.locator('#flagships a[href="case-study-sentry.html"]').first()).toBeVisible();
-    await expect(page.locator('#flagships a[href="case-study-atelier.html"]').first()).toBeVisible();
+    await expect(page.locator('#flagships a[href="case-study-uiux-factory.html"]').first()).toBeVisible();
     await expect(page.getByText(/Evidence boundary:/).first()).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Range across domains.' })).toBeVisible();
+    await expect(page.locator('#leadership')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Build leverage before the title.' })).toBeVisible();
+    await expect(page.getByText('NEXT PROOF').first()).toBeVisible();
+    await expect(page.getByText(/not a current Product Design Manager claim/i)).toBeVisible();
+    await expect(page.locator('#writing')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'From AI tools to design governance' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Breadth without diluting the narrative.' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
   });
 
@@ -119,27 +126,26 @@ test.describe('Product Designer portfolio cloud gate', () => {
     const fintech = page.getByRole('button', { name: /Fintech 3/ });
     await expect(all).toHaveAttribute('aria-pressed', 'true');
     await expect(fintech).toHaveAttribute('aria-pressed', 'false');
-
     await fintech.click();
     await expect(fintech).toHaveAttribute('aria-pressed', 'true');
     await expect(all).toHaveAttribute('aria-pressed', 'false');
     await expect(page.locator('#group-fintech')).toBeVisible();
     await expect(page.locator('#group-commerce')).toBeHidden();
-
     await all.click();
     await expect(all).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('#group-commerce')).toBeVisible();
   });
 
-  test('mobile navigation exposes real links and resets expanded state', async ({ page }) => {
+  test('mobile navigation exposes leadership and writing routes and resets expanded state', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
     const menu = page.getByRole('button', { name: 'Open navigation' });
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await menu.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('link', { name: 'Leadership', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Writing', exact: true })).toBeVisible();
     const work = page.getByRole('link', { name: 'Work', exact: true });
-    await expect(work).toBeVisible();
     await work.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await expect(page.locator('#flagships')).toBeVisible();
@@ -172,10 +178,11 @@ test.describe('Product Designer portfolio cloud gate', () => {
     const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(
       links.map(link => link.getAttribute('href')).filter(Boolean)
     )]);
-    expect(paths.length).toBeGreaterThanOrEqual(9);
+    expect(paths.length).toBeGreaterThanOrEqual(10);
     expect(paths).toContain('case-study-nova.html');
     expect(paths).toContain('case-study-sentry.html');
-    expect(paths).toContain('case-study-atelier.html');
+    expect(paths).toContain('case-study-uiux-factory.html');
+    expect(paths).toContain('writing-design-ops-ai.html');
     for (const path of paths) {
       const response = await request.get(`${baseURL}/${path}`);
       expect(response.status(), `${path} should resolve`).toBeLessThan(400);
@@ -197,6 +204,17 @@ test.describe('Product Designer portfolio cloud gate', () => {
       expect(blockers, formatAxeViolations(blockers) || `${caseStudy.heading}: serious/critical Axe violation detected`).toEqual([]);
     });
   }
+
+  test('thought leadership article renders accessibly and keeps claim boundaries visible', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${baseURL}/writing-design-ops-ai.html`, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { level: 1, name: 'From AI tools to design governance' })).toBeVisible();
+    await expect(page.getByText(/A process becomes leadership evidence when it helps someone else/i)).toBeVisible();
+    const overflow = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
+    expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
+    const blockers = await seriousAxeViolations(page);
+    expect(blockers, formatAxeViolations(blockers) || 'Thought leadership article: serious/critical Axe violation detected').toEqual([]);
+  });
 
   test('Nova case-study theme preference is a working enhancement', async ({ page }) => {
     await page.goto(`${baseURL}/case-study-nova.html`, { waitUntil: 'domcontentloaded' });
