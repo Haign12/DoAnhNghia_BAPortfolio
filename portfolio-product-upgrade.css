@@ -21,6 +21,6 @@
 @media(prefers-reduced-motion:reduce){.flagship-card,.flagship-media img{transition:none!important}.flagship-card:hover{transform:none}}
 
 /* Accessibility + rendered-document repairs */
-.hero-intro{color:#666}.footer{color:#666}
+.hero-intro{color:#666}.footer{color:#666}.exp-date{color:#666}
 .preloader.done{display:none!important}
 .experience-head.reveal,.experience-grid.reveal{opacity:1;transform:none}
