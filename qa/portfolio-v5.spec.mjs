@@ -87,6 +87,9 @@ test.describe('Product Designer leadership-track portfolio cloud gate', () => {
     await expect(page.getByRole('heading', { name: 'From AI tools to design governance' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Breadth without diluting the narrative.' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
+    await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
+    await expect(page.locator('.experience-grid')).toBeVisible();
+    await expect(page.locator('.experience-grid .exp-card')).toHaveCount(3);
   });
 
   test('core recruiter narrative remains visible without JavaScript', async ({ browser }) => {
@@ -161,6 +164,7 @@ test.describe('Product Designer leadership-track portfolio cloud gate', () => {
     test(`no horizontal overflow and visual artifact: ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto(baseURL, { waitUntil: 'networkidle' });
+      await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
       await primePortfolioMedia(page);
       await primeRevealContent(page);
       const overflow = await page.evaluate(() => ({
