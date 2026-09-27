@@ -123,7 +123,84 @@
       const count = work.querySelector('.work-count');
       if (eyebrow) eyebrow.textContent = 'Supporting work';
       if (title) title.textContent = 'Range across domains.';
-      if (count) count.textContent = '13 projects · 7 domains · supporting breadth';
+      if (count) count.textContent = '14 projects · 7 domains · supporting breadth';
+
+      const cultureGroup = work.querySelector('#group-culture');
+      if (cultureGroup) {
+        const groupDesc = cultureGroup.querySelector('.group-desc');
+        if (groupDesc) groupDesc.textContent = 'Immersive digital experiences that use editorial storytelling, spatial discovery and interaction craft to turn art and place into exploratory journeys.';
+
+        const cultureGrid = cultureGroup.querySelector('.project-grid');
+        const lumenCard = cultureGrid?.querySelector('.project-featured');
+        if (cultureGrid && lumenCard && !cultureGrid.querySelector('[data-project="mostar-guide"]')) {
+          const mostarCard = document.createElement('article');
+          mostarCard.className = 'project-featured reveal';
+          mostarCard.dataset.cat = 'culture';
+          mostarCard.dataset.project = 'mostar-guide';
+          mostarCard.innerHTML = `
+            <a class="project-media" href="https://ngh1aa.github.io/Mostar-Guide/" target="_blank" rel="noopener" aria-label="Open Mostar Guide cinematic city experience">
+              <span class="project-no">02</span>
+              <img src="https://raft-blast-61784561.figma.site/_assets/v11/ba75252bab2b1c510987b74837770f7bc8a6b2d4.png" alt="Mostar cinematic city guide featuring the Old Bridge and historic city layers" loading="lazy" decoding="async">
+            </a>
+            <div class="project-copy">
+              <div>
+                <div class="project-top">
+                  <div>
+                    <span class="status" style="margin-bottom:8px"><i></i> Cinematic cultural city guide</span>
+                    <h3>Mostar Guide</h3>
+                  </div>
+                  <span class="project-type">City experience</span>
+                </div>
+                <p class="project-summary">A cinematic guide to Mostar that turns the Old Bridge, bazaar and Neretva into a scroll-led journey, then carries visitors into an interactive sights carousel and compact walking routes.</p>
+                <div class="project-highlights">
+                  <div class="highlight-item">
+                    <span>Experience model</span>
+                    <p>Layered scroll story → landmark context → infinite sights slider → suggested walking routes for morning, heritage and golden hour.</p>
+                  </div>
+                  <div class="highlight-item">
+                    <span>Design direction</span>
+                    <p>Cinematic, editorial and place-led — layered imagery, deliberate motion choreography, warm historic tones and accessible static delivery.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="project-links" style="margin-top:24px">
+                <a href="https://ngh1aa.github.io/Mostar-Guide/" class="link-primary" target="_blank" rel="noopener">Live ↗</a>
+                <a href="https://github.com/Ngh1aa/Mostar-Guide" target="_blank" rel="noopener">Source ↗</a>
+              </div>
+            </div>`;
+          lumenCard.insertAdjacentElement('afterend', mostarCard);
+
+          if ('IntersectionObserver' in window) {
+            const mostarObserver = new IntersectionObserver(entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('in-view');
+                  mostarObserver.unobserve(entry.target);
+                }
+              });
+            }, { threshold:.08, rootMargin:'0px 0px -40px 0px' });
+            mostarObserver.observe(mostarCard);
+          } else {
+            mostarCard.classList.add('in-view');
+          }
+        }
+
+        const groupCount = cultureGroup.querySelector('.group-count-badge');
+        if (groupCount) groupCount.textContent = '02 Projects';
+      }
+
+      const allFilterCount = work.querySelector('.filter[data-filter="all"] b');
+      if (allFilterCount) allFilterCount.textContent = '14';
+      const cultureFilterCount = work.querySelector('.filter[data-filter="culture"] b');
+      if (cultureFilterCount) cultureFilterCount.textContent = '2';
+
+      const selectedProjectsMetric = work.querySelector('.metrics .metric:first-child strong');
+      if (selectedProjectsMetric) selectedProjectsMetric.textContent = '14';
+
+      const projectNumbers = [...work.querySelectorAll('.project-groups .project-no')];
+      projectNumbers.forEach((node, index) => {
+        node.textContent = String(index + 1).padStart(2, '0');
+      });
     }
 
     const experience = document.getElementById('experience');
