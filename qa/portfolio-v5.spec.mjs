@@ -43,10 +43,14 @@ const primeRevealContent = async page => {
 };
 
 const primePortfolioMedia = async page => {
-  const media = page.locator('#flagships .flagship-media img, #work .project-media img');
-  await expect(media).toHaveCount(14);
+  const flagshipMedia = page.locator('#flagships .flagship-media img');
+  const supportingMedia = page.locator('#work .project-media img');
+  await expect(flagshipMedia).toHaveCount(3);
+  await expect(supportingMedia).toHaveCount(14);
 
-  for (let index = 0; index < 14; index += 1) {
+  const media = page.locator('#flagships .flagship-media img, #work .project-media img');
+  const count = await media.count();
+  for (let index = 0; index < count; index += 1) {
     const image = media.nth(index);
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(async img => {
@@ -100,9 +104,17 @@ test.describe('Product Designer portfolio cloud gate', () => {
     expect(broken, JSON.stringify(media, null, 2)).toEqual([]);
   });
 
+  test('Mostar Guide joins Cultural & Experimental with working live proof', async ({ page }) => {
+    await page.goto(`${baseURL}/#group-culture`, { waitUntil: 'networkidle' });
+    await expect(page.locator('#group-culture [data-project="mostar-guide"]')).toHaveCount(1);
+    await expect(page.getByRole('heading', { name: 'Mostar Guide', exact: true })).toBeVisible();
+    await expect(page.locator('#group-culture .group-count-badge')).toHaveText('02 Projects');
+    await expect(page.locator('#group-culture a[href="https://ngh1aa.github.io/Mostar-Guide/"]').first()).toBeVisible();
+  });
+
   test('industry filters expose clear programmatic state', async ({ page }) => {
     await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
-    const all = page.getByRole('button', { name: /All 13/ });
+    const all = page.getByRole('button', { name: /All 14/ });
     const fintech = page.getByRole('button', { name: /Fintech 3/ });
     await expect(all).toHaveAttribute('aria-pressed', 'true');
     await expect(fintech).toHaveAttribute('aria-pressed', 'false');
