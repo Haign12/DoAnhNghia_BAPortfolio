@@ -21,6 +21,8 @@
 
 #show heading: set text(font: "Libertinus Serif")
 
+_Product Designer focused on decision-heavy fintech/B2B systems, design systems and AI-assisted DesignOps. Building toward design leadership through evidence, process ownership, governance and team enablement without overstating management experience._
+
 == Experience
 
 #work(
@@ -29,7 +31,7 @@
   company: "MangoAds — SEO Optimization & Web Design Agency",
   dates: dates-helper(start-date: "May 2026", end-date: "Sep 2026"),
 )
-- Translated client requirements into IA, user flows, and responsive UI systems across 8+ web projects. *Impact:* standardized 50+ reusable Figma components, cutting dev handoff time by 30% and lifting form conversion by 22%.
+- Translated client requirements into IA, user flows, and responsive UI systems across 8+ web projects; standardized reusable Figma components and handoff specifications for more consistent implementation.
 
 #work(
   title: "UI/UX Designer",
@@ -37,7 +39,7 @@
   company: "Tikera Technology & Brand Development",
   dates: dates-helper(start-date: "Dec 2025", end-date: "Apr 2026"),
 )
-- Designed user journeys, wireframes, and design systems for 15+ product flows. *Impact:* specified 100% edge-case & data states (empty/error/loading), reducing sprint QA revision cycles by 25%.
+- Designed user journeys, wireframes, and design systems for 15+ product flows; specified empty, error, loading and edge-case states before development to reduce ambiguity during implementation and QA.
 
 #work(
   title: "Intern UI/UX Designer",
@@ -45,44 +47,44 @@
   company: "Trésor Solution Company",
   dates: dates-helper(start-date: "Sep 2025", end-date: "Dec 2025"),
 )
-- Supported responsive product flows, reusable UI patterns, and developer handoff specs. *Impact:* delivered 3 MVP release cycles on schedule with zero missing design asset blockers.
+- Supported responsive product flows, reusable UI patterns and developer handoff specifications across MVP work; partnered with engineering on design-to-code details and implementation-ready states.
 
-== Selected Personal Projects
-
-#project(
-  name: "LuxRoom — Furniture E-commerce Website",
-  role: "UI/UX Design · Responsive Prototype",
-  dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-luxroom.html",
-)
-- *Problem:* premium furniture shopping can hide the practical information users need to judge fit, material, dimensions and delivery. *Solution:* room context → material preference → product evaluation → save / checkout. *Outcome:* responsive prototype connecting contextual discovery, product specifications, Saved Room and checkout.
+== Selected Product & Operations Work
 
 #project(
-  name: "Atelier — Fashion E-commerce Website",
-  role: "UI/UX Design · Mobile-first Prototype",
+  name: "Nova — Consumer Fintech",
+  role: "Product Design · Financial Decision UX · Responsive Prototype",
   dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-atelier.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-nova.html",
 )
-- *Problem:* editorial fashion experiences can create desire while making product decisions harder. *Solution:* discover → evaluate → buy, with information density increasing as purchase intent grows. *Outcome:* mobile-first prototype covering collection discovery, product decisions, variants and checkout.
+- *Problem:* account balance alone can hide obligations that make part of the money unsafe to spend. *Decision:* pair present balance with future commitments and a protected buffer. *Evidence:* alternatives, trade-offs, recovery states, planned metrics and a working prototype; no measured business uplift claimed.
+
+#project(
+  name: "Sentry — Fraud Operations",
+  role: "Product Design · Operational Systems · Investigation UX",
+  dates: "2026",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-sentry.html",
+)
+- *Problem:* investigators can lose decision context when alert priority, evidence and consequences are fragmented. *Decision:* keep evidence-to-action inside one stable investigation model with explicit recovery paths. *Evidence:* implemented operational prototype and decision-focused case study.
+
+#project(
+  name: "UIUX Factory — AI-assisted Design Operations",
+  role: "DesignOps · Governance · QA Systems",
+  dates: "2026",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-uiux-factory.html",
+)
+- *Problem:* AI can accelerate plausible output while project truth, ownership and quality evidence remain ambiguous. *System:* project contracts, evidence states, phase-aware skill routing, browser QA and root-cause repair. *Boundary:* repository and workflow are real; team adoption and efficiency impact remain planned validation.
 
 #project(
   name: "VAS Education — Website Redesign",
-  role: "Information Architecture · Responsive Prototype",
+  role: "Information Architecture · Decision-support UX · Responsive Prototype",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-vas-education.html",
 )
-- *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Solution:* trust → fit → daily reality → action. *Outcome:* responsive prototype connecting brand proof, learning pathways, campus context and admissions into one parent journey.
-
-#project(
-  name: "Capital Place — Website Redesign",
-  role: "Decision-support UX · Interactive Prototype",
-  dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-capital-place.html",
-)
-- *Problem:* brochure-style property content did not support practical leasing decisions. *Solution:* place → space requirement → floor context → enquiry, including Space Finder and contextual enquiry flows. *Outcome:* interactive responsive prototype demonstrating a clearer leasing decision-support experience.
+- *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Decision:* structure the journey as trust → fit → daily reality → action. *Outcome evidence:* implemented responsive prototype; production enrollment impact is not claimed.
 
 == Education & Skills
 
 *Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025) · Foundations of Google UX Design (2026).
 
-*UI/UX Design:* wireframing, high-fidelity prototyping, user research, design systems, information architecture, user flows, interaction design, responsive design. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling, MVP definition.
+*Product Design:* problem framing, information architecture, user flows, interaction design, responsive systems, prototyping, trade-off articulation, validation planning, metric trees and evidence boundaries. *Design Operations:* design systems, governance contracts, documentation, design-to-code, browser QA, accessibility checks and AI-assisted workflow design. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.

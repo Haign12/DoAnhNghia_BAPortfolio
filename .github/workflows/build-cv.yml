@@ -6,6 +6,11 @@ on:
     paths:
       - "cv/main.typ"
       - ".github/workflows/build-cv.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "cv/main.typ"
+      - ".github/workflows/build-cv.yml"
   workflow_dispatch:
 
 permissions:
@@ -40,14 +45,15 @@ jobs:
           echo "CV page count: ${pages}"
           test "${pages}" = "1"
           text="$(pdftotext cv/main.pdf -)"
-          printf '%s' "$text" | grep -q "Selected Personal Projects"
-          printf '%s' "$text" | grep -q "LuxRoom"
-          printf '%s' "$text" | grep -q "Atelier"
+          printf '%s' "$text" | grep -q "Selected Product & Operations Work"
+          printf '%s' "$text" | grep -q "Nova"
+          printf '%s' "$text" | grep -q "Sentry"
+          printf '%s' "$text" | grep -q "UIUX Factory"
           printf '%s' "$text" | grep -q "VAS Education"
-          printf '%s' "$text" | grep -q "Capital Place"
-          printf '%s' "$text" | grep -q "Outcome:"
+          printf '%s' "$text" | grep -q "Design Operations"
 
       - name: Commit generated PDFs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           if git diff --quiet -- cv/main.pdf Do_Anh_Nghia_CV.pdf Do_Anh_Nghia_UIUXDesigner_CV.pdf; then
             echo "CV PDFs are already up to date."
@@ -56,5 +62,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add cv/main.pdf Do_Anh_Nghia_CV.pdf Do_Anh_Nghia_UIUXDesigner_CV.pdf
-          git commit -m "Build updated UI UX CV PDF"
+          git commit -m "Build updated product design CV PDF"
           git push
