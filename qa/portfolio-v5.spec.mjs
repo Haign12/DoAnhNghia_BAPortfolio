@@ -139,7 +139,7 @@ test.describe('Product Designer leadership-track portfolio cloud gate', () => {
     await expect(page.locator('#group-commerce')).toBeVisible();
   });
 
-  test('mobile navigation exposes leadership and writing routes and resets expanded state', async ({ page }) => {
+  test('mobile navigation and professional experience adapt to one-column layout', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
     const menu = page.getByRole('button', { name: 'Open navigation' });
@@ -152,6 +152,10 @@ test.describe('Product Designer leadership-track portfolio cloud gate', () => {
     await work.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await expect(page.locator('#flagships')).toBeVisible();
+    const experienceColumns = await page.locator('.experience-grid').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(/\s+/).filter(Boolean).length);
+    expect(experienceColumns).toBe(1);
+    const firstExperienceBox = await page.locator('.experience-grid .exp-card').first().boundingBox();
+    expect(firstExperienceBox?.width || 0).toBeGreaterThan(300);
   });
 
   test('homepage has no serious or critical axe violations', async ({ page }) => {
