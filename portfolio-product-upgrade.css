@@ -20,5 +20,7 @@
 @media(max-width:760px){.flagship-grid,.leadership-grid{grid-template-columns:1fr;margin-top:38px}.flagship-card:first-child{grid-column:auto}.flagship-copy{padding:20px}.flagship-copy h3{font-size:48px}.flagship-evidence div{grid-template-columns:76px 1fr}.flagship-meta{font-size:11px}.leadership-card{min-height:0;padding:24px 20px}.leadership-card h3{margin-top:30px}.leadership-footer{align-items:flex-start;flex-direction:column}.writing-card h3{font-size:54px}.writing-layout{grid-template-columns:1fr}.nav-links.open{overflow-y:auto;max-height:calc(100vh - 72px)}}
 @media(prefers-reduced-motion:reduce){.flagship-card,.flagship-media img{transition:none!important}.flagship-card:hover{transform:none}}
 
-/* Accessibility contrast repair */
+/* Accessibility + rendered-document repairs */
 .hero-intro{color:#666}.footer{color:#666}
+.preloader.done{display:none!important}
+.experience-head.reveal,.experience-grid.reveal{opacity:1;transform:none}
