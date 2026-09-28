@@ -90,7 +90,8 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.getByRole('link', { name: /Inspect agent contract/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /Inspect cloud QA/i })).toBeVisible();
     await expect(page.locator('#writing')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'From AI tools to design governance' })).toBeVisible();
+    await expect(page.locator('#writing-title')).toBeVisible();
+    await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
     await expect(page.getByRole('heading', { name: 'Breadth without diluting the narrative.' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toHaveAttribute('href', 'Do_Anh_Nghia_Product_Designer_CV.pdf');
     await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
