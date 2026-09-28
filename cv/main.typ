@@ -21,7 +21,7 @@
 
 #show heading: set text(font: "Libertinus Serif")
 
-_Product Designer focused on decision-heavy fintech/B2B systems, design systems and AI-assisted DesignOps. Building toward design leadership through evidence, process ownership, governance and team enablement without overstating management experience._
+_Product Designer focused on decision-heavy fintech/B2B products, responsive systems and AI-assisted design-to-code. I use AI for repository grounding, synthesis, alternative exploration, implementation support and browser QA while keeping product judgment, direct user evidence and consequential design decisions human-owned._
 
 == Experience
 
@@ -49,7 +49,15 @@ _Product Designer focused on decision-heavy fintech/B2B systems, design systems 
 )
 - Supported responsive product flows, reusable UI patterns and developer handoff specifications across MVP work; partnered with engineering on design-to-code details and implementation-ready states.
 
-== Selected Product & Operations Work
+== Selected Product & Systems Work
+
+#project(
+  name: "UIUX Factory — AI-assisted Product Design Workflow",
+  role: "DesignOps · AI Workflow · Governance · Browser QA",
+  dates: "2026",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-uiux-factory.html",
+)
+- *Problem:* AI can accelerate plausible output while project truth, ownership and quality evidence remain ambiguous. *System:* evidence states, ADOPT/ADAPT/REJECT decisions, phase-aware skill routing, implementation support, Playwright/axe/Lighthouse QA and root-cause repair. *Boundary:* repository and workflow are real; adoption and efficiency impact remain planned validation.
 
 #project(
   name: "Nova — Consumer Fintech",
@@ -68,23 +76,15 @@ _Product Designer focused on decision-heavy fintech/B2B systems, design systems 
 - *Problem:* investigators can lose decision context when alert priority, evidence and consequences are fragmented. *Decision:* keep evidence-to-action inside one stable investigation model with explicit recovery paths. *Evidence:* implemented operational prototype and decision-focused case study.
 
 #project(
-  name: "UIUX Factory — AI-assisted Design Operations",
-  role: "DesignOps · Governance · QA Systems",
-  dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-uiux-factory.html",
-)
-- *Problem:* AI can accelerate plausible output while project truth, ownership and quality evidence remain ambiguous. *System:* project contracts, evidence states, phase-aware skill routing, browser QA and root-cause repair. *Boundary:* repository and workflow are real; team adoption and efficiency impact remain planned validation.
-
-#project(
   name: "VAS Education — Website Redesign",
   role: "Information Architecture · Decision-support UX · Responsive Prototype",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-vas-education.html",
 )
-- *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Decision:* structure the journey as trust → fit → daily reality → action. *Outcome evidence:* implemented responsive prototype; production enrollment impact is not claimed.
+- *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Decision:* structure the journey as trust → fit → daily reality → action. *Evidence:* implemented responsive prototype; production enrollment impact is not claimed.
 
 == Education & Skills
 
 *Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025) · Foundations of Google UX Design (2026).
 
-*Product Design:* problem framing, information architecture, user flows, interaction design, responsive systems, prototyping, trade-off articulation, validation planning, metric trees and evidence boundaries. *Design Operations:* design systems, governance contracts, documentation, design-to-code, browser QA, accessibility checks and AI-assisted workflow design. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.
+*Product Design:* problem framing, information architecture, user flows, interaction design, responsive systems, prototyping, state design, trade-off articulation, validation planning, metric trees and evidence boundaries. *AI-assisted workflow:* repository grounding, synthesis, alternative exploration, critique, coding-agent collaboration, design contracts, documentation and root-cause repair. *Implementation & QA:* Figma, HTML/CSS/JavaScript, design-to-code, Git/GitHub, Playwright/Chromium, axe-core and Lighthouse diagnostics. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.

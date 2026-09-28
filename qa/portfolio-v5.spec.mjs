@@ -10,9 +10,11 @@ const viewports = [
 ];
 
 const criticalCaseStudies = [
+  { path: 'case-study-uiux-factory.html', heading: 'UIUX Factory' },
   { path: 'case-study-nova.html', heading: 'Nova' },
   { path: 'case-study-sentry.html', heading: 'Sentry' },
-  { path: 'case-study-uiux-factory.html', heading: 'UIUX Factory' },
+  { path: 'case-study-flux.html', heading: 'Flux' },
+  { path: 'case-study-access.html', heading: 'ACCESS' },
   { path: 'case-study-atelier.html', heading: 'Atelier' },
   { path: 'case-study-vas-education.html', heading: 'VAS Education' },
   { path: 'case-study-violet-marketplace.html', heading: 'Violet Marketplace' },
@@ -67,29 +69,42 @@ const primePortfolioMedia = async page => {
   await page.evaluate(() => window.scrollTo(0, 0));
 };
 
-test.describe('Product Designer leadership-track portfolio cloud gate', () => {
-  test('recruiter-critical product leadership narrative and flagship proof are present', async ({ page }) => {
+test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', () => {
+  test('recruiter-critical product narrative, AI workflow and flagship proof are present', async ({ page }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await expect(page).toHaveTitle(/Product Designer/);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/PRODUCT/);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/LEADERSHIP/);
+    const hero = page.getByRole('heading', { level: 1 });
+    await expect(hero).toContainText(/PRODUCT/);
+    await expect(hero).toContainText(/AI \+ QA/);
+    await expect(page.getByText(/Product Designer · Fintech \/ B2B · AI-assisted design-to-code/)).toBeVisible();
     await expect(page.locator('#flagships')).toBeVisible();
     await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
+    await expect(page.locator('#flagships .flagship-card').first().getByRole('heading', { level: 3 })).toHaveText('UIUX Factory');
+    await expect(page.locator('#flagships a[href="case-study-uiux-factory.html"]').first()).toBeVisible();
     await expect(page.locator('#flagships a[href="case-study-nova.html"]').first()).toBeVisible();
     await expect(page.locator('#flagships a[href="case-study-sentry.html"]').first()).toBeVisible();
-    await expect(page.locator('#flagships a[href="case-study-uiux-factory.html"]').first()).toBeVisible();
     await expect(page.getByText(/Evidence boundary:/).first()).toBeVisible();
-    await expect(page.locator('#leadership')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Build leverage before the title.' })).toBeVisible();
-    await expect(page.getByText('NEXT PROOF').first()).toBeVisible();
-    await expect(page.getByText(/not a current Product Design Manager claim/i)).toBeVisible();
+    await expect(page.locator('#ai-workflow')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'AI is a multiplier, not the product owner.' })).toBeVisible();
+    await expect(page.getByText(/Human-owned:/)).toBeVisible();
+    await expect(page.getByRole('link', { name: /Inspect agent contract/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Inspect cloud QA/i })).toBeVisible();
     await expect(page.locator('#writing')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'From AI tools to design governance' })).toBeVisible();
+    await expect(page.locator('#writing-title')).toBeVisible();
+    await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
     await expect(page.getByRole('heading', { name: 'Breadth without diluting the narrative.' })).toBeVisible();
-    await expect(page.getByRole('link', { name: /Resume/i }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: /Resume/i }).first()).toHaveAttribute('href', 'Do_Anh_Nghia_Product_Designer_CV.pdf');
     await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
     await expect(page.locator('.experience-grid')).toBeVisible();
     await expect(page.locator('.experience-grid .exp-card')).toHaveCount(3);
+  });
+
+  test('supporting case links are real routes instead of placeholders', async ({ page }) => {
+    await page.goto(`${baseURL}/#work`, { waitUntil: 'networkidle' });
+    await expect(page.locator('#work .project-links a[href="#"]')).toHaveCount(0);
+    await expect(page.locator('#work a[href="case-study-flux.html"]')).toHaveCount(1);
+    await expect(page.locator('#work a[href="case-study-access.html"]')).toHaveCount(1);
+    await expect(page.locator('#work a[href="case-study-uiux-factory.html"]')).toHaveCount(1);
   });
 
   test('core recruiter narrative remains visible without JavaScript', async ({ browser }) => {
@@ -146,7 +161,7 @@ test.describe('Product Designer leadership-track portfolio cloud gate', () => {
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await menu.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByRole('link', { name: 'Leadership', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'AI workflow', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Writing', exact: true })).toBeVisible();
     const work = page.getByRole('link', { name: 'Work', exact: true });
     await work.click();
@@ -186,10 +201,12 @@ test.describe('Product Designer leadership-track portfolio cloud gate', () => {
     const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(
       links.map(link => link.getAttribute('href')).filter(Boolean)
     )]);
-    expect(paths.length).toBeGreaterThanOrEqual(10);
+    expect(paths.length).toBeGreaterThanOrEqual(12);
+    expect(paths).toContain('case-study-uiux-factory.html');
     expect(paths).toContain('case-study-nova.html');
     expect(paths).toContain('case-study-sentry.html');
-    expect(paths).toContain('case-study-uiux-factory.html');
+    expect(paths).toContain('case-study-flux.html');
+    expect(paths).toContain('case-study-access.html');
     expect(paths).toContain('writing-design-ops-ai.html');
     for (const path of paths) {
       const response = await request.get(`${baseURL}/${path}`);
