@@ -1,0 +1,64 @@
+name: Fix Cultural One Row
+
+on:
+  push:
+    branches:
+      - fix/culture-one-project-per-row
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message, '[culture-one-row-applied]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/culture-one-project-per-row
+          fetch-depth: 0
+
+      - name: Make cultural projects one per row
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('portfolio-product-upgrade.css')
+          text = p.read_text(encoding='utf-8')
+          old = '''/* Cultural & Experimental: give visual work more room than copy on desktop. */
+@media(min-width:901px){
+  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.55fr) minmax(250px,.85fr)}
+  .leadership-track #group-culture .project-featured .project-media{min-width:0}
+}
+@media(min-width:1440px){
+  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.7fr) minmax(260px,.82fr)}
+}
+'''
+          new = '''/* Cultural & Experimental: one editorial feature spread per row. */
+@media(min-width:901px){
+  .leadership-track #group-culture .project-grid{grid-template-columns:1fr;gap:24px}
+  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.65fr) minmax(300px,.65fr)}
+  .leadership-track #group-culture .project-featured .project-media{min-width:0;min-height:440px}
+}
+@media(min-width:1440px){
+  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.8fr) minmax(320px,.62fr)}
+  .leadership-track #group-culture .project-featured .project-media{min-height:500px}
+}
+'''
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one cultural desktop override, found {text.count(old)}')
+          p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+      - name: Verify cultural layout source
+        run: |
+          grep -q '#group-culture .project-grid{grid-template-columns:1fr;gap:24px}' portfolio-product-upgrade.css
+          grep -q 'one editorial feature spread per row' portfolio-product-upgrade.css
+
+      - name: Commit cultural layout repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add portfolio-product-upgrade.css
+          git commit -m 'Make cultural projects one per row [culture-one-row-applied]'
+          git push origin HEAD:fix/culture-one-project-per-row
