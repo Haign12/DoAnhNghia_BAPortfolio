@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "generated_from": "A30 audit of current homepage cards, local case-study source, A27/A26 registries and linked public implementation evidence",
+  "policy": {
+    "artifact_maturity_is_not_designer_seniority": true,
+    "maturity_level_is_internal_audit_not_public_badge": true,
+    "no_invented_timeline": true,
+    "no_invented_user_validation": true,
+    "no_invented_commercial_impact": true,
+    "missing_figma_is_reported_not_faked": true
+  },
+  "rubric": {
+    "1": "UI exercise — visual artifact without clear product/problem evidence",
+    "2": "Concept project — flow/visual direction, research/validation mostly assumed",
+    "3": "Junior case study — process, prototype and basic system evidence",
+    "4": "Mid-level case-study artifact — constraints, responsive/system/edge-state depth and explicit evidence boundaries",
+    "5": "Senior-level case-study artifact — product strategy, trade-offs, technical feasibility and outcome/measurement framework are inspectable; this does not claim senior tenure"
+  },
+  "projects": [
+    {
+      "project": "LUMEN",
+      "surface": "case-study-lumen.html",
+      "artifact_maturity_level": 4,
+      "role": "Experience / Product Designer",
+      "mode": "Independent concept",
+      "scope": "Discovery IA · visual system · coded prototype",
+      "complexity": "Multi-mode exploratory navigation",
+      "public_evidence": "Case · Live · Source",
+      "remaining_gaps": [
+        "FIGMA_NOT_PUBLISHED",
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "HUẾ — Between River & Citadel",
+      "surface": "case-study-hue.html",
+      "artifact_maturity_level": 4,
+      "role": "Experience / UI Designer",
+      "mode": "Independent transformation",
+      "scope": "Narrative · art direction · implementation",
+      "complexity": "Scroll choreography + media provenance",
+      "public_evidence": "Case · Live · Source",
+      "remaining_gaps": [
+        "FIGMA_NOT_PUBLISHED",
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "LuxRoom",
+      "surface": "case-study-luxroom.html",
+      "artifact_maturity_level": 4,
+      "role": "UI/UX Designer",
+      "mode": "Independent concept",
+      "scope": "Commerce IA · responsive prototype",
+      "complexity": "Variants · dimensions · room context",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "BUSINESS_CONTEXT_NEEDS_EXPLICIT_FRAME",
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "Atelier",
+      "surface": "case-study-atelier.html",
+      "artifact_maturity_level": 4,
+      "role": "UI/UX Designer",
+      "mode": "Independent concept",
+      "scope": "Commerce flow · visual system",
+      "complexity": "Editorial-to-cart information density",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "STATE_COVERAGE_NEEDS_EXPLICIT_FRAME",
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "Violet Marketplace",
+      "surface": "case-study-violet-marketplace.html",
+      "artifact_maturity_level": 4,
+      "role": "UI/UX Designer",
+      "mode": "Independent concept",
+      "scope": "Marketplace discovery · product story",
+      "complexity": "Scent confidence + marketplace utility",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "STATE_COVERAGE_NEEDS_EXPLICIT_FRAME",
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "Nova",
+      "surface": "case-study-nova.html",
+      "artifact_maturity_level": 5,
+      "role": "Product Designer",
+      "mode": "Independent concept",
+      "scope": "Strategy · flows · states · prototype",
+      "complexity": "Trust-heavy money movement + recovery",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "DIRECT_USER_VALIDATION_RECRUITING"
+      ]
+    },
+    {
+      "project": "Flux",
+      "surface": "case-study-flux.html",
+      "artifact_maturity_level": 4,
+      "role": "Product Designer",
+      "mode": "Independent concept",
+      "scope": "Treasury IA · states · prototype",
+      "complexity": "Multi-currency operations + settlement",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "BUSINESS_CONTEXT_NEEDS_EXPLICIT_FRAME",
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "Sentry",
+      "surface": "case-study-sentry.html",
+      "artifact_maturity_level": 4,
+      "role": "Product Designer",
+      "mode": "Independent concept",
+      "scope": "Investigation IA · states · prototype",
+      "complexity": "High-density evidence + consequential decisions",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "VALIDATION_BOUNDARY_NEEDS_EXPLICIT_FRAME"
+      ]
+    },
+    {
+      "project": "ACCESS",
+      "surface": "case-study-access.html",
+      "artifact_maturity_level": 4,
+      "role": "Product Designer",
+      "mode": "Independent concept",
+      "scope": "Permissions · visitor flows · prototype",
+      "complexity": "Credential lifecycle + spatial access",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "BUSINESS_CONTEXT_NEEDS_EXPLICIT_FRAME",
+        "VALIDATION_BOUNDARY_NEEDS_EXPLICIT_FRAME"
+      ]
+    },
+    {
+      "project": "Capital Place",
+      "surface": "case-study-capital-place.html",
+      "artifact_maturity_level": 5,
+      "role": "UI/UX Designer",
+      "mode": "Independent redesign",
+      "scope": "Decision journey · responsive prototype",
+      "complexity": "Place → requirement → floor → enquiry",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "G.I.E",
+      "surface": "case-study-cennext.html",
+      "artifact_maturity_level": 5,
+      "role": "Web / UI Designer",
+      "mode": "Design test",
+      "scope": "B2B IA · reusable sections · prototype",
+      "complexity": "Service taxonomy + RFQ context",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "VAS Education",
+      "surface": "case-study-vas-education.html",
+      "artifact_maturity_level": 4,
+      "role": "UI/UX Designer",
+      "mode": "Independent redesign",
+      "scope": "Content strategy · enrollment journey",
+      "complexity": "Programs + campuses + admissions",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "BUSINESS_CONTEXT_NEEDS_EXPLICIT_FRAME",
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "VOLTIS",
+      "surface": "case-study-voltis.html",
+      "artifact_maturity_level": 5,
+      "role": "UI/UX Designer",
+      "mode": "Independent concept",
+      "scope": "Corporate IA · product storytelling · interaction",
+      "complexity": "Specs + range + investor content",
+      "public_evidence": "Case · Live · Figma",
+      "remaining_gaps": [
+        "DIRECT_USER_VALIDATION_NOT_RUN"
+      ]
+    },
+    {
+      "project": "UIUX Factory",
+      "surface": "case-study-uiux-factory.html",
+      "artifact_maturity_level": 4,
+      "role": "System Designer",
+      "mode": "Open-source design operating system",
+      "scope": "Workflow architecture · contracts · QA",
+      "complexity": "Multi-stage routing + evidence governance",
+      "public_evidence": "Case · Source · QA",
+      "remaining_gaps": [
+        "DIRECT_USER_OUTCOME_NOT_MEASURED",
+        "APP_STATE_MATRIX_NOT_APPLICABLE"
+      ]
+    }
+  ]
+}

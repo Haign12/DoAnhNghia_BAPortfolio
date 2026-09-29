@@ -20,6 +20,8 @@ const criticalCaseStudies = [
   { path: 'case-study-violet-marketplace.html', heading: 'Violet Marketplace' },
   { path: 'case-study-cennext.html', heading: 'CENNEXT' },
   { path: 'case-study-voltis.html', heading: 'VOLTIS' },
+  { path: 'case-study-lumen.html', heading: 'LUMEN' },
+  { path: 'case-study-hue.html', heading: 'HUẾ — Between River & Citadel' },
 ];
 
 const seriousAxeViolations = async page => {
@@ -298,7 +300,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(registry.policy.no_invented_failure_or_pivot).toBe(true);
     expect(registry.policy.no_invented_engineering_collaboration).toBe(true);
     expect(registry.policy.no_invented_outcome).toBe(true);
-    expect(registry.projects).toHaveLength(18);
+    expect(registry.projects).toHaveLength(20);
     const required = ['ROLE','TEAM','CONSTRAINT','OPTIONS','DECISION','TRADE-OFF','ENGINEERING','SYSTEM IMPACT','WHAT WENT WRONG','EVIDENCE','NEXT DECISION'];
     expect(registry.required_fields).toEqual(required);
     for (const item of registry.projects) {
@@ -368,6 +370,44 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
       const chips = card.locator('.project-capability-signals span');
       await expect(chips).toHaveCount(project.signals.length);
       expect(await chips.allTextContents()).toEqual(project.signals);
+    }
+  });
+
+
+  test('A30 project evidence completeness keeps public proof scannable without fabricating maturity, timelines or outcomes', async ({ page }) => {
+    const registry = JSON.parse(await fs.readFile('docs/project-maturity-audit.json', 'utf8'));
+    expect(registry.policy.artifact_maturity_is_not_designer_seniority).toBe(true);
+    expect(registry.policy.maturity_level_is_internal_audit_not_public_badge).toBe(true);
+    expect(registry.policy.no_invented_timeline).toBe(true);
+    expect(registry.policy.no_invented_user_validation).toBe(true);
+    expect(registry.projects).toHaveLength(14);
+    for (const item of registry.projects) {
+      expect(item.artifact_maturity_level).toBeGreaterThanOrEqual(1);
+      expect(item.artifact_maturity_level).toBeLessThanOrEqual(5);
+      expect(item.role.length).toBeGreaterThan(3);
+      expect(item.scope.length).toBeGreaterThan(8);
+      expect(item.complexity.length).toBeGreaterThan(8);
+    }
+
+    const source = await fs.readFile('index.html', 'utf8');
+    expect(source).toContain('A30_PROJECT_EVIDENCE_COMPLETENESS');
+    expect(source).not.toMatch(/Level [1-5] —/);
+    expect(source).toContain('case-study-lumen.html');
+    expect(source).toContain('case-study-hue.html');
+
+    await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#work .project-proof-facts')).toHaveCount(14);
+    for (const card of await page.locator('#work article.project, #work article.project-featured').all()) {
+      await expect(card.locator('.project-proof-facts span')).toHaveCount(5);
+    }
+    await expect(page.getByText(/Project-duration claims stay unpublished until they are source-backed/i)).toBeVisible();
+
+    for (const route of ['case-study-lumen.html','case-study-hue.html']) {
+      const caseSource = await fs.readFile(route, 'utf8');
+      expect(caseSource).toContain('A27_SENIOR_DECISION_EVIDENCE');
+      expect(caseSource).toContain('A26_MEASUREMENT_TARGETS');
+      expect(caseSource).toContain('TARGET — NOT A RESULT');
+      expect(caseSource).toContain('Figma</dt><dd>Not published — no link fabricated');
     }
   });
 
