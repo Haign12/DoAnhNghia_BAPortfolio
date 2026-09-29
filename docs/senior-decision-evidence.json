@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_from": "public case-study source + docs/measurement-targets.json",
+  "generated_from": "public case-study source + A26 measurement registry + verified repository history where explicitly labeled",
   "policy": {
     "no_invented_team_or_stakeholders": true,
     "no_invented_failure_or_pivot": true,
@@ -28,7 +28,7 @@
       "surface": "case-study-access.html",
       "case_class": "SUPPORTING CASE · B2B SAAS",
       "role": "Product designer · prototype author",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Independent project; no separate PM, engineering or stakeholder team is documented in this public case.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -43,7 +43,8 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -97,7 +98,7 @@
       "surface": "case-study-cennext.html",
       "case_class": "WEB DESIGN TEST · 2026",
       "role": "Web / UI Designer",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Individual design test; no separate PM, engineering or stakeholder team is documented in this public case.",
       "constraint": "Exact supplied content",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -112,7 +113,8 @@
         "tradeoff_documented": true,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -120,7 +122,7 @@
       "surface": "case-study-flux.html",
       "case_class": "SUPPORTING CASE · B2B FINTECH",
       "role": "Product designer · prototype author",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Independent project; no separate PM, engineering or stakeholder team is documented in this public case.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -135,7 +137,8 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -235,7 +238,7 @@
       "surface": "case-study-skills-uiux.html",
       "case_class": "09 / 09 · OPEN-SOURCE SYSTEM",
       "role": "System Designer",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Self-directed system/tooling work; no separate PM, engineering or stakeholder team is documented in this public case.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -250,7 +253,8 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -258,7 +262,7 @@
       "surface": "case-study-studioos.html",
       "case_class": "07 / 09 · PRODUCT CONCEPT",
       "role": "UI/UX Designer",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Team composition is not documented in this public case; no collaborator count or stakeholder structure is claimed.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -273,7 +277,8 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -281,7 +286,7 @@
       "surface": "case-study-ui-feedback-tool.html",
       "case_class": "08 / 09 · DESIGN TOOL",
       "role": "Tool / UX Designer",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Self-directed system/tooling work; no separate PM, engineering or stakeholder team is documented in this public case.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -296,7 +301,8 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -304,7 +310,7 @@
       "surface": "case-study-uiux-factory.html",
       "case_class": "01 / 03 · FLAGSHIP · AI-ASSISTED DESIGN OPS",
       "role": "System author · product/design ops",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Team composition is not documented in this public case; no collaborator count or stakeholder structure is claimed.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -319,7 +325,8 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": true
+        "failure_or_pivot_documented": true,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -327,7 +334,7 @@
       "surface": "case-study-ux.html",
       "case_class": "Public case study",
       "role": "NOT AVAILABLE — role is not explicit in the public case.",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Team composition is not documented in this public case; no collaborator count or stakeholder structure is claimed.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -342,7 +349,9 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified",
+        "a27_shared_styles_added": true
       }
     },
     {
@@ -396,7 +405,7 @@
       "surface": "case-study-violet-marketplace.html",
       "case_class": "ADDITIONAL CASE · 2026",
       "role": "UI/UX Designer",
-      "team": "NOT AVAILABLE — team composition is not documented in this public case.",
+      "team": "Team composition is not documented in this public case; no collaborator count or stakeholder structure is claimed.",
       "constraint": "NOT EXPLICIT — the case describes the solution, but the governing product or technical constraint is not isolated as a decision input.",
       "options": "NOT DOCUMENTED — the selected direction is visible, but a verified alternative set is not recorded.",
       "decision": "NOT EXPLICIT — implemented direction exists, but the case does not yet isolate one decision and its rationale.",
@@ -411,7 +420,8 @@
         "tradeoff_documented": false,
         "engineering_boundary_documented": false,
         "team_documented": false,
-        "failure_or_pivot_documented": false
+        "failure_or_pivot_documented": false,
+        "team_classification_source": "case class / implementation reality; collaborator identities remain unverified"
       }
     },
     {
@@ -437,5 +447,11 @@
         "failure_or_pivot_documented": false
       }
     }
-  ]
+  ],
+  "presentation": {
+    "placement": "immediately after case hero for recruiter scan",
+    "desktop_columns": 3,
+    "mobile_columns": 1,
+    "unknowns_are_visible": true
+  }
 }
