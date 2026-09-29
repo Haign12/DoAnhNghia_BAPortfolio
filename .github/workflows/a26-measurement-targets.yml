@@ -1,0 +1,124 @@
+name: A26 Measurement Targets
+
+on:
+  push:
+    branches:
+      - a26/measurement-targets
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message, '[a26-applied]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: a26/measurement-targets
+          fetch-depth: 0
+
+      - name: Add canonical measurement targets
+        shell: python
+        run: |
+          from pathlib import Path
+          import json
+
+          metrics = {
+            'case-study-access.html': ('ACCESS', '≥ 4/5 participants complete incident triage without a critical navigation error', 'Task success · critical errors · time to decision', 'Needs first moderated benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-atelier.html': ('Atelier', '≥ 4/5 participants find a suitable product and reach the intended purchase path without moderator help', 'Findability · task completion · decision confidence', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-capital-place.html': ('Capital Place', '≥ 4/5 participants identify the right workspace/property path and next action without navigation recovery', 'Findability · task completion · path errors', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-cennext.html': ('CENNEXT', '≥ 4/5 participants identify the relevant repair service and reach RFQ with correct service context', 'Service-fit comprehension · RFQ completion · abandonment', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-flux.html': ('Flux', '≥ 4/5 participants correctly explain route status and recover a failed settlement path', 'Route comprehension · recovery success · time to resolution', 'Needs first operations benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-luxroom.html': ('LuxRoom', '≥ 4/5 participants select a product configuration and reach cart without variant-selection error', 'Product findability · configuration errors · add-to-cart completion', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-nova.html': ('Nova', '≥ 4/5 participants correctly identify safe-to-spend money without moderator assistance', 'Task success · critical errors · time · confidence', 'Round 01 recruiting; 0 verified sessions', 'RECRUITING / NOT MEASURED'),
+            'case-study-qtsc.html': ('QTSC', '≥ 4/5 participants locate the relevant service/information path and identify the correct next action', 'Findability · task completion · navigation errors', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-sentry.html': ('Sentry', '≥ 4/5 participants reach a defensible investigation decision without losing evidence context', 'Decision completion · critical errors · time to decision · confidence', 'Needs first moderated benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-skills-uiux.html': ('skills_UIUX', '≥ 90% of benchmark tasks resolve to the intended skill/flow without manual route correction', 'Routing accuracy · invalid escalation rate · repair-loop completion', 'Needs benchmark baseline on current corpus', 'TARGET / NOT AN OUTCOME'),
+            'case-study-studioos.html': ('StudioOS', '≥ 4/5 participants complete the core workspace flow without losing project state or ownership context', 'Task completion · state errors · time on task', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-ui-feedback-tool.html': ('UI Feedback Tool', '≥ 4/5 participants create, locate and resolve a feedback item without moderator explanation', 'Task success · findability · resolution time', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-uiux-factory.html': ('UIUX Factory', '≥ 90% of benchmark tasks select the intended flow and preserve evidence/authority boundaries', 'Routing accuracy · QA escape rate · root-cause repair completion', 'Repository/QA are verified; workflow impact baseline still needed', 'TARGET / IMPACT NOT MEASURED'),
+            'case-study-ux.html': ('FlowCRM', '≥ 4/5 participants complete the primary CRM workflow without state or ownership confusion', 'Task completion · state errors · time on task · confidence', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-vas-education.html': ('VAS Education', '≥ 4/5 prospective-family participants find a fitting program/campus path and identify the admissions next step', 'Findability · path completion · decision confidence', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-vietbank.html': ('Vietbank', '≥ 4/5 participants complete the core banking task without a critical money-state interpretation error', 'Task success · critical errors · time · confidence', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-violet-marketplace.html': ('Violet Marketplace', '≥ 4/5 participants narrow to a suitable product and reach PDP with confidence in their choice', 'Filter success · PDP reach · decision confidence', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+            'case-study-voltis.html': ('VOLTIS', '≥ 4/5 participants understand charging/vehicle state and complete the intended mobility action without recovery', 'State comprehension · task completion · critical errors', 'Needs first usability benchmark', 'PLANNED / NOT MEASURED'),
+          }
+
+          extra = [
+            {'project':'LUMEN','surface':'Live project only','target':'≥ 4/5 participants discover a new artwork through a non-search exploration mode and can explain how they got there','metric':'Discovery completion · exploration depth · save intent','baseline':'Needs first exploratory usability benchmark','evidence_state':'PLANNED / NOT MEASURED'},
+            {'project':'HUẾ — Between River & Citadel','surface':'Live project only','target':'≥ 4/5 participants complete one cultural story path and discover a second landmark without instruction','metric':'Story completion · landmark discovery · exploration depth','baseline':'Needs first exploratory usability benchmark','evidence_state':'PLANNED / NOT MEASURED'},
+            {'project':'Resolve AI','surface':'Technical proof repo','target':'100% of consequential simulated actions remain behind explicit approval in the tested interaction model','metric':'Approval-gate coverage · unsafe action escape · task completion','baseline':'Framework/build proof verified; product/user outcome baseline needed','evidence_state':'TECHNICAL PROOF VERIFIED / USER OUTCOME NOT MEASURED'},
+          ]
+
+          registry = []
+          marker = '<!-- A26_MEASUREMENT_TARGETS -->'
+          for filename, (project, target, metric, baseline, state) in metrics.items():
+              p = Path(filename)
+              if not p.exists():
+                  raise SystemExit(f'Missing case study: {filename}')
+              text = p.read_text(encoding='utf-8')
+              if marker in text:
+                  raise SystemExit(f'Already migrated: {filename}')
+              block = f'''\n<section class="case-section measurement-targets" data-evidence-state="{state}">\n  {marker}\n  <header class="case-section-head"><span class="case-section-label">MEASUREMENT / TARGETS</span><h2>Success criteria before success claims</h2></header>\n  <div class="case-section-body">\n    <div class="case-boundary"><strong>TARGET — NOT A RESULT</strong><p>{target}. This is a decision threshold for future validation, not a measured outcome.</p></div>\n    <div class="case-evidence-strip">\n      <div><span>Primary target</span><strong>{target}</strong><small>Predefined before outcome evidence.</small></div>\n      <div><span>Metrics</span><strong>{metric}</strong><small>Behavior + attitude where applicable.</small></div>\n      <div><span>Baseline needed</span><strong>{baseline}</strong><small>No invented before/after delta.</small></div>\n      <div><span>Evidence state</span><strong>{state}</strong><small>Promote only from traceable evidence.</small></div>\n    </div>\n  </div>\n</section>\n'''
+              idx = text.rfind('</article>')
+              if idx == -1:
+                  idx = text.rfind('</main>')
+              if idx == -1:
+                  raise SystemExit(f'No insertion point: {filename}')
+              text = text[:idx] + block + text[idx:]
+              p.write_text(text, encoding='utf-8')
+              registry.append({'project':project,'surface':filename,'target':target,'metric':metric,'baseline':baseline,'evidence_state':state})
+
+          registry.extend(extra)
+          Path('docs/measurement-targets.json').write_text(json.dumps({
+              'schema_version':'1.0',
+              'policy':{
+                  'target_is_not_result':True,
+                  'result_requires_traceable_evidence':True,
+                  'no_invented_baseline_or_delta':True,
+                  'preferred_task_metrics':['task completion','time on task','errors','confidence/ease when appropriate']
+              },
+              'projects':registry
+          }, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          anchor = '<p class="flagship-boundary"><span><strong>Evidence boundary:'
+          pos = text.find(anchor)
+          if pos == -1:
+              raise SystemExit('Homepage evidence boundary not found')
+          end = text.find('</p>', pos) + 4
+          methodology = '\n  <p class="flagship-boundary measurement-policy"><span><strong>Measurement policy:</strong> numeric thresholds across this portfolio are labeled as targets until traceable baseline/outcome evidence exists. Task-based UX measures prioritize completion, time, errors and confidence/ease where appropriate. <a href="docs/measurement-targets.json" target="_blank" rel="noopener">Inspect all project targets ↗</a></span></p>'
+          text = text[:end] + methodology + text[end:]
+          p.write_text(text, encoding='utf-8')
+
+          q = Path('qa/portfolio-v5.spec.mjs')
+          qt = q.read_text(encoding='utf-8')
+          needle = "  test('primary local routes referenced from home resolve', async ({ page, request }) => {"
+          test_block = """  test('measurement targets are explicit targets, never fabricated results', async () => {\n    const registry = JSON.parse(await fs.readFile('docs/measurement-targets.json', 'utf8'));\n    expect(registry.policy.target_is_not_result).toBe(true);\n    expect(registry.policy.result_requires_traceable_evidence).toBe(true);\n    expect(registry.projects.length).toBeGreaterThanOrEqual(21);\n    for (const caseStudy of criticalCaseStudies) {\n      const source = await fs.readFile(caseStudy.path, 'utf8');\n      expect(source).toContain('A26_MEASUREMENT_TARGETS');\n      expect(source).toContain('TARGET — NOT A RESULT');\n      expect(source).toContain('No invented before/after delta.');\n    }\n    const home = await fs.readFile('index.html', 'utf8');\n    expect(home).toContain('numeric thresholds across this portfolio are labeled as targets');\n  });\n\n"""
+          if needle not in qt:
+              raise SystemExit('QA insertion point not found')
+          qt = qt.replace(needle, test_block + needle, 1)
+          q.write_text(qt, encoding='utf-8')
+
+      - name: Verify migration
+        run: |
+          test -f docs/measurement-targets.json
+          test "$(grep -l 'A26_MEASUREMENT_TARGETS' case-study-*.html | wc -l)" -eq 18
+          grep -q 'TARGET — NOT A RESULT' case-study-nova.html
+          grep -q 'Round 01 recruiting; 0 verified sessions' case-study-nova.html
+          grep -q 'Resolve AI' docs/measurement-targets.json
+          grep -q 'LUMEN' docs/measurement-targets.json
+          grep -q 'HUẾ — Between River & Citadel' docs/measurement-targets.json
+          grep -q 'numeric thresholds across this portfolio are labeled as targets' index.html
+
+      - name: Commit A26 output
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add case-study-*.html docs/measurement-targets.json index.html qa/portfolio-v5.spec.mjs
+          git commit -m 'A26: add evidence-safe measurement targets across portfolio [a26-applied]'
+          git push origin HEAD:a26/measurement-targets
