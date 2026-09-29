@@ -1,0 +1,44 @@
+name: A24 Refresh Source Truth Test
+
+on:
+  push:
+    branches:
+      - a24/surface-validation-technical-proof
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: ${{ !contains(github.event.head_commit.message, '[a24-test-refreshed]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: a24/surface-validation-technical-proof
+          fetch-depth: 0
+      - name: Refresh source-truth assertion
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('qa/portfolio-v5.spec.mjs')
+          text = p.read_text(encoding='utf-8')
+          old = "    expect(source).toContain('HTML/CSS/JS prototypes');"
+          new = "    expect(source).toContain('Static prototypes stay labeled honestly');\n    expect(source).toContain('CI-verified Next.js 16 / React 19 / TypeScript 7 implementation');"
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one legacy assertion, found {text.count(old)}')
+          p.write_text(text.replace(old, new, 1), encoding='utf-8')
+      - name: Verify stronger boundary
+        run: |
+          grep -q "Static prototypes stay labeled honestly" qa/portfolio-v5.spec.mjs
+          grep -q "CI-verified Next.js 16 / React 19 / TypeScript 7 implementation" qa/portfolio-v5.spec.mjs
+          ! grep -q "expect(source).toContain('HTML/CSS/JS prototypes')" qa/portfolio-v5.spec.mjs
+      - name: Commit test refresh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add qa/portfolio-v5.spec.mjs
+          git commit -m 'A24: align raw-source gate with verified technical proof [a24-test-refreshed]'
+          git push origin HEAD:a24/surface-validation-technical-proof
