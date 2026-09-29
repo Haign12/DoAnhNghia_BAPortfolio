@@ -34,6 +34,7 @@ Human-owned decisions remain: the product problem, user evidence, business prior
 - `.agents/skills/` — stage/risk-specific UI/UX skills
 - `.claude/settings.local.json` — project-level agent configuration
 - `.github/workflows/portfolio-cloud-qa-v5.yml` — rendered browser/accessibility QA
+- `.github/workflows/hero-signature-gate.yml` — protects the homepage portrait, art-direction cue, signature rail, mobile identity and reduced-motion behavior from unrelated content/evidence migrations
 - `case-study-uiux-factory.html` — case study and claim boundaries
 - https://github.com/Ngh1aa/uiux-ai-workspace — UIUX Factory source workspace
 
@@ -44,5 +45,7 @@ Independent concepts are labeled as independent concepts. Planned usability test
 ## Homepage source-of-truth
 
 Recruiter-critical homepage content is authored directly in `index.html`: role positioning, flagship order, case links, AI workflow, writing entrypoint, research/evidence boundaries, CV route and supporting-project counts. JavaScript is reserved for behavior such as reveal, filtering, menu state and motion; it must not be required to repair broken links or create the core recruiter narrative.
+
+The homepage visual signature is also treated as a compatibility contract: unrelated content/evidence migrations must preserve the approved hero media, art-direction cue, signature motion and page-role hierarchy unless the task explicitly redesigns them. `qa/hero-signature.spec.mjs` verifies this contract on desktop, mobile and reduced-motion settings.
 
 The cloud QA gate reads raw `index.html` in addition to rendered browser checks so a runtime mutation cannot hide source debt.
