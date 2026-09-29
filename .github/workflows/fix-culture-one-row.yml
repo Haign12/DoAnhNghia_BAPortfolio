@@ -26,26 +26,28 @@ jobs:
           from pathlib import Path
           p = Path('portfolio-product-upgrade.css')
           text = p.read_text(encoding='utf-8')
-          old = '''/* Cultural & Experimental: give visual work more room than copy on desktop. */
-@media(min-width:901px){
-  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.55fr) minmax(250px,.85fr)}
-  .leadership-track #group-culture .project-featured .project-media{min-width:0}
-}
-@media(min-width:1440px){
-  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.7fr) minmax(260px,.82fr)}
-}
-'''
-          new = '''/* Cultural & Experimental: one editorial feature spread per row. */
-@media(min-width:901px){
-  .leadership-track #group-culture .project-grid{grid-template-columns:1fr;gap:24px}
-  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.65fr) minmax(300px,.65fr)}
-  .leadership-track #group-culture .project-featured .project-media{min-width:0;min-height:440px}
-}
-@media(min-width:1440px){
-  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.8fr) minmax(320px,.62fr)}
-  .leadership-track #group-culture .project-featured .project-media{min-height:500px}
-}
-'''
+          old = (
+              "/* Cultural & Experimental: give visual work more room than copy on desktop. */\n"
+              "@media(min-width:901px){\n"
+              "  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.55fr) minmax(250px,.85fr)}\n"
+              "  .leadership-track #group-culture .project-featured .project-media{min-width:0}\n"
+              "}\n"
+              "@media(min-width:1440px){\n"
+              "  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.7fr) minmax(260px,.82fr)}\n"
+              "}\n"
+          )
+          new = (
+              "/* Cultural & Experimental: one editorial feature spread per row. */\n"
+              "@media(min-width:901px){\n"
+              "  .leadership-track #group-culture .project-grid{grid-template-columns:1fr;gap:24px}\n"
+              "  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.65fr) minmax(300px,.65fr)}\n"
+              "  .leadership-track #group-culture .project-featured .project-media{min-width:0;min-height:440px}\n"
+              "}\n"
+              "@media(min-width:1440px){\n"
+              "  .leadership-track #group-culture .project-featured{grid-template-columns:minmax(0,1.8fr) minmax(320px,.62fr)}\n"
+              "  .leadership-track #group-culture .project-featured .project-media{min-height:500px}\n"
+              "}\n"
+          )
           if text.count(old) != 1:
               raise SystemExit(f'Expected one cultural desktop override, found {text.count(old)}')
           p.write_text(text.replace(old, new, 1), encoding='utf-8')
