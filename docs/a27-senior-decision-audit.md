@@ -11,8 +11,8 @@ This audit treats missing evidence as a visible gap rather than converting it in
 
 ## Audit summary
 
-- **Alternatives documented:** 2/18
-- **Trade-offs documented:** 3/18
+- **Alternatives documented:** 5/18
+- **Trade-offs documented:** 6/18
 - **Team composition documented:** 0/18
 - **Engineering boundary documented:** 2/18
 - **Failure/pivot documented:** 1/18
@@ -21,11 +21,11 @@ This audit treats missing evidence as a visible gap rather than converting it in
 
 | Case | Options | Trade-off | Team | Eng. boundary | Failure / pivot |
 |---|---:|---:|---:|---:|---:|
-| ACCESS | GAP | GAP | GAP | GAP | GAP |
+| ACCESS | YES | YES | GAP | GAP | GAP |
 | Atelier | GAP | GAP | GAP | GAP | GAP |
 | Capital Place | GAP | GAP | GAP | GAP | GAP |
 | CENNEXT | GAP | YES | GAP | GAP | GAP |
-| Flux | GAP | GAP | GAP | GAP | GAP |
+| Flux | YES | YES | GAP | GAP | GAP |
 | LuxRoom | GAP | GAP | GAP | GAP | GAP |
 | Nova | YES | YES | GAP | YES | GAP |
 | QTSC | GAP | GAP | GAP | GAP | GAP |
@@ -33,8 +33,8 @@ This audit treats missing evidence as a visible gap rather than converting it in
 | skills_UIUX | GAP | GAP | GAP | GAP | GAP |
 | StudioOS | GAP | GAP | GAP | GAP | GAP |
 | UI Feedback Tool | GAP | GAP | GAP | GAP | GAP |
-| UIUX Factory | GAP | GAP | GAP | GAP | YES |
-| case-study-ux.html | GAP | GAP | GAP | GAP | GAP |
+| UIUX Factory | YES | YES | GAP | GAP | YES |
+| FlowCRM | GAP | GAP | GAP | GAP | GAP |
 | VAS Education | GAP | GAP | GAP | GAP | GAP |
 | Vietbank Redesign | GAP | GAP | GAP | GAP | GAP |
 | Violet Marketplace | GAP | GAP | GAP | GAP | GAP |
@@ -42,8 +42,8 @@ This audit treats missing evidence as a visible gap rather than converting it in
 
 ## Interpretation
 
-- Nova and Sentry currently carry the clearest explicit alternatives + trade-offs.
-- CENNEXT contributes one explicit trade-off but does not yet document a verified alternative set.
+- Alternatives/trade-offs are counted only when the public case records selected/rejected/deferred choices or an explicit trade-off section.
+- UIUX Factory, Flux, Nova and Sentry contain explicit selected/rejected decision evidence; other cases remain gaps unless their source proves otherwise.
 - UIUX Factory is the only case with a verified failure/repair story in A27: rendered correctness once masked stale raw-source defects, which led to independent raw-source and rendered gates.
 - Team composition is not publicly evidenced in any local case today. Independent concepts/tests are labeled as such rather than being rewritten as cross-functional work.
 - The next content pass should add real decision records only where source evidence exists; it should not make every case look artificially complete.
