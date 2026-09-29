@@ -221,6 +221,21 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     });
   }
 
+  test('measurement targets are explicit targets, never fabricated results', async () => {
+    const registry = JSON.parse(await fs.readFile('docs/measurement-targets.json', 'utf8'));
+    expect(registry.policy.target_is_not_result).toBe(true);
+    expect(registry.policy.result_requires_traceable_evidence).toBe(true);
+    expect(registry.projects.length).toBeGreaterThanOrEqual(21);
+    for (const caseStudy of criticalCaseStudies) {
+      const source = await fs.readFile(caseStudy.path, 'utf8');
+      expect(source).toContain('A26_MEASUREMENT_TARGETS');
+      expect(source).toContain('TARGET — NOT A RESULT');
+      expect(source).toContain('No invented before/after delta.');
+    }
+    const home = await fs.readFile('index.html', 'utf8');
+    expect(home).toContain('numeric thresholds across this portfolio are labeled as targets');
+  });
+
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(

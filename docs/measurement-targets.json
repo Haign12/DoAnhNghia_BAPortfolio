@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "policy": {
+    "target_is_not_result": true,
+    "result_requires_traceable_evidence": true,
+    "no_invented_baseline_or_delta": true,
+    "preferred_task_metrics": [
+      "task completion",
+      "time on task",
+      "errors",
+      "confidence/ease when appropriate"
+    ]
+  },
+  "projects": [
+    {
+      "project": "ACCESS",
+      "surface": "case-study-access.html",
+      "target": "≥ 4/5 participants complete incident triage without a critical navigation error",
+      "metric": "Task success · critical errors · time to decision",
+      "baseline": "Needs first moderated benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Atelier",
+      "surface": "case-study-atelier.html",
+      "target": "≥ 4/5 participants find a suitable product and reach the intended purchase path without moderator help",
+      "metric": "Findability · task completion · decision confidence",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Capital Place",
+      "surface": "case-study-capital-place.html",
+      "target": "≥ 4/5 participants identify the right workspace/property path and next action without navigation recovery",
+      "metric": "Findability · task completion · path errors",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "CENNEXT",
+      "surface": "case-study-cennext.html",
+      "target": "≥ 4/5 participants identify the relevant repair service and reach RFQ with correct service context",
+      "metric": "Service-fit comprehension · RFQ completion · abandonment",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Flux",
+      "surface": "case-study-flux.html",
+      "target": "≥ 4/5 participants correctly explain route status and recover a failed settlement path",
+      "metric": "Route comprehension · recovery success · time to resolution",
+      "baseline": "Needs first operations benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "LuxRoom",
+      "surface": "case-study-luxroom.html",
+      "target": "≥ 4/5 participants select a product configuration and reach cart without variant-selection error",
+      "metric": "Product findability · configuration errors · add-to-cart completion",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Nova",
+      "surface": "case-study-nova.html",
+      "target": "≥ 4/5 participants correctly identify safe-to-spend money without moderator assistance",
+      "metric": "Task success · critical errors · time · confidence",
+      "baseline": "Round 01 recruiting; 0 verified sessions",
+      "evidence_state": "RECRUITING / NOT MEASURED"
+    },
+    {
+      "project": "QTSC",
+      "surface": "case-study-qtsc.html",
+      "target": "≥ 4/5 participants locate the relevant service/information path and identify the correct next action",
+      "metric": "Findability · task completion · navigation errors",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Sentry",
+      "surface": "case-study-sentry.html",
+      "target": "≥ 4/5 participants reach a defensible investigation decision without losing evidence context",
+      "metric": "Decision completion · critical errors · time to decision · confidence",
+      "baseline": "Needs first moderated benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "skills_UIUX",
+      "surface": "case-study-skills-uiux.html",
+      "target": "≥ 90% of benchmark tasks resolve to the intended skill/flow without manual route correction",
+      "metric": "Routing accuracy · invalid escalation rate · repair-loop completion",
+      "baseline": "Needs benchmark baseline on current corpus",
+      "evidence_state": "TARGET / NOT AN OUTCOME"
+    },
+    {
+      "project": "StudioOS",
+      "surface": "case-study-studioos.html",
+      "target": "≥ 4/5 participants complete the core workspace flow without losing project state or ownership context",
+      "metric": "Task completion · state errors · time on task",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "UI Feedback Tool",
+      "surface": "case-study-ui-feedback-tool.html",
+      "target": "≥ 4/5 participants create, locate and resolve a feedback item without moderator explanation",
+      "metric": "Task success · findability · resolution time",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "UIUX Factory",
+      "surface": "case-study-uiux-factory.html",
+      "target": "≥ 90% of benchmark tasks select the intended flow and preserve evidence/authority boundaries",
+      "metric": "Routing accuracy · QA escape rate · root-cause repair completion",
+      "baseline": "Repository/QA are verified; workflow impact baseline still needed",
+      "evidence_state": "TARGET / IMPACT NOT MEASURED"
+    },
+    {
+      "project": "FlowCRM",
+      "surface": "case-study-ux.html",
+      "target": "≥ 4/5 participants complete the primary CRM workflow without state or ownership confusion",
+      "metric": "Task completion · state errors · time on task · confidence",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "VAS Education",
+      "surface": "case-study-vas-education.html",
+      "target": "≥ 4/5 prospective-family participants find a fitting program/campus path and identify the admissions next step",
+      "metric": "Findability · path completion · decision confidence",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Vietbank",
+      "surface": "case-study-vietbank.html",
+      "target": "≥ 4/5 participants complete the core banking task without a critical money-state interpretation error",
+      "metric": "Task success · critical errors · time · confidence",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Violet Marketplace",
+      "surface": "case-study-violet-marketplace.html",
+      "target": "≥ 4/5 participants narrow to a suitable product and reach PDP with confidence in their choice",
+      "metric": "Filter success · PDP reach · decision confidence",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "VOLTIS",
+      "surface": "case-study-voltis.html",
+      "target": "≥ 4/5 participants understand charging/vehicle state and complete the intended mobility action without recovery",
+      "metric": "State comprehension · task completion · critical errors",
+      "baseline": "Needs first usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "LUMEN",
+      "surface": "Live project only",
+      "target": "≥ 4/5 participants discover a new artwork through a non-search exploration mode and can explain how they got there",
+      "metric": "Discovery completion · exploration depth · save intent",
+      "baseline": "Needs first exploratory usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "HUẾ — Between River & Citadel",
+      "surface": "Live project only",
+      "target": "≥ 4/5 participants complete one cultural story path and discover a second landmark without instruction",
+      "metric": "Story completion · landmark discovery · exploration depth",
+      "baseline": "Needs first exploratory usability benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "Resolve AI",
+      "surface": "Technical proof repo",
+      "target": "100% of consequential simulated actions remain behind explicit approval in the tested interaction model",
+      "metric": "Approval-gate coverage · unsafe action escape · task completion",
+      "baseline": "Framework/build proof verified; product/user outcome baseline needed",
+      "evidence_state": "TECHNICAL PROOF VERIFIED / USER OUTCOME NOT MEASURED"
+    }
+  ]
+}
