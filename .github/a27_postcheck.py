@@ -1,11 +1,26 @@
 import json
 import re
 from pathlib import Path
-from html import escape
+from html import escape, unescape
 
 ROOT = Path('.')
 registry_path = ROOT / 'docs/senior-decision-evidence.json'
 registry = json.loads(registry_path.read_text(encoding='utf-8'))
+
+def clean(value):
+    if not value:
+        return ''
+    value = re.sub(r'<br\s*/?>', ' — ', value, flags=re.I)
+    value = re.sub(r'<[^>]+>', '', value)
+    value = unescape(value)
+    return re.sub(r'\s+', ' ', value).strip()
+
+def clip(value, limit=220):
+    value = clean(value)
+    if len(value) <= limit:
+        return value
+    cut = value[:limit].rsplit(' ', 1)[0].rstrip(' ,;:')
+    return cut + '…'
 
 def hero_bounds(source):
     starts = []
@@ -19,10 +34,65 @@ def hero_bounds(source):
     end = source.find('</header>', start)
     return start, (end + len('</header>') if end != -1 else -1)
 
+def replace_card(source, label, value):
+    pattern = re.compile(
+        rf'(<article class="a27-decision-item" data-a27-field="{re.escape(label)}"><span>{re.escape(label)}</span><p>)(.*?)(</p></article>)',
+        re.S,
+    )
+    if len(pattern.findall(source)) != 1:
+        raise SystemExit(f'Expected exactly one {label} card')
+    return pattern.sub(lambda m: m.group(1) + escape(value) + m.group(3), source, count=1)
+
+def source_decision_evidence(source):
+    entries = []
+    generic = re.compile(r'<span>(.*?)</span>\s*<strong>(.*?)</strong>\s*<p>(.*?)</p>', re.I | re.S)
+    for match in generic.finditer(source):
+        label = clean(match.group(1))
+        title = clean(match.group(2))
+        rationale = clean(match.group(3))
+        low = label.lower()
+        if re.match(r'^option\s+[a-z]\b', low) or low in {'selected', 'rejected', 'deferred'}:
+            if title and title not in [item['title'] for item in entries]:
+                entries.append({'label': label, 'title': title, 'rationale': rationale})
+
+    options = None
+    decision = None
+    if len(entries) >= 2:
+        options = f"{len(entries)} documented directions/choices: " + ' / '.join(item['title'] for item in entries[:4])
+        selected = next((item for item in entries if 'selected' in item['label'].lower()), None)
+        if selected:
+            decision = f"{selected['title']} — {selected['rationale']}"
+
+    explicit_tradeoffs = []
+    for match in re.finditer(r'<span>Trade-off</span>\s*<strong>(.*?)</strong>', source, re.I | re.S):
+        value = clean(match.group(1))
+        if value and value not in explicit_tradeoffs:
+            explicit_tradeoffs.append(value)
+
+    tradeoff_heading = ''
+    tradeoff_match = re.search(
+        r'<span class="case-section-label">[^<]*TRADE-OFFS?[^<]*</span>\s*<h2>(.*?)</h2>',
+        source,
+        re.I | re.S,
+    )
+    if tradeoff_match:
+        tradeoff_heading = clean(tradeoff_match.group(1))
+
+    tradeoff = None
+    if explicit_tradeoffs:
+        tradeoff = ' / '.join(explicit_tradeoffs[:4])
+    elif tradeoff_heading:
+        tradeoff = f'Explicit trade-off section: {tradeoff_heading}'
+
+    return entries, options, decision, tradeoff, bool(explicit_tradeoffs or tradeoff_heading)
+
 for row in registry['projects']:
     path = row['surface']
     file = ROOT / path
     source = file.read_text(encoding='utf-8')
+
+    if path == 'case-study-ux.html':
+        row['project'] = 'FlowCRM'
 
     context = f"{row.get('case_class','')} {row.get('engineering','')} {row.get('role','')}".lower()
     team = row['team']
@@ -38,10 +108,22 @@ for row in registry['projects']:
         row['team'] = team
         row['audit']['team_classification_source'] = 'case class / implementation reality; collaborator identities remain unverified'
 
-    team_pattern = re.compile(r'(<article class="a27-decision-item" data-a27-field="TEAM"><span>TEAM</span><p>)(.*?)(</p></article>)', re.S)
-    if len(team_pattern.findall(source)) != 1:
-        raise SystemExit(f'Expected one TEAM card in {path}')
-    source = team_pattern.sub(lambda m: m.group(1) + escape(row['team']) + m.group(3), source, count=1)
+    entries, options, decision, tradeoff, tradeoff_documented = source_decision_evidence(source)
+    if options:
+        row['options'] = clip(options)
+        row['audit']['options_documented'] = True
+    if decision:
+        row['decision'] = clip(decision)
+    if tradeoff:
+        row['tradeoff'] = clip(tradeoff)
+        row['audit']['tradeoff_documented'] = True
+    elif tradeoff_documented:
+        row['audit']['tradeoff_documented'] = True
+
+    source = replace_card(source, 'TEAM', row['team'])
+    source = replace_card(source, 'OPTIONS', row['options'])
+    source = replace_card(source, 'DECISION', row['decision'])
+    source = replace_card(source, 'TRADE-OFF', row['tradeoff'])
 
     block_pattern = re.compile(r'\n<section class="case-section senior-decision-evidence" data-a27="senior-decision-evidence">.*?</section>\n', re.S)
     match = block_pattern.search(source)
@@ -104,8 +186,8 @@ for row in registry['projects']:
     lines.append(f"| {row['project']} | {mark('options_documented')} | {mark('tradeoff_documented')} | {mark('team_documented')} | {mark('engineering_boundary_documented')} | {mark('failure_or_pivot_documented')} |")
 lines += [
     '', '## Interpretation', '',
-    '- Nova and Sentry currently carry the clearest explicit alternatives + trade-offs.',
-    '- CENNEXT contributes one explicit trade-off but does not yet document a verified alternative set.',
+    '- Alternatives/trade-offs are counted only when the public case records selected/rejected/deferred choices or an explicit trade-off section.',
+    '- UIUX Factory, Flux, Nova and Sentry contain explicit selected/rejected decision evidence; other cases remain gaps unless their source proves otherwise.',
     '- UIUX Factory is the only case with a verified failure/repair story in A27: rendered correctness once masked stale raw-source defects, which led to independent raw-source and rendered gates.',
     '- Team composition is not publicly evidenced in any local case today. Independent concepts/tests are labeled as such rather than being rewritten as cross-functional work.',
     '- The next content pass should add real decision records only where source evidence exists; it should not make every case look artificially complete.', '',
