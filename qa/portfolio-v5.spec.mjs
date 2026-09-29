@@ -93,7 +93,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.locator('#writing')).toBeVisible();
     await expect(page.locator('#writing-title')).toBeVisible();
     await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
-    await expect(page.getByRole('heading', { name: 'Breadth without diluting the narrative.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Breadth, with proof attached.' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Resume/i }).first()).toHaveAttribute('href', 'Do_Anh_Nghia_Product_Designer_CV.pdf');
     await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
     await expect(page.locator('.experience-grid')).toBeVisible();
@@ -136,7 +136,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Decisions before screens.' })).toBeVisible();
     await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Breadth without diluting the narrative.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Breadth, with proof attached.' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'AI is a multiplier, not the product owner.' })).toBeVisible();
     await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
     await expect(page.locator('#work a[href="case-study-flux.html"]')).toHaveCount(1);
