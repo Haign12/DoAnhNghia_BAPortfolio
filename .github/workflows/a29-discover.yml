@@ -1,0 +1,19 @@
+name: A29 Discover Supporting Cards
+
+on:
+  push:
+    branches:
+      - a29/supporting-skill-evidence-library
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: a29/supporting-skill-evidence-library
+      - name: Discover current supporting-card source
+        run: python .github/a29_discover.py
