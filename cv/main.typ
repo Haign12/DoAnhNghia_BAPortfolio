@@ -65,7 +65,7 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-nova.html",
 )
-- *Problem:* account balance alone can hide obligations that make part of the money unsafe to spend. *Decision:* pair present balance with future commitments and a protected buffer. *Evidence:* alternatives, trade-offs, recovery states, planned metrics and a working prototype; no measured business uplift claimed.
+- *Problem:* account balance alone can hide obligations that make part of the money unsafe to spend. *Decision:* pair present balance with future commitments and a protected buffer. *Evidence:* working prototype; Round 01 recruiting (0 verified sessions); no measured business uplift.
 
 #project(
   name: "Sentry — Fraud Operations",
@@ -87,4 +87,4 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
 
 *Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025) · Foundations of Google UX Design (2026).
 
-*Product Design:* problem framing, information architecture, user flows, interaction design, responsive systems, prototyping, state design, trade-off articulation, validation planning, metric trees and evidence boundaries. *AI-assisted workflow:* repository grounding, synthesis, alternative exploration, critique, coding-agent collaboration, design contracts, documentation and root-cause repair. *Implementation & QA:* Figma, HTML/CSS/JavaScript, design-to-code, Git/GitHub, Playwright/Chromium, axe-core and Lighthouse diagnostics. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.
+*Product Design:* problem framing, information architecture, user flows, interaction design, responsive systems, prototyping, state design, trade-off articulation, validation planning, metric trees and evidence boundaries. *AI-assisted workflow:* repository grounding, synthesis, alternative exploration, critique, coding-agent collaboration, design contracts, documentation and root-cause repair. *Implementation & QA:* Figma, HTML/CSS/JS, React/Next.js/TypeScript (Resolve AI, CI-verified), Git/GitHub, Playwright, axe-core, Lighthouse. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.
