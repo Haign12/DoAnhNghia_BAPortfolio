@@ -99,6 +99,22 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.locator('.experience-grid .exp-card')).toHaveCount(3);
   });
 
+  test('raw homepage is the recruiter source of truth before runtime JavaScript', async () => {
+    const source = await fs.readFile('index.html', 'utf8');
+    expect(source).not.toContain('portfolio-product-upgrade.js');
+    expect(source).not.toContain('<a href="#">Case ↗</a>');
+    expect(source).toContain('id="ai-workflow"');
+    expect(source).toContain('id="writing"');
+    expect(source).toContain('case-study-flux.html');
+    expect(source).toContain('case-study-access.html');
+    expect(source).toContain('data-project="hue-between-river-citadel"');
+    expect(source).toContain('Culture &amp; Experimental <b>2</b>');
+    expect((source.match(/<span class="project-no">/g) || []).length).toBe(14);
+    expect(source).toContain('Current evidence boundary:');
+    expect(source).toContain('HTML/CSS/JS prototypes');
+    expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');
+  });
+
   test('supporting case links are real routes instead of placeholders', async ({ page }) => {
     await page.goto(`${baseURL}/#work`, { waitUntil: 'networkidle' });
     await expect(page.locator('#work .project-links a[href="#"]')).toHaveCount(0);
@@ -114,7 +130,11 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Decisions before screens.' })).toBeVisible();
     await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Range across domains.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Breadth without diluting the narrative.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'AI is a multiplier, not the product owner.' })).toBeVisible();
+    await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
+    await expect(page.locator('#work a[href="case-study-flux.html"]')).toHaveCount(1);
+    await expect(page.locator('#work a[href="case-study-access.html"]')).toHaveCount(1);
     await expect(page.getByText(/Independent concept/).first()).toBeVisible();
     await context.close();
   });
