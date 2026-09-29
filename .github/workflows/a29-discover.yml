@@ -1,4 +1,4 @@
-name: A29 Discover Supporting Cards
+name: A29 Supporting Skill Evidence Library
 
 on:
   push:
@@ -6,14 +6,30 @@ on:
       - a29/supporting-skill-evidence-library
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  discover:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message, '[a29-applied]') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: a29/supporting-skill-evidence-library
-      - name: Discover current supporting-card source
+          fetch-depth: 0
+      - name: Apply A29 supporting capability library
         run: python .github/a29_discover.py
+      - name: Verify source invariants
+        run: |
+          test -f docs/supporting-capability-signals.json
+          grep -q 'A29_SUPPORTING_CAPABILITY_LIBRARY' index.html
+          test "$(grep -o 'class="project-capability-signals' index.html | wc -l)" -eq 14
+          grep -q 'A29 Supporting Skill Evidence Library' portfolio-product-upgrade.css
+          grep -q 'A29 supporting work behaves as a skill evidence library' qa/portfolio-v5.spec.mjs
+      - name: Commit A29 implementation
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html portfolio-product-upgrade.css qa/portfolio-v5.spec.mjs docs/supporting-capability-signals.json
+          git commit -m 'Add A29 supporting skill evidence library [a29-applied]'
+          git push origin HEAD:a29/supporting-skill-evidence-library
