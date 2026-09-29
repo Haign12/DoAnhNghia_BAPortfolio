@@ -108,6 +108,8 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('case-study-flux.html');
     expect(source).toContain('case-study-access.html');
     expect(source).toContain('data-project="hue-between-river-citadel"');
+    expect(source).toContain('Culture &amp; Experimental <b>2</b>');
+    expect((source.match(/<span class="project-no">/g) || []).length).toBe(14);
     expect(source).toContain('Current evidence boundary:');
     expect(source).toContain('HTML/CSS/JS prototypes');
     expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');
