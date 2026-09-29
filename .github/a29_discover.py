@@ -68,11 +68,20 @@ def upgrade_card(match):
         raise SystemExit(f'{name} must expose 2–3 signals')
     if 'project-capability-signals' in body:
         raise SystemExit(f'{name} already has capability signals')
-    if '<div class="project-links">' not in body:
-        raise SystemExit(f'{name} missing project-links anchor')
 
     block = '<div class="project-capability-signals" aria-label="Capability signals"><strong>Capability signals</strong>' + ''.join(f'<span>{item}</span>' for item in project_signals) + '</div>'
-    body = body.replace('<div class="project-links">', block + '<div class="project-links">', 1)
+    if '<div class="project-links">' in body:
+        body = body.replace('<div class="project-links">', block + '<div class="project-links">', 1)
+        placement = 'before-links'
+    else:
+        # Featured/editorial cards use a different copy family. The last div in the
+        # card body closes project-copy, so keep the signal block inside project-copy
+        # without forcing a fake links wrapper onto that family.
+        close = body.rfind('</div>')
+        if close == -1:
+            raise SystemExit(f'{name} has no project-copy closing anchor')
+        body = body[:close] + block + body[close:]
+        placement = 'featured-copy-tail'
 
     hrefs = re.findall(r'href="([^"]+)"', body)
     local_case = [href for href in hrefs if href.startswith('case-study-') and href.endswith('.html')]
@@ -81,6 +90,7 @@ def upgrade_card(match):
         'project': name,
         'signals': project_signals,
         'evidence_basis': basis,
+        'placement_family': placement,
         'proof_links': hrefs,
     })
     return f'<article class="{classes}"{attrs}>{body}</article>'
@@ -162,4 +172,4 @@ qa_path.write_text(qa, encoding='utf-8')
 
 print('A29_SUPPORTING_CARDS=14')
 for item in registry_projects:
-    print(item['project'] + ' :: ' + ' | '.join(item['signals']))
+    print(item['project'] + ' :: ' + ' | '.join(item['signals']) + ' :: ' + item['placement_family'])
