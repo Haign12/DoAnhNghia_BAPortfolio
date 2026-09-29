@@ -1,0 +1,52 @@
+name: Fix Hero Copy Density
+
+on:
+  push:
+    branches:
+      - fix/hero-copy-density
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message, '[hero-copy-applied]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/hero-copy-density
+          fetch-depth: 0
+
+      - name: Shorten hero positioning copy
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          pattern = r'<div class="hero-intro">.*?</div>'
+          replacement = '''<div class="hero-intro"><span class="status"><i></i> Product Designer · Fintech / B2B · AI-assisted design-to-code</span>I turn <strong>ambiguous product problems into clear systems and working prototypes.</strong><span class="hero-positioning">AI speeds up exploration and implementation; product judgment and evidence stay human-owned.</span></div>'''
+          updated, count = re.subn(pattern, replacement, text, count=1, flags=re.S)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one hero-intro block, found {count}')
+          if 'Current evidence boundary:' in updated:
+              raise SystemExit('Long hero evidence disclaimer still present')
+          p.write_text(updated, encoding='utf-8')
+
+      - name: Verify hero copy
+        run: |
+          grep -q 'ambiguous product problems into clear systems and working prototypes' index.html
+          grep -q 'product judgment and evidence stay human-owned' index.html
+          ! grep -q 'Current evidence boundary:' index.html
+
+      - name: Commit hero copy repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Fix hero copy density [hero-copy-applied]'
+          git push origin HEAD:fix/hero-copy-density
