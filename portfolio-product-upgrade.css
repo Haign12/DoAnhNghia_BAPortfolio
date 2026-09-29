@@ -67,3 +67,12 @@
 .project-featured .project-capability-signals{margin-top:18px}
 @media(max-width:720px){.project-capability-signals span{font-size:7.5px}}
 
+/* A30 Project Evidence Completeness */
+.work-proof-note{margin-top:18px;max-width:780px;color:#777;font-size:11px;line-height:1.6;letter-spacing:.02em}
+.project-proof-facts{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px}
+.project-proof-facts span{min-width:0;color:#5f5f5a;font-size:9px;line-height:1.45}
+.project-proof-facts b{display:block;margin-bottom:2px;color:#8a8a84;font-size:7.5px;letter-spacing:.13em;text-transform:uppercase}
+.project-featured .project-proof-facts{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px){.project-featured .project-proof-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.project-proof-facts,.project-featured .project-proof-facts{grid-template-columns:1fr}.work-proof-note{font-size:10px}}
+

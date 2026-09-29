@@ -446,6 +446,52 @@
         "team_documented": false,
         "failure_or_pivot_documented": false
       }
+    },
+    {
+      "project": "LUMEN",
+      "surface": "case-study-lumen.html",
+      "case_class": "CULTURAL EXPERIENCE · INDEPENDENT CONCEPT",
+      "role": "Experience / Product Designer",
+      "team": "Independent project; no separate PM, engineering or stakeholder team is documented in this public case.",
+      "constraint": "Weak-intent discovery must remain accessible and provenance-safe.",
+      "options": "Search/grid vs cinematic single path vs multi-mode relationship discovery.",
+      "decision": "Multi-mode discovery leading to artwork relationships and saved collections.",
+      "tradeoff": "Serendipity vs orientation · motion vs accessibility/performance.",
+      "engineering": "React + TypeScript + Vite working prototype with browser/accessibility QA.",
+      "system_impact": "Repeatable digital-museum/exhibition platform.",
+      "what_went_wrong": "UNKNOWN — no verified failed release, user-test failure or project pivot is published as outcome evidence.",
+      "evidence": "PLANNED / NOT MEASURED. Working prototype + desk evidence; direct-user outcome not measured.",
+      "next_decision": "Run weak-intent discovery sessions and repair orientation/comprehension failures before adding more modes.",
+      "audit": {
+        "options_documented": true,
+        "tradeoff_documented": true,
+        "engineering_boundary_documented": true,
+        "team_documented": false,
+        "failure_or_pivot_documented": false
+      }
+    },
+    {
+      "project": "HUẾ — Between River & Citadel",
+      "surface": "case-study-hue.html",
+      "case_class": "CULTURAL EXPERIENCE · INDEPENDENT TRANSFORMATION",
+      "role": "Experience / UI Designer",
+      "team": "Independent project; no separate PM, engineering or stakeholder team is documented in this public case.",
+      "constraint": "Preserve reusable motion engineering while fully re-authoring destination identity and local media.",
+      "options": "Rewrite engine vs reskin vs preserve mechanics and re-author experience.",
+      "decision": "Preserve motion mechanics; replace narrative, media, routes, visual system and provenance layer.",
+      "tradeoff": "Implementation speed vs originality · cinematic motion vs accessibility/performance.",
+      "engineering": "Vanilla HTML/CSS/JS with local media, CI/rendered QA and Lighthouse accessibility gates.",
+      "system_impact": "Separates destination identity from reusable motion-engine source of truth.",
+      "what_went_wrong": "UNKNOWN — no verified failed release, user-test failure or project pivot is published as outcome evidence.",
+      "evidence": "PLANNED / NOT MEASURED. Working prototype + provenance/QA; direct-user outcome not measured.",
+      "next_decision": "Test narrative/route comprehension and orientation under default and reduced-motion modes.",
+      "audit": {
+        "options_documented": true,
+        "tradeoff_documented": true,
+        "engineering_boundary_documented": true,
+        "team_documented": false,
+        "failure_or_pivot_documented": false
+      }
     }
   ],
   "presentation": {

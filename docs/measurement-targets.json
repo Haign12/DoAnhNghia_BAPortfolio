@@ -179,6 +179,22 @@
       "metric": "Approval-gate coverage · unsafe action escape · task completion",
       "baseline": "Framework/build proof verified; product/user outcome baseline needed",
       "evidence_state": "TECHNICAL PROOF VERIFIED / USER OUTCOME NOT MEASURED"
+    },
+    {
+      "project": "LUMEN",
+      "surface": "case-study-lumen.html",
+      "target": "≥ 4/5 weak-intent participants discover an artwork, explain one relationship and continue without moderator help",
+      "metric": "Task completion · relationship comprehension · orientation errors · confidence",
+      "baseline": "Needs first moderated benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
+    },
+    {
+      "project": "HUẾ — Between River & Citadel",
+      "surface": "case-study-hue.html",
+      "target": "≥ 4/5 first-time participants follow one thematic route and remain oriented under default and reduced-motion modes",
+      "metric": "Route completion · navigation recovery · orientation errors · confidence",
+      "baseline": "Needs first moderated benchmark",
+      "evidence_state": "PLANNED / NOT MEASURED"
     }
   ]
 }
