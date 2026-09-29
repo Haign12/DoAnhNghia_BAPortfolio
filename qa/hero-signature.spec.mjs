@@ -20,12 +20,16 @@ const readHeroSignature = async page => page.locator('#hero').evaluate(hero => {
   };
 });
 
+const waitForHeroReady = async page => {
+  await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
+  await expect(page.locator('#hero')).toHaveClass(/ready/, { timeout: 4000 });
+};
+
 test.describe('Hero visual signature regression contract', () => {
   test('desktop keeps portrait, motion signature and crisp surface', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
-    await expect(page.locator('#hero')).toHaveClass(/ready/);
+    await waitForHeroReady(page);
     await expect(page.locator('.letter').first()).toHaveCSS('opacity', '1');
 
     const assetOK = await page.evaluate(async () => {
@@ -50,20 +54,21 @@ test.describe('Hero visual signature regression contract', () => {
   test('mobile keeps portrait legible without losing the first-screen identity', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
+    await waitForHeroReady(page);
+    await page.screenshot({ path: 'qa-artifacts/hero-signature-mobile.png', fullPage: false });
+
     const signature = await readHeroSignature(page);
     expect(signature.portraitBackground).toContain('avatar.webp');
     expect(signature.portraitOpacity).toBeGreaterThan(0.9);
     expect(signature.portraitWidth).toBeGreaterThan(330);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('PRODUCT');
-    await page.screenshot({ path: 'qa-artifacts/hero-signature-mobile.png', fullPage: false });
   });
 
   test('reduced motion preserves the visual signature without continuous animation', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
+    await waitForHeroReady(page);
     const signature = await readHeroSignature(page);
     expect(signature.portraitBackground).toContain('avatar.webp');
     expect(signature.portraitOpacity).toBeGreaterThan(0.9);
