@@ -347,4 +347,28 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     }
   });
 
+
+  test('A29 supporting work behaves as a skill evidence library with 2–3 grounded capability signals per project', async ({ page }) => {
+    const registry = JSON.parse(await fs.readFile('docs/supporting-capability-signals.json', 'utf8'));
+    expect(registry.policy.signals_are_evidence_labels_not_proficiency_scores).toBe(true);
+    expect(registry.policy.signals_do_not_imply_tenure).toBe(true);
+    expect(registry.policy.no_cross_functional_collaboration_inferred).toBe(true);
+    expect(registry.projects).toHaveLength(14);
+
+    await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#work[data-a29="skill-evidence-library"]')).toHaveCount(1);
+    await expect(page.locator('#work .project-capability-signals')).toHaveCount(14);
+    await expect(page.getByRole('heading', { name: 'Breadth, with proof attached.', exact: true })).toBeVisible();
+
+    for (const project of registry.projects) {
+      expect(project.signals.length).toBeGreaterThanOrEqual(2);
+      expect(project.signals.length).toBeLessThanOrEqual(3);
+      const card = page.locator('#work article.project, #work article.project-featured').filter({ has: page.getByRole('heading', { level: 3, name: project.project, exact: true }) });
+      await expect(card).toHaveCount(1);
+      const chips = card.locator('.project-capability-signals span');
+      await expect(chips).toHaveCount(project.signals.length);
+      expect(await chips.allTextContents()).toEqual(project.signals);
+    }
+  });
+
 });

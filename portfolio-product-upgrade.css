@@ -60,3 +60,10 @@
 @media(max-width:720px){.hero-signal-list{justify-content:flex-start}.capability-proof-grid{grid-template-columns:1fr}.capability-proof-card{min-height:0}.capability-proof-title{font-size:54px}.capability-proof-section{padding-top:38px}.flagship-senior-signals span{font-size:7.5px}}
 @media(prefers-reduced-motion:reduce){.capability-proof-card{transition:none!important}}
 
+/* A29 Supporting Skill Evidence Library */
+.project-capability-signals{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:7px}
+.project-capability-signals strong{flex:0 0 100%;margin-bottom:1px;color:#8a8a84;font-size:8px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+.project-capability-signals span{display:inline-flex;align-items:center;padding:6px 8px;border:1px solid #d6d6d0;border-radius:999px;background:#fafaf7;color:#30302d;font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;line-height:1}
+.project-featured .project-capability-signals{margin-top:18px}
+@media(max-width:720px){.project-capability-signals span{font-size:7.5px}}
+
