@@ -111,7 +111,8 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('data-project="hue-between-river-citadel"');
     expect(source).toContain('Culture &amp; Experimental <b>2</b>');
     expect((source.match(/<span class="project-no">/g) || []).length).toBe(14);
-    expect(source).toContain('Current evidence boundary:');
+    expect(source).toContain('ambiguous product problems into clear systems and working prototypes');
+    expect(source).toContain('product judgment and evidence stay human-owned');
     expect(source).toContain('Static prototypes stay labeled honestly');
     expect(source).toContain('CI-verified Next.js 16 / React 19 / TypeScript 7 implementation');
     expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');
