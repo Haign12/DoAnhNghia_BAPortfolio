@@ -89,6 +89,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.getByText(/Human-owned:/)).toBeVisible();
     await expect(page.getByRole('link', { name: /Inspect agent contract/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /Inspect cloud QA/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Inspect Next\/TS proof/i })).toBeVisible();
     await expect(page.locator('#writing')).toBeVisible();
     await expect(page.locator('#writing-title')).toBeVisible();
     await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
@@ -113,6 +114,9 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('Current evidence boundary:');
     expect(source).toContain('HTML/CSS/JS prototypes');
     expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');
+    expect(source).toContain('Nova/tree/main/research/validation/nova-round-01');
+    expect(source).toContain('https://github.com/Ngh1aa/Reslove-AI');
+    expect(source).toContain('0 verified sessions');
   });
 
   test('supporting case links are real routes instead of placeholders', async ({ page }) => {
