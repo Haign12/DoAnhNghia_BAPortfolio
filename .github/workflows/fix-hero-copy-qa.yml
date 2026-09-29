@@ -1,0 +1,48 @@
+name: Fix Hero Copy QA
+
+on:
+  push:
+    branches:
+      - fix/hero-copy-density
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message, '[hero-qa-applied]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/hero-copy-density
+          fetch-depth: 0
+
+      - name: Update raw-source boundary assertion
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('qa/portfolio-v5.spec.mjs')
+          text = p.read_text(encoding='utf-8')
+          old = "    expect(source).toContain('Current evidence boundary:');"
+          new = "    expect(source).toContain('ambiguous product problems into clear systems and working prototypes');\n    expect(source).toContain('product judgment and evidence stay human-owned');"
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one legacy hero assertion, found {text.count(old)}')
+          text = text.replace(old, new, 1)
+          p.write_text(text, encoding='utf-8')
+
+      - name: Verify QA boundary
+        run: |
+          grep -q "ambiguous product problems into clear systems and working prototypes" qa/portfolio-v5.spec.mjs
+          grep -q "product judgment and evidence stay human-owned" qa/portfolio-v5.spec.mjs
+          ! grep -q "expect(source).toContain('Current evidence boundary:')" qa/portfolio-v5.spec.mjs
+
+      - name: Commit QA repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add qa/portfolio-v5.spec.mjs
+          git commit -m 'Align hero source-truth QA with concise copy [hero-qa-applied]'
+          git push origin HEAD:fix/hero-copy-density
