@@ -17,6 +17,16 @@ jobs:
         with:
           ref: a30/senior-project-maturity-evidence
           fetch-depth: 0
+      - name: Repair migration runner tuple handling
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('.github/a30_audit.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('business,state,validation=values','business,business_detail,state,validation=values')
+          s=s.replace("<small>{state if path=='case-study-uiux-factory.html' else business}</small>","<small>{business_detail}</small>")
+          p.write_text(s,encoding='utf-8')
+          PY
       - name: Apply A30 evidence-completeness upgrade
         run: python .github/a30_audit.py
       - name: Verify A30 source invariants
@@ -34,7 +44,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add index.html portfolio-product-upgrade.css qa/portfolio-v5.spec.mjs sitemap.xml \
+          git add .github/a30_audit.py index.html portfolio-product-upgrade.css qa/portfolio-v5.spec.mjs sitemap.xml \
             docs/project-maturity-audit.json docs/project-evidence-roadmap.md docs/figma-senior-system-plan.md docs/prototype-senior-coverage-plan.md \
             docs/senior-decision-evidence.json docs/measurement-targets.json case-study-lumen.html case-study-hue.html \
             case-study-luxroom.html case-study-atelier.html case-study-violet-marketplace.html case-study-flux.html case-study-sentry.html case-study-access.html case-study-vas-education.html case-study-uiux-factory.html
