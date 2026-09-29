@@ -40,3 +40,9 @@ Human-owned decisions remain: the product problem, user evidence, business prior
 ## Evidence policy
 
 Independent concepts are labeled as independent concepts. Planned usability tests, target metrics and hypotheses are not presented as measured outcomes. When direct user research or production data is unavailable, the portfolio says so explicitly and defines what evidence should be collected next.
+
+## Homepage source-of-truth
+
+Recruiter-critical homepage content is authored directly in `index.html`: role positioning, flagship order, case links, AI workflow, writing entrypoint, research/evidence boundaries, CV route and supporting-project counts. JavaScript is reserved for behavior such as reveal, filtering, menu state and motion; it must not be required to repair broken links or create the core recruiter narrative.
+
+The cloud QA gate reads raw `index.html` in addition to rendered browser checks so a runtime mutation cannot hide source debt.
