@@ -1,0 +1,58 @@
+name: Hero Signature Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  hero-signature:
+    name: Hero visual signature / desktop + mobile + reduced motion
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: npm install --no-save @playwright/test@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start local portfolio server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/hero-signature-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/hero-signature-http.log
+          exit 1
+
+      - name: Verify Hero signature contract
+        env:
+          PORTFOLIO_BASE_URL: http://127.0.0.1:4173
+        run: |
+          mkdir -p qa-artifacts
+          npx playwright test qa/hero-signature.spec.mjs --browser=chromium --workers=1
+
+      - name: Upload Hero evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-signature-evidence
+          path: qa-artifacts/
+          if-no-files-found: warn
+          retention-days: 14
