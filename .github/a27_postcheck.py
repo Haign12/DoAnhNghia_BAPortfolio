@@ -53,6 +53,18 @@ for row in registry['projects']:
     if hero_start == -1 or hero_end == -1:
         raise SystemExit(f'hero family missing in {path}')
     source = source_without[:hero_end] + block + source_without[hero_end:]
+
+    if 'case-study-evidence-v4.css' not in source:
+        style_anchor = '<link rel="stylesheet" href="case-study.css?v=20260904-art-directed-v1">'
+        if style_anchor not in source:
+            raise SystemExit(f'Cannot attach A27 shared evidence styles in {path}')
+        source = source.replace(
+            style_anchor,
+            style_anchor + '\n  <link rel="stylesheet" href="case-study-evidence-v4.css?v=20260929-a27">',
+            1,
+        )
+        row['audit']['a27_shared_styles_added'] = True
+
     file.write_text(source, encoding='utf-8')
 
 registry['generated_from'] = 'public case-study source + A26 measurement registry + verified repository history where explicitly labeled'
@@ -106,9 +118,11 @@ for row in registry['projects']:
     source = (ROOT / row['surface']).read_text(encoding='utf-8')
     hero_start, hero_end = hero_bounds(source)
     marker = source.find('A27_SENIOR_DECISION_EVIDENCE')
-    first_regular_section = source.find('<section class="case-section">', hero_end)
+    first_regular_section = source.find('<section class="case-section"', hero_end)
     if not (hero_start != -1 and hero_end < marker < first_regular_section):
         raise SystemExit(f'A27 snapshot is not directly after hero in {row["surface"]}')
+    if 'case-study-evidence-v4.css' not in source:
+        raise SystemExit(f'A27 shared evidence stylesheet missing in {row["surface"]}')
 
 print('A27 postcheck complete')
 for key, label in summary_keys:
