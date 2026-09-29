@@ -1,0 +1,130 @@
+name: A24 Surface Evidence
+
+on:
+  push:
+    branches:
+      - a24/surface-validation-technical-proof
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: ${{ !contains(github.event.head_commit.message, '[a24-applied]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: a24/surface-validation-technical-proof
+          fetch-depth: 0
+
+      - name: Surface verified validation and technical proof
+        shell: python
+        run: |
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{path}: expected exactly one match, found {count}: {old[:90]!r}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          # Homepage: Nova remains recruiting; Resolve AI becomes the explicit Next/TS proof.
+          replace_once(
+              'index.html',
+              'Alternatives, trade-offs, recovery states, measurement plan and working responsive prototype.',
+              'Alternatives, trade-offs, recovery states, working responsive prototype and Round 01 usability validation recruiting with 0 verified sessions.'
+          )
+          replace_once(
+              'index.html',
+              '<a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener">Source ↗</a></div></div>',
+              '<a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener">Source ↗</a><a href="https://github.com/Ngh1aa/Nova/tree/main/research/validation/nova-round-01" target="_blank" rel="noopener">Validation ↗</a></div></div>'
+          )
+          replace_once(
+              'index.html',
+              '<strong>Evidence boundary:</strong> Nova and Sentry are independent concepts. UIUX Factory is a working repository. Planned usability tests, adoption and target metrics are kept separate from verified outcomes.',
+              '<strong>Evidence boundary:</strong> Nova and Sentry are independent concepts. Nova Round 01 is recruiting with 0 verified sessions; Sentry remains unvalidated. UIUX Factory and Resolve AI repositories are working technical evidence; adoption, user outcomes and business impact remain separate claims.'
+          )
+          replace_once(
+              'index.html',
+              'AI helps translate approved flows, states, tokens and responsive contracts into working HTML/CSS/JS prototypes. Current flagship source is not presented as React/Next proof when it is not React/Next.',
+              'AI helps translate approved flows, states, tokens and responsive contracts into working products. Static prototypes stay labeled honestly; Resolve AI is a CI-verified Next.js 16 / React 19 / TypeScript 7 implementation with typed state, App Router and production build/typecheck gates.'
+          )
+          replace_once(
+              'index.html',
+              '<a href="https://github.com/Haign12/DoAnhNghia_BAPortfolio/blob/main/.claude/settings.local.json" target="_blank" rel="noopener">Inspect project agent config ↗</a>',
+              '<a href="https://github.com/Ngh1aa/Reslove-AI" target="_blank" rel="noopener">Inspect Next/TS proof ↗</a>'
+          )
+
+          # Nova case study: expose research infrastructure without promoting it to validated evidence.
+          replace_once(
+              'case-study-nova.html',
+              '<div><dt>Evidence</dt><dd>Benchmark + hypothesis</dd></div>',
+              '<div><dt>Evidence</dt><dd>Benchmark + hypothesis · validation recruiting</dd></div>'
+          )
+          research_objective = '<p><strong>Research objective:</strong> test whether people correctly interpret Money Horizon and can act on it without mistaking forecasted or committed money for immediately spendable funds.</p>'
+          replace_once(
+              'case-study-nova.html',
+              research_objective,
+              research_objective + '<div class="case-boundary"><strong>VALIDATION STATUS · RECRUITING</strong><p>Round 01 has a committed moderator protocol, anonymized session template and evidence register, but currently has <strong>0 verified sessions</strong>. <a href="https://github.com/Ngh1aa/Nova/tree/main/research/validation/nova-round-01" target="_blank" rel="noopener noreferrer">Inspect protocol ↗</a> · <a href="https://github.com/Ngh1aa/Nova/issues/21" target="_blank" rel="noopener noreferrer">Evidence gate ↗</a>. No user outcome is promoted until real session records satisfy that gate.</p></div>'
+          )
+          replace_once(
+              'case-study-nova.html',
+              '<small>Planned, not measured.</small>',
+              '<small>Round 01 recruiting · 0 verified sessions.</small>'
+          )
+          replace_once(
+              'case-study-nova.html',
+              '<p><strong>Next:</strong> run a baseline test on the current prototype, prioritize interpretation failures over visual preference, iterate the model and labels, then repeat the same tasks.',
+              '<p><strong>Validation infrastructure:</strong> the Round 01 protocol is live in the Nova repository and issue #21 tracks the five-session evidence gate. The project remains unvalidated until those records exist.</p><p><strong>Next:</strong> run a baseline test on the current prototype, prioritize interpretation failures over visual preference, iterate the model and labels, then repeat the same tasks.'
+          )
+
+          # CV: claim the stack now that a real repo and green CI exist, but keep scope bounded to one proof project.
+          replace_once(
+              'cv/main.typ',
+              '*Implementation & QA:* Figma, HTML/CSS/JavaScript, design-to-code, Git/GitHub, Playwright/Chromium, axe-core and Lighthouse diagnostics.',
+              '*Implementation & QA:* Figma, HTML/CSS/JavaScript, React/Next.js/TypeScript (Resolve AI — CI-verified), Git/GitHub, Playwright/Chromium, axe-core and Lighthouse.'
+          )
+          replace_once(
+              'cv/main.typ',
+              '*Evidence:* alternatives, trade-offs, recovery states, planned metrics and a working prototype; no measured business uplift claimed.',
+              '*Evidence:* alternatives, trade-offs, recovery states and a working prototype; Round 01 usability validation is recruiting (0 verified sessions), with no measured business uplift claimed.'
+          )
+
+          # Regression coverage: source truth must retain both boundaries.
+          replace_once(
+              'qa/portfolio-v5.spec.mjs',
+              "    await expect(page.getByRole('link', { name: /Inspect cloud QA/i })).toBeVisible();",
+              "    await expect(page.getByRole('link', { name: /Inspect cloud QA/i })).toBeVisible();\n    await expect(page.getByRole('link', { name: /Inspect Next\\/TS proof/i })).toBeVisible();"
+          )
+          replace_once(
+              'qa/portfolio-v5.spec.mjs',
+              "    expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');",
+              "    expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');\n    expect(source).toContain('Nova/tree/main/research/validation/nova-round-01');\n    expect(source).toContain('https://github.com/Ngh1aa/Reslove-AI');\n    expect(source).toContain('0 verified sessions');"
+          )
+
+      - name: Verify claim boundaries
+        run: |
+          grep -q 'Round 01 usability validation recruiting with 0 verified sessions' index.html
+          grep -q 'Inspect Next/TS proof' index.html
+          grep -q 'VALIDATION STATUS · RECRUITING' case-study-nova.html
+          grep -q '0 verified sessions' case-study-nova.html
+          grep -q 'React/Next.js/TypeScript (Resolve AI — CI-verified)' cv/main.typ
+          grep -q 'Nova/tree/main/research/validation/nova-round-01' qa/portfolio-v5.spec.mjs
+          grep -q 'https://github.com/Ngh1aa/Reslove-AI' qa/portfolio-v5.spec.mjs
+
+      - name: Commit migration output
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo 'No A24 diff to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html case-study-nova.html cv/main.typ qa/portfolio-v5.spec.mjs
+          git commit -m 'A24: surface validation and Next TypeScript proof [a24-applied]'
+          git push origin HEAD:a24/surface-validation-technical-proof
