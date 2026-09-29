@@ -319,4 +319,32 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(sentry.audit.tradeoff_documented).toBe(true);
   });
 
+
+  test('A28 recruiter scan maps senior-level capabilities to inspectable project proof without claiming tenure', async ({ page }) => {
+    const registry = JSON.parse(await fs.readFile('docs/recruiter-capability-map.json', 'utf8'));
+    expect(registry.policy.capability_evidence_is_not_tenure).toBe(true);
+    expect(registry.policy.do_not_invent_cross_functional_team_evidence).toBe(true);
+    expect(registry.capabilities).toHaveLength(6);
+
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.hero-signal-list li')).toHaveCount(5);
+    await expect(page.locator('.capability-proof-card')).toHaveCount(6);
+    await expect(page.getByText(/evidence of scope and decision quality, not a tenure claim/i)).toBeVisible();
+
+    for (const capability of registry.capabilities) {
+      const card = page.locator(`.capability-proof-card[data-capability="${capability.id}"]`);
+      await expect(card).toHaveCount(1);
+      const hrefs = await card.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href')));
+      expect(hrefs.length).toBeGreaterThan(0);
+      for (const href of capability.proof) expect(hrefs).toContain(href);
+      expect(hrefs).not.toContain('#');
+    }
+
+    for (const project of ['UIUX Factory', 'Nova', 'Sentry']) {
+      const card = page.locator('.flagship-card', { has: page.getByRole('heading', { level: 3, name: project }) });
+      await expect(card).toHaveCount(1);
+      expect(await card.locator('.flagship-senior-signals span').count()).toBeGreaterThanOrEqual(4);
+    }
+  });
+
 });
