@@ -292,4 +292,31 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('html')).toHaveAttribute('data-theme', after);
   });
+  test('A27 senior decision evidence is explicit and honest across every local case', async () => {
+    const registry = JSON.parse(await fs.readFile('docs/senior-decision-evidence.json', 'utf8'));
+    expect(registry.policy.no_invented_team_or_stakeholders).toBe(true);
+    expect(registry.policy.no_invented_failure_or_pivot).toBe(true);
+    expect(registry.policy.no_invented_engineering_collaboration).toBe(true);
+    expect(registry.policy.no_invented_outcome).toBe(true);
+    expect(registry.projects).toHaveLength(18);
+    const required = ['ROLE','TEAM','CONSTRAINT','OPTIONS','DECISION','TRADE-OFF','ENGINEERING','SYSTEM IMPACT','WHAT WENT WRONG','EVIDENCE','NEXT DECISION'];
+    expect(registry.required_fields).toEqual(required);
+    for (const item of registry.projects) {
+      const source = await fs.readFile(item.surface, 'utf8');
+      expect(source).toContain('A27_SENIOR_DECISION_EVIDENCE');
+      for (const field of required) expect(source).toContain(`data-a27-field="${field}"`);
+      expect(item.evidence).toMatch(/NOT MEASURED|RECRUITING|TARGET|VERIFIED|NOT AN OUTCOME/i);
+      expect(item.team.length).toBeGreaterThan(20);
+      expect(item.next_decision.length).toBeGreaterThan(20);
+    }
+    const factory = registry.projects.find(item => item.surface === 'case-study-uiux-factory.html');
+    expect(factory.what_went_wrong).toMatch(/raw-source|runtime repair/i);
+    const nova = registry.projects.find(item => item.surface === 'case-study-nova.html');
+    expect(nova.audit.options_documented).toBe(true);
+    expect(nova.audit.tradeoff_documented).toBe(true);
+    const sentry = registry.projects.find(item => item.surface === 'case-study-sentry.html');
+    expect(sentry.audit.options_documented).toBe(true);
+    expect(sentry.audit.tradeoff_documented).toBe(true);
+  });
+
 });
