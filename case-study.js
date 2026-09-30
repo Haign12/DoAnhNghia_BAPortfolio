@@ -68,6 +68,81 @@
     }
   }
 
+  /* Nova: make the product-design work recruiter-visible before long-form reading. */
+  if (pageName === 'case-study-nova.html') {
+    const hero = document.querySelector('.case-hero');
+    const evidenceFact = [...document.querySelectorAll('.case-facts > div')].find((item) => item.querySelector('dt')?.textContent.trim() === 'Evidence');
+    if (evidenceFact) evidenceFact.querySelector('dd').textContent = '10 verified real-user records · 2 research rounds';
+
+    const navActions = document.querySelector('.case-nav-actions');
+    if (navActions && !navActions.querySelector('[data-nova-recruiter-proof]')) {
+      const proofLink = document.createElement('a');
+      proofLink.href = '#nova-recruiter-proof';
+      proofLink.dataset.novaRecruiterProof = 'true';
+      proofLink.textContent = '30-sec proof ↓';
+      navActions.prepend(proofLink);
+    }
+
+    if (hero && !document.getElementById('nova-recruiter-proof')) {
+      const proof = document.createElement('section');
+      proof.className = 'case-section nova-recruiter-proof';
+      proof.id = 'nova-recruiter-proof';
+      proof.innerHTML = `
+        <header class="case-section-head">
+          <span class="case-section-label">30-SECOND RECRUITER PROOF / PRODUCT DESIGN LOOP</span>
+          <h2>Not just a polished fintech UI: evidence → decision → shipped iteration → retest.</h2>
+        </header>
+        <div class="case-section-body">
+          <p class="nova-recruiter-intro">Nova now exposes the part recruiters usually cannot see from screenshots: how a product decision changed after real-user evidence, how the change was implemented, and what the retest still says is unresolved.</p>
+          <div class="case-evidence-strip nova-recruiter-stats" aria-label="Nova evidence summary">
+            <div><span>Real-user evidence</span><strong>10 verified records</strong><small>5 Round 01 + 5 NEW Round 02 participants. Both rounds are async structured self-report, not moderated sessions.</small></div>
+            <div><span>Atomic evidence</span><strong>40 traceable signals</strong><small>20 Round 01 + 20 Round 02 evidence records mapped to decisions rather than summarized into vague “insights.”</small></div>
+            <div><span>Product decisions</span><strong>4 evidence-driven changes</strong><small>Truth boundary · transfer impact · Safe-to-spend horizon · failure recovery.</small></div>
+            <div><span>Delivery proof</span><strong>1 shipped + retested iteration</strong><small>Canonical runtime, browser/visual/accessibility regression and post-change human retest.</small></div>
+          </div>
+
+          <div class="nova-product-loop" aria-label="Nova product-design progression">
+            <article><span>01 / ROUND 01</span><strong>Find the comprehension risks</strong><p>5 verified direct-user records produced two P1 and two P2 findings instead of a generic preference list.</p><small>P1 · demo/real boundary<br>P1 · transfer impact<br>P2 · horizon<br>P2 · recovery cause</small></article>
+            <article><span>02 / SHIP</span><strong>Change the decision surfaces</strong><p>The prototype was changed where interpretation failed: CTA truth labels, transfer calculation, horizon label and recovery reassurance.</p><small>Source owner → canonical runtime → regression QA</small></article>
+            <article><span>03 / ROUND 02</span><strong>Retest with 5 new users</strong><p>The retest did not get rewritten into a success story. It shows what improved locally and what is still wrong.</p><small>5/5 understand transfer arithmetic<br>2/5 demo boundary<br>1/5 buffer rule<br>2/5 14-day horizon<br>2/5 no-money-moved</small></article>
+            <article><span>04 / NEXT</span><strong>Prioritize consequence, not polish</strong><p>Next iteration order is driven by risk: recovery clarity first, then sensitive-action truth, buffer behavior and horizon framing.</p><small>D-04 → D-02 → D-03 → D-01</small></article>
+          </div>
+
+          <div class="nova-proof-actions">
+            <a href="https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1" target="_blank" rel="noopener noreferrer">Open tested prototype ↗</a>
+            <a href="https://github.com/Ngh1aa/Nova/tree/main/research/validation/nova-round-02" target="_blank" rel="noopener noreferrer">Inspect Round 02 evidence ↗</a>
+            <a href="https://github.com/Ngh1aa/Nova/blob/main/research/validation/nova-round-02/RETEST-SYNTHESIS.md" target="_blank" rel="noopener noreferrer">Read before/after synthesis ↗</a>
+            <a href="https://github.com/Ngh1aa/Nova/blob/main/research/validation/nova-round-02/DECISION-LOG.md" target="_blank" rel="noopener noreferrer">Read decision log ↗</a>
+          </div>
+
+          <div class="case-boundary nova-recruiter-boundary"><strong>WHAT THIS PROVES — AND WHAT IT DOES NOT</strong><p>This demonstrates product framing, evidence governance, prioritization, implementation discipline, QA and willingness to keep unresolved findings visible. It does <strong>not</strong> claim five years of tenure, moderated usability sessions, production banking impact or causal business uplift.</p></div>
+        </div>
+      `;
+      hero.after(proof);
+    }
+
+    const evidenceCard = document.querySelector('[data-a27-field="EVIDENCE"] p');
+    if (evidenceCard) evidenceCard.textContent = 'DIRECT USER / TWO ROUNDS. Round 01: 5 verified self-report records. Round 02: 5 NEW verified async retest records on the shipped iteration. 0 moderated sessions; cross-round deltas are self-report signals, not causal proof.';
+
+    const nextDecision = document.querySelector('[data-a27-field="NEXT DECISION"] p');
+    if (nextDecision) nextDecision.textContent = 'Round 02 keeps all four findings open. Prioritize D-04 recovery clarity → D-02 sensitive-action truth boundary → D-03 protected-buffer rule → D-01 horizon framing, then retest the same tasks again.';
+
+    const seniorHeading = document.querySelector('.senior-decision-evidence .case-section-head h2');
+    if (seniorHeading) seniorHeading.textContent = 'The decisions, evidence, trade-offs and unresolved risks behind the interface';
+
+    document.querySelectorAll('.case-section-body p, .case-evidence-strip small, .decision-grid p, .case-boundary p').forEach((node) => {
+      const text = node.textContent || '';
+      if (text.includes('post-change retest is pending') || text.includes('post-change retest remains pending')) {
+        node.textContent = text
+          .replace('post-change retest is pending', 'Round 02 retest is complete; another iteration is required')
+          .replace('post-change retest remains pending', 'Round 02 retest is complete; another iteration is required');
+      }
+      if (text.includes('5 real-user self-report records informed the current iteration; post-change retest is pending.')) {
+        node.textContent = 'Round 01 informed the shipped iteration; Round 02 added 5 NEW verified async retest records and keeps all four findings open.';
+      }
+    });
+  }
+
   /* Keep project reality explicit, but frame it as context rather than a warning. */
   const caseIndex = document.querySelector('.case-index');
   if (caseIndex) {
