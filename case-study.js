@@ -260,10 +260,10 @@
         <div class="case-section-body">
           <p class="nova-recruiter-intro">Nova now exposes the part recruiters usually cannot see from screenshots: how a product decision changed after real-user evidence, how the change was implemented, and what the retest still says is unresolved.</p>
           <div class="case-evidence-strip nova-recruiter-stats" aria-label="Nova evidence summary">
-            <div><span>Real-user evidence</span><strong>10 verified records</strong><small>5 Round 01 + 5 NEW Round 02 participants. Both rounds are async structured self-report, not moderated sessions.</small></div>
-            <div><span>Atomic evidence</span><strong>40 traceable signals</strong><small>20 Round 01 + 20 Round 02 evidence records mapped to decisions rather than summarized into vague “insights.”</small></div>
+            <div><span>Research method</span><strong>10 async self-report records</strong><small>2 rounds · n=5 + 5 new participants · 0 moderated sessions.</small></div>
+            <div><span>Cross-round signal</span><strong>Recovery clarity 4/5 → 2/5</strong><small>Directional regression signal, not a causal effect; both rounds are small cross-sectional self-report samples.</small></div>
             <div><span>Product decisions</span><strong>4 evidence-driven changes</strong><small>Truth boundary · transfer impact · Safe-to-spend horizon · failure recovery.</small></div>
-            <div><span>Delivery proof</span><strong>1 shipped + retested iteration</strong><small>Canonical runtime, browser/visual/accessibility regression and post-change human retest.</small></div>
+            <div><span>Current state</span><strong>4 findings still open</strong><small>The iteration shipped and was retested, but unresolved findings stay visible instead of being rewritten as success.</small></div>
           </div>
 
           <div class="nova-product-loop" aria-label="Nova product-design progression">

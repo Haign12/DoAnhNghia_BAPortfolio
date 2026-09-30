@@ -117,3 +117,13 @@
 .nova-proof-signals span{border-color:#56564e;background:#22221f}
 .nova-evidence-card .flagship-primary{background:#d7ff63;color:#111!important}
 @media(max-width:760px){.nova-card-scoreboard{grid-template-columns:repeat(2,minmax(0,1fr))}.nova-card-loop{flex-wrap:wrap;justify-content:flex-start}.nova-card-loop i{margin:0 1px}}
+
+
+/* A33 Nova recruiter-proof clarity */
+.nova-evidence-card .nova-card-scoreboard span{font-size:9.5px;line-height:1.35;letter-spacing:.075em;color:#d5d5cf}
+.nova-evidence-card .nova-card-scoreboard strong{line-height:.95}
+.nova-evidence-card .nova-card-method{margin-top:10px;color:#b8b8b2;font-size:10px;line-height:1.55;letter-spacing:.02em}
+.nova-evidence-card .nova-proof-signals strong{color:#b7b7b1;font-size:10px}
+.nova-evidence-card .nova-proof-signals span{font-size:9px;line-height:1.25;letter-spacing:.045em;text-transform:none;color:#f0f0eb}
+.nova-evidence-card .flagship-actions a{font-size:10.5px;letter-spacing:.08em}
+@media(max-width:720px){.nova-evidence-card .nova-card-scoreboard span{font-size:9px}.nova-evidence-card .nova-card-method{font-size:10px}.nova-evidence-card .nova-proof-signals span{font-size:9px}.flagship-actions{gap:12px 18px}.flagship-actions a{font-size:10.5px}}
