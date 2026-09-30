@@ -413,3 +413,14 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
   });
 
 });
+
+test('A32 selected project cards expose evidence state without seniority scoring', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('link[href*="project-proof-strip.css"]')).toHaveCount(1);
+  await expect(page.locator('#work .project-proof-strip')).toHaveCount(14);
+  const nova = page.locator('#work article', { has: page.getByRole('heading', { level: 3, name: 'Nova' }) });
+  await expect(nova.locator('.project-proof-strip')).toContainText('10 real-user records');
+  await expect(nova.locator('.project-proof-strip')).toContainText('4 findings · still open');
+  const factory = page.locator('#work article', { has: page.getByRole('heading', { level: 3, name: 'UIUX Factory' }) });
+  await expect(factory.locator('.project-proof-strip')).toContainText('Human impact · not measured');
+});

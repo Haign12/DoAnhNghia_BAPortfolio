@@ -97,7 +97,10 @@
       "complexity": "Trust-heavy money movement + recovery",
       "public_evidence": "Case · Live · Figma",
       "remaining_gaps": [
-        "POST_ITERATION_DIRECT_USER_RETEST"
+        "ROUND_02_F01_SENSITIVE_ACTION_BOUNDARY_OPEN",
+        "ROUND_02_F02_PROTECTED_BUFFER_PARTIALLY_FIXED",
+        "ROUND_02_F03_HORIZON_OPEN",
+        "ROUND_02_F04_RECOVERY_NO_MONEY_MOVED_OPEN"
       ]
     },
     {

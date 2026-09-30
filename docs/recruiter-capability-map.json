@@ -72,10 +72,10 @@
       "QA failure→repair"
     ],
     "Nova": [
-      "Decision framing",
-      "Alternatives + trade-offs",
+      "Research governance",
+      "Evidence→decision→ship→retest",
       "State + recovery",
-      "Validation plan"
+      "Open findings kept visible"
     ],
     "Sentry": [
       "Complex IA",

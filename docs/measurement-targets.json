@@ -65,8 +65,8 @@
       "surface": "case-study-nova.html",
       "target": "≥ 4/5 participants correctly identify safe-to-spend money without moderator assistance",
       "metric": "Direct-user self-report comprehension/confidence · post-change task success · critical errors · time",
-      "baseline": "Round 01: 5 verified direct-user self-report records; no observed task-success/time baseline; post-change retest pending",
-      "evidence_state": "DIRECT_USER_SELF_REPORT / RETEST_REQUIRED"
+      "baseline": "Round 01: 5 verified direct-user async self-report records; Round 02: 5 NEW verified direct-user async self-report records on the frozen post-change build; no moderated pre/post task-success/time baseline",
+      "evidence_state": "10 VERIFIED DIRECT_USER_ASYNC_SELF_REPORT RECORDS / 2 ROUNDS / 4 FINDINGS OPEN"
     },
     {
       "project": "QTSC",
