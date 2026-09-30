@@ -30,8 +30,17 @@ jobs:
       - name: Install cloud QA dependencies
         run: npm install --no-save @playwright/test@1.55.0 @axe-core/playwright@4.10.2
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-1.55.0-chromium-v1
+
+      - name: Install and smoke-test Chromium
+        timeout-minutes: 8
+        env:
+          PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: '120000'
+        run: bash scripts/ci/install-playwright-chromium.sh
 
       - name: Start ephemeral GitHub runner web server
         run: |
