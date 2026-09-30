@@ -25,12 +25,20 @@ const waitForHeroReady = async page => {
   await expect(page.locator('#hero')).toHaveClass(/ready/, { timeout: 4000 });
 };
 
+const waitForPortraitSettled = async page => {
+  await expect.poll(async () => (await readHeroSignature(page)).portraitOpacity, {
+    timeout: 3000,
+    message: 'hero portrait opacity should finish its entrance transition',
+  }).toBeGreaterThan(0.9);
+};
+
 test.describe('Hero visual signature regression contract', () => {
   test('desktop keeps portrait, motion signature and crisp surface', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await waitForHeroReady(page);
     await expect(page.locator('.letter').first()).toHaveCSS('opacity', '1');
+    await waitForPortraitSettled(page);
 
     const assetOK = await page.evaluate(async () => {
       const response = await fetch('assets/images/avatar.webp', { cache: 'no-store' });
@@ -55,6 +63,7 @@ test.describe('Hero visual signature regression contract', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await waitForHeroReady(page);
+    await waitForPortraitSettled(page);
     await page.screenshot({ path: 'qa-artifacts/hero-signature-mobile.png', fullPage: false });
 
     const signature = await readHeroSignature(page);
@@ -69,6 +78,7 @@ test.describe('Hero visual signature regression contract', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await waitForHeroReady(page);
+    await waitForPortraitSettled(page);
     const signature = await readHeroSignature(page);
     expect(signature.portraitBackground).toContain('avatar.webp');
     expect(signature.portraitOpacity).toBeGreaterThan(0.9);
