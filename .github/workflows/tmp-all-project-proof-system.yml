@@ -1,0 +1,31 @@
+name: Temporary all-project recruiter proof transform
+
+on:
+  push:
+    branches:
+      - feat/all-project-recruiter-proof-system
+
+permissions:
+  contents: write
+
+jobs:
+  transform:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/all-project-recruiter-proof-system
+      - name: Apply all-project recruiter proof system
+        run: python3 scripts/tmp-all-project-proof-system.py
+      - name: Commit transformed source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html project-proof-strip.css docs/measurement-targets.json docs/project-maturity-audit.json docs/project-evidence-roadmap.md docs/recruiter-capability-map.json qa/portfolio-v5.spec.mjs
+          if git diff --cached --quiet; then
+            echo "No source changes"
+            exit 0
+          fi
+          git commit -m "feat: surface evidence state across all selected projects"
+          git push origin HEAD:feat/all-project-recruiter-proof-system
