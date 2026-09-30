@@ -177,8 +177,8 @@
       "engineering": "Implementation reality: Implemented, simulated banking. Technical boundary is documented; separate engineering-team collaboration is not verified unless stated elsewhere.",
       "system_impact": "Local component, state or system implications are documented in the case; downstream production impact is not measured.",
       "what_went_wrong": "NOT AVAILABLE — no verified failure, rejected release or project pivot is documented in this public case.",
-      "evidence": "RECRUITING / NOT MEASURED. Baseline: Round 01 recruiting; 0 verified sessions.",
-      "next_decision": "run a baseline test on the current prototype, prioritize interpretation failures over visual preference, iterate the model and labels, then repeat the same tasks. With real engineering/data access, validate forecast…",
+      "evidence": "DIRECT_USER_SELF_REPORT / RETEST REQUIRED. Round 01: 5 verified direct-user self-report records; 0 moderated sessions; no post-change improvement claim.",
+      "next_decision": "Run a 3–5 person post-change retest on the exact merged Nova build; repeat the affected tasks and keep improvement claims blocked until compatible post-change evidence exists.",
       "audit": {
         "options_documented": true,
         "tradeoff_documented": true,
