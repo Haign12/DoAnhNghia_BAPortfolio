@@ -118,10 +118,10 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('Static prototypes stay labeled honestly');
     expect(source).toContain('CI-verified Next.js 16 / React 19 / TypeScript 7 implementation');
     expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');
-    expect(source).toContain('Nova/tree/main/research/validation/nova-round-01');
+    expect(source).toContain('Nova/tree/main/research/validation/nova-round-02');
     expect(source).toContain('https://github.com/Ngh1aa/Reslove-AI');
-    expect(source).toContain('5 verified direct-user self-report records');
-    expect(source).toContain('post-change retest');
+    expect(source).toContain('10 real-user async self-report records');
+    expect(source).toContain('shipped + retested iteration');
   });
 
   test('supporting case links are real routes instead of placeholders', async ({ page }) => {
