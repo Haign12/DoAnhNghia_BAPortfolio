@@ -171,6 +171,40 @@
 #work .project-links .link-primary{background:transparent!important;color:#e9e9e4!important;border-color:#484844!important}
 #work .project-links a:first-child.link-primary{background:#f4f4ef!important;color:#111!important;border-color:#f4f4ef!important}
 
+/* A35 — flagship and supporting project cards share one button system. */
+#flagships .flagship-actions{
+  margin-top:auto!important;
+  padding-top:24px!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:9px!important;
+  align-items:center!important;
+}
+#flagships .flagship-actions a,
+#flagships .flagship-actions a:not(.flagship-primary),
+#flagships .flagship-actions .flagship-primary{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:36px!important;
+  padding:9px 12px!important;
+  border:1px solid #484844!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:#e9e9e4!important;
+  font-size:9px!important;
+  font-weight:700!important;
+  letter-spacing:.045em!important;
+  line-height:1!important;
+  text-decoration:none!important;
+  text-transform:none!important;
+}
+#flagships .flagship-actions .flagship-primary{
+  background:#f4f4ef!important;
+  color:#111!important;
+  border-color:#f4f4ef!important;
+}
+#flagships .flagship-actions a:hover{opacity:.76!important}
+
 /* Role/scope evidence reads like a compact audit table. */
 #work .project-proof-facts{
   margin:20px 24px 0!important;
@@ -234,7 +268,8 @@
   #work .project-proof-strip .verified,
   #work .project-proof-strip .open,
   #work .project-proof-strip .planned{font-size:8.5px!important;min-height:54px!important}
-  #work .project-links a{font-size:9px!important}
+  #work .project-links a,
+  #flagships .flagship-actions a{font-size:9px!important}
 }
 @media(max-width:720px){.project-proof-strip span{font-size:7.5px}}
 @media(prefers-reduced-motion:reduce){
