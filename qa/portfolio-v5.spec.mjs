@@ -121,7 +121,11 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('Nova/tree/main/research/validation/nova-round-02');
     expect(source).toContain('https://github.com/Ngh1aa/Reslove-AI');
     expect(source).toContain('nova-card-scoreboard');
-    expect(source).toContain('Evidence</span><i>→</i><span>Decision</span><i>→</i><span>Ship</span><i>→</i><span>Retest');
+    expect(source).toContain('Recovery clarity · regression signal');
+    expect(source).toContain('async self-report records');
+    expect(source).toContain('Read Nova case ↗');
+    expect(source).toContain('Live prototype ↗');
+    expect(source).toContain('Figma ↗');
   });
 
   test('supporting case links are real routes instead of placeholders', async ({ page }) => {
