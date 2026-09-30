@@ -415,7 +415,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
 });
 
 test('A32 selected project cards expose evidence state without seniority scoring', async ({ page }) => {
-  await page.goto('/');
+  await page.goto(baseURL);
   await expect(page.locator('link[href*="project-proof-strip.css"]')).toHaveCount(1);
   await expect(page.locator('#work .project-proof-strip')).toHaveCount(14);
   const nova = page.locator('#work article', { has: page.getByRole('heading', { level: 3, name: 'Nova' }) });
@@ -428,13 +428,13 @@ test('A32 selected project cards expose evidence state without seniority scoring
 
 test('A32 case studies expose a 30-second proof strip with honest evidence boundaries', async ({ page }) => {
   for (const route of ['case-study-luxroom.html', 'case-study-flux.html', 'case-study-uiux-factory.html']) {
-    await page.goto(`/${route}`);
+    await page.goto(`${baseURL}/${route}`);
     await expect(page.locator('#project-30-sec-proof')).toHaveCount(1);
     await expect(page.locator('#project-30-sec-proof .project-recruiter-proof-grid > article')).toHaveCount(6);
     await expect(page.locator('#project-30-sec-proof')).toContainText('Still open');
   }
-  await page.goto('/case-study-luxroom.html');
+  await page.goto(`${baseURL}/case-study-luxroom.html`);
   await expect(page.locator('#project-30-sec-proof')).toContainText('direct-user baseline not measured');
-  await page.goto('/case-study-uiux-factory.html');
+  await page.goto(`${baseURL}/case-study-uiux-factory.html`);
   await expect(page.locator('#project-30-sec-proof')).toContainText('human workflow impact not measured');
 });
