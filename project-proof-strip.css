@@ -276,3 +276,66 @@
   #work article.project,#work article.project-featured,#work .project-media img{transition:none!important}
   #work article.project:hover,#work article.project-featured:hover{transform:none!important}
 }
+
+/* A36 — compact evidence-density repair.
+   The proof UI should scan as metadata, not become the visual weight of the card. */
+#work article.project>.project-proof-strip,
+#work article.project-featured>.project-proof-strip{
+  margin-top:16px!important;
+}
+#work .project-proof-strip strong{
+  padding:8px 10px!important;
+  font-size:8px!important;
+  line-height:1.1!important;
+}
+#work .project-proof-strip span,
+#work .project-proof-strip .verified,
+#work .project-proof-strip .open,
+#work .project-proof-strip .planned{
+  min-height:40px!important;
+  align-items:center!important;
+  padding:8px 10px!important;
+  font-size:8.5px!important;
+  line-height:1.25!important;
+}
+/* With an odd proof count, let the last long status use the full row instead of wrapping in a half cell. */
+#work .project-proof-strip span:last-child:nth-child(even){grid-column:1/-1!important}
+
+/* Nova scoreboard: keep the evidence visible while preventing the numbers from dominating the card. */
+.nova-evidence-card .nova-card-scoreboard{
+  margin-top:16px!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.nova-evidence-card .nova-card-scoreboard>div{
+  min-width:0!important;
+  min-height:0!important;
+  padding:12px 10px!important;
+}
+.nova-evidence-card .nova-card-scoreboard strong{
+  display:block!important;
+  margin:0 0 7px!important;
+  font-size:clamp(24px,2.2vw,34px)!important;
+  line-height:.92!important;
+  letter-spacing:-.02em!important;
+  white-space:nowrap!important;
+}
+.nova-evidence-card .nova-card-scoreboard span{
+  display:block!important;
+  font-size:8.5px!important;
+  line-height:1.28!important;
+  letter-spacing:.045em!important;
+}
+.nova-evidence-card .nova-card-method{
+  margin-top:10px!important;
+  font-size:9px!important;
+  line-height:1.45!important;
+}
+
+@media(max-width:560px){
+  #work .project-proof-strip span,
+  #work .project-proof-strip .verified,
+  #work .project-proof-strip .open,
+  #work .project-proof-strip .planned{min-height:38px!important;padding:7px 9px!important;font-size:8px!important}
+  .nova-evidence-card .nova-card-scoreboard{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .nova-evidence-card .nova-card-scoreboard strong{font-size:28px!important}
+}
