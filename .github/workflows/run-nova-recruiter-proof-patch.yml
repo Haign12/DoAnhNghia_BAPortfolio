@@ -1,0 +1,35 @@
+name: Run Nova recruiter proof patch
+
+on:
+  push:
+    branches:
+      - fix/nova-recruiter-proof-clarity
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/nova-recruiter-proof-clarity
+          fetch-depth: 0
+      - name: Apply patch
+        run: python3 scripts/patch_nova_recruiter_proof.py
+      - name: Verify diff
+        run: |
+          git diff --check
+          grep -q '4/5 → 2/5' index.html
+          grep -q 'async self-report records' index.html
+          grep -q 'P1 · Demo/real boundary · open' index.html
+          grep -q 'Recovery clarity 4/5 → 2/5' case-study.js
+      - name: Commit patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html case-study.js portfolio-product-upgrade.css qa/portfolio-v5.spec.mjs
+          git commit -m "fix: make Nova recruiter proof method-aware and scannable"
+          git push origin HEAD:fix/nova-recruiter-proof-clarity
