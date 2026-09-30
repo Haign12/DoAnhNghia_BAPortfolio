@@ -64,9 +64,9 @@
       "project": "Nova",
       "surface": "case-study-nova.html",
       "target": "≥ 4/5 participants correctly identify safe-to-spend money without moderator assistance",
-      "metric": "Task success · critical errors · time · confidence",
-      "baseline": "Round 01 recruiting; 0 verified sessions",
-      "evidence_state": "RECRUITING / NOT MEASURED"
+      "metric": "Direct-user self-report comprehension/confidence · post-change task success · critical errors · time",
+      "baseline": "Round 01: 5 verified direct-user self-report records; no observed task-success/time baseline; post-change retest pending",
+      "evidence_state": "DIRECT_USER_SELF_REPORT / RETEST_REQUIRED"
     },
     {
       "project": "QTSC",

@@ -20,7 +20,7 @@ A30 applies the supplied five-level project rubric to **artifacts**, not to the 
 
 - **LUMEN:** publish an editable Figma system if available; recruit weak-intent art explorers; validate discovery/orientation and reduced-motion paths.
 - **HUẾ:** publish Figma if available; test route/narrative comprehension and motion accessibility with first-time visitors.
-- **Nova:** complete recruiting and run the committed baseline protocol before changing evidence state.
+- **Nova:** Round 01 now has 5 verified direct-user self-report records and an evidence-driven iteration; run the post-change retest on the exact merged build before any improvement claim.
 - **Sentry / ACCESS / Flux:** prioritize domain-adjacent moderated task tests because decision quality/recovery is more important than additional visual polish.
 - **Atelier / Violet / LuxRoom:** verify product-state coverage in the actual prototypes, then run findability/configuration tasks.
 - **UIUX Factory:** keep system dogfood/QA separate from human workflow impact; measure adoption/rework only when traceable usage evidence exists.

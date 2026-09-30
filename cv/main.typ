@@ -65,7 +65,7 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-nova.html",
 )
-- *Problem:* account balance alone can hide obligations that make part of the money unsafe to spend. *Decision:* pair present balance with future commitments and a protected buffer. *Evidence:* working prototype; Round 01 recruiting (0 verified sessions); no measured business uplift.
+- *Problem:* account balance alone can hide obligations that make part of the money unsafe to spend. *Decision:* pair present balance with future commitments and a protected buffer. *Evidence:* working prototype; 5 verified direct-user self-report records (unmoderated); post-change retest pending; no measured business uplift.
 
 #project(
   name: "Sentry — Fraud Operations",
