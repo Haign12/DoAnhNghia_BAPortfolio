@@ -1,0 +1,31 @@
+name: Temporary Nova recruiter card v2 transform
+
+on:
+  push:
+    branches:
+      - feat/nova-recruiter-card-v2
+
+permissions:
+  contents: write
+
+jobs:
+  transform:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/nova-recruiter-card-v2
+      - name: Apply Nova recruiter evidence card
+        run: python3 scripts/tmp-nova-recruiter-card-v2.py
+      - name: Commit transformed source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html portfolio-product-upgrade.css
+          if git diff --cached --quiet; then
+            echo "No source changes"
+            exit 0
+          fi
+          git commit -m "feat: make Nova product evidence visually undeniable"
+          git push origin HEAD:feat/nova-recruiter-card-v2
