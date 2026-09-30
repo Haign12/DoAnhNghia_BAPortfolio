@@ -99,3 +99,21 @@
   .leadership-track .hero::before,.leadership-track .hero.ready::after,.capability-proof-section::before{animation:none!important}
   .leadership-track .hero::after{opacity:1;transition:none!important;transform:translate(-48%,0) scale(1)}
 }
+
+
+/* A31 Nova recruiter-visible evidence card */
+.nova-evidence-card{border-color:#5a5a55;box-shadow:0 0 0 1px rgba(255,255,255,.02)}
+.nova-evidence-card .flagship-proof{background:#d7ff63;border-color:#d7ff63;font-weight:800}
+.nova-card-scoreboard{margin-top:24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#3c3c38;border:1px solid #3c3c38}
+.nova-card-scoreboard>div{min-width:0;padding:14px 12px;background:#101010}
+.nova-card-scoreboard strong{display:block;font-family:var(--display);font-size:clamp(28px,2.8vw,46px);font-weight:400;line-height:.9;color:#fff}
+.nova-card-scoreboard span{display:block;margin-top:8px;color:#9f9f99;font-size:8px;font-weight:700;letter-spacing:.1em;line-height:1.35;text-transform:uppercase}
+.nova-card-loop{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:7px;padding:11px 12px;border:1px solid #3c3c38;background:#20201d;color:#fff}
+.nova-card-loop span{font-size:8px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap}
+.nova-card-loop i{font-style:normal;color:#d7ff63;font-size:12px}
+.nova-evidence-card .flagship-evidence{margin-top:18px}
+.nova-evidence-card .flagship-evidence span{color:#d7ff63}
+.nova-proof-signals strong{color:#d7ff63}
+.nova-proof-signals span{border-color:#56564e;background:#22221f}
+.nova-evidence-card .flagship-primary{background:#d7ff63;color:#111!important}
+@media(max-width:760px){.nova-card-scoreboard{grid-template-columns:repeat(2,minmax(0,1fr))}.nova-card-loop{flex-wrap:wrap;justify-content:flex-start}.nova-card-loop i{margin:0 1px}}
