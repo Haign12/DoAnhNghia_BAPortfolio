@@ -1,0 +1,9 @@
+/* Recruiter-visible project proof strips — evidence state, not seniority labels */
+.project-proof-strip{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.project-proof-strip strong{flex:0 0 100%;margin-bottom:1px;color:#777;font-size:8px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+.project-proof-strip span{display:inline-flex;align-items:center;min-height:26px;padding:6px 8px;border:1px solid #d2d2cc;border-radius:999px;background:#fff;color:#30302d;font-size:8px;font-weight:700;letter-spacing:.06em;line-height:1.15;text-transform:uppercase}
+.project-proof-strip .verified{background:#111;color:#fff;border-color:#111}
+.project-proof-strip .open{border-style:dashed;color:#595954;background:#f7f7f3}
+.project-proof-strip .planned{color:#666;background:#f2f2ee}
+.project-featured .project-proof-strip{margin-top:18px}
+@media(max-width:720px){.project-proof-strip span{font-size:7.5px}}
