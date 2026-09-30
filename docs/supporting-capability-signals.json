@@ -95,7 +95,7 @@
       "project": "Nova",
       "signals": [
         "Product strategy",
-        "Trade-offs",
+        "Evidence → iteration",
         "State + recovery"
       ],
       "evidence_basis": "local case study + linked working artifacts",
