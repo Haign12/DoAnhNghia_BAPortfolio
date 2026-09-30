@@ -6,4 +6,24 @@
 .project-proof-strip .open{border-style:dashed;color:#595954;background:#f7f7f3}
 .project-proof-strip .planned{color:#666;background:#f2f2ee}
 .project-featured .project-proof-strip{margin-top:18px}
+
+/* Nova flagship: neutral monochrome proof hierarchy — no lime/highlight accent. */
+.nova-evidence-card .flagship-proof,
+.nova-evidence-card .flagship-index span,
+.nova-evidence-card .nova-card-scoreboard strong,
+.nova-evidence-card .nova-card-scoreboard span,
+.nova-evidence-card .nova-card-method,
+.nova-evidence-card .flagship-evidence span,
+.nova-evidence-card .nova-proof-signals strong,
+.nova-evidence-card .nova-proof-signals span,
+.nova-evidence-card .flagship-actions a:not(.flagship-primary){color:#d8d8d2!important}
+.nova-evidence-card .flagship-proof{background:#f3f3ee!important;color:#111!important;border-color:#575753!important}
+.nova-evidence-card .nova-card-scoreboard{border-color:#3f3f3b!important}
+.nova-evidence-card .nova-card-scoreboard>div{border-color:#3f3f3b!important;background:#171717!important}
+.nova-evidence-card .nova-card-scoreboard strong{color:#fff!important}
+.nova-evidence-card .nova-card-method{color:#aaa9a4!important}
+.nova-evidence-card .nova-proof-signals span{background:#1d1d1d!important;border-color:#4a4a46!important;color:#ecece7!important}
+.nova-evidence-card .flagship-primary{background:#f4f4ef!important;color:#111!important;border:1px solid #f4f4ef!important}
+.nova-evidence-card .flagship-primary:hover{background:#d9d9d3!important;border-color:#d9d9d3!important}
+
 @media(max-width:720px){.project-proof-strip span{font-size:7.5px}}
