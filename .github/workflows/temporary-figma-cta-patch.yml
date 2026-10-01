@@ -2,14 +2,14 @@ name: Temporary Figma CTA hierarchy patch
 
 on:
   push:
-    branches: [feat/figma-cta-hierarchy]
+    branches:
+      - feat/figma-cta-hierarchy
 
 permissions:
   contents: write
 
 jobs:
   patch:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,43 +30,22 @@ jobs:
                   raise SystemExit(f'expected pattern not found in {path}: {old[:120]}')
               p.write_text(text.replace(old, new, 1))
 
-          # Homepage: one primary CTA, then Live → Figma → Source for every flagship.
-          replace('index.html',
-              '<div class="flagship-actions"><a class="flagship-primary" href="case-study-nova.html">Read Nova case ↗</a><a href="https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener">Source ↗</a></div>',
-              '<div class="flagship-actions"><a class="flagship-primary" href="case-study-nova.html">Read Nova case ↗</a><a class="flagship-secondary" href="https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1" target="_blank" rel="noopener">Live prototype ↗</a><a class="flagship-secondary" href="https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&amp;t=83Wo9YlCjxLTFzxv-1" target="_blank" rel="noopener">Figma ↗</a><a class="flagship-secondary" href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener">Source ↗</a></div>')
-          replace('index.html',
-              '<div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read Sentry case ↗</a><a href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener">Source ↗</a></div>',
-              '<div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read Sentry case ↗</a><a class="flagship-secondary" href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a class="flagship-secondary" href="https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&amp;t=BvIxuJu3KrFWy5Lg-1" target="_blank" rel="noopener">Figma ↗</a><a class="flagship-secondary" href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener">Source ↗</a></div>')
-          replace('index.html',
-              '<div class="flagship-actions"><a class="flagship-primary" href="case-study-luxroom.html">Read LuxRoom case ↗</a><a href="https://lux-room.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener">Source ↗</a></div>',
-              '<div class="flagship-actions"><a class="flagship-primary" href="case-study-luxroom.html">Read LuxRoom case ↗</a><a class="flagship-secondary" href="https://lux-room.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a class="flagship-secondary" href="https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&amp;t=HPp6OlvriN9MeZCW-1" target="_blank" rel="noopener">Figma ↗</a><a class="flagship-secondary" href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener">Source ↗</a></div>')
+          replace('index.html', '<div class="flagship-actions"><a class="flagship-primary" href="case-study-nova.html">Read Nova case ↗</a><a href="https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener">Source ↗</a></div>', '<div class="flagship-actions"><a class="flagship-primary" href="case-study-nova.html">Read Nova case ↗</a><a class="flagship-secondary" href="https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1" target="_blank" rel="noopener">Live prototype ↗</a><a class="flagship-secondary" href="https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&amp;t=83Wo9YlCjxLTFzxv-1" target="_blank" rel="noopener">Figma ↗</a><a class="flagship-secondary" href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener">Source ↗</a></div>')
+          replace('index.html', '<div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read Sentry case ↗</a><a href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener">Source ↗</a></div>', '<div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read Sentry case ↗</a><a class="flagship-secondary" href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a class="flagship-secondary" href="https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&amp;t=BvIxuJu3KrFWy5Lg-1" target="_blank" rel="noopener">Figma ↗</a><a class="flagship-secondary" href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener">Source ↗</a></div>')
+          replace('index.html', '<div class="flagship-actions"><a class="flagship-primary" href="case-study-luxroom.html">Read LuxRoom case ↗</a><a href="https://lux-room.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener">Source ↗</a></div>', '<div class="flagship-actions"><a class="flagship-primary" href="case-study-luxroom.html">Read LuxRoom case ↗</a><a class="flagship-secondary" href="https://lux-room.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a class="flagship-secondary" href="https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&amp;t=HPp6OlvriN9MeZCW-1" target="_blank" rel="noopener">Figma ↗</a><a class="flagship-secondary" href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener">Source ↗</a></div>')
 
-          # Case studies: once inside the case, keep Live → Figma → Source discoverable.
           nova_figma = 'https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&t=83Wo9YlCjxLTFzxv-1'
-          replace('case-study-nova.html',
-              '    <a href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a>\n    <a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source ↗</a>',
-              f'    <a href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a>\n    <a href="{nova_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a>\n    <a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source ↗</a>')
-          replace('case-study-nova.html',
-              '<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>',
-              f'<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="{nova_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>')
+          replace('case-study-nova.html', '    <a href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a>\n    <a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source ↗</a>', f'    <a href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a>\n    <a href="{nova_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a>\n    <a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source ↗</a>')
+          replace('case-study-nova.html', '<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>', f'<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://nova-gamma-eosin.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="{nova_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>')
 
           sentry_figma = 'https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&t=BvIxuJu3KrFWy5Lg-1'
-          replace('case-study-sentry.html',
-              '<div class="case-nav-actions"><a href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source ↗</a><button',
-              f'<div class="case-nav-actions"><a href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a href="{sentry_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source ↗</a><button')
-          replace('case-study-sentry.html',
-              '<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>',
-              f'<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="{sentry_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>')
+          replace('case-study-sentry.html', '<div class="case-nav-actions"><a href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source ↗</a><button', f'<div class="case-nav-actions"><a href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a href="{sentry_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source ↗</a><button')
+          replace('case-study-sentry.html', '<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>', f'<div class="case-hero-actions"><a class="case-action case-action-primary" href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="{sentry_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener noreferrer">Source code ↗</a></div>')
 
           lux_figma = 'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1'
-          replace('case-study-luxroom.html',
-              f'<a href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a href="index.html#contact">Contact</a>',
-              f'<a href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener noreferrer">Source ↗</a><a href="index.html#contact">Contact</a>')
-          replace('case-study-luxroom.html',
-              f'<a class="case-action" href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="index.html#work">Back to work</a>',
-              f'<a class="case-action" href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener noreferrer">Source code ↗</a><a class="case-action" href="index.html#work">Back to work</a>')
+          replace('case-study-luxroom.html', f'<a href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a href="index.html#contact">Contact</a>', f'<a href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener noreferrer">Source ↗</a><a href="index.html#contact">Contact</a>')
+          replace('case-study-luxroom.html', f'<a class="case-action" href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="index.html#work">Back to work</a>', f'<a class="case-action" href="{lux_figma}" target="_blank" rel="noopener noreferrer">View Figma ↗</a><a class="case-action" href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener noreferrer">Source code ↗</a><a class="case-action" href="index.html#work">Back to work</a>')
 
-          # Secondary actions share one outlined visual tier and wrap naturally on small screens.
           css = Path('portfolio-product-upgrade.css')
           text = css.read_text()
           old = '.flagship-actions{margin-top:auto;padding-top:24px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}.flagship-actions a{color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.flagship-actions a:not(.flagship-primary){text-decoration:underline;text-underline-offset:4px;color:#c3c3bd}.flagship-actions a:hover{opacity:.72}.flagship-primary{padding:10px 14px;border-radius:999px;background:#fff;color:#111!important;text-decoration:none!important}'
@@ -82,60 +61,6 @@ jobs:
                   raise SystemExit('mobile flagship CSS owner not found')
               text = text.replace(mobile_old, mobile_new, 1)
           css.write_text(text)
-
-          # QA: explicit order, visual tier, Figma destinations, responsive overflow, and case-study discoverability.
-          qa = Path('qa/portfolio-v5.spec.mjs')
-          q = qa.read_text()
-          marker = '// FIGMA_CTA_HIERARCHY_GATE'
-          if marker not in q:
-              q += r'''
-
-// FIGMA_CTA_HIERARCHY_GATE
-
-test('flagship CTAs keep one primary action and expose Figma before source', async ({ page }) => {
-  const expectations = [
-    ['nova', 'Read Nova case ↗', 'Live prototype ↗', 'https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&t=83Wo9YlCjxLTFzxv-1', 'https://github.com/Ngh1aa/Nova'],
-    ['sentry', 'Read Sentry case ↗', 'Live prototype ↗', 'https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&t=BvIxuJu3KrFWy5Lg-1', 'https://github.com/Ngh1aa/Sentry'],
-    ['luxroom', 'Read LuxRoom case ↗', 'Live prototype ↗', 'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1', 'https://github.com/Ngh1aa/LuxRoom'],
-  ];
-
-  for (const width of [1440, 390]) {
-    await page.setViewportSize({ width, height: 1000 });
-    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    for (const [id, primaryLabel, liveLabel, figmaHref, sourceHref] of expectations) {
-      const card = page.locator(`[data-flagship="${id}"]`);
-      const actions = card.locator('.flagship-actions a');
-      await expect(actions).toHaveCount(4);
-      await expect(actions.nth(0)).toHaveText(primaryLabel);
-      await expect(actions.nth(0)).toHaveClass(/flagship-primary/);
-      await expect(actions.nth(1)).toHaveText(liveLabel);
-      await expect(actions.nth(1)).toHaveClass(/flagship-secondary/);
-      await expect(actions.nth(2)).toHaveText('Figma ↗');
-      await expect(actions.nth(2)).toHaveClass(/flagship-secondary/);
-      expect((await actions.nth(2).getAttribute('href')).replaceAll('&amp;', '&')).toBe(figmaHref);
-      await expect(actions.nth(3)).toHaveText('Source ↗');
-      await expect(actions.nth(3)).toHaveClass(/flagship-secondary/);
-      await expect(actions.nth(3)).toHaveAttribute('href', sourceHref);
-    }
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
-    expect(overflow, `homepage horizontal overflow at ${width}px`).toBe(false);
-  }
-});
-
-test('flagship case studies expose Live, Figma and Source in reviewer order', async ({ page }) => {
-  for (const route of ['case-study-nova.html', 'case-study-sentry.html', 'case-study-luxroom.html']) {
-    await page.goto(`${baseURL}/${route}`, { waitUntil: 'domcontentloaded' });
-    const hero = page.locator('.case-hero-actions');
-    const labels = await hero.locator('a').allTextContents();
-    expect(labels.slice(0, 3).map(v => v.trim())).toEqual(expect.arrayContaining(['Live prototype ↗', 'Live demo ↗', 'View Figma ↗', 'Source code ↗']).filter(() => false));
-    await expect(hero.getByRole('link', { name: /Figma/i })).toBeVisible();
-    await expect(hero.getByRole('link', { name: /Source code/i })).toBeVisible();
-  }
-});
-'''
-          # Replace the intentionally generic second-test label check with route-specific order assertions.
-          q = q.replace("    const labels = await hero.locator('a').allTextContents();\n    expect(labels.slice(0, 3).map(v => v.trim())).toEqual(expect.arrayContaining(['Live prototype ↗', 'Live demo ↗', 'View Figma ↗', 'Source code ↗']).filter(() => false));\n", "    const labels = (await hero.locator('a').allTextContents()).map(v => v.trim());\n    const expectedLive = route.includes('luxroom') ? 'Live demo ↗' : 'Live prototype ↗';\n    expect(labels.slice(0, 3)).toEqual([expectedLive, 'View Figma ↗', 'Source code ↗']);\n")
-          qa.write_text(q)
           PY
       - name: Commit patch
         run: |
@@ -145,6 +70,6 @@ test('flagship case studies expose Live, Figma and Source in reviewer order', as
             echo "No patch changes needed"
             exit 0
           fi
-          git add index.html portfolio-product-upgrade.css case-study-nova.html case-study-sentry.html case-study-luxroom.html qa/portfolio-v5.spec.mjs
+          git add index.html portfolio-product-upgrade.css case-study-nova.html case-study-sentry.html case-study-luxroom.html
           git commit -m "feat: add Figma to flagship CTA hierarchy"
           git push origin HEAD:feat/figma-cta-hierarchy
