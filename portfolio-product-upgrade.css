@@ -127,3 +127,13 @@
 .nova-evidence-card .nova-proof-signals span{font-size:9px;line-height:1.25;letter-spacing:.045em;text-transform:none;color:#f0f0eb}
 .nova-evidence-card .flagship-actions a{font-size:10.5px;letter-spacing:.08em}
 @media(max-width:720px){.nova-evidence-card .nova-card-scoreboard span{font-size:9px}.nova-evidence-card .nova-card-method{font-size:10px}.nova-evidence-card .nova-proof-signals span{font-size:9px}.flagship-actions{gap:12px 18px}.flagship-actions a{font-size:10.5px}}
+
+
+/* ALL_PROJECT_CTA_HIERARCHY — recruiter inspection order */
+.project-actions.project-artifact-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.project-actions.project-artifact-actions .project-artifact-action{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 12px;border:1px solid #b8b8b2;border-radius:999px;background:transparent;color:#242421;font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:border-color .2s ease,background .2s ease,color .2s ease,opacity .2s ease}
+.project-actions.project-artifact-actions .project-artifact-action:hover{border-color:#111;color:#111;opacity:1;text-decoration:none}
+.project-actions.project-artifact-actions .project-artifact-primary{background:#111;border-color:#111;color:#fff!important}
+.project-actions.project-artifact-actions .project-artifact-primary:hover{background:#2a2a28;border-color:#2a2a28;color:#fff!important}
+@media(max-width:760px){.project-actions.project-artifact-actions{align-items:stretch}.project-actions.project-artifact-actions .project-artifact-primary{flex:0 0 100%}.project-actions.project-artifact-actions .project-artifact-secondary{flex:1 1 112px;min-width:0;padding-inline:9px}}
+@media(prefers-reduced-motion:reduce){.project-actions.project-artifact-actions .project-artifact-action{transition:none!important}}

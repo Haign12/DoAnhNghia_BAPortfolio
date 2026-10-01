@@ -208,7 +208,7 @@
   if (heroSans) heroSans.textContent = 'Designing complex web & product experiences.';
 
   const workGuideMode = document.querySelector('.work-guide > span');
-  if (workGuideMode) workGuideMode.textContent = 'Each project · Live Demo or Source Code + View Figma';
+  if (workGuideMode) workGuideMode.textContent = 'Each project · Read case → Live → Figma → Source';
 
   const workGuideCount = document.querySelector('.work-guide > strong');
   if (workGuideCount) workGuideCount.textContent = '11 projects / systems';
@@ -258,45 +258,70 @@
     if (indexNode) indexNode.textContent = `${String(index + 1).padStart(2, '0')} / 11`;
   });
 
-  /* Personal project cards now surface Figma as the secondary proof.
-     Until the user supplies each Figma URL, keep these buttons visibly present but non-navigating
-     so the label never sends visitors to the old Case Study destination by mistake. */
-  document.querySelectorAll('.project-actions a').forEach((link) => {
-    if (!/^Case Study/i.test(link.textContent.trim())) return;
-    link.textContent = 'View Figma ↗';
-    link.removeAttribute('href');
-    link.removeAttribute('target');
-    link.removeAttribute('rel');
-    link.setAttribute('aria-disabled', 'true');
-    link.setAttribute('title', 'Figma link coming soon');
-    link.classList.add('figma-link-pending');
-  });
+  /* Recruiter-facing artifact hierarchy for every supporting project card.
+     One primary action = read the case. Working artifacts follow in inspection order:
+     Live -> Figma -> Source. Missing artifacts are omitted rather than fabricated. */
+  const normalizeArtifactName = (value) => (value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
 
-  /* Connect supplied Figma files to their matching portfolio projects. */
-  const figmaProjectLinks = new Map([
-    ['.project-proof-card--atelier', 'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1'],
-    ['.project-proof-card--capital', 'https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1'],
-    ['.project-proof-card--vas', 'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1'],
-    ['.project-proof-card--voltis', 'https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1'],
-    ['.project-proof-card--cennext', 'https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1'],
-    ['.project-proof-card--vietbank', 'https://www.figma.com/design/a76mFeNL97daVeVfs8UsRW/VietBank?node-id=0-1&t=rXhD2IcSTPLQDEhI-1'],
-    ['.project-proof-card--qtsc', 'https://www.figma.com/design/wugoCyDEEfzSgu0gQoyum5/QTSC?node-id=0-1&t=LykADgxvJ62WCIu7-1'],
-    ['.project-proof-card--violet', 'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1'],
-  ]);
+  const projectArtifactRegistry = [
+    { names:['Atelier'], case:'case-study-atelier.html', live:'https://atelier-henna-tau.vercel.app/', figma:'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/Atelier' },
+    { names:['LuxRoom'], case:'case-study-luxroom.html', live:'https://lux-room.vercel.app/', figma:'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1', source:'https://github.com/Ngh1aa/LuxRoom' },
+    { names:['Capital Place','Capital'], case:'case-study-capital-place.html', live:'https://capital-weld.vercel.app/', figma:'https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/Capital' },
+    { names:['VAS Education','VAS'], case:'case-study-vas-education.html', live:'https://redesign-vas.vercel.app/', figma:'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/RedesignVAS' },
+    { names:['Vietbank Redesign','Vietbank'], case:'case-study-vietbank.html', live:'https://ngh1aa.github.io/Redesign-Vietbank-Website/', figma:'https://www.figma.com/design/a76mFeNL97daVeVfs8UsRW/VietBank?node-id=0-1&t=rXhD2IcSTPLQDEhI-1', source:'https://github.com/Ngh1aa/Redesign-Vietbank-Website' },
+    { names:['QTSC'], case:'case-study-qtsc.html', live:'https://ngh1aa.github.io/QTSC/', figma:'https://www.figma.com/design/wugoCyDEEfzSgu0gQoyum5/QTSC?node-id=0-1&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/QTSC' },
+    { names:['StudioOS'], case:'case-study-studioos.html', live:'https://ngh1aa.github.io/StudioOS/', source:'https://github.com/Ngh1aa/StudioOS' },
+    { names:['UI Feedback Tool'], case:'case-study-ui-feedback-tool.html', live:'https://ngh1aa.github.io/ui-feedback-tool/', source:'https://github.com/Ngh1aa/ui-feedback-tool' },
+    { names:['skills_UIUX','skills UIUX'], case:'case-study-skills-uiux.html', live:'demo-skills-uiux.html', source:'https://github.com/Ngh1aa/skills_UIUX' },
+    { names:['Violet Marketplace','Violet'], case:'case-study-violet-marketplace.html', live:'https://violet-marketplace.vercel.app/', figma:'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/VioletMarketplace' },
+    { names:['VOLTIS','Voltis'], case:'case-study-voltis.html', live:'https://voltis-one.vercel.app/', figma:'https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/Voltis' },
+    { names:['CENNEXT B2B Prototype','CENNEXT','G.I.E','G.I.E / CENNEXT'], case:'case-study-cennext.html', live:'https://cennext-b2b-prototype.vercel.app/', figma:'https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/cennext-b2b-prototype' },
+    { names:['LUMEN','Lumen'], case:'case-study-lumen.html', live:'https://ngh1aa.github.io/Lumen/', source:'https://github.com/Ngh1aa/Lumen' },
+    { names:['HUẾ — Between River & Citadel','Hue — Between River & Citadel','HUẾ','Hue'], case:'case-study-hue.html', live:'https://ngh1aa.github.io/Mostar-Guide/', source:'https://github.com/Ngh1aa/Mostar-Guide' },
+    { names:['Flux'], case:'case-study-flux.html', live:'https://flux-six-liard.vercel.app/', figma:'https://www.figma.com/design/bZIqaMK97vwzBuSdD8risu/Flux?node-id=1-3427&t=BvIxuJu3KrFWy5Lg-1', source:'https://github.com/Ngh1aa/Flux' },
+    { names:['ACCESS','Access'], case:'case-study-access.html', live:'https://access-nbuz.vercel.app/', figma:'https://www.figma.com/design/tQzqKtw8x6Iu4ohKy9LOwo/access?node-id=6-1428&t=2W8CDU1K7QISp6eC-1', source:'https://github.com/Ngh1aa/Access' },
+    { names:['UIUX Factory','UI/UX Factory'], case:'case-study-uiux-factory.html', source:'https://github.com/Ngh1aa/uiux-ai-workspace' },
+  ];
 
-  figmaProjectLinks.forEach((url, selector) => {
-    const card = document.querySelector(selector);
-    if (!card) return;
-    const figmaLink = [...card.querySelectorAll('.project-actions a')]
-      .find((link) => /^View Figma/i.test(link.textContent.trim()));
-    if (!figmaLink) return;
+  const artifactByProjectName = new Map();
+  projectArtifactRegistry.forEach((project) => project.names.forEach((name) => {
+    artifactByProjectName.set(normalizeArtifactName(name), project);
+  }));
 
-    figmaLink.href = url;
-    figmaLink.target = '_blank';
-    figmaLink.rel = 'noopener noreferrer';
-    figmaLink.removeAttribute('aria-disabled');
-    figmaLink.removeAttribute('title');
-    figmaLink.classList.remove('figma-link-pending');
+  const makeArtifactLink = ({ label, href, kind, primary = false, newTab = false }, projectName) => {
+    const link = document.createElement('a');
+    link.className = `project-artifact-action ${primary ? 'project-artifact-primary' : 'project-artifact-secondary'}`;
+    link.dataset.artifactKind = kind;
+    link.href = href;
+    link.textContent = label;
+    link.setAttribute('aria-label', `${label.replace(' ↗','')} — ${projectName}`);
+    if (newTab) {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+    return link;
+  };
+
+  document.querySelectorAll('.project-proof-card').forEach((card) => {
+    const projectName = card.querySelector('h3')?.textContent.trim() || '';
+    const project = artifactByProjectName.get(normalizeArtifactName(projectName));
+    const actions = card.querySelector('.project-actions');
+    if (!project || !actions) return;
+
+    const specs = [
+      { label:'Read case ↗', href:project.case, kind:'case', primary:true },
+      project.live ? { label:'Live prototype ↗', href:project.live, kind:'live', newTab:true } : null,
+      project.figma ? { label:'View Figma ↗', href:project.figma, kind:'figma', newTab:true } : null,
+      project.source ? { label:'Source ↗', href:project.source, kind:'source', newTab:true } : null,
+    ].filter(Boolean);
+
+    actions.classList.add('project-artifact-actions');
+    actions.replaceChildren(...specs.map((spec) => makeArtifactLink(spec, projectName)));
   });
 
   const realityLabels = new Map([

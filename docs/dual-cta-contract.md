@@ -1,29 +1,34 @@
-# Portfolio project CTA contract
+# Portfolio project CTA hierarchy contract
 
-Every project card on the homepage exposes exactly two actions:
+The recruiter-facing order is intentionally consistent across the portfolio:
 
-1. Primary proof action — `Live Demo` for interactive prototypes, or `Source Code` for repository-first tools/systems.
-2. `Case Study` — opens the portfolio narrative explaining problem, role, decisions, output and known evidence boundaries.
+**Homepage card:** `Read case → Live prototype → View Figma → Source`
 
-## Current mapping
+**Inside a case study:** `Live prototype → View Figma → Source`
 
-| Project | Primary proof | Case Study |
-|---|---|---|
-| Atelier | https://atelier-henna-tau.vercel.app/ — `Live Demo` | `case-study-atelier.html` |
-| LuxRoom | https://lux-room.vercel.app/ — `Live Demo` | `case-study-luxroom.html` |
-| Capital Place | https://capital-weld.vercel.app/ — `Live Demo` | `case-study-capital-place.html` |
-| VAS Education | https://redesign-vas.vercel.app/ — `Live Demo` | `case-study-vas-education.html` |
-| Vietbank Redesign | https://ngh1aa.github.io/Redesign-Vietbank-Website/ — `Live Demo` | `case-study-vietbank.html` |
-| QTSC | https://ngh1aa.github.io/QTSC/ — `Live Demo` | `case-study-qtsc.html` |
-| StudioOS | https://ngh1aa.github.io/StudioOS/ — `Live Demo` | `case-study-studioos.html` |
-| UI Feedback Tool | https://github.com/Ngh1aa/ui-feedback-tool — `Source Code` | `case-study-ui-feedback-tool.html` |
-| skills_UIUX | https://github.com/Ngh1aa/skills_UIUX — `Source Code` | `case-study-skills-uiux.html` |
+The filename is retained for compatibility with older documentation, but the old two-CTA contract is retired.
 
-## UI contract
+## Rules
 
-- exactly two action anchors per `.project-actions` block;
-- same order on every card: primary proof, then Case Study;
-- primary proof uses the filled treatment; Case Study uses the secondary treatment;
-- minimum interactive height: 44px desktop, 46px narrow mobile;
-- reduced motion disables CTA translation;
-- use `Source Code` only when the repository is the intended primary artifact; do not mislabel a repository as a live product demo.
+- `Read case` is the only primary CTA on a homepage project card.
+- Live, Figma and Source share one outlined secondary tier.
+- Figma appears before Source because this is a Product Designer portfolio.
+- Missing public artifacts are omitted rather than linked to placeholders or fabricated destinations.
+- On narrow mobile widths, `Read case` becomes full width; secondary artifact actions wrap below it.
+- Repository-first systems may omit Live and/or Figma when those artifacts do not exist publicly.
+- A case-study page does not repeat `Read case`; it exposes working artifacts in the same inspection order after the narrative is already open.
+
+## Public-evidence boundary
+
+LUMEN and HUẾ do not currently have published Figma links, so no Figma CTA is generated for those projects. UIUX Factory is repository-first and likewise does not invent a Figma or live-product destination.
+
+## QA contract
+
+`qa/all-project-cta-hierarchy.spec.mjs` protects:
+
+- every current supporting homepage project card being normalized;
+- exact artifact ordering;
+- one primary case CTA per card;
+- no dead `aria-disabled` artifact buttons;
+- mobile wrapping/no horizontal overflow;
+- matching artifact order inside every case route reachable from the supporting library.
