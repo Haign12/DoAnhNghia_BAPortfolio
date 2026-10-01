@@ -137,3 +137,11 @@
 .project-actions.project-artifact-actions .project-artifact-primary:hover{background:#2a2a28;border-color:#2a2a28;color:#fff!important}
 @media(max-width:760px){.project-actions.project-artifact-actions{align-items:stretch}.project-actions.project-artifact-actions .project-artifact-primary{flex:0 0 100%}.project-actions.project-artifact-actions .project-artifact-secondary{flex:1 1 112px;min-width:0;padding-inline:9px}}
 @media(prefers-reduced-motion:reduce){.project-actions.project-artifact-actions .project-artifact-action{transition:none!important}}
+
+/* A33 — Product Designer artifact inspection hierarchy across all project cards */
+#work .project-links.project-artifact-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:24px}
+#work .project-links.project-artifact-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 12px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:opacity .2s,border-color .2s,background-color .2s,color .2s}
+#work .project-links.project-artifact-actions .project-artifact-primary{background:#111;color:#fff;border:1px solid #111}
+#work .project-links.project-artifact-actions .project-artifact-secondary{background:transparent;color:#333;border:1px solid #b7b7b0}
+#work .project-links.project-artifact-actions .project-artifact-secondary:hover{border-color:#111;color:#111}
+@media(max-width:760px){#work .project-links.project-artifact-actions{align-items:stretch}#work .project-links.project-artifact-actions .project-artifact-primary{flex:0 0 100%}#work .project-links.project-artifact-actions .project-artifact-secondary{flex:1 1 118px;min-width:0;padding-inline:9px}}
