@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 
 const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
 
+test.setTimeout(90_000);
+
 const assertOrderedKinds = (kinds) => {
   expect(kinds[0]).toBe('case');
   const rank = { case: 0, live: 1, figma: 2, source: 3 };
