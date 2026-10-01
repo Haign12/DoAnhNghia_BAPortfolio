@@ -442,3 +442,29 @@ test('A32 case studies expose a 30-second proof strip with honest evidence bound
   await page.goto(`${baseURL}/case-study-uiux-factory.html`);
   await expect(page.locator('#project-30-sec-proof')).toContainText('human workflow impact not measured');
 });
+
+
+// LEAN_FLAGSHIP_HOME_V2
+
+test('lean homepage prioritizes Nova, Sentry and LuxRoom while Factory moves to How I work', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+
+  const names = await page.locator('#flagships [data-flagship] h3').allTextContents();
+  expect(names).toEqual(['Nova', 'Sentry', 'LuxRoom']);
+  await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
+  await expect(page.locator('#ai-workflow')).toContainText('UIUX Factory');
+  await expect(page.locator('a[href="case-study-professional-work.html"]').first()).toBeVisible();
+  await expect(page.locator('#ai-workflow a[href="case-study-uiux-factory.html"]')).toBeVisible();
+
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+    expect(overflow, `homepage horizontal overflow at ${width}px`).toBe(false);
+    await page.locator('#flagships').scrollIntoViewIfNeeded();
+    await page.locator('#flagships').screenshot({ path: `qa-artifacts/lean-flagships-${width}.png` });
+    await page.locator('#ai-workflow').scrollIntoViewIfNeeded();
+    await page.locator('#ai-workflow').screenshot({ path: `qa-artifacts/how-i-work-${width}.png` });
+  }
+});
