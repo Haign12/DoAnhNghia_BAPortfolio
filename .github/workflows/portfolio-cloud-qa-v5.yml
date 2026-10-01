@@ -60,7 +60,7 @@ jobs:
         run: |
           mkdir -p qa-artifacts
           set +e
-          npx playwright test qa/portfolio-v5.spec.mjs qa/professional-work.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
+          npx playwright test qa/portfolio-v5.spec.mjs qa/professional-work.spec.mjs qa/all-project-cta-hierarchy.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
