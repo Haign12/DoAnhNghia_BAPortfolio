@@ -200,7 +200,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await menu.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByRole('link', { name: 'AI workflow', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'How I work', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Writing', exact: true })).toBeVisible();
     const work = page.getByRole('link', { name: 'Work', exact: true });
     await work.click();
