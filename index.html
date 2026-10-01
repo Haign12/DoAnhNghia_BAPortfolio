@@ -60,18 +60,24 @@ main{overflow:hidden}.hero{min-height:100svh;position:relative;display:grid;alig
 .magnetic {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s, color 0.25s, opacity 0.25s !important;
 }
+
+/* Recruiter-first scan: no blocking splash before product proof. */
+.preloader{display:none!important}
+.skip{top:-100px!important;transform:none!important}
+.skip:focus{top:16px!important}
+
 </style>
 <link rel="stylesheet" href="portfolio-product-upgrade.css?v=20260918-product-designer-v1">
 <link rel="stylesheet" href="project-proof-strip.css?v=20260930-a32">
 <noscript><style>.role-line b,.hero-intro,.reveal{transform:none!important;opacity:1!important}</style></noscript>
 </head>
 <body class="leadership-track">
-<a class="skip" href="#work">Skip to projects</a>
+<a class="skip" href="#flagships">Skip to selected work</a>
 <div class="preloader" aria-hidden="true"><div class="pre-brand">Do Anh Nghia<br>Portfolio / 2026</div><div class="pre-count"><b id="preCount">0</b><span>%</span></div></div>
 <header class="site-nav">
   <nav class="nav-inner" aria-label="Primary navigation">
     <a class="brand" href="#top" aria-label="Do Anh Nghia"><svg class="brand-logo" width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="#111" /><text x="50%" y="54%" font-family="var(--display)" font-size="16" fill="#fff" text-anchor="middle" dominant-baseline="middle" letter-spacing="1">DN</text></svg><span class="brand-name">DO ANH NGHIA</span></a>
-    <div class="nav-links" id="navLinks"><a href="#story">About</a><a href="#flagships">Work</a><a href="#ai-workflow">AI workflow</a><a href="#writing">Writing</a><a href="#experience">Experience</a><a href="#contact">Contact</a><a class="nav-cta" href="Do_Anh_Nghia_Product_Designer_CV.pdf" target="_blank" rel="noopener">Resume ↗</a></div>
+    <div class="nav-links" id="navLinks"><a href="#story">About</a><a href="#flagships">Work</a><a href="#ai-workflow">How I work</a><a href="#writing">Writing</a><a href="#experience">Experience</a><a href="#contact">Contact</a><a class="nav-cta" href="Do_Anh_Nghia_Product_Designer_CV.pdf" target="_blank" rel="noopener">Resume ↗</a></div>
     <button class="menu" id="menuBtn" aria-label="Open navigation" aria-expanded="false"><i></i></button>
   </nav>
 </header>
@@ -624,19 +630,10 @@ function startHero() {
   });
 }
 
-// Preloader smooth count animation
-let n = 0;
-const timer = setInterval(() => {
-  n = Math.min(100, n + Math.floor(Math.random() * 8 + 4));
-  if (count) count.textContent = n;
-  if (n >= 100) {
-    clearInterval(timer);
-    setTimeout(() => {
-      if (pre) pre.classList.add('done');
-      startHero();
-    }, 220);
-  }
-}, 38);
+// Recruiter-first loading: preserve the hero entrance, remove the blocking splash.
+if (count) count.textContent = '100';
+if (pre) pre.classList.add('done');
+startHero();
 
 // Scroll reveal observer with safe threshold and margin
 const io = new IntersectionObserver(entries => {

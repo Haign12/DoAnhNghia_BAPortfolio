@@ -127,12 +127,11 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('Technical QA proves implementation behavior, not user comprehension or business impact.');
     expect(source).toContain('case-study-professional-work.html');
     expect(source).toContain('https://github.com/Ngh1aa/Reslove-AI');
-    expect(source).toContain('nova-card-scoreboard');
-    expect(source).toContain('Recovery clarity · regression signal');
+    expect(source).toContain('Make protected money, sensitive-action consequences and failure recovery explicit');
     expect(source).toContain('async self-report records');
     expect(source).toContain('Read Nova case ↗');
     expect(source).toContain('Live prototype ↗');
-    expect(source).toContain('Figma ↗');
+    expect(source).toContain('case-study-professional-work.html');
   });
 
   test('supporting case links are real routes instead of placeholders', async ({ page }) => {
@@ -459,6 +458,8 @@ test('A32 case studies expose a 30-second proof strip with honest evidence bound
 test('lean homepage prioritizes Nova, Sentry and LuxRoom while Factory moves to How I work', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.preloader')).toBeHidden();
+  await expect(page.locator('#hero')).toHaveClass(/ready/);
 
   const names = await page.locator('#flagships [data-flagship] h3').allTextContents();
   expect(names).toEqual(['Nova', 'Sentry', 'LuxRoom']);
@@ -470,6 +471,7 @@ test('lean homepage prioritizes Nova, Sentry and LuxRoom while Factory moves to 
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.preloader')).toBeHidden();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     expect(overflow, `homepage horizontal overflow at ${width}px`).toBe(false);
     await page.locator('#flagships').scrollIntoViewIfNeeded();
