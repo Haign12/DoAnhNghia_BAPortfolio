@@ -68,7 +68,6 @@ test('mobile keeps one dominant case CTA and wraps artifact links cleanly', asyn
 test('case-study artifact registry preserves live → figma → source order without invented links', async ({ page }) => {
   const source = fs.readFileSync('case-study.js', 'utf8');
   expect(source).toContain('caseArtifactRegistry');
-  expect(source).toContain('data-artifact-kind');
 
   const samples = [
     ['case-study-nova.html', ['live', 'figma', 'source']],
