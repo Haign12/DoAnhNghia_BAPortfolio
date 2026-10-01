@@ -60,7 +60,7 @@ jobs:
         run: |
           mkdir -p qa-artifacts
           set +e
-          npx playwright test qa/portfolio-v5.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
+          npx playwright test qa/portfolio-v5.spec.mjs qa/professional-work.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
@@ -93,7 +93,7 @@ jobs:
           const failed = rows.filter(r => r.status === 'FAIL').length;
           let md = `## UIUX Factory — Browser QA evidence\n\n**${passed} passed · ${failed} failed**\n\n`;
           md += rows.map(r => `- **${r.status}** — ${r.title}${r.error ? `\n  - ${r.error.replace(/\s+/g,' ').slice(0,420)}` : ''}`).join('\n');
-          md += `\n\nArtifacts: full-page screenshots at 1440, 1280 and 390 px when those tests execute.`;
+          md += `\n\nArtifacts: full-page screenshots at recruiter-critical desktop/mobile widths when those tests execute.`;
           fs.writeFileSync('qa-artifacts/browser-summary.md', md);
           console.log(md);
           NODE
