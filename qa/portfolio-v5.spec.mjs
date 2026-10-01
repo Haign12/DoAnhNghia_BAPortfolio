@@ -81,10 +81,13 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.getByText(/Product Designer · Fintech \/ B2B · AI-assisted design-to-code/)).toBeVisible();
     await expect(page.locator('#flagships')).toBeVisible();
     await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
-    await expect(page.locator('#flagships .flagship-card').first().getByRole('heading', { level: 3 })).toHaveText('UIUX Factory');
-    await expect(page.locator('#flagships a[href="case-study-uiux-factory.html"]').first()).toBeVisible();
+    const flagshipNames = await page.locator('#flagships [data-flagship] h3').allTextContents();
+    expect(flagshipNames).toEqual(['Nova', 'Sentry', 'LuxRoom']);
     await expect(page.locator('#flagships a[href="case-study-nova.html"]').first()).toBeVisible();
     await expect(page.locator('#flagships a[href="case-study-sentry.html"]').first()).toBeVisible();
+    await expect(page.locator('#flagships a[href="case-study-luxroom.html"]').first()).toBeVisible();
+    await expect(page.locator('#flagships a[href="case-study-uiux-factory.html"]')).toHaveCount(0);
+    await expect(page.locator('#ai-workflow a[href="case-study-uiux-factory.html"]')).toBeVisible();
     await expect(page.getByText(/Evidence boundary:/).first()).toBeVisible();
     await expect(page.locator('#ai-workflow')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'AI is a multiplier, not the product owner.' })).toBeVisible();
@@ -118,14 +121,17 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('Static prototypes stay labeled honestly');
     expect(source).toContain('CI-verified Next.js 16 / React 19 / TypeScript 7 implementation');
     expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');
-    expect(source).toContain('Nova/tree/main/research/validation/nova-round-02');
+    expect(source).toContain('data-flagship="nova"');
+    expect(source).toContain('data-flagship="sentry"');
+    expect(source).toContain('data-flagship="luxroom"');
+    expect(source).toContain('Technical QA proves implementation behavior, not user comprehension or business impact.');
+    expect(source).toContain('case-study-professional-work.html');
     expect(source).toContain('https://github.com/Ngh1aa/Reslove-AI');
-    expect(source).toContain('nova-card-scoreboard');
-    expect(source).toContain('Recovery clarity · regression signal');
+    expect(source).toContain('Make protected money, sensitive-action consequences and failure recovery explicit');
     expect(source).toContain('async self-report records');
     expect(source).toContain('Read Nova case ↗');
     expect(source).toContain('Live prototype ↗');
-    expect(source).toContain('Figma ↗');
+    expect(source).toContain('case-study-professional-work.html');
   });
 
   test('supporting case links are real routes instead of placeholders', async ({ page }) => {
@@ -194,7 +200,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await menu.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByRole('link', { name: 'AI workflow', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'How I work', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Writing', exact: true })).toBeVisible();
     const work = page.getByRole('link', { name: 'Work', exact: true });
     await work.click();
@@ -241,7 +247,8 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
       expect(source).toContain('No invented before/after delta.');
     }
     const home = await fs.readFile('index.html', 'utf8');
-    expect(home).toContain('numeric thresholds across this portfolio are labeled as targets');
+    expect(home).toContain('Technical QA proves implementation behavior, not user comprehension or business impact.');
+    expect(home).toContain('Observed commerce testing and conversion impact are still unmeasured.');
   });
 
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
@@ -347,11 +354,13 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
       expect(hrefs).not.toContain('#');
     }
 
-    for (const project of ['UIUX Factory', 'Nova', 'Sentry']) {
-      const card = page.locator('.flagship-card', { has: page.getByRole('heading', { level: 3, name: project }) });
+    for (const project of ['Nova', 'Sentry', 'LuxRoom']) {
+      const card = page.locator('#flagships .flagship-card', { has: page.getByRole('heading', { level: 3, name: project }) });
       await expect(card).toHaveCount(1);
       expect(await card.locator('.flagship-senior-signals span').count()).toBeGreaterThanOrEqual(4);
     }
+    await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
+    await expect(page.locator('#ai-workflow')).toContainText('UIUX Factory');
   });
 
 
@@ -441,4 +450,33 @@ test('A32 case studies expose a 30-second proof strip with honest evidence bound
   await expect(page.locator('#project-30-sec-proof')).toContainText('direct-user baseline not measured');
   await page.goto(`${baseURL}/case-study-uiux-factory.html`);
   await expect(page.locator('#project-30-sec-proof')).toContainText('human workflow impact not measured');
+});
+
+
+// LEAN_FLAGSHIP_HOME_V2
+
+test('lean homepage prioritizes Nova, Sentry and LuxRoom while Factory moves to How I work', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.preloader')).toBeHidden();
+  await expect(page.locator('#hero')).toHaveClass(/ready/);
+
+  const names = await page.locator('#flagships [data-flagship] h3').allTextContents();
+  expect(names).toEqual(['Nova', 'Sentry', 'LuxRoom']);
+  await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
+  await expect(page.locator('#ai-workflow')).toContainText('UIUX Factory');
+  await expect(page.locator('a[href="case-study-professional-work.html"]').first()).toBeVisible();
+  await expect(page.locator('#ai-workflow a[href="case-study-uiux-factory.html"]')).toBeVisible();
+
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.preloader')).toBeHidden();
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+    expect(overflow, `homepage horizontal overflow at ${width}px`).toBe(false);
+    await page.locator('#flagships').scrollIntoViewIfNeeded();
+    await page.locator('#flagships').screenshot({ path: `qa-artifacts/lean-flagships-${width}.png` });
+    await page.locator('#ai-workflow').scrollIntoViewIfNeeded();
+    await page.locator('#ai-workflow').screenshot({ path: `qa-artifacts/how-i-work-${width}.png` });
+  }
 });
