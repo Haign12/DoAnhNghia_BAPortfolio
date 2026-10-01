@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
+import fs from 'node:fs/promises';
 
 const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
+const artifactDir = 'qa-artifacts';
 
 const flagships = [
   {
@@ -33,12 +35,17 @@ const flagships = [
 ];
 
 test('flagship cards keep one primary CTA and order Case → Live → Figma → Source', async ({ page }) => {
+  await fs.mkdir(artifactDir, { recursive: true });
+
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
 
     for (const item of flagships) {
       const card = page.locator(`[data-flagship="${item.id}"]`);
+      await card.scrollIntoViewIfNeeded();
+      await expect(card).toBeVisible();
+
       const actions = card.locator('.flagship-actions a');
       await expect(actions).toHaveCount(4);
       await expect(actions.nth(0)).toHaveText(item.caseLabel);
@@ -51,6 +58,8 @@ test('flagship cards keep one primary CTA and order Case → Live → Figma → 
       await expect(actions.nth(3)).toHaveText('Source ↗');
       await expect(actions.nth(3)).toHaveClass(/flagship-secondary/);
       await expect(actions.nth(3)).toHaveAttribute('href', item.source);
+
+      await card.screenshot({ path: `${artifactDir}/figma-cta-${item.id}-${width}.png` });
     }
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
