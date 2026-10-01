@@ -1,0 +1,47 @@
+name: Lean Homepage Transform
+
+on:
+  push:
+    branches:
+      - feat/lean-flagship-homepage
+    paths:
+      - 'scripts/ci/lean-homepage-transform.mjs'
+      - '.github/workflows/lean-homepage-transform.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  transform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Transform recruiter hierarchy safely
+        run: node scripts/ci/lean-homepage-transform.mjs
+      - name: Verify supporting library survived intact
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html','utf8');
+          const qa = fs.readFileSync('qa/portfolio-v5.spec.mjs','utf8');
+          const start = html.indexOf('<section class="section flagship-work" id="flagships"');
+          const end = html.indexOf('</section>', start);
+          const region = html.slice(start,end);
+          const order = ['case-study-nova.html','case-study-sentry.html','case-study-luxroom.html'].map(x=>region.indexOf(x));
+          if (!(order[0] >= 0 && order[0] < order[1] && order[1] < order[2])) throw new Error(`Bad order ${order}`);
+          if (region.includes('case-study-uiux-factory.html')) throw new Error('Factory is still flagship');
+          if ((html.match(/<span class="project-no">/g)||[]).length !== 14) throw new Error('Supporting library count changed');
+          for (const token of ['data-project="hue-between-river-citadel"','case-study-lumen.html','data-how-i-work="uiux-factory"','data-professional-work="verified"']) if (!html.includes(token)) throw new Error(`Missing ${token}`);
+          if (!qa.includes("['Nova', 'Sentry', 'LuxRoom']")) throw new Error('Recruiter QA hierarchy not updated');
+          NODE
+      - name: Commit transformed source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '4189821+github-actions[bot]@users.noreply.github.com'
+          git add index.html qa/portfolio-v5.spec.mjs
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'feat: refocus homepage on Nova Sentry LuxRoom'
+          git push
