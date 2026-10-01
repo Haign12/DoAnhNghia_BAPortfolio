@@ -1,0 +1,29 @@
+name: Recruiter scan polish
+
+on:
+  push:
+    branches:
+      - feat/lean-flagship-homepage-v2
+    paths:
+      - .github/workflows/recruiter-scan-polish.yml
+      - scripts/recruiter-scan-polish.py
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/lean-flagship-homepage-v2
+          fetch-depth: 0
+      - run: python scripts/recruiter-scan-polish.py
+      - name: Commit recruiter-first polish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix: remove blocking splash from recruiter scan"
+          git push origin HEAD:feat/lean-flagship-homepage-v2
