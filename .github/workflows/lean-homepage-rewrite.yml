@@ -1,0 +1,139 @@
+name: Lean flagship homepage rewrite
+
+on:
+  push:
+    branches:
+      - feat/lean-flagship-homepage-v2
+    paths:
+      - .github/workflows/lean-homepage-rewrite.yml
+
+permissions:
+  contents: write
+
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/lean-flagship-homepage-v2
+          fetch-depth: 0
+
+      - name: Apply recruiter-first homepage hierarchy
+        run: |
+          python <<'PY'
+          from pathlib import Path
+
+          index_path = Path('index.html')
+          text = index_path.read_text()
+          start_marker = '<section class="section flagship-section" id="flagships" aria-labelledby="flagship-title">'
+          end_marker = '<section class="section leadership-section" id="ai-workflow" aria-labelledby="ai-workflow-title">'
+          start = text.index(start_marker)
+          end = text.index(end_marker, start)
+
+          flagship = '''<section class="section flagship-section" id="flagships" aria-labelledby="flagship-title">
+  <div class="flagship-head reveal">
+    <div>
+      <p class="eyebrow">Selected product work</p>
+      <h2 class="section-title" id="flagship-title">Three cases.<br>Three kinds of judgment.</h2>
+      <p class="section-lead">A focused set across <strong>consumer fintech → operational systems → high-consideration commerce.</strong></p>
+    </div>
+    <p class="flagship-meta"><strong>Selection logic:</strong> each case demonstrates a different product problem, consequential decisions, working states and an explicit evidence boundary.</p>
+  </div>
+  <div class="flagship-grid">
+    <article class="flagship-card reveal nova-evidence-card" data-flagship="nova">
+      <a class="flagship-media" href="case-study-nova.html" aria-label="Read Nova Product Design case study"><img src="thumbnail/nova.png" alt="Nova consumer finance product interface" loading="lazy" decoding="async"><span class="flagship-proof">Fintech judgment · 2 self-report rounds</span></a>
+      <div class="flagship-copy">
+        <div class="flagship-index"><span>01 / Consumer fintech</span><span>Independent concept</span></div>
+        <h3>Nova</h3>
+        <p class="flagship-thesis">Personal finance organized around a harder question than “what is my balance?” — what is actually safe to spend after known obligations and a protected buffer?</p>
+        <div class="flagship-evidence"><div><span>Decision</span><p>Make protected money, sensitive-action consequences and failure recovery explicit at the moment of choice rather than hiding them in supporting copy.</p></div><div><span>Evidence boundary</span><p>10 verified async self-report records across two rounds; 0 moderated sessions. Latest post-Round-02 changes are implemented and technically verified, not human-retested.</p></div></div>
+        <div class="flagship-senior-signals"><strong>What this case shows</strong><span>Money mental models</span><span>Risk + recovery states</span><span>Accessibility + implementation</span><span>Evidence honesty</span></div>
+        <div class="flagship-actions"><a class="flagship-primary" href="case-study-nova.html">Read Nova case ↗</a><a href="https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Nova" target="_blank" rel="noopener">Source ↗</a></div>
+      </div>
+    </article>
+
+    <article class="flagship-card reveal" data-flagship="sentry">
+      <a class="flagship-media" href="case-study-sentry.html" aria-label="Read Sentry Product Design case study"><img src="thumbnail/sentry.png" alt="Sentry fraud operations investigation interface" loading="lazy" decoding="async"><span class="flagship-proof">Enterprise complexity · operational risk</span></a>
+      <div class="flagship-copy">
+        <div class="flagship-index"><span>02 / B2B operations</span><span>Independent concept</span></div>
+        <h3>Sentry</h3>
+        <p class="flagship-thesis">A dense investigation workspace where evidence, permissions, action consequences and auditability need to stay understandable under operational pressure.</p>
+        <div class="flagship-evidence"><div><span>Decision</span><p>Keep alert context, forensic evidence, consequential actions and recovery inside one stable investigation model instead of fragmenting the operator across dashboards.</p></div><div><span>Evidence boundary</span><p>Working prototype and system reasoning are inspectable. Practitioner/domain validation is still open and is not replaced by heuristic or technical QA.</p></div></div>
+        <div class="flagship-senior-signals"><strong>What this case shows</strong><span>Roles + permissions</span><span>High-density IA</span><span>Audit + recovery</span><span>Enterprise state design</span></div>
+        <div class="flagship-actions"><a class="flagship-primary" href="case-study-sentry.html">Read Sentry case ↗</a><a href="https://sentry-xi-lime.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/Sentry" target="_blank" rel="noopener">Source ↗</a></div>
+      </div>
+    </article>
+
+    <article class="flagship-card reveal" data-flagship="luxroom">
+      <a class="flagship-media" href="case-study-luxroom.html" aria-label="Read LuxRoom ecommerce case study"><img src="assets/images/luxroom.webp" alt="LuxRoom premium furniture ecommerce interface" loading="lazy" decoding="async"><span class="flagship-proof">Commerce craft · configuration continuity</span></a>
+      <div class="flagship-copy">
+        <div class="flagship-index"><span>03 / E-commerce</span><span>Independent concept</span></div>
+        <h3>LuxRoom</h3>
+        <p class="flagship-thesis">Premium furniture commerce designed to carry product context, material confidence and the exact chosen configuration from discovery through purchase.</p>
+        <div class="flagship-evidence"><div><span>Decision</span><p>Preserve the selected finish/variant through PDP → cart → checkout and provide a visible Edit configuration recovery path before purchase.</p></div><div><span>Evidence boundary</span><p>Responsive prototype and exact-variant continuity are prototype/technical evidence. Observed commerce testing and conversion impact are still unmeasured.</p></div></div>
+        <div class="flagship-senior-signals"><strong>What this case shows</strong><span>Responsive UI craft</span><span>PDP + variant logic</span><span>Cart/checkout continuity</span><span>Purchase confidence</span></div>
+        <div class="flagship-actions"><a class="flagship-primary" href="case-study-luxroom.html">Read LuxRoom case ↗</a><a href="https://lux-room.vercel.app/" target="_blank" rel="noopener">Live prototype ↗</a><a href="https://github.com/Ngh1aa/LuxRoom" target="_blank" rel="noopener">Source ↗</a></div>
+      </div>
+    </article>
+  </div>
+  <p class="flagship-boundary"><span><strong>Evidence boundary:</strong> all three flagship cases are independent concepts. Nova has verified direct-user self-report evidence; Sentry still needs practitioner/domain feedback; LuxRoom still needs observed commerce testing. Technical QA proves implementation behavior, not user comprehension or business impact.</span></p>
+  <p class="flagship-boundary measurement-policy"><span><strong>Professional work is separate:</strong> paid delivery at MangoAds, Tikera and Trésor is presented in its own verified experience case rather than being mixed into concept-project outcomes. <a href="case-study-professional-work.html">Read Professional Work ↗</a></span></p>
+</section>
+'''
+
+          text = text[:start] + flagship + text[end:]
+          text = text.replace('<p class="eyebrow">How I use AI</p><h2 class="section-title" id="ai-workflow-title">AI is a multiplier, not the product owner.</h2>', '<p class="eyebrow">How I work</p><h2 class="section-title" id="ai-workflow-title">AI is a multiplier, not the product owner.</h2>')
+          text = text.replace('<div class="leadership-footer"><p><strong>Human-owned:</strong> problem definition · direct user evidence · business priority · consequential trade-offs · final design rationale · release judgment.</p><a class="button black" href="case-study-uiux-factory.html">See the full workflow ↗</a></div>', '<div class="leadership-footer"><p><strong>Human-owned:</strong> problem definition · direct user evidence · business priority · consequential trade-offs · final design rationale · release judgment. <strong>UIUX Factory</strong> is supporting process evidence — not a flagship product case.</p><a class="button black" href="case-study-uiux-factory.html">UIUX Factory · How I work ↗</a></div>')
+          experience_anchor = '<p class="section-lead" style="margin-top:0">Historical job titles remain truthful. Product thinking is shown through framing, flows, systems, states, collaboration and implementation responsibility — not by retroactively renaming UI/UX roles.</p>'
+          if experience_anchor in text and 'professional-work-home-cta' not in text:
+              text = text.replace(experience_anchor, experience_anchor + '\n    <p class="professional-work-home-cta" style="margin-top:18px"><a class="button black" href="case-study-professional-work.html">Professional Work · verified delivery ↗</a></p>')
+          index_path.write_text(text)
+
+          qa_path = Path('qa/portfolio-v5.spec.mjs')
+          qa = qa_path.read_text()
+          marker = '// LEAN_FLAGSHIP_HOME_V2'
+          if marker not in qa:
+              qa += r'''
+
+// LEAN_FLAGSHIP_HOME_V2
+
+test('lean homepage prioritizes Nova, Sentry and LuxRoom while Factory moves to How I work', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+
+  const names = await page.locator('#flagships [data-flagship] h3').allTextContents();
+  expect(names).toEqual(['Nova', 'Sentry', 'LuxRoom']);
+  await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
+  await expect(page.locator('#ai-workflow')).toContainText('UIUX Factory');
+  await expect(page.locator('a[href="case-study-professional-work.html"]').first()).toBeVisible();
+
+  const factoryLink = page.locator('#ai-workflow a[href="case-study-uiux-factory.html"]');
+  await expect(factoryLink).toBeVisible();
+
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+    expect(overflow, `homepage horizontal overflow at ${width}px`).toBe(false);
+    await page.locator('#flagships').scrollIntoViewIfNeeded();
+    await page.locator('#flagships').screenshot({ path: `qa-artifacts/lean-flagships-${width}.png` });
+    await page.locator('#ai-workflow').scrollIntoViewIfNeeded();
+    await page.locator('#ai-workflow').screenshot({ path: `qa-artifacts/how-i-work-${width}.png` });
+  }
+});
+'''
+              qa_path.write_text(qa)
+
+          workflow = Path('.github/workflows/lean-homepage-rewrite.yml')
+          if workflow.exists():
+              workflow.unlink()
+          PY
+
+      - name: Commit homepage hierarchy
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html qa/portfolio-v5.spec.mjs .github/workflows/lean-homepage-rewrite.yml
+          git commit -m "feat: refocus homepage on three product flagships"
+          git push origin HEAD:feat/lean-flagship-homepage-v2
