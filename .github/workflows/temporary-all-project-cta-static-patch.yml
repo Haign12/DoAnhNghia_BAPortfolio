@@ -1,0 +1,105 @@
+name: Temporary all-project CTA static patch
+
+on:
+  push:
+    branches: [feat/all-project-cta-hierarchy]
+    paths: ['.github/workflows/temporary-all-project-cta-static-patch.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/all-project-cta-hierarchy
+          fetch-depth: 0
+      - name: Patch current homepage project cards
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re, html
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          registry = {
+            'LUMEN': dict(case='case-study-lumen.html', live='https://ngh1aa.github.io/Lumen/', source='https://github.com/Ngh1aa/Lumen'),
+            'HUẾ — BETWEEN RIVER & CITADEL': dict(case='case-study-hue.html', live='https://ngh1aa.github.io/Mostar-Guide/', source='https://github.com/Ngh1aa/Mostar-Guide'),
+            'LUXROOM': dict(case='case-study-luxroom.html', live='https://lux-room.vercel.app/', figma='https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1', source='https://github.com/Ngh1aa/LuxRoom'),
+            'ATELIER': dict(case='case-study-atelier.html', live='https://atelier-henna-tau.vercel.app/', figma='https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1', source='https://github.com/Ngh1aa/Atelier'),
+            'VIOLET MARKETPLACE': dict(case='case-study-violet-marketplace.html', live='https://violet-marketplace.vercel.app/', figma='https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1', source='https://github.com/Ngh1aa/VioletMarketplace'),
+            'NOVA': dict(case='case-study-nova.html', live='https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1', figma='https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&t=83Wo9YlCjxLTFzxv-1', source='https://github.com/Ngh1aa/Nova'),
+            'FLUX': dict(case='case-study-flux.html', live='https://flux-six-liard.vercel.app/', figma='https://www.figma.com/design/bZIqaMK97vwzBuSdD8risu/Flux?node-id=1-3427&t=BvIxuJu3KrFWy5Lg-1', source='https://github.com/Ngh1aa/Flux'),
+            'SENTRY': dict(case='case-study-sentry.html', live='https://sentry-xi-lime.vercel.app/', figma='https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&t=BvIxuJu3KrFWy5Lg-1', source='https://github.com/Ngh1aa/Sentry'),
+            'ACCESS': dict(case='case-study-access.html', live='https://access-nbuz.vercel.app/', figma='https://www.figma.com/design/tQzqKtw8x6Iu4ohKy9LOwo/access?node-id=6-1428&t=2W8CDU1K7QISp6eC-1', source='https://github.com/Ngh1aa/Access'),
+            'CAPITAL PLACE': dict(case='case-study-capital-place.html', live='https://capital-weld.vercel.app/', figma='https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1', source='https://github.com/Ngh1aa/Capital'),
+            'G.I.E': dict(case='case-study-cennext.html', live='https://cennext-b2b-prototype.vercel.app/', figma='https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1', source='https://github.com/Ngh1aa/cennext-b2b-prototype'),
+            'VAS EDUCATION': dict(case='case-study-vas-education.html', live='https://redesign-vas.vercel.app/', figma='https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1', source='https://github.com/Ngh1aa/RedesignVAS'),
+            'VOLTIS': dict(case='case-study-voltis.html', live='https://voltis-one.vercel.app/', figma='https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1', source='https://github.com/Ngh1aa/Voltis'),
+            'UIUX FACTORY': dict(case='case-study-uiux-factory.html', source='https://github.com/Ngh1aa/uiux-ai-workspace'),
+          }
+
+          article_re = re.compile(r'(<article\s+class="(?:project|project-featured)[^"]*"[^>]*>)(.*?)(</article>)', re.S | re.I)
+          link_re = re.compile(r'<div\s+class="project-links"(?P<attrs>[^>]*)>.*?</div>', re.S | re.I)
+          heading_re = re.compile(r'<h3>(.*?)</h3>', re.S | re.I)
+          changed = []
+
+          def strip_tags(value):
+            return html.unescape(re.sub(r'<[^>]+>', '', value)).strip()
+
+          def repl_article(match):
+            body = match.group(2)
+            hm = heading_re.search(body)
+            if not hm:
+              return match.group(0)
+            name = strip_tags(hm.group(1))
+            key = name.upper()
+            project = registry.get(key)
+            if not project:
+              return match.group(0)
+            lm = link_re.search(body)
+            if not lm:
+              raise SystemExit(f'Missing .project-links for {name}')
+            links = [f'<a class="project-artifact-action project-artifact-primary" data-artifact-kind="case" href="{project["case"]}">Read case ↗</a>']
+            if project.get('live'):
+              links.append(f'<a class="project-artifact-action project-artifact-secondary" data-artifact-kind="live" href="{project["live"]}" target="_blank" rel="noopener">Live prototype ↗</a>')
+            if project.get('figma'):
+              links.append(f'<a class="project-artifact-action project-artifact-secondary" data-artifact-kind="figma" href="{project["figma"]}" target="_blank" rel="noopener">View Figma ↗</a>')
+            if project.get('source'):
+              links.append(f'<a class="project-artifact-action project-artifact-secondary" data-artifact-kind="source" href="{project["source"]}" target="_blank" rel="noopener">Source ↗</a>')
+            attrs = lm.group('attrs') or ''
+            new = '<div class="project-links project-artifact-actions"' + attrs + '>\n              ' + '\n              '.join(links) + '\n            </div>'
+            body = body[:lm.start()] + new + body[lm.end():]
+            changed.append(name)
+            return match.group(1) + body + match.group(3)
+
+          text = article_re.sub(repl_article, text)
+          missing = sorted(set(registry) - {x.upper() for x in changed})
+          if missing:
+            raise SystemExit(f'Expected portfolio project cards not patched: {missing}; patched={changed}')
+          path.write_text(text, encoding='utf-8')
+          print('Patched project cards:', ', '.join(changed))
+          PY
+
+          cat >> portfolio-product-upgrade.css <<'CSS'
+
+          /* A33 — Product Designer artifact inspection hierarchy across all project cards */
+          #work .project-links.project-artifact-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:24px}
+          #work .project-links.project-artifact-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 12px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:opacity .2s,border-color .2s,background-color .2s,color .2s}
+          #work .project-links.project-artifact-actions .project-artifact-primary{background:#111;color:#fff;border:1px solid #111}
+          #work .project-links.project-artifact-actions .project-artifact-secondary{background:transparent;color:#333;border:1px solid #b7b7b0}
+          #work .project-links.project-artifact-actions .project-artifact-secondary:hover{border-color:#111;color:#111}
+          @media(max-width:760px){#work .project-links.project-artifact-actions{align-items:stretch}#work .project-links.project-artifact-actions .project-artifact-primary{flex:0 0 100%}#work .project-links.project-artifact-actions .project-artifact-secondary{flex:1 1 118px;min-width:0;padding-inline:9px}}
+          CSS
+
+          git fetch origin main
+          git checkout origin/main -- script.js
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html portfolio-product-upgrade.css script.js
+          git commit -m "feat: apply artifact CTA hierarchy to current project cards"
+          git push origin HEAD:feat/all-project-cta-hierarchy
