@@ -7,7 +7,7 @@ This repository contains my product design portfolio: product reasoning, UX syst
 ## Portfolio
 
 - Live portfolio: https://do-anh-nghia-uiux-portfolio.vercel.app/
-- Canonical CV: `Do_Anh_Nghia_UIUXDesigner_CV.pdf` (generated from `cv/main.typ` after release)
+- Canonical CV: `Do_Anh_Nghia_UIUXDesigner_CV.pdf` (the root PDF used by the live portfolio; `cv/main.typ` is retained only as an older source/reference)
 - LinkedIn: https://www.linkedin.com/in/ginan12/
 
 ## GitHub identity
