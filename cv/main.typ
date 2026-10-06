@@ -21,7 +21,7 @@
 
 #show heading: set text(font: "Libertinus Serif")
 
-_Product Designer · UI/UX · Design-to-Code with 1+ year of professional experience across agency and product teams. I structure decision-heavy journeys from requirements and IA through interaction states, responsive prototypes and developer handoff, using AI-assisted workflows for implementation support and QA while keeping product judgment and evidence boundaries human-owned._
+_Product Designer · UI/UX · Design-to-Code with 1+ year of professional experience across agency and product teams, focused on decision-heavy journeys, interaction states, responsive systems and developer-ready handoff._
 
 == Experience
 
@@ -31,7 +31,7 @@ _Product Designer · UI/UX · Design-to-Code with 1+ year of professional experi
   company: "MangoAds — SEO Optimization & Web Design Agency",
   dates: dates-helper(start-date: "May 2026", end-date: "Sep 2026"),
 )
-- Led UI/UX redesign and information architecture across 8+ client-facing web platforms, standardizing reusable components, responsive rules and implementation-ready handoff.
+- Led UI/UX redesign and IA across 8+ client-facing web platforms, standardizing reusable components, responsive rules and handoff.
 
 #work(
   title: "UI/UX Designer",
@@ -39,7 +39,7 @@ _Product Designer · UI/UX · Design-to-Code with 1+ year of professional experi
   company: "Tikera Technology & Brand Development",
   dates: dates-helper(start-date: "Dec 2025", end-date: "Apr 2026"),
 )
-- Structured user flows, wireframes and design systems for 15+ product journeys, defining loading, empty, error and edge-case states before development.
+- Structured user flows, wireframes and design systems for 15+ product journeys, including loading, empty, error and edge-case states.
 
 #work(
   title: "Intern UI/UX Designer",
@@ -53,38 +53,38 @@ _Product Designer · UI/UX · Design-to-Code with 1+ year of professional experi
 
 #project(
   name: "LuxRoom — Furniture E-commerce",
-  role: "Product Design · Commerce UX · Responsive Prototype",
+  role: "Product Design · Commerce UX",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-luxroom.html",
 )
-- *Problem:* High-consideration furniture purchases rely on premium imagery, but shoppers still lack decision-critical context around room fit, dimensions, materials, access and delivery. *Outcome:* Designed an end-to-end decision journey that carries room context and product configuration across discovery, comparison, saved items, cart and checkout, with explicit recovery paths when fit or purchase confidence breaks down.
+- *Problem:* Premium imagery creates desire but does not resolve room fit, dimensions, materials, access and delivery uncertainty. *Outcome:* Designed a continuous decision journey across discovery, comparison, saved configuration, cart and checkout, with explicit recovery when purchase confidence breaks down.
 
 #project(
   name: "Nova — Consumer Fintech",
-  role: "Product Design · Financial Decision UX · Responsive Prototype",
+  role: "Product Design · Financial Decision UX",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-nova.html",
 )
-- *Problem:* A bank balance does not tell users what is actually safe to spend when upcoming bills, savings goals, protected buffers and unusual transactions compete for attention. *Outcome:* Reframed the experience around a forward-looking Money Horizon and consequence-aware financial decisions, then iterated key flows using 10 verified direct-user/self-report records across two research rounds without overstating production or usability impact.
+- *Problem:* Balance alone does not show what is truly safe to spend after bills, savings goals and protected buffers. *Outcome:* Reframed the product around a forward-looking Money Horizon and iterated key decisions using 10 verified direct-user/self-report records across two rounds.
 
 #project(
   name: "Sentry — B2B Fraud Operations",
-  role: "Product Design · Operational Systems · Investigation UX",
+  role: "Product Design · Operational Systems",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-sentry.html",
 )
-- *Problem:* Fraud analysts must make high-stakes decisions while evidence is fragmented across multiple systems, increasing context switching and making fast actions difficult to justify or reconstruct. *Outcome:* Designed a unified investigation workspace that keeps alert priority, forensic evidence, decision controls, rationale and audit recovery in one operational model, including conflict, escalation and failure states around consequential actions.
+- *Problem:* Fraud analysts make high-stakes decisions while evidence is fragmented across systems and difficult to reconstruct. *Outcome:* Unified alert priority, forensic evidence, decision controls, rationale and audit recovery in one investigation model with conflict, escalation and failure states.
 
 #project(
   name: "VAS Education — Website Redesign",
-  role: "Information Architecture · Decision-support UX · Responsive Prototype",
+  role: "IA · Decision-support UX",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-vas-education.html",
 )
-- *Problem:* Prospective families must evaluate programmes, campuses, student support and admissions across a large information space without a clear decision path from exploration to action. *Outcome:* Restructured the experience into a coherent education journey from programme and campus discovery through decision support to admissions or visit requests, while preserving one responsive design system across distinct page roles instead of duplicating layouts.
+- *Problem:* Families must compare programmes, campuses, student support and admissions without a clear path from exploration to action. *Outcome:* Restructured the experience from programme/campus discovery through decision support to admissions or visit requests within one responsive design system.
 
 == Education & Skills
 
 *Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025) · Foundations of Google UX Design (2026).
 
-*Product Design:* product strategy, information architecture, user flows, interaction/state design, design systems, responsive UI, research and usability testing. *Design-to-code:* Figma, HTML/CSS/JS, React/Next.js prototypes (AI-assisted), Git/GitHub, Playwright + axe-core accessibility QA. *Workflow:* UIUX Factory for repository grounding, design contracts, implementation support, browser QA and evidence-aware iteration. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.
+*Skills:* Product strategy, IA & user flows, interaction/state design, design systems, responsive UI, research, usability testing, requirements and acceptance criteria. *Design-to-code:* Figma, HTML/CSS/JS, React/Next.js prototypes (AI-assisted), Git/GitHub, Playwright + axe-core. *Workflow:* UIUX Factory for repository grounding, implementation support, browser QA and evidence-aware iteration.
