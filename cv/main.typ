@@ -21,7 +21,7 @@
 
 #show heading: set text(font: "Libertinus Serif")
 
-_Product Designer focused on decision-heavy fintech/B2B products, responsive systems and AI-assisted design-to-code. I use AI for repository grounding, synthesis, alternative exploration, implementation support and browser QA while keeping product judgment, direct user evidence and consequential design decisions human-owned._
+_Product Designer · UI/UX · Design-to-Code with 1+ year of professional experience across agency and product teams. I structure decision-heavy journeys from requirements and IA through interaction states, responsive prototypes and developer handoff, using AI-assisted workflows for implementation support and QA while keeping product judgment and evidence boundaries human-owned._
 
 == Experience
 
@@ -31,7 +31,7 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
   company: "MangoAds — SEO Optimization & Web Design Agency",
   dates: dates-helper(start-date: "May 2026", end-date: "Sep 2026"),
 )
-- Translated client requirements into IA, user flows, and responsive UI systems across 8+ web projects; standardized reusable Figma components and handoff specifications for more consistent implementation.
+- Led UI/UX redesign and information architecture across 8+ client-facing web platforms, standardizing reusable components, responsive rules and implementation-ready handoff.
 
 #work(
   title: "UI/UX Designer",
@@ -39,7 +39,7 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
   company: "Tikera Technology & Brand Development",
   dates: dates-helper(start-date: "Dec 2025", end-date: "Apr 2026"),
 )
-- Designed user journeys, wireframes, and design systems for 15+ product flows; specified empty, error, loading and edge-case states before development to reduce ambiguity during implementation and QA.
+- Structured user flows, wireframes and design systems for 15+ product journeys, defining loading, empty, error and edge-case states before development.
 
 #work(
   title: "Intern UI/UX Designer",
@@ -47,17 +47,17 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
   company: "Trésor Solution Company",
   dates: dates-helper(start-date: "Sep 2025", end-date: "Dec 2025"),
 )
-- Supported responsive product flows, reusable UI patterns and developer handoff specifications across MVP work; partnered with engineering on design-to-code details and implementation-ready states.
+- Partnered with engineers on responsive product flows, reusable UI patterns and design-to-code specifications for MVP builds.
 
-== Selected Product & Systems Work
+== Selected Product Work
 
 #project(
-  name: "UIUX Factory — AI-assisted Product Design Workflow",
-  role: "DesignOps · AI Workflow · Governance · Browser QA",
+  name: "LuxRoom — Furniture E-commerce",
+  role: "Product Design · Commerce UX · Responsive Prototype",
   dates: "2026",
-  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-uiux-factory.html",
+  url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-luxroom.html",
 )
-- *Problem:* AI can accelerate plausible output while project truth, ownership and quality evidence remain ambiguous. *System:* evidence states, ADOPT/ADAPT/REJECT decisions, phase-aware skill routing, implementation support, Playwright/axe/Lighthouse QA and root-cause repair. *Boundary:* repository and workflow are real; adoption and efficiency impact remain planned validation.
+- *Problem:* High-consideration furniture purchases rely on premium imagery, but shoppers still lack decision-critical context around room fit, dimensions, materials, access and delivery. *Outcome:* Designed an end-to-end decision journey that carries room context and product configuration across discovery, comparison, saved items, cart and checkout, with explicit recovery paths when fit or purchase confidence breaks down.
 
 #project(
   name: "Nova — Consumer Fintech",
@@ -65,15 +65,15 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-nova.html",
 )
-- *Problem:* account balance alone can hide obligations that make part of the money unsafe to spend. *Decision:* pair present balance with future commitments and a protected buffer. *Evidence:* working prototype; 5 verified direct-user self-report records (unmoderated); post-change retest pending; no measured business uplift.
+- *Problem:* A bank balance does not tell users what is actually safe to spend when upcoming bills, savings goals, protected buffers and unusual transactions compete for attention. *Outcome:* Reframed the experience around a forward-looking Money Horizon and consequence-aware financial decisions, then iterated key flows using 10 verified direct-user/self-report records across two research rounds without overstating production or usability impact.
 
 #project(
-  name: "Sentry — Fraud Operations",
+  name: "Sentry — B2B Fraud Operations",
   role: "Product Design · Operational Systems · Investigation UX",
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-sentry.html",
 )
-- *Problem:* investigators can lose decision context when alert priority, evidence and consequences are fragmented. *Decision:* keep evidence-to-action inside one stable investigation model with explicit recovery paths. *Evidence:* implemented operational prototype and decision-focused case study.
+- *Problem:* Fraud analysts must make high-stakes decisions while evidence is fragmented across multiple systems, increasing context switching and making fast actions difficult to justify or reconstruct. *Outcome:* Designed a unified investigation workspace that keeps alert priority, forensic evidence, decision controls, rationale and audit recovery in one operational model, including conflict, escalation and failure states around consequential actions.
 
 #project(
   name: "VAS Education — Website Redesign",
@@ -81,10 +81,10 @@ _Product Designer focused on decision-heavy fintech/B2B products, responsive sys
   dates: "2026",
   url: "do-anh-nghia-uiux-portfolio.vercel.app/case-study-vas-education.html",
 )
-- *Problem:* prospective families had extensive information but no clear decision path across programs, campuses and admissions. *Decision:* structure the journey as trust → fit → daily reality → action. *Evidence:* implemented responsive prototype; production enrollment impact is not claimed.
+- *Problem:* Prospective families must evaluate programmes, campuses, student support and admissions across a large information space without a clear decision path from exploration to action. *Outcome:* Restructured the experience into a coherent education journey from programme and campus discovery through decision support to admissions or visit requests, while preserving one responsive design system across distinct page roles instead of duplicating layouts.
 
 == Education & Skills
 
 *Education:* University of Science — HCMUS, Information Technology (2021–2026) · Claude Bernard University Lyon 1, Information Technology (2021–2025) · Foundations of Google UX Design (2026).
 
-*Product Design:* problem framing, information architecture, user flows, interaction design, responsive systems, prototyping, state design, trade-off articulation, validation planning, metric trees and evidence boundaries. *AI-assisted workflow:* repository grounding, synthesis, alternative exploration, critique, coding-agent collaboration, design contracts, documentation and root-cause repair. *Implementation & QA:* Figma, HTML/CSS/JS, React/Next.js/TypeScript (Resolve AI, CI-verified), Git/GitHub, Playwright, axe-core, Lighthouse. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.
+*Product Design:* product strategy, information architecture, user flows, interaction/state design, design systems, responsive UI, research and usability testing. *Design-to-code:* Figma, HTML/CSS/JS, React/Next.js prototypes (AI-assisted), Git/GitHub, Playwright + axe-core accessibility QA. *Workflow:* UIUX Factory for repository grounding, design contracts, implementation support, browser QA and evidence-aware iteration. *Business Analysis:* requirement gathering, user stories, acceptance criteria, process modeling and MVP definition.
