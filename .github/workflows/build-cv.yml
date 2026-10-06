@@ -1,7 +1,12 @@
-name: Build CV PDF
+name: Build Product Designer CV
 
 on:
   push:
+    branches: [main]
+    paths:
+      - "cv/main.typ"
+      - ".github/workflows/build-cv.yml"
+  pull_request:
     branches: [main]
     paths:
       - "cv/main.typ"
@@ -28,33 +33,42 @@ jobs:
         with:
           typst-version: "0.15.1"
 
-      - name: Compile CV
-        run: |
-          typst compile cv/main.typ cv/main.pdf
-          cp cv/main.pdf Do_Anh_Nghia_CV.pdf
-          cp cv/main.pdf Do_Anh_Nghia_UIUXDesigner_CV.pdf
+      - name: Compile canonical CV
+        run: typst compile cv/main.typ Do_Anh_Nghia_Product_Designer_CV.pdf
 
       - name: Verify recruiter PDF
         run: |
-          pages="$(pdfinfo cv/main.pdf | awk '/^Pages:/ {print $2}')"
+          pages="$(pdfinfo Do_Anh_Nghia_Product_Designer_CV.pdf | awk '/^Pages:/ {print $2}')"
           echo "CV page count: ${pages}"
           test "${pages}" = "1"
-          text="$(pdftotext cv/main.pdf -)"
-          printf '%s' "$text" | grep -q "Selected Personal Projects"
-          printf '%s' "$text" | grep -q "LuxRoom"
-          printf '%s' "$text" | grep -q "Atelier"
-          printf '%s' "$text" | grep -q "VAS Education"
-          printf '%s' "$text" | grep -q "Capital Place"
-          printf '%s' "$text" | grep -q "Outcome:"
+          text="$(pdftotext Do_Anh_Nghia_Product_Designer_CV.pdf -)"
+          printf '%s' "$text" | grep -q "Product Designer"
+          printf '%s' "$text" | grep -q "UIUX Factory"
+          printf '%s' "$text" | grep -q "AI-assisted"
+          printf '%s' "$text" | grep -q "Nova"
+          printf '%s' "$text" | grep -q "Sentry"
+          printf '%s' "$text" | grep -q "Playwright"
 
-      - name: Commit generated PDFs
+      - name: Normalize CV references and remove legacy PDFs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          if git diff --quiet -- cv/main.pdf Do_Anh_Nghia_CV.pdf Do_Anh_Nghia_UIUXDesigner_CV.pdf; then
-            echo "CV PDFs are already up to date."
-            exit 0
-          fi
+          for file in index.html case-study-ux.html script.js docs/cover-letters/Cover_Letter_General_UIUX.txt; do
+            if [ -f "$file" ]; then
+              sed -i 's/Do_Anh_Nghia_UIUXDesigner_CV\.pdf/Do_Anh_Nghia_Product_Designer_CV.pdf/g' "$file"
+              sed -i 's/Do_Anh_Nghia_CV\.pdf/Do_Anh_Nghia_Product_Designer_CV.pdf/g' "$file"
+            fi
+          done
+          git rm -f --ignore-unmatch cv/main.pdf Do_Anh_Nghia_CV.pdf Do_Anh_Nghia_UIUXDesigner_CV.pdf cv.pdf
+
+      - name: Commit canonical CV
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add cv/main.pdf Do_Anh_Nghia_CV.pdf Do_Anh_Nghia_UIUXDesigner_CV.pdf
-          git commit -m "Build updated UI UX CV PDF"
+          git add Do_Anh_Nghia_Product_Designer_CV.pdf index.html case-study-ux.html docs/cover-letters/Cover_Letter_General_UIUX.txt || true
+          if git diff --cached --quiet; then
+            echo "Canonical CV and references are already up to date."
+            exit 0
+          fi
+          git commit -m "Build canonical Product Designer CV PDF"
           git push

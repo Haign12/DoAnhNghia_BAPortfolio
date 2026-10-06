@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "signals_are_evidence_labels_not_proficiency_scores": true,
+    "signals_do_not_imply_tenure": true,
+    "no_cross_functional_collaboration_inferred": true,
+    "no_research_or_outcome_signal_without_public_artifact_basis": true
+  },
+  "library_contract": {
+    "card_count": 14,
+    "signals_per_card": "2–3",
+    "purpose": "turn supporting work into a recruiter-scannable skill evidence library",
+    "deep_proof": "A27 case-study evidence remains the source for detailed role, constraints, options, trade-offs, engineering reality, evidence and next decisions where local case routes exist"
+  },
+  "projects": [
+    {
+      "project": "LUMEN",
+      "signals": [
+        "Discovery IA",
+        "Interaction model",
+        "Art direction"
+      ],
+      "evidence_basis": "homepage project summary + linked working artifact",
+      "placement_family": "featured-copy-tail",
+      "proof_links": [
+        "https://ngh1aa.github.io/Lumen/",
+        "https://ngh1aa.github.io/Lumen/",
+        "https://github.com/Ngh1aa/Lumen"
+      ]
+    },
+    {
+      "project": "HUẾ — Between River & Citadel",
+      "signals": [
+        "Experience architecture",
+        "Narrative flow",
+        "Art direction"
+      ],
+      "evidence_basis": "homepage project summary + linked working artifact",
+      "placement_family": "featured-copy-tail",
+      "proof_links": [
+        "https://ngh1aa.github.io/Mostar-Guide/",
+        "https://ngh1aa.github.io/Mostar-Guide/",
+        "https://github.com/Ngh1aa/Mostar-Guide"
+      ]
+    },
+    {
+      "project": "LuxRoom",
+      "signals": [
+        "Commerce IA",
+        "Variant confidence",
+        "Responsive UI"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://lux-room.vercel.app/",
+        "case-study-luxroom.html",
+        "https://lux-room.vercel.app/",
+        "https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&amp;t=HPp6OlvriN9MeZCW-1"
+      ]
+    },
+    {
+      "project": "Atelier",
+      "signals": [
+        "Content hierarchy",
+        "Commerce flow",
+        "Visual system"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://atelier-henna-tau.vercel.app/",
+        "case-study-atelier.html",
+        "https://atelier-henna-tau.vercel.app/",
+        "https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&amp;t=LykADgxvJ62WCIu7-1"
+      ]
+    },
+    {
+      "project": "Violet Marketplace",
+      "signals": [
+        "Discovery IA",
+        "Product storytelling",
+        "Marketplace UX"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://violet-marketplace.vercel.app/",
+        "case-study-violet-marketplace.html",
+        "https://violet-marketplace.vercel.app/",
+        "https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1"
+      ]
+    },
+    {
+      "project": "Nova",
+      "signals": [
+        "Product strategy",
+        "Evidence → iteration",
+        "State + recovery"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://nova-gamma-eosin.vercel.app/",
+        "case-study-nova.html",
+        "https://nova-gamma-eosin.vercel.app/",
+        "https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&amp;t=83Wo9YlCjxLTFzxv-1"
+      ]
+    },
+    {
+      "project": "Flux",
+      "signals": [
+        "Complex IA",
+        "Decision states",
+        "Systems thinking"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://flux-six-liard.vercel.app/",
+        "case-study-flux.html",
+        "https://flux-six-liard.vercel.app/",
+        "https://www.figma.com/design/bZIqaMK97vwzBuSdD8risu/Flux?node-id=1-3427&amp;t=BvIxuJu3KrFWy5Lg-1"
+      ]
+    },
+    {
+      "project": "Sentry",
+      "signals": [
+        "Complex IA",
+        "High-density workflow",
+        "Recovery states"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://sentry-xi-lime.vercel.app/",
+        "case-study-sentry.html",
+        "https://sentry-xi-lime.vercel.app/",
+        "https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&amp;t=BvIxuJu3KrFWy5Lg-1"
+      ]
+    },
+    {
+      "project": "ACCESS",
+      "signals": [
+        "Permission model",
+        "State design",
+        "Security UX"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://access-nbuz.vercel.app/",
+        "case-study-access.html",
+        "https://access-nbuz.vercel.app/",
+        "https://www.figma.com/design/tQzqKtw8x6Iu4ohKy9LOwo/access?node-id=6-1428&t=2W8CDU1K7QISp6eC-1"
+      ]
+    },
+    {
+      "project": "Capital Place",
+      "signals": [
+        "Decision journey",
+        "Information architecture",
+        "Conversion UX"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://capital-weld.vercel.app/",
+        "case-study-capital-place.html",
+        "https://capital-weld.vercel.app/",
+        "https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&amp;t=LykADgxvJ62WCIu7-1"
+      ]
+    },
+    {
+      "project": "G.I.E",
+      "signals": [
+        "B2B IA",
+        "Design system",
+        "Design→code"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://cennext-b2b-prototype.vercel.app/",
+        "case-study-cennext.html",
+        "https://cennext-b2b-prototype.vercel.app/",
+        "https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&amp;t=LykADgxvJ62WCIu7-1"
+      ]
+    },
+    {
+      "project": "VAS Education",
+      "signals": [
+        "Content strategy",
+        "Decision journey",
+        "Responsive redesign"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://redesign-vas.vercel.app/",
+        "case-study-vas-education.html",
+        "https://redesign-vas.vercel.app/",
+        "https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&amp;t=LykADgxvJ62WCIu7-1"
+      ]
+    },
+    {
+      "project": "VOLTIS",
+      "signals": [
+        "Product storytelling",
+        "Corporate IA",
+        "Interaction system"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "before-links",
+      "proof_links": [
+        "https://voltis-one.vercel.app/",
+        "case-study-voltis.html",
+        "https://voltis-one.vercel.app/",
+        "https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&amp;t=LykADgxvJ62WCIu7-1"
+      ]
+    },
+    {
+      "project": "UIUX Factory",
+      "signals": [
+        "Product governance",
+        "Design→code",
+        "QA + reliability"
+      ],
+      "evidence_basis": "local case study + linked working artifacts",
+      "placement_family": "featured-copy-tail",
+      "proof_links": [
+        "https://github.com/Ngh1aa/uiux-ai-workspace",
+        "case-study-uiux-factory.html",
+        "https://github.com/Ngh1aa/uiux-ai-workspace"
+      ]
+    }
+  ]
+}

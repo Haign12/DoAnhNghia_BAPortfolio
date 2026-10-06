@@ -30,8 +30,17 @@ jobs:
       - name: Install cloud QA dependencies
         run: npm install --no-save @playwright/test@1.55.0 @axe-core/playwright@4.10.2
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-1.55.0-chromium-v1
+
+      - name: Install and smoke-test Chromium
+        timeout-minutes: 8
+        env:
+          PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: '120000'
+        run: bash scripts/ci/install-playwright-chromium.sh
 
       - name: Start ephemeral GitHub runner web server
         run: |
@@ -51,7 +60,7 @@ jobs:
         run: |
           mkdir -p qa-artifacts
           set +e
-          npx playwright test qa/portfolio-v5.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
+          npx playwright test qa/portfolio-v5.spec.mjs qa/professional-work.spec.mjs qa/all-project-cta-hierarchy.spec.mjs --browser=chromium --workers=1 --reporter=json > qa-artifacts/playwright-results.json
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
@@ -84,7 +93,7 @@ jobs:
           const failed = rows.filter(r => r.status === 'FAIL').length;
           let md = `## UIUX Factory — Browser QA evidence\n\n**${passed} passed · ${failed} failed**\n\n`;
           md += rows.map(r => `- **${r.status}** — ${r.title}${r.error ? `\n  - ${r.error.replace(/\s+/g,' ').slice(0,420)}` : ''}`).join('\n');
-          md += `\n\nArtifacts: full-page screenshots at 1440, 1280 and 390 px when those tests execute.`;
+          md += `\n\nArtifacts: full-page screenshots at recruiter-critical desktop/mobile widths when those tests execute.`;
           fs.writeFileSync('qa-artifacts/browser-summary.md', md);
           console.log(md);
           NODE

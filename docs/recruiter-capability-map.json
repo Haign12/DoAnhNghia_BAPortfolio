@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "capability_evidence_is_not_tenure": true,
+    "do_not_invent_cross_functional_team_evidence": true,
+    "do_not_promote_planned_validation_to_result": true,
+    "projects_are_proof_links_not_skill_scores": true
+  },
+  "scan_contract": {
+    "5_seconds": "role + core capability labels are visible in the hero",
+    "60_seconds": "six capability areas map to inspectable project evidence on the homepage",
+    "10_minutes": "flagship cases and A27 decision evidence expose constraints, options, decisions, trade-offs, engineering reality, failures, evidence and next decisions"
+  },
+  "capabilities": [
+    {
+      "id": "product-strategy",
+      "label": "Product Strategy",
+      "proof": [
+        "case-study-nova.html",
+        "case-study-sentry.html"
+      ]
+    },
+    {
+      "id": "research-evidence",
+      "label": "Research + Evidence",
+      "proof": [
+        "case-study-uiux-factory.html",
+        "case-study-nova.html"
+      ]
+    },
+    {
+      "id": "ia-state-design",
+      "label": "IA + State Design",
+      "proof": [
+        "case-study-sentry.html",
+        "case-study-flux.html",
+        "case-study-access.html"
+      ]
+    },
+    {
+      "id": "interaction-ui-systems",
+      "label": "Interaction + UI Systems",
+      "proof": [
+        "case-study-nova.html",
+        "case-study-access.html",
+        "case-study-atelier.html"
+      ]
+    },
+    {
+      "id": "prototype-delivery",
+      "label": "Prototyping + Delivery",
+      "proof": [
+        "case-study-uiux-factory.html",
+        "case-study-cennext.html",
+        "case-study-flux.html"
+      ]
+    },
+    {
+      "id": "validation-qa",
+      "label": "Validation + QA",
+      "proof": [
+        "case-study-uiux-factory.html",
+        "case-study-nova.html"
+      ]
+    }
+  ],
+  "flagship_signals": {
+    "UIUX Factory": [
+      "Product governance",
+      "AI-assisted workflow",
+      "Design→code",
+      "QA failure→repair"
+    ],
+    "Nova": [
+      "Research governance",
+      "Evidence→decision→ship→retest",
+      "State + recovery",
+      "Open findings kept visible"
+    ],
+    "Sentry": [
+      "Complex IA",
+      "High-density workflow",
+      "Explainability",
+      "Recovery states"
+    ]
+  }
+}

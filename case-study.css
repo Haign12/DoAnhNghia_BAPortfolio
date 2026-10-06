@@ -411,3 +411,9 @@ button { font: inherit; }
   .case-cover figcaption { flex-direction: column; gap: 4px; }
   .case-section-body > p { font-size: 16px; }
 }
+
+
+/* ALL_PROJECT_CASE_ARTIFACT_HIERARCHY */
+.case-hero-actions.case-artifact-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.case-hero-actions.case-artifact-actions .case-action{min-height:42px;display:inline-flex;align-items:center;justify-content:center}
+@media(max-width:720px){.case-hero-actions.case-artifact-actions{align-items:stretch}.case-hero-actions.case-artifact-actions .case-action-primary{flex:0 0 100%}.case-hero-actions.case-artifact-actions .case-action:not(.case-action-primary){flex:1 1 120px}}

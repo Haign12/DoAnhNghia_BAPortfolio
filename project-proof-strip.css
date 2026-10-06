@@ -1,0 +1,341 @@
+/* Recruiter-visible project proof strips — evidence state, not seniority labels */
+.project-proof-strip{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.project-proof-strip strong{flex:0 0 100%;margin-bottom:1px;color:#777;font-size:8px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+.project-proof-strip span{display:inline-flex;align-items:center;min-height:26px;padding:6px 8px;border:1px solid #d2d2cc;border-radius:999px;background:#fff;color:#30302d;font-size:8px;font-weight:700;letter-spacing:.06em;line-height:1.15;text-transform:uppercase}
+.project-proof-strip .verified{background:#111;color:#fff;border-color:#111}
+.project-proof-strip .open{border-style:dashed;color:#595954;background:#f7f7f3}
+.project-proof-strip .planned{color:#666;background:#f2f2ee}
+.project-featured .project-proof-strip{margin-top:18px}
+
+/* Nova flagship: neutral monochrome proof hierarchy — no lime/highlight accent. */
+.nova-evidence-card .flagship-proof,
+.nova-evidence-card .flagship-index span,
+.nova-evidence-card .nova-card-scoreboard strong,
+.nova-evidence-card .nova-card-scoreboard span,
+.nova-evidence-card .nova-card-method,
+.nova-evidence-card .flagship-evidence span,
+.nova-evidence-card .nova-proof-signals strong,
+.nova-evidence-card .nova-proof-signals span,
+.nova-evidence-card .flagship-actions a:not(.flagship-primary){color:#d8d8d2!important}
+.nova-evidence-card .flagship-proof{background:#f3f3ee!important;color:#111!important;border-color:#575753!important}
+.nova-evidence-card .nova-card-scoreboard{border-color:#3f3f3b!important}
+.nova-evidence-card .nova-card-scoreboard>div{border-color:#3f3f3b!important;background:#171717!important}
+.nova-evidence-card .nova-card-scoreboard strong{color:#fff!important}
+.nova-evidence-card .nova-card-method{color:#aaa9a4!important}
+.nova-evidence-card .nova-proof-signals span{background:#1d1d1d!important;border-color:#4a4a46!important;color:#ecece7!important}
+.nova-evidence-card .flagship-primary{background:#f4f4ef!important;color:#111!important;border:1px solid #f4f4ef!important}
+.nova-evidence-card .flagship-primary:hover{background:#d9d9d3!important;border-color:#d9d9d3!important}
+
+/* A34 — one recruiter-card language across the full project library.
+   The cards are intentionally monochrome: evidence state is carried by copy,
+   borders and labels, not green success styling. */
+#work article.project,
+#work article.project-featured{
+  min-width:0;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden;
+  padding:0 0 24px!important;
+  background:#151515!important;
+  color:#f4f4ef!important;
+  border:1px solid #383834!important;
+  border-radius:18px!important;
+  box-shadow:none!important;
+  transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .25s ease,box-shadow .3s ease!important;
+}
+#work article.project:hover,
+#work article.project-featured:hover{
+  transform:translateY(-5px);
+  border-color:#6a6a64!important;
+  box-shadow:0 24px 58px rgba(0,0,0,.16)!important;
+}
+#work article.project .project-media,
+#work article.project-featured .project-media{
+  width:100%;
+  min-height:0!important;
+  aspect-ratio:16/9!important;
+  overflow:hidden;
+  background:#202020!important;
+  border-bottom:1px solid #383834!important;
+}
+#work article.project .project-media img,
+#work article.project-featured .project-media img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .65s cubic-bezier(.16,1,.3,1);
+}
+#work article.project:hover .project-media img,
+#work article.project-featured:hover .project-media img{transform:scale(1.02)}
+
+#work article.project .project-copy,
+#work article.project-featured .project-copy{
+  padding:24px 24px 0!important;
+  background:transparent!important;
+  color:#f4f4ef!important;
+}
+#work .project-top{align-items:flex-start!important;gap:14px!important}
+#work .project-top h3,
+#work article.project h3,
+#work article.project-featured h3{color:#fff!important}
+#work .project-type,
+#work .status,
+#work .project-no{color:#9c9c96!important}
+#work .status i{background:#b8b8b2!important;box-shadow:none!important}
+#work .project-summary{color:#c5c5bf!important;line-height:1.7!important}
+
+#work .project-highlights{
+  margin-top:22px!important;
+  padding-top:18px!important;
+  border-top:1px solid #3a3a36!important;
+  gap:16px!important;
+}
+#work .highlight-item span{color:#8e8e88!important;font-size:9px!important;letter-spacing:.11em!important;text-transform:uppercase!important}
+#work .highlight-item p{color:#e3e3de!important;line-height:1.6!important}
+
+/* Evidence strip becomes a compact proof grid instead of decorative pills. */
+#work article.project>.project-proof-strip,
+#work article.project-featured>.project-proof-strip{
+  margin:20px 24px 0!important;
+  padding:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:0!important;
+  align-items:stretch!important;
+  overflow:hidden;
+  background:#101010!important;
+  border:1px solid #3b3b37!important;
+  border-radius:12px!important;
+}
+#work .project-proof-strip strong{
+  grid-column:1/-1;
+  margin:0!important;
+  padding:10px 12px!important;
+  color:#9d9d97!important;
+  border-bottom:1px solid #3b3b37!important;
+  font-size:9px!important;
+  letter-spacing:.11em!important;
+}
+#work .project-proof-strip span,
+#work .project-proof-strip .verified,
+#work .project-proof-strip .open,
+#work .project-proof-strip .planned{
+  display:flex!important;
+  min-width:0!important;
+  min-height:58px!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  padding:12px!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:inset -1px -1px 0 #343430!important;
+  background:#171717!important;
+  color:#e7e7e2!important;
+  font-size:9px!important;
+  font-weight:650!important;
+  letter-spacing:.045em!important;
+  line-height:1.35!important;
+  text-transform:none!important;
+}
+#work .project-proof-strip .open{border-left:2px solid #777770!important}
+#work .project-proof-strip .planned{color:#b9b9b3!important}
+
+/* Make every destination self-explanatory and button-like. */
+#work .project-links{
+  margin:20px 24px 0!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:9px!important;
+  align-items:center!important;
+}
+#work .project-links a{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:36px!important;
+  padding:9px 12px!important;
+  border:1px solid #484844!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:#e9e9e4!important;
+  font-size:9px!important;
+  font-weight:700!important;
+  letter-spacing:.045em!important;
+  line-height:1!important;
+  text-decoration:none!important;
+  text-transform:none!important;
+}
+#work .project-links a:first-child{
+  background:#f4f4ef!important;
+  color:#111!important;
+  border-color:#f4f4ef!important;
+}
+#work .project-links a:hover{opacity:.76!important}
+#work .project-links .link-primary{background:transparent!important;color:#e9e9e4!important;border-color:#484844!important}
+#work .project-links a:first-child.link-primary{background:#f4f4ef!important;color:#111!important;border-color:#f4f4ef!important}
+
+/* A35 — flagship and supporting project cards share one button system. */
+#flagships .flagship-actions{
+  margin-top:auto!important;
+  padding-top:24px!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:9px!important;
+  align-items:center!important;
+}
+#flagships .flagship-actions a,
+#flagships .flagship-actions a:not(.flagship-primary),
+#flagships .flagship-actions .flagship-primary{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:36px!important;
+  padding:9px 12px!important;
+  border:1px solid #484844!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:#e9e9e4!important;
+  font-size:9px!important;
+  font-weight:700!important;
+  letter-spacing:.045em!important;
+  line-height:1!important;
+  text-decoration:none!important;
+  text-transform:none!important;
+}
+#flagships .flagship-actions .flagship-primary{
+  background:#f4f4ef!important;
+  color:#111!important;
+  border-color:#f4f4ef!important;
+}
+#flagships .flagship-actions a:hover{opacity:.76!important}
+
+/* Role/scope evidence reads like a compact audit table. */
+#work .project-proof-facts{
+  margin:20px 24px 0!important;
+  padding-top:16px!important;
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:0!important;
+  border-top:1px solid #3a3a36!important;
+}
+#work .project-proof-facts span{
+  min-width:0!important;
+  padding:10px 12px 10px 0!important;
+  color:#c3c3bd!important;
+  font-size:9px!important;
+  line-height:1.45!important;
+}
+#work .project-proof-facts span:last-child{grid-column:1/-1}
+#work .project-proof-facts b{
+  display:block!important;
+  margin-bottom:4px!important;
+  color:#85857f!important;
+  font-size:8px!important;
+  letter-spacing:.11em!important;
+  text-transform:uppercase!important;
+}
+
+/* Capability chips remain secondary and neutral. */
+#work .project-capability-signals{
+  margin:18px 24px 0!important;
+  padding-top:16px!important;
+  border-top:1px solid #3a3a36!important;
+  gap:7px!important;
+}
+#work .project-capability-signals strong{color:#8f8f89!important;font-size:9px!important}
+#work .project-capability-signals span{
+  padding:7px 9px!important;
+  border:1px solid #474743!important;
+  border-radius:999px!important;
+  background:#1b1b1b!important;
+  color:#ddddD7!important;
+  font-size:8.5px!important;
+  letter-spacing:.045em!important;
+  text-transform:none!important;
+}
+
+@media(max-width:900px){
+  #work article.project>.project-proof-strip,
+  #work article.project-featured>.project-proof-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:560px){
+  #work article.project,
+  #work article.project-featured{border-radius:14px!important}
+  #work article.project .project-copy,
+  #work article.project-featured .project-copy{padding:20px 20px 0!important}
+  #work article.project>.project-proof-strip,
+  #work article.project-featured>.project-proof-strip,
+  #work .project-links,
+  #work .project-proof-facts,
+  #work .project-capability-signals{margin-left:20px!important;margin-right:20px!important}
+  #work .project-proof-strip span,
+  #work .project-proof-strip .verified,
+  #work .project-proof-strip .open,
+  #work .project-proof-strip .planned{font-size:8.5px!important;min-height:54px!important}
+  #work .project-links a,
+  #flagships .flagship-actions a{font-size:9px!important}
+}
+@media(max-width:720px){.project-proof-strip span{font-size:7.5px}}
+@media(prefers-reduced-motion:reduce){
+  #work article.project,#work article.project-featured,#work .project-media img{transition:none!important}
+  #work article.project:hover,#work article.project-featured:hover{transform:none!important}
+}
+
+/* A36 — compact evidence-density repair.
+   The proof UI should scan as metadata, not become the visual weight of the card. */
+#work article.project>.project-proof-strip,
+#work article.project-featured>.project-proof-strip{
+  margin-top:16px!important;
+}
+#work .project-proof-strip strong{
+  padding:8px 10px!important;
+  font-size:8px!important;
+  line-height:1.1!important;
+}
+#work .project-proof-strip span,
+#work .project-proof-strip .verified,
+#work .project-proof-strip .open,
+#work .project-proof-strip .planned{
+  min-height:40px!important;
+  align-items:center!important;
+  padding:8px 10px!important;
+  font-size:8.5px!important;
+  line-height:1.25!important;
+}
+/* With an odd proof count, let the last long status use the full row instead of wrapping in a half cell. */
+#work .project-proof-strip span:last-child:nth-child(even){grid-column:1/-1!important}
+
+/* Nova scoreboard: keep the evidence visible while preventing the numbers from dominating the card. */
+.nova-evidence-card .nova-card-scoreboard{
+  margin-top:16px!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.nova-evidence-card .nova-card-scoreboard>div{
+  min-width:0!important;
+  min-height:0!important;
+  padding:12px 10px!important;
+}
+.nova-evidence-card .nova-card-scoreboard strong{
+  display:block!important;
+  margin:0 0 7px!important;
+  font-size:clamp(24px,2.2vw,34px)!important;
+  line-height:.92!important;
+  letter-spacing:-.02em!important;
+  white-space:nowrap!important;
+}
+.nova-evidence-card .nova-card-scoreboard span{
+  display:block!important;
+  font-size:8.5px!important;
+  line-height:1.28!important;
+  letter-spacing:.045em!important;
+}
+.nova-evidence-card .nova-card-method{
+  margin-top:10px!important;
+  font-size:9px!important;
+  line-height:1.45!important;
+}
+
+@media(max-width:560px){
+  #work .project-proof-strip span,
+  #work .project-proof-strip .verified,
+  #work .project-proof-strip .open,
+  #work .project-proof-strip .planned{min-height:38px!important;padding:7px 9px!important;font-size:8px!important}
+  .nova-evidence-card .nova-card-scoreboard{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .nova-evidence-card .nova-card-scoreboard strong{font-size:28px!important}
+}
