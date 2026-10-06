@@ -99,7 +99,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     await expect(page.locator('#writing-title')).toBeVisible();
     await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
     await expect(page.getByRole('heading', { name: 'Breadth, with proof attached.' })).toBeVisible();
-    await expect(page.getByRole('link', { name: /Resume/i }).first()).toHaveAttribute('href', 'Do_Anh_Nghia_Product_Designer_CV.pdf');
+    await expect(page.getByRole('link', { name: /Resume/i }).first()).toHaveAttribute('href', 'Do_Anh_Nghia_UIUXDesigner_CV.pdf');
     await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
     await expect(page.locator('.experience-grid')).toBeVisible();
     await expect(page.locator('.experience-grid .exp-card')).toHaveCount(3);
@@ -120,7 +120,7 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
     expect(source).toContain('product judgment and evidence stay human-owned');
     expect(source).toContain('Static prototypes stay labeled honestly');
     expect(source).toContain('CI-verified Next.js 16 / React 19 / TypeScript 7 implementation');
-    expect(source).toContain('Do_Anh_Nghia_Product_Designer_CV.pdf');
+    expect(source).toContain('Do_Anh_Nghia_UIUXDesigner_CV.pdf');
     expect(source).toContain('data-flagship="nova"');
     expect(source).toContain('data-flagship="sentry"');
     expect(source).toContain('data-flagship="luxroom"');
