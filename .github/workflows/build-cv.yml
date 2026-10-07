@@ -1,74 +1,56 @@
-name: Build Product Designer CV
+name: Verify UIUX Designer CV
 
 on:
   push:
     branches: [main]
     paths:
-      - "cv/main.typ"
+      - "Do_Anh_Nghia_UIUXDesigner_CV.pdf"
+      - "index.html"
+      - "case-study-professional-work.html"
+      - "case-study-ux.html"
+      - "qa/portfolio-v5.spec.mjs"
       - ".github/workflows/build-cv.yml"
   pull_request:
     branches: [main]
     paths:
-      - "cv/main.typ"
+      - "Do_Anh_Nghia_UIUXDesigner_CV.pdf"
+      - "index.html"
+      - "case-study-professional-work.html"
+      - "case-study-ux.html"
+      - "qa/portfolio-v5.spec.mjs"
       - ".github/workflows/build-cv.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install PDF verification tools and fonts
+      - name: Install PDF verification tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y poppler-utils fonts-noto-core
+          sudo apt-get install -y poppler-utils
 
-      - name: Setup Typst
-        uses: typst-community/setup-typst@v4
-        with:
-          typst-version: "0.15.1"
-
-      - name: Compile canonical CV
-        run: typst compile cv/main.typ Do_Anh_Nghia_Product_Designer_CV.pdf
-
-      - name: Verify recruiter PDF
+      - name: Verify canonical CV asset
         run: |
-          pages="$(pdfinfo Do_Anh_Nghia_Product_Designer_CV.pdf | awk '/^Pages:/ {print $2}')"
+          test -f Do_Anh_Nghia_UIUXDesigner_CV.pdf
+          pages="$(pdfinfo Do_Anh_Nghia_UIUXDesigner_CV.pdf | awk '/^Pages:/ {print $2}')"
           echo "CV page count: ${pages}"
           test "${pages}" = "1"
-          text="$(pdftotext Do_Anh_Nghia_Product_Designer_CV.pdf -)"
-          printf '%s' "$text" | grep -q "Product Designer"
-          printf '%s' "$text" | grep -q "UIUX Factory"
-          printf '%s' "$text" | grep -q "AI-assisted"
-          printf '%s' "$text" | grep -q "Nova"
-          printf '%s' "$text" | grep -q "Sentry"
-          printf '%s' "$text" | grep -q "Playwright"
+          pdfinfo Do_Anh_Nghia_UIUXDesigner_CV.pdf | grep -q "^Page size:"
+          echo "Canonical CV verified: Do_Anh_Nghia_UIUXDesigner_CV.pdf"
 
-      - name: Normalize CV references and remove legacy PDFs
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Verify portfolio references
         run: |
-          for file in index.html case-study-ux.html script.js docs/cover-letters/Cover_Letter_General_UIUX.txt; do
-            if [ -f "$file" ]; then
-              sed -i 's/Do_Anh_Nghia_UIUXDesigner_CV\.pdf/Do_Anh_Nghia_Product_Designer_CV.pdf/g' "$file"
-              sed -i 's/Do_Anh_Nghia_CV\.pdf/Do_Anh_Nghia_Product_Designer_CV.pdf/g' "$file"
-            fi
-          done
-          git rm -f --ignore-unmatch cv/main.pdf Do_Anh_Nghia_CV.pdf Do_Anh_Nghia_UIUXDesigner_CV.pdf cv.pdf
-
-      - name: Commit canonical CV
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Do_Anh_Nghia_Product_Designer_CV.pdf index.html case-study-ux.html docs/cover-letters/Cover_Letter_General_UIUX.txt || true
-          if git diff --cached --quiet; then
-            echo "Canonical CV and references are already up to date."
-            exit 0
+          grep -q 'Do_Anh_Nghia_UIUXDesigner_CV.pdf' index.html
+          grep -q 'Do_Anh_Nghia_UIUXDesigner_CV.pdf' case-study-professional-work.html
+          grep -q 'Do_Anh_Nghia_UIUXDesigner_CV.pdf' case-study-ux.html
+          if grep -R "Do_Anh_Nghia_Product_Designer_CV.pdf"             index.html case-study-professional-work.html case-study-ux.html             qa/portfolio-v5.spec.mjs README.md docs/cover-letters/Cover_Letter_General_UIUX.txt; then
+            echo "Legacy Product Designer CV reference still exists."
+            exit 1
           fi
-          git commit -m "Build canonical Product Designer CV PDF"
-          git push
