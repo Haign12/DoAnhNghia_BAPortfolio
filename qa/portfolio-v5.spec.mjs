@@ -37,204 +37,143 @@ const formatAxeViolations = blockers => blockers.flatMap(violation =>
   })
 ).join('\n');
 
-const primeRevealContent = async page => {
-  const reveals = page.locator('.reveal');
-  const count = await reveals.count();
-  for (let index = 0; index < count; index += 1) {
-    await reveals.nth(index).scrollIntoViewIfNeeded();
-    await page.waitForTimeout(35);
+
+test('recruiter essentials are concise, source-authored and ordered around work', async ({page}) => {
+  await page.goto(baseURL,{waitUntil:'networkidle'});
+  await expect(page).toHaveTitle(/Product Designer/);
+  await expect(page.locator('#hero')).toContainText('Product Designer');
+  await expect(page.getByRole('heading',{level:1})).toHaveText('Complexity,made clear.');
+  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['Nova ↗','Sentry ↗','LuxRoom ↗']);
+  const sectionOrder=await page.locator('main>section').evaluateAll(nodes=>nodes.map(n=>n.id));
+  expect(sectionOrder.indexOf('flagships')).toBeLessThan(sectionOrder.indexOf('story'));
+  expect(await page.locator('body').innerText().then(t=>t.split(/\s+/).length)).toBeLessThan(700);
+  await expect(page.locator('#ai-workflow')).toContainText('I own the design decisions');
+  await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
+  await expect(page.locator('#experience article')).toHaveCount(3);
+  await expect(page.locator('.resume-link')).toHaveAttribute('href','Do_Anh_Nghia_UIUXDesigner_CV.pdf');
+});
+
+test('navigation, core copy and all projects remain usable without JavaScript', async ({browser}) => {
+  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
+  const page=await context.newPage();
+  await page.goto(baseURL,{waitUntil:'networkidle'});
+  await expect(page.getByRole('heading',{level:1})).toBeVisible();
+  await expect(page.locator('.nav-links a').first()).toBeVisible();
+  await page.locator('#projectIndex summary').click();
+  await expect(page.locator('.index-card:visible')).toHaveCount(14);
+  await expect(page.locator('.filter-row')).toBeHidden();
+  await context.close();
+});
+
+test('all categories filter and reset without losing links', async ({page}) => {
+  await page.goto(baseURL);
+  await page.locator('#projectIndex summary').click();
+  for(const filter of await page.locator('.filter').all()) {
+    const count=Number(await filter.locator('span').innerText());
+    await filter.click();
+    await expect(filter).toHaveAttribute('aria-pressed','true');
+    await expect(page.locator('.index-card:visible')).toHaveCount(count);
+    await expect(page.locator('#filterStatus')).toContainText(String(count));
   }
-  await page.evaluate(() => window.scrollTo(0, 0));
-};
+  await page.locator('[data-filter="all"]').click();
+  await expect(page.locator('.index-card:visible')).toHaveCount(14);
+  await expect(page.locator('#work a[href="#"]')).toHaveCount(0);
+});
 
-const primePortfolioMedia = async page => {
-  const flagshipMedia = page.locator('#flagships .flagship-media img');
-  const supportingMedia = page.locator('#work .project-media img');
-  await expect(flagshipMedia).toHaveCount(3);
-  await expect(supportingMedia).toHaveCount(14);
+test('legacy category deep links open the native project disclosure', async ({page}) => {
+  await page.goto(baseURL+'/#group-culture');
+  await expect(page.locator('#projectIndex')).toHaveAttribute('open','');
+  await expect(page.locator('#group-culture')).toBeVisible();
+  await expect(page.locator('#work a[href="case-study-hue.html"]')).toBeVisible();
+  await page.locator('[data-filter="fintech"]').click();
+  await expect(page.locator('#group-culture')).toBeHidden();
+  await page.evaluate(() => { location.hash='group-commerce'; });
+  await expect(page.locator('#group-culture')).toBeVisible();
+});
 
-  const media = page.locator('#flagships .flagship-media img, #work .project-media img');
-  const count = await media.count();
-  for (let index = 0; index < count; index += 1) {
-    const image = media.nth(index);
-    await image.scrollIntoViewIfNeeded();
-    await image.evaluate(async img => {
-      if (!img.complete) {
-        await new Promise((resolve, reject) => {
-          img.addEventListener('load', resolve, { once: true });
-          img.addEventListener('error', reject, { once: true });
-        });
-      }
-      if (typeof img.decode === 'function') await img.decode();
-    });
-  }
-  await page.evaluate(() => window.scrollTo(0, 0));
-};
+test('mobile menu supports dismissal, Escape focus recovery and navigation', async ({page}) => {
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(baseURL);
+  const menu=page.locator('#menuBtn');
+  await expect(menu).toHaveAttribute('aria-expanded','false');
+  await menu.click();
+  await expect(page.locator('.nav-links a').first()).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(menu).toBeFocused();
+  await expect(menu).toHaveAttribute('aria-expanded','false');
+  await menu.click();
+  await page.locator('.nav-links a[href="#flagships"]').click();
+  await expect(menu).toHaveAttribute('aria-expanded','false');
+  await expect(page).toHaveURL(/#flagships$/);
+});
 
-test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', () => {
-  test('recruiter-critical product narrative, AI workflow and flagship proof are present', async ({ page }) => {
-    await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await expect(page).toHaveTitle(/Product Designer/);
-    const hero = page.getByRole('heading', { level: 1 });
-    await expect(hero).toContainText(/PRODUCT/);
-    await expect(hero).toContainText(/AI \+ QA/);
-    await expect(page.getByText(/Product Designer · Fintech \/ B2B · AI-assisted design-to-code/)).toBeVisible();
-    await expect(page.locator('#flagships')).toBeVisible();
-    await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
-    const flagshipNames = await page.locator('#flagships [data-flagship] h3').allTextContents();
-    expect(flagshipNames).toEqual(['Nova', 'Sentry', 'LuxRoom']);
-    await expect(page.locator('#flagships a[href="case-study-nova.html"]').first()).toBeVisible();
-    await expect(page.locator('#flagships a[href="case-study-sentry.html"]').first()).toBeVisible();
-    await expect(page.locator('#flagships a[href="case-study-luxroom.html"]').first()).toBeVisible();
-    await expect(page.locator('#flagships a[href="case-study-uiux-factory.html"]')).toHaveCount(0);
-    await expect(page.locator('#ai-workflow a[href="case-study-uiux-factory.html"]')).toBeVisible();
-    await expect(page.getByText(/Evidence boundary:/).first()).toBeVisible();
-    await expect(page.locator('#ai-workflow')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'AI is a multiplier, not the product owner.' })).toBeVisible();
-    await expect(page.getByText(/Human-owned:/)).toBeVisible();
-    await expect(page.getByRole('link', { name: /Inspect agent contract/i })).toBeVisible();
-    await expect(page.getByRole('link', { name: /Inspect cloud QA/i })).toBeVisible();
-    await expect(page.getByRole('link', { name: /Inspect Next\/TS proof/i })).toBeVisible();
-    await expect(page.locator('#writing')).toBeVisible();
-    await expect(page.locator('#writing-title')).toBeVisible();
-    await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
-    await expect(page.getByRole('heading', { name: 'Breadth, with proof attached.' })).toBeVisible();
-    await expect(page.getByRole('link', { name: /Resume/i }).first()).toHaveAttribute('href', 'Do_Anh_Nghia_UIUXDesigner_CV.pdf');
-    await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
-    await expect(page.locator('.experience-grid')).toBeVisible();
-    await expect(page.locator('.experience-grid .exp-card')).toHaveCount(3);
+test('system theme and manual preference survive reloads', async ({browser}) => {
+  const context=await browser.newContext({colorScheme:'dark'});
+  const page=await context.newPage();
+  await page.goto(baseURL);
+  await expect(page.locator('#themeToggle')).toHaveText('Light');
+  await page.locator('#themeToggle').click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+  await expect(page.locator('#themeToggle')).toHaveText('Dark');
+  await context.close();
+});
+
+test('homepage publishes honest project evidence without implying impact', async ({page}) => {
+  await page.goto(baseURL);
+  await expect(page.locator('[data-flagship="nova"]')).toContainText('10 async self-reports across two rounds');
+  await expect(page.locator('[data-flagship="nova"]')).toContainText('awaits human retesting');
+  await expect(page.locator('[data-flagship="sentry"]')).toContainText('Practitioner validation remains open');
+  await expect(page.locator('[data-flagship="luxroom"]')).toContainText('User testing and conversion impact unmeasured');
+  const source=await fs.readFile('index.html','utf8');
+  expect(source).not.toContain('<a href="#">');
+  expect(source).not.toContain('fonts.googleapis.com');
+  expect(source).toContain('Independent concepts');
+});
+
+for(const width of [320,390,600,768,839,840,1024,1280,1440]) {
+  test('responsive layout and primary media at '+width+'px',async ({page}) => {
+    await page.setViewportSize({width,height:900});
+    const errors=[];
+    page.on('pageerror',e=>errors.push(e.message));
+    await page.goto(baseURL,{waitUntil:'networkidle'});
+    for(const image of await page.locator('img').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(img=>img.decode());
+    }
+    await page.locator('#projectIndex summary').click();
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    expect(await page.locator('img').evaluateAll(images=>images.every(i=>i.complete&&i.naturalWidth>0))).toBe(true);
+    expect(errors).toEqual([]);
+    const targets=await page.locator('.artifact-links a,.button,.project-heading h3 a').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length).map(n=>({text:n.textContent,width:n.getBoundingClientRect().width,height:n.getBoundingClientRect().height})));
+    expect(targets.filter(t=>t.width<43.9||t.height<43.9)).toEqual([]);
+    await page.locator('#projectIndex summary').click();
+    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+    await fs.mkdir('qa-artifacts',{recursive:true});
+    await page.screenshot({path:'qa-artifacts/minimal-'+width+'.png',fullPage:true});
   });
+}
 
-  test('raw homepage is the recruiter source of truth before runtime JavaScript', async () => {
-    const source = await fs.readFile('index.html', 'utf8');
-    expect(source).not.toContain('portfolio-product-upgrade.js');
-    expect(source).not.toContain('<a href="#">Case ↗</a>');
-    expect(source).toContain('id="ai-workflow"');
-    expect(source).toContain('id="writing"');
-    expect(source).toContain('case-study-flux.html');
-    expect(source).toContain('case-study-access.html');
-    expect(source).toContain('data-project="hue-between-river-citadel"');
-    expect(source).toContain('Culture &amp; Experimental <b>2</b>');
-    expect((source.match(/<span class="project-no">/g) || []).length).toBe(14);
-    expect(source).toContain('ambiguous product problems into clear systems and working prototypes');
-    expect(source).toContain('product judgment and evidence stay human-owned');
-    expect(source).toContain('Static prototypes stay labeled honestly');
-    expect(source).toContain('CI-verified Next.js 16 / React 19 / TypeScript 7 implementation');
-    expect(source).toContain('Do_Anh_Nghia_UIUXDesigner_CV.pdf');
-    expect(source).toContain('data-flagship="nova"');
-    expect(source).toContain('data-flagship="sentry"');
-    expect(source).toContain('data-flagship="luxroom"');
-    expect(source).toContain('Technical QA proves implementation behavior, not user comprehension or business impact.');
-    expect(source).toContain('case-study-professional-work.html');
-    expect(source).toContain('https://github.com/Ngh1aa/Reslove-AI');
-    expect(source).toContain('Make protected money, sensitive-action consequences and failure recovery explicit');
-    expect(source).toContain('async self-report records');
-    expect(source).toContain('Read Nova case ↗');
-    expect(source).toContain('Live prototype ↗');
-    expect(source).toContain('case-study-professional-work.html');
+for(const theme of ['light','dark']) {
+  test('no serious or critical axe violations in '+theme,async ({page})=>{
+    await page.emulateMedia({colorScheme:theme});
+    await page.goto(baseURL,{waitUntil:'networkidle'});
+    await page.locator('#projectIndex summary').click();
+    expect(await seriousAxeViolations(page)).toEqual([]);
   });
+}
 
-  test('supporting case links are real routes instead of placeholders', async ({ page }) => {
-    await page.goto(`${baseURL}/#work`, { waitUntil: 'networkidle' });
-    await expect(page.locator('#work .project-links a[href="#"]')).toHaveCount(0);
-    await expect(page.locator('#work a[href="case-study-flux.html"]')).toHaveCount(1);
-    await expect(page.locator('#work a[href="case-study-access.html"]')).toHaveCount(1);
-    await expect(page.locator('#work a[href="case-study-uiux-factory.html"]')).toHaveCount(1);
-  });
-
-  test('core recruiter narrative remains visible without JavaScript', async ({ browser }) => {
-    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
-    const page = await context.newPage();
-    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Decisions before screens.' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /Three cases/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Breadth, with proof attached.' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'AI is a multiplier, not the product owner.' })).toBeVisible();
-    await expect(page.locator('#writing-title')).toHaveText('From AI tools to design governance.');
-    await expect(page.locator('#work a[href="case-study-flux.html"]')).toHaveCount(1);
-    await expect(page.locator('#work a[href="case-study-access.html"]')).toHaveCount(1);
-    await expect(page.getByText(/Independent concept/).first()).toBeVisible();
-    await context.close();
-  });
-
-  test('flagship and supporting project media render before release', async ({ page }) => {
-    await page.goto(baseURL, { waitUntil: 'networkidle' });
-    await primePortfolioMedia(page);
-    const media = await page.locator('#flagships .flagship-media img, #work .project-media img').evaluateAll(images => images.map(img => ({
-      src: img.getAttribute('src'), complete: img.complete, naturalWidth: img.naturalWidth, naturalHeight: img.naturalHeight,
-    })));
-    const broken = media.filter(item => !item.complete || item.naturalWidth === 0 || item.naturalHeight === 0);
-    expect(broken, JSON.stringify(media, null, 2)).toEqual([]);
-  });
-
-  test('HUẾ — Between River & Citadel joins Cultural & Experimental with working live proof', async ({ page }) => {
-    await page.goto(`${baseURL}/#group-culture`, { waitUntil: 'networkidle' });
-    await expect(page.locator('#group-culture [data-project="hue-between-river-citadel"]')).toHaveCount(1);
-    await expect(page.getByRole('heading', { name: 'HUẾ — Between River & Citadel', exact: true })).toBeVisible();
-    await expect(page.locator('#group-culture .group-count-badge')).toHaveText('02 Projects');
-    await expect(page.locator('#group-culture a[href="https://ngh1aa.github.io/Mostar-Guide/"]').first()).toBeVisible();
-    await expect(page.locator('#group-culture [data-project="hue-between-river-citadel"] img')).toHaveAttribute('src', /\/assets\/hue\/scenes\/02-citadel-backdrop\.webp$/);
-  });
-
-  test('industry filters expose clear programmatic state', async ({ page }) => {
-    await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
-    const all = page.getByRole('button', { name: /All 14/ });
-    const fintech = page.getByRole('button', { name: /Fintech 3/ });
-    await expect(all).toHaveAttribute('aria-pressed', 'true');
-    await expect(fintech).toHaveAttribute('aria-pressed', 'false');
-    await fintech.click();
-    await expect(fintech).toHaveAttribute('aria-pressed', 'true');
-    await expect(all).toHaveAttribute('aria-pressed', 'false');
-    await expect(page.locator('#group-fintech')).toBeVisible();
-    await expect(page.locator('#group-commerce')).toBeHidden();
-    await all.click();
-    await expect(all).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('#group-commerce')).toBeVisible();
-  });
-
-  test('mobile navigation and professional experience adapt to one-column layout', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    const menu = page.getByRole('button', { name: 'Open navigation' });
-    await expect(menu).toHaveAttribute('aria-expanded', 'false');
-    await menu.click();
-    await expect(menu).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByRole('link', { name: 'How I work', exact: true })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Writing', exact: true })).toBeVisible();
-    const work = page.getByRole('link', { name: 'Work', exact: true });
-    await work.click();
-    await expect(menu).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.locator('#flagships')).toBeVisible();
-    const experienceColumns = await page.locator('.experience-grid').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(/\s+/).filter(Boolean).length);
-    expect(experienceColumns).toBe(1);
-    const firstExperienceBox = await page.locator('.experience-grid .exp-card').first().boundingBox();
-    expect(firstExperienceBox?.width || 0).toBeGreaterThan(300);
-  });
-
-  test('homepage has no serious or critical axe violations', async ({ page }) => {
-    await page.goto(baseURL, { waitUntil: 'networkidle' });
-    const blockers = await seriousAxeViolations(page);
-    expect(blockers, formatAxeViolations(blockers) || 'Serious/critical Axe violation detected').toEqual([]);
-  });
-
-  for (const viewport of viewports) {
-    test(`no horizontal overflow and visual artifact: ${viewport.name}`, async ({ page }) => {
-      await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await page.goto(baseURL, { waitUntil: 'networkidle' });
-      await expect(page.locator('.preloader')).toBeHidden({ timeout: 4000 });
-      await primePortfolioMedia(page);
-      await primeRevealContent(page);
-      const overflow = await page.evaluate(() => ({
-        scrollWidth: document.documentElement.scrollWidth,
-        clientWidth: document.documentElement.clientWidth,
-      }));
-      expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
-      await fs.mkdir('qa-artifacts', { recursive: true });
-      await page.screenshot({ path: `qa-artifacts/${viewport.name}.png`, fullPage: true });
-    });
-  }
-
+test('200 percent text and keyboard focus retain the primary journey',async ({page})=>{
+  await page.setViewportSize({width:768,height:900});
+  await page.goto(baseURL);
+  await page.addStyleTag({content:'html{font-size:200%}body{font-size:1rem}p,a,button,summary{font-size:1em!important}h1{font-size:6rem!important}h2{font-size:3rem!important}h3{font-size:2rem!important}'});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  await page.keyboard.press('Tab');
+  await expect(page.locator('.skip')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#flagships$/);
+});
   test('measurement targets are explicit targets, never fabricated results', async () => {
     const registry = JSON.parse(await fs.readFile('docs/measurement-targets.json', 'utf8'));
     expect(registry.policy.target_is_not_result).toBe(true);
@@ -247,8 +186,8 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
       expect(source).toContain('No invented before/after delta.');
     }
     const home = await fs.readFile('index.html', 'utf8');
-    expect(home).toContain('Technical QA proves implementation behavior, not user comprehension or business impact.');
-    expect(home).toContain('Observed commerce testing and conversion impact are still unmeasured.');
+    expect(home).toContain('Practitioner validation remains open.');
+    expect(home).toContain('User testing and conversion impact unmeasured.');
   });
 
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
@@ -334,111 +273,6 @@ test.describe('Product Designer + AI-assisted workflow portfolio cloud gate', ()
   });
 
 
-  test('A28 recruiter scan maps senior-level capabilities to inspectable project proof without claiming tenure', async ({ page }) => {
-    const registry = JSON.parse(await fs.readFile('docs/recruiter-capability-map.json', 'utf8'));
-    expect(registry.policy.capability_evidence_is_not_tenure).toBe(true);
-    expect(registry.policy.do_not_invent_cross_functional_team_evidence).toBe(true);
-    expect(registry.capabilities).toHaveLength(6);
-
-    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('.hero-signal-list li')).toHaveCount(5);
-    await expect(page.locator('.capability-proof-card')).toHaveCount(6);
-    await expect(page.getByText(/evidence of scope and decision quality, not a tenure claim/i)).toBeVisible();
-
-    for (const capability of registry.capabilities) {
-      const card = page.locator(`.capability-proof-card[data-capability="${capability.id}"]`);
-      await expect(card).toHaveCount(1);
-      const hrefs = await card.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href')));
-      expect(hrefs.length).toBeGreaterThan(0);
-      for (const href of capability.proof) expect(hrefs).toContain(href);
-      expect(hrefs).not.toContain('#');
-    }
-
-    for (const project of ['Nova', 'Sentry', 'LuxRoom']) {
-      const card = page.locator('#flagships .flagship-card', { has: page.getByRole('heading', { level: 3, name: project }) });
-      await expect(card).toHaveCount(1);
-      expect(await card.locator('.flagship-senior-signals span').count()).toBeGreaterThanOrEqual(4);
-    }
-    await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
-    await expect(page.locator('#ai-workflow')).toContainText('UIUX Factory');
-  });
-
-
-  test('A29 supporting work behaves as a skill evidence library with 2–3 grounded capability signals per project', async ({ page }) => {
-    const registry = JSON.parse(await fs.readFile('docs/supporting-capability-signals.json', 'utf8'));
-    expect(registry.policy.signals_are_evidence_labels_not_proficiency_scores).toBe(true);
-    expect(registry.policy.signals_do_not_imply_tenure).toBe(true);
-    expect(registry.policy.no_cross_functional_collaboration_inferred).toBe(true);
-    expect(registry.projects).toHaveLength(14);
-
-    await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('#work[data-a29="skill-evidence-library"]')).toHaveCount(1);
-    await expect(page.locator('#work .project-capability-signals')).toHaveCount(14);
-    await expect(page.getByRole('heading', { name: 'Breadth, with proof attached.', exact: true })).toBeVisible();
-
-    for (const project of registry.projects) {
-      expect(project.signals.length).toBeGreaterThanOrEqual(2);
-      expect(project.signals.length).toBeLessThanOrEqual(3);
-      const card = page.locator('#work article.project, #work article.project-featured').filter({ has: page.getByRole('heading', { level: 3, name: project.project, exact: true }) });
-      await expect(card).toHaveCount(1);
-      const chips = card.locator('.project-capability-signals span');
-      await expect(chips).toHaveCount(project.signals.length);
-      expect(await chips.allTextContents()).toEqual(project.signals);
-    }
-  });
-
-
-  test('A30 project evidence completeness keeps public proof scannable without fabricating maturity, timelines or outcomes', async ({ page }) => {
-    const registry = JSON.parse(await fs.readFile('docs/project-maturity-audit.json', 'utf8'));
-    expect(registry.policy.artifact_maturity_is_not_designer_seniority).toBe(true);
-    expect(registry.policy.maturity_level_is_internal_audit_not_public_badge).toBe(true);
-    expect(registry.policy.no_invented_timeline).toBe(true);
-    expect(registry.policy.no_invented_user_validation).toBe(true);
-    expect(registry.projects).toHaveLength(14);
-    for (const item of registry.projects) {
-      expect(item.artifact_maturity_level).toBeGreaterThanOrEqual(1);
-      expect(item.artifact_maturity_level).toBeLessThanOrEqual(5);
-      expect(item.role.length).toBeGreaterThan(3);
-      expect(item.scope.length).toBeGreaterThan(8);
-      expect(item.complexity.length).toBeGreaterThan(8);
-    }
-
-    const source = await fs.readFile('index.html', 'utf8');
-    expect(source).toContain('A30_PROJECT_EVIDENCE_COMPLETENESS');
-    expect(source).not.toMatch(/Level [1-5] —/);
-    expect(source).toContain('case-study-lumen.html');
-    expect(source).toContain('case-study-hue.html');
-
-    await page.goto(`${baseURL}/#work`, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('#work .project-proof-facts')).toHaveCount(14);
-    for (const card of await page.locator('#work article.project, #work article.project-featured').all()) {
-      await expect(card.locator('.project-proof-facts span')).toHaveCount(5);
-    }
-    await expect(page.getByText(/Project-duration claims stay unpublished until they are source-backed/i)).toBeVisible();
-
-    for (const route of ['case-study-lumen.html','case-study-hue.html']) {
-      const caseSource = await fs.readFile(route, 'utf8');
-      expect(caseSource).toContain('A27_SENIOR_DECISION_EVIDENCE');
-      expect(caseSource).toContain('A26_MEASUREMENT_TARGETS');
-      expect(caseSource).toContain('TARGET — NOT A RESULT');
-      expect(caseSource).toContain('Figma</dt><dd>Not published — no link fabricated');
-    }
-  });
-
-});
-
-test('A32 selected project cards expose evidence state without seniority scoring', async ({ page }) => {
-  await page.goto(baseURL);
-  await expect(page.locator('link[href*="project-proof-strip.css"]')).toHaveCount(1);
-  await expect(page.locator('#work .project-proof-strip')).toHaveCount(14);
-  const nova = page.locator('#work article', { has: page.getByRole('heading', { level: 3, name: 'Nova' }) });
-  await expect(nova.locator('.project-proof-strip')).toContainText('10 real-user records');
-  await expect(nova.locator('.project-proof-strip')).toContainText('4 findings · still open');
-  const factory = page.locator('#work article', { has: page.getByRole('heading', { level: 3, name: 'UIUX Factory' }) });
-  await expect(factory.locator('.project-proof-strip')).toContainText('Human impact · not measured');
-});
-
-
 test('A32 case studies expose a 30-second proof strip with honest evidence boundaries', async ({ page }) => {
   for (const route of ['case-study-luxroom.html', 'case-study-flux.html', 'case-study-uiux-factory.html']) {
     await page.goto(`${baseURL}/${route}`);
@@ -450,33 +284,4 @@ test('A32 case studies expose a 30-second proof strip with honest evidence bound
   await expect(page.locator('#project-30-sec-proof')).toContainText('direct-user baseline not measured');
   await page.goto(`${baseURL}/case-study-uiux-factory.html`);
   await expect(page.locator('#project-30-sec-proof')).toContainText('human workflow impact not measured');
-});
-
-
-// LEAN_FLAGSHIP_HOME_V2
-
-test('lean homepage prioritizes Nova, Sentry and LuxRoom while Factory moves to How I work', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('.preloader')).toBeHidden();
-  await expect(page.locator('#hero')).toHaveClass(/ready/);
-
-  const names = await page.locator('#flagships [data-flagship] h3').allTextContents();
-  expect(names).toEqual(['Nova', 'Sentry', 'LuxRoom']);
-  await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
-  await expect(page.locator('#ai-workflow')).toContainText('UIUX Factory');
-  await expect(page.locator('a[href="case-study-professional-work.html"]').first()).toBeVisible();
-  await expect(page.locator('#ai-workflow a[href="case-study-uiux-factory.html"]')).toBeVisible();
-
-  for (const width of [1440, 390]) {
-    await page.setViewportSize({ width, height: 1000 });
-    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('.preloader')).toBeHidden();
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
-    expect(overflow, `homepage horizontal overflow at ${width}px`).toBe(false);
-    await page.locator('#flagships').scrollIntoViewIfNeeded();
-    await page.locator('#flagships').screenshot({ path: `qa-artifacts/lean-flagships-${width}.png` });
-    await page.locator('#ai-workflow').scrollIntoViewIfNeeded();
-    await page.locator('#ai-workflow').screenshot({ path: `qa-artifacts/how-i-work-${width}.png` });
-  }
 });

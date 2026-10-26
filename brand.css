@@ -1,0 +1,159 @@
+/* Portfolio semantic tokens adapted from UIUX Factory, Apache-2.0. See docs/minimal-portfolio.md. */
+:root {
+  --brand-900: #162c26;
+  --brand-800: #193b30;
+  --brand-700: #204635;
+  --brand-600: #285440;
+  --brand-100: #e1ece5;
+  --brand-50: #eff4f0;
+
+  --ds-surface-page: #fafaf8;
+  --ds-surface-raised: #fdfdfb;
+  --ds-surface-sunken: #eeefeb;
+  --ds-surface-brand-subtle: var(--brand-50);
+  --ds-surface-brand-strong: var(--brand-600);
+  --ds-text-primary: #202320;
+  --ds-text-secondary: #60665f;
+  --ds-text-tertiary: #62685f;
+  --ds-text-brand: var(--brand-600);
+  --ds-text-on-brand-strong: #fdfdfb;
+  --ds-border-subtle: #dbddd7;
+  --ds-border-control: #7b8178;
+  --ds-action-disabled-bg: #eeefeb;
+  --ds-action-disabled-text: #60665f;
+  --ds-feedback-neutral-surface: #eeefeb;
+  --ds-feedback-neutral-border: #cdd2c9;
+  --ds-feedback-neutral-text: #41483f;
+  --ds-feedback-neutral-icon: #60665f;
+
+  --ds-action-primary-bg: var(--brand-600);
+  --ds-action-primary-bg-hover: var(--brand-700);
+  --ds-action-primary-bg-pressed: var(--brand-800);
+  --ds-action-primary-text: #fdfdfb;
+  --ds-action-secondary-bg: #fdfdfb;
+  --ds-action-secondary-bg-hover: #eff2eb;
+  --ds-action-secondary-bg-pressed: #dbddd7;
+  --ds-action-secondary-text: #202320;
+  --ds-action-secondary-border: #7b8178;
+  --ds-action-tertiary-bg-hover: var(--brand-50);
+  --ds-action-tertiary-bg-pressed: var(--brand-100);
+  --ds-action-tertiary-text: var(--brand-600);
+  --ds-action-selected-bg: var(--brand-100);
+  --ds-action-selected-text: var(--brand-900);
+  --ds-action-selected-indicator: var(--brand-600);
+  --ds-border-focus: var(--brand-600);
+
+  --ds-shape-card: 24px;
+  --ds-card-radius: 24px;
+  --ds-shape-control: 16px;
+  --ds-shape-sheet: 28px;
+  --ds-card-border: transparent;
+  --ds-elevation-raised: none;
+
+  --ds-size-control-sm: 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand-strong-dark: #294d3b;
+    --brand-tint-dark: #bed9c6;
+    --ds-surface-page: #181c19;
+    --ds-surface-raised: #202620;
+    --ds-surface-sunken: #2c342c;
+    --ds-surface-brand-subtle: #26392c;
+    --ds-surface-brand-strong: var(--brand-strong-dark);
+    --ds-text-primary: #f1f3ed;
+    --ds-text-secondary: #b7c0b3;
+    --ds-text-tertiary: #b2bcad;
+    --ds-text-brand: var(--brand-tint-dark);
+    --ds-text-on-brand-strong: #fdfdfb;
+    --ds-border-subtle: #3b4438;
+    --ds-border-control: #899681;
+    --ds-action-primary-bg: var(--brand-tint-dark);
+    --ds-action-primary-bg-hover: #cee5d4;
+    --ds-action-primary-bg-pressed: #deeee2;
+    --ds-action-primary-text: #172c1d;
+    --ds-action-secondary-bg: #202620;
+    --ds-action-secondary-bg-hover: #2c342c;
+    --ds-action-secondary-bg-pressed: #3b4438;
+    --ds-action-secondary-text: #f1f3ed;
+    --ds-action-secondary-border: #7a8875;
+    --ds-action-tertiary-bg-hover: #26392c;
+    --ds-action-tertiary-bg-pressed: #304836;
+    --ds-action-tertiary-text: var(--brand-tint-dark);
+    --ds-action-selected-bg: #304836;
+    --ds-action-selected-text: #e3eee4;
+    --ds-action-selected-indicator: var(--brand-tint-dark);
+    --ds-border-focus: var(--brand-tint-dark);
+    --ds-action-disabled-bg: #2c342c;
+    --ds-action-disabled-text: #b2bcad;
+    --ds-feedback-neutral-surface: #2c342c;
+    --ds-feedback-neutral-border: #3a3f4d;
+    --ds-feedback-neutral-text: #d9dce4;
+    --ds-feedback-neutral-icon: #b7c0b3;
+  }
+}
+
+:root[data-theme="dark"] {
+  --brand-strong-dark: #294d3b;
+  --brand-tint-dark: #bed9c6;
+  --ds-surface-page: #181c19;
+  --ds-surface-raised: #202620;
+  --ds-surface-sunken: #2c342c;
+  --ds-surface-brand-subtle: #26392c;
+  --ds-surface-brand-strong: var(--brand-strong-dark);
+  --ds-text-primary: #f1f3ed;
+  --ds-text-secondary: #b7c0b3;
+  --ds-text-tertiary: #b2bcad;
+  --ds-text-brand: var(--brand-tint-dark);
+  --ds-text-on-brand-strong: #fdfdfb;
+  --ds-border-subtle: #3b4438;
+  --ds-border-control: #899681;
+  --ds-action-primary-bg: var(--brand-tint-dark);
+  --ds-action-primary-bg-hover: #cee5d4;
+  --ds-action-primary-bg-pressed: #deeee2;
+  --ds-action-primary-text: #172c1d;
+  --ds-action-secondary-bg: #202620;
+  --ds-action-secondary-bg-hover: #2c342c;
+  --ds-action-secondary-bg-pressed: #3b4438;
+  --ds-action-secondary-text: #f1f3ed;
+  --ds-action-secondary-border: #7a8875;
+  --ds-action-tertiary-bg-hover: #26392c;
+  --ds-action-tertiary-bg-pressed: #304836;
+  --ds-action-tertiary-text: var(--brand-tint-dark);
+  --ds-action-selected-bg: #304836;
+  --ds-action-selected-text: #e3eee4;
+  --ds-action-selected-indicator: var(--brand-tint-dark);
+  --ds-border-focus: var(--brand-tint-dark);
+  --ds-action-disabled-bg: #2c342c;
+  --ds-action-disabled-text: #b2bcad;
+  --ds-feedback-neutral-surface: #2c342c;
+  --ds-feedback-neutral-border: #3a3f4d;
+  --ds-feedback-neutral-text: #d9dce4;
+  --ds-feedback-neutral-icon: #b7c0b3;
+}
+:root {
+  --sans: "Be Vietnam Pro", sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  --bg: var(--ds-surface-page);
+  --ink: var(--ds-text-primary);
+  --muted: var(--ds-text-secondary);
+  --line: var(--ds-border-subtle);
+  --accent: var(--ds-text-brand);
+  --ds-card-radius: 8px;
+  --ds-shape-card: 8px;
+  --ds-shape-control: 6px;
+  --ds-shape-sheet: 8px;
+  --shell: 1280px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --section-gap: clamp(72px, 9vw, 128px);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
