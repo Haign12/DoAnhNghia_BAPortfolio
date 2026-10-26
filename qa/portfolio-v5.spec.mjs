@@ -41,12 +41,12 @@ const formatAxeViolations = blockers => blockers.flatMap(violation =>
 test('recruiter essentials are concise, source-authored and ordered around work', async ({page}) => {
   await page.goto(baseURL,{waitUntil:'networkidle'});
   await expect(page).toHaveTitle(/Product Designer/);
-  await expect(page.locator('#hero')).toContainText('Product Designer');
+  await expect(page.locator('#hero')).toContainText('UI/UX & Product Designer');
   await expect(page.getByRole('heading',{level:1})).toHaveText('Complexity,made clear.');
-  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['Nova ↗','Sentry ↗','LuxRoom ↗']);
+  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['LuxRoom ↗','Atelier ↗','Flux ↗']);
   const sectionOrder=await page.locator('main>section').evaluateAll(nodes=>nodes.map(n=>n.id));
   expect(sectionOrder.indexOf('flagships')).toBeLessThan(sectionOrder.indexOf('story'));
-  expect(await page.locator('body').innerText().then(t=>t.split(/\s+/).length)).toBeLessThan(700);
+  expect(await page.locator('#hero').innerText().then(t=>t.split(/\s+/).length)).toBeLessThan(60);
   await expect(page.locator('#ai-workflow')).toContainText('I own the design decisions');
   await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
   await expect(page.locator('#experience article')).toHaveCount(3);
@@ -59,15 +59,13 @@ test('navigation, core copy and all projects remain usable without JavaScript', 
   await page.goto(baseURL,{waitUntil:'networkidle'});
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   await expect(page.locator('.nav-links a').first()).toBeVisible();
-  await page.locator('#projectIndex summary').click();
-  await expect(page.locator('.index-card:visible')).toHaveCount(14);
-  await expect(page.locator('.filter-row')).toBeHidden();
+  await expect(page.locator('.index-card:visible')).toHaveCount(20);
+  await expect(page.locator('.project-tools')).toBeHidden();
   await context.close();
 });
 
 test('all categories filter and reset without losing links', async ({page}) => {
   await page.goto(baseURL);
-  await page.locator('#projectIndex summary').click();
   for(const filter of await page.locator('.filter').all()) {
     const count=Number(await filter.locator('span').innerText());
     await filter.click();
@@ -76,15 +74,14 @@ test('all categories filter and reset without losing links', async ({page}) => {
     await expect(page.locator('#filterStatus')).toContainText(String(count));
   }
   await page.locator('[data-filter="all"]').click();
-  await expect(page.locator('.index-card:visible')).toHaveCount(14);
+  await expect(page.locator('.index-card:visible')).toHaveCount(20);
   await expect(page.locator('#work a[href="#"]')).toHaveCount(0);
 });
 
-test('legacy category deep links open the native project disclosure', async ({page}) => {
+test('legacy category deep links restore visible project groups', async ({page}) => {
   await page.goto(baseURL+'/#group-culture');
-  await expect(page.locator('#projectIndex')).toHaveAttribute('open','');
   await expect(page.locator('#group-culture')).toBeVisible();
-  await expect(page.locator('#work a[href="case-study-hue.html"]')).toBeVisible();
+  await expect(page.locator('#work [data-project="hue"] [data-artifact-kind="case"]')).toBeVisible();
   await page.locator('[data-filter="fintech"]').click();
   await expect(page.locator('#group-culture')).toBeHidden();
   await page.evaluate(() => { location.hash='group-commerce'; });
@@ -122,9 +119,9 @@ test('system theme and manual preference survive reloads', async ({browser}) => 
 
 test('homepage publishes honest project evidence without implying impact', async ({page}) => {
   await page.goto(baseURL);
-  await expect(page.locator('[data-flagship="nova"]')).toContainText('10 async self-reports across two rounds');
-  await expect(page.locator('[data-flagship="nova"]')).toContainText('awaits human retesting');
-  await expect(page.locator('[data-flagship="sentry"]')).toContainText('Practitioner validation remains open');
+  await expect(page.locator('[data-project="nova"]')).toContainText('10 async self-reports across two rounds');
+  await expect(page.locator('[data-project="nova"]')).toContainText('awaits human retesting');
+  await expect(page.locator('[data-project="sentry"]')).toContainText('Practitioner validation remains open');
   await expect(page.locator('[data-flagship="luxroom"]')).toContainText('User testing and conversion impact unmeasured');
   const source=await fs.readFile('index.html','utf8');
   expect(source).not.toContain('<a href="#">');
@@ -140,15 +137,21 @@ for(const width of [320,390,600,768,839,840,1024,1280,1440]) {
     await page.goto(baseURL,{waitUntil:'networkidle'});
     for(const image of await page.locator('img').all()) {
       await image.scrollIntoViewIfNeeded();
-      await image.evaluate(img=>img.decode());
+      await image.evaluate(async img=>{
+        if(!img.complete) await new Promise((resolve,reject)=>{
+          img.addEventListener('load',resolve,{once:true});
+          img.addEventListener('error',()=>reject(new Error(`Image failed: ${img.src}`)),{once:true});
+        });
+        if(!img.naturalWidth) throw new Error(`Image has no pixels: ${img.src}`);
+        await img.decode();
+      });
     }
-    await page.locator('#projectIndex summary').click();
+
     expect(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
     expect(await page.locator('img').evaluateAll(images=>images.every(i=>i.complete&&i.naturalWidth>0))).toBe(true);
     expect(errors).toEqual([]);
     const targets=await page.locator('.artifact-links a,.button,.project-heading h3 a').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length).map(n=>({text:n.textContent,width:n.getBoundingClientRect().width,height:n.getBoundingClientRect().height})));
     expect(targets.filter(t=>t.width<43.9||t.height<43.9)).toEqual([]);
-    await page.locator('#projectIndex summary').click();
     await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
     await fs.mkdir('qa-artifacts',{recursive:true});
     await page.screenshot({path:'qa-artifacts/minimal-'+width+'.png',fullPage:true});
@@ -159,7 +162,6 @@ for(const theme of ['light','dark']) {
   test('no serious or critical axe violations in '+theme,async ({page})=>{
     await page.emulateMedia({colorScheme:theme});
     await page.goto(baseURL,{waitUntil:'networkidle'});
-    await page.locator('#projectIndex summary').click();
     expect(await seriousAxeViolations(page)).toEqual([]);
   });
 }
@@ -284,4 +286,37 @@ test('A32 case studies expose a 30-second proof strip with honest evidence bound
   await expect(page.locator('#project-30-sec-proof')).toContainText('direct-user baseline not measured');
   await page.goto(`${baseURL}/case-study-uiux-factory.html`);
   await expect(page.locator('#project-30-sec-proof')).toContainText('human workflow impact not measured');
+});
+
+test('every existing project case is visible in exactly one classified catalog entry', async ({page})=>{
+  const expected=(await fs.readdir('.')).filter(file=>/^case-study-.*\.html$/.test(file)&&file!=='case-study-professional-work.html').sort();
+  await page.goto(baseURL);
+  const actual=await page.locator('#work .index-card [data-artifact-kind="case"]').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort());
+  expect(actual).toEqual(expected);
+  await expect(page.locator('#work .index-card:visible')).toHaveCount(expected.length);
+  await expect(page.locator('#work .project-group:visible')).toHaveCount(6);
+  await expect(page.locator('#work details')).toHaveCount(0);
+  for(const card of await page.locator('#work .index-card').all()) {
+    await expect(card.locator('.index-skills')).not.toBeEmpty();
+    await expect(card.locator('.index-summary')).not.toBeEmpty();
+    await expect(card.locator('.index-evidence')).not.toBeEmpty();
+  }
+});
+
+test('search combines with category filtering and recovers from no results',async ({page})=>{
+  await page.goto(baseURL);
+  const search=page.getByRole('searchbox',{name:'Find a project'});
+  await search.fill('Hue');
+  await expect(page.locator('.index-card:visible')).toHaveCount(1);
+  await expect(page.locator('[data-project="hue"]')).toBeVisible();
+  await search.fill('Huế');
+  await expect(page.locator('.index-card:visible')).toHaveCount(1);
+  await page.locator('[data-filter="fintech"]').click();
+  await expect(page.locator('#catalogEmpty')).toBeVisible();
+  await expect(page.locator('.index-card:visible')).toHaveCount(0);
+  await page.getByRole('button',{name:'Clear filters'}).click();
+  await expect(search).toHaveValue('');
+  await expect(search).toBeFocused();
+  await expect(page.locator('.index-card:visible')).toHaveCount(20);
+  await expect(page.locator('#catalogEmpty')).toBeHidden();
 });

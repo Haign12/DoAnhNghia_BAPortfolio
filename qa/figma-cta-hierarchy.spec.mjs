@@ -6,32 +6,32 @@ const artifactDir = 'qa-artifacts';
 
 const flagships = [
   {
-    id: 'nova',
-    caseLabel: 'Case study',
-    liveLabel: 'Live prototype',
-    figma: 'https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&t=83Wo9YlCjxLTFzxv-1',
-    source: 'https://github.com/Ngh1aa/Nova',
-    caseRoute: 'case-study-nova.html',
-    caseLiveLabel: 'Live prototype ↗',
+    "id": "luxroom",
+    "caseLabel": "Case study",
+    "liveLabel": "Live prototype",
+    "figma": "https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1",
+    "source": "https://github.com/Ngh1aa/LuxRoom",
+    "caseRoute": "case-study-luxroom.html",
+    "caseLiveLabel": "Live prototype ↗"
   },
   {
-    id: 'sentry',
-    caseLabel: 'Case study',
-    liveLabel: 'Live prototype',
-    figma: 'https://www.figma.com/design/1W6rwPXiTfcZn6OhieVUDe/Sentry?node-id=0-1&t=BvIxuJu3KrFWy5Lg-1',
-    source: 'https://github.com/Ngh1aa/Sentry',
-    caseRoute: 'case-study-sentry.html',
-    caseLiveLabel: 'Live prototype ↗',
+    "id": "atelier",
+    "caseLabel": "Case study",
+    "liveLabel": "Live prototype",
+    "figma": "https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1",
+    "source": "https://github.com/Ngh1aa/Atelier",
+    "caseRoute": "case-study-atelier.html",
+    "caseLiveLabel": "Live prototype ↗"
   },
   {
-    id: 'luxroom',
-    caseLabel: 'Case study',
-    liveLabel: 'Live prototype',
-    figma: 'https://www.figma.com/design/50eyqHuzpiqIYoIT9ngwcT/LuxRoom?node-id=0-1&t=HPp6OlvriN9MeZCW-1',
-    source: 'https://github.com/Ngh1aa/LuxRoom',
-    caseRoute: 'case-study-luxroom.html',
-    caseLiveLabel: 'Live prototype ↗',
-  },
+    "id": "flux",
+    "caseLabel": "Case study",
+    "liveLabel": "Live prototype",
+    "figma": "https://www.figma.com/design/bZIqaMK97vwzBuSdD8risu/Flux?node-id=1-3427&t=BvIxuJu3KrFWy5Lg-1",
+    "source": "https://github.com/Ngh1aa/Flux",
+    "caseRoute": "case-study-flux.html",
+    "caseLiveLabel": "Live prototype ↗"
+  }
 ];
 
 test('flagship cards keep one primary CTA and order Case → Live → Figma → Source', async ({ page }) => {

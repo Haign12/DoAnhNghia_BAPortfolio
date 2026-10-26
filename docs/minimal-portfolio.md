@@ -15,21 +15,21 @@ Task size M: one portfolio entry page, inherited detailed project pages. Read th
 - Top tasks: understand the role, inspect relevant projects, see paid experience, obtain CV/contact.
 - Outcome metric: recruiter comprehension/application response UNKNOWN. Reducing visible repetition is a design intervention, not measured hiring impact.
 - Assets: existing project media and portrait; no fabricated project UI or AI imagery. Existing English portfolio copy retained as the site language; Vietnamese owner name supported.
-- Preserve: Nova/Sentry/LuxRoom ordering, 14 existing project destinations, case/Figma/prototype/source links, canonical CV, historical role titles and dates, independent-concept and research limitations, old navigation anchors.
+- Latest owner direction: feature LuxRoom, Atelier and Flux, show every existing project, classify them and make UI/UX/Product Design skills explicit. Preserve case/Figma/prototype/source links, canonical CV, historical role titles and dates, independent-concept and research limitations, and old navigation anchors.
 
 ## UX structure and five scenario walkthroughs
 
-Flow: introduction → selected project → case/prototype/Figma → browser back → CV/contact. Alternative: direct project/category anchor → project index expands → relevant case. No JavaScript: all core copy and links remain HTML; native details exposes all 14 projects; nav remains visible. A broken external service can be recovered through the local case and alternative resource links, whose availability is independent.
+Flow: introduction → selected project → case/prototype/Figma → browser back → CV/contact. Alternative: all-project catalog → category and/or skill search → relevant case. No JavaScript: all 20 project cases and all six groups remain visible in HTML; navigation remains visible and filtering controls are hidden. Empty search results provide Clear filters, which restores all projects and returns focus to search. Direct category anchors restore a group hidden by a previous filter. A broken external service can be recovered through the local case and alternative resource links, whose availability is independent.
 
 | Scenario, agent heuristic | Intended result | Implementation |
 |---|---|---|
-| Recruiter scanning the first screen | Identify Product Designer and find work | Role, one headline, short positioning and work CTA; Nova begins within the first viewport |
+| Recruiter scanning the first screen | Identify UI/UX and Product Designer and find work | Role, one headline, short positioning and work CTA; LuxRoom begins within the first viewport |
 | Design lead inspecting depth | Open decisions and limitations | Three featured cases, concise evidence notes and direct artifact links |
 | Mobile visitor interrupted in navigation | Dismiss and resume | Menu closes on selection, outside click or Escape; Escape returns focus |
-| Returning visitor with category deep link | Reach the same project | Existing group anchors retained; ancestor disclosure opens |
-| Visitor without JS or with reduced motion | Read work and contact without waiting | Static narrative, native disclosure, no entrance gate, reduced-motion rules |
+| Returning visitor with category deep link | Reach the same project | Existing group anchors retained; hidden filters reset before navigating |
+| Visitor without JS or with reduced motion | Read work and contact without waiting | All 20 cases are visible, no entrance gate, reduced-motion rules |
 
-States: index closed/open, each category selected/reset, navigation closed/open, system/manual light/dark, no JS, keyboard focus, image loading and enlarged text. There is no data-entry or remote-data workflow, so form validation and remote empty/error screens are not applicable. External app availability is not guaranteed by local QA.
+States: all projects/category selected, search matches/no results/reset, navigation closed/open, system/manual light/dark, no JS, keyboard focus, image loading and enlarged text. There is no remote-data or submitted form workflow. External app availability is not guaranteed by local QA.
 
 ## Visual plan
 
@@ -39,7 +39,7 @@ Domain object: a designer's project contact sheet. Sensation: calm, precise, con
 - Colour roles: page #fafaf8, text #202320, secondary #60665f, action #285440; dark mode uses corresponding semantic tokens in brand.css.
 - Shapes: project/index surfaces 8px; controls 6px; portrait/contact control circles by function. Flat surfaces, no decorative shadows.
 - Container: max 1280px; gutters 20px mobile and fluid desktop; section spacing 72-128px. One dominant call to action per region.
-- Signature: large sans headline with one serif italic line, real project media ahead of self-description, a restrained optional project index.
+- Signature: large sans headline with one serif italic line, real project media ahead of self-description, a complete catalog with restrained category structure and optional discovery controls.
 - Dials: variance 6, motion 3, density 3. Only hover/pressed feedback; reduced motion removes transforms/transitions.
 
 ```text
@@ -49,13 +49,30 @@ Complexity,
 made clear.
 Short positioning                            Explore work
 Selected work
-Nova: wide real product image, problem, evidence, resources
-Sentry                                  LuxRoom
-Optional 14-project index
+LuxRoom: wide real product image, UX contribution, evidence, resources
+Atelier                                 Flux
+All 20 projects, grouped with optional search and filters
 About / Experience → Practice / Writing → Contact
 ```
 
-Two materially different candidates were rendered with the same copy, claims, links and assets. A uses a large editorial introduction, a wide Nova image and two supporting cases. B uses a compact split introduction, sans-only heading and equal three-up project grid. A was selected as an agent design hypothesis because it gives the flagship a clear reading priority and room for product media. B shows breadth earlier but makes all cases compete equally. Candidate B is a temporary comparison, not an extra product page. No human preference study was performed.
+During the initial trial, two materially different candidates were rendered: an editorial introduction with a dominant featured case, and a compact split introduction with three equal cases. The editorial composition was selected as an agent design hypothesis because it gives a flagship clear reading priority. The owner subsequently selected LuxRoom/Atelier/Flux and requested a fully visible catalog; those instructions supersede the earlier Nova-first and collapsed-index choices. No human preference study was performed.
+
+## Complete project inventory
+
+The inventory is derived from every root case-study HTML file, excluding Professional Work, which is an employment record rather than another concept project. A regression compares the catalog's case URLs against that source set to prevent omissions or duplicate listings.
+
+| Group | Projects |
+|---|---|
+| Commerce and retail | LuxRoom, Atelier, Violet Marketplace |
+| Fintech and financial operations | Flux, Nova, Sentry, Vietbank Redesign |
+| B2B products and workspaces | ACCESS, StudioOS, FlowCRM, CENNEXT / G.I.E |
+| Websites and service experiences | Capital Place, VAS Education, QTSC, VOLTIS |
+| Culture and experimental | LUMEN, HUẾ |
+| Design systems and tools | UIUX Factory, skills_UIUX, UI Feedback Tool |
+
+Each entry exposes contribution, concrete skills, artifact type, evidence boundary and available case/prototype/Figma/source links. Missing public artifacts are omitted. FlowCRM remains a static concept with no invented live/source links. CENNEXT and G.I.E identify one project. Professional delivery stays linked separately.
+
+New thumbnails use existing project imagery; Vietbank and QTSC thumbnails are captures of their existing public prototypes, not fabricated UI. Systems/tools use text-based project cards because source and process are their primary artifacts.
 
 Three differences from the Factory starter beyond colour: editorial type pairing; asymmetric featured-project composition; native expandable project index. The existing homepage structure is reused at the semantic level; the full starter dependency stack is not imported into this small static site.
 
@@ -69,6 +86,8 @@ Three differences from the Factory starter beyond colour: editorial type pairing
 ## Independent rendered review
 
 A second agent inspected native-size crops of desktop/mobile, light/dark, with project media decoded. No P0/P1 overlap, clipping, unreadable foreground or destructive crop was observed. It identified insufficient screenshot loading and small secondary target areas; captures were corrected and targets enlarged to at least 44x44. Review is agent-heuristic, not participant research or proof of WCAG conformance.
+
+The expanded catalog received another independent rendered review. Two P2 findings were repaired and re-reviewed: groups containing four projects now use a 2x2 desktop grid; StudioOS now uses a capture of its actual public workspace instead of an abstract cover. Isolated group captures were corrected to exclude sticky navigation from the screenshot crop. The reviewer confirmed these findings closed and observed no new P0/P1 in the inspected images. Interaction and numerical contrast are verified separately by browser checks.
 
 Visual appearance scores: task clarity 4.5, hierarchy 4.5, spacing 4, type 4, component consistency 4, content 4, responsiveness 4, distinctiveness 4. The reviewer did not infer interaction success from screenshots, and did not calculate an overall rubric average while that dimension remained unverified.
 

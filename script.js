@@ -62,34 +62,73 @@
   const filterRow = document.querySelector(".filter-row");
   const filters = [...filterRow.querySelectorAll(".filter")];
   const projects = [...document.querySelectorAll(".index-card")];
+  const groups = [...document.querySelectorAll(".project-group")];
+  const search = document.getElementById("projectSearch");
+  const empty = document.getElementById("catalogEmpty");
   const filterStatus = document.getElementById("filterStatus");
-  filterRow.hidden = false;
-  filterRow.addEventListener("click", (event) => {
-    const button = event.target.closest(".filter");
-    if (!button) return;
+  let category = "all";
+  const normalize = (value) =>
+    value
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toLowerCase()
+      .replaceAll("đ", "d");
+  const searchable = new Map(
+    projects.map((project) => [project, normalize(project.textContent)]),
+  );
+  document.querySelector(".project-tools").hidden = false;
+
+  function filterProjects() {
+    const query = normalize(search.value.trim());
     filters.forEach((filter) => {
-      const active = filter === button;
+      const active = filter.dataset.filter === category;
       filter.classList.toggle("active", active);
       filter.setAttribute("aria-pressed", String(active));
     });
     projects.forEach((project) => {
       project.hidden =
-        button.dataset.filter !== "all" &&
-        project.dataset.cat !== button.dataset.filter;
+        (category !== "all" && project.dataset.cat !== category) ||
+        !searchable.get(project).includes(query);
+    });
+    groups.forEach((group) => {
+      const count = [...group.querySelectorAll(".index-card")].filter(
+        (project) => !project.hidden,
+      ).length;
+      group.hidden = count === 0;
+      group.querySelector(".group-count").textContent = String(count);
     });
     const count = projects.filter((project) => !project.hidden).length;
-    filterStatus.textContent = `${count} ${count === 1 ? "project" : "projects"} shown`;
+    const groupCount = groups.filter((group) => !group.hidden).length;
+    empty.hidden = count > 0;
+    filterStatus.textContent = `${count} ${count === 1 ? "project" : "projects"} in ${groupCount} ${groupCount === 1 ? "category" : "categories"}`;
+  }
+
+  filterRow.addEventListener("click", (event) => {
+    const button = event.target.closest(".filter");
+    if (!button) return;
+    category = button.dataset.filter;
+    filterProjects();
+  });
+  search.addEventListener("input", filterProjects);
+  document.getElementById("resetProjects").addEventListener("click", () => {
+    category = "all";
+    search.value = "";
+    filterProjects();
+    search.focus();
   });
 
   function revealAnchor() {
     const id = window.location.hash.slice(1);
     const target = id && document.getElementById(id);
     if (!target) return;
-    const details = target.closest("details");
-    if (details) {
-      details.open = true;
-      const all = filterRow.querySelector('[data-filter="all"]');
-      if (target.matches(".index-card") && target.hidden) all.click();
+    const group = target.closest(".project-group");
+    if (group) {
+      if (group.hidden || target.hidden) {
+        category = "all";
+        search.value = "";
+        filterProjects();
+      }
+      target.scrollIntoView({ block: "start", behavior: "instant" });
     }
   }
   window.addEventListener("hashchange", revealAnchor);
