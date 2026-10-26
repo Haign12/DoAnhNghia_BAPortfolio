@@ -135,6 +135,9 @@ for(const width of [320,390,600,768,839,840,1024,1280,1440]) {
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     await page.goto(baseURL,{waitUntil:'networkidle'});
+    await expect(page.locator('.brand-monogram')).toBeVisible();
+    await expect(page.locator('.brand')).toHaveText('');
+    await expect(page.locator('.brand')).toHaveAccessibleName('Đỗ Anh Nghĩa, home');
     for(const image of await page.locator('img').all()) {
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(async img=>{
@@ -215,7 +218,7 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${baseURL}/${caseStudy.path}`, { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { level: 1, name: caseStudy.heading })).toBeVisible();
-      await expect(page.locator('.case-evidence-strip').first()).toBeVisible();
+      await expect(page.locator('.narrative-boundary, .case-evidence-strip').first()).toBeVisible();
       const overflow = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,

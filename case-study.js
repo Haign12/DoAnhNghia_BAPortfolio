@@ -122,7 +122,8 @@
 
     const heroActions = document.querySelector('.case-hero-actions');
     if (heroActions) {
-      const preserved = [...heroActions.querySelectorAll('a')].filter((link) => !matchesArtifactAction(link));
+      const artifactURLs = new Set(artifactSpecs.map((spec) => new URL(spec.href, document.baseURI).href));
+      const preserved = [...heroActions.querySelectorAll('a')].filter((link) => !matchesArtifactAction(link) && !artifactURLs.has(link.href));
       const artifactLinks = artifactSpecs.map((spec, index) => buildArtifactLink(spec, true, index === 0));
       heroActions.classList.add('case-artifact-actions');
       heroActions.replaceChildren(...artifactLinks, ...preserved);
@@ -269,9 +270,9 @@
     const navActions = document.querySelector('.case-nav-actions');
     if (navActions && !navActions.querySelector('[data-project-recruiter-proof]')) {
       const link = document.createElement('a');
-      link.href = '#project-30-sec-proof';
+      link.href = document.querySelector('.case-evidence-details') ? '#case-evidence' : '#project-30-sec-proof';
       link.dataset.projectRecruiterProof = 'true';
-      link.textContent = '30-sec proof ↓';
+      link.textContent = document.querySelector('.case-evidence-details') ? 'Evidence details ↓' : '30-sec proof ↓';
       navActions.prepend(link);
     }
 
@@ -297,7 +298,9 @@
           <p class="project-recruiter-proof-note">Artifact/source delivery evidence is kept separate from direct-user evidence and product/business outcomes. Missing research remains visible instead of being converted into a success claim.</p>
         </div>
       `;
-      hero.after(proof);
+      const evidenceDetails = document.querySelector('.case-evidence-details-content');
+      if (evidenceDetails) evidenceDetails.prepend(proof);
+      else hero.after(proof);
     }
   }
 
@@ -456,4 +459,20 @@
     }), { rootMargin: '-25% 0px -65% 0px' });
     sections.forEach((section) => observer.observe(section));
   }
+
+  // Keep evidence deep links usable when the supporting audit is collapsed.
+  function revealEvidenceTarget() {
+    const id = location.hash.slice(1);
+    const target = id ? document.getElementById(id) : null;
+    const details = target?.closest('.case-evidence-details');
+    if (details) {
+      details.open = true;
+      target.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
+  }
+  document.querySelectorAll('a[href="#case-evidence"]').forEach(link => link.addEventListener('click', () => {
+    document.getElementById('case-evidence').open = true;
+  }));
+  window.addEventListener('hashchange', revealEvidenceTarget);
+  revealEvidenceTarget();
 })();
