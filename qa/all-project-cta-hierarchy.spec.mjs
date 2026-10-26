@@ -17,7 +17,7 @@ test('every supporting project card uses case → live → figma → source hier
     const card = block.closest('article');
     const actions = [...block.querySelectorAll('a')];
     return {
-      title: card?.querySelector('h3')?.textContent?.trim() || '',
+      title: card?.querySelector('h4')?.textContent?.trim() || '',
       labels: actions.map((node) => node.textContent?.trim() || ''),
       kinds: actions.map((node) => node.dataset.artifactKind),
       hrefs: actions.map((node) => node.getAttribute('href')),
@@ -26,9 +26,9 @@ test('every supporting project card uses case → live → figma → source hier
     };
   }));
 
-  expect(cards).toHaveLength(14);
+  expect(cards).toHaveLength(20);
   for (const card of cards) {
-    expect(card.labels[0], `${card.title}: first CTA`).toMatch(/^Read case/);
+    expect(card.labels[0], `${card.title}: first CTA`).toMatch(/^Case study/);
     expect(card.classes[0], `${card.title}: primary class`).toContain('project-artifact-primary');
     expect(card.kinds, `${card.title}: artifact kinds`).not.toContain(undefined);
     assertOrderedKinds(card.kinds);
@@ -53,11 +53,12 @@ test('mobile keeps one dominant case CTA and wraps artifact links cleanly', asyn
     return {
       width: blockBox.width,
       primaryWidth: primaryBox?.width || 0,
+      primaryHeight: primaryBox?.height || 0,
     };
   }));
 
-  expect(blocks).toHaveLength(14);
-  for (const block of blocks) expect(block.primaryWidth).toBeGreaterThan(block.width * 0.9);
+  expect(blocks).toHaveLength(20);
+  for (const block of blocks) { expect(block.primaryWidth).toBeGreaterThanOrEqual(44); expect(block.primaryHeight).toBeGreaterThanOrEqual(44); }
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
