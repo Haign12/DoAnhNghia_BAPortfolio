@@ -45,6 +45,8 @@
     );
     document.querySelector('meta[name="theme-color"]').content =
       getComputedStyle(root).getPropertyValue("--ds-surface-page").trim();
+    document.querySelector('link[rel="icon"]').href =
+      `assets/images/brand/xii-an-${dark ? "dark" : "light"}.svg`;
   }
   themeButton.addEventListener("click", () => {
     const next = isDark() ? "light" : "dark";
