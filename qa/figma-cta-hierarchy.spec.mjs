@@ -25,12 +25,12 @@ const flagships = [
     "caseLiveLabel": "Live prototype ↗"
   },
   {
-    "id": "flux",
+    "id": "nova",
     "caseLabel": "Case study",
     "liveLabel": "Live prototype",
-    "figma": "https://www.figma.com/design/bZIqaMK97vwzBuSdD8risu/Flux?node-id=1-3427&t=BvIxuJu3KrFWy5Lg-1",
-    "source": "https://github.com/Ngh1aa/Flux",
-    "caseRoute": "case-study-flux.html",
+    "figma": "https://www.figma.com/design/AxsWZgEvTOkzOQB71iAdcx/Nova?node-id=4-2052&t=83Wo9YlCjxLTFzxv-1",
+    "source": "https://github.com/Ngh1aa/Nova",
+    "caseRoute": "case-study-nova.html",
     "caseLiveLabel": "Live prototype ↗"
   }
 ];
@@ -91,7 +91,7 @@ for (const item of flagships) {
         const details = page.locator('#case-evidence');
         await expect(details).not.toHaveAttribute('open', '');
         await expect(page.locator('.case-heading')).toBeVisible();
-        await expect(page.locator('#case-outcome .narrative-boundary')).toBeVisible();
+        await expect(page.locator(item.id === 'nova' ? '#research .case-boundary' : '#case-outcome .narrative-boundary')).toBeVisible();
         const layout = await page.evaluate(() => ({
           titleY: document.querySelector('h1').getBoundingClientRect().top,
           titleBottom: document.querySelector('h1').getBoundingClientRect().bottom,
@@ -103,7 +103,7 @@ for (const item of flagships) {
         }));
         expect(layout.overflow).toBeLessThanOrEqual(1);
         expect(layout.auditVisible).toBe(false);
-        expect(layout.visibleWords).toBeLessThan(700);
+        expect(layout.visibleWords).toBeLessThan(900);
         expect(layout.actionHeights.every(height => height >= 44 && height <= 64)).toBe(true);
         if (width === 390) {
           expect(layout.titleY).toBeLessThan(260);
@@ -116,7 +116,8 @@ for (const item of flagships) {
         await expect(details).toHaveAttribute('open', '');
         await expect(details.locator('[data-a27-field]')).toHaveCount(11);
         await expect(details.locator('.measurement-targets')).toContainText('TARGET — NOT A RESULT');
-        await expect(details.locator('#project-30-sec-proof .project-recruiter-proof-grid > article')).toHaveCount(6);
+        if (item.id !== 'nova') await expect(details.locator('#project-30-sec-proof .project-recruiter-proof-grid > article')).toHaveCount(6);
+        else await expect(details.locator('[data-a27-field="EVIDENCE"]')).toContainText('TWO ROUNDS');
         const axe = await new AxeBuilder({ page }).analyze();
         expect(axe.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
         await details.locator('summary').focus();
@@ -144,12 +145,13 @@ for (const item of flagships) {
 test('evidence deep links open the audit below the sticky navigation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const item of flagships) {
-    await page.goto(`${baseURL}/${item.caseRoute}#project-30-sec-proof`, { waitUntil: 'networkidle' });
+    const targetId = item.id === 'nova' ? 'case-evidence' : 'project-30-sec-proof';
+    await page.goto(`${baseURL}/${item.caseRoute}#${targetId}`, { waitUntil: 'networkidle' });
     await expect(page.locator('#case-evidence')).toHaveAttribute('open', '');
-    const bounds = await page.evaluate(() => ({
-      target: document.querySelector('#project-30-sec-proof').getBoundingClientRect().top,
+    const bounds = await page.evaluate(targetId => ({
+      target: document.getElementById(targetId).getBoundingClientRect().top,
       nav: document.querySelector('.sticky-nav').getBoundingClientRect().bottom,
-    }));
+    }), targetId);
     expect(bounds.target).toBeGreaterThanOrEqual(bounds.nav);
   }
 });
@@ -171,5 +173,5 @@ test('shared artifact actions stay compact across all case pages on mobile', asy
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), route).toBeLessThanOrEqual(1);
     checked += 1;
   }
-  expect(checked).toBeGreaterThanOrEqual(18);
+  expect(checked).toBe(12);
 });

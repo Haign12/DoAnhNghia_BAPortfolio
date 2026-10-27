@@ -7,7 +7,6 @@ on:
       - "Do_Anh_Nghia_UIUXDesigner_CV.pdf"
       - "index.html"
       - "case-study-professional-work.html"
-      - "case-study-ux.html"
       - "qa/portfolio-v5.spec.mjs"
       - ".github/workflows/build-cv.yml"
   pull_request:
@@ -16,7 +15,6 @@ on:
       - "Do_Anh_Nghia_UIUXDesigner_CV.pdf"
       - "index.html"
       - "case-study-professional-work.html"
-      - "case-study-ux.html"
       - "qa/portfolio-v5.spec.mjs"
       - ".github/workflows/build-cv.yml"
   workflow_dispatch:
@@ -49,8 +47,7 @@ jobs:
         run: |
           grep -q 'Do_Anh_Nghia_UIUXDesigner_CV.pdf' index.html
           grep -q 'Do_Anh_Nghia_UIUXDesigner_CV.pdf' case-study-professional-work.html
-          grep -q 'Do_Anh_Nghia_UIUXDesigner_CV.pdf' case-study-ux.html
-          if grep -R "Do_Anh_Nghia_Product_Designer_CV.pdf"             index.html case-study-professional-work.html case-study-ux.html             qa/portfolio-v5.spec.mjs README.md docs/cover-letters/Cover_Letter_General_UIUX.txt; then
+          if grep -R "Do_Anh_Nghia_Product_Designer_CV.pdf"             index.html case-study-professional-work.html             qa/portfolio-v5.spec.mjs README.md docs/cover-letters/Cover_Letter_General_UIUX.txt; then
             echo "Legacy Product Designer CV reference still exists."
             exit 1
           fi

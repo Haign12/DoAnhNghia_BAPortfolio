@@ -35,7 +35,7 @@ Human-owned decisions remain: the product problem, user evidence, business prior
 - `.claude/settings.local.json` — project-level agent configuration
 - `.github/workflows/portfolio-cloud-qa-v5.yml` — rendered browser/accessibility QA
 - `.github/workflows/hero-signature-gate.yml` — protects the editorial introduction, first-fold project access, mobile layout, both themes and reduced-motion behavior
-- `case-study-uiux-factory.html` — case study and claim boundaries
+- `writing-design-ops-ai.html` — process writing and claim boundaries
 - https://github.com/Ngh1aa/uiux-ai-workspace — UIUX Factory source workspace
 
 ## Evidence policy
@@ -46,8 +46,10 @@ Independent concepts are labeled as independent concepts. Planned usability test
 
 Recruiter-critical homepage content is authored directly in `index.html`: role positioning, flagship order, case links, AI workflow, writing entrypoint, research/evidence boundaries, CV route and supporting-project counts. JavaScript is reserved for behavior such as reveal, filtering, menu state and motion; it must not be required to repair broken links or create the core recruiter narrative.
 
-The October 2026 minimal redesign replaces the large portrait and motion rail with an editorial introduction and project-first hierarchy. LuxRoom, Atelier and Flux are the featured projects. The complete catalog displays all 20 project cases in six categories, with optional search and category filtering; every project remains visible without JavaScript. Professional Work is a separate experience record. `qa/hero-signature.spec.mjs` protects the composition on desktop/mobile, in both themes and with reduced motion. Project facts and detailed evidence remain in their existing case studies.
+The October 2026 editorial upgrade features LuxRoom, Nova and Atelier, followed by professional experience and an optional archive of 12 projects with linked Figma files in four categories. The archive uses native details/summary; every retained project remains available without JavaScript. Search, filters and existing category deep links are retained. Professional Work is a separate experience record.
 
-The homepage uses `brand.css`, `styles.css` and `script.js`. Fonts and selected-project images are hosted locally. See `docs/minimal-portfolio.md` for the brief, design decisions, verification and third-party notices. Run a static HTTP server from the repository root to preview; no application build is needed.
+The homepage uses brand.css, styles.css and script.js. Case studies share the same local fonts through brand.css, with readable narrative sections, in-page navigation and expandable supporting evidence. Nova's two research rounds are authored in HTML and synchronized with the evidence registries, rather than patched at runtime. Public prototype captures are presentation evidence, not user-validation results.
+
+Run a static HTTP server from the repository root to preview; no application build is needed. See docs/minimal-portfolio.md for the current upgrade and the historical delivery notes. Browser QA lives in qa/ and uses Playwright and axe.
 
 The cloud QA gate reads raw `index.html` in addition to rendered browser checks so a runtime mutation cannot hide source debt.

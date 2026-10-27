@@ -3,6 +3,22 @@ import { test, expect } from '@playwright/test';
 
 const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
 
+test('catalog only includes projects with Figma and excludes the requested removals', async ({page, request}) => {
+  await page.goto(baseURL);
+  const cards = page.locator('#work .index-card');
+  await expect(cards).toHaveCount(12);
+  for (const card of await cards.all()) {
+    await expect(card.locator('[data-artifact-kind="figma"]')).toHaveAttribute('href', /^https:\/\/www\.figma\.com\/design\//);
+  }
+  const sitemap = await (await request.get(baseURL+'/sitemap.xml')).text();
+  for (const id of ['studioos','vietbank','ux','lumen','hue','uiux-factory','skills-uiux','ui-feedback-tool']) {
+    const route = `case-study-${id}.html`;
+    await expect(page.locator(`a[href="${route}"]`)).toHaveCount(0);
+    expect(sitemap).not.toContain(route);
+    expect((await request.get(`${baseURL}/${route}`)).status()).toBe(404);
+  }
+});
+
 const assertOrderedKinds = (kinds) => {
   expect(kinds[0]).toBe('case');
   const rank = { case: 0, live: 1, figma: 2, source: 3 };
@@ -12,6 +28,7 @@ const assertOrderedKinds = (kinds) => {
 test('every supporting project card uses case → live → figma → source hierarchy', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.goto(`${baseURL}/`, { waitUntil: 'domcontentloaded' });
+  await page.locator('#projectArchive > summary').click();
 
   const cards = await page.locator('#work .project-artifact-actions').evaluateAll((blocks) => blocks.map((block) => {
     const card = block.closest('article');
@@ -26,7 +43,7 @@ test('every supporting project card uses case → live → figma → source hier
     };
   }));
 
-  expect(cards).toHaveLength(20);
+  expect(cards).toHaveLength(12);
   for (const card of cards) {
     expect(card.labels[0], `${card.title}: first CTA`).toMatch(/^Case study/);
     expect(card.classes[0], `${card.title}: primary class`).toContain('project-artifact-primary');
@@ -45,6 +62,7 @@ test('every supporting project card uses case → live → figma → source hier
 test('mobile keeps one dominant case CTA and wraps artifact links cleanly', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseURL}/`, { waitUntil: 'domcontentloaded' });
+  await page.locator('#projectArchive > summary').click();
 
   const blocks = await page.locator('#work .project-artifact-actions').evaluateAll((nodes) => nodes.map((block) => {
     const primary = block.querySelector('.project-artifact-primary');
@@ -57,7 +75,7 @@ test('mobile keeps one dominant case CTA and wraps artifact links cleanly', asyn
     };
   }));
 
-  expect(blocks).toHaveLength(20);
+  expect(blocks).toHaveLength(12);
   for (const block of blocks) { expect(block.primaryWidth).toBeGreaterThanOrEqual(44); expect(block.primaryHeight).toBeGreaterThanOrEqual(44); }
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -72,8 +90,8 @@ test('case-study artifact registry preserves live → figma → source order wit
 
   const samples = [
     ['case-study-nova.html', ['live', 'figma', 'source']],
-    ['case-study-lumen.html', ['live', 'source']],
-    ['case-study-uiux-factory.html', ['source']],
+    ['case-study-qtsc.html', ['live', 'figma', 'source']],
+    ['case-study-atelier.html', ['live', 'figma', 'source']],
   ];
 
   for (const [route, expectedKinds] of samples) {

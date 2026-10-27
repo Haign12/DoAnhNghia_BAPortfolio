@@ -18,34 +18,6 @@
   },
   "projects": [
     {
-      "project": "LUMEN",
-      "surface": "case-study-lumen.html",
-      "artifact_maturity_level": 4,
-      "role": "Experience / Product Designer",
-      "mode": "Independent concept",
-      "scope": "Discovery IA · visual system · coded prototype",
-      "complexity": "Multi-mode exploratory navigation",
-      "public_evidence": "Case · Live · Source",
-      "remaining_gaps": [
-        "FIGMA_NOT_PUBLISHED",
-        "DIRECT_USER_VALIDATION_NOT_RUN"
-      ]
-    },
-    {
-      "project": "HUẾ — Between River & Citadel",
-      "surface": "case-study-hue.html",
-      "artifact_maturity_level": 4,
-      "role": "Experience / UI Designer",
-      "mode": "Independent transformation",
-      "scope": "Narrative · art direction · implementation",
-      "complexity": "Scroll choreography + media provenance",
-      "public_evidence": "Case · Live · Source",
-      "remaining_gaps": [
-        "FIGMA_NOT_PUBLISHED",
-        "DIRECT_USER_VALIDATION_NOT_RUN"
-      ]
-    },
-    {
       "project": "LuxRoom",
       "surface": "case-study-luxroom.html",
       "artifact_maturity_level": 4,
@@ -195,20 +167,6 @@
       "public_evidence": "Case · Live · Figma",
       "remaining_gaps": [
         "DIRECT_USER_VALIDATION_NOT_RUN"
-      ]
-    },
-    {
-      "project": "UIUX Factory",
-      "surface": "case-study-uiux-factory.html",
-      "artifact_maturity_level": 4,
-      "role": "System Designer",
-      "mode": "Open-source design operating system",
-      "scope": "Workflow architecture · contracts · QA",
-      "complexity": "Multi-stage routing + evidence governance",
-      "public_evidence": "Case · Source · QA",
-      "remaining_gaps": [
-        "DIRECT_USER_OUTCOME_NOT_MEASURED",
-        "APP_STATE_MATRIX_NOT_APPLICABLE"
       ]
     }
   ]
