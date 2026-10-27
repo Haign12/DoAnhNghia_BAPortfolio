@@ -3,6 +3,47 @@ import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs/promises';
 
 const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
+
+test('curated homepage keeps experience before the optional complete catalog', async ({page}) => {
+  await page.goto(baseURL);
+  await expect(page.locator('#projectArchive')).not.toHaveAttribute('open', '');
+  await expect(page.locator('#work .index-card:visible')).toHaveCount(0);
+  const order = await page.locator('main > section').evaluateAll(nodes => nodes.map(n => n.id));
+  expect(order.indexOf('story')).toBeLessThan(order.indexOf('work'));
+  await page.locator('#projectArchive > summary').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#work .index-card:visible')).toHaveCount(12);
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#projectArchive')).not.toHaveAttribute('open', '');
+});
+
+test('Nova research is consistent in source HTML and without JavaScript', async ({browser}) => {
+  const source = await fs.readFile('case-study-nova.html','utf8');
+  expect(source).not.toMatch(/Round 01 recruiting|0 verified sessions|retest pending|until those records exist/);
+  expect(source).toContain('5c457075');
+  expect(source).toContain('Four findings remain open');
+  const context = await browser.newContext({javaScriptEnabled:false});
+  const page = await context.newPage();
+  await page.goto(baseURL+'/case-study-nova.html');
+  await expect(page.locator('#research')).toContainText('Round 02');
+  await expect(page.locator('#research')).toContainText('five');
+  await expect(page.locator('#research')).toContainText('not evidence that the interface caused a regression');
+  await expect(page.locator('#next')).toContainText('do not validate the latest public prototype');
+  await context.close();
+});
+
+test('case studies follow system theme until a manual choice is made', async ({browser}) => {
+  const context = await browser.newContext({colorScheme:'dark'});
+  const page = await context.newPage();
+  await page.goto(baseURL+'/case-study-nova.html');
+  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+  await page.emulateMedia({colorScheme:'light'});
+  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+  await page.locator('#theme-toggle').click();
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+  await context.close();
+});
 const viewports = [
   { name: 'desktop-1440', width: 1440, height: 1000 },
   { name: 'desktop-1280', width: 1280, height: 900 },
@@ -10,7 +51,9 @@ const viewports = [
 ];
 
 const criticalCaseStudies = [
-  { path: 'case-study-uiux-factory.html', heading: 'UIUX Factory' },
+  { path: 'case-study-luxroom.html', heading: 'LuxRoom' },
+  { path: 'case-study-capital-place.html', heading: 'Capital Place' },
+  { path: 'case-study-qtsc.html', heading: 'QTSC' },
   { path: 'case-study-nova.html', heading: 'Nova' },
   { path: 'case-study-sentry.html', heading: 'Sentry' },
   { path: 'case-study-flux.html', heading: 'Flux' },
@@ -20,8 +63,6 @@ const criticalCaseStudies = [
   { path: 'case-study-violet-marketplace.html', heading: 'Violet Marketplace' },
   { path: 'case-study-cennext.html', heading: 'CENNEXT' },
   { path: 'case-study-voltis.html', heading: 'VOLTIS' },
-  { path: 'case-study-lumen.html', heading: 'LUMEN' },
-  { path: 'case-study-hue.html', heading: 'HUẾ — Between River & Citadel' },
 ];
 
 const seriousAxeViolations = async page => {
@@ -40,10 +81,11 @@ const formatAxeViolations = blockers => blockers.flatMap(violation =>
 
 test('recruiter essentials are concise, source-authored and ordered around work', async ({page}) => {
   await page.goto(baseURL,{waitUntil:'networkidle'});
+  await page.locator("#projectArchive > summary").click();
   await expect(page).toHaveTitle(/Product Designer/);
   await expect(page.locator('#hero')).toContainText('UI/UX & Product Designer');
   await expect(page.getByRole('heading',{level:1})).toHaveText('Complexity,made clear.');
-  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['LuxRoom ↗','Atelier ↗','Flux ↗']);
+  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['LuxRoom ↗','Nova ↗','Atelier ↗']);
   const sectionOrder=await page.locator('main>section').evaluateAll(nodes=>nodes.map(n=>n.id));
   expect(sectionOrder.indexOf('flagships')).toBeLessThan(sectionOrder.indexOf('story'));
   expect(await page.locator('#hero').innerText().then(t=>t.split(/\s+/).length)).toBeLessThan(60);
@@ -57,15 +99,17 @@ test('navigation, core copy and all projects remain usable without JavaScript', 
   const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
   const page=await context.newPage();
   await page.goto(baseURL,{waitUntil:'networkidle'});
+  await page.locator("#projectArchive > summary").click();
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   await expect(page.locator('.nav-links a').first()).toBeVisible();
-  await expect(page.locator('.index-card:visible')).toHaveCount(20);
+  await expect(page.locator('.index-card:visible')).toHaveCount(12);
   await expect(page.locator('.project-tools')).toBeHidden();
   await context.close();
 });
 
 test('all categories filter and reset without losing links', async ({page}) => {
   await page.goto(baseURL);
+  await page.locator("#projectArchive > summary").click();
   for(const filter of await page.locator('.filter').all()) {
     const count=Number(await filter.locator('span').innerText());
     await filter.click();
@@ -74,23 +118,24 @@ test('all categories filter and reset without losing links', async ({page}) => {
     await expect(page.locator('#filterStatus')).toContainText(String(count));
   }
   await page.locator('[data-filter="all"]').click();
-  await expect(page.locator('.index-card:visible')).toHaveCount(20);
+  await expect(page.locator('.index-card:visible')).toHaveCount(12);
   await expect(page.locator('#work a[href="#"]')).toHaveCount(0);
 });
 
 test('legacy category deep links restore visible project groups', async ({page}) => {
-  await page.goto(baseURL+'/#group-culture');
-  await expect(page.locator('#group-culture')).toBeVisible();
-  await expect(page.locator('#work [data-project="hue"] [data-artifact-kind="case"]')).toBeVisible();
+  await page.goto(baseURL+'/#group-web');
+  await expect(page.locator('#group-web')).toBeVisible();
+  await expect(page.locator('#work [data-project="qtsc"] [data-artifact-kind="case"]')).toBeVisible();
   await page.locator('[data-filter="fintech"]').click();
-  await expect(page.locator('#group-culture')).toBeHidden();
+  await expect(page.locator('#group-web')).toBeHidden();
   await page.evaluate(() => { location.hash='group-commerce'; });
-  await expect(page.locator('#group-culture')).toBeVisible();
+  await expect(page.locator('#group-web')).toBeVisible();
 });
 
 test('mobile menu supports dismissal, Escape focus recovery and navigation', async ({page}) => {
   await page.setViewportSize({width:390,height:844});
   await page.goto(baseURL);
+  await page.locator("#projectArchive > summary").click();
   const menu=page.locator('#menuBtn');
   await expect(menu).toHaveAttribute('aria-expanded','false');
   await menu.click();
@@ -108,6 +153,7 @@ test('system theme and manual preference survive reloads', async ({browser}) => 
   const context=await browser.newContext({colorScheme:'dark'});
   const page=await context.newPage();
   await page.goto(baseURL);
+  await page.locator("#projectArchive > summary").click();
   await expect(page.locator('#themeToggle')).toHaveText('Light');
   await page.locator('#themeToggle').click();
   await expect(page.locator('html')).toHaveAttribute('data-theme','light');
@@ -119,14 +165,15 @@ test('system theme and manual preference survive reloads', async ({browser}) => 
 
 test('homepage publishes honest project evidence without implying impact', async ({page}) => {
   await page.goto(baseURL);
+  await page.locator("#projectArchive > summary").click();
   await expect(page.locator('[data-project="nova"]')).toContainText('10 async self-reports across two rounds');
-  await expect(page.locator('[data-project="nova"]')).toContainText('awaits human retesting');
+  await expect(page.locator('[data-project="nova"]')).toContainText('Four findings remain open');
   await expect(page.locator('[data-project="sentry"]')).toContainText('Practitioner validation remains open');
-  await expect(page.locator('[data-flagship="luxroom"]')).toContainText('User testing and conversion impact unmeasured');
+  await expect(page.locator('[data-flagship="luxroom"]')).toContainText('Independent concept');
   const source=await fs.readFile('index.html','utf8');
   expect(source).not.toContain('<a href="#">');
   expect(source).not.toContain('fonts.googleapis.com');
-  expect(source).toContain('Independent concepts');
+  expect(source).toContain('Self-initiated projects');
 });
 
 for(const width of [320,390,600,768,839,840,1024,1280,1440]) {
@@ -135,6 +182,7 @@ for(const width of [320,390,600,768,839,840,1024,1280,1440]) {
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     await page.goto(baseURL,{waitUntil:'networkidle'});
+  await page.locator("#projectArchive > summary").click();
     await expect(page.locator('.brand-monogram')).toBeVisible();
     await expect(page.locator('.brand')).toHaveText('');
     await expect(page.locator('.brand')).toHaveAccessibleName('Đỗ Anh Nghĩa, home');
@@ -165,6 +213,7 @@ for(const theme of ['light','dark']) {
   test('no serious or critical axe violations in '+theme,async ({page})=>{
     await page.emulateMedia({colorScheme:theme});
     await page.goto(baseURL,{waitUntil:'networkidle'});
+  await page.locator("#projectArchive > summary").click();
     expect(await seriousAxeViolations(page)).toEqual([]);
   });
 }
@@ -172,6 +221,7 @@ for(const theme of ['light','dark']) {
 test('200 percent text and keyboard focus retain the primary journey',async ({page})=>{
   await page.setViewportSize({width:768,height:900});
   await page.goto(baseURL);
+
   await page.addStyleTag({content:'html{font-size:200%}body{font-size:1rem}p,a,button,summary{font-size:1em!important}h1{font-size:6rem!important}h2{font-size:3rem!important}h3{font-size:2rem!important}'});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   await page.keyboard.press('Tab');
@@ -183,7 +233,7 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
     const registry = JSON.parse(await fs.readFile('docs/measurement-targets.json', 'utf8'));
     expect(registry.policy.target_is_not_result).toBe(true);
     expect(registry.policy.result_requires_traceable_evidence).toBe(true);
-    expect(registry.projects.length).toBeGreaterThanOrEqual(21);
+    expect(registry.projects).toHaveLength(12);
     for (const caseStudy of criticalCaseStudies) {
       const source = await fs.readFile(caseStudy.path, 'utf8');
       expect(source).toContain('A26_MEASUREMENT_TARGETS');
@@ -197,11 +247,12 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
 
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
+  await page.locator("#projectArchive > summary").click();
     const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(
       links.map(link => link.getAttribute('href')).filter(Boolean)
     )]);
     expect(paths.length).toBeGreaterThanOrEqual(12);
-    expect(paths).toContain('case-study-uiux-factory.html');
+    expect(paths).toContain('case-study-luxroom.html');
     expect(paths).toContain('case-study-nova.html');
     expect(paths).toContain('case-study-sentry.html');
     expect(paths).toContain('case-study-flux.html');
@@ -218,7 +269,7 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${baseURL}/${caseStudy.path}`, { waitUntil: 'domcontentloaded' });
       await expect(page.getByRole('heading', { level: 1, name: caseStudy.heading })).toBeVisible();
-      await expect(page.locator('.narrative-boundary, .case-evidence-strip').first()).toBeVisible();
+      await expect(page.locator('.narrative-boundary, .case-summary-facts, .case-evidence-strip').first()).toBeVisible();
       const overflow = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
@@ -256,7 +307,7 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
     expect(registry.policy.no_invented_failure_or_pivot).toBe(true);
     expect(registry.policy.no_invented_engineering_collaboration).toBe(true);
     expect(registry.policy.no_invented_outcome).toBe(true);
-    expect(registry.projects).toHaveLength(20);
+    expect(registry.projects).toHaveLength(12);
     const required = ['ROLE','TEAM','CONSTRAINT','OPTIONS','DECISION','TRADE-OFF','ENGINEERING','SYSTEM IMPACT','WHAT WENT WRONG','EVIDENCE','NEXT DECISION'];
     expect(registry.required_fields).toEqual(required);
     for (const item of registry.projects) {
@@ -267,8 +318,6 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
       expect(item.team.length).toBeGreaterThan(20);
       expect(item.next_decision.length).toBeGreaterThan(20);
     }
-    const factory = registry.projects.find(item => item.surface === 'case-study-uiux-factory.html');
-    expect(factory.what_went_wrong).toMatch(/raw-source|runtime repair/i);
     const nova = registry.projects.find(item => item.surface === 'case-study-nova.html');
     expect(nova.audit.options_documented).toBe(true);
     expect(nova.audit.tradeoff_documented).toBe(true);
@@ -279,7 +328,7 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
 
 
 test('A32 case studies expose a 30-second proof strip with honest evidence boundaries', async ({ page }) => {
-  for (const route of ['case-study-luxroom.html', 'case-study-flux.html', 'case-study-uiux-factory.html']) {
+  for (const route of ['case-study-luxroom.html', 'case-study-flux.html', 'case-study-atelier.html']) {
     await page.goto(`${baseURL}/${route}`);
     await expect(page.locator('#project-30-sec-proof')).toHaveCount(1);
     await expect(page.locator('#project-30-sec-proof .project-recruiter-proof-grid > article')).toHaveCount(6);
@@ -287,18 +336,19 @@ test('A32 case studies expose a 30-second proof strip with honest evidence bound
   }
   await page.goto(`${baseURL}/case-study-luxroom.html`);
   await expect(page.locator('#project-30-sec-proof')).toContainText('direct-user baseline not measured');
-  await page.goto(`${baseURL}/case-study-uiux-factory.html`);
-  await expect(page.locator('#project-30-sec-proof')).toContainText('human workflow impact not measured');
+  await page.goto(`${baseURL}/case-study-atelier.html`);
+  await expect(page.locator('#project-30-sec-proof')).toContainText('direct-user baseline not measured');
 });
 
 test('every existing project case is visible in exactly one classified catalog entry', async ({page})=>{
   const expected=(await fs.readdir('.')).filter(file=>/^case-study-.*\.html$/.test(file)&&file!=='case-study-professional-work.html').sort();
   await page.goto(baseURL);
+  await page.locator("#projectArchive > summary").click();
   const actual=await page.locator('#work .index-card [data-artifact-kind="case"]').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort());
   expect(actual).toEqual(expected);
   await expect(page.locator('#work .index-card:visible')).toHaveCount(expected.length);
-  await expect(page.locator('#work .project-group:visible')).toHaveCount(6);
-  await expect(page.locator('#work details')).toHaveCount(0);
+  await expect(page.locator('#work .project-group:visible')).toHaveCount(4);
+  await expect(page.locator('#work details')).toHaveCount(1);
   for(const card of await page.locator('#work .index-card').all()) {
     await expect(card.locator('.index-skills')).not.toBeEmpty();
     await expect(card.locator('.index-summary')).not.toBeEmpty();
@@ -308,11 +358,12 @@ test('every existing project case is visible in exactly one classified catalog e
 
 test('search combines with category filtering and recovers from no results',async ({page})=>{
   await page.goto(baseURL);
+  await page.locator("#projectArchive > summary").click();
   const search=page.getByRole('searchbox',{name:'Find a project'});
-  await search.fill('Hue');
+  await search.fill('Atelier');
   await expect(page.locator('.index-card:visible')).toHaveCount(1);
-  await expect(page.locator('[data-project="hue"]')).toBeVisible();
-  await search.fill('Huế');
+  await expect(page.locator('[data-project="atelier"]')).toBeVisible();
+  await search.fill('atelier');
   await expect(page.locator('.index-card:visible')).toHaveCount(1);
   await page.locator('[data-filter="fintech"]').click();
   await expect(page.locator('#catalogEmpty')).toBeVisible();
@@ -320,6 +371,6 @@ test('search combines with category filtering and recovers from no results',asyn
   await page.getByRole('button',{name:'Clear filters'}).click();
   await expect(search).toHaveValue('');
   await expect(search).toBeFocused();
-  await expect(page.locator('.index-card:visible')).toHaveCount(20);
+  await expect(page.locator('.index-card:visible')).toHaveCount(12);
   await expect(page.locator('#catalogEmpty')).toBeHidden();
 });

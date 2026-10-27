@@ -123,6 +123,8 @@
     const id = window.location.hash.slice(1);
     const target = id && document.getElementById(id);
     if (!target) return;
+    const archive = target.closest(".project-archive") || target.querySelector(".project-archive");
+    if (archive) archive.open = true;
     const group = target.closest(".project-group");
     if (group) {
       if (group.hidden || target.hidden) {

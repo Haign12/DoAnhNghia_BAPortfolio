@@ -7,42 +7,12 @@
     "no_research_or_outcome_signal_without_public_artifact_basis": true
   },
   "library_contract": {
-    "card_count": 14,
+    "card_count": 11,
     "signals_per_card": "2–3",
     "purpose": "turn supporting work into a recruiter-scannable skill evidence library",
     "deep_proof": "A27 case-study evidence remains the source for detailed role, constraints, options, trade-offs, engineering reality, evidence and next decisions where local case routes exist"
   },
   "projects": [
-    {
-      "project": "LUMEN",
-      "signals": [
-        "Discovery IA",
-        "Interaction model",
-        "Art direction"
-      ],
-      "evidence_basis": "homepage project summary + linked working artifact",
-      "placement_family": "featured-copy-tail",
-      "proof_links": [
-        "https://ngh1aa.github.io/Lumen/",
-        "https://ngh1aa.github.io/Lumen/",
-        "https://github.com/Ngh1aa/Lumen"
-      ]
-    },
-    {
-      "project": "HUẾ — Between River & Citadel",
-      "signals": [
-        "Experience architecture",
-        "Narrative flow",
-        "Art direction"
-      ],
-      "evidence_basis": "homepage project summary + linked working artifact",
-      "placement_family": "featured-copy-tail",
-      "proof_links": [
-        "https://ngh1aa.github.io/Mostar-Guide/",
-        "https://ngh1aa.github.io/Mostar-Guide/",
-        "https://github.com/Ngh1aa/Mostar-Guide"
-      ]
-    },
     {
       "project": "LuxRoom",
       "signals": [
@@ -217,21 +187,6 @@
         "case-study-voltis.html",
         "https://voltis-one.vercel.app/",
         "https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&amp;t=LykADgxvJ62WCIu7-1"
-      ]
-    },
-    {
-      "project": "UIUX Factory",
-      "signals": [
-        "Product governance",
-        "Design→code",
-        "QA + reliability"
-      ],
-      "evidence_basis": "local case study + linked working artifacts",
-      "placement_family": "featured-copy-tail",
-      "proof_links": [
-        "https://github.com/Ngh1aa/uiux-ai-workspace",
-        "case-study-uiux-factory.html",
-        "https://github.com/Ngh1aa/uiux-ai-workspace"
       ]
     }
   ]

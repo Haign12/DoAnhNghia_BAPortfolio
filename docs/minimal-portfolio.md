@@ -1,3 +1,35 @@
+## Project selection update — 27 October 2026
+
+The owner requested removing projects without Figma and explicitly named StudioOS and Vietbank. Removed StudioOS, Vietbank, FlowCRM, LUMEN, HUẾ, UIUX Factory, skills_UIUX and UI Feedback Tool from the catalog, local case routes, sitemap and case registries. Vietbank had a stored Figma link and was removed as an explicit owner selection. The catalog now has 12 projects in four categories. Counts, navigation and tests are updated. Professional Work remains the experience record; process writing points directly to the public workflow repository. Prior versions are saved in a local rollback archive.
+
+# Editorial portfolio upgrade — 26 October 2026
+
+## Current revision
+
+The owner authorized upgrading the whole portfolio after the live review. On 27 October 2026 the owner explicitly authorized merging this revision into main. Publication uses a feature branch, pull request and verified CI; merge and deployment results are checked separately. Baseline: 1a18f515b984a2da00e83b0efc4b46c1309c1d7e.
+
+- Preserve the monochrome identity, monogram, editorial headline, English content language, case routes, CV and contact details.
+- Curate LuxRoom (commerce craft), Nova (research and iteration) and Atelier (art direction). Bring professional experience before the complete archive.
+- Keep the selected 12 projects in four groups, progressively disclosed through native details/summary. Preserve search, reset, category deep links and no-JavaScript access.
+- Apply shared local typography, readable case headings, title-first mobile hierarchy, in-page navigation, keyboard targets and expandable evidence across case studies. Remove external Google Fonts requests and broken favicon references.
+- Rewrite Nova from the Round 02 synthesis: five initial participants plus five new retest participants, asynchronous self-reports, zero moderated sessions, four unresolved findings. The retest refers to build 5c457075; it does not validate the latest public prototype. Update both JSON registries. No new research or business result is claimed.
+- Replace repeated tilted cover imagery on the selected work with actual prototype captures. Add desktop/mobile detail to LuxRoom and Nova. Remove passive embedded live iframes; public prototype links remain available.
+- Professional Work is edited for clarity using existing CV scope. No client screenshot, stakeholder quote or measured outcome has been invented.
+
+## Source and capture provenance
+
+Nova source: https://github.com/Ngh1aa/Nova/blob/main/research/validation/nova-round-02/RETEST-SYNTHESIS.md (read during this revision).
+
+New WebP files in assets/images/prototype-captures were captured from the public LuxRoom, Atelier and Nova prototypes on 26 October 2026 at 1440×960 and, where included, 390×844. Screenshots describe the current prototype interface, not the historical research build. Existing assets and licenses are retained.
+
+## Verification scope
+
+Current checks are recorded in the accompanying delivery report. This is a static site: no TypeScript compiler or application build applies. Browser checks cannot establish hiring outcomes, research validity beyond the cited source, real-device or full screen-reader coverage, or private Figma permissions.
+
+---
+
+# Historical delivery notes (superseded where the current revision differs)
+
 # Minimal portfolio trial, 26 October 2026
 
 ## Scope and authority

@@ -15,7 +15,7 @@ test('professional work case stays grounded in verified employment scope', async
   for (const company of ['MangoAds', 'Tikera Technology', 'Trésor Solution']) expect(source).toContain(company);
   expect(source).toContain('8+ web projects');
   expect(source).toContain('15+ product flows');
-  expect(source).toContain('No invented impact');
+  expect(source).toContain('client artifacts and production metrics are not publicly available');
   expect(source).toContain('Independent concepts such as Nova, Sentry and LuxRoom are not presented as client work or production outcomes.');
   expect(source).not.toMatch(/\bSenior Product Designer\b/);
   expect(source).not.toMatch(/conversion (increased|improved|lifted)|revenue (increased|improved|lifted)/i);
@@ -23,7 +23,7 @@ test('professional work case stays grounded in verified employment scope', async
   await page.goto(route, { waitUntil: 'networkidle' });
   await expect(page).toHaveTitle(/Professional Work/);
   await expect(page.getByRole('heading', { level: 1, name: 'Professional Work' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Real work first. Unknown outcomes stay unknown.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'From requirements to implementation-ready UI.' })).toBeVisible();
   await expect(page.getByText(/MangoAds · UI\/UX Designer/)).toBeVisible();
   await expect(page.getByText(/Tikera Technology · UI\/UX Designer/)).toBeVisible();
   await expect(page.getByText(/Trésor Solution · Intern UI\/UX Designer/)).toBeVisible();

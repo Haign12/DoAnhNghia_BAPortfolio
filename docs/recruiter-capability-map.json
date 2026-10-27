@@ -24,7 +24,6 @@
       "id": "research-evidence",
       "label": "Research + Evidence",
       "proof": [
-        "case-study-uiux-factory.html",
         "case-study-nova.html"
       ]
     },
@@ -50,7 +49,6 @@
       "id": "prototype-delivery",
       "label": "Prototyping + Delivery",
       "proof": [
-        "case-study-uiux-factory.html",
         "case-study-cennext.html",
         "case-study-flux.html"
       ]
@@ -59,7 +57,6 @@
       "id": "validation-qa",
       "label": "Validation + QA",
       "proof": [
-        "case-study-uiux-factory.html",
         "case-study-nova.html"
       ]
     }

@@ -1,64 +1,29 @@
 <!doctype html>
-<html lang="en" data-theme="light">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="en"><head><script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=t==="dark"||t==="light"?t:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch{}</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Atelier — UI/UX Case Study | Do Anh Nghia</title>
-    <meta
-      name="description"
-      content="Atelier case study: a mobile-first fashion commerce concept balancing editorial expression with product discovery and shopping clarity."
-    />
-    <link rel="icon" type="image/png" href="assets/images/logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      rel="preload"
-      as="image"
-      href="assets/images/altelier.webp"
-      type="image/webp"
-      fetchpriority="high"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;display=swap"
-    />
-    <link rel="stylesheet" href="case-study.css?v=20261026-case-narrative" />
-    <link
-      rel="stylesheet"
-      href="case-study-evidence-v4.css?v=20261026-case-narrative"
-    />
+    <meta name="description" content="Atelier case study: a mobile-first fashion commerce concept balancing editorial expression with product discovery and shopping clarity.">
+    <link rel="icon" type="image/svg+xml" href="assets/images/brand/xii-an-light.svg">
+
+
+    <link rel="preload" as="image" href="assets/images/prototype-captures/atelier-desktop.webp" type="image/webp" fetchpriority="high">
+
+    <link rel="stylesheet" href="case-study.css?v=20261026-case-narrative">
+    <link rel="stylesheet" href="case-study-evidence-v4.css?v=20261026-case-narrative">
     <script src="case-study.js?v=20261026-case-narrative" defer=""></script>
-    <link
-      rel="canonical"
-      href="https://haign12.github.io/DoAnhNghia_BAPortfolio/case-study-atelier.html"
-    />
+    <link rel="canonical" href="https://do-anh-nghia-uiux-portfolio.vercel.app/case-study-atelier.html">
   </head>
-  <body class="case-study-page case-personal case-narrative">
+  <body class="case-study-page case-personal case-narrative"><a class="case-skip" href="#case-main">Skip to case study</a>
     <nav class="sticky-nav" aria-label="Case study navigation">
-      <a href="index.html#work" class="nav-brand"
-        ><span class="nav-arrow" aria-hidden="true">←</span
-        ><span>Selected work</span></a
-      >
+      <a href="index.html#work" class="nav-brand"><span class="nav-arrow" aria-hidden="true">←</span><span>Selected work</span></a>
       <div class="case-nav-actions">
-        <a
-          href="https://atelier-henna-tau.vercel.app/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Live demo ↗</a
-        ><a href="index.html#contact">Contact</a
-        ><button
-          class="case-theme-toggle"
-          id="theme-toggle"
-          type="button"
-          aria-label="Switch to dark theme"
-          aria-pressed="false"
-        >
-          <span id="theme-icon" aria-hidden="true">◐</span
-          ><span data-theme-label="">Dark</span>
+        <a href="https://atelier-henna-tau.vercel.app/" target="_blank" rel="noopener noreferrer">Live demo ↗</a><a href="index.html#contact">Contact</a><button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+          <span id="theme-icon" aria-hidden="true">◐</span><span data-theme-label="">Dark</span>
         </button>
       </div>
     </nav>
-    <main class="uiux-project">
+    <main class="uiux-project" id="case-main">
       <article class="uiux-case">
         <header class="case-hero">
           <div class="case-identity">
@@ -67,10 +32,8 @@
               <h1 class="case-title">Atelier</h1>
               <p class="case-thesis">
                 Fashion commerce that uses
-                <em
-                  >editorial expression to support discovery, evaluation and
-                  purchase.</em
-                >
+                <em>editorial expression to support discovery, evaluation and
+                  purchase.</em>
               </p>
             </div>
             <aside class="case-rail">
@@ -90,33 +53,19 @@
                 </div>
               </dl>
               <div class="case-hero-actions case-artifact-actions">
-                <a
-                  class="case-action case-action-primary"
-                  href="https://atelier-henna-tau.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Live demo ↗</a
-                ><a class="case-action" href="index.html#work">Back to work</a>
+                <a class="case-action case-action-primary" href="https://atelier-henna-tau.vercel.app/" target="_blank" rel="noopener noreferrer">Live demo ↗</a><a class="case-action" href="index.html#work">Back to work</a>
               </div>
             </aside>
           </div>
           <figure class="case-cover">
             <div class="case-cover-frame">
-              <img
-                src="assets/images/altelier.webp"
-                width="1200"
-                height="800"
-                alt="Atelier fashion ecommerce interface"
-                loading="eager"
-                decoding="async"
-              />
+              <img src="assets/images/prototype-captures/atelier-desktop.webp" width="1440" height="960" alt="Atelier fashion ecommerce interface" loading="eager" decoding="async">
             </div>
             <figcaption>
-              <span>Implemented interface</span
-              ><span>Editorial mood + commerce clarity</span>
+              <span>Implemented interface</span><span>Editorial mood + commerce clarity</span>
             </figcaption>
           </figure>
-        </header>
+        </header><nav class="case-toc" aria-label="In this case"><span>In this case</span><a href="#case-problem">Problem &amp; role</a><a href="#case-decisions">Design decisions</a><a href="#section-3">INTERFACE PROOF</a><a href="#case-outcome">Outcome &amp; limits</a></nav>
 
         <section class="case-section case-story-section" id="case-problem">
           <header class="case-section-head">
@@ -168,9 +117,9 @@
             </ol>
           </div>
         </section>
-        <section class="case-section">
+        <section class="case-section" id="section-3">
           <header class="case-section-head">
-            <span class="case-section-label">03 / INTERFACE PROOF</span>
+            <span class="case-section-label">INTERFACE PROOF</span>
             <h2>
               The visual system carries two modes without becoming two products
             </h2>
@@ -178,11 +127,7 @@
           <div class="case-section-body">
             <div class="case-proof-gallery">
               <div class="case-proof-frame">
-                <img
-                  src="assets/images/altelier.webp"
-                  alt="Atelier implemented responsive interface"
-                  loading="lazy"
-                /><span class="case-proof-label">FINAL IMPLEMENTED UI</span>
+                <a href="assets/images/prototype-captures/atelier-desktop.webp" target="_blank" rel="noopener" aria-label="Open interface screenshot at full size"><img src="assets/images/prototype-captures/atelier-desktop.webp" alt="Atelier implemented responsive interface" loading="lazy"></a><span class="case-proof-label">Prototype interface · Open full-size ↗</span>
               </div>
               <div class="case-proof-aside">
                 <div>
@@ -248,25 +193,16 @@
             measured outcomes or team claims.
           </p>
           <div class="case-evidence-details-content">
-            <section
-              class="case-section senior-decision-evidence"
-              data-a27="senior-decision-evidence"
-            >
+            <section class="case-section senior-decision-evidence" data-a27="senior-decision-evidence">
               <!-- A27_SENIOR_DECISION_EVIDENCE -->
               <header class="case-section-head">
-                <span class="case-section-label"
-                  >A27 / DECISION EVIDENCE SNAPSHOT</span
-                >
+                <span class="case-section-label">DECISION EVIDENCE SNAPSHOT</span>
                 <h2>
                   What I owned, chose, traded off — and what is still unknown
                 </h2>
               </header>
               <div class="case-section-body">
-                <p class="a27-decision-intro">
-                  A recruiter-scan summary derived from the public case source.
-                  Unknowns stay explicit instead of being converted into team,
-                  stakeholder, failure or outcome claims.
-                </p>
+                <p class="a27-decision-intro">Detailed project context, decisions and evidence limits.</p>
                 <div class="a27-decision-grid">
                   <article class="a27-decision-item" data-a27-field="ROLE">
                     <span>ROLE</span>
@@ -279,10 +215,7 @@
                       stakeholder team is documented in this public case.
                     </p>
                   </article>
-                  <article
-                    class="a27-decision-item"
-                    data-a27-field="CONSTRAINT"
-                  >
+                  <article class="a27-decision-item" data-a27-field="CONSTRAINT">
                     <span>CONSTRAINT</span>
                     <p>
                       NOT EXPLICIT — the case describes the solution, but the
@@ -311,10 +244,7 @@
                       selected direction is stated explicitly.
                     </p>
                   </article>
-                  <article
-                    class="a27-decision-item"
-                    data-a27-field="ENGINEERING"
-                  >
+                  <article class="a27-decision-item" data-a27-field="ENGINEERING">
                     <span>ENGINEERING</span>
                     <p>
                       Implementation reality: Implemented prototype. No verified
@@ -322,10 +252,7 @@
                       case.
                     </p>
                   </article>
-                  <article
-                    class="a27-decision-item"
-                    data-a27-field="SYSTEM IMPACT"
-                  >
+                  <article class="a27-decision-item" data-a27-field="SYSTEM IMPACT">
                     <span>SYSTEM IMPACT</span>
                     <p>
                       Local component, state or system implications are
@@ -333,10 +260,7 @@
                       not measured.
                     </p>
                   </article>
-                  <article
-                    class="a27-decision-item"
-                    data-a27-field="WHAT WENT WRONG"
-                  >
+                  <article class="a27-decision-item" data-a27-field="WHAT WENT WRONG">
                     <span>WHAT WENT WRONG</span>
                     <p>
                       NOT AVAILABLE — no verified failure, rejected release or
@@ -350,10 +274,7 @@
                       benchmark.
                     </p>
                   </article>
-                  <article
-                    class="a27-decision-item"
-                    data-a27-field="NEXT DECISION"
-                  >
+                  <article class="a27-decision-item" data-a27-field="NEXT DECISION">
                     <span>NEXT DECISION</span>
                     <p>
                       Run the first benchmark against the predefined A26 target;
@@ -364,60 +285,36 @@
                 </div>
               </div>
             </section>
-            <section
-              class="case-section a30-evidence-completeness"
-              data-a30="evidence-completeness"
-            >
+            <section class="case-section a30-evidence-completeness" data-a30="evidence-completeness">
               <!-- A30_EVIDENCE_COMPLETENESS -->
               <header class="case-section-head">
-                <span class="case-section-label"
-                  >A30 / EVIDENCE COMPLETENESS</span
-                >
+                <span class="case-section-label">EVIDENCE COMPLETENESS</span>
                 <h2>Three things a reviewer should not have to infer</h2>
               </header>
               <div class="case-section-body">
                 <div class="case-evidence-strip">
                   <div>
-                    <span>Business / product tension</span
-                    ><strong>Editorial expression vs shopping clarity</strong
-                    ><small
-                      >The business/product value is a path from inspiration to
-                      a confident purchase without flattening the brand.</small
-                    >
+                    <span>Business / product tension</span><strong>Editorial expression vs shopping clarity</strong><small>The business/product value is a path from inspiration to
+                      a confident purchase without flattening the brand.</small>
                   </div>
                   <div>
-                    <span>State / system depth</span
-                    ><strong>Beyond the happy path</strong
-                    ><small
-                      >Explicit state lens: product availability,
+                    <span>State / system depth</span><strong>Beyond the happy path</strong><small>Explicit state lens: product availability,
                       selection/validation, responsive navigation and
                       purchase-path recovery should be inspected as product
-                      states, not only final screens.</small
-                    >
+                      states, not only final screens.</small>
                   </div>
                   <div>
-                    <span>Validation boundary</span
-                    ><strong>No fabricated outcome</strong
-                    ><small
-                      >PLANNED_VALIDATION — run first findability/purchase-path
-                      benchmark.</small
-                    >
+                    <span>Validation boundary</span><strong>No fabricated outcome</strong><small>PLANNED_VALIDATION — run first findability/purchase-path
+                      benchmark.</small>
                   </div>
                   <div>
-                    <span>Next proof</span
-                    ><strong>Evidence before polish</strong
-                    ><small
-                      >Run the stated task/benchmark and update the case only
-                      from traceable observations.</small
-                    >
+                    <span>Next proof</span><strong>Evidence before polish</strong><small>Run the stated task/benchmark and update the case only
+                      from traceable observations.</small>
                   </div>
                 </div>
               </div>
             </section>
-            <section
-              class="case-section measurement-targets"
-              data-evidence-state="PLANNED / NOT MEASURED"
-            >
+            <section class="case-section measurement-targets" data-evidence-state="PLANNED / NOT MEASURED">
               <!-- A26_MEASUREMENT_TARGETS -->
               <header class="case-section-head">
                 <span class="case-section-label">MEASUREMENT / TARGETS</span>
@@ -435,28 +332,18 @@
                 </div>
                 <div class="case-evidence-strip">
                   <div>
-                    <span>Primary target</span
-                    ><strong
-                      >≥ 4/5 participants find a suitable product and reach the
-                      intended purchase path without moderator help</strong
-                    ><small>Predefined before outcome evidence.</small>
+                    <span>Primary target</span><strong>≥ 4/5 participants find a suitable product and reach the
+                      intended purchase path without moderator help</strong><small>Predefined before outcome evidence.</small>
                   </div>
                   <div>
-                    <span>Metrics</span
-                    ><strong
-                      >Findability / task completion / decision
-                      confidence</strong
-                    ><small>Behavior + attitude where applicable.</small>
+                    <span>Metrics</span><strong>Findability / task completion / decision
+                      confidence</strong><small>Behavior + attitude where applicable.</small>
                   </div>
                   <div>
-                    <span>Baseline needed</span
-                    ><strong>Needs first usability benchmark</strong
-                    ><small>No invented before/after delta.</small>
+                    <span>Baseline needed</span><strong>Needs first usability benchmark</strong><small>No invented before/after delta.</small>
                   </div>
                   <div>
-                    <span>Evidence state</span
-                    ><strong>PLANNED / NOT MEASURED</strong
-                    ><small>Promote only from traceable evidence.</small>
+                    <span>Evidence state</span><strong>PLANNED / NOT MEASURED</strong><small>Promote only from traceable evidence.</small>
                   </div>
                 </div>
               </div>
@@ -469,13 +356,14 @@
       <div class="case-footer-inner">
         <div class="case-footer-copy">
           <p>NEXT CASE</p>
-          <h2>From fashion to furniture.<br /><em>See LuxRoom.</em></h2>
+          <h2>From fashion to furniture.<br><em>See LuxRoom.</em></h2>
         </div>
         <div class="case-footer-actions">
-          <a href="mailto:anhnghia9a633@gmail.com">Email ↗</a
-          ><a href="case-study-luxroom.html">Next case study ↗</a>
+          <a href="mailto:anhnghia9a633@gmail.com">Email ↗</a><a href="case-study-luxroom.html">Next case study ↗</a>
         </div>
       </div>
     </footer>
-  </body>
-</html>
+
+
+
+</body></html>
