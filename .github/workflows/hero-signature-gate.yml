@@ -18,7 +18,7 @@ concurrency:
 jobs:
   hero-signature:
     name: Hero visual signature / desktop + mobile + reduced motion
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Checkout

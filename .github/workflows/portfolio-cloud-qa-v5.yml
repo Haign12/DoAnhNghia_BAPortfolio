@@ -16,7 +16,7 @@ permissions:
 jobs:
   browser-gate:
     name: Chromium / accessibility / responsive gate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -132,7 +132,7 @@ jobs:
 
   lighthouse-diagnostic:
     name: Lighthouse diagnostic
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Checkout
