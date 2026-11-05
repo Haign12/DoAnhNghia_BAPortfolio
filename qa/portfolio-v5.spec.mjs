@@ -250,7 +250,7 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
     await page.goto(baseURL, { waitUntil: 'networkidle' });
   await page.locator("#projectArchive > summary").click();
     const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(
-      links.map(link => link.getAttribute('href')).filter(Boolean)
+      links.filter(link => link.origin === location.origin).map(link => link.getAttribute('href'))
     )]);
     expect(paths.length).toBeGreaterThanOrEqual(12);
     expect(paths).toContain('case-study-luxroom.html');
