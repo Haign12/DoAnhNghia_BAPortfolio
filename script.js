@@ -62,9 +62,32 @@
   updateThemeLabel();
 
   const filterRow = document.querySelector(".filter-row");
-  const filters = [...filterRow.querySelectorAll(".filter")];
-  const projects = [...document.querySelectorAll(".index-card")];
-  const groups = [...document.querySelectorAll(".project-group")];
+  const archive = document.getElementById("projectArchive");
+  const groups = [...archive.querySelectorAll(".project-group")].map((element) => ({
+    element,
+    id: element.dataset.group,
+    label: element.dataset.filterLabel,
+    cards: [...element.querySelectorAll(".index-card")],
+    count: element.querySelector(".group-count"),
+  })).filter((group) => group.cards.length);
+  const total = groups.reduce((sum, group) => sum + group.cards.length, 0);
+  const filters = [{ id: "all", label: "All Projects", size: total }, ...groups.map(
+    ({ id, label, cards }) => ({ id, label, size: cards.length }),
+  )].map(({ id, label, size }) => {
+    const button = document.createElement("button");
+    button.className = "filter";
+    button.type = "button";
+    button.dataset.filter = id;
+    button.setAttribute("aria-controls", "projectResults");
+    button.textContent = label;
+    const badge = document.createElement("span");
+    badge.textContent = String(size);
+    button.append(badge);
+    filterRow.append(button);
+    return button;
+  });
+  document.getElementById("archiveLabel").textContent = "Browse all " + total + " projects";
+  archive.querySelector(".archive-summary-note").textContent = groups.length + " industries";
   const search = document.getElementById("projectSearch");
   const empty = document.getElementById("catalogEmpty");
   const filterStatus = document.getElementById("filterStatus");
@@ -75,10 +98,11 @@
       .replace(/\p{Diacritic}/gu, "")
       .toLowerCase()
       .replaceAll("đ", "d");
-  const searchable = new Map(
-    projects.map((project) => [project, normalize(project.textContent)]),
-  );
-  document.querySelector(".project-tools").hidden = false;
+  const searchable = new Map(groups.flatMap(({ label, cards }) => cards.map(
+    (card) => [card, normalize(label + " " + [...card.querySelector(".index-card-copy").children]
+      .filter((field) => !field.classList.contains("artifact-links"))
+      .map((field) => field.textContent).join(" "))],
+  )));
 
   function filterProjects() {
     const query = normalize(search.value.trim());
@@ -87,20 +111,21 @@
       filter.classList.toggle("active", active);
       filter.setAttribute("aria-pressed", String(active));
     });
-    projects.forEach((project) => {
-      project.hidden =
-        (category !== "all" && project.dataset.cat !== category) ||
-        !searchable.get(project).includes(query);
-    });
+    let count = 0;
+    let groupCount = 0;
     groups.forEach((group) => {
-      const count = [...group.querySelectorAll(".index-card")].filter(
-        (project) => !project.hidden,
-      ).length;
-      group.hidden = count === 0;
-      group.querySelector(".group-count").textContent = String(count);
+      let visible = 0;
+      group.cards.forEach((card) => {
+        card.hidden =
+          (category !== "all" && group.id !== category) ||
+          !searchable.get(card).includes(query);
+        if (!card.hidden) visible += 1;
+      });
+      group.element.hidden = visible === 0;
+      group.count.textContent = String(visible);
+      if (visible) groupCount += 1;
+      count += visible;
     });
-    const count = projects.filter((project) => !project.hidden).length;
-    const groupCount = groups.filter((group) => !group.hidden).length;
     empty.hidden = count > 0;
     filterStatus.textContent = `${count} ${count === 1 ? "project" : "projects"} in ${groupCount} ${groupCount === 1 ? "category" : "categories"}`;
   }
@@ -135,6 +160,9 @@
       target.scrollIntoView({ block: "start", behavior: "instant" });
     }
   }
+  filterProjects();
+  filterStatus.hidden = false;
+  archive.querySelector(".project-tools").hidden = false;
   window.addEventListener("hashchange", revealAnchor);
   revealAnchor();
 })();

@@ -12,7 +12,7 @@ test('curated homepage keeps experience before the optional complete catalog', a
   expect(order.indexOf('story')).toBeLessThan(order.indexOf('work'));
   await page.locator('#projectArchive > summary').focus();
   await page.keyboard.press('Enter');
-  await expect(page.locator('#work .index-card:visible')).toHaveCount(12);
+  await expect(page.locator('#work .index-card:visible')).toHaveCount(17);
   await page.keyboard.press('Enter');
   await expect(page.locator('#projectArchive')).not.toHaveAttribute('open', '');
 });
@@ -85,7 +85,7 @@ test('recruiter essentials are concise, source-authored and ordered around work'
   await expect(page).toHaveTitle(/Product Designer/);
   await expect(page.locator('#hero')).toContainText('UI/UX & Product Designer');
   await expect(page.getByRole('heading',{level:1})).toHaveText('Complexity,made clear.');
-  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['LuxRoom ↗','Nova ↗','Atelier ↗']);
+  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['LuxRoom ↗','Nova ↗','Atelier ↗','Sentry ↗','CareFlow ↗']);
   const sectionOrder=await page.locator('main>section').evaluateAll(nodes=>nodes.map(n=>n.id));
   expect(sectionOrder.indexOf('flagships')).toBeLessThan(sectionOrder.indexOf('story'));
   expect(await page.locator('#hero').innerText().then(t=>t.split(/\s+/).length)).toBeLessThan(60);
@@ -102,7 +102,7 @@ test('navigation, core copy and all projects remain usable without JavaScript', 
   await page.locator("#projectArchive > summary").click();
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   await expect(page.locator('.nav-links a').first()).toBeVisible();
-  await expect(page.locator('.index-card:visible')).toHaveCount(12);
+  await expect(page.locator('.index-card:visible')).toHaveCount(17);
   await expect(page.locator('.project-tools')).toBeHidden();
   await context.close();
 });
@@ -112,13 +112,14 @@ test('all categories filter and reset without losing links', async ({page}) => {
   await page.locator("#projectArchive > summary").click();
   for(const filter of await page.locator('.filter').all()) {
     const count=Number(await filter.locator('span').innerText());
-    await filter.click();
+    await filter.focus();
+    await page.keyboard.press('Enter');
     await expect(filter).toHaveAttribute('aria-pressed','true');
     await expect(page.locator('.index-card:visible')).toHaveCount(count);
     await expect(page.locator('#filterStatus')).toContainText(String(count));
   }
   await page.locator('[data-filter="all"]').click();
-  await expect(page.locator('.index-card:visible')).toHaveCount(12);
+  await expect(page.locator('.index-card:visible')).toHaveCount(17);
   await expect(page.locator('#work a[href="#"]')).toHaveCount(0);
 });
 
@@ -176,7 +177,7 @@ test('homepage publishes honest project evidence without implying impact', async
   expect(source).toContain('Self-initiated projects');
 });
 
-for(const width of [320,390,600,768,839,840,1024,1280,1440]) {
+for(const width of [320,375,390,600,768,839,840,1024,1280,1440]) {
   test('responsive layout and primary media at '+width+'px',async ({page}) => {
     await page.setViewportSize({width,height:900});
     const errors=[];
@@ -347,9 +348,13 @@ test('every existing project case is visible in exactly one classified catalog e
   const actual=await page.locator('#work .index-card [data-artifact-kind="case"]').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort());
   expect(actual).toEqual(expected);
   await expect(page.locator('#work .index-card:visible')).toHaveCount(expected.length);
-  await expect(page.locator('#work .project-group:visible')).toHaveCount(4);
+  await expect(page.locator('#work .project-group:visible')).toHaveCount(8);
+  await expect(page.locator('#group-enterprise [data-project="sentry"]')).toHaveCount(1);
+  await expect(page.locator('#group-education [data-project="vas-education"]')).toHaveCount(1);
+  await expect(page.locator('#archiveLabel')).toHaveText('Browse all 17 projects');
   await expect(page.locator('#work details')).toHaveCount(1);
   for(const card of await page.locator('#work .index-card').all()) {
+    await expect(card.locator('.index-role')).not.toBeEmpty();
     await expect(card.locator('.index-skills')).not.toBeEmpty();
     await expect(card.locator('.index-summary')).not.toBeEmpty();
     await expect(card.locator('.index-evidence')).not.toBeEmpty();
@@ -371,6 +376,10 @@ test('search combines with category filtering and recovers from no results',asyn
   await page.getByRole('button',{name:'Clear filters'}).click();
   await expect(search).toHaveValue('');
   await expect(search).toBeFocused();
-  await expect(page.locator('.index-card:visible')).toHaveCount(12);
+  await expect(page.locator('.index-card:visible')).toHaveCount(17);
   await expect(page.locator('#catalogEmpty')).toBeHidden();
+  await page.locator('[data-filter="education"]').click();
+  await search.fill('minh hoang');
+  await expect(page.locator('.index-card:visible')).toHaveCount(1);
+  await expect(page.locator('[data-project="education-center-management"]')).toBeVisible();
 });
