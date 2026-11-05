@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=t==="dark"||t==="light"?t:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch{}</script>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CareFlow — UI/UX Case Study | Do Anh Nghia</title>
+  <meta name="description" content="Guide patients through the next step while giving clinicians a clear view of the current visit and follow-up.">
+  <link rel="icon" href="assets/images/brand/xii-an-light.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://do-anh-nghia-uiux-portfolio.vercel.app/case-study-careflow.html">
+  <link rel="stylesheet" href="case-study.css">
+  <link rel="stylesheet" href="case-study-evidence-v4.css">
+  <script src="case-study.js" defer></script>
+</head>
+<body class="case-study-page case-personal">
+<a class="case-skip" href="#case-main">Skip to case study</a>
+<nav class="sticky-nav" aria-label="Case study navigation">
+  <a href="index.html#work" class="nav-brand"><span aria-hidden="true">←</span><span>All projects</span></a>
+  <div class="case-nav-actions"><a href="index.html#contact">Contact</a><button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false"><span id="theme-icon" aria-hidden="true">◐</span><span data-theme-label>Dark</span></button></div>
+</nav>
+<main class="uiux-project" id="case-main"><article class="uiux-case">
+<header class="case-hero">
+  <div class="case-identity">
+    <aside class="case-rail"><span class="case-index">FUNCTIONAL PROTOTYPE</span>
+      <dl class="case-facts"><div><dt>Role &amp; scope</dt><dd>Product design · Patient journeys and clinician workspace</dd></div><div><dt>Product</dt><dd>Patient &amp; clinician prototype</dd></div><div><dt>Evidence</dt><dd>Simulated care journeys and sample records.</dd></div></dl>
+      <div class="case-hero-actions case-artifact-actions"><a class="case-action case-action-primary" href="https://ngh1aa.github.io/Patient-Journey-App/prototype/" target="_blank" rel="noopener noreferrer">Live prototype ↗</a><a class="case-action" href="https://github.com/Ngh1aa/Patient-Journey-App" target="_blank" rel="noopener noreferrer">Source ↗</a></div>
+    </aside>
+    <div class="case-heading"><p class="case-kicker">HEALTHCARE &amp; WELLNESS</p><h1 class="case-title">CareFlow</h1><p class="case-thesis">Guide patients through the next step while giving clinicians a clear view of the current visit and follow-up.</p></div>
+  </div>
+  <figure class="case-cover"><div class="case-cover-frame"><img src="assets/images/prototype-captures/careflow-desktop.webp" width="1440" height="900" alt="CareFlow clinician dashboard showing a visit in progress and follow-up tasks" decoding="async"></div><figcaption><span>Patient &amp; clinician prototype</span><span>Functional prototype</span></figcaption></figure>
+</header>
+<nav class="case-toc" aria-label="In this case"><span>In this case</span><a href="#overview">Overview</a><a href="#research">Evidence</a><a href="#architecture">Architecture</a><a href="#flow">Flow</a><a href="#final-ui">Final UI</a><a href="#testing">Testing</a><a href="#next">Next steps</a></nav>
+<section class="case-section" id="overview">
+  <header class="case-section-head"><span class="case-section-label">OVERVIEW</span><h2>One journey, two points of view</h2></header>
+  <div class="case-section-body"><p>A browser prototype follows a patient from entry and appointment booking through the care journey. A separate clinician workspace organizes the current visit and follow-up. My scope spans journey design, screen hierarchy and prototype implementation.</p></div>
+</section>
+<section class="case-section" id="problem">
+  <header class="case-section-head"><span class="case-section-label">PROBLEM &amp; CONTEXT</span><h2>Make the next step visible</h2></header>
+  <div class="case-section-body"><p>A patient needs to know what to do before the visit. A clinician needs to see what is in progress and what still needs attention. The two interfaces organize the same journey around different decisions.</p></div>
+</section>
+<section class="case-section" id="users">
+  <header class="case-section-head"><span class="case-section-label">USERS &amp; CONSTRAINTS</span><h2>Patient and clinician tasks</h2></header>
+  <div class="case-section-body"><p>The patient flow is designed for narrow screens. The clinician workspace is designed around a desktop workflow. The prototype uses sample records and simulated actions.</p></div>
+</section>
+<section class="case-section" id="research">
+  <header class="case-section-head"><span class="case-section-label">RESEARCH &amp; EVIDENCE</span><h2>Brief, scenario inventory and implementation</h2></header>
+  <div class="case-section-body"><p>The repository records the patient-journey brief, an assumption log, component contracts and browser verification. Those artifacts support the prototype scope. They provide no evidence of clinical effectiveness.</p><p><a href="https://github.com/Ngh1aa/Patient-Journey-App/blob/main/docs/13-patient-journey-source.md" target="_blank" rel="noopener noreferrer">Patient journey brief ↗</a> · <a href="https://github.com/Ngh1aa/Patient-Journey-App/tree/main/staff-prototype" target="_blank" rel="noopener noreferrer">Staff prototype guide ↗</a> · <a href="https://github.com/Ngh1aa/Patient-Journey-App/actions" target="_blank" rel="noopener noreferrer">Browser QA workflows ↗</a></p></div>
+</section>
+<section class="case-section" id="architecture">
+  <header class="case-section-head"><span class="case-section-label">INFORMATION ARCHITECTURE</span><h2>Organize by journey and by work queue</h2></header>
+  <div class="case-section-body"><p>The patient side follows steps in the visit. The clinician side groups overview, schedule, visit detail, records, results and follow-up.</p></div>
+</section>
+<section class="case-section" id="flow">
+  <header class="case-section-head"><span class="case-section-label">USER FLOW</span><h2>Booking and visit handling</h2></header>
+  <div class="case-section-body"><p>Patient: enter the experience → choose the appointment path → review the resulting state. Clinician: open today’s work → select the current visit → inspect records and next steps.</p></div>
+</section>
+<section class="case-section" id="decisions">
+  <header class="case-section-head"><span class="case-section-label">DESIGN DECISIONS</span><h2>Bring active work ahead of passive information</h2></header>
+  <div class="case-section-body"><p>The clinician overview leads with the visit in progress and surfaces decisions and unread results before the rest of the schedule. The patient side keeps the immediate action near the explanation of the step.</p></div>
+</section>
+<section class="case-section" id="iterations">
+  <header class="case-section-head"><span class="case-section-label">WIREFRAMES &amp; ITERATIONS</span><h2>Track changes in the design record</h2></header>
+  <div class="case-section-body"><p>The source preserves the screen inventory, card audit and review notes. The current captures show the implemented UI.</p></div>
+</section>
+<section class="case-section" id="final-ui">
+  <header class="case-section-head"><span class="case-section-label">FINAL UI</span><h2>Patient and clinician surfaces</h2></header>
+  <div class="case-section-body"><p>The desktop cover shows clinician overview and follow-up. The image below shows the separate patient entry flow.</p><div class="case-proof-gallery"><div class="case-proof-frame"><img src="assets/images/prototype-captures/careflow-patient.webp" width="390" height="900" alt="CareFlow patient entry screen with a phone number field and a step indicator" loading="lazy"></div><div class="case-proof-aside"><div><h3>Two entry points</h3><p>Open the patient entry to follow the appointment journey. Open the clinician workspace for current visits and follow-up.</p><p><a class="case-action" href="https://ngh1aa.github.io/Patient-Journey-App/staff-prototype/" target="_blank" rel="noopener noreferrer">Clinician workspace ↗</a></p></div></div></div></div>
+</section>
+<section class="case-section" id="responsive">
+  <header class="case-section-head"><span class="case-section-label">RESPONSIVE &amp; INTERACTION STATES</span><h2>Two surfaces with different priorities</h2></header>
+  <div class="case-section-body"><p>The patient flow uses a narrow action-led layout. The desktop workspace keeps navigation, work summary and visit detail available together. Pending, confirmed and follow-up states are represented in the journey.</p></div>
+</section>
+<section class="case-section" id="testing">
+  <header class="case-section-head"><span class="case-section-label">TESTING &amp; FINDINGS</span><h2>Browser and scenario evidence</h2></header>
+  <div class="case-section-body"><p>The patient entry and clinician overview opened as distinct browser routes. The source includes separate QA workflows for patient and staff behavior. These checks cover prototype behavior.</p></div>
+</section>
+<section class="case-section" id="next">
+  <header class="case-section-head"><span class="case-section-label">RESULTS, LIMITATIONS &amp; NEXT STEPS</span><h2>Implemented scope and remaining evidence</h2></header>
+  <div class="case-section-body"><p>The two surfaces demonstrate continuity across roles. Clinical protocols, service availability, authentication and live integration would need separate validation. A follow-up study should observe how patients identify the next step and how clinicians recover a handoff.</p></div>
+</section>
+</article></main>
+<footer class="case-footer"><div class="case-footer-inner"><div class="case-footer-copy"><p>ALL PROJECTS</p><h2>More to explore.</h2></div><div class="case-footer-actions"><a href="index.html#group-healthcare">Browse Healthcare projects ↗</a><a href="index.html#work">All projects ↗</a></div></div></footer>
+</body></html>

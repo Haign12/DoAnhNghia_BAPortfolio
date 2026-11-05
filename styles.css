@@ -557,6 +557,11 @@ em {
   flex: 1;
   padding-top: 20px;
 }
+.index-role {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
 .index-category {
   font-size: 12px;
   color: var(--muted);

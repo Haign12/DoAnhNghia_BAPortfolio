@@ -3,15 +3,17 @@ import { test, expect } from '@playwright/test';
 
 const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
 
-test('catalog only includes projects with Figma and excludes the requested removals', async ({page, request}) => {
+test('catalog links to real case studies and sources with optional Figma', async ({page, request}) => {
   await page.goto(baseURL);
   const cards = page.locator('#work .index-card');
-  await expect(cards).toHaveCount(12);
+  await expect(cards).toHaveCount(17);
   for (const card of await cards.all()) {
-    await expect(card.locator('[data-artifact-kind="figma"]')).toHaveAttribute('href', /^https:\/\/www\.figma\.com\/design\//);
+    await expect(card.locator('[data-artifact-kind="source"]')).toHaveAttribute('href', /^https:\/\/github\.com\/Ngh1aa\//);
+    const figma = card.locator('[data-artifact-kind="figma"]');
+    if (await figma.count()) await expect(figma).toHaveAttribute('href', /^https:\/\/www\.figma\.com\/design\//);
   }
   const sitemap = await (await request.get(baseURL+'/sitemap.xml')).text();
-  for (const id of ['studioos','vietbank','ux','lumen','hue','uiux-factory','skills-uiux','ui-feedback-tool']) {
+  for (const id of ['studioos','vietbank','ux','hue','skills-uiux','ui-feedback-tool']) {
     const route = `case-study-${id}.html`;
     await expect(page.locator(`a[href="${route}"]`)).toHaveCount(0);
     expect(sitemap).not.toContain(route);
@@ -43,7 +45,7 @@ test('every supporting project card uses case → live → figma → source hier
     };
   }));
 
-  expect(cards).toHaveLength(12);
+  expect(cards).toHaveLength(17);
   for (const card of cards) {
     expect(card.labels[0], `${card.title}: first CTA`).toMatch(/^Case study/);
     expect(card.classes[0], `${card.title}: primary class`).toContain('project-artifact-primary');
@@ -75,7 +77,7 @@ test('mobile keeps one dominant case CTA and wraps artifact links cleanly', asyn
     };
   }));
 
-  expect(blocks).toHaveLength(12);
+  expect(blocks).toHaveLength(17);
   for (const block of blocks) { expect(block.primaryWidth).toBeGreaterThanOrEqual(44); expect(block.primaryHeight).toBeGreaterThanOrEqual(44); }
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

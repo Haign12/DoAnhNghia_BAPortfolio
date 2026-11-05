@@ -24,7 +24,7 @@ test('reduced motion removes decorative movement without hiding work', async ({ 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(baseURL, { waitUntil: 'networkidle' });
   await expect(page.locator('#hero')).toBeVisible();
-  await expect(page.locator('[data-flagship]')).toHaveCount(3);
+  await expect(page.locator('[data-flagship]')).toHaveCount(5);
   const moving = await page.evaluate(() => document.getAnimations().filter(animation => animation.playState === 'running').length);
   expect(moving).toBe(0);
   await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
