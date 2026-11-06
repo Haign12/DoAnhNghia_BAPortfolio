@@ -62,14 +62,26 @@
   updateThemeLabel();
 
   const filterRow = document.querySelector(".filter-row");
-  const archive = document.getElementById("projectArchive");
-  const groups = [...archive.querySelectorAll(".project-group")].map((element) => ({
+  const catalog = document.getElementById("work");
+  const groups = [...catalog.querySelectorAll(".project-group")].map((element) => ({
     element,
     id: element.dataset.group,
     label: element.dataset.filterLabel,
     cards: [...element.querySelectorAll(".index-card")],
     count: element.querySelector(".group-count"),
   })).filter((group) => group.cards.length);
+  const projectsPerRow = 3;
+  groups.forEach((group) => {
+    const grid = group.element.querySelector(".index-grid");
+    const openSlots = (projectsPerRow - group.cards.length % projectsPerRow) % projectsPerRow;
+    group.slots = Array.from({ length: openSlots }, () => {
+      const slot = document.createElement("p");
+      slot.className = "project-slot";
+      slot.textContent = "Coming soon";
+      grid.append(slot);
+      return slot;
+    });
+  });
   const total = groups.reduce((sum, group) => sum + group.cards.length, 0);
   const filters = [{ id: "all", label: "All Projects", size: total }, ...groups.map(
     ({ id, label, cards }) => ({ id, label, size: cards.length }),
@@ -86,8 +98,6 @@
     filterRow.append(button);
     return button;
   });
-  document.getElementById("archiveLabel").textContent = "Browse all " + total + " projects";
-  archive.querySelector(".archive-summary-note").textContent = groups.length + " industries";
   const search = document.getElementById("projectSearch");
   const empty = document.getElementById("catalogEmpty");
   const filterStatus = document.getElementById("filterStatus");
@@ -121,6 +131,7 @@
           !searchable.get(card).includes(query);
         if (!card.hidden) visible += 1;
       });
+      group.slots.forEach((slot) => { slot.hidden = Boolean(query); });
       group.element.hidden = visible === 0;
       group.count.textContent = String(visible);
       if (visible) groupCount += 1;
@@ -148,8 +159,6 @@
     const id = window.location.hash.slice(1);
     const target = id && document.getElementById(id);
     if (!target) return;
-    const archive = target.closest(".project-archive") || target.querySelector(".project-archive");
-    if (archive) archive.open = true;
     const group = target.closest(".project-group");
     if (group) {
       if (group.hidden || target.hidden) {
@@ -162,7 +171,7 @@
   }
   filterProjects();
   filterStatus.hidden = false;
-  archive.querySelector(".project-tools").hidden = false;
+  catalog.querySelector(".project-tools").hidden = false;
   window.addEventListener("hashchange", revealAnchor);
   revealAnchor();
 })();

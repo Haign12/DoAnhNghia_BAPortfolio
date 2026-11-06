@@ -14,9 +14,7 @@
   --accent: #111111;
   --inverse-bg: #111111;
   --inverse-text: #FFFFFF;
-  --serif: Georgia, "Times New Roman", serif;
-  --sans: "Be Vietnam Pro", Arial, sans-serif;
-  --mono: "Be Vietnam Pro", Arial, sans-serif;
+  --mono: var(--sans);
   --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: light;
 }
@@ -45,6 +43,10 @@ body.case-study-page {
   font-family: var(--sans);
   line-height: 1.65;
   transition: background-color .3s ease, color .3s ease;
+}
+body.case-study-page h1,
+body.case-study-page h2 {
+  font-family: var(--serif);
 }
 a { color: inherit; }
 img { display: block; max-width: 100%; }

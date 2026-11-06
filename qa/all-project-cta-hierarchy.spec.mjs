@@ -6,7 +6,7 @@ const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
 test('catalog links to real case studies and sources with optional Figma', async ({page, request}) => {
   await page.goto(baseURL);
   const cards = page.locator('#work .index-card');
-  await expect(cards).toHaveCount(17);
+  await expect(cards).toHaveCount(16);
   for (const card of await cards.all()) {
     await expect(card.locator('[data-artifact-kind="source"]')).toHaveAttribute('href', /^https:\/\/github\.com\/Ngh1aa\//);
     const figma = card.locator('[data-artifact-kind="figma"]');
@@ -30,7 +30,6 @@ const assertOrderedKinds = (kinds) => {
 test('every supporting project card uses case → live → figma → source hierarchy', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.goto(`${baseURL}/`, { waitUntil: 'domcontentloaded' });
-  await page.locator('#projectArchive > summary').click();
 
   const cards = await page.locator('#work .project-artifact-actions').evaluateAll((blocks) => blocks.map((block) => {
     const card = block.closest('article');
@@ -45,7 +44,7 @@ test('every supporting project card uses case → live → figma → source hier
     };
   }));
 
-  expect(cards).toHaveLength(17);
+  expect(cards).toHaveLength(16);
   for (const card of cards) {
     expect(card.labels[0], `${card.title}: first CTA`).toMatch(/^Case study/);
     expect(card.classes[0], `${card.title}: primary class`).toContain('project-artifact-primary');
@@ -64,7 +63,6 @@ test('every supporting project card uses case → live → figma → source hier
 test('mobile keeps one dominant case CTA and wraps artifact links cleanly', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseURL}/`, { waitUntil: 'domcontentloaded' });
-  await page.locator('#projectArchive > summary').click();
 
   const blocks = await page.locator('#work .project-artifact-actions').evaluateAll((nodes) => nodes.map((block) => {
     const primary = block.querySelector('.project-artifact-primary');
@@ -77,7 +75,7 @@ test('mobile keeps one dominant case CTA and wraps artifact links cleanly', asyn
     };
   }));
 
-  expect(blocks).toHaveLength(17);
+  expect(blocks).toHaveLength(16);
   for (const block of blocks) { expect(block.primaryWidth).toBeGreaterThanOrEqual(44); expect(block.primaryHeight).toBeGreaterThanOrEqual(44); }
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

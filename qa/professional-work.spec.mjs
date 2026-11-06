@@ -13,10 +13,11 @@ const seriousAxeViolations = async page => {
 test('professional work case stays grounded in verified employment scope', async ({ page }) => {
   const source = await fs.readFile('case-study-professional-work.html', 'utf8');
   for (const company of ['MangoAds', 'Tikera Technology', 'Trésor Solution']) expect(source).toContain(company);
-  expect(source).toContain('8+ web projects');
-  expect(source).toContain('15+ product flows');
-  expect(source).toContain('client artifacts and production metrics are not publicly available');
-  expect(source).toContain('Independent concepts such as Nova, Sentry and LuxRoom are not presented as client work or production outcomes.');
+  expect(source).toContain('MangoAds · UI/UX Designer · Dec 2025 – Sep 2026');
+  expect(source).toContain('Tikera Technology · UI/UX Designer · Jan – Oct 2025');
+  expect(source).toContain('Trésor Solution · Intern UI/UX Designer · Sep – Dec 2024');
+  expect(source).toContain('Client artifacts and production metrics are not publicly available');
+  expect(source).toContain('self-initiated projects');
   expect(source).not.toMatch(/\bSenior Product Designer\b/);
   expect(source).not.toMatch(/conversion (increased|improved|lifted)|revenue (increased|improved|lifted)/i);
 
