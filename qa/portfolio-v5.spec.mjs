@@ -4,17 +4,16 @@ import fs from 'node:fs/promises';
 
 const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
 
-test('curated homepage keeps experience before the optional complete catalog', async ({page}) => {
+test('experience leads into the open personal-project catalog', async ({page}) => {
   await page.goto(baseURL);
-  await expect(page.locator('#projectArchive')).not.toHaveAttribute('open', '');
-  await expect(page.locator('#work .index-card:visible')).toHaveCount(0);
-  const order = await page.locator('main > section').evaluateAll(nodes => nodes.map(n => n.id));
-  expect(order.indexOf('story')).toBeLessThan(order.indexOf('work'));
-  await page.locator('#projectArchive > summary').focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('#work .index-card:visible')).toHaveCount(17);
-  await page.keyboard.press('Enter');
-  await expect(page.locator('#projectArchive')).not.toHaveAttribute('open', '');
+  await expect(page.getByRole('heading', {name: 'Personal projects'})).toBeVisible();
+  await expect(page.locator('#work .index-card:visible')).toHaveCount(16);
+  await expect(page.locator('#work .project-group:visible')).toHaveCount(7);
+  await expect(page.locator('[data-flagship]')).toHaveCount(0);
+  await expect(page.locator('#work [data-filter="ai"], #group-ai')).toHaveCount(0);
+  expect(await page.locator('.intro + #work').count()).toBe(1);
+  await page.goto(baseURL + '/#flagships');
+  await expect(page.getByRole('heading', {name: 'Personal projects'})).toBeInViewport();
 });
 
 test('Nova research is consistent in source HTML and without JavaScript', async ({browser}) => {
@@ -81,16 +80,16 @@ const formatAxeViolations = blockers => blockers.flatMap(violation =>
 
 test('recruiter essentials are concise, source-authored and ordered around work', async ({page}) => {
   await page.goto(baseURL,{waitUntil:'networkidle'});
-  await page.locator("#projectArchive > summary").click();
   await expect(page).toHaveTitle(/Product Designer/);
   await expect(page.locator('#hero')).toContainText('UI/UX & Product Designer');
   await expect(page.getByRole('heading',{level:1})).toHaveText('Complexity,made clear.');
-  expect(await page.locator('[data-flagship] h3').allTextContents()).toEqual(['LuxRoom ↗','Nova ↗','Atelier ↗','Sentry ↗','CareFlow ↗']);
   const sectionOrder=await page.locator('main>section').evaluateAll(nodes=>nodes.map(n=>n.id));
-  expect(sectionOrder.indexOf('flagships')).toBeLessThan(sectionOrder.indexOf('story'));
+  expect(sectionOrder.indexOf('work')).toBeLessThan(sectionOrder.indexOf('story'));
+  await expect(page.locator('#experience')).toBeVisible();
+  expect(await page.locator('#experience').evaluate(el => Boolean(el.compareDocumentPosition(document.querySelector('#work')) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+  expect(await page.locator('#navLinks a').allTextContents()).toEqual(['Experience', 'Work', 'Contact']);
   expect(await page.locator('#hero').innerText().then(t=>t.split(/\s+/).length)).toBeLessThan(60);
   await expect(page.locator('#ai-workflow')).toContainText('I own the design decisions');
-  await expect(page.locator('#flagships')).not.toContainText('UIUX Factory');
   await expect(page.locator('#experience article')).toHaveCount(3);
   await expect(page.locator('.resume-link')).toHaveAttribute('href','Do_Anh_Nghia_UIUXDesigner_CV.pdf');
 });
@@ -99,17 +98,15 @@ test('navigation, core copy and all projects remain usable without JavaScript', 
   const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
   const page=await context.newPage();
   await page.goto(baseURL,{waitUntil:'networkidle'});
-  await page.locator("#projectArchive > summary").click();
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   await expect(page.locator('.nav-links a').first()).toBeVisible();
-  await expect(page.locator('.index-card:visible')).toHaveCount(17);
+  await expect(page.locator('.index-card:visible')).toHaveCount(16);
   await expect(page.locator('.project-tools')).toBeHidden();
   await context.close();
 });
 
 test('all categories filter and reset without losing links', async ({page}) => {
   await page.goto(baseURL);
-  await page.locator("#projectArchive > summary").click();
   for(const filter of await page.locator('.filter').all()) {
     const count=Number(await filter.locator('span').innerText());
     await filter.focus();
@@ -119,7 +116,7 @@ test('all categories filter and reset without losing links', async ({page}) => {
     await expect(page.locator('#filterStatus')).toContainText(String(count));
   }
   await page.locator('[data-filter="all"]').click();
-  await expect(page.locator('.index-card:visible')).toHaveCount(17);
+  await expect(page.locator('.index-card:visible')).toHaveCount(16);
   await expect(page.locator('#work a[href="#"]')).toHaveCount(0);
 });
 
@@ -136,7 +133,6 @@ test('legacy category deep links restore visible project groups', async ({page})
 test('mobile menu supports dismissal, Escape focus recovery and navigation', async ({page}) => {
   await page.setViewportSize({width:390,height:844});
   await page.goto(baseURL);
-  await page.locator("#projectArchive > summary").click();
   const menu=page.locator('#menuBtn');
   await expect(menu).toHaveAttribute('aria-expanded','false');
   await menu.click();
@@ -145,16 +141,15 @@ test('mobile menu supports dismissal, Escape focus recovery and navigation', asy
   await expect(menu).toBeFocused();
   await expect(menu).toHaveAttribute('aria-expanded','false');
   await menu.click();
-  await page.locator('.nav-links a[href="#flagships"]').click();
+  await page.locator('.nav-links a[href="#work"]').click();
   await expect(menu).toHaveAttribute('aria-expanded','false');
-  await expect(page).toHaveURL(/#flagships$/);
+  await expect(page).toHaveURL(/#work$/);
 });
 
 test('system theme and manual preference survive reloads', async ({browser}) => {
   const context=await browser.newContext({colorScheme:'dark'});
   const page=await context.newPage();
   await page.goto(baseURL);
-  await page.locator("#projectArchive > summary").click();
   await expect(page.locator('#themeToggle')).toHaveText('Light');
   await page.locator('#themeToggle').click();
   await expect(page.locator('html')).toHaveAttribute('data-theme','light');
@@ -166,11 +161,10 @@ test('system theme and manual preference survive reloads', async ({browser}) => 
 
 test('homepage publishes honest project evidence without implying impact', async ({page}) => {
   await page.goto(baseURL);
-  await page.locator("#projectArchive > summary").click();
   await expect(page.locator('[data-project="nova"]')).toContainText('10 async self-reports across two rounds');
   await expect(page.locator('[data-project="nova"]')).toContainText('Four findings remain open');
   await expect(page.locator('[data-project="sentry"]')).toContainText('Practitioner validation remains open');
-  await expect(page.locator('[data-flagship="luxroom"]')).toContainText('Independent concept');
+  await expect(page.locator('[data-project="luxroom"]')).toContainText('Independent concept');
   const source=await fs.readFile('index.html','utf8');
   expect(source).not.toContain('<a href="#">');
   expect(source).not.toContain('fonts.googleapis.com');
@@ -183,7 +177,6 @@ for(const width of [320,375,390,600,768,839,840,1024,1280,1440]) {
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     await page.goto(baseURL,{waitUntil:'networkidle'});
-  await page.locator("#projectArchive > summary").click();
     await expect(page.locator('.brand-monogram')).toBeVisible();
     await expect(page.locator('.brand')).toHaveText('');
     await expect(page.locator('.brand')).toHaveAccessibleName('Đỗ Anh Nghĩa, home');
@@ -214,7 +207,6 @@ for(const theme of ['light','dark']) {
   test('no serious or critical axe violations in '+theme,async ({page})=>{
     await page.emulateMedia({colorScheme:theme});
     await page.goto(baseURL,{waitUntil:'networkidle'});
-  await page.locator("#projectArchive > summary").click();
     expect(await seriousAxeViolations(page)).toEqual([]);
   });
 }
@@ -228,7 +220,7 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
   await page.keyboard.press('Tab');
   await expect(page.locator('.skip')).toBeFocused();
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/#flagships$/);
+  await expect(page).toHaveURL(/#experience$/);
 });
   test('measurement targets are explicit targets, never fabricated results', async () => {
     const registry = JSON.parse(await fs.readFile('docs/measurement-targets.json', 'utf8'));
@@ -248,7 +240,6 @@ test('200 percent text and keyboard focus retain the primary journey',async ({pa
 
   test('primary local routes referenced from home resolve', async ({ page, request }) => {
     await page.goto(baseURL, { waitUntil: 'networkidle' });
-  await page.locator("#projectArchive > summary").click();
     const paths = await page.locator('a[href$=".html"]').evaluateAll(links => [...new Set(
       links.filter(link => link.origin === location.origin).map(link => link.getAttribute('href'))
     )]);
@@ -341,18 +332,21 @@ test('A32 case studies expose a 30-second proof strip with honest evidence bound
   await expect(page.locator('#project-30-sec-proof')).toContainText('direct-user baseline not measured');
 });
 
-test('every existing project case is visible in exactly one classified catalog entry', async ({page})=>{
-  const expected=(await fs.readdir('.')).filter(file=>/^case-study-.*\.html$/.test(file)&&file!=='case-study-professional-work.html').sort();
+test('each listed project case appears in exactly one classified catalog entry', async ({page})=>{
+  const unlisted = new Set(['case-study-professional-work.html', 'case-study-docflow-ai.html', 'case-study-uiux-factory.html']);
+  const expected=(await fs.readdir('.')).filter(file=>/^case-study-.*\.html$/.test(file)&&!unlisted.has(file)).sort();
   await page.goto(baseURL);
-  await page.locator("#projectArchive > summary").click();
   const actual=await page.locator('#work .index-card [data-artifact-kind="case"]').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort());
   expect(actual).toEqual(expected);
   await expect(page.locator('#work .index-card:visible')).toHaveCount(expected.length);
-  await expect(page.locator('#work .project-group:visible')).toHaveCount(8);
+  await expect(page.locator('#work .project-group:visible')).toHaveCount(7);
   await expect(page.locator('#group-enterprise [data-project="sentry"]')).toHaveCount(1);
   await expect(page.locator('#group-education [data-project="vas-education"]')).toHaveCount(1);
-  await expect(page.locator('#archiveLabel')).toHaveText('Browse all 17 projects');
-  await expect(page.locator('#work details')).toHaveCount(1);
+  await expect(page.locator('#filterStatus')).toHaveText('16 projects in 7 categories');
+  await expect(page.locator('#work .project-slot:visible')).toHaveCount(8);
+  for (const grid of await page.locator('#work .index-grid').all()) {
+    expect((await grid.locator(':scope > *').count()) % 3).toBe(0);
+  }
   for(const card of await page.locator('#work .index-card').all()) {
     await expect(card.locator('.index-role')).not.toBeEmpty();
     await expect(card.locator('.index-skills')).not.toBeEmpty();
@@ -363,9 +357,9 @@ test('every existing project case is visible in exactly one classified catalog e
 
 test('search combines with category filtering and recovers from no results',async ({page})=>{
   await page.goto(baseURL);
-  await page.locator("#projectArchive > summary").click();
   const search=page.getByRole('searchbox',{name:'Find a project'});
   await search.fill('Atelier');
+  await expect(page.locator('.project-slot:visible')).toHaveCount(0);
   await expect(page.locator('.index-card:visible')).toHaveCount(1);
   await expect(page.locator('[data-project="atelier"]')).toBeVisible();
   await search.fill('atelier');
@@ -376,7 +370,7 @@ test('search combines with category filtering and recovers from no results',asyn
   await page.getByRole('button',{name:'Clear filters'}).click();
   await expect(search).toHaveValue('');
   await expect(search).toBeFocused();
-  await expect(page.locator('.index-card:visible')).toHaveCount(17);
+  await expect(page.locator('.index-card:visible')).toHaveCount(16);
   await expect(page.locator('#catalogEmpty')).toBeHidden();
   await page.locator('[data-filter="education"]').click();
   await search.fill('minh hoang');

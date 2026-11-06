@@ -35,7 +35,7 @@ const flagships = [
   }
 ];
 
-test('flagship cards keep one primary CTA and order Case → Live → Figma → Source', async ({ page }) => {
+test('catalog cards keep one primary CTA and order Case → Live → Figma → Source', async ({ page }) => {
   await fs.mkdir(artifactDir, { recursive: true });
 
   for (const width of [1440, 390]) {
@@ -43,11 +43,11 @@ test('flagship cards keep one primary CTA and order Case → Live → Figma → 
     await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
 
     for (const item of flagships) {
-      const card = page.locator(`[data-flagship="${item.id}"]`);
+      const card = page.locator(`[data-project="${item.id}"]`);
       await card.scrollIntoViewIfNeeded();
       await expect(card).toBeVisible();
 
-      const actions = card.locator('.flagship-actions a');
+      const actions = card.locator('.project-artifact-actions a');
       await expect(actions).toHaveCount(4);
       await expect(actions.nth(0)).toHaveText(item.caseLabel);
       await expect(actions.nth(0)).toHaveClass(/flagship-primary/);
@@ -173,5 +173,5 @@ test('shared artifact actions stay compact across all case pages on mobile', asy
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), route).toBeLessThanOrEqual(1);
     checked += 1;
   }
-  expect(checked).toBe(17);
+  expect(checked).toBe(18);
 });

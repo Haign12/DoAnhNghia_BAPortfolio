@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=t==="dark"||t==="light"?t:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch{}</script>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowCRM — UI/UX Case Study | Do Anh Nghia</title>
+  <meta name="description" content="A sales CRM prototype linking deal stages, meetings and follow-up tasks.">
+  <link rel="icon" href="assets/images/brand/xii-an-light.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://do-anh-nghia-uiux-portfolio.vercel.app/case-study-flowcrm.html">
+  <link rel="stylesheet" href="case-study.css">
+  <link rel="stylesheet" href="case-study-evidence-v4.css">
+  <script src="case-study.js" defer></script>
+</head>
+<body class="case-study-page case-personal">
+<a class="case-skip" href="#case-main">Skip to case study</a>
+<nav class="sticky-nav" aria-label="Case study navigation">
+  <a href="index.html#work" class="nav-brand"><span aria-hidden="true">←</span><span>All projects</span></a>
+  <div class="case-nav-actions"><a href="index.html#contact">Contact</a><button class="case-theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false"><span id="theme-icon" aria-hidden="true">◐</span><span data-theme-label>Dark</span></button></div>
+</nav>
+<main class="uiux-project" id="case-main"><article class="uiux-case">
+<header class="case-hero">
+  <div class="case-identity">
+    <aside class="case-rail"><span class="case-index">Independent functional prototype</span>
+      <dl class="case-facts"><div><dt>Scope</dt><dd>Deal workflow, interaction design and implementation</dd></div><div><dt>Product</dt><dd>Sales operations workspace</dd></div><div><dt>Evidence</dt><dd>Browser scenarios with sample records</dd></div></dl>
+      <div class="case-hero-actions case-artifact-actions"><a class="case-action case-action-primary" href="#flow">See the workflow ↓</a><a class="case-action" href="https://github.com/Ngh1aa/FlowCRM" target="_blank" rel="noopener noreferrer">Source ↗</a></div>
+    </aside>
+    <div class="case-heading"><p class="case-kicker">B2B SAAS &amp; ENTERPRISE</p><h1 class="case-title">FlowCRM</h1><p class="case-thesis">Keep the meeting and the next action connected to the sales opportunity that prompted them.</p></div>
+  </div>
+  <figure class="case-cover"><div class="case-cover-frame"><img src="assets/images/prototype-captures/flowcrm-pipeline.webp" width="1440" height="900" alt="FlowCRM sales pipeline with deal stages and next actions" decoding="async"></div><figcaption><span>Sales pipeline</span><span>Browser prototype · sample records</span></figcaption></figure>
+</header>
+<nav class="case-toc" aria-label="In this case"><span>In this case</span><a href="#problem">Problem</a><a href="#flow">Workflow</a><a href="#decisions">Decisions</a><a href="#testing">Testing</a><a href="#next">Limits</a></nav>
+
+<section class="case-section" id="problem">
+  <header class="case-section-head"><span class="case-section-label">Problem &amp; context</span><h2>A stage tells the team where a deal is. A plan tells them what to do next.</h2></header>
+  <div class="case-section-body"><p>The original demo presented pipeline, calendar and tasks as separate surfaces. Moving a pipeline card changed its position in the current view, while the appointment and follow-up lacked a stable connection to the deal. This iteration uses a sales coordinator preparing a proposal as its working scenario.</p></div>
+</section>
+
+<section class="case-section" id="flow">
+  <header class="case-section-head"><span class="case-section-label">Scenario</span><h2>From the opportunity to a completed follow-up</h2></header>
+  <div class="case-section-body">
+    <ol><li>Open <strong>Website Redesign</strong> on the pipeline and move it to Proposal.</li><li>Schedule a scope meeting and add a task to send the revised proposal.</li><li>Open Calendar to verify the meeting appears on its exact date.</li><li>Complete the follow-up in Tasks and open the same opportunity to see the updated status.</li></ol>
+    <figure class="case-cover"><div class="case-cover-frame"><img src="assets/images/prototype-captures/flowcrm-plan.webp" width="1440" height="900" loading="lazy" alt="Deal planning dialog showing Proposal stage, meeting time and proposal follow-up deadline"></div><figcaption><span>The opportunity keeps its stage, meeting and follow-up together.</span></figcaption></figure>
+  </div>
+</section>
+
+<section class="case-section" id="decisions">
+  <header class="case-section-head"><span class="case-section-label">Design decisions</span><h2>One opportunity owns the plan</h2></header>
+  <div class="case-section-body"><p>Starting from the deal keeps its customer and title visible while planning. Saving the plan on that deal lets Calendar and Tasks show the same record. Reopening the form edits the existing plan and preserves completion when the task itself stays the same.</p><p>The stage selector gives keyboard and touch users a way to move the deal. The form rejects a follow-up deadline before the meeting date and keeps the entered information available for correction.</p></div>
+</section>
+
+<section class="case-section" id="testing">
+  <header class="case-section-head"><span class="case-section-label">Browser testing</span><h2>Verify the same record across three screens</h2></header>
+  <div class="case-section-body"><p>In Chromium at 1440, 1280, 768, 390 and 375px, the scenario exercised stage persistence, invalid-date recovery, month placement, task completion after reload and keyboard focus after closing the dialog. This is prototype behavior verified with sample data.</p></div>
+</section>
+
+<section class="case-section" id="next">
+  <header class="case-section-head"><span class="case-section-label">Limits &amp; next steps</span><h2>Browser-local data and a single plan per opportunity</h2></header>
+  <div class="case-section-body"><p>The updated flow uses local browser storage. Team access, shared calendars and notifications are outside this prototype. A follow-up evaluation should observe sales coordinators planning a real sequence of actions and check when they need multiple appointments or owners.</p><p>The public demo shows the earlier version. This case documents the locally verified iteration.</p><p><a href="https://ngh1aa.github.io/FlowCRM/FlowCRM/" target="_blank" rel="noopener noreferrer">Open the original public demo ↗</a></p></div>
+</section>
+</article></main>
+<footer class="case-footer"><div class="case-footer-inner"><div class="case-footer-copy"><p>ALL PROJECTS</p><h2>More to explore.</h2></div><div class="case-footer-actions"><a href="index.html#group-enterprise">Browse B2B &amp; SaaS ↗</a><a href="index.html#work">All projects ↗</a></div></div></footer>
+</body></html>

@@ -20,8 +20,9 @@ run_with_retry() {
     if timeout --signal=TERM --kill-after=15s "${seconds}s" "$@"; then
       echo "::endgroup::"
       return 0
+    else
+      code=$?
     fi
-    code=$?
     echo "${label} failed/timed out with exit code ${code}."
     echo "::endgroup::"
     if [ "$attempt" -lt "$attempts" ]; then
@@ -33,16 +34,13 @@ run_with_retry() {
   return 1
 }
 
-# Playwright-managed system packages. Keep this bounded because apt mirrors or
-# package locks can occasionally stall on hosted runners.
-run_with_retry "Chromium system dependencies" 90 2 npx playwright install-deps chromium
-
 # Browser download is cached by the workflows. On a cache miss, retry bounded
 # downloads instead of leaving the job stuck until the global timeout.
 run_with_retry "Chromium browser download" 120 3 npx playwright install chromium
 
 # Installation is not considered complete until Chromium can launch headless.
-node <<'NODE'
+smoke_chromium() {
+  node <<'NODE'
 const { chromium } = require('@playwright/test');
 (async () => {
   const browser = await chromium.launch({ headless: true });
@@ -57,3 +55,11 @@ const { chromium } = require('@playwright/test');
   process.exit(1);
 });
 NODE
+}
+
+# Hosted runners often already have the required libraries. Only use apt when
+# the pinned browser cannot launch, then require the same smoke check to pass.
+if ! smoke_chromium; then
+  run_with_retry "Chromium system dependencies" 180 2 npx playwright install-deps chromium
+  smoke_chromium
+fi
