@@ -540,3 +540,17 @@ html { scroll-padding-top:104px; }
  .case-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 20px; }
  .case-facts dd { font-size:13px; }
 }
+
+/* In-body subheads stay below the section h2 in the hierarchy. */
+.case-section-body > h3 { margin:40px 0 12px; font-size:clamp(1.25rem,1.6vw,1.5rem); line-height:1.3; letter-spacing:-.025em; font-weight:500; }
+.case-section-body > h3:first-child { margin-top:0; }
+/* Prototype captures placed beside the decision they show. */
+.case-shot { margin:32px 0 0; min-width:0; }
+.case-shot img { display:block; width:100%; height:auto; border:1px solid var(--line); background:var(--surface); }
+.case-shot--narrow img { max-width:300px; }
+.case-shot figcaption { margin-top:12px; max-width:68ch; font-size:13px; line-height:1.6; color:var(--muted); }
+.case-shot figcaption strong { color:inherit; font-weight:600; }
+.case-shot-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; max-width:680px; margin:32px 0 0; align-items:start; }
+.case-shot-pair .case-shot { margin:0; }
+@media(max-width:800px) { .case-shot-pair { grid-template-columns:1fr; max-width:340px; } }
+.case-shot + p, .case-shot-pair + div { margin-top:28px; }
