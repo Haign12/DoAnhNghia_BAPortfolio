@@ -8,7 +8,7 @@ test('experience leads into the open personal-project catalog', async ({page}) =
   await page.goto(baseURL);
   await expect(page.getByRole('heading', {name: 'Personal projects'})).toBeVisible();
   await expect(page.locator('#work .index-card:visible')).toHaveCount(18);
-  await expect(page.locator('#work .project-group:visible')).toHaveCount(7);
+  await expect(page.locator('#work .project-group:visible')).toHaveCount(4);
   await expect(page.locator('[data-flagship]')).toHaveCount(0);
   await expect(page.locator('#work [data-filter="ai"], #group-ai')).toHaveCount(0);
   expect(await page.locator('.intro + #work').count()).toBe(1);
@@ -126,10 +126,13 @@ test('legacy category deep links restore visible project groups', async ({page})
   await page.goto(baseURL+'/#group-web');
   await expect(page.locator('#group-web')).toBeVisible();
   await expect(page.locator('#work [data-project="qtsc"] [data-artifact-kind="case"]')).toBeVisible();
-  await page.locator('[data-filter="fintech"]').click();
+  await page.locator('[data-filter="product"]').click();
   await expect(page.locator('#group-web')).toBeHidden();
   await page.evaluate(() => { location.hash='group-commerce'; });
   await expect(page.locator('#group-web')).toBeVisible();
+  await page.goto(baseURL+'/#group-fintech');
+  await expect(page.locator('#group-product')).toBeInViewport();
+  await expect(page.locator('#work [data-filter]')).toHaveText(['All Projects18','Apps & Dashboards7','E-commerce3','Websites6','Creative2']);
 });
 
 test('mobile menu supports dismissal, Escape focus recovery and navigation', async ({page}) => {
@@ -341,11 +344,11 @@ test('each listed project case appears in exactly one classified catalog entry',
   const actual=await page.locator('#work .index-card [data-artifact-kind="case"]').evaluateAll(links=>links.map(a=>a.getAttribute('href')).sort());
   expect(actual).toEqual(expected);
   await expect(page.locator('#work .index-card:visible')).toHaveCount(expected.length);
-  await expect(page.locator('#work .project-group:visible')).toHaveCount(7);
-  await expect(page.locator('#group-enterprise [data-project="sentry"]')).toHaveCount(1);
-  await expect(page.locator('#group-education [data-project="vas-education"]')).toHaveCount(1);
-  await expect(page.locator('#filterStatus')).toHaveText('18 projects in 7 categories');
-  await expect(page.locator('#work .project-slot:visible')).toHaveCount(6);
+  await expect(page.locator('#work .project-group:visible')).toHaveCount(4);
+  await expect(page.locator('#group-product [data-project="sentry"]')).toHaveCount(1);
+  await expect(page.locator('#group-web [data-project="vas-education"]')).toHaveCount(1);
+  await expect(page.locator('#filterStatus')).toHaveText('18 projects in 4 categories');
+  await expect(page.locator('#work .project-slot:visible')).toHaveCount(3);
   for (const grid of await page.locator('#work .index-grid').all()) {
     expect((await grid.locator(':scope > *').count()) % 3).toBe(0);
   }
@@ -366,7 +369,7 @@ test('search combines with category filtering and recovers from no results',asyn
   await expect(page.locator('[data-project="atelier"]')).toBeVisible();
   await search.fill('atelier');
   await expect(page.locator('.index-card:visible')).toHaveCount(1);
-  await page.locator('[data-filter="fintech"]').click();
+  await page.locator('[data-filter="product"]').click();
   await expect(page.locator('#catalogEmpty')).toBeVisible();
   await expect(page.locator('.index-card:visible')).toHaveCount(0);
   await page.getByRole('button',{name:'Clear filters'}).click();
@@ -374,7 +377,7 @@ test('search combines with category filtering and recovers from no results',asyn
   await expect(search).toBeFocused();
   await expect(page.locator('.index-card:visible')).toHaveCount(18);
   await expect(page.locator('#catalogEmpty')).toBeHidden();
-  await page.locator('[data-filter="education"]').click();
+  await page.locator('[data-filter="product"]').click();
   await search.fill('minh hoang');
   await expect(page.locator('.index-card:visible')).toHaveCount(1);
   await expect(page.locator('[data-project="education-center-management"]')).toBeVisible();

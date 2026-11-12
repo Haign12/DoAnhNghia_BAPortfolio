@@ -155,8 +155,17 @@
     search.focus();
   });
 
+  // Older links used industry groups; send them to the work-type group that now holds those projects.
+  const legacyGroups = {
+    "group-fintech": "group-product",
+    "group-enterprise": "group-product",
+    "group-healthcare": "group-product",
+    "group-education": "group-product",
+    "group-mobility": "group-web",
+  };
   function revealAnchor() {
-    const id = window.location.hash.slice(1);
+    const hash = window.location.hash.slice(1);
+    const id = legacyGroups[hash] || hash;
     const target = id && document.getElementById(id);
     if (!target) return;
     const group = target.closest(".project-group");
