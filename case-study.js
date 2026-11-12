@@ -40,6 +40,7 @@
     'case-study-atelier.html': { live:'https://atelier-henna-tau.vercel.app/', figma:'https://www.figma.com/design/Di6yDrXBRps8sN0hEZn66F/Atelier?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/Atelier' },
     'case-study-capital-place.html': { live:'https://capital-weld.vercel.app/', figma:'https://www.figma.com/design/E7hF6BmKkaNv2AsJlF9kIi/RedesignCapital?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/Capital' },
     'case-study-lava.html': { live:'https://ngh1aa.github.io/Lava/', source:'https://github.com/Ngh1aa/Lava' },
+    'case-study-aegis.html': { live:'https://ngh1aa.github.io/Aegis/', source:'https://github.com/Ngh1aa/Aegis' },
     'case-study-vas-education.html': { live:'https://redesign-vas.vercel.app/', figma:'https://www.figma.com/design/E07BqE4X8apHhziPardmDG/RedesignVAS?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/RedesignVAS' },
     'case-study-qtsc.html': { live:'https://ngh1aa.github.io/QTSC/', figma:'https://www.figma.com/design/wugoCyDEEfzSgu0gQoyum5/QTSC?node-id=0-1&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/QTSC' },
     'case-study-violet-marketplace.html': { live:'https://violet-marketplace.vercel.app/', figma:'https://www.figma.com/design/tPghPU31brDIbky1M6MCCC/violet?t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/VioletMarketplace' },
@@ -157,6 +158,15 @@
       change: 'Leasing decision journey shipped; no research-driven improvement claim is made.',
       retest: 'Not run.',
       open: 'Direct-user property-path benchmark.'
+    },
+    'case-study-aegis.html': {
+      name: 'Aegis',
+      problem: 'Hotel sites list facilities, but guests choose a feeling of the place.',
+      decision: 'Tell the site as one day in seven timed scenes, with a time rail and booking at the end.',
+      evidence: 'Prototype verified with rendered checks and scripted flow tests; direct-user baseline not measured.',
+      change: 'Scroll-driven hotel journey shipped; no research-driven improvement claim is made.',
+      retest: 'Not run.',
+      open: 'Direct-user price-finding and booking benchmark.'
     },
     'case-study-lava.html': {
       name: 'Lava',

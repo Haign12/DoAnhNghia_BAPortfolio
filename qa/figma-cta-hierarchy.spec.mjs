@@ -173,5 +173,5 @@ test('shared artifact actions stay compact across all case pages on mobile', asy
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), route).toBeLessThanOrEqual(1);
     checked += 1;
   }
-  expect(checked).toBe(19);
+  expect(checked).toBe(20);
 });
