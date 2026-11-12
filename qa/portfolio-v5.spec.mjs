@@ -7,7 +7,7 @@ const baseURL = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173';
 test('experience leads into the open personal-project catalog', async ({page}) => {
   await page.goto(baseURL);
   await expect(page.getByRole('heading', {name: 'Personal projects'})).toBeVisible();
-  await expect(page.locator('#work .index-card:visible')).toHaveCount(18);
+  await expect(page.locator('#work .index-card:visible')).toHaveCount(17);
   await expect(page.locator('#work .project-group:visible')).toHaveCount(4);
   await expect(page.locator('[data-flagship]')).toHaveCount(0);
   await expect(page.locator('#work [data-filter="ai"], #group-ai')).toHaveCount(0);
@@ -102,7 +102,7 @@ test('navigation, core copy and all projects remain usable without JavaScript', 
   await page.goto(baseURL,{waitUntil:'networkidle'});
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   await expect(page.locator('.nav-links a').first()).toBeVisible();
-  await expect(page.locator('.index-card:visible')).toHaveCount(18);
+  await expect(page.locator('.index-card:visible')).toHaveCount(17);
   await expect(page.locator('.project-tools')).toBeHidden();
   await context.close();
 });
@@ -118,7 +118,7 @@ test('all categories filter and reset without losing links', async ({page}) => {
     await expect(page.locator('#filterStatus')).toContainText(String(count));
   }
   await page.locator('[data-filter="all"]').click();
-  await expect(page.locator('.index-card:visible')).toHaveCount(18);
+  await expect(page.locator('.index-card:visible')).toHaveCount(17);
   await expect(page.locator('#work a[href="#"]')).toHaveCount(0);
 });
 
@@ -132,7 +132,7 @@ test('legacy category deep links restore visible project groups', async ({page})
   await expect(page.locator('#group-web')).toBeVisible();
   await page.goto(baseURL+'/#group-fintech');
   await expect(page.locator('#group-product')).toBeInViewport();
-  await expect(page.locator('#work [data-filter]')).toHaveText(['All Projects18','Apps & Dashboards7','E-commerce3','Websites6','Creative2']);
+  await expect(page.locator('#work [data-filter]')).toHaveText(['All Projects17','Apps & Dashboards6','E-commerce3','Websites6','Creative2']);
 });
 
 test('mobile menu supports dismissal, Escape focus recovery and navigation', async ({page}) => {
@@ -347,8 +347,8 @@ test('each listed project case appears in exactly one classified catalog entry',
   await expect(page.locator('#work .project-group:visible')).toHaveCount(4);
   await expect(page.locator('#group-product [data-project="sentry"]')).toHaveCount(1);
   await expect(page.locator('#group-web [data-project="vas-education"]')).toHaveCount(1);
-  await expect(page.locator('#filterStatus')).toHaveText('18 projects in 4 categories');
-  await expect(page.locator('#work .project-slot:visible')).toHaveCount(3);
+  await expect(page.locator('#filterStatus')).toHaveText('17 projects in 4 categories');
+  await expect(page.locator('#work .project-slot:visible')).toHaveCount(1);
   for (const grid of await page.locator('#work .index-grid').all()) {
     expect((await grid.locator(':scope > *').count()) % 3).toBe(0);
   }
@@ -375,10 +375,10 @@ test('search combines with category filtering and recovers from no results',asyn
   await page.getByRole('button',{name:'Clear filters'}).click();
   await expect(search).toHaveValue('');
   await expect(search).toBeFocused();
-  await expect(page.locator('.index-card:visible')).toHaveCount(18);
+  await expect(page.locator('.index-card:visible')).toHaveCount(17);
   await expect(page.locator('#catalogEmpty')).toBeHidden();
   await page.locator('[data-filter="product"]').click();
-  await search.fill('minh hoang');
+  await search.fill('careflow');
   await expect(page.locator('.index-card:visible')).toHaveCount(1);
-  await expect(page.locator('[data-project="education-center-management"]')).toBeVisible();
+  await expect(page.locator('[data-project="careflow"]')).toBeVisible();
 });
