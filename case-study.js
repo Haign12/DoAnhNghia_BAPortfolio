@@ -47,9 +47,9 @@
     'case-study-voltis.html': { live:'https://voltis-one.vercel.app/', figma:'https://www.figma.com/design/iS0ur2VbuhnLAfSHasnYgp/TRUST.vn---Layout-Website-Test---%C4%90%E1%BB%97-Anh-Ngh%C4%A9a?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/Voltis' },
     'case-study-cennext.html': { live:'https://cennext-b2b-prototype.vercel.app/', figma:'https://www.figma.com/design/RVcp6uzpJvTMHtlS7ilQb7/CenNext---Web-Designer-Test---Do-Anh-Nghia?m=auto&t=LykADgxvJ62WCIu7-1', source:'https://github.com/Ngh1aa/cennext-b2b-prototype' },
     'case-study-flux.html': { live:'https://flux-six-liard.vercel.app/', figma:'https://www.figma.com/design/bZIqaMK97vwzBuSdD8risu/Flux?node-id=1-3427&t=BvIxuJu3KrFWy5Lg-1', source:'https://github.com/Ngh1aa/Flux' },
-    'case-study-access.html': { live:'https://access-nbuz.vercel.app/', figma:'https://www.figma.com/design/tQzqKtw8x6Iu4ohKy9LOwo/access?node-id=6-1428&t=2W8CDU1K7QISp6eC-1', source:'https://github.com/Ngh1aa/Access' },
-    'case-study-flowcrm.html': { live:'https://ngh1aa.github.io/FlowCRM/FlowCRM/index.html', source:'https://github.com/Ngh1aa/FlowCRM' },
-    'case-study-careflow.html': { live:'https://ngh1aa.github.io/Patient-Journey-App/prototype/?scenario=demo-member#/home', source:'https://github.com/Ngh1aa/Patient-Journey-App' },
+    'case-study-access.html': { live:'https://access-nbuz.vercel.app/people.html#/users', figma:'https://www.figma.com/design/tQzqKtw8x6Iu4ohKy9LOwo/access?node-id=6-1428&t=2W8CDU1K7QISp6eC-1', source:'https://github.com/Ngh1aa/Access' },
+    'case-study-flowcrm.html': { live:'https://ngh1aa.github.io/FlowCRM/', source:'https://github.com/Ngh1aa/FlowCRM' },
+    'case-study-careflow.html': { live:'https://ngh1aa.github.io/Patient-Journey-App/prototype/', source:'https://github.com/Ngh1aa/Patient-Journey-App' },
     'case-study-lumen.html': { live:'https://ngh1aa.github.io/Lumen/', source:'https://github.com/Ngh1aa/Lumen' },
   };
 
